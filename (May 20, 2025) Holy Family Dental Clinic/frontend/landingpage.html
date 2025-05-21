@@ -1,0 +1,2677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Holy Family Dental Clinic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Import fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: url('HolyFAmDentalClinic Bacground pic.png') no-repeat;
+            background-size: cover;
+            background-position: center -150px;
+            background-attachment: fixed;
+            margin: 0;
+            transition: background-image 0.3s ease-in-out;
+            position: relative;
+            min-height: 50vh;
+            overflow-x: hidden;
+        }
+
+        
+
+
+
+
+
+        html {
+        scroll-behavior: smooth;
+    }
+
+        /* Logo */
+        .logo {
+            height: 100px;
+            position: absolute;
+            margin-left: 150px;
+            margin-right: 20px;
+        }
+
+        /* Navbar container */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+            padding: 14px 20px;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: top 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: none !important; 
+            will-change: transform; /* Better performance */
+            transform: translateY(0); /* Start visible */
+
+        }
+        
+
+        .back-to-top {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            background: rgba(0, 191, 255, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .back-to-top:hover {
+            background: rgba(0, 191, 255, 1);
+            transform: translateY(-5px);
+        }
+
+        .back-to-top.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+
+
+
+        /* Left-aligned links */
+        .left-links {
+            display: flex;
+            padding-left: 67%; /*ito babaguhin temporary pag ibang resolution*/
+            white-space: nowrap;
+        }
+
+        /* Right links (Sign In, Log In) */
+        .auth-box {
+            display: flex;
+            align-items: center;
+            gap: -9px;
+            padding: -10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            transform: translateX(-15%);
+            margin-left: auto;
+        }
+
+        /* Link styles */
+        .auth-box a {
+            font-size: 16px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        /* Separator style */
+        .auth-box span {
+            color: #fff;
+            font-weight: 500;
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .navbar a {
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            border-radius: 50px;
+            color: black;
+        }
+
+
+
+        /* Records Bookmark Button */
+        .records-bookmark {
+            position: fixed;
+            right: 45px;
+            top: 25%;
+            transform: translateY(-50%) rotate(270deg);
+            transform-origin: right top;
+            background-color: #00bfff;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px 5px 0 0;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 999;
+            box-shadow: -2px -2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+
+        .records-bookmark:hover {
+            background-color: #009acd;
+            transform: translateY(-50%) rotate(270deg) translateX(5px);
+            color: white;
+        }
+
+        .records-bookmark i {
+            margin-right: 8px;
+            transform: rotate(-90deg);
+        }
+        @media (max-width: 768px) {
+            .records-bookmark {
+                display: none;
+            }
+        }
+
+
+
+
+
+        /* Blurred half rectangle */
+        .blurred-rectangle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 30%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+            z-index: -2;
+            box-shadow: 10px 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Body Text */
+        .body-text {
+            font-family: "Rubik", sans-serif;
+            text-align: left;
+            margin-top: 290px;
+            margin-left: 10%;
+            z-index: 50;
+        }
+
+        .body-text h1 {
+            font-weight: 750;
+            font-size: 50px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .body-text h2 {
+            font-weight: 800;
+            margin-top: -50px;
+            font-size: 80px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .body-text p {
+            color: #ffffff;
+            font-size: 20px;
+            max-width: 650px;
+            line-height: 1.4;
+            font-weight: 250;
+            margin-top: -50px;
+        }
+
+        .book-now-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 30px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #00bfff;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: background-color 0.3s ease;
+        }
+
+        .book-now-button:hover {
+            background-color: #009acd;
+        }
+
+        /* Gallery Text */
+        .Gallery-text {
+            text-align: left;
+            margin-top: 0;
+            margin-left: 31%;
+            position: absolute;
+            top: 330px;
+            z-index: 20;
+            width: 100%;
+        }
+        .Gallery-text h2 {
+            font-size: 30px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+
+
+
+
+
+
+
+        /* Image Gallery */
+        .image-gallery {
+            position: relative;
+            width: 80%;
+            overflow: hidden;
+            bottom: -70px;
+            right: -30%;
+            max-width: 70%;
+            
+        }
+
+        .gallery-images {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .gallery-images img {
+            cursor: pointer;
+            min-width: 25%;
+            box-sizing: border-box;
+            padding: 5px;
+            border-radius: 50px 0;
+        }
+
+        .gallery-images img.hover {
+            transform: translateY(-10px);
+            transition: transform 0.3s ease;
+            opacity: 0.8;
+        
+        }
+        
+
+
+
+        /* Image Modal Styles */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            overflow: hidden;
+        }
+
+        .image-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content-container {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            transition: transform 0.3s ease;
+            transform: scale(0.8);
+        }
+
+        .image-modal.active .modal-content-container {
+            transform: scale(1);
+        }
+
+        .modal-content {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+            transition: transform 0.25s ease;
+            transform-origin: center center;
+            display: block;
+        }
+
+        .modal-content.zoomed {
+            cursor: default;
+        }
+
+        .close-modal {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+        }
+
+        .close-modal:hover {
+            color: #00bfff;
+            transform: scale(1.1);
+        }
+
+
+
+
+
+        /* Zoom controls */
+        .zoom-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 50px;
+        }
+
+        .zoom-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.2s ease;
+        }
+
+        .zoom-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* Prevent body scrolling when modal is open */
+        body.modal-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
+
+        /* Add these styles for modal navigation buttons */
+        .modal-nav-button {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-nav-button:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .modal-prev {
+            left: 20px;
+        }
+
+        .modal-next {
+            right: 20px;
+        }
+
+        
+
+
+
+
+
+
+
+
+        
+        /* Scroll Down Button Styles */
+        .scroll-down-container {
+            position: relative;
+            text-align: center;
+            margin: 40px 50%;
+            z-index: 10;
+        }
+
+        .scroll-down-btn {
+            background: transparent;
+            border: none;
+            border-radius: 30%;
+            width: 100px;
+            height: 100px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-down-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+            transform: scale(1.1);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Navigation Buttons */
+        .nav-button {
+            position: absolute;
+            top: 360px;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            color: #ffffff;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-button:active {
+            transform: translateY(-50%) scale(0.9); /* More noticeable press effect */
+            background-color: rgba(0, 191, 255, 0.8); /* Solid color when pressed */
+            box-shadow: 0 4px 8px rgba(0, 191, 255, 0.5); 
+            /* Keep the pressed state visible */
+            transition: all 0.1s ease; /* Faster transition for active state */
+}
+
+        .left-button {
+            left: 91%;
+            right: auto;
+        }
+
+        .right-button {
+            right: 1.5%;
+            left: auto;
+        }
+
+         /* Navbar Services Dropdown - Add to your existing CSS */
+         .nav-services {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .services-link {
+            color: #f2f2f2;
+            text-decoration: none;
+            padding: 14px 0;
+        }
+        
+        .services-link:hover {
+            background-color: #ddd;
+            border-radius: 50px;
+            color: black;
+        }
+        
+        .dropdown-toggle {
+            background: none;
+            border: none;
+            color: #f2f2f2;
+            padding: 14px 5px;
+            margin-left: -10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .dropdown-toggle:hover {
+            background-color: #ddd;
+            border-radius: 50px;
+            color: black;
+        }
+        
+        .dropdown-toggle i {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .services-dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #f9f9f9;
+            min-width: 250px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border-radius: 8px;
+            overflow: hidden;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .services-dropdown-content a {
+            color: #2c3e50;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: background-color 0.3s;
+        }
+        
+        .services-dropdown-content a:hover {
+            background-color: #00bfff;
+            color: white;
+        }
+        
+        .services-dropdown-content i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Show dropdown when active */
+        .nav-services:hover .services-dropdown-content,
+        .nav-services:focus-within .services-dropdown-content {
+            display: block;
+        }
+        
+        .nav-services:hover .dropdown-toggle i,
+        .nav-services:focus-within .dropdown-toggle i {
+            transform: rotate(180deg);
+        }
+        
+        
+        /* Scrollbar styling */
+        .services-dropdown-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .services-dropdown-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .services-dropdown-content::-webkit-scrollbar-thumb {
+            background: #00bfff;
+            border-radius: 4px;
+        }
+        
+        .services-dropdown-content::-webkit-scrollbar-thumb:hover {
+            background: #009acd;
+        }
+
+        /* Add a subtle pulse animation to attract attention */
+        @keyframes pulse-glow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }
+
+
+
+
+        /* Doctor's Story Section */
+        .doctora-story {
+            background: linear-gradient(135deg, #f5f9fc 0%, #d8e6ed 100%);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+            margin-top: 40px;
+        }
+
+        .doctora-story::before {
+            content: "";
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: rgba(0, 191, 255, 0.1);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .doctora-content {
+            display: flex;
+            max-width: 1200px;
+            margin: 100px auto 0;
+            align-items: center;
+            gap: 100px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .doctora-image {
+            flex: 1;
+            position: relative;
+            max-width: 400px;
+        }
+
+        .image-frame {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: all 0.5s ease;
+        }
+
+        .image-frame:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+
+        .image-frame img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .image-frame:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 191, 255, 0.1) 0%, rgba(0, 120, 200, 0.3) 100%);
+        }
+
+        .doctora-badge {
+            position: absolute;
+            bottom: -20px;
+            left: 30px;
+            background: #00bfff;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 191, 255, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .doctora-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: #00bfff;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .doctora-story h2 {
+            font-size: 42px;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .highlight {
+            color: #00bfff;
+            position: relative;
+        }
+
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: rgba(0, 191, 255, 0.3);
+            z-index: -1;
+        }
+
+        .doctora-bio p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .expertise-list {
+            list-style: none;
+            padding: 0;
+            margin: 25px 0;
+        }
+
+        .expertise-list li {
+            margin-bottom: 12px;
+            font-size: 16px;
+            color: #444;
+            position: relative;
+            padding-left: 35px;
+        }
+
+        .expertise-list i {
+            color: #00bfff;
+            position: absolute;
+            left: 0;
+            top: 3px;
+            font-size: 18px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .learn-more-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #00bfff;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+        }
+
+        .learn-more-btn i {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .learn-more-btn:hover {
+            background-color: #009acd;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 191, 255, 0.4);
+        }
+
+        .learn-more-btn:hover i {
+            transform: translateX(5px);
+        }
+
+        .book-consultation-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: white;
+            color: #00bfff;
+            text-decoration: none;
+            border: 2px solid #00bfff;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .book-consultation-btn i {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .book-consultation-btn:hover {
+            background-color: #00bfff;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 191, 255, 0.3);
+        }
+
+        .book-consultation-btn:hover i {
+            transform: translateX(5px);
+        }
+
+        .social-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .social-icons span {
+            color: #555;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-icons a:hover {
+            background-color: #00bfff;
+            transform: translateY(-3px);
+        }
+
+
+
+
+
+        /* Services Grid */
+        .services-container {
+            background: linear-gradient(135deg, #f3f3f3 0%, #d8e6ed 100%);
+            margin: 0 auto;
+            padding: 80px 0;
+        }
+
+        .services-grid {
+            margin-left: 20%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .service-card:hover .service-image img {
+            transform: scale(1.1);
+        }
+
+        .service-content {
+            padding: 25px;
+        }
+
+        .service-content h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .service-content p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .service-price {
+            display: inline-block;
+            background: #00bfff;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .learn-more-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #00bfff;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .learn-more-btn i {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .learn-more-btn:hover {
+            background-color: #009acd;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 191, 255, 0.3);
+        }
+
+        .learn-more-btn:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Our Services Header */
+        .services-header {
+            margin-left: 20%;
+            margin-bottom: -20px;
+        }
+
+        .services-header h2 {
+            color: #2c3e50;
+            font-size: 32px;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .services-header h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background: #00bfff;
+        }
+
+
+
+
+
+
+
+        /* Contact Us Section */
+        .contact {
+            background: linear-gradient(135deg, #f3f3f3 0%, #ecf2f5 100%);
+            padding: 110px 0;
+        }
+
+        .contact-container {
+            display: flex;
+            max-width: 1550px;
+            margin: 0 auto;
+            gap: 150px;
+        }
+
+        .contact-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .contact-info h2{
+            margin-top: -80px;
+        }
+
+        .contact h2 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: -20px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .contact h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background: #00bfff;
+        }
+
+        .contact-address {
+            margin-bottom: 25px;
+        }
+
+        .address-link {
+            color: #2c3e50;
+            font-size: 23px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .address-link:hover {
+            color: #0036e7;
+            text-decoration: underline;
+        }
+
+
+        /* Contact Columns Layout */
+        .contact-columns-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+.contact-column {
+    flex: 1;
+    min-width: 180px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.contact-column:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.contact-column-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #00bfff;
+}
+
+.contact-column-header i {
+    font-size: 20px;
+    color: #00bfff;
+    margin-right: 10px;
+}
+
+.contact-column-header h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 18px;
+}
+
+.contact-detail {
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #2c3e50;
+}
+
+.contact-detail span {
+    font-weight: 600;
+    color: #00bfff;
+    margin-right: 5px;
+}
+
+.contact-detail a {
+    color: #2c3e50;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.contact-detail a:hover {
+    color: #00bfff;
+    text-decoration: underline;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    transition: all 0.3s ease;
+    font-size: 18px;
+}
+
+.social-icon.facebook {
+    background-color: #4267B2;
+}
+
+.social-icon.instagram {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+.social-icon:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .contact-column {
+        min-width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 576px) {
+    .contact-column {
+        min-width: 100%;
+    }
+    
+    .contact-column-header {
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+    }
+    
+    .contact-column-header i {
+        margin-right: 0;
+        margin-bottom: 8px;
+    }
+    
+    .contact-detail {
+        text-align: center;
+    }
+    
+    .social-icons {
+        justify-content: center;
+    }
+}
+
+
+        
+        /* Map Styles */
+        .map-container {
+            flex-grow: 1;
+            margin-top: 35px;
+            margin-bottom: -10px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 25px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-container iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        
+
+
+
+
+
+
+
+
+
+
+
+        /* Form Styles */
+        .contact-form {
+            flex: 0.4;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-right: -10px;
+        }
+
+        .contact-form h2 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .contact-form h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: #00bfff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 90%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #00bfff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.1);
+        }
+        .form-group select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: #00bfff;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #009acd;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+
+
+
+
+        
+        /* Last Call Section */
+        .lastcall {
+            background-color: #a4c9db;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lastcall-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lastcall h2 {
+            color: white;
+            font-size: 36px;
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .lastbooknowbtn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #00bfff;
+            background-color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .lastbooknowbtn i {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .lastbooknowbtn:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .lastbooknowbtn:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 50px 0 20px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            gap: 30px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 180px;
+            margin-bottom: 30px;
+        }
+
+        .logo-column {
+            flex: 1.5;
+            min-width: 220px;
+            text-align: left;
+            padding-right: 30px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: -10px;
+            margin-left: -250px;
+        }
+
+        .footer-logo img {
+            height: 200px;
+            margin-right: -10px;
+        }
+
+        .footer-logo h3 {
+            font-size: 26px;
+            font-weight: 600;
+            margin: 0 0 10px -30px;
+            color: #00c4cc;
+            white-space: nowrap;
+        }
+
+        .footer-logo-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .logo-slogan {
+            font-size: 14px;
+            margin-top: -85px;
+            margin-left: -90px;
+            padding-left: 0;
+        }
+
+        .footer-column h4 {
+            color: #4eb2ff;
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: #00bfff;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .footer-column ul li a:hover {
+            color: #00bfff;
+            padding-left: 5px;
+        }
+
+        /* Connect With Us Section in Footer */
+        .contact-methods {
+            margin-bottom: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .contact-item i {
+            color: #00bfff;
+            width: 16px;
+            text-align: center;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+            font-size: 30px;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .footer-social a:hover {
+            background-color: #00bfff;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 30px;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .change-role-btn {
+            background-color: transparent;
+            border: 1px solid #00bfff;
+            color: #00bfff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .change-role-btn:hover {
+            background-color: #00bfff;
+            color: white;
+        }
+
+        .footer-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+
+/* 27 inch screen */
+@media (max-width: 1365px) {
+    .body-text {
+        margin-top: 200px;
+        margin-left: 8%;
+    }
+    
+    .body-text h1 {
+        font-size: 40px;
+    }
+    
+    .body-text h2 {
+        font-size: 59px;
+        margin-top: -35px;
+    }
+
+    .body-text p {
+        font-size: 18px;
+    }
+
+    .Gallery-text{
+        margin-top: -90px;
+    }
+    
+
+    .image-gallery{
+        margin-top: -30px;
+        width: 70%;
+        max-width: 90%;
+    }
+
+    .nav-button{
+        margin-top: -90px;
+    }
+    
+    .contact-container {
+        gap: 80px;
+    }
+
+    /* Adjust navbar for medium screens */
+    .left-links {
+        padding-left: 58%;
+    }
+
+    /* Adjust gallery buttons */
+    .left-button {
+        left: 88%;
+    }
+
+    /* Doctor's Story Section */
+    .doctora-story {
+        padding: 10px 0;
+    }
+
+    .doctora-content {
+        margin-top: 60px;
+        top: -25px;
+    }
+
+    .services-grid{
+        margin-left: 30px;
+    }
+
+    .services-container{
+        margin-top: -95px;
+    }
+}
+
+
+
+
+
+        /* Medium Laptop Screens */
+@media (max-width: 1360px) {
+    .body-text {
+        margin-top: 200px;
+        margin-left: 8%;
+    }
+    
+    .body-text h1 {
+        font-size: 40px;
+    }
+    
+    .body-text h2 {
+        font-size: 59px;
+        margin-top: -35px;
+    }
+
+    .body-text p {
+        font-size: 18px;
+    }
+
+    .Gallery-text{
+        margin-top: -90px;
+    }
+    
+
+    .image-gallery{
+        margin-top: -30px;
+        width: 70%;
+        max-width: 90%;
+    }
+
+    .nav-button{
+        margin-top: -90px;
+    }
+    
+    .contact-container {
+        gap: 80px;
+    }
+
+    /* Adjust navbar for medium screens */
+    .left-links {
+        padding-left: 58%;
+    }
+
+    /* Adjust gallery buttons */
+    .left-button {
+        left: 88%;
+    }
+
+    /* Doctor's Story Section */
+    .doctora-story {
+        padding: 10px 0;
+    }
+
+    .doctora-content {
+        margin-top: 60px;
+        top: -25px;
+    }
+
+    .services-grid{
+        margin-left: 30px;
+    }
+
+    .services-container{
+        margin-top: -95px;
+    }
+}
+
+
+
+
+
+
+        /* 27 inch screen */
+@media (max-width: 1365px) {
+    .body-text {
+        margin-top: 200px;
+        margin-left: 8%;
+    }
+    
+    .body-text h1 {
+        font-size: 40px;
+    }
+    
+    .body-text h2 {
+        font-size: 59px;
+        margin-top: -35px;
+    }
+
+    .body-text p {
+        font-size: 18px;
+    }
+
+    .Gallery-text{
+        margin-top: -90px;
+    }
+    
+
+    .image-gallery{
+        margin-top: -30px;
+        width: 70%;
+        max-width: 90%;
+    }
+
+    .nav-button{
+        margin-top: -90px;
+    }
+    
+    .contact-container {
+        gap: 80px;
+    }
+
+    /* Adjust navbar for medium screens */
+    .left-links {
+        padding-left: 58%;
+    }
+
+    /* Adjust gallery buttons */
+    .left-button {
+        left: 88%;
+    }
+
+    /* Doctor's Story Section */
+    .doctora-story {
+        padding: 10px 0;
+    }
+
+    .doctora-content {
+        margin-top: 60px;
+        top: -25px;
+    }
+
+    .services-grid{
+        margin-left: 30px;
+    }
+
+    .services-container{
+        margin-top: -95px;
+    }
+}
+
+
+
+
+
+        /* Medium Laptop Screens */
+@media (max-width: 1360px) {
+    .body-text {
+        margin-top: 200px;
+        margin-left: 8%;
+    }
+    
+    .body-text h1 {
+        font-size: 40px;
+    }
+    
+    .body-text h2 {
+        font-size: 59px;
+        margin-top: -35px;
+    }
+
+    .body-text p {
+        font-size: 18px;
+    }
+
+    .Gallery-text{
+        margin-top: -90px;
+    }
+    
+
+    .image-gallery{
+        margin-top: -30px;
+        width: 70%;
+        max-width: 90%;
+    }
+
+    .nav-button{
+        margin-top: -90px;
+    }
+    
+    .contact-container {
+        gap: 80px;
+    }
+
+    /* Adjust navbar for medium screens */
+    .left-links {
+        padding-left: 58%;
+    }
+
+    /* Adjust gallery buttons */
+    .left-button {
+        left: 88%;
+    }
+
+    /* Doctor's Story Section */
+    .doctora-story {
+        padding: 10px 0;
+    }
+
+    .doctora-content {
+        margin-top: 60px;
+        top: -25px;
+    }
+
+    .services-grid{
+        margin-left: 30px;
+    }
+
+    .services-container{
+        margin-top: -95px;
+    }
+}
+
+
+
+
+
+
+       
+
+
+
+
+
+
+
+    </style>
+<body>
+    
+
+    
+
+
+
+
+
+    
+    <!-- Records Bookmark Button -->
+<a href="MyRecords.html" class="records-bookmark">
+    <i class="fas fa-file-medical"></i>
+    My Records
+</a>
+    <!-- Blurred rectangle -->
+    <div class="blurred-rectangle"></div>
+
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <!-- Logo placed outside of left-links -->
+        <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="logo">
+        
+        <!-- Left links (text only) -->
+        <div class="left-links">
+            <a href="landingpage.html">Home</a>
+            <div class="nav-services">
+                <a href="services.html" class="services-link">Services</a>
+                <button class="dropdown-toggle" aria-label="Toggle services dropdown">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="services-dropdown-content">
+                    <a href="services.html#oral-prophylaxis-detail"><i class="fas fa-tooth"></i> Oral Prophylaxis</a>
+                    <a href="services.html#fluoride-detail"><i class="fas fa-shield-virus"></i> Topical Fluoride</a>
+                    <a href="services.html#sealants-detail"><i class="fas fa-teeth-open"></i> Pit and Fissure Sealants</a>
+                </div>
+            </div>
+            <a href="aboutus.html">About Us</a>
+            <a href="landingpage.html#contact">Find Us</a> <!-- Changed to link to contact section -->
+        </div>
+
+        <!-- Right links -->
+        <div class="right-links auth-box">
+            <a href="signup.html">SIGN UP</a>
+            <span>|</span>
+            <a href="login.html">LOG IN</a>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" title="Go to top">
+        ↑
+    </button>
+
+    <!-- Body Text -->
+    <div class="body-text">
+        <h1>DISCOVER</h1>
+        <h2>HOLY FAMILY DENTAL CLINIC</h2>
+        <p>Our mission is to provide exceptional oral health and wellness to ensure that patients can continue to live a healthy and happy life inside and outside of their bodies.</p> 
+        <a href="#book-now" class="book-now-button">Book Now</a> <!-- Added Book Now button -->
+    </div>
+
+    <!-- Gallery Text -->
+    <div class="Gallery-container">
+        <div class="Gallery-text">
+            <h2>Gallery</h2>
+        </div>
+        <div class="controls-container">
+            <button class="nav-button left-button">&#10094;</button> <!-- Left arrow (←) -->
+            <button class="nav-button right-button">&#10095;</button> <!-- Right arrow (→) -->
+        </div>
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="image-gallery">
+        <!-- Images -->
+        <div class="gallery-images">
+            <img src="g1.jpg" alt="Image 1">
+            <img src="g2.jpg" alt="Image 2">
+            <img src="g3.jpg" alt="Image 3">
+            <img src="g4.jpg" alt="Image 4">
+            <img src="g5.jpg" alt="Image 5">
+            <img src="g1.jpg" alt="Image 6">
+            <img src="g2.jpg" alt="Image 7">
+            <img src="g3.jpg" alt="Image 8">
+        </div>
+</div>
+
+
+<!-- Image Modal -->
+<div class="image-modal" id="imageModal">
+    <span class="close-modal">&times;</span>
+    <button class="modal-nav-button modal-prev">&#10094;</button>
+    <button class="modal-nav-button modal-next">&#10095;</button>
+        <div class="modal-content-container">
+            <img class="modal-content" id="modalImage" src="" alt="Enlarged view">
+        </div>
+        <div class="zoom-controls">
+            <button class="zoom-btn" id="zoomIn">+</button>
+            <button class="zoom-btn" id="zoomOut">-</button>
+            <button class="zoom-btn" id="zoomReset">⟲</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Scroll Down Button -->
+<div class="scroll-down-container">
+    <button class="scroll-down-btn" onclick="scrollToDoctorSection()">
+        <i class="fas fa-angle-double-down"></i>
+    </button>
+    </div>
+
+
+
+
+
+
+    <!-- Doctor's Story Section -->
+<div class="doctora-story" id="doctora-story">
+    <div class="doctora-content">
+        <div class="doctora-image">
+            <div class="image-frame">
+                <img src="doctor.png" alt="Dr. Winnerlyn Tutor-Resurreccion">
+                <div class="image-overlay"></div>
+            </div>
+            <div class="doctora-badge">
+                <span>10+ Years Experience</span>
+            </div>
+        </div>
+        <div class="doctora-text">
+            <div class="section-tag">ABOUT OUR DENTIST</div>
+            <h2>Meet <span class="highlight">Dra. Winnerlyn Tutor-Resurreccion</span></h2>
+            <div class="doctora-bio">
+                <p>Graduated with a Doctor of Dental Medicine Degree from <em>Manila Central University</em>, Dr. Resurreccion brings over a decade of expertise in comprehensive dental care to Holy Family Dental Clinic.</p>
+                <ul class="expertise-list">
+                    <li><i class="fas fa-check-circle"></i> Specialized training in multiple dentistry fields</li>
+                    <li><i class="fas fa-check-circle"></i> Patient-centered approach to care</li>
+                    <li><i class="fas fa-check-circle"></i> Continuous professional development</li>
+                </ul>
+            </div>
+            <div class="action-buttons">
+                <a href="aboutus.html" class="learn-more-btn">
+                    <span>Learn more about us</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="#book-now" class="book-consultation-btn">
+                    <span>Book a consultation</span>
+                    <i class="fas fa-calendar-alt"></i>
+                </a>
+            </div>
+            
+            <!-- Social Media Links -->
+            <div class="social-icons">
+                <span>Follow us:</span>
+                <a href="https://www.facebook.com/profile.php?id=100076761485436" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Services Grid -->
+<section class="services-container">
+    <div class="services-header">
+        <h2>Our Services</h2>
+    </div>
+    <div class="services-grid">
+        <!-- Service Card 1 -->
+        <div class="service-card" id="oral-prophylaxis">
+            <div class="service-image">
+                <img src="Oral Prophylaxis.png" alt="Oral Prophylaxis">
+            </div>
+            <div class="service-content">
+                <h3>Oral Prophylaxis</h3>
+                <p>Professional teeth cleaning to remove plaque and tartar, preventing gum disease and maintaining optimal oral health.</p>
+                <a href="services.html#oral-prophylaxis-detail" class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
+
+
+        <!-- Service Card 2 -->
+        <div class="service-card" id="fluoride">
+            <div class="service-image">
+                <img src="Topical Fluoride Treatment.jpg" alt="Topical Fluoride">
+            </div>
+            <div class="service-content">
+                <h3>Topical Fluoride</h3>
+                <p>Application of fluoride to strengthen tooth enamel and help prevent cavities, especially beneficial for children.</p>
+                <a href="services.html#fluoride-detail" class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
+        <!-- Service Card 3 -->
+        <div class="service-card" id="sealants">
+            <div class="service-image">
+                <img src="Pit and Fissure Sealants.jpg" alt="Pit and Fissure Sealants">
+            </div>
+            <div class="service-content">
+                <h3>Pit and Fissure Sealants</h3>
+                <p>Thorough cleaning below the gumline to treat periodontal disease and prevent tooth loss.</p>
+                <a href="services.html#sealants-detail" class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
+
+        <!--add lang dito pag may iba pang services si doc sa future-->
+
+
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+    <!-- Contact Us section -->
+<div class="contact" id="contact">
+    <div class="contact-container">
+        <div class="contact-info">
+            <h2>Find Us</h2>
+
+            
+            
+            <!-- Map Section -->
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3856.868160051322!2d121.00665587574409!3d14.832655671351898!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397afb5f83f59a3%3A0xae09369107fcb472!2sHoly%20Family%20Dental%20Clinic!5e0!3m2!1sen!2sph!4v1742918981450!5m2!1sen!2sph" 
+                width="600" 
+                height="500" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+
+            <!-- Contact Details in Column Layout -->
+            <div class="contact-columns-container">
+                <!-- Location Column -->
+                <div class="contact-column">
+                    <div class="contact-column-header">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3>Location</h3>
+                    </div>
+                    <a href="https://www.google.com/maps/dir//Holy+Family+Dental+Clinic,+1397+Hulo,+Santa+Maria,+3022+Bulacan/@14.8326557,121.0066559,17z/data=!4m17!1m7!3m6!1s0x3397afb5f83f59a3:0xae09369107fcb472!2sHoly+Family+Dental+Clinic!8m2!3d14.8326505!4d121.0092308!16s%2Fg%2F11j8vvx8kh!4m8!1m0!1m5!1m1!1s0x3397afb5f83f59a3:0xae09369107fcb472!2m2!1d121.0092308!2d14.8326505!3e9?entry=ttu&g_ep=EgoyMDI1MDMxOS4yIKXMDSoASAFQAw%3D%3D" 
+                       target="_blank" class="contact-detail">
+                        1397 Hulo, Catmon, Santa Maria, 3022 Bulacan
+                    </a>
+                </div>
+                
+                <!-- Contact Info Column -->
+                <div class="contact-column">
+                    <div class="contact-column-header">
+                        <i class="fas fa-phone-alt"></i>
+                        <h3>Contact</h3>
+                    </div>
+                    <div class="contact-detail">
+                        <span>Phone:</span>
+                        <a href="tel:+1234567890">(123) 456-7890</a>
+                    </div>
+                    <div class="contact-detail">
+                        <span>Email:</span>
+                        <a href="mailto:holyfamilydental@gmail.com">holyfamilydental@gmail.com</a>
+                    </div>
+                </div>
+                
+                <!-- Hours Column -->
+                <div class="contact-column">
+                    <div class="contact-column-header">
+                        <i class="fas fa-clock"></i>
+                        <h3>Clinic Hours</h3>
+                    </div>
+                    <div class="contact-detail">
+                        Monday to Saturday<br>
+                        9:00 AM - 6:00 PM
+                    </div>
+                </div>
+                
+                <!-- Social Media Column -->
+                <div class="contact-column">
+                    <div class="contact-column-header">
+                        <i class="fas fa-share-alt"></i>
+                        <h3>Follow Us</h3>
+                    </div>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/profile.php?id=100076761485436" target="_blank" aria-label="Facebook" class="social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" aria-label="Instagram" class="social-icon">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        
+        <div class="contact-form">
+            <h2>Have a Question?</h2>
+            <form id="contactForm" method="POST">
+                <div class="form-group">
+                    <label for="full-name">Full Name</label>
+                    <input type="text" id="full-name" name="full-name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email*</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <select id="subject" name="subject" required>
+                        <option value="" disabled selected>Select a subject</option>
+                        <option value="appointment">Book an Appointment</option>
+                        <option value="question">General Question</option>
+                        <option value="feedback">Feedback</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Your questions? We have answers!</label>
+                    <textarea id="message" name="message" placeholder="Enter your question" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+    
+
+
+    
+
+    <!-- Last Call Section -->
+<div class="lastcall" id="lastcall">
+    <div class="lastcall-content">
+        <h2>Are you ready to transform your smile?</h2>
+        <a href="#book-now" class="lastbooknowbtn">Book Now <i class="fas fa-arrow-right"></i></a>
+    </div>
+</div>
+
+
+
+
+                <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column logo-column">
+                <div class="footer-logo">
+                    <img src="logo.png" alt="Holy Family Dental Clinic Logo">
+                    <h3>Holy Family Dental Clinic</h3>
+                </div>
+                <p class="logo-slogan">Creating Beautiful Smiles For Every Family</p>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="landingpage.html">Home</a></li>
+                    <li><a href="records.html">My Records</a></li>
+                    <li><a href="services.html">Services</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="services.html#oral-prophylaxis-detail">Oral Prophylaxis</a></li>
+                    <li><a href="services.html#fluoride-detail">Topical Fluoride Treatment</a></li>
+                    <li><a href="services.html#sealants-detail">Pit and Fissure Sealants</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="aboutus.html">About Us</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Connect With Us</h4>
+                <div class="contact-methods">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>holyfamilydental@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>(123) 456-7890</span>
+                    </div>
+                </div>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/profile.php?id=100076761485436" target="_blank" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div> <!-- Closing footer-content div -->
+        
+        <!-- In the footer section of landingpage.html -->
+<div class="footer-bottom">
+    <p>&copy; 2023 Holy Family Dental Clinic. All rights reserved.</p>
+    <button id="changeRoleBtn" class="change-role-btn">
+        <i class="fas fa-sync-alt"></i> Change Role
+    </button>
+</div>
+
+    </footer>
+
+
+
+
+
+
+    <script>
+
+document.addEventListener('DOMContentLoaded', function () {
+    const navbar = document.querySelector(".navbar");
+    const backToTopButton = document.getElementById("backToTop");
+    const leftButton = document.querySelector('.left-button');
+    const rightButton = document.querySelector('.right-button');
+    const galleryImages = document.querySelector('.gallery-images');
+    const images = document.querySelectorAll('.gallery-images img');
+    const changeRoleBtn = document.getElementById('changeRoleBtn');
+    const contactForm = document.getElementById('contactForm');
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdownContent = document.querySelector('.services-dropdown-content');
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const closeModal = document.querySelector('.close-modal');
+    const zoomInBtn = document.getElementById('zoomIn');
+    const zoomOutBtn = document.getElementById('zoomOut');
+    const zoomResetBtn = document.getElementById('zoomReset');
+    const modalPrevBtn = document.querySelector('.modal-prev');
+    const modalNextBtn = document.querySelector('.modal-next');
+
+    let isDragging = false;
+    let startPos = { x: 0, y: 0 };
+    let currentPos = { x: 0, y: 0 };
+    let scale = 1;
+    let currentModalIndex = 0;
+    let lastScrollY = window.scrollY;
+    let currentIndex = 0;
+    const imagesToShow = 4;
+
+    // Array to store all image sources from the gallery
+    const allImageSources = Array.from(images).map(img => img.src);
+
+    function showImage(index) {
+        // Handle looping for modal navigation
+        if (index < 0) {
+            index = allImageSources.length - 1;
+        } else if (index >= allImageSources.length) {
+            index = 0;
+        }
+        
+        currentModalIndex = index;
+        modalImg.src = allImageSources[index];
+        resetImageTransform();
+    }
+    function updateImageTransform() {
+        modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${scale})`;
+        modalImg.classList.toggle('zoomed', scale > 1);
+    }
+
+    function resetImageTransform() {
+        scale = 1;
+        currentPos = { x: 0, y: 0 };
+        updateImageTransform();
+    }
+
+    // Image click to open modal
+    images.forEach((img, index) => {
+        img.addEventListener('click', function() {
+            isModalOpen = true;
+            modal.classList.add('active');
+            document.body.classList.add('modal-open');
+            currentModalIndex = index;
+            modalImg.src = this.src;
+            resetImageTransform();
+        });
+    });
+
+    // Close modal
+    function closeModalFunc() {
+        isModalOpen = false;
+        resetImageTransform();
+        modal.classList.remove('active');
+        setTimeout(() => {
+            document.body.classList.remove('modal-open');
+        }, 300);
+    }
+
+    closeModal.addEventListener('click', closeModalFunc);
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) closeModalFunc();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModalFunc();
+        }
+        // Modal keyboard navigation
+        if (modal.classList.contains('active')) {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                showImage(currentModalIndex - 1);
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                showImage(currentModalIndex + 1);
+            }
+        }
+    });
+
+    // Zoom functionality
+    zoomInBtn.addEventListener('click', function() {
+        scale = Math.min(scale + 0.5, 3);
+        updateImageTransform();
+    });
+
+    zoomOutBtn.addEventListener('click', function() {
+        scale = Math.max(scale - 0.5, 1);
+        if (scale === 1) resetImageTransform();
+        else updateImageTransform();
+    });
+
+    zoomResetBtn.addEventListener('click', resetImageTransform);
+
+    // Modal navigation buttons
+    modalPrevBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        showImage(currentModalIndex - 1);
+    });
+
+    modalNextBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        showImage(currentModalIndex + 1);
+    });
+
+    // Drag to pan functionality
+    modalImg.addEventListener('mousedown', function(e) {
+        if (scale > 1) {
+            isDragging = true;
+            startPos = {
+                x: e.clientX,
+                y: e.clientY
+            };
+            modalImg.style.cursor = 'grabbing';
+            e.preventDefault();
+        }
+    });
+
+    window.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        
+        const dx = e.clientX - startPos.x;
+        const dy = e.clientY - startPos.y;
+        
+        const maxX = (modalImg.offsetWidth * (scale - 1)) / 2;
+        const maxY = (modalImg.offsetHeight * (scale - 1)) / 2;
+        
+        currentPos.x = Math.min(Math.max(currentPos.x + dx, -maxX), maxX);
+        currentPos.y = Math.min(Math.max(currentPos.y + dy, -maxY), maxY);
+        
+        startPos = {
+            x: e.clientX,
+            y: e.clientY
+        };
+        
+        updateImageTransform();
+        e.preventDefault();
+    });
+
+    window.addEventListener('mouseup', function() {
+        if (isDragging) {
+            isDragging = false;
+            modalImg.style.cursor = scale > 1 ? 'grab' : 'zoom-in';
+        }
+    });
+
+    // Touch support
+    modalImg.addEventListener('touchstart', function(e) {
+        if (scale > 1) {
+            isDragging = true;
+            startPos = {
+                x: e.touches[0].clientX,
+                y: e.touches[0].clientY
+            };
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    window.addEventListener('touchmove', function(e) {
+        if (!isDragging || e.touches.length !== 1) return;
+        
+        const touch = e.touches[0];
+        const dx = touch.clientX - startPos.x;
+        const dy = touch.clientY - startPos.y;
+        
+        const maxX = (modalImg.offsetWidth * (scale - 1)) / 2;
+        const maxY = (modalImg.offsetHeight * (scale - 1)) / 2;
+        
+        currentPos.x = Math.min(Math.max(currentPos.x + dx, -maxX), maxX);
+        currentPos.y = Math.min(Math.max(currentPos.y + dy, -maxY), maxY);
+        
+        startPos = {
+            x: touch.clientX,
+            y: touch.clientY
+        };
+        
+        updateImageTransform();
+        e.preventDefault();
+    }, { passive: false });
+
+    window.addEventListener('touchend', function() {
+        isDragging = false;
+    });
+
+    // Prevent image drag (native browser behavior)
+    modalImg.addEventListener('dragstart', function(e) {
+        e.preventDefault();
+    });
+
+    // Scroll button function
+function scrollToDoctorSection() {
+    const doctorSection = document.getElementById('doctora-story');
+    doctorSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+
+
+    // Navbar scroll behavior
+    window.addEventListener('scroll', function () {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY || currentScrollY < lastScrollY) {
+            navbar.style.transform = `translateY(-${currentScrollY}px)`;
+        }
+
+        lastScrollY = currentScrollY;
+        backToTopButton.classList.toggle("show", currentScrollY > 300);
+    });
+
+    // Back to Top
+    backToTopButton.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        navbar.style.transform = "translateY(0)";
+    });
+
+    // Scroll to Doctor section
+    window.scrollToDoctorSection = function () {
+        const doctorSection = document.getElementById('doctora-story');
+        if (doctorSection) {
+            doctorSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    // Gallery navigation
+    function updateGallery() {
+        const offset = -currentIndex * (100 / imagesToShow);
+        galleryImages.style.transition = 'transform 0.5s ease';
+        galleryImages.style.transform = `translateX(${offset}%)`;
+    }
+
+
+    
+
+    function navigateLeft() {
+        currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - imagesToShow;
+        updateGallery();
+    }
+
+    function navigateRight() {
+        currentIndex = (currentIndex < images.length - imagesToShow) ? currentIndex + 1 : 0;
+        updateGallery();
+    }
+
+    if (leftButton) leftButton.addEventListener('click', navigateLeft);
+    if (rightButton) rightButton.addEventListener('click', navigateRight);
+    updateGallery();
+
+    // Change Role button
+    if (changeRoleBtn) {
+        changeRoleBtn.addEventListener('click', function () {
+            localStorage.removeItem('userTypeChoice');
+            window.location.href = 'index.html';
+        });
+    }
+
+    // Contact form
+    if (contactForm) {
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Form submission would be handled here in a real implementation.');
+        });
+    }
+
+    // Dropdown menu
+    if (dropdownToggle && dropdownContent) {
+        dropdownToggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const isOpen = dropdownContent.style.display === 'block';
+            dropdownContent.style.display = isOpen ? 'none' : 'block';
+            this.querySelector('i').style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+        });
+
+        document.addEventListener('click', function () {
+            dropdownContent.style.display = 'none';
+            dropdownToggle.querySelector('i').style.transform = 'rotate(0deg)';
+        });
+
+        dropdownContent.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+    }
+});
+</script>
+</body>
+
+</html>

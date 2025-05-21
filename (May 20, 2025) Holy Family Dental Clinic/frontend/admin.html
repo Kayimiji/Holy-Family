@@ -1,0 +1,3212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Holy Family Dental Clinic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================= */
+        /* BASE STYLES & VARIABLES */
+        /* ============================================= */
+
+        :root {
+            --statcards-bg: #00bfff98;
+            --calendarmodal-bg: #00bfff98;
+            --bg-color: #f5f7fa;
+            --sidebar-bg: #2c3e50;
+            --sidebar-text: rgba(255, 255, 255, 0.9);
+            --sidebar-active: #00bfff;
+            --card-bg: #ffffff; /* Light theme card background */
+            --text-color: #2c3e50;
+            --text-muted: #7a8ba9;
+            --border-color: #e1e5eb;
+            --hover-bg: #f0f4f8;
+            --today-bg: #e6f7ff;
+            --selected-bg: #00bfff;
+            --selected-text: white;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --modal-bg: #ffffff;
+            --modal-text: #2c3e50;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --calendar-day-bg: var(--card-bg);
+            --calendar-today-bg: var(--sidebar-active);
+            --calendar-today-color: white;
+            --calendar-selected-bg: rgba(0, 191, 255, 0.2);
+        }
+
+        [data-theme="dark"] {
+            --statcards-bg: #004f6998;
+            --calendarmodal-bg: #004f6998;
+            --bg-color: #1a1a1a;
+            --sidebar-bg: #151e25;
+            --sidebar-text: rgba(255, 255, 255, 0.85);
+            --sidebar-active: #00bfff;
+            --card-bg: #2d2d2d;
+            --text-color: #e0e0e0;
+            --text-muted: #aaa;
+            --border-color: #444;
+            --hover-bg: #333;
+            --today-bg: #003366;
+            --selected-bg: #006699;
+            --selected-text: white;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            --modal-bg: #2d2d2d;
+            --modal-text: #e0e0e0;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            --calendar-day-bg: var(--card-bg);
+            --calendar-today-bg: var(--sidebar-active);
+            --calendar-today-color: white;
+            --calendar-selected-bg: rgba(0, 191, 255, 0.2);
+        }
+
+        [data-theme="dark"] .left-container {
+            background: linear-gradient(135deg, #1a4a6e 0%, #0d2c4d 100%);
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            margin: 0;
+            transition: background-color 0.3s ease;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: var(--bg-color);
+            color: var(--sidebar-text);
+        }
+
+        /* ============================================= */
+        /* LAYOUT & STRUCTURE */
+        /* ============================================= */
+
+        .dashboard {
+            display: flex;
+            height: 100vh;
+            min-height: 100vh;
+            overflow: hidden;
+            color: var(--text-color);
+        }
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .main-content {
+            flex-direction: column;
+            padding: 20px;
+            display: flex;
+            flex: 3;
+            transition: background-color 0.3s ease;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            margin-top: -20px;
+        }
+
+        .return-home-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .return-home-menu li {
+            margin-bottom: 5px;
+        }
+
+        .return-home-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .return-home-menu a:hover, .return-home-menu a.active {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+        }
+
+        .return-home-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin-right: -5px;
+            margin-top: -45px;
+            margin-left: -20px;
+            object-fit: cover;
+        }
+
+        .sidebar-title h2 {
+            color: var(--sidebar-active);
+            margin: 0;
+            font-size: 18px;
+            line-height: 1;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .sidebar-title p {
+            color: var(--sidebar-text);
+            font-size: 12px;
+            margin-top: 10px;
+            margin-left: -40px;
+            font-style: italic;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            white-space: normal;
+        }
+
+        .holy-family {
+            color: #1380d3;
+            font-weight: bold;
+        }
+
+        .dental-clinic {
+            color: #00c4cc;
+            font-weight: bold;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .settings-menu a:hover, .return-home-menu a:hover {
+            background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
+            color: white; /* Change text color on hover */
+            border-left: 3px solid var(--sidebar-active); /* Add left border */
+            display: block; /* Ensure the hover effect spans the full width */
+            width: 100%; /* Extend hover effect across the full width */
+            padding-right: 25px; /* Maintain alignment */
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            margin-top: -10px;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            border: none;
+        }
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--sidebar-active);
+            color: var(--sidebar-active);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--sidebar-active);
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+            gap: 10px;
+        }
+
+        .theme-toggle-label {
+            font-size: 14px;
+            color: var(--text-color);
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #00bfff;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        
+
+        /* left container design */
+        .abstract-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+        }
+
+        .wave-top {
+            width: 150px;
+            height: 100px;
+            background: var(--sidebar-active);
+            top: -45px;
+            right: -10px;
+            border-radius: 0 0 100px 100px;
+            transform: rotate(45deg);
+        }
+
+        .wave-left {
+            width: 200px;
+            height: 100px;
+            background: #1380d3;
+            top: -20px;
+            left: -50px;
+            border-radius: 100px 100px 0 0;
+            transform: rotate(-180deg);
+        }
+
+        .wave-right {
+            width: 200px;
+            height: 100px;
+            background: #00c4cc;
+            top: 80%;
+            right: -90px;
+            border-radius: 100px 100px 0 0;
+            transform: rotate(380deg);
+        }
+
+        .wave-bottom {
+            width: 200px;
+            height: 100px;
+            background: var(--sidebar-active);
+            bottom: -50px;
+            left: 0;
+            border-radius: 100px 100px 0 0;
+            transform: rotate(-330deg);
+        }
+
+        .left-container{
+            flex: 1.5; 
+            border-radius: 10px; 
+            padding: 20px; 
+            box-shadow: var(--shadow); 
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #f5f9fc 0%, #cbe2ee 100%);
+        }
+
+        .stat-cards-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+            max-height: 200px; /* Set maximum height */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding-right: 10px; /* Add padding for scrollbar */
+        }
+
+        /* Add custom scrollbar styling */
+        .stat-cards-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .stat-cards-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .stat-cards-container::-webkit-scrollbar-thumb {
+            background: var(--sidebar-active);
+            border-radius: 4px;
+        }
+
+        .stat-cards-container::-webkit-scrollbar-thumb:hover {
+            background: #0099cc;
+        }
+
+        .stat-card {
+            background: var(--statcards-bg);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            margin: 0;
+            color: white;
+            opacity: 0.9;
+        }
+
+        .stat-card .number {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: white;
+        }
+
+        .stat-card .icon {
+            float: right;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Enhanced Appointment Requests Table Styles */
+        .requests-section {
+            padding: 20px;
+            border-radius: 12px;
+            background: var(--card-bg);
+        }
+
+        .requests-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: -5px;
+            margin-bottom: 15px;
+        }
+
+        .requests-section h2 i {
+            color: var(--sidebar-active);
+        }
+
+        .requests-table-container {
+            max-height: 430px;
+            overflow-y: auto;
+            margin-top: -15px;
+        }
+
+        .requests-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .requests-table thead {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background: var(--card-bg);
+        }
+
+        .requests-table th {
+            background-color: var(--card-bg);
+            padding: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--border-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center; /* Add this line to align headers to the left */
+        }
+
+        .requests-table td {
+            padding: 15px;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+
+        .requests-table th:nth-child(1), 
+        .requests-table td:nth-child(1) { /* Checkbox column */
+            width: 5px;
+        }
+
+        .requests-table th:nth-child(2), 
+        .requests-table td:nth-child(2) { /* Patient Name */
+            width: 150px;
+        }
+
+        .requests-table th:nth-child(3), 
+        .requests-table td:nth-child(3) { /* Date/Time */
+            width: 160px;
+        }
+
+        .requests-table th:nth-child(4), 
+        .requests-table td:nth-child(4) { /* Procedure */
+            width: 150px;
+        }
+
+        .requests-table th:nth-child(5), 
+        .requests-table td:nth-child(5) { /* Request Date */
+            width: 100px;
+        }
+
+        .requests-table th:nth-child(6), 
+        .requests-table td:nth-child(6) { /* Status */
+            width: 100px;
+        }
+
+        .requests-table th:nth-child(7), 
+        .requests-table td:nth-child(7) { /* Actions */
+            width: 180px;
+        }
+
+        .requests-table tbody tr:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-accepted {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            margin-right: 8px;
+            font-size: 13px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .accept-btn {
+            background-color: #28a745;
+            color: white;
+            margin-right: 8px;
+        }
+
+        .accept-btn:hover {
+            background-color: #218838;
+        }
+
+        .reject-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .checkbox-wrapper input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .patient-name {
+            margin-left: 10px;
+            font-weight: 500;
+            color: var (--sidebar-active);
+            position: relative;
+        }
+
+        .procedure-tag {
+            background-color: var(--hover-bg);
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-left: -10px;
+            font-size: 12px;
+            position: relative;
+        }
+
+        .patient-name:hover::after,
+        .procedure-tag:hover::after {
+            content: attr(data-full-text);
+            position: absolute;
+            background: var(--card-bg);
+            padding: 5px 10px;
+            border-radius: 4px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            white-space: nowrap;
+            left: 0;
+            top: 100%;
+        }
+
+        /* CONTAINER HOVER EFFECTS */
+        .bottom-left-section {
+            display: flex;
+            flex-direction: column;
+            flex: 2;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .bottom-left-top {
+            flex: 1;
+            min-height: 0;
+            transition: all 0.3s ease;
+        }
+
+        .bottom-left-bottom {
+            flex: 1;
+            min-height: 0;
+            transition: all 0.3s ease;
+            background: var(--card-bg);  /* Change this line to match top container */
+        }
+
+        .bottom-left-top:hover {
+            flex: 5;
+        }
+
+        .bottom-left-top:hover + .bottom-left-bottom {
+            flex: 0.2;
+        }
+
+        .bottom-left-bottom:hover {
+            flex: 25;
+        }
+
+        .bottom-left-bottom:hover + .bottom-left-top {
+            flex: 0.2;
+        }
+
+        /* Add these styles in your existing <style> section */
+        .bottom-left-bottom .requests-table th:nth-child(1),
+        .bottom-left-bottom .requests-table td:nth-child(1) { /* Checkbox */
+            width: 10px;
+        }
+
+        .bottom-left-bottom .requests-table th:nth-child(2),
+        .bottom-left-bottom .requests-table td:nth-child(2) { /* Patient Name */
+            width: 150px;
+        }
+
+        .bottom-left-bottom .requests-table th:nth-child(3),
+        .bottom-left-bottom .requests-table td:nth-child(3) { /* Date */
+            width: 100px;
+        }
+
+        .bottom-left-bottom .requests-table th:nth-child(4),
+        .bottom-left-bottom .requests-table td:nth-child(4) { /* Time */
+            width: 100px;
+        }
+
+        .bottom-left-bottom .requests-table th:nth-child(5),
+        .bottom-left-bottom .requests-table td:nth-child(5) { /* Procedure */
+            width: 150px;
+        }
+
+        .bottom-left-bottom .requests-table th:nth-child(6),
+        .bottom-left-bottom .requests-table td:nth-child(6) { /* Status */
+            width: 120px;
+        }
+
+        .bottom-left-bottom .requests-table th:nth-child(7),
+        .bottom-left-bottom .requests-table td:nth-child(7) { /* Actions */
+            width: 180px;
+        }
+
+        .bottom-left-bottom .requests-table-container {
+            background: transparent;
+        }
+
+        .bottom-left-bottom .requests-table thead {
+            background: transparent;
+        }
+
+        .bottom-left-bottom .requests-table th {
+            background: transparent;
+            color: var(--text-color);
+        }
+
+        /* Add/modify the container styles */
+        .bottom-left-section .left-container {
+            background: var(--card-bg);
+        }
+
+        .bottom-left-section .requests-section {
+            background: var(--card-bg);
+        }
+
+        /* ============================================= */
+        /* MEDIA QUERIES FOR RESPONSIVENESS */
+        /* ============================================= */
+
+        @media (max-width: 1200px) {
+            .container-layout {
+                flex-direction: column;
+                height: auto;
+            }
+            .left-container, .right-container {
+                flex: 1 1 100%;
+            }
+            .stat-cards-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stat-cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .dashboard {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: relative;
+            }
+        }
+
+        /* Add these styles to your existing <style> section */
+        .notification-count {
+            background-color: var(--sidebar-active);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 14px;
+            margin-left: 8px;
+            display: none; /* Hide by default */
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            animation: bounce 1s ease infinite;
+        }
+
+        .notification-count.show {
+            display: inline-flex;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Add this to your existing styles section */
+        .status-confirmed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .confirm-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .cancel-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        /* Calendar Styles */
+        .calendar-container {
+            padding: 0;
+            position: relative; /* Add this to contain the modal */
+            height: 100%;      /* Add this to ensure proper containment */
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .calendar-nav button {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .calendar-nav button:hover {
+            background: var(--hover-bg);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-weight: bold;
+            padding: 5px;
+            color: var(--text-color);
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            background: var(--calendar-day-bg);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            background: var(--hover-bg);
+        }
+
+       
+        .calendar-day.selected {
+            background: var(--calendar-today-bg);
+            color: var(--calendar-today-color);
+        }
+
+        .calendar-day.has-appointments::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 4px;
+            height: 4px;
+            background: var(--sidebar-active);
+            border-radius: 50%;
+        }
+
+        .calendar-header h2 {
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            margin: 0;
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        .calendar-header h2:hover {
+            background-color: var(--hover-bg);
+        }
+
+        /* Calendar Modal Styles */
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            backdrop-filter: blur(2px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .date-picker-popup {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            min-width: 300px;
+            max-width: 90%;
+            transform: translateY(20px);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            border: 1px solid var(--border-color);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active .date-picker-popup {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .date-picker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .date-picker-header h3 {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .date-picker-header .fa-times {
+            color: var(--text-muted);
+            font-size: 18px;
+            transition: color 0.2s ease;
+        }
+
+        .date-picker-header .fa-times:hover {
+            color: var(--sidebar-active);
+            cursor: pointer;
+        }
+
+        .date-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .month-option, .year-option {
+            padding: 10px 5px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            color: var(--text-color);
+            border: 1px solid transparent;
+        }
+
+        .month-option:hover, .year-option:hover {
+            background: var(--hover-bg);
+            border-color: var(--border-color);
+        }
+
+        .month-option.selected, .year-option.selected {
+            background: var(--sidebar-active);
+            color: white;
+            border-color: var(--sidebar-active);
+        }
+
+        .date-picker-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .date-picker-actions button {
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .date-picker-actions button.cancel {
+            background: var(--text-muted);
+            color: white;
+        }
+
+        .date-picker-actions button.cancel:hover {
+            background: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .date-picker-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .date-picker-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .date-picker-popup {
+            max-height: 400px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--sidebar-active) var(--card-bg);
+        }
+
+        .date-picker-popup::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .date-picker-popup::-webkit-scrollbar-track {
+            background: var(--card-bg);
+            border-radius: 3px;
+        }
+
+        .date-picker-popup::-webkit-scrollbar-thumb {
+            background-color: var(--sidebar-active);
+            border-radius: 3px;
+        }
+
+        .date-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .date-picker-header {
+            position: sticky;
+            top: 0;
+            background: var(--card-bg);
+            z-index: 1;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .date-picker-actions {
+            position: sticky;
+            bottom: 0;
+            background: var(--card-bg);
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .calendar-day.has-requests::before {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 8px; /* Offset from the appointment dot */
+            width: 4px;
+            height: 4px;
+            background: #dc3545; /* Red color for requests */
+            border-radius: 50%;
+        }
+
+        .appointment-dot {
+    position: absolute;
+    bottom: 5px;
+    width: 6px;
+    height: 6px;
+    background-color: var(--sidebar-active);
+    border-radius: 50%;
+}
+
+/* ============================================= */
+/*  Confirmation Modal Styles */
+/* ============================================= */
+
+    /* Confirmation Modal Styles */
+    .confirmation-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+.confirmation-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        backdrop-filter: blur(3px);
+    }
+
+    .confirmation-modal.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .confirmation-content {
+        background-color: var(--modal-bg);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        max-width: 450px;
+        width: 90%;
+        transform: translateY(-20px);
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        border: 1px solid var(--border-color);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .confirmation-modal.active .confirmation-content {
+        transform: translateY(0);
+    }
+
+    .confirmation-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .confirmation-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+
+    .accept-icon {
+        background-color: rgba(40, 167, 69, 0.2);
+        color: #28a745;
+    }
+
+    .reject-icon {
+        background-color: rgba(220, 53, 69, 0.2);
+        color: #dc3545;
+    }
+
+    .confirmation-title {
+        margin: 0;
+        font-size: 1.3rem;
+        color: var(--text-color);
+        font-weight: 600;
+    }
+
+    .confirmation-message {
+        margin: 15px 0 20px;
+        color: var(--text-muted);
+        line-height: 1.5;
+    }
+
+    .reason-textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background-color: var(--card-bg);
+        color: var(--text-color);
+        margin-bottom: 20px;
+        min-height: 100px;
+        resize: vertical;
+        transition: border-color 0.3s ease;
+        font-family: 'Inter', Arial, sans-serif;
+    }
+
+    .reason-textarea:focus {
+        outline: none;
+        border-color: var(--sidebar-active);
+        box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.2);
+    }
+
+    .confirmation-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .confirmation-buttons button {
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+    }
+
+    .confirm-btn {
+        background-color: var(--sidebar-active);
+        color: white;
+        border: none;
+    }
+
+    .confirm-btn:hover {
+        background-color: #0099cc;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 191, 255, 0.3);
+    }
+
+    .cancel-btn {
+        background-color: var(--text-muted);
+        color: white;
+        border: none;
+    }
+
+    .cancel-btn:hover {
+        background-color: #6c757d;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+    }
+
+    /* Decorative elements */
+    .modal-decoration {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        opacity: 0.1;
+        z-index: -1;
+    }
+
+    .modal-decoration-1 {
+        top: -30px;
+        right: -30px;
+        background: var(--sidebar-active);
+    }
+
+    .modal-decoration-2 {
+        bottom: -20px;
+        left: -20px;
+        background: #28a745;
+        width: 80px;
+        height: 80px;
+    }
+
+
+/* modal for appointment request user info */
+.appointment-details {
+    margin: 15px 0;
+}
+
+.detail-row {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: flex-start;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: var(--text-color);
+    min-width: 120px;
+}
+
+.detail-value {
+    color: var(--text-muted);
+    flex: 1;
+    word-break: break-word;
+}
+
+.clickable {
+    cursor: pointer;
+    text-decoration: underline;
+    color: var(--sidebar-active);
+}
+
+.clickable:hover {
+    opacity: 0.8;
+}
+
+.clickable-cell {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.clickable-cell:hover {
+    background-color: var(--hover-bg);
+}
+
+.patient-name {
+    margin-left: 10px;
+    font-weight: 500;
+    color: var(--sidebar-active);
+    position: relative;
+}
+
+    /* Add these new styles */
+    .bulk-actions {
+        display: none;
+        position: sticky;
+        top: 0;
+        background: var(--calendarmodal-bg);
+        padding: 10px 15px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        z-index: 2;
+        box-shadow: var(--shadow);
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .bulk-actions.show {
+        display: flex;
+    }
+
+    .bulk-actions .selected-count {
+        color: white;
+        font-weight: 500;
+    }
+
+    .bulk-actions .action-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+    }
+
+    .toast {
+        background: var(--card-bg);
+        color: var(--text-color);
+        padding: 12px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transform: translateX(120%);
+        opacity: 0;
+        animation: slideIn 0.3s ease forwards;
+        border-left: 4px solid var(--sidebar-active);
+    }
+
+    .toast.toast-success {
+        border-left-color: #28a745;
+    }
+
+    .toast.toast-warning {
+        border-left-color: #ffc107;
+    }
+
+    .toast.toast-error {
+        border-left-color: #dc3545;
+    }
+
+    @keyframes slideIn {
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideOut {
+        to {
+            transform: translateX(120%);
+            opacity: 0;
+        }
+    }
+
+    .search-container {
+        margin-bottom: 15px;
+        padding: 0 5px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .search-wrapper {
+        position: relative;
+        flex: 1;
+        max-width: 300px;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+    }
+
+    #searchRequests {
+        width: 100%;
+        padding: 8px 35px;
+        border-radius: 20px;
+        border: 1px solid var(--border-color);
+        background: var(--card-bg);
+        color: var(--text-color);
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    #searchRequests:focus {
+        outline: none;
+        border-color: var(--sidebar-active);
+        box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.2);
+    }
+
+    .highlight {
+        background-color: rgba(0, 191, 255, 0.2);
+        padding: 2px 0;
+        border-radius: 2px;
+    }
+
+    .filter-wrapper {
+        position: relative;
+        margin-left: 70px;
+        width: 200px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .filter-wrapper select {
+        flex: 1;
+        padding: 8px 35px 8px 12px;
+        border-radius: 20px;
+        border: 1px solid var (--border-color);
+        background: var(--card-bg);
+        color: var (--text-color);
+        font-size: 14px;
+        appearance: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .filter-wrapper::after {
+        content: '\f0d7';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        position: absolute;
+        right: 60px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+    }
+
+    .filter-wrapper select:focus {
+        outline: none;
+        border-color: var(--sidebar-active);
+        box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.2);
+    }
+
+    .reset-btn {
+        background: var (--card-bg);
+        border: 1px solid var(--border-color);
+        color: var(--text-muted);
+        padding: 8px 12px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 14px;
+    }
+
+    .reset-btn:hover {
+        background: var(--hover-bg);
+        color: var(--sidebar-active);
+        border-color: var(--sidebar-active);
+    }
+
+    .status-upcoming {
+        background-color: #e1f5fe;
+        color: #0288d1;
+    }
+
+
+
+
+
+/* ============================================= */
+    /* Modal Header Styles */
+/* ============================================= */
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 20px;
+    }
+
+    .modal-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .modal-title i {
+        color: var(--sidebar-active);
+        font-size: 1.5rem;
+    }
+
+    .modal-title h3 {
+        margin: 0;
+        color: var(--text-color);
+        font-size: 1.3rem;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .close-btn:hover {
+        color: var(--sidebar-active);
+    }
+
+    /* Patient Section Styles */
+    .detail-section {
+        background: var(--hover-bg);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .patient-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .patient-avatar {
+        width: 50px;
+        height: 50px;
+        background: var(--sidebar-active);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .patient-avatar i {
+        color: white;
+        font-size: 1.5rem;
+    }
+
+    .patient-info h4 {
+        margin: 0;
+        color: var(--text-color);
+        font-size: 1.2rem;
+    }
+
+    .patient-id {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    /* Info Grid Styles */
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .info-item i {
+        color: var(--sidebar-active);
+        font-size: 1.1rem;
+        margin-top: 3px;
+    }
+
+    .info-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info-content label {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+    }
+
+    .info-content span {
+        color: var(--text-color);
+        font-weight: 500;
+    }
+
+    /* Section Title Styles */
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 15px 0;
+        color: var(--text-color);
+    }
+
+    .section-title i {
+        color: var(--sidebar-active);
+    }
+
+    /* Notes Container Styles */
+    .notes-container {
+        background: var(--card-bg);
+        border-radius: 8px;
+        padding: 15px;
+    }
+
+    .notes-container p {
+        margin: 0;
+        color: var (--text-color);
+        line-height: 1.5;
+    }
+
+    /* Procedure Badge Styles */
+    .procedure-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        background: var(--sidebar-active);
+        color: white;
+        border-radius: 15px;
+        font-size: 0.9rem;
+    }
+
+    /* Modal Footer Styles */
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .modal-tabs {
+        display: flex;
+        border-bottom: 1px solid var (--border-color);
+        margin-bottom: 15px;
+    }
+    
+    .tab-btn {
+        padding: 10px 20px;
+        background: none;
+        border: none;
+        border-bottom: 3px solid transparent;
+        cursor: pointer;
+        font-weight: 500;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .tab-btn:hover {
+        color: var(--sidebar-active);
+    }
+    
+    .tab-btn.active {
+        color: var(--sidebar-active);
+        border-bottom-color: var(--sidebar-active);
+    }
+    
+    .tab-content {
+        min-height: 300px;
+    }
+    
+    .tab-pane {
+        display: none;
+    }
+    
+    .tab-pane.active {
+        display: block;
+    }
+    
+    .photo-container {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .photo-section {
+        flex: 1;
+    }
+    
+    .photo-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin: 10px 0;
+    }
+    
+    .photo-item {
+        position: relative;
+        aspect-ratio: 1;
+        background: var(--hover-bg);
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .photo-item img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+    
+    .photo-item .delete-photo {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(220, 53, 69, 0.8);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    
+    .photo-item:hover .delete-photo {
+        opacity: 1;
+    }
+    
+    .upload-btn {
+        width: 100%;
+        padding: 8px;
+        background: var(--sidebar-active);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    
+    .upload-btn:hover {
+        background: #0099cc;
+    }
+    
+    .forms-container {
+        display: flex;
+        gap: 20px;
+        height: 300px;
+    }
+    
+    .forms-list {
+        flex: 1;
+        max-width: 250px;
+        overflow-y: auto;
+        border-right: 1px solid var(--border-color);
+        padding-right: 15px;
+    }
+    
+    .forms-list ul {
+        list-style: none;
+        padding: 0;
+        margin: 10px 0;
+    }
+    
+    .forms-list li {
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 5px;
+    }
+    
+    .forms-list li:hover {
+        background: var(--hover-bg);
+    }
+    
+    .forms-list li.active {
+        background: var(--sidebar-active);
+        color: white;
+    }
+    
+    .form-preview {
+        flex: 2;
+        background: var(--hover-bg);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .empty-state {
+        text-align: center;
+        color: var(--text-muted);
+    }
+    
+    .empty-state i {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    
+    .empty-state p {
+        margin: 0;
+    }
+    
+    .appointment-info {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-color);
+    }
+
+.photo-item {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--hover-bg);
+}
+
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    max-width: 800px;
+    max-height: 600px;
+}
+
+.empty-state small {
+    display: block;
+    margin-top: 5px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin: 10px 0;
+    aspect-ratio: 4/3;
+}
+
+/* ============================================= */
+/* Todays appointment modal */
+/* ============================================= */
+
+.patient-section {
+        background: var(--hover-bg);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .patient-avatar {
+        width: 50px;
+        height: 50px;
+        background: var(--sidebar-active);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+    }
+    
+    .patient-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .patient-info h4 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: var(--text-color);
+    }
+    
+    .patient-id {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+    
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+    
+    .info-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .info-item i {
+        color: var(--sidebar-active);
+        font-size: 1.1rem;
+    }
+    
+    .info-content label {
+        display: block;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        margin-bottom: 3px;
+    }
+    
+    .notes-textarea {
+        width: 100%;
+        min-height: 100px;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background: var (--card-bg);
+        color: var(--text-color);
+        resize: vertical;
+        font-family: 'Inter', Arial, sans-serif;
+    }
+    
+    .notes-textarea:focus {
+        outline: none;
+        border-color: var(--sidebar-active);
+        box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.2);
+    }
+    
+    .complete-btn {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .complete-btn:hover {
+        background-color: #218838;
+    }
+    
+    .save-btn {
+        background-color: var(--sidebar-active);
+        color: white;
+    }
+    
+    .save-btn:hover {
+        background-color: #0099cc;
+    }
+
+    /* Add these status badge styles */
+    .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .status-scheduled {
+        background-color: #e3f2fd;
+        color: #1976d2;
+    }
+
+    .status-confirmed {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    .status-completed {
+        background-color: #e8f5e9;
+        color: #1b5e20;
+    }
+
+    .status-pending {
+        background-color: #fff3e0;
+        color: #ef6c00;
+    }
+
+    .status-cancelled {
+        background-color: #ffebee;
+        color: #c62828;
+    }
+
+    .status-rejected {
+        background-color: #fce4ec;
+        color: #c2185b;
+    }
+
+    /* Add these history styles */
+    .history-list {
+        max-height: 300px;
+        overflow-y: auto;
+        margin: 15px 0;
+    }
+
+    .history-item {
+        padding: 15px;
+        border-left: 3px solid var(--sidebar-active);
+        background: var(--hover-bg);
+        margin-bottom: 10px;
+        border-radius: 0 8px 8px 0;
+    }
+
+    .history-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .history-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+
+    .history-date {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    .history-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--text-muted);
+    }
+
+    .empty-state i {
+        font-size: 48px;
+        margin-bottom: 15px;
+        opacity: 0.5;
+    }
+
+    .empty-state p {
+        font-size: 16px;
+        margin: 0 0 5px;
+    }
+
+    .empty-state small {
+        font-size: 13px;
+        opacity: 0.8;
+    }
+
+    .appointment-history {
+        padding: 20px;
+        border-radius: 8px;
+        background: var(--hover-bg);
+        margin-bottom: 15px;
+    }
+
+    .history-empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--text-muted);
+        background: var(--card-bg);
+        border-radius: 8px;
+        margin: 20px 0;
+    }
+
+    .history-empty-state i {
+        font-size: 48px;
+        margin-bottom: 15px;
+        color: var(--text-muted);
+        opacity: 0.5;
+    }
+
+    .history-empty-state h4 {
+        margin: 0 0 10px;
+        color: var(--text-color);
+        font-size: 18px;
+    }
+
+    .history-empty-state p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .history-empty-state small {
+        display: block;
+        margin-top: 8px;
+        opacity: 0.7;
+    }
+    
+    .action-btn {
+        font-size: 12px;
+    }
+
+    .photo-item {
+    position: relative;
+    aspect-ratio: 1;
+    background: var(--hover-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.photo-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.photo-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.delete-photo {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(220, 53, 69, 0.9);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 10;
+}
+
+.delete-photo:hover {
+    background: #dc3545;
+    transform: scale(1.1);
+}
+
+.photo-item:hover .delete-photo {
+    opacity: 1;
+}
+
+/* Form Preview Styles */
+.form-preview-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* PDF Preview Styles */
+.pdf-preview {
+    flex: 1;
+    overflow: auto;
+    background-color: var(--hover-bg);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.pdf-toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.pdf-tool {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.page-info {
+    margin: 0 10px;
+    flex: 1;
+    text-align: center;
+}
+
+.pdf-page {
+    background: white;
+    padding: 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.pdf-page-content {
+    min-height: 300px;
+}
+
+/* Image Preview Styles */
+.image-preview {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    background-color: var(--hover-bg);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.image-zoom-controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.zoom-btn {
+    background: var(--sidebar-active);
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Document Preview Styles */
+.document-preview {
+    flex: 1;
+    overflow: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.document-header {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+
+.form-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.form-table th, .form-table td {
+    padding: 8px;
+    border: 1px solid #eee;
+    text-align: left;
+}
+
+.form-table th {
+    background-color: #f5f5f5;
+}
+
+/* Loading State */
+.form-preview-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-muted);
+}
+
+.form-preview-loading .fa-spinner {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* ============================================= */
+/* Appointment Request Logging */
+/* ============================================= */
+
+.appointment-request-log {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.log-entry {
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.log-entry:last-child {
+    border-bottom: none;
+}
+
+.log-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.log-header .timestamp {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.log-header .patient-name {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.log-details {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    margin-left: 10px;
+}
+
+.log-action {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: var(--sidebar-active);
+    font-weight: 500;
+}
+
+/* ============================================= */
+/*  End of Styles */
+/* ============================================= */
+    </style>
+
+    <!-- Add Chart.js library before closing head tag -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
+                    <div class="logo-glow"></div>
+                </div>
+                <div class="sidebar-title">
+                    <h2>
+                        <span class="holy-family">HOLY FAMILY</span><br>
+                        <span class="dental-clinic">DENTAL CLINIC</span>
+                    </h2>
+                    <p>Creating beautiful smiles for every family</p>
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="appointment-request-logs.html"><i class="fas fa-clipboard-list"></i> <span>Appointment Request Logs</span></a></li>
+                <li><a href="#"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
+                <li><a href="patients.html"><i class="fas fa-users"></i> <span>Patients</span></a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> <span>Reports</span></a></li>
+                <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+            <!-- Add Return to Home menu at the bottom -->
+            <div style="position: absolute; bottom: 20px; width: 13%;">
+                <div style="position: absolute; bottom: 20px; width: 100%;">
+                    <ul class="sidebar-menu settings-menu">
+                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                    <ul class="sidebar-menu return-home-menu">
+                        <li><a href="landingpage.html"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <div class="header">
+                <div>
+                    <h1 style="color: var(--text-color); margin: 0;">Admin Dashboard</h1>
+                </div>
+                <div class="theme-toggle">
+                    <span class="theme-toggle-label">Dark Mode</span>
+                    <label class="switch">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Container Layout -->
+            <div class="container-layout" style="display: flex; gap: 10px; height: calc(45vh - 150px); margin-top: -10px;">
+                <!-- Left Container -->
+                <div class="left-container">
+                    <div class="abstract-shapes">
+                        <div class="shape wave-top"></div>
+                        <div class="shape wave-left"></div>
+                        <div class="shape wave-right"></div>
+                        <div class="shape wave-bottom"></div>
+                    </div>
+                    
+                    <p style="color: var(--text-color); margin: 5px; margin-left: 30px; margin-bottom: -100px; font-size: 1.2em;">Good Morning,</p>
+                    <h2 style="color: var(--text-color); margin: 5px 0 5px; margin-top: 100px; margin-left: 30px; font-size: 2em;">Dr. Admin</h2>
+                    <p style="color: var (--text-color); margin: 0; margin-top: 5px; margin-left: 30px;">Your schedule today.</p>
+
+                    <div class="stat-cards-container">
+                        <div class="stat-card">
+                            <i class="fas fa-calendar-check icon"></i>
+                            <h3>Scheduled Today</h3>
+                            <div class="number" id="scheduledCount">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-calendar-alt icon"></i>
+                            <h3>Appointment Request</h3>
+                            <div class="number" id="upcomingCount">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-check-circle icon"></i>
+                            <h3>Completed</h3>
+                            <div class="number" id="completedCount">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-times-circle icon"></i>
+                            <h3>Canceled</h3>
+                            <div class="number" id="canceledCount">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-user-plus icon"></i>
+                            <h3>Walk-ins</h3>
+                            <div class="number" id="walkInCount">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Container -->
+                <div class="right-container" style="flex: 0.8; background: var(--card-bg); border-radius: 10px; padding: 10px; box-shadow: var(--shadow); overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1px;">
+                        <select id="chartMetric" style="padding: 8px 15px; border-radius: 5px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color); font-size: 14px; font-weight: 500;">
+                            <option value="visits">Total Patient Visits</option>
+                            <option value="income">Total Income</option>
+                        </select>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="time-period-btn active" data-period="weekly" style="padding: 6px 12px; border-radius: 4px; border: 1px solid var(--sidebar-active); background: var(--card-bg); color: var(--text-color); cursor: pointer;">Week</button>
+                            <button class="time-period-btn" data-period="monthly" style="padding: 6px 12px; border-radius: 4px; border: 1px solid var(--sidebar-active); background: var(--card-bg); color: var(--text-color); cursor: pointer;">Month</button>
+                            <button class="time-period-btn" data-period="yearly" style="padding: 6px 12px; border-radius: 4px; border: 1px solid var(--sidebar-active); background: var(--card-bg); color: var(--text-color); cursor: pointer;">Year</button>
+                        </div>
+                    </div>
+                    <div style="height: 180px; position: relative;">
+                        <canvas id="patientActivityChart"></canvas>
+                    </div>
+                    <div style="text-align: center; margin-top: 5px;">
+                        <div class="percentage-change" style="color: #00bfff; font-size: 13px; font-weight: bold;">+60% Patient visits are higher than last week</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Containers Layout -->
+            <div class="container-layout" style="display: flex; gap:10px; height: calc(67vh - 50px); margin-top: 10px;">
+                <!-- Bottom Left Section - Contains 2 containers -->
+                <div class="bottom-left-section">
+                    <!-- Bottom Left Top Container -->
+                    <div class="left-container requests-section bottom-left-top">
+                        <h2 style="margin-top: -5px; margin-bottom: 15px;">
+                            <i class="fas fa-clipboard-list"></i> 
+                            Appointment Requests
+                            <span class="notification-count" id="requestCount">0</span>
+                        </h2>
+                        <!-- Add this div for bulk actions -->
+                        <div class="bulk-actions" id="requestBulkActions">
+                            <div class="selected-count">
+                                <span id="requestSelectedCount">0</span> items selected
+                            </div>
+                            <div class="action-buttons">
+                                <button class="action-btn accept-btn" onclick="bulkAcceptRequests()">
+                                    <i class="fas fa-check"></i> Accept Selected
+                                </button>
+                                <button class="action-btn reject-btn" onclick="showBulkRejectModal()">
+                                    <i class="fas fa-times"></i> Reject Selected
+                                </button>
+                            </div>
+                        </div>
+                        <div class="search-container">
+                            <div class="search-wrapper">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" id="searchRequests" placeholder="Search appointments...">
+                            </div>
+                            <div class="filter-wrapper">
+                                <select id="procedureFilter">
+                                    <option value="">All Procedures</option>
+                                    <option value="Dental Cleaning">Dental Cleaning</option>
+                                    <option value="Root Canal">Root Canal</option>
+                                    <option value="Tooth Extraction">Tooth Extraction</option>
+                                    <option value="Dental Filling">Dental Filling</option>
+                                    <option value="Dental Crown">Dental Crown</option>
+                                    <option value="Dental Bridge">Dental Bridge</option>
+                                </select>
+                                <button class="reset-btn" onclick="resetFilters()">
+                                    <i class="fas fa-sync-alt"></i>
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                        <div class="requests-table-container">
+                            <table class="requests-table">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" id="selectAll"></th>
+                                        <th>Patient Name</th>
+                                        <th>Requested Date</th>
+                                        <th>Requested Time</th>
+                                        <th>Procedure</th>
+                                        <th>Request Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="requestTableBody">
+                                    <!-- Table rows will be dynamically populated -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Left Bottom Container -->
+                    <div class="left-container bottom-left-bottom">
+                        <h2 style="margin-top: -5px; margin-bottom: 15px;">
+                            <i class="fas fa-calendar-day"></i> 
+                            Appointments for <span id="todayDate"></span>
+                            <span class="notification-count" id="todayCount">0</span>
+                        </h2>
+                        <!-- Add this div for bulk actions -->
+                        <div class="bulk-actions" id="appointmentBulkActions">
+                            <div class="selected-count">
+                                <span id="appointmentSelectedCount">0</span> items selected
+                            </div>
+                            <div class="action-buttons">
+                                <button class="action-btn complete-btn" onclick="bulkCompleteAppointments()">
+                                    <i class="fas fa-check"></i> Complete Selected
+                                </button>
+                                <button class="action-btn cancel-btn" onclick="bulkCancelAppointments()">
+                                    <i class="fas fa-times"></i> Cancel Selected
+                                </button>
+                            </div>
+                        </div>
+                        <div class="requests-table-container">
+                            <table class="requests-table">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" id="selectAllToday"></th>
+                                        <th>Patient Name</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>Procedure</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="todayTableBody">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Right Container -->
+                <div class="left-container" style="flex: 0.8; background: var(--card-bg);">
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <h2>
+                                <i class="fas fa-calendar-alt"></i>
+                                <span id="currentMonthYear"></span>
+                            </h2>
+                            <div class="calendar-nav">
+                                <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                                <button id="today">Today</button>
+                                <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                        <div class="calendar-grid" id="calendarDays">
+                            <!-- Days of week headers will be added here -->
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Calendar days will be added here -->
+                        </div>
+                    </div>
+                </div>
+
+
+                
+                
+                <!-- Accept Confirmation Modal -->
+                <div id="acceptConfirmationModal" class="confirmation-modal">
+                    <div class="confirmation-content">
+                        <!-- Decorative elements -->
+                        <div class="modal-decoration modal-decoration-1"></div>
+                        <div class="modal-decoration modal-decoration-2"></div>
+                        
+                        <div class="confirmation-header" style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center;">
+                                <div class="confirmation-icon accept-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <h3 class="confirmation-title" id="acceptModalTitle">Accept Appointment</h3>
+                            </div>
+                            <button onclick="closeAcceptModal()" style="background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1.2rem;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <p class="confirmation-message" id="acceptModalMessage">
+                            Are you sure you want to accept this appointment?
+                        </p>
+                        
+                        <div class="confirmation-buttons">
+                            <button class="cancel-btn" onclick="closeAcceptModal()">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                            <button class="confirm-btn" onclick="confirmAcceptAppointment()">
+                                <i class="fas fa-check"></i> Complete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="rejectConfirmationModal" class="confirmation-modal">
+                    <div class="confirmation-content">
+                        <!-- Decorative elements -->
+                        <div class="modal-decoration modal-decoration-1"></div>
+                        <div class="modal-decoration modal-decoration-2"></div>
+                        
+                        <div class="confirmation-header" style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center;">
+                                <div class="confirmation-icon reject-icon">
+                                    <i class="fas fa-times-circle"></i>
+                                </div>
+                                <h3 class="confirmation-title">Reason for Rejection</h3>
+                            </div>
+                            <button onclick="closeRejectModal()" style="background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1.2rem;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <p class="confirmation-message">
+                            Please provide a reason for rejecting this appointment:
+                        </p>
+                        
+                        <textarea class="reason-textarea" id="rejectionReason" 
+                                  placeholder="Enter reason (e.g., time slot unavailable, patient needs to reschedule...)"></textarea>
+                        
+                        <div class="confirmation-buttons">
+                            <button class="cancel-btn" onclick="closeRejectModal()">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                            <button class="confirm-btn" onclick="submitRejection()">
+                                <i class="fas fa-check"></i> Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="appointmentDetailsModal" class="confirmation-modal">
+                    <div class="confirmation-content" style="max-width: 800px;">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <div class="modal-title">
+                                <i class="fas fa-calendar-check"></i>
+                                <h3>Appointment Details</h3>
+                            </div>
+                            <button onclick="closeDetailsModal()" class="close-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Main Content Tabs -->
+                        <div class="modal-tabs">
+                            <button class="tab-btn active" onclick="openTab(event, 'patient-info')">
+                                <i class="fas fa-user"></i> Patient Info
+                            </button>
+                            <button class="tab-btn" onclick="openTab(event, 'photos')">
+                                <i class="fas fa-images"></i> Before/After
+                            </button>
+                            <button class="tab-btn" onclick="openTab(event, 'forms')">
+                                <i class="fas fa-file-alt"></i> Patient Forms
+                            </button>
+                            <button class="tab-btn" onclick="openTab(event, 'patient-history')">
+                                <i class="fas fa-history"></i> Appointment History
+                            </button>
+                        </div>
+                        
+                        <!-- Tab Content -->
+                        <div class="tab-content">
+                            <!-- Patient Info Tab -->
+                            <div id="patient-info" class="tab-pane active">
+                                <div class="patient-header">
+                                    <div class="patient-avatar">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="patient-info">
+                                        <h4 id="detail-patient-name"></h4>
+                                        <span class="patient-id" id="detail-patient-id"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <i class="fas fa-phone-alt"></i>
+                                        <div class="info-content">
+                                            <label>Contact</label>
+                                            <span id="detail-contact"></span>
+                                        </div>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-envelope"></i>
+                                        <div class="info-content">
+                                            <label>Email</label>
+                                            <span id="detail-email"></span>
+                                        </div>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-birthday-cake"></i>
+                                        <div class="info-content">
+                                            <label>Age</label>
+                                            <span id="detail-age"></span>
+                                        </div>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-venus-mars"></i>
+                                        <div class="info-content">
+                                            <label>Gender</label>
+                                            <span id="detail-gender"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="section-title">
+                                    <i class="fas fa-home"></i>
+                                    <h4>Address</h4>
+                                </div>
+                                <div class="address-container">
+                                    <p id="detail-address"></p>
+                                </div>
+                            </div>
+                            
+                            <!-- Before/After Photos Tab -->
+                            <div id="photos" class="tab-pane">
+                                <div class="photo-container">
+                                    <div class="photo-section">
+                                        <h4><i class="fas fa-camera"></i> Before Photos</h4>
+                                        <div class="photo-grid" id="before-photos">
+                                            <!-- Will be populated by JavaScript -->
+                                            <div class="empty-state">
+                                                <i class="fas fa-camera-slash"></i>
+                                                <p>No before photos uploaded</p>
+                                            </div>
+                                        </div>
+                                        <button class="upload-btn" onclick="uploadPhoto('before')">
+                                            <i class="fas fa-upload"></i> Upload Before Photo
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="photo-section">
+                                        <h4><i class="fas fa-camera"></i> After Photos</h4>
+                                        <div class="photo-grid" id="after-photos">
+                                            <!-- Will be populated by JavaScript -->
+                                            <div class="empty-state">
+                                                <i class="fas fa-camera-slash"></i>
+                                                <p>No after photos uploaded</p>
+                                            </div>
+                                        </div>
+                                        <button class="upload-btn" onclick="uploadPhoto('after')">
+                                            <i class="fas fa-upload"></i> Upload After Photo
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Patient Forms Tab -->
+                            <div id="forms" class="tab-pane">
+                                <div class="forms-container">
+                                    <div class="forms-list">
+                                        <h4><i class="fas fa-file-medical"></i> Patient Forms</h4>
+                                        <ul id="forms-list">
+                                            <!-- Will be populated by JavaScript -->
+                                            <li class="empty-state">
+                                                <i class="fas fa-file-excel"></i>
+                                                <p>No forms uploaded</p>
+                                            </li>
+                                        </ul>
+                                        <button class="upload-btn" onclick="uploadForm()">
+                                            <i class="fas fa-upload"></i> Upload New Form
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="form-preview" id="form-preview">
+                                        <div class="empty-state">
+                                            <i class="fas fa-file-pdf"></i>
+                                            <p>Select a form to preview</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Appointment History Tab -->
+                            <div id="patient-history" class="tab-pane">
+                                <div class="section-title">
+                                    <i class="fas fa-history"></i>
+                                    <h4>Appointment History</h4>
+                                </div>
+                                <div id="appointmentHistoryList">
+                                    <div class="history-empty-state">
+                                        <i class="fas fa-calendar-times"></i>
+                                        <h4>No Appointment History</h4>
+                                        <p>This patient hasn't had any previous appointments</p>
+                                        <small>New appointments will appear here once completed</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Appointment Info Section (shown in all tabs) -->
+                        <div class="appointment-info">
+                            <h4 class="section-title">
+                                <i class="fas fa-calendar-day"></i>
+                                Appointment Information
+                            </h4>
+                            
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <div class="info-content">
+                                        <label>Date</label>
+                                        <span id="detail-requested-date"></span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-clock"></i>
+                                    <div class="info-content">
+                                        <label>Time</label>
+                                        <span id="detail-requested-time"></span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-tooth"></i>
+                                    <div class="info-content">
+                                        <label>Procedure</label>
+                                        <span id="detail-procedure" class="procedure-badge"></span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-sticky-note"></i>
+                                    <div class="info-content">
+                                        <label>Notes</label>
+                                        <span id="detail-notes"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Modal Footer with Actions -->
+                        <div class="modal-footer">
+                            <button class="action-btn accept-btn" onclick="acceptRequest(currentDetailId)">
+                                <i class="fas fa-check"></i> Accept
+                            </button>
+                            <button class="action-btn reject-btn" onclick="showRejectModal(currentDetailId); event.stopPropagation();">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="todayAppointmentModal" class="confirmation-modal">
+                    <div class="confirmation-content" style="max-width: 800px;">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <div class="modal-title">
+                                <i class="fas fa-calendar-check"></i>
+                                <h3>Appointment Details</h3>
+                            </div>
+                            <button onclick="closeTodayAppointmentModal()" class="close-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Main Content Tabs -->
+                        <div class="modal-tabs">
+                            <button class="tab-btn active" onclick="openTodayTab(event, 'today-patient-info')">
+                                <i class="fas fa-user"></i> Patient Info
+                            </button>
+                            <button class="tab-btn" onclick="openTodayTab(event, 'today-photos')">
+                                <i class="fas fa-images"></i> Before/After
+                            </button>
+                            <button class="tab-btn" onclick="openTodayTab(event, 'today-forms')">
+                                <i class="fas fa-file-alt"></i> Patient Forms
+                            </button>
+                            <button class="tab-btn" onclick="openTodayTab(event, 'today-appointment-history')">
+                                <i class="fas fa-history"></i> Appointment History
+                            </button>
+                        </div>
+                        
+                        <!-- Tab Content -->
+                        <div class="tab-content">
+                            <!-- Patient Info Tab -->
+                            <div id="today-patient-info" class="tab-pane active">
+                                <div class="patient-header">
+                                    <div class="patient-avatar">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="patient-info">
+                                        <h4 id="today-patient-name"></h4>
+                                        <span class="patient-id" id="today-patient-id"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <i class="fas fa-phone-alt"></i>
+                                        <div class="info-content">
+                                            <label>Contact</label>
+                                            <span id="today-contact"></span>
+                                        </div>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-envelope"></i>
+                                        <div class="info-content">
+                                            <label>Email</label>
+                                            <span id="today-email"></span>
+                                        </div>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-birthday-cake"></i>
+                                        <div class="info-content">
+                                            <label>Age</label>
+                                            <span id="today-age"></span>
+                                        </div>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-venus-mars"></i>
+                                        <div class="info-content">
+                                            <label>Gender</label>
+                                            <span id="today-gender"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="section-title">
+                                    <i class="fas fa-home"></i>
+                                    <h4>Address</h4>
+                                </div>
+                                <div class="address-container">
+                                    <p id="today-address"></p>
+                                </div>
+                            </div>
+                            
+                            <!-- Before/After Photos Tab -->
+                            <div id="today-photos" class="tab-pane">
+                                <div class="photo-container">
+                                    <div class="photo-section">
+                                        <h4><i class="fas fa-camera"></i> Before Photos</h4>
+                                        <div class="photo-grid" id="today-before-photos">
+                                            <div class="empty-state">
+                                                <i class="fas fa-camera-slash"></i>
+                                                <p>No before photos uploaded</p>
+                                            </div>
+                                        </div>
+                                        <button class="upload-btn" onclick="uploadTodayPhoto('before')">
+                                            <i class="fas fa-upload"></i> Upload Before Photo
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="photo-section">
+                                        <h4><i class="fas fa-camera"></i> After Photos</h4>
+                                        <div class="photo-grid" id="today-after-photos">
+                                            <div class="empty-state">
+                                                <i class="fas fa-camera-slash"></i>
+                                                <p>No after photos uploaded</p>
+                                            </div>
+                                        </div>
+                                        <button class="upload-btn" onclick="uploadTodayPhoto('after')">
+                                            <i class="fas fa-upload"></i> Upload After Photo
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Patient Forms Tab -->
+                            <div id="today-forms" class="tab-pane">
+                                <div class="forms-container">
+                                    <div class="forms-list">
+                                        <h4><i class="fas fa-file-medical"></i> Patient Forms</h4>
+                                        <ul id="today-forms-list">
+                                            <li class="empty-state">
+                                                <i class="fas fa-file-excel"></i>
+                                                <p>No forms uploaded</p>
+                                            </li>
+                                        </ul>
+                                        <button class="upload-btn" onclick="uploadTodayForm()">
+                                            <i class="fas fa-upload"></i> Upload New Form
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="form-preview" id="today-form-preview">
+                                        <div class="empty-state">
+                                            <i class="fas fa-file-pdf"></i>
+                                            <p>Select a form to preview</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Appointment History Tab -->
+                            <div id="today-appointment-history" class="tab-pane">
+                                <h4 class="section-title">
+                                    <i class="fas fa-history"></i>
+                                    Appointment History
+                                </h4>
+                                <div class="history-list" id="today-appointment-history-list">
+                                    <!-- This will be populated by JavaScript -->
+                                    <div class="history-empty-state">
+                                        <i class="fas fa-calendar-times"></i>
+                                        <h4>No Appointment History</h4>
+                                        <p>This patient hasn't had any previous appointments</p>
+                                        <small>New appointments will appear here once completed</small>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        <!-- Appointment Info Section (shown in all tabs) -->
+                        <div class="appointment-info">
+                            <h4 class="section-title">
+                                <i class="fas fa-calendar-day"></i>
+                                Appointment Information
+                            </h4>
+                            
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <div class="info-content">
+                                        <label>Date</label>
+                                        <span id="today-appointment-date"></span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-clock"></i>
+                                    <div class="info-content">
+                                        <label>Time</label>
+                                        <span id="today-appointment-time"></span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-tooth"></i>
+                                    <div class="info-content">
+                                        <label>Procedure</label>
+                                        <span id="today-procedure" class="procedure-badge"></span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-info-circle"></i>
+                                    <div class="info-content">
+                                        <label>Status</label>
+                                        <span id="today-status" class="status-badge"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Modal Footer with Actions -->
+                        <div class="modal-footer">
+                            <button class="action-btn complete-btn" onclick="completeAppointment(currentTodayAppointmentId)">
+                                <i class="fas fa-check-circle"></i> Mark as Completed
+                            </button>
+                            <button class="action-btn cancel-btn" onclick="cancelTodayAppointment(currentTodayAppointmentId)">
+                                <i class="fas fa-times"></i> Cancel Appointment
+                            </button>
+                        </div>
+                </div>
+
+                <!-- Appointment Request Logs -->
+                <div class="left-container" style="flex: 0.8; background: var(--card-bg); border-radius: 10px; padding: 10px; box-shadow: var(--shadow);">
+                    <h2 style="margin-top: 0; margin-bottom: 15px;">
+                        <i class="fas fa-clipboard-list"></i> 
+                        Appointment Request Logs
+                    </h2>
+                    <div class="requests-table-container">
+                        <table class="requests-table">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Patient Name</th>
+                                    <th>Appointment Date/Time</th>
+                                    <th>Service</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="requestLogsTableBody">
+                                <!-- Logs will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Confirmation Modal for Completing Appointments -->
+                <div id="completeConfirmationModal" class="confirmation-modal">
+                    <div class="confirmation-content">
+                        <!-- Decorative elements -->
+                        <div class="modal-decoration modal-decoration-1"></div>
+                        <div class="modal-decoration modal-decoration-2"></div>
+                        
+                        <div class="confirmation-header" style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center;">
+                                <div class="confirmation-icon accept-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <h3 class="confirmation-title">Complete Appointment</h3>
+                            </div>
+                            <button onclick="closeCompleteModal()" style="background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1.2rem;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <p class="confirmation-message" id="completeModalMessage">
+                            Are you sure you want to mark this appointment as completed?
+                        </p>
+                        
+                        <div class="confirmation-buttons">
+                            <button class="cancel-btn" onclick="closeCompleteModal()">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                            <button class="complete-btn" onclick="confirmCompleteAppointment()">
+                                <i class="fas fa-check"></i> Complete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <script src="admin.js"></script>
+
+</body>
+</html>

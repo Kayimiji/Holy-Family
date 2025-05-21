@@ -1,0 +1,2292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOLY FAMILY - PATIENT INFORMATION RECORD</title>
+    <!-- Include required libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        /* Base Styles */
+        :root {
+            /* Light mode variables */
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --gray-color: #95a5a6;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            
+            /* Add dark mode variables */
+            --bg-color: #f9f9f9;
+            --text-color: #333;
+            --container-bg: #fff;
+            --border-color: #ddd;
+            --input-bg: #fff;
+            --input-text: #333;
+            --header-bg: #fff;
+        }
+
+        /* Dark mode variables */
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #f0f0f0;
+            --container-bg: #2d2d2d;
+            --border-color: #404040;
+            --input-bg: #404040;
+            --input-text: #f0f0f0;
+            --header-bg: #2d2d2d;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            transition: var(--transition);
+        }
+
+        /* Header and Logo */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            background-color: var(--header-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .header-with-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            max-width: 80px;
+            height: auto;
+        }
+
+        .header-text h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .header-text h2 {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--gray-color);
+            margin: 5px 0 0 0;
+        }
+
+        /* Form Container */
+        .form-container {
+            background-color: var(--container-bg);
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 15px;
+            transition: var(--transition);
+            background-color: var(--input-bg);
+            color: var(--input-text);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        /* Radio and Checkbox Styles */
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 10px;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        /* Signature Canvas */
+        .signature-container {
+            position: relative;
+            margin-top: 20px;
+        }
+
+        #signature-canvas {
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: #f8f9fa;
+            width: 100%;
+            height: 200px;
+        }
+
+        /* Buttons */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-back {
+            background-color: var(--gray-color);
+            color: white;
+        }
+
+        .btn-back:hover {
+            background-color: #7f8c8d;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        /* Section Headers */
+        .section-header {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* Horizontal Rule */
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, rgba(52, 152, 219, 0), rgba(52, 152, 219, 0.75), rgba(52, 152, 219, 0));
+            margin: 30px 0;
+        }
+
+        /* Confirmation Page Styles */
+        #confirmation-page {
+            display: none;
+            background-color: var(--container-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .confirmation-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .confirmation-header h1 {
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+
+        .confirmation-section {
+            margin-bottom: 25px;
+        }
+
+        .confirmation-row {
+            display: flex;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .confirmation-label {
+            font-weight: 600;
+            width: 200px;
+            color: var(--dark-color);
+        }
+
+        .confirmation-value {
+            flex: 1;
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .form-group {
+                min-width: 100%;
+            }
+            
+            .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .confirmation-row {
+                flex-direction: column;
+            }
+
+            .confirmation-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+            
+            .button-container {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* PDF-specific styles (hidden on screen) */
+        .pdf-only {
+            display: none;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: none;
+            }
+            .no-print {
+                display: none;
+            }
+            .form-container {
+                box-shadow: none;
+                border-radius: 0;
+                padding: 0;
+                margin: 0;
+            }
+        }
+        
+        /* Form Validation */
+        .is-invalid {
+            border-color: var(--danger-color) !important;
+        }
+        
+        .invalid-feedback {
+            color: var(--danger-color);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Modal styles */
+        #edit-request-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #edit-request-modal > div {
+            background-color: var(--container-bg);
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        #edit-request-modal textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            resize: vertical;
+            font-family: inherit;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+        }
+
+        #edit-request-modal h2 {
+            margin-top: 0;
+            color: var(--dark-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        #edit-request-modal p {
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 7px;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 1;
+            color: white;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            background-color: #777;
+            border-radius: 10px;
+        }
+
+        .read-only-field {
+            background-color: #f5f5f5 !important;
+            border: 1px solid #ddd !important;
+            padding: 8px 12px !important;
+            border-radius: 4px !important;
+            margin-bottom: 5px;
+        }
+
+        .view-mode .form-group label {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .view-mode .form-group input, 
+        .view-mode .form-group select, 
+        .view-mode .form-group textarea {
+            background-color: #f5f5f5 !important;
+            border: 1px solid #ddd !important;
+            pointer-events: none;
+        }
+
+        /* Dark mode toggle button */
+        .theme-toggle {
+            background-color: var(--container-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            opacity: 0.9;
+        }
+
+        .theme-toggle i {
+            font-size: 18px;
+        }
+    </style>
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Add Back Button at the top -->
+    <div class="button-container" style="margin-bottom: 20px;">
+        <button type="button" class="btn btn-back" onclick="window.location.href='forms.html'">Back to Forms</button>
+        <button type="button" class="theme-toggle" id="theme-toggle">
+            <i class="fas fa-sun"></i>
+            <span>Toggle Theme</span>
+        </button>
+    </div>
+
+    <!-- Main Form Container -->
+    <div id="main-form">
+        <form id="patient-form" novalidate>
+            <!-- Header section with logo and clinic name -->
+            <div class="header">
+                <!-- Logo and clinic name container -->
+                <div class="header-with-logo">
+                    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="logo">
+                    <div class="header-text">
+                        <h1>HOLY FAMILY DENTAL CLINIC</h1>
+                        <h2>PATIENT INFORMATION RECORD</h2>
+                    </div>
+                </div>
+                
+                <!-- View mode indicator (hidden by default) -->
+                <div id="form-mode-indicator" style="display: none;">
+                    <span class="badge">VIEW MODE - Submitted Information</span>
+                    <button type="button" id="request-edit-btn" class="btn btn-secondary">
+                        Request Edit
+                    </button>
+                </div>
+            </div>
+
+            <!-- Alert Container -->
+            <div id="alert-container" style="display: none;"></div>
+
+            <!-- Personal Information Section -->
+            <div class="form-container">
+                <div class="section-header">Personal Information</div>
+                
+                <!-- Name -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="last-name">Last Name: <span class="required">*</span></label>
+                        <input type="text" id="last-name" name="last-name" placeholder="Last Name" required>
+                        <div class="invalid-feedback">Please enter your last name</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="first-name">First Name: <span class="required">*</span></label>
+                        <input type="text" id="first-name" name="first-name" placeholder="First Name" required>
+                        <div class="invalid-feedback">Please enter your first name</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="middle-name">Middle Name:</label>
+                        <input type="text" id="middle-name" name="middle-name" placeholder="Middle Name">
+                    </div>
+                </div>
+                
+                <!-- Birthdate, Age, Sex -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="birth-month">Birth Month: <span class="required">*</span></label>
+                        <select id="birth-month" name="birth-month" onchange="calculateAge()" required>
+                            <option value="" disabled selected>Select Month</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                        <div class="invalid-feedback">Please select birth month</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="birth-day">Birth Day: <span class="required">*</span></label>
+                        <select id="birth-day" name="birth-day" onchange="calculateAge()" required>
+                            <option value="" disabled selected>Day</option>
+                            <script>
+                                for (let i = 1; i <= 31; i++) {
+                                    document.write(`<option value="${i}">${i}</option>`);
+                                }
+                            </script>
+                        </select>
+                        <div class="invalid-feedback">Please select birth day</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="birth-year">Birth Year: <span class="required">*</span></label>
+                        <select id="birth-year" name="birth-year" onchange="calculateAge()" required>
+                            <option value="" disabled selected>Select Year</option>
+                            <script>
+                                const currentYear = new Date().getFullYear();
+                                for (let i = currentYear; i >= 1900; i--) {
+                                    document.write(`<option value="${i}">${i}</option>`);
+                                }
+                            </script>
+                        </select>
+                        <div class="invalid-feedback">Please select birth year</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age:</label>
+                        <input type="number" id="age" name="age" placeholder="Age" min="0" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="sex">Sex: <span class="required">*</span></label>
+                        <select id="sex" name="sex" required>
+                            <option value="" disabled selected>Select Sex</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                            <option value="prefer-not-to-say">Prefer not to say</option>
+                        </select>
+                        <div class="invalid-feedback">Please select your sex</div>
+                    </div>
+                </div>
+                
+                <!-- Additional Personal Info -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="religion">Religion:</label>
+                        <input type="text" id="religion" name="religion" placeholder="Religion">
+                    </div>
+                    <div class="form-group">
+                        <label for="nationality">Nationality:</label>
+                        <input type="text" id="nationality" name="nationality" placeholder="Nationality">
+                    </div>
+                    <div class="form-group">
+                        <label for="nickname">Nickname:</label>
+                        <input type="text" id="nickname" name="nickname" placeholder="Nickname">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information Section -->
+            <div class="form-container">
+                <div class="section-header">Contact Information</div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="street">Street:</label>
+                        <input type="text" id="street" name="street" placeholder="Street">
+                    </div>
+                    <div class="form-group">
+                        <label for="barangay">Barangay:</label>
+                        <input type="text" id="barangay" name="barangay" placeholder="Barangay">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City: <span class="required">*</span></label>
+                        <input type="text" id="city" name="city" placeholder="City" required>
+                        <div class="invalid-feedback">Please enter your city</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="province">Province: <span class="required">*</span></label>
+                        <input type="text" id="province" name="province" placeholder="Province" required>
+                        <div class="invalid-feedback">Please enter your province</div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="mobile">Mobile Number: <span class="required">*</span></label>
+                        <input type="tel" id="mobile" name="mobile" placeholder="Mobile Number" required>
+                        <div class="invalid-feedback">Please enter your mobile number</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="occupation">Occupation:</label>
+                        <input type="text" id="occupation" name="occupation" placeholder="Occupation">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" placeholder="Email Address">
+                        <div class="invalid-feedback">Please enter a valid email address</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- For Minors Section -->
+            <div class="form-container" id="minor-section">
+                <div class="section-header">For Minors</div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="guardian-name">Parent/Guardian's Name:</label>
+                        <input type="text" id="guardian-name" name="guardian-name" placeholder="Parent/Guardian's Name" value="arvin">
+                    </div>
+                    <div class="form-group">
+                        <label for="guardian-mobile">Mobile Number:</label>
+                        <input type="tel" id="guardian-mobile" name="guardian-mobile" placeholder="Mobile Number" value="09456831822">
+                    </div>
+                    <div class="form-group">
+                        <label for="guardian-relation">Relationship:</label>
+                        <input type="text" id="guardian-relation" name="guardian-relation" placeholder="Relationship to patient">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dental Information Section -->
+            <div class="form-container">
+                <div class="section-header">Dental Information</div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="referral">Whom may we thank for referring you?</label>
+                        <input type="text" id="referral" name="referral" placeholder="Referral Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="reason">Reason for dental consultation: <span class="required">*</span></label>
+                        <input type="text" id="reason" name="reason" placeholder="Reason for Consultation" required>
+                        <div class="invalid-feedback">Please specify the reason for consultation</div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="previous-dentist">Previous Dentist:</label>
+                        <input type="text" id="previous-dentist" name="previous-dentist" placeholder="Dr. Last Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="last-visit">Last Dental Visit:</label>
+                        <input type="date" id="last-visit" name="last-visit">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medical History Section -->
+            <div class="form-container">
+                <div class="section-header">Medical History</div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="physician-name">Name of Physician:</label>
+                        <input type="text" id="physician-name" name="physician-name" placeholder="Dr. Last Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="specialty">Specialty (if applicable):</label>
+                        <input type="text" id="specialty" name="specialty" placeholder="Specialty">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="office-address">Office Address:</label>
+                        <input type="text" id="office-address" name="office-address" placeholder="Office Address">
+                    </div>
+                    <div class="form-group">
+                        <label for="office-number">Office Number:</label>
+                        <input type="tel" id="office-number" name="office-number" placeholder="Office Number">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health Questionnaire Section -->
+            <div class="form-container">
+                <div class="section-header">Health Questionnaire</div>
+                
+                <!-- Question 1 -->
+                <div class="form-row">
+                    <div class="form-group" style="width: 100%;">
+                        <label><strong>1. Are you in good health?</strong> <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="good-health" value="yes" required> Yes
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="good-health" value="no"> No
+                            </label>
+                        </div>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                </div>
+                
+                <!-- Question 2 -->
+                <div class="form-row">
+                    <div class="form-group" style="width: 100%;">
+                        <label><strong>2. Are you under medical treatment now?</strong> <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="medical-treatment" value="yes" id="medical-treatment-yes" required> Yes
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="medical-treatment" value="no" id="medical-treatment-no"> No
+                            </label>
+                        </div>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                </div>
+                <div class="form-row" id="condition-row" style="display: none;">
+                    <div class="form-group" style="width: 100%;">
+                        <label for="condition">If so, what is the condition being treated?</label>
+                        <input type="text" id="condition" name="condition" placeholder="Condition being treated">
+                    </div>
+                </div>
+                
+                <!-- Question 3 -->
+                <div class="form-row">
+                    <div class="form-group" style="width: 100%;">
+                        <label><strong>3. Have you ever had a serious illness or surgical operation?</strong> <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="serious-illness" value="yes" id="serious-illness-yes" required> Yes
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="serious-illness" value="no" id="serious-illness-no"> No
+                            </label>
+                        </div>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                </div>
+                <div class="form-row" id="illness-row" style="display: none;">
+                    <div class="form-group" style="width: 100%;">
+                        <label for="illness">If so, what illness or operation?</label>
+                        <input type="text" id="illness" name="illness" placeholder="Illness or operation">
+                    </div>
+                </div>
+                
+                <!-- Question 4 -->
+                <div class="form-row">
+                    <div class="form-group" style="width: 100%;">
+                        <label><strong>4. Have you ever been hospitalized?</strong> <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="hospitalized" value="yes" id="hospitalized-yes" required> Yes
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="hospitalized" value="no" id="hospitalized-no"> No
+                            </label>
+                        </div>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                </div>
+                <div class="form-row" id="hospitalization-row" style="display: none;">
+                    <div class="form-group">
+                        <label for="hospitalization-date">If so, when?</label>
+                        <input type="date" id="hospitalization-date" name="hospitalization-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="hospitalization-reason">Why?</label>
+                        <input type="text" id="hospitalization-reason" name="hospitalization-reason" placeholder="Reason for hospitalization">
+                    </div>
+                </div>
+                
+                <!-- Question 5 -->
+                <div class="form-row">
+                    <div class="form-group" style="width: 100%;">
+                        <label><strong>5. Are you taking any prescription/non-prescription medication?</strong> <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="medication" value="yes" id="medication-yes" required> Yes
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="medication" value="no" id="medication-no"> No
+                            </label>
+                        </div>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                </div>
+                <div class="form-row" id="medication-row" style="display: none;">
+                    <div class="form-group" style="width: 100%;">
+                        <label for="medication-details">If so, please specify:</label>
+                        <textarea id="medication-details" name="medication-details" placeholder="Specify medication, dosage, and frequency" rows="3"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Question 6 -->
+                <div class="form-row">
+                    <div class="form-group" style="width: 100%;">
+                        <label><strong>6. Do you use/smoke tobacco products?</strong> <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="tobacco" value="yes" required> Yes
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="tobacco" value="no"> No
+                            </label>
+                        </div>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                </div>
+                
+                <!-- Question 7 -->
+                <div class="form-row">
+                    <div class="form-group" style="width: 100%;">
+                        <label><strong>7. Do you use alcohol, cocaine, or other dangerous drugs?</strong> <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="drugs" value="yes" required> Yes
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="drugs" value="no"> No
+                            </label>
+                        </div>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                </div>
+                
+                <!-- Question 8 -->
+                <div class="form-row">
+                    <div class="form-group" style="width: 100%;">
+                        <label><strong>8. Are you allergic to any of the following?</strong></label>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="allergies" value="local-anesthesia"> Local Anesthesia
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="allergies" value="penicillin"> Penicillin-Antibiotics
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="allergies" value="sulfa-drugs"> Sulfa Drugs
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="allergies" value="aspirin"> Aspirin
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="allergies" value="latex"> Latex
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" id="allergy-other" name="allergies" value="other"> Other:
+                                <input type="text" id="allergy-other-text" name="allergy-other-text" placeholder="Specify" style="width: 150px; display: none;">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- For Women Only -->
+                <div class="form-row" id="women-only-section">
+                    <div class="form-group" style="width: 100%;">
+                        <label><strong>9. For Women Only:</strong></label>
+                    </div>
+                </div>
+                <div class="form-row" id="women-only-questions">
+                    <div class="form-group" style="width: 100%;">
+                        <label>Are you pregnant? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="pregnant" value="yes" required> Yes
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="pregnant" value="no"> No
+                            </label>
+                        </div>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                </div>
+                <div class="form-row" id="women-only-questions2">
+                    <div class="form-group" style="width: 100%;">
+                        <label>Are you nursing? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="nursing" value="yes" required> Yes
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="nursing" value="no"> No
+                            </label>
+                        </div>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                </div>
+                <div class="form-row" id="women-only-questions3">
+                    <div class="form-group" style="width: 100%;">
+                        <label>Are you taking birth control pills? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="birth-control" value="yes" required> Yes
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="birth-control" value="no"> No
+                            </label>
+                        </div>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                </div>
+                
+                <!-- Blood Type -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="blood-type"><strong>10. Blood Type:</strong></label>
+                        <select id="blood-type" name="blood-type">
+                            <option value="" disabled selected>Select Blood Type</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="unknown">Unknown</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Blood Pressure -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><strong>11. Blood Pressure:</strong></label>
+                        <div style="display: flex; gap: 20px;">
+                            <div class="form-group" style="flex: 1;">
+                                <label for="systolic">Systolic (mmHg):</label>
+                                <input type="number" id="systolic" name="systolic" placeholder="e.g., 120" min="50" max="250">
+                            </div>
+                            <div class="form-group" style="flex: 1;">
+                                <label for="diastolic">Diastolic (mmHg):</label>
+                                <input type="number" id="diastolic" name="diastolic" placeholder="e.g., 80" min="30" max="150">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medical Conditions Section -->
+            <div class="form-container">
+                <div class="section-header">Medical Conditions</div>
+                <div class="form-row">
+                    <div class="form-group" style="width: 100%;">
+                        <label><strong>12. Do you have or have had any of the following?</strong></label>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="high-blood-pressure"> High Blood Pressure
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="low-blood-pressure"> Low Blood Pressure
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="heart-disease"> Heart Disease
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="heart-murmur"> Heart Murmur
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="epilepsy"> Epilepsy/Convulsion
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="hepatitis-liver-disease"> Hepatitis/Liver Disease
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="aids-hiv"> AIDS/HIV Infection
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="rheumatic-fever"> Rheumatic Fever
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="sexually-transmitted-disease"> STD
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="hay-fever"> Hay Fever/Allergies
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="stomach-troubles"> Stomach Troubles/Ulcer
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="respiratory-problem"> Respiratory Problem
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="fainting-seizure"> Fainting Seizure
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="hepatitis-jaundice"> Hepatitis/Jaundice
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="rapid-weight-loss"> Rapid Weight Loss
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="tuberculosis"> Tuberculosis
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="radiation-therapy"> Radiation Therapy
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="swollen-ankles"> Swollen Ankles
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="joint-replacement"> Joint Replacement
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="kidney-disease"> Kidney Disease
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="cancer"> Cancer/Tumor
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="anemia"> Anemia
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="angina"> Angina
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="asthma"> Asthma
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="emphysema"> Emphysema
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="bleeding-problems"> Bleeding Problems
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="blood-diseases"> Blood Diseases
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="head-injuries"> Head Injuries
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="conditions" value="arthritis"> Arthritis/Rheumatism
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" id="condition-other" name="conditions" value="other"> Other:
+                                <input type="text" id="condition-other-text" name="condition-other-text" placeholder="Specify" style="width: 150px; display: none;">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Treatment Authorization Section -->
+            <div class="form-container">
+                <div class="section-header">Treatment Authorization</div>
+                <div class="form-row">
+                    <div class="form-group" style="width: 100%;">
+                        <p style="text-align: justify; margin-bottom: 20px;">
+                            I authorize and give consent to perform dental services agreed between doctor and patient and/or parent or guardian to be necessary or advisable including the use of local anesthesia and other medication as indicated. I certify to the above statements are true regarding my medical condition.
+                        </p>
+                        <p style="text-align: justify;">
+                            Payment for all treatment and services rendered are my responsibility. I understand that failure to settle my procedure might lead to any sanction or if legal action is needed.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Signature Field -->
+                <div class="form-container">
+                    <div class="form-row" style="position: relative; width: 100%; text-align: left;">
+                        <div class="form-group" style="width: 100%; text-align: left;">
+                            <label><strong>Signature of Patient or Parent and Date: <span class="required">*</span></strong></label>
+                            
+                            <!-- Signature Options -->
+                            <div style="margin-bottom: 15px;">
+                                <label style="margin-right: 20px;">
+                                    <input type="radio" name="signature-type" value="draw" checked> Draw Signature
+                                </label>
+                                <label>
+                                    <input type="radio" name="signature-type" value="upload"> Upload Signature File
+                                </label>
+                            </div>
+                            
+                            <!-- Draw Signature Section -->
+                            <div id="draw-signature-section">
+                                <button type="button" id="clear-signature" class="btn btn-danger" style="position: absolute; top: 0; right: 0; margin: 5px; padding: 5px 10px;">Clear Signature</button>
+                                <canvas id="signature-canvas" width="1100" height="200" style="border: 1px solid black; cursor: crosshair;"></canvas>
+                                <div class="invalid-feedback">Please provide your signature</div>
+                            </div>
+                            
+                            <!-- Upload Signature Section -->
+                            <div id="upload-signature-section" style="display: none;">
+                                <input type="file" id="signature-file" accept="image/*" style="margin-bottom: 10px;">
+                                <div id="signature-preview" style="max-width: 1100px; height: 200px; border: 1px solid black; display: flex; align-items: center; justify-content: center;">
+                                    <span style="color: #777;">Signature preview will appear here</span>
+                                    <img id="uploaded-signature" style="max-width: 100%; max-height: 100%; display: none;">
+                                </div>
+                                <div class="invalid-feedback">Please upload your signature</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="button-container no-print">
+                <button type="submit" id="submit-btn" class="btn btn-primary">Submit Form</button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Confirmation Page (Initially hidden) -->
+    <div id="confirmation-page">
+        <div class="confirmation-header">
+            <h1>Please Review Your Information</h1>
+            <p>Verify all details below before final submission</p>
+        </div>
+
+        <div id="confirmation-content">
+            <!-- Dynamically populated with form data -->
+        </div>
+
+        <!-- Confirmation Page Buttons -->
+        <div class="button-container no-print">
+            <button type="button" id="back-btn" class="btn btn-back">Back to Form</button>
+            <button type="button" id="confirm-btn" class="btn btn-primary">Confirm</button>
+            <button type="button" id="print-btn" class="btn btn-secondary" style="display: none;">
+                Generate PDF
+                <span id="print-btn-spinner" class="spinner" style="display: none;"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Edit Request Modal -->
+    <div id="edit-request-modal">
+        <div>
+            <h2>Request Edit</h2>
+            <p>Please specify what information needs to be edited and the reason for the change:</p>
+            <textarea id="edit-request-details" placeholder="Specify the fields to edit and reason for change..."></textarea>
+            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                <button id="cancel-edit-request" class="btn btn-back">Cancel</button>
+                <button id="submit-edit-request" class="btn btn-primary">Submit Request</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize jsPDF
+        const { jsPDF } = window.jspdf;
+        let currentPatientId = null; // To store the current patient ID in view mode
+
+        // DOM Ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize form functionality
+            initForm();
+            
+            // Hide women-only questions initially (will show if sex is female)
+            document.getElementById('women-only-section').style.display = 'none';
+            document.getElementById('women-only-questions').style.display = 'none';
+            document.getElementById('women-only-questions2').style.display = 'none';
+            document.getElementById('women-only-questions3').style.display = 'none';
+            
+            // Hide minor section initially (will show if age < 18)
+            document.getElementById('minor-section').style.display = 'none';
+            
+            // Check if we're in view mode (patient ID in URL)
+            const urlParams = new URLSearchParams(window.location.search);
+            const patientId = urlParams.get('id');
+            
+            if (patientId) {
+                currentPatientId = patientId;
+                loadSavedData(patientId);
+            }
+        });
+
+        // Initialize form functionality
+        function initForm() {
+            // Form submission handler
+            document.getElementById('patient-form').addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent default form submission
+                
+                if (validateForm()) {
+                    // Gather all form data
+                    const formData = gatherFormData();
+                    
+                    // Populate confirmation page
+                    populateConfirmationPage(formData);
+                    
+                    // Switch to confirmation view
+                    document.getElementById('main-form').style.display = 'none';
+                    document.getElementById('confirmation-page').style.display = 'block';
+                }
+            });
+
+            // Back button handler
+            document.getElementById('back-btn').addEventListener('click', function() {
+                document.getElementById('main-form').style.display = 'block';
+                document.getElementById('confirmation-page').style.display = 'none';
+            });
+
+            // Confirm button handler change this in backend
+            document.getElementById('confirm-btn').addEventListener('click', async function() {
+    try {
+        const formData = gatherFormData();
+        
+        const response = await fetch('http://localhost:5000/api/patients', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to save patient data');
+        }
+
+        const result = await response.json();
+        showAlert('Form submitted successfully!', 'success');
+        
+        // Show print button
+        document.getElementById('confirm-btn').style.display = 'none';
+        document.getElementById('print-btn').style.display = 'inline-block';
+        
+    } catch (error) {
+        showAlert('Error submitting form: ' + error.message, 'error');
+    }
+});
+
+            // Print button handler
+            document.getElementById('print-btn').addEventListener('click', function() {
+                document.getElementById('print-btn-spinner').style.display = 'inline-block';
+                generatePDF();
+                document.getElementById('print-btn-spinner').style.display = 'none';
+            });
+
+            // Signature type toggle
+            document.querySelectorAll('input[name="signature-type"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const drawSection = document.getElementById('draw-signature-section');
+                    const uploadSection = document.getElementById('upload-signature-section');
+                    
+                    if (this.value === 'draw') {
+                        drawSection.style.display = 'block';
+                        uploadSection.style.display = 'none';
+                    } else {
+                        drawSection.style.display = 'none';
+                        uploadSection.style.display = 'block';
+                    }
+                });
+            });
+
+            // Handle file upload and preview
+            document.getElementById('signature-file').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.getElementById('uploaded-signature');
+                        img.src = e.target.result;
+                        img.style.display = 'block';
+                        document.querySelector('#signature-preview span').style.display = 'none';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Sex change handler to show/hide women-only questions
+            document.getElementById('sex').addEventListener('change', function() {
+                updateSexDependentFields();
+            });
+
+            // Other checkbox handlers
+            document.getElementById('allergy-other').addEventListener('change', function() {
+                document.getElementById('allergy-other-text').style.display = this.checked ? 'inline-block' : 'none';
+                if (!this.checked) {
+                    document.getElementById('allergy-other-text').value = '';
+                }
+            });
+
+            document.getElementById('condition-other').addEventListener('change', function() {
+                document.getElementById('condition-other-text').style.display = this.checked ? 'inline-block' : 'none';
+                if (!this.checked) {
+                    document.getElementById('condition-other-text').value = '';
+                }
+            });
+
+            // Toggle conditional fields
+            document.getElementById('medical-treatment-yes').addEventListener('change', function() {
+                document.getElementById('condition-row').style.display = 'flex';
+            });
+            document.getElementById('medical-treatment-no').addEventListener('change', function() {
+                document.getElementById('condition-row').style.display = 'none';
+            });
+
+            document.getElementById('serious-illness-yes').addEventListener('change', function() {
+                document.getElementById('illness-row').style.display = 'flex';
+            });
+            document.getElementById('serious-illness-no').addEventListener('change', function() {
+                document.getElementById('illness-row').style.display = 'none';
+            });
+
+            document.getElementById('hospitalized-yes').addEventListener('change', function() {
+                document.getElementById('hospitalization-row').style.display = 'flex';
+            });
+            document.getElementById('hospitalized-no').addEventListener('change', function() {
+                document.getElementById('hospitalization-row').style.display = 'none';
+            });
+
+            document.getElementById('medication-yes').addEventListener('change', function() {
+                document.getElementById('medication-row').style.display = 'flex';
+            });
+            document.getElementById('medication-no').addEventListener('change', function() {
+                document.getElementById('medication-row').style.display = 'none';
+            });
+
+            // Edit request modal handlers
+            document.getElementById('request-edit-btn').addEventListener('click', function() {
+                document.getElementById('edit-request-modal').style.display = 'flex';
+            });
+
+            document.getElementById('cancel-edit-request').addEventListener('click', function() {
+                document.getElementById('edit-request-modal').style.display = 'none';
+                document.getElementById('edit-request-details').value = '';
+            });
+
+            document.getElementById('submit-edit-request').addEventListener('click', async function() {
+                const editDetails = document.getElementById('edit-request-details').value;
+                
+                if (!editDetails.trim()) {
+                    showAlert('Please provide details about what needs to be edited.', 'error');
+                    return;
+                }
+                
+                await submitEditRequest(currentPatientId, editDetails);
+                
+                // Close the modal
+                document.getElementById('edit-request-modal').style.display = 'none';
+                document.getElementById('edit-request-details').value = '';
+            });
+
+            // Initialize signature canvas
+            initSignatureCanvas();
+        }
+
+        // Function to update fields that depend on sex
+        function updateSexDependentFields() {
+            const sex = document.getElementById('sex').value;
+            if (sex === 'female') {
+                document.getElementById('women-only-section').style.display = 'flex';
+                document.getElementById('women-only-questions').style.display = 'flex';
+                document.getElementById('women-only-questions2').style.display = 'flex';
+                document.getElementById('women-only-questions3').style.display = 'flex';
+            } else {
+                document.getElementById('women-only-section').style.display = 'none';
+                document.getElementById('women-only-questions').style.display = 'none';
+                document.getElementById('women-only-questions2').style.display = 'none';
+                document.getElementById('women-only-questions3').style.display = 'none';
+                
+                // Uncheck women-only questions
+                document.querySelectorAll('input[name="pregnant"]').forEach(radio => radio.checked = false);
+                document.querySelectorAll('input[name="nursing"]').forEach(radio => radio.checked = false);
+                document.querySelectorAll('input[name="birth-control"]').forEach(radio => radio.checked = false);
+            }
+        }
+
+        // Function to validate the form
+        function validateForm() {
+            let isValid = true;
+            
+            // Clear previous validation
+            document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+            document.querySelectorAll('.invalid-feedback').forEach(el => el.style.display = 'none');
+            
+            // List of required fields
+            const requiredFields = [
+                // Personal Information
+                'last-name',
+                'first-name',
+                'birth-month',
+                'birth-day',
+                'birth-year',
+                'sex',
+                
+                // Contact Information
+                'mobile',
+                'email',
+                
+                // Dental Information
+                'reason',
+                
+                // Health Questions
+                'good-health',      // Question 1
+                'medical-treatment', // Question 2
+                'serious-illness',   // Question 3
+                'hospitalized',      // Question 4
+                'medication',        // Question 5
+                'tobacco',          // Question 6
+                'drugs',            // Question 7
+                
+                // For minors
+                ...(parseInt(document.getElementById('age').value) < 18 ? [
+                    'guardian-name',
+                    'guardian-mobile',
+                    'guardian-relation'
+                ] : []),
+                
+                // For women only
+                ...(document.getElementById('sex').value === 'female' ? [
+                    'pregnant',
+                    'nursing',
+                    'birth-control'
+                ] : [])
+            ];
+            
+            // Check each required field
+            requiredFields.forEach(fieldName => {
+                const field = document.querySelector(`[name="${fieldName}"]`);
+                if (!field) return; // Skip if field doesn't exist
+                
+                let fieldValue = '';
+                
+                // Handle different input types
+                if (field.type === 'radio') {
+                    // For radio buttons, check if any option is selected
+                    fieldValue = document.querySelector(`input[name="${fieldName}"]:checked`)?.value;
+                } else {
+                    fieldValue = field.value;
+                }
+                
+                if (!fieldValue) {
+                    // Mark field as invalid
+                    if (field.type === 'radio' || field.type === 'checkbox') {
+                        // For radio/checkbox groups, mark all options
+                        document.querySelectorAll(`[name="${fieldName}"]`).forEach(el => {
+                            el.closest('.radio-option')?.classList.add('is-invalid');
+                            el.closest('.checkbox-option')?.classList.add('is-invalid');
+                        });
+                    } else {
+                        field.classList.add('is-invalid');
+                    }
+                    
+                    // Show error message
+                    const feedback = field.closest('.form-group')?.querySelector('.invalid-feedback');
+                    if (feedback) {
+                        feedback.style.display = 'block';
+                    }
+                    
+                    // Scroll to first invalid field
+                    if (isValid) {
+                        field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        isValid = false;
+                    }
+                }
+            });
+            
+            
+            // Validate signature
+            const signatureType = document.querySelector('input[name="signature-type"]:checked').value;
+            if (signatureType === 'draw') {
+                const canvas = document.getElementById('signature-canvas');
+                const ctx = canvas.getContext('2d');
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+                let isEmpty = true;
+                
+                for (let i = 0; i < imageData.length; i += 4) {
+                    if (imageData[i] !== 255 || imageData[i+1] !== 255 || imageData[i+2] !== 255) {
+                        isEmpty = false;
+                        break;
+                    }
+                }
+                
+                if (isEmpty) {
+                    document.getElementById('signature-canvas').classList.add('is-invalid');
+                    document.querySelector('#draw-signature-section .invalid-feedback').style.display = 'block';
+                    isValid = false;
+                    
+                    if (isValid) {
+                        document.getElementById('signature-canvas').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            } else {
+                const img = document.getElementById('uploaded-signature');
+                if (img.style.display === 'none') {
+                    document.getElementById('upload-signature-section').classList.add('is-invalid');
+                    document.querySelector('#upload-signature-section .invalid-feedback').style.display = 'block';
+                    isValid = false;
+                    
+                    if (isValid) {
+                        document.getElementById('upload-signature-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            }
+            
+            if (!isValid) {
+                showAlert('Please fill out all required fields correctly.', 'error');
+            }
+            
+            return isValid;
+        }
+
+        // Function to gather all form data
+        function gatherFormData() {
+            const formData = {};
+            
+            // Gather all input values
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                if (input.type === 'radio') {
+                    if (input.checked) {
+                        formData[input.name] = input.value;
+                    }
+                } else if (input.type === 'checkbox') {
+                    if (!formData[input.name]) {
+                        formData[input.name] = [];
+                    }
+                    if (input.checked) {
+                        formData[input.name].push(input.value);
+                    }
+                } else {
+                    formData[input.name] = input.value;
+                }
+            });
+            
+            // Get signature as image
+            const signatureType = document.querySelector('input[name="signature-type"]:checked').value;
+            if (signatureType === 'draw') {
+                const canvas = document.getElementById('signature-canvas');
+                formData.signature = canvas.toDataURL();
+            } else {
+                const img = document.getElementById('uploaded-signature');
+                if (img.style.display !== 'none') {
+                    formData.signature = img.src;
+                }
+            }
+            
+            // Add current date
+            formData.submissionDate = new Date().toISOString();
+            
+            return formData;
+        }
+
+        // Function to populate confirmation page
+        function populateConfirmationPage(formData) {
+            const confirmationContent = document.getElementById('confirmation-content');
+            confirmationContent.innerHTML = '';
+            
+            // Helper function to format checkbox values
+            const formatCheckboxValues = (values) => {
+                if (!values) return 'None';
+                if (Array.isArray(values)) {
+                    return values.length > 0 ? values.join(', ') : 'None';
+                }
+                return values;
+            };
+            
+            // Create sections based on your form structure
+            const sections = [
+                {
+                    title: 'Personal Information',
+                    fields: [
+                        { label: 'Full Name', value: `${formData['last-name'] || ''}, ${formData['first-name'] || ''} ${formData['middle-name'] || ''}` },
+                        { label: 'Date of Birth', value: `${formData['birth-month'] || ''}/${formData['birth-day'] || ''}/${formData['birth-year'] || ''}` },
+                        { label: 'Age', value: formData['age'] || '' },
+                        { label: 'Sex', value: formData['sex'] ? formData['sex'].charAt(0).toUpperCase() + formData['sex'].slice(1) : '' },
+                        { label: 'Religion', value: formData['religion'] || 'Not specified' },
+                        { label: 'Nationality', value: formData['nationality'] || 'Not specified' },
+                        { label: 'Nickname', value: formData['nickname'] || 'Not specified' }
+                    ]
+                },
+                {
+                    title: 'Contact Information',
+                    fields: [
+                        { label: 'Address', value: `${formData['street'] || ''}, ${formData['barangay'] || ''}, ${formData['city'] || ''}, ${formData['province'] || ''}` },
+                        { label: 'Mobile Number', value: formData['mobile'] || 'Not specified' },
+                        { label: 'Occupation', value: formData['occupation'] || 'Not specified' },
+                        { label: 'Email', value: formData['email'] || 'Not specified' }
+                    ]
+                },
+                {
+                    title: 'For Minors',
+                    fields: [
+                        { label: 'Guardian Name', value: formData['guardian-name'] || 'Not applicable' },
+                        { label: 'Guardian Mobile', value: formData['guardian-mobile'] || 'Not applicable' },
+                        { label: 'Relationship', value: formData['guardian-relation'] || 'Not applicable' }
+                    ],
+                    condition: parseInt(formData['age']) < 18
+                },
+                {
+                    title: 'Dental Information',
+                    fields: [
+                        { label: 'Referred by', value: formData['referral'] || 'Not specified' },
+                        { label: 'Reason for consultation', value: formData['reason'] || 'Not specified' },
+                        { label: 'Previous Dentist', value: formData['previous-dentist'] || 'Not specified' },
+                        { label: 'Last Dental Visit', value: formData['last-visit'] ? new Date(formData['last-visit']).toLocaleDateString() : 'Not specified' }
+                    ]
+                },
+                {
+                    title: 'Medical History',
+                    fields: [
+                        { label: 'Physician Name', value: formData['physician-name'] || 'Not specified' },
+                        { label: 'Specialty', value: formData['specialty'] || 'Not specified' },
+                        { label: 'Office Address', value: formData['office-address'] || 'Not specified' },
+                        { label: 'Office Number', value: formData['office-number'] || 'Not specified' }
+                    ]
+                },
+                {
+                    title: 'Health Questionnaire',
+                    fields: [
+                        { label: 'In good health?', value: formData['good-health'] ? formData['good-health'].charAt(0).toUpperCase() + formData['good-health'].slice(1) : '' },
+                        { label: 'Under medical treatment?', value: formData['medical-treatment'] ? formData['medical-treatment'].charAt(0).toUpperCase() + formData['medical-treatment'].slice(1) : '' },
+                        { label: 'Condition being treated', value: formData['condition'] || 'Not specified' },
+                        { label: 'Serious illness or operation?', value: formData['serious-illness'] ? formData['serious-illness'].charAt(0).toUpperCase() + formData['serious-illness'].slice(1) : '' },
+                        { label: 'Illness or operation details', value: formData['illness'] || 'Not specified' },
+                        { label: 'Ever been hospitalized?', value: formData['hospitalized'] ? formData['hospitalized'].charAt(0).toUpperCase() + formData['hospitalized'].slice(1) : '' },
+                        { label: 'Hospitalization date', value: formData['hospitalization-date'] ? new Date(formData['hospitalization-date']).toLocaleDateString() : 'Not specified' },
+                        { label: 'Hospitalization reason', value: formData['hospitalization-reason'] || 'Not specified' },
+                        { label: 'Taking medication?', value: formData['medication'] ? formData['medication'].charAt(0).toUpperCase() + formData['medication'].slice(1) : '' },
+                        { label: 'Medication details', value: formData['medication-details'] || 'Not specified' },
+                        { label: 'Use tobacco products?', value: formData['tobacco'] ? formData['tobacco'].charAt(0).toUpperCase() + formData['tobacco'].slice(1) : '' },
+                        { label: 'Use alcohol, cocaine, or other dangerous drugs?', value: formData['drugs'] ? formData['drugs'].charAt(0).toUpperCase() + formData['drugs'].slice(1) : '' },
+                        { label: 'Allergies', value: formatCheckboxValues(formData['allergies']) },
+                        { label: 'Other allergies', value: formData['allergy-other-text'] || 'None' },
+                        { label: 'Blood Type', value: formData['blood-type'] || 'Not specified' },
+                        { label: 'Blood Pressure', value: formData['systolic'] && formData['diastolic'] ? `${formData['systolic']}/${formData['diastolic']}` : 'Not specified' }
+                    ]
+                },
+                {
+                    title: 'For Women Only',
+                    fields: [
+                        { label: 'Pregnant?', value: formData['pregnant'] ? formData['pregnant'].charAt(0).toUpperCase() + formData['pregnant'].slice(1) : 'Not applicable' },
+                        { label: 'Nursing?', value: formData['nursing'] ? formData['nursing'].charAt(0).toUpperCase() + formData['nursing'].slice(1) : 'Not applicable' },
+                        { label: 'Taking birth control?', value: formData['birth-control'] ? formData['birth-control'].charAt(0).toUpperCase() + formData['birth-control'].slice(1) : 'Not applicable' }
+                    ],
+                    condition: formData['sex'] === 'female'
+                },
+                {
+                    title: 'Medical Conditions',
+                    fields: [
+                        { label: 'Conditions', value: formatCheckboxValues(formData['conditions']) },
+                        { label: 'Other conditions', value: formData['condition-other-text'] || 'None' }
+                    ]
+                },
+                {
+                    title: 'Signature',
+                    fields: [
+                        { label: 'Signature', value: formData.signature ? `<img src="${formData.signature}" style="max-width: 300px; border: 1px solid #ddd; margin-top: 10px;">` : 'Not provided' }
+                    ]
+                }
+            ];
+            
+            // Populate the confirmation page
+            sections.forEach(section => {
+                // Skip section if condition is false
+                if (section.condition === false) return;
+                
+                const sectionEl = document.createElement('div');
+                sectionEl.className = 'confirmation-section';
+                
+                const header = document.createElement('h2');
+                header.className = 'section-header';
+                header.textContent = section.title;
+                sectionEl.appendChild(header);
+                
+                section.fields.forEach(field => {
+                    const row = document.createElement('div');
+                    row.className = 'confirmation-row';
+                    
+                    const label = document.createElement('div');
+                    label.className = 'confirmation-label';
+                    label.textContent = field.label;
+                    row.appendChild(label);
+                    
+                    const value = document.createElement('div');
+                    value.className = 'confirmation-value';
+                    value.innerHTML = field.value || '<em>Not provided</em>';
+                    row.appendChild(value);
+                    
+                    sectionEl.appendChild(row);
+                });
+                
+                confirmationContent.appendChild(sectionEl);
+            });
+        }
+
+        // Function to generate PDF
+        function generatePDF() {
+            // Create a new jsPDF instance
+            const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'legal' // Legal size paper (8.5 x 14 inches)
+            });
+
+            // Set document properties
+            pdf.setProperties({
+                title: 'Patient Information Record',
+                subject: 'Holy Family Dental Clinic Patient Form',
+                author: 'Holy Family Dental Clinic',
+                keywords: 'patient, dental, medical, form',
+                creator: 'Holy Family Dental Clinic'
+            });
+
+            // Add header
+            pdf.setFontSize(18);
+            pdf.setTextColor(40, 40, 40);
+            pdf.text('HOLY FAMILY DENTAL CLINIC', 105, 20, { align: 'center' });
+            pdf.setFontSize(14);
+            pdf.text('PATIENT INFORMATION RECORD', 105, 27, { align: 'center' });
+            
+            // Add current date
+            pdf.setFontSize(10);
+            pdf.text(`Date: ${new Date().toLocaleDateString()}`, 180, 15, { align: 'right' });
+
+            // Add line separator
+            pdf.setDrawColor(52, 152, 219);
+            pdf.setLineWidth(0.5);
+            pdf.line(20, 32, 190, 32);
+
+            // Gather form data
+            const formData = gatherFormData();
+
+            // Set initial y position
+            let y = 40;
+
+            // Add content sections
+            pdf.setFontSize(12);
+            pdf.setTextColor(52, 152, 219);
+            pdf.text('PERSONAL INFORMATION', 20, y);
+            y += 7;
+            
+            pdf.setFontSize(10);
+            pdf.setTextColor(0, 0, 0);
+            pdf.text(`Name: ${formData['last-name'] || ''}, ${formData['first-name'] || ''} ${formData['middle-name'] || ''}`, 20, y);
+            y += 5;
+            pdf.text(`Date of Birth: ${formData['birth-month'] || ''}/${formData['birth-day'] || ''}/${formData['birth-year'] || ''}`, 20, y);
+            pdf.text(`Age: ${formData['age'] || ''}`, 100, y);
+            pdf.text(`Sex: ${formData['sex'] ? formData['sex'].charAt(0).toUpperCase() + formData['sex'].slice(1) : ''}`, 140, y);
+            y += 5;
+            pdf.text(`Religion: ${formData['religion'] || 'Not specified'}`, 20, y);
+            pdf.text(`Nationality: ${formData['nationality'] || 'Not specified'}`, 100, y);
+            y += 5;
+            pdf.text(`Nickname: ${formData['nickname'] || 'Not specified'}`, 20, y);
+            y += 10;
+
+            // Contact Information
+            pdf.setFontSize(12);
+            pdf.setTextColor(52, 152, 219);
+            pdf.text('CONTACT INFORMATION', 20, y);
+            y += 7;
+            
+            pdf.setFontSize(10);
+            pdf.setTextColor(0, 0, 0);
+            pdf.text(`Address: ${formData['street'] || ''}, ${formData['barangay'] || ''}, ${formData['city'] || ''}, ${formData['province'] || ''}`, 20, y);
+            y += 5;
+            pdf.text(`Mobile: ${formData['mobile'] || 'Not specified'}`, 20, y);
+            pdf.text(`Email: ${formData['email'] || 'Not specified'}`, 100, y);
+            y += 5;
+            pdf.text(`Occupation: ${formData['occupation'] || 'Not specified'}`, 20, y);
+            y += 10;
+
+            // For Minors (if applicable)
+            if (parseInt(formData['age']) < 18) {
+                pdf.setFontSize(12);
+                pdf.setTextColor(52, 152, 219);
+                pdf.text('FOR MINORS', 20, y);
+                y += 7;
+                
+                pdf.setFontSize(10);
+                pdf.setTextColor(0, 0, 0);
+                pdf.text(`Guardian: ${formData['guardian-name'] || 'Not specified'}`, 20, y);
+                pdf.text(`Mobile: ${formData['guardian-mobile'] || 'Not specified'}`, 100, y);
+                y += 5;
+                pdf.text(`Relationship: ${formData['guardian-relation'] || 'Not specified'}`, 20, y);
+                y += 10;
+            }
+
+            // Dental Information
+            pdf.setFontSize(12);
+            pdf.setTextColor(52, 152, 219);
+            pdf.text('DENTAL INFORMATION', 20, y);
+            y += 7;
+            
+            pdf.setFontSize(10);
+            pdf.setTextColor(0, 0, 0);
+            pdf.text(`Referred by: ${formData['referral'] || 'Not specified'}`, 20, y);
+            y += 5;
+            pdf.text(`Reason: ${formData['reason'] || 'Not specified'}`, 20, y);
+            y += 5;
+            pdf.text(`Previous Dentist: ${formData['previous-dentist'] || 'Not specified'}`, 20, y);
+            pdf.text(`Last Visit: ${formData['last-visit'] ? new Date(formData['last-visit']).toLocaleDateString() : 'Not specified'}`, 100, y);
+            y += 10;
+
+            // Medical History
+            pdf.setFontSize(12);
+            pdf.setTextColor(52, 152, 219);
+            pdf.text('MEDICAL HISTORY', 20, y);
+            y += 7;
+            
+            pdf.setFontSize(10);
+            pdf.setTextColor(0, 0, 0);
+            pdf.text(`Physician: ${formData['physician-name'] || 'Not specified'}`, 20, y);
+            pdf.text(`Specialty: ${formData['specialty'] || 'Not specified'}`, 100, y);
+            y += 5;
+            pdf.text(`Office Address: ${formData['office-address'] || 'Not specified'}`, 20, y);
+            y += 5;
+            pdf.text(`Office Number: ${formData['office-number'] || 'Not specified'}`, 20, y);
+            y += 10;
+
+            // Health Questionnaire
+            pdf.setFontSize(12);
+            pdf.setTextColor(52, 152, 219);
+            pdf.text('HEALTH QUESTIONNAIRE', 20, y);
+            y += 7;
+            
+            pdf.setFontSize(10);
+            pdf.setTextColor(0, 0, 0);
+            pdf.text(`Good Health: ${formData['good-health'] ? formData['good-health'].charAt(0).toUpperCase() + formData['good-health'].slice(1) : ''}`, 20, y);
+            y += 5;
+            pdf.text(`Medical Treatment: ${formData['medical-treatment'] ? formData['medical-treatment'].charAt(0).toUpperCase() + formData['medical-treatment'].slice(1) : ''}`, 20, y);
+            pdf.text(`Condition: ${formData['condition'] || 'Not specified'}`, 100, y);
+            y += 5;
+            pdf.text(`Serious Illness: ${formData['serious-illness'] ? formData['serious-illness'].charAt(0).toUpperCase() + formData['serious-illness'].slice(1) : ''}`, 20, y);
+            pdf.text(`Details: ${formData['illness'] || 'Not specified'}`, 100, y);
+            y += 5;
+            pdf.text(`Hospitalized: ${formData['hospitalized'] ? formData['hospitalized'].charAt(0).toUpperCase() + formData['hospitalized'].slice(1) : ''}`, 20, y);
+            pdf.text(`Date: ${formData['hospitalization-date'] ? new Date(formData['hospitalization-date']).toLocaleDateString() : 'Not specified'}`, 100, y);
+            y += 5;
+            pdf.text(`Reason: ${formData['hospitalization-reason'] || 'Not specified'}`, 20, y);
+            y += 5;
+            pdf.text(`Medication: ${formData['medication'] ? formData['medication'].charAt(0).toUpperCase() + formData['medication'].slice(1) : ''}`, 20, y);
+            pdf.text(`Details: ${formData['medication-details'] || 'Not specified'}`, 100, y);
+            y += 5;
+            pdf.text(`Tobacco: ${formData['tobacco'] ? formData['tobacco'].charAt(0).toUpperCase() + formData['tobacco'].slice(1) : ''}`, 20, y);
+            y += 5;
+            pdf.text(`Alcohol/Drugs: ${formData['drugs'] ? formData['drugs'].charAt(0).toUpperCase() + formData['drugs'].slice(1) : ''}`, 20, y);
+            y += 5;
+            pdf.text(`Allergies: ${Array.isArray(formData['allergies']) ? formData['allergies'].join(', ') : 'None'}`, 20, y);
+            y += 5;
+            pdf.text(`Other Allergies: ${formData['allergy-other-text'] || 'None'}`, 20, y);
+            y += 5;
+            pdf.text(`Blood Type: ${formData['blood-type'] || 'Not specified'}`, 20, y);
+            pdf.text(`Blood Pressure: ${formData['systolic'] && formData['diastolic'] ? `${formData['systolic']}/${formData['diastolic']}` : 'Not specified'}`, 100, y);
+            y += 10;
+
+            // For Women Only (if applicable)
+            if (formData['sex'] === 'female') {
+                pdf.setFontSize(12);
+                pdf.setTextColor(52, 152, 219);
+                pdf.text('FOR WOMEN ONLY', 20, y);
+                y += 7;
+                
+                pdf.setFontSize(10);
+                pdf.setTextColor(0, 0, 0);
+                pdf.text(`Pregnant: ${formData['pregnant'] ? formData['pregnant'].charAt(0).toUpperCase() + formData['pregnant'].slice(1) : ''}`, 20, y);
+                y += 5;
+                pdf.text(`Nursing: ${formData['nursing'] ? formData['nursing'].charAt(0).toUpperCase() + formData['nursing'].slice(1) : ''}`, 20, y);
+                y += 5;
+                pdf.text(`Birth Control: ${formData['birth-control'] ? formData['birth-control'].charAt(0).toUpperCase() + formData['birth-control'].slice(1) : ''}`, 20, y);
+                y += 10;
+            }
+
+            // Medical Conditions
+            pdf.setFontSize(12);
+            pdf.setTextColor(52, 152, 219);
+            pdf.text('MEDICAL CONDITIONS', 20, y);
+            y += 7;
+            
+            pdf.setFontSize(10);
+            pdf.setTextColor(0, 0, 0);
+            pdf.text(`Conditions: ${Array.isArray(formData['conditions']) ? formData['conditions'].join(', ') : 'None'}`, 20, y);
+            y += 5;
+            pdf.text(`Other Conditions: ${formData['condition-other-text'] || 'None'}`, 20, y);
+            y += 10;
+
+            // Treatment Authorization
+            pdf.setFontSize(12);
+            pdf.setTextColor(52, 152, 219);
+            pdf.text('TREATMENT AUTHORIZATION', 20, y);
+            y += 7;
+            
+            pdf.setFontSize(10);
+            pdf.setTextColor(0, 0, 0);
+            pdf.text('I authorize and give consent to perform dental services agreed between doctor and patient', 20, y);
+            y += 5;
+            pdf.text('and/or parent or guardian to be necessary or advisable including the use of local anesthesia', 20, y);
+            y += 5;
+            pdf.text('and other medication as indicated. I certify to the above statements are true regarding my', 20, y);
+            y += 5;
+            pdf.text('medical condition. Payment for all treatment and services rendered are my responsibility.', 20, y);
+            y += 5;
+            pdf.text('I understand that failure to settle my procedure might lead to any sanction or if legal', 20, y);
+            y += 5;
+            pdf.text('action is needed.', 20, y);
+            y += 10;
+
+            // Signature
+            pdf.setFontSize(12);
+            pdf.setTextColor(52, 152, 219);
+            pdf.text('SIGNATURE', 20, y);
+            y += 7;
+            
+            pdf.setFontSize(10);
+            pdf.setTextColor(0, 0, 0);
+            pdf.text('Signature:', 20, y);
+            y += 15;
+            
+            // Add signature image if available
+            if (formData.signature) {
+                try {
+                    const imgData = formData.signature;
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const imgWidth = 60; // width in mm
+                    const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+                    
+                    pdf.addImage(imgData, 'PNG', 20, y - 10, imgWidth, imgHeight);
+                    y += imgHeight + 5;
+                } catch (e) {
+                    pdf.text('Signature not available', 20, y);
+                    y += 5;
+                }
+            } else {
+                pdf.text('Signature not provided', 20, y);
+                y += 5;
+            }
+            
+            // Save the PDF
+            pdf.save(`Patient_Information_${formData['last-name'] || 'Record'}.pdf`);
+        }
+
+        // Function to initialize signature canvas
+        function initSignatureCanvas() {
+            const canvas = document.getElementById('signature-canvas');
+            const ctx = canvas.getContext('2d');
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+
+            // Set canvas background to white
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Set drawing style
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            // Mouse/touch event handlers
+            function startDrawing(e) {
+                isDrawing = true;
+                [lastX, lastY] = getPosition(e);
+            }
+
+            function draw(e) {
+                if (!isDrawing) return;
+                
+                const [x, y] = getPosition(e);
+                
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                
+                [lastX, lastY] = [x, y];
+            }
+
+            function stopDrawing() {
+                isDrawing = false;
+            }
+
+            function getPosition(e) {
+                let x, y;
+                if (e.type.includes('touch')) {
+                    const rect = canvas.getBoundingClientRect();
+                    x = e.touches[0].clientX - rect.left;
+                    y = e.touches[0].clientY - rect.top;
+                } else {
+                    x = e.offsetX;
+                    y = e.offsetY;
+                }
+                return [x, y];
+            }
+
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+
+            // Touch events for mobile devices
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                startDrawing(e);
+            });
+
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                draw(e);
+            });
+
+            canvas.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                stopDrawing();
+            });
+
+            // Clear the canvas
+            document.getElementById('clear-signature').addEventListener('click', () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            });
+        }
+
+        // Function to show alert messages
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alert-container');
+            alertContainer.innerHTML = '';
+            
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            
+            alertContainer.appendChild(alert);
+            alertContainer.style.display = 'block';
+            
+            // Scroll to alert
+            alert.scrollIntoView({ behavior: 'smooth' });
+            
+            // Hide alert after 5 seconds
+            setTimeout(() => {
+                alertContainer.style.display = 'none';
+            }, 5000);
+        }
+
+        // Function to calculate age from birthdate
+        function calculateAge() {
+            const month = document.getElementById("birth-month").value;
+            const day = document.getElementById("birth-day").value;
+            const year = document.getElementById("birth-year").value;
+
+            if (month && day && year) {
+                const today = new Date();
+                const birthDate = new Date(year, month - 1, day);
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+                const dayDiff = today.getDate() - birthDate.getDate();
+
+                if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+                    age--;
+                }
+
+                document.getElementById("age").value = age;
+                
+                // Show/hide minor section based on age
+                if (age < 18) {
+                    document.getElementById('minor-section').style.display = 'block';
+                } else {
+                    document.getElementById('minor-section').style.display = 'none';
+                }
+            }
+        }
+
+        // Function to load saved data
+        async function loadSavedData(patientId) {
+            try {
+                const response = await fetch(`/api/patients/${patientId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to load patient data');
+                }
+                
+                const formData = await response.json();
+                
+                // Show view mode indicator
+                document.getElementById('form-mode-indicator').style.display = 'block';
+                
+                // Add view-mode class to form
+                document.getElementById('patient-form').classList.add('view-mode');
+                
+                // Disable all form elements
+                const formElements = document.querySelectorAll('input, select, textarea');
+                formElements.forEach(element => {
+                    if (element.id !== 'request-edit-btn') {
+                        element.disabled = true;
+                    }
+                });
+                
+                // Hide submit button
+                document.getElementById('submit-btn').style.display = 'none';
+                
+                // Populate form fields with data from backend
+                populateFormFields(formData);
+                
+            } catch (error) {
+                showAlert('Error loading patient data: ' + error.message, 'error');
+            }
+        }
+
+        // Function to populate form fields with data
+        function populateFormFields(formData) {
+            // Populate all form fields with data
+            for (const key in formData) {
+                if (formData.hasOwnProperty(key)) {
+                    const element = document.querySelector(`[name="${key}"]`);
+                    if (element) {
+                        if (element.type === 'radio' || element.type === 'checkbox') {
+                            const elements = document.querySelectorAll(`[name="${key}"]`);
+                            elements.forEach(el => {
+                                if (el.type === 'checkbox') {
+                                    if (Array.isArray(formData[key])) {
+                                        el.checked = formData[key].includes(el.value);
+                                    }
+                                } else {
+                                    el.checked = (el.value === formData[key]);
+                                }
+                            });
+                        } else {
+                            element.value = formData[key];
+                        }
+                    }
+                }
+            }
+
+            // Handle signature display
+            if (formData.signature) {
+                displaySignature(formData.signature);
+            }
+
+            // Update conditional sections
+            calculateAge();
+            updateSexDependentFields();
+        }
+
+        // Function to display signature
+        function displaySignature(signatureData) {
+            const signatureType = document.querySelector('input[name="signature-type"]:checked');
+            if (!signatureType) return;
+            
+            if (signatureType.value === 'draw') {
+                // For drawn signatures, we can't easily redraw on canvas
+                // So we'll switch to upload mode and display the image
+                document.querySelector('input[name="signature-type"][value="upload"]').checked = true;
+                document.getElementById('draw-signature-section').style.display = 'none';
+                document.getElementById('upload-signature-section').style.display = 'block';
+                
+                const img = document.getElementById('uploaded-signature');
+                img.src = signatureData;
+                img.style.display = 'block';
+                document.querySelector('#signature-preview span').style.display = 'none';
+            } else {
+                const img = document.getElementById('uploaded-signature');
+                img.src = signatureData;
+                img.style.display = 'block';
+                document.querySelector('#signature-preview span').style.display = 'none';
+            }
+        }
+
+        // Function to submit edit request
+        async function submitEditRequest(patientId, editDetails) {
+            try {
+                const response = await fetch(`/api/patients/${patientId}/edit-request`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        patientId: patientId,
+                        editDetails: editDetails,
+                        requestDate: new Date(),
+                        status: 'pending'
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to submit edit request');
+                }
+
+                showAlert('Your edit request has been submitted. The clinic will review your request.', 'success');
+                
+            } catch (error) {
+                showAlert('Error submitting edit request: ' + error.message, 'error');
+            }
+        }
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const themeText = themeToggle.querySelector('span');
+
+        // Check for saved theme preference or default to light
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeToggle(savedTheme);
+
+        // Theme toggle click handler
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeToggle(newTheme);
+        });
+
+        // Update toggle button appearance
+        function updateThemeToggle(theme) {
+            if (theme === 'dark') {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                themeText.textContent = 'Light Mode';
+            } else {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                themeText.textContent = 'Dark Mode';
+            }
+        }
+    </script>
+</body>
+</html>

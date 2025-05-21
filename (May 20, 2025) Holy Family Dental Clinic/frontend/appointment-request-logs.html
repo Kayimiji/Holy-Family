@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Request Logs - Holy Family Dental Clinic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================= */
+/* BASE STYLES & VARIABLES */
+/* ============================================= */
+
+:root {
+    --bg-color: #f5f7fa;
+    --sidebar-bg: #2c3e50;
+    --sidebar-text: rgba(255, 255, 255, 0.9);
+    --sidebar-active: #00bfff;
+    --card-bg: #ffffff; /* Light theme card background */
+    --text-color: #2c3e50;
+    --text-muted: #7a8ba9;
+    --border-color: #e1e5eb;
+    --hover-bg: #f0f4f8;
+    --today-bg: #e6f7ff;
+    --selected-bg: #00bfff;
+    --selected-text: white;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --modal-bg: #ffffff;
+    --modal-text: #2c3e50;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --sidebar-bg: #151e25;
+    --sidebar-text: rgba(255, 255, 255, 0.85);
+    --sidebar-active: #00bfff;
+    --card-bg: #2d2d2d;
+    --text-color: #e0e0e0;
+    --text-muted: #aaa;
+    --border-color: #444;
+    --hover-bg: #333;
+    --today-bg: #003366;
+    --selected-bg: #006699;
+    --selected-text: white;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --modal-bg: #2d2d2d;
+    --modal-text: #e0e0e0;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    margin: 0;
+    transition: background-color 0.3s ease;
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: var(--bg-color);
+    color: var(--sidebar-text);
+}
+
+/* ============================================= */
+/* LAYOUT & STRUCTURE */
+/* ============================================= */
+
+.dashboard {
+    display: flex;
+    height: 100vh;
+    min-height: 100vh;
+    overflow: hidden;
+    color: var(--text-color);
+}
+.sidebar {
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 20px 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.main-content {
+    flex-direction: column;
+    padding: 30px;
+    display: flex;
+    flex: 3;
+    transition: background-color 0.3s ease;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    margin-top: -20px;
+}
+
+.return-home-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.return-home-menu li {
+    margin-bottom: 5px;
+}
+
+.return-home-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.return-home-menu a:hover, .return-home-menu a.active {
+    background-color: rgba(0, 191, 255, 0.2);
+    color: white;
+    border-left: 3px solid var(--sidebar-active);
+}
+
+.return-home-menu i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+/* ============================================= */
+/* SIDEBAR COMPONENTS */
+/* ============================================= */
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.sidebar-logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-right: -5px;
+    margin-top: -45px;
+    margin-left: -20px;
+    object-fit: cover;
+}
+
+.sidebar-title h2 {
+    color: var(--sidebar-active);
+    margin: 0;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+}
+
+.sidebar-title p {
+    color: var(--sidebar-text);
+    font-size: 12px;
+    margin-top: 10px;
+    margin-left: -40px;
+    font-style: italic;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    white-space: normal;
+}
+
+.holy-family {
+    color: #1380d3;
+    font-weight: bold;
+}
+
+.dental-clinic {
+    color: #00c4cc;
+    font-weight: bold;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    margin-bottom: 5px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background-color: rgba(0, 191, 255, 0.2);
+    color: white;
+    border-left: 3px solid var(--sidebar-active);
+}
+
+.sidebar-menu i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.settings-menu a:hover, .return-home-menu a:hover {
+    background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
+    color: white; /* Change text color on hover */
+    border-left: 3px solid var(--sidebar-active); /* Add left border */
+    display: block; /* Ensure the hover effect spans the full width */
+    width: 100%; /* Extend hover effect across the full width */
+    padding-right: 25px; /* Maintain alignment */
+}
+
+.btn {
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    margin-top: -10px;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    border: none;
+}
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--sidebar-active);
+    color: var(--sidebar-active);
+}
+
+.btn-outline:hover {
+    background-color: var(--sidebar-active);
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
+}
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    gap: 10px;
+}
+
+.theme-toggle-label {
+    font-size: 14px;
+    color: var(--text-color);
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #00bfff;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+        /* Main content styles */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+    /* Enhanced Table Styles */
+    .logs-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: var(--card-bg);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        margin-top: 20px;
+    }
+
+    .logs-table th,
+    .logs-table td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .logs-table th {
+        background-color: var(--sidebar-bg);
+        color: var(--sidebar-text);
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+    }
+
+    .logs-table tr:hover {
+        background-color: var(--hover-bg);
+    }
+
+    .logs-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-transform: capitalize;
+    }
+
+    .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .status-approved {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .status-rejected {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .status-completed {
+        background-color: #cce5ff;
+        color: #004085;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 40px !important;
+        color: var(--text-muted);
+    }
+
+    .empty-state i {
+        margin-bottom: 10px;
+        opacity: 0.5;
+    }
+
+    .empty-state p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    /* Container padding and responsive design */
+    .container {
+        padding: 20px;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+/* Add these new styles */
+.table-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.search-box {
+    position: relative;
+    flex: 1;
+}
+
+.search-box input {
+    max-width: 95%;
+    width: 100%;
+    padding: 10px 35px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+
+.search-box i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+.filter-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-controls select {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+</style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
+                    <div class="logo-glow"></div>
+                </div>
+                <div class="sidebar-title">
+                    <h2>
+                        <span class="holy-family">HOLY FAMILY</span><br>
+                        <span class="dental-clinic">DENTAL CLINIC</span>
+                    </h2>
+                    <p>Creating beautiful smiles for every family</p>
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="appointment-request-logs.html" class="active"><i class="fas fa-clipboard-list"></i> <span>Appointment Request Logs</span></a></li>
+                <li><a href="#"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
+                <li><a href="patients.html"><i class="fas fa-users"></i> <span>Patients</span></a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> <span>Reports</span></a></li>
+                <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+            <!-- Add Return to Home menu at the bottom -->
+            <div style="position: absolute; bottom: 20px; width: 13%;">
+                <div style="position: absolute; bottom: 20px; width: 100%;">
+                    <ul class="sidebar-menu settings-menu">
+                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                    <ul class="sidebar-menu return-home-menu">
+                        <li><a href="landingpage.html"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="container">
+                <div class="header">
+                    <h1>Appointment Request Logs</h1>
+                    <div class="controls">
+                        <!-- Theme Toggle -->
+                        <div class="theme-toggle">
+                            <span class="theme-toggle-label">Dark Mode</span>
+                            <label class="switch">
+                                <input type="checkbox" id="themeToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-controls">
+                    <!-- Search Box -->
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search logs...">
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="filter-controls">
+                        <select id="statusFilter">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                            <option value="completed">Completed</option>
+                        </select>
+
+                        <select id="sortBy">
+                            <option value="date-desc">Date (Newest First)</option>
+                            <option value="date-asc">Date (Oldest First)</option>
+                            <option value="name-asc">Name (A-Z)</option>
+                            <option value="name-desc">Name (Z-A)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <table class="logs-table">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Patient Name</th>
+                            <th>Requested Schedule</th>
+                            <th>Procedure</th>
+                            <th>Status</th>
+                            <th>Action Type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logsTableBody">
+                        <!-- Logs will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get logs from localStorage
+            const logs = JSON.parse(localStorage.getItem('appointmentRequestLogs') || '[]');
+            const tableBody = document.getElementById('logsTableBody');
+
+            function displayLogs(logsToDisplay) {
+                if (logsToDisplay.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" class="empty-state">
+                                <i class="fas fa-inbox fa-3x"></i>
+                                <p>No appointment logs available at the moment</p>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tableBody.innerHTML = logsToDisplay.map(log => `
+                    <tr>
+                        <td><i class="far fa-clock"></i> ${formatDateTime(log.timestamp)}</td>
+                        <td><i class="far fa-user"></i> ${log.patientName}</td>
+                        <td><i class="far fa-calendar-alt"></i> ${formatDateTime(log.appointmentDateTime)}</td>
+                        <td><i class="fas fa-tooth"></i> ${log.service}</td>
+                        <td><span class="status-badge status-${log.status.toLowerCase()}">${log.status}</span></td>
+                        <td><i class="fas fa-tag"></i> ${log.action}</td>
+                    </tr>
+                `).join('');
+            }
+
+            // Filter and search functionality
+            function filterAndDisplayLogs() {
+                let filteredLogs = [...logs];
+                const searchTerm = searchInput.value.toLowerCase();
+                const statusValue = statusFilter.value.toLowerCase();
+
+                filteredLogs = filteredLogs.filter(log => {
+                    const matchesSearch = log.patientName.toLowerCase().includes(searchTerm) ||
+                                        log.service.toLowerCase().includes(searchTerm);
+                    const matchesStatus = !statusValue || log.status.toLowerCase() === statusValue;
+                    return matchesSearch && matchesStatus;
+                });
+
+                // Apply sorting
+                switch(sortBy.value) {
+                    case 'date-asc':
+                        filteredLogs.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+                        break;
+                    case 'date-desc':
+                        filteredLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                        break;
+                    case 'name-asc':
+                        filteredLogs.sort((a, b) => a.patientName.localeCompare(b.patientName));
+                        break;
+                    case 'name-desc':
+                        filteredLogs.sort((a, b) => b.patientName.localeCompare(a.patientName));
+                        break;
+                }
+
+                displayLogs(filteredLogs);
+            }
+
+            function formatDateTime(dateTimeStr) {
+                const date = new Date(dateTimeStr);
+                return date.toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+
+            // Event listeners
+            const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+            const sortBy = document.getElementById('sortBy');
+
+            searchInput.addEventListener('input', filterAndDisplayLogs);
+            statusFilter.addEventListener('change', filterAndDisplayLogs);
+            sortBy.addEventListener('change', filterAndDisplayLogs);
+
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('themeToggle');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            themeToggle.checked = currentTheme === 'dark';
+
+            themeToggle.addEventListener('change', function() {
+                const theme = this.checked ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+            });
+
+            // Initial display
+            filterAndDisplayLogs();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Holy Family Dental Clinic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-color: #00bfff;
+            --secondary-color: #2c3e50;
+            --text-color: #2c3e50;
+            --text-muted: #777;
+            --border-color: #ddd;
+            --light-bg: #f5f7fa;
+            --white: #ffffff;
+            --success-color: #4CAF50;
+            --error-color: #F44336;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: url('HolyFAmDentalClinic Bacground pic.png') no-repeat;
+            backdrop-filter: blur(5px);
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+        }
+
+        /* Container */
+        .auth-container {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            min-height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Left Side - Welcome Section */
+        .welcome-side {
+            flex: 1;
+            background: rgba(44, 62, 80, 0.85);
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .welcome-side img {
+            width: 120px;
+            margin-bottom: 30px;
+        }
+
+        .welcome-side h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .welcome-side p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            max-width: 350px;
+        }
+
+        .welcome-side .divider {
+            width: 50px;
+            height: 3px;
+            background: var(--primary-color);
+            margin: 20px 0;
+        }
+
+        .back-to-home {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-home:hover {
+            color: white;
+        }
+
+        /* Right Side - Form Section */
+        .form-side {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .form-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-header h1 {
+            color: var(--secondary-color);
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        .form-header p a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Form Styles */
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 90px;
+        }
+
+        .form-group {
+            position: relative;
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-control.with-icon {
+            padding-left: 45px;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.1);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 38px;
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            color: var(--text-muted);
+            font-size: 18px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Radio Button Styles */
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 8px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .radio-option input {
+            margin: 0;
+            cursor: pointer;
+        }
+
+        /* Date Picker Styles */
+        .date-picker {
+            position: relative;
+        }
+
+        .date-picker input {
+            cursor: pointer;
+        }
+
+        /* Password Strength Indicator */
+        .password-strength {
+            margin-top: 5px;
+            height: 4px;
+            background: #eee;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s, background 0.3s;
+        }
+
+        /* Error Messages */
+        .error-message {
+            color: var(--error-color);
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #009acd;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #1a2a3a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Terms Checkbox */
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .terms-checkbox input {
+            margin-top: 3px;
+        }
+
+        .terms-checkbox label {
+            font-size: 14px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .terms-checkbox a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .terms-checkbox a:hover {
+            text-decoration: underline;
+        }
+
+        /* Social Login */
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .social-divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        .social-divider::before,
+        .social-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .facebook-btn {
+            background-color: #3b5998;
+        }
+
+        .google-btn {
+            background-color: #db4437;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            z-index: 10;
+        }
+
+        .success-message i {
+            font-size: 60px;
+            color: var(--success-color);
+            margin-bottom: 20px;
+        }
+
+        .success-message h2 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .success-message p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            max-width: 350px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .auth-container {
+                flex-direction: column;
+                min-height: auto;
+            }
+            
+            .welcome-side {
+                padding: 30px 20px;
+                display: none;
+            }
+            
+            .form-side {
+                padding: 40px 25px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-form {
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+
+    
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Welcome Side -->
+        <div class="welcome-side">
+            <img src="logo.png" alt="Holy Family Dental Clinic Logo">
+            <h2>Join Holy Family Dental Clinic</h2>
+            <div class="divider"></div>
+            <p>Create an account to book appointments, access your dental records, and receive personalized care from our expert team.</p>
+            <a href="landingpage.html" class="back-to-home">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+
+        <!-- Form Side -->
+        <div class="form-side">
+            <div class="form-header">
+                <h1>Create Account</h1>
+                <p>Already have an account? <a href="login.html">Sign in</a></p>
+            </div>
+
+            <form class="auth-form" id="signupForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" id="firstName" class="form-control with-icon" placeholder="Enter your first name" required>
+                        <div class="error-message" id="firstNameError">Please enter your first name</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" class="form-control" placeholder="Enter your last name" required>
+                        <div class="error-message" id="lastNameError">Please enter your last name</div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="email" class="form-control with-icon" placeholder="Enter your email" required>
+                        <div class="error-message" id="emailError">Please enter a valid email address</div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <i class="fas fa-phone input-icon"></i>
+                        <input type="tel" id="phone" class="form-control with-icon" placeholder="Enter your phone number" required>
+                        <div class="error-message" id="phoneError">Please enter a valid phone number</div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dob">Date of Birth</label>
+                        <div class="date-picker">
+                            <input type="date" id="dob" class="form-control" required>
+                        </div>
+                        <div class="error-message" id="dobError">Please enter your date of birth</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="gender" value="male" checked> Male
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="gender" value="female"> Female
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="gender" value="other"> Other
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="password" class="form-control with-icon" placeholder="Create a password" required>
+                        <span class="password-toggle" id="togglePassword">
+                            <i class="far fa-eye"></i>
+                        </span>
+                        <div class="password-strength">
+                            <div class="strength-bar" id="strengthBar"></div>
+                        </div>
+                        <div class="error-message" id="passwordError">Password must be at least 8 characters</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="confirmPassword" class="form-control with-icon" placeholder="Confirm your password" required>
+                        <span class="password-toggle" id="toggleConfirmPassword">
+                            <i class="far fa-eye"></i>
+                        </span>
+                        <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
+                    </div>
+                </div>
+
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    <span id="btnText">Create Account</span>
+                    <div class="spinner" id="spinner"></div>
+                </button>
+
+                <div class="social-login">
+                    <div class="social-divider">
+                        Or sign up with
+                    </div>
+                    <div class="social-buttons">
+                        <a href="#" class="social-btn facebook-btn">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-btn google-btn">
+                            <i class="fab fa-google"></i>
+                        </a>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Success Message (hidden by default) -->
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i>
+                <h2>Account Created!</h2>
+                <p>Your account has been successfully created. You can now log in to access your dashboard.</p>
+                <a href="login.html" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Sign In Now
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const signupForm = document.getElementById('signupForm');
+            const togglePassword = document.getElementById('togglePassword');
+            const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const strengthBar = document.getElementById('strengthBar');
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const spinner = document.getElementById('spinner');
+            const successMessage = document.getElementById('successMessage');
+            const dobInput = document.getElementById('dob');
+
+            // Set max date for date of birth (18 years ago)
+            const today = new Date();
+            const minDate = new Date();
+            minDate.setFullYear(today.getFullYear() - 100); // 100 years ago
+            const maxDate = new Date();
+            maxDate.setFullYear(today.getFullYear() - 5); // At least 5 years old
+            
+            dobInput.max = maxDate.toISOString().split('T')[0];
+            dobInput.min = minDate.toISOString().split('T')[0];
+
+            // Password toggle functionality
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                this.innerHTML = type === 'password' ? '<i class="far fa-eye"></i>' : '<i class="far fa-eye-slash"></i>';
+            });
+
+            toggleConfirmPassword.addEventListener('click', function() {
+                const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                confirmPasswordInput.setAttribute('type', type);
+                this.innerHTML = type === 'password' ? '<i class="far fa-eye"></i>' : '<i class="far fa-eye-slash"></i>';
+            });
+
+            // Password strength indicator
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                
+                // Check length
+                if (password.length >= 8) strength += 1;
+                if (password.length >= 12) strength += 1;
+                
+                // Check for mixed case
+                if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) strength += 1;
+                
+                // Check for numbers
+                if (password.match(/([0-9])/)) strength += 1;
+                
+                // Check for special chars
+                if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1;
+                
+                // Update strength bar
+                const width = strength * 20;
+                let color;
+                
+                if (strength <= 1) color = '#F44336'; // Red
+                else if (strength <= 3) color = '#FFC107'; // Yellow
+                else color = '#4CAF50'; // Green
+                
+                strengthBar.style.width = width + '%';
+                strengthBar.style.background = color;
+            });
+
+            // Calculate age from date of birth
+            function calculateAge(dob) {
+                const birthDate = new Date(dob);
+                const ageDiff = Date.now() - birthDate.getTime();
+                const ageDate = new Date(ageDiff);
+                return Math.abs(ageDate.getUTCFullYear() - 1970);
+            }
+
+            // Form validation
+            signupForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Reset errors
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.style.display = 'none';
+                });
+                
+                let isValid = true;
+                
+                // Validate first name
+                const firstName = document.getElementById('firstName').value.trim();
+                if (firstName.length < 2) {
+                    document.getElementById('firstNameError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate last name
+                const lastName = document.getElementById('lastName').value.trim();
+                if (lastName.length < 2) {
+                    document.getElementById('lastNameError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate email
+                const email = document.getElementById('email').value.trim();
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    document.getElementById('emailError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate phone
+                const phone = document.getElementById('phone').value.trim();
+                if (!/^[\d\s\-()+]{10,}$/.test(phone)) {
+                    document.getElementById('phoneError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate date of birth
+                const dob = dobInput.value;
+                if (!dob) {
+                    document.getElementById('dobError').style.display = 'block';
+                    isValid = false;
+                } else {
+                    const age = calculateAge(dob);
+                    if (age < 5) {
+                        document.getElementById('dobError').textContent = 'You must be at least 5 years old';
+                        document.getElementById('dobError').style.display = 'block';
+                        isValid = false;
+                    } else if (age > 100) {
+                        document.getElementById('dobError').textContent = 'Please enter a valid date of birth';
+                        document.getElementById('dobError').style.display = 'block';
+                        isValid = false;
+                    }
+                }
+                
+                // Get gender
+                const gender = document.querySelector('input[name="gender"]:checked').value;
+                
+                // Validate password
+                const password = passwordInput.value;
+                if (password.length < 8) {
+                    document.getElementById('passwordError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate confirm password
+                const confirmPassword = confirmPasswordInput.value;
+                if (password !== confirmPassword) {
+                    document.getElementById('confirmPasswordError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate terms checkbox
+                if (!document.getElementById('terms').checked) {
+                    alert('Please agree to the Terms of Service and Privacy Policy');
+                    isValid = false;
+                }
+                
+                if (isValid) {
+                    // Show loading state
+                    btnText.textContent = 'Creating Account...';
+                    spinner.style.display = 'block';
+                    submitBtn.disabled = true;
+                    
+                    // Simulate API call (replace with actual fetch/AJAX call)
+                    setTimeout(function() {
+                        // Hide form and show success message
+                        signupForm.style.display = 'none';
+                        successMessage.style.display = 'flex';
+                        
+                        // In a real app, you would redirect or handle the response here
+                        console.log('Form submitted:', {
+                            firstName,
+                            lastName,
+                            email,
+                            phone,
+                            dob,
+                            age: calculateAge(dob),
+                            gender,
+                            password
+                        });
+                    }, 2000);
+                }
+            });
+            
+            // Check if user is already logged in (for demo purposes)
+            const userType = localStorage.getItem('userTypeChoice');
+            if (userType) {
+                if (userType === 'doctor') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'landingpage.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dental Treatment Consent Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .header h2 {
+            color: #3498db;
+            margin-top: 0;
+        }
+        
+        .patient-info {
+            margin-bottom: 20px;
+        }
+        
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .info-table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .info-table td:first-child {
+            font-weight: bold;
+            width: 30%;
+            background-color: #f5f5f5;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            background-color: #3498db;
+            color: white;
+            padding: 8px 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        
+        .checkbox-list {
+            column-count: 2;
+            column-gap: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .checkbox-item {
+            margin-bottom: 8px;
+            break-inside: avoid;
+        }
+        
+        .consent-text {
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+        
+        .signature-area {
+            margin-top: 50px;
+        }
+        
+        .signature-line {
+            border-top: 1px solid #333;
+            width: 300px;
+            margin-top: 40px;
+            display: inline-block;
+        }
+        
+        .signature-label {
+            display: block;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #777;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .form-control:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-print {
+            background-color: #2ecc71;
+        }
+        
+        .btn-print:hover {
+            background-color: #27ae60;
+        }
+        
+        .btn-reset {
+            background-color: #e74c3c;
+        }
+        
+        .btn-reset:hover {
+            background-color: #c0392b;
+        }
+        
+        .error {
+            color: #e74c3c;
+            font-size: 0.8em;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
+        
+        .signature-pad {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        
+        @media print {
+            .no-print {
+                display: none;
+            }
+            
+            body {
+                padding: 0;
+                background-color: white;
+            }
+            
+            .form-container {
+                border: none;
+                box-shadow: none;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="header">
+            <h1>HOLY FAMILY DENTAL CLINIC</h1>
+            <h2>TREATMENT CONSENT FORM</h2>
+        </div>
+        
+        <div class="patient-info">
+            <table class="info-table">
+                <tr>
+                    <td>Patient Name:</td>
+                    <td><input type="text" id="patientName" class="form-control" placeholder="Last, First Middle" required></td>
+                </tr>
+                <tr>
+                    <td>Date of Birth:</td>
+                    <td><input type="date" id="birthDate" class="form-control" required></td>
+                </tr>
+                <tr>
+                    <td>Address:</td>
+                    <td><input type="text" id="address" class="form-control" placeholder="Street, City, State, ZIP" required></td>
+                </tr>
+                <tr>
+                    <td>Contact Number:</td>
+                    <td><input type="tel" id="contactNumber" class="form-control" placeholder="Phone number" required></td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">TREATMENT AUTHORIZATION</div>
+            <div class="consent-text">
+                <p>I hereby authorize the dentists and staff of Holy Family Dental Clinic to perform all necessary dental services as agreed upon between the dentist and myself (or my child/ward). This includes but is not limited to examination, diagnosis, radiographs (x-rays), cleaning, fillings, extractions, and other dental procedures that may be deemed necessary.</p>
+                
+                <p>I understand that local anesthesia or other medications may be administered as part of the treatment, and that risks associated with dental treatment and anesthesia include, but are not limited to: pain, swelling, bleeding, infection, temporary or permanent numbness, and other complications.</p>
+                
+                <p>I certify that all information provided in my medical history is accurate and complete to the best of my knowledge. I agree to inform the dental staff of any changes in my health status.</p>
+                
+                <p>I understand that payment for all treatment and services rendered is my responsibility, and that failure to settle my account may result in collection actions or legal proceedings.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">ACKNOWLEDGMENT</div>
+            <p>I acknowledge that:</p>
+            <ul>
+                <li>I have had the opportunity to ask questions about the proposed treatment</li>
+                <li>The nature and purpose of the treatment has been explained to me</li>
+                <li>No guarantees have been made about the results of treatment</li>
+                <li>I may withdraw this consent at any time</li>
+            </ul>
+            
+            <div class="checkbox-item">
+                <input type="checkbox" id="acknowledgeCheck" required>
+                <label for="acknowledgeCheck">I have read and understand the above statements</label>
+                <div id="acknowledgeError" class="error" style="display: none;">Please acknowledge this statement</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">MEDICAL HISTORY</div>
+            <p>Please check any conditions that apply:</p>
+            <div class="checkbox-list">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="highBP">
+                    <label for="highBP">High Blood Pressure</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="diabetes">
+                    <label for="diabetes">Diabetes</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="heartDisease">
+                    <label for="heartDisease">Heart Disease</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="asthma">
+                    <label for="asthma">Asthma</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="bleedingDisorder">
+                    <label for="bleedingDisorder">Bleeding Disorder</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="allergies">
+                    <label for="allergies">Allergies (specify below)</label>
+                </div>
+            </div>
+            <textarea id="allergiesDetails" class="form-control" rows="3" placeholder="If you have allergies, please specify"></textarea>
+        </div>
+        
+        <div class="signature-area">
+            <p>Date: <input type="date" id="consentDate" class="form-control" style="width: auto; display: inline-block;" required></p>
+            
+            <div>
+                <p>Patient/Parent/Guardian Signature:</p>
+                <canvas id="signaturePad" class="signature-pad" width="300" height="150"></canvas>
+                <button type="button" id="clearSignature" class="btn btn-reset">Clear Signature</button>
+                <div id="signatureError" class="error" style="display: none;">Signature is required</div>
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <div class="signature-line"></div>
+                <span class="signature-label">Dentist's Signature</span>
+            </div>
+        </div>
+        
+        <div class="no-print">
+            <button type="button" id="submitForm" class="btn">Submit Form</button>
+            <button type="button" id="printForm" class="btn btn-print">Print Form</button>
+            <button type="button" id="resetForm" class="btn btn-reset">Reset Form</button>
+        </div>
+        
+        <div class="footer">
+            <p>Holy Family Dental Clinic &bull; 123 Main Street, City &bull; Phone: (555) 123-4567</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize signature pad
+            const canvas = document.getElementById('signaturePad');
+            const ctx = canvas.getContext('2d');
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+            
+            // Signature pad functionality
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            // Touch support for mobile devices
+            canvas.addEventListener('touchstart', handleTouchStart);
+            canvas.addEventListener('touchmove', handleTouchMove);
+            canvas.addEventListener('touchend', handleTouchEnd);
+            
+            function startDrawing(e) {
+                isDrawing = true;
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            }
+            
+            function draw(e) {
+                if (!isDrawing) return;
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            }
+            
+            function stopDrawing() {
+                isDrawing = false;
+            }
+            
+            function handleTouchStart(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent('mousedown', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                canvas.dispatchEvent(mouseEvent);
+            }
+            
+            function handleTouchMove(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent('mousemove', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                canvas.dispatchEvent(mouseEvent);
+            }
+            
+            function handleTouchEnd(e) {
+                e.preventDefault();
+                const mouseEvent = new MouseEvent('mouseup', {});
+                canvas.dispatchEvent(mouseEvent);
+            }
+            
+            // Clear signature button
+            document.getElementById('clearSignature').addEventListener('click', function() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            });
+            
+            // Form submission
+            document.getElementById('submitForm').addEventListener('click', function() {
+                if (validateForm()) {
+                    alert('Form submitted successfully!');
+                    // Here you would typically send the form data to a server
+                    // For this example, we'll just show an alert
+                }
+            });
+            
+            // Print form
+            document.getElementById('printForm').addEventListener('click', function() {
+                if (validateForm(true)) {
+                    window.print();
+                }
+            });
+            
+            // Reset form
+            document.getElementById('resetForm').addEventListener('click', function() {
+                if (confirm('Are you sure you want to reset the form? All data will be lost.')) {
+                    document.querySelector('form').reset();
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            });
+            
+            // Form validation
+            function validateForm(forPrint = false) {
+                let isValid = true;
+                
+                // Check required fields
+                const requiredFields = ['patientName', 'birthDate', 'address', 'contactNumber', 'consentDate'];
+                requiredFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (!field.value) {
+                        field.style.borderColor = '#e74c3c';
+                        isValid = false;
+                    } else {
+                        field.style.borderColor = '#ddd';
+                    }
+                });
+                
+                // Check acknowledgment
+                if (!document.getElementById('acknowledgeCheck').checked) {
+                    document.getElementById('acknowledgeError').style.display = 'block';
+                    isValid = false;
+                } else {
+                    document.getElementById('acknowledgeError').style.display = 'none';
+                }
+                
+                // Check signature (only for submission, not for print)
+                if (!forPrint) {
+                    const signatureData = canvas.toDataURL();
+                    if (signatureData === canvas.toDataURL('image/png', 0)) {
+                        document.getElementById('signatureError').style.display = 'block';
+                        isValid = false;
+                    } else {
+                        document.getElementById('signatureError').style.display = 'none';
+                    }
+                }
+                
+                if (!isValid) {
+                    alert('Please fill in all required fields and provide a signature.');
+                }
+                
+                return isValid;
+            }
+            
+            // Set today's date as default for consent date
+            const today = new Date();
+            const formattedDate = today.toISOString().substr(0, 10);
+            document.getElementById('consentDate').value = formattedDate;
+        });
+    </script>
+</body>
+</html>

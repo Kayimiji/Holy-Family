@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients - Holy Family Dental Clinic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================= */
+        /* BASE STYLES & VARIABLES */
+        /* ============================================= */
+
+        :root {
+            --bg-color: #f5f7fa;
+            --sidebar-bg: #2c3e50;
+            --sidebar-text: rgba(255, 255, 255, 0.9);
+            --sidebar-active: #00bfff;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --text-muted: #7a8ba9;
+            --border-color: #e1e5eb;
+            --hover-bg: #f0f4f8;
+            --today-bg: #e6f7ff;
+            --selected-bg: #00bfff;
+            --selected-text: white;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --modal-bg: #ffffff;
+            --modal-text: #2c3e50;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --active-status-bg: #e3f7e8;
+            --active-status-text: #27ae60;
+            --inactive-status-bg: #fdeaea;
+            --inactive-status-text: #e74c3c;
+            --tab-active-bg: #3498db;
+            --tab-inactive-bg: #ecf0f1;
+            --tab-inactive-text: #7f8c8d;
+            --header-bg: #f8f9fa;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --sidebar-bg: #151e25;
+            --sidebar-text: rgba(255, 255, 255, 0.85);
+            --sidebar-active: #00bfff;
+            --card-bg: #2d2d2d;
+            --text-color: #e0e0e0;
+            --text-muted: #aaa;
+            --border-color: #444;
+            --hover-bg: #333;
+            --today-bg: #003366;
+            --selected-bg: #006699;
+            --selected-text: white;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            --modal-bg: #2d2d2d;
+            --modal-text: #e0e0e0;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            --active-status-bg: #1e3a1e;
+            --active-status-text: #4caf50;
+            --inactive-status-bg: #3a1e1e;
+            --inactive-status-text: #f44336;
+            --tab-active-bg: #006699;
+            --tab-inactive-bg: #333;
+            --tab-inactive-text: #ccc;
+            --header-bg: #252525;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            margin: 0;
+            transition: background-color 0.3s ease;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* ============================================= */
+        /* LAYOUT & STRUCTURE */
+        /* ============================================= */
+
+        .dashboard {
+            display: flex;
+            height: 100vh;
+            min-height: 100vh;
+            overflow: hidden;
+            color: var(--text-color);
+        }
+        
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+            width: 250px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .main-content {
+            flex-direction: column;
+            padding: 30px;
+            display: flex;
+            flex: 1;
+            transition: background-color 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            margin-top: -20px;
+        }
+
+        .return-home-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .return-home-menu li {
+            margin-bottom: 5px;
+        }
+
+        .return-home-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .return-home-menu a:hover, .return-home-menu a.active {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+        }
+
+        .return-home-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* ============================================= */
+        /* SIDEBAR COMPONENTS */
+        /* ============================================= */
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin-right: -5px;
+            margin-top: -45px;
+            margin-left: -20px;
+            object-fit: cover;
+        }
+
+        .sidebar-title h2 {
+            color: var(--sidebar-active);
+            margin: 0;
+            font-size: 18px;
+            line-height: 1;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .sidebar-title p {
+            color: var(--sidebar-text);
+            font-size: 12px;
+            margin-top: 10px;
+            margin-left: -40px;
+            font-style: italic;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            white-space: normal;
+        }
+
+        .holy-family {
+            color: #1380d3;
+            font-weight: bold;
+        }
+
+        .dental-clinic {
+            color: #00c4cc;
+            font-weight: bold;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .settings-menu a:hover, .return-home-menu a:hover {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+            display: block;
+            width: 100%;
+            padding-right: 25px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            margin-top: -10px;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            border: none;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--sidebar-active);
+            color: var(--sidebar-active);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--sidebar-active);
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+            gap: 10px;
+        }
+
+        .theme-toggle-label {
+            font-size: 14px;
+            color: var(--text-color);
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #00bfff;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* ============================================= */
+        /* MAIN CONTENT STYLES */
+        /* ============================================= */
+
+        .container {
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+            margin-top: 20px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            height: calc(100vh - 100px); /* Set a fixed height */
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            padding: 20px;
+            margin-top: -20px;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0; /* Prevent header from shrinking */
+        }
+
+        main {
+            overflow-y: auto; /* Enable vertical scrolling */
+            flex-grow: 1; /* Take remaining space */
+        }
+        
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+        
+        h2 {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+        
+        .status-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .status-tab {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .status-tab.active {
+            background-color: var(--tab-active-bg);
+            color: white;
+        }
+        
+        .status-tab.inactive {
+            background-color: var(--tab-inactive-bg);
+            color: var(--tab-inactive-text);
+        }
+        
+        .status-tab.inactive:hover {
+            background-color: var(--border-color);
+        }
+        
+        .search-filter {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .search {
+            flex: 1;
+            margin-right: 15px;
+        }
+        
+        .search input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 14px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        .search input:focus {
+            outline: none;
+            border-color: var(--sidebar-active);
+            box-shadow: 0 0 0 2px rgba(0, 191, 255, 0.2);
+        }
+        
+        .filter {
+            padding: 10px 15px;
+            background-color: var(--tab-inactive-bg);
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        .filter:hover {
+            background-color: var(--border-color);
+        }
+        
+        .divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 15px 0;
+        }
+        
+        .patient-header {
+            display: grid;
+            grid-template-columns: 2fr 2fr 1fr 1fr 1fr 1fr;
+            padding: 15px 20px;
+            background-color: var(--header-bg);
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        
+        .patient-row {
+            display: grid;
+            grid-template-columns: 2fr 2fr 1fr 1fr 1fr 1fr;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .patient-row:hover {
+            background-color: var(--hover-bg);
+        }
+        
+        .patient-name {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .contact-details a {
+            color: var(--sidebar-active);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-details a:hover {
+            text-decoration: underline;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status.active {
+            background-color: var(--active-status-bg);
+            color: var(--active-status-text);
+        }
+        
+        .status.inactive {
+            background-color: var(--inactive-status-bg);
+            color: var(--inactive-status-text);
+        }
+        
+        .doctor, .last-visit, .patient-id {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* ============================================= */
+        /* THEME TOGGLE STYLES */
+        /* ============================================= */
+
+        .theme-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-switcher-label {
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        /* ============================================= */
+        /* RESPONSIVE STYLES */
+        /* ============================================= */
+
+        @media (max-width: 768px) {
+            .dashboard {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .patient-header, .patient-row {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .patient-header div:nth-child(4),
+            .patient-header div:nth-child(5),
+            .patient-header div:nth-child(6),
+            .patient-row div:nth-child(4),
+            .patient-row div:nth-child(5),
+            .patient-row div:nth-child(6) {
+                display: none;
+            }
+        }
+
+        /* Add these styles in the CSS section */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--text-muted);
+        }
+
+        .patient-details {
+            margin-top: 20px;
+        }
+
+        .detail-group {
+            margin-bottom: 15px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 14px;
+            margin-top: 5px;
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .copy-btn {
+            padding: 4px 8px;
+            background: var(--sidebar-active);
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
+                    <div class="logo-glow"></div>
+                </div>
+                <div class="sidebar-title">
+                    <h2>
+                        <span class="holy-family">HOLY FAMILY</span><br>
+                        <span class="dental-clinic">DENTAL CLINIC</span>
+                    </h2>
+                    <p>Creating beautiful smiles for every family</p>
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="appointment-request-logs.html"><i class="fas fa-clipboard-list"></i> <span>Appointment Request Logs</span></a></li>
+                <li><a href="#"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
+                <li><a href="patients.html" class="active"><i class="fas fa-users"></i> <span>Patients</span></a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> <span>Reports</span></a></li>
+                <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+            <!-- Add Return to Home menu at the bottom -->
+            <div style="position: absolute; bottom: 20px; width: 100%;">
+                <div style="position: absolute; bottom: 20px; width: 100%;">
+                    <ul class="sidebar-menu settings-menu">
+                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                    <ul class="sidebar-menu return-home-menu">
+                        <li><a href="landingpage.html"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="theme-switcher">
+                <span class="theme-switcher-label">Dark Mode</span>
+                <label class="switch">
+                    <input type="checkbox" id="themeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="container">
+                <header>
+                    <h1>Patients List</h1>
+                    
+                    <div class="status-tabs">
+                        <div class="status-tab active">Active (34)</div>
+                        <div class="status-tab inactive">Inactive (25)</div>
+                    </div>
+                    
+                    <div class="search-filter">
+                        <div class="search">
+                            <input type="text" placeholder="Search patients...">
+                        </div>
+                        <div class="filter">
+                            <i class="fas fa-filter"></i> Filter
+                        </div>
+                        <button class="create-account-btn">
+                            <i class="fas fa-user-plus"></i>
+                            Create Guest Account
+                        </button>
+                    </div>
+                    
+                    <div class="divider"></div>
+                    
+                    <div class="patient-header">
+                        <div>Patient name</div>
+                        <div>Contact details</div>
+                        <div>Date of Birth</div>
+                        <div>Status</div>
+                        <div>Patient ID</div>
+                        <div>Last Visit</div>
+                    </div>
+                </header>
+                
+                <main>
+                    <!-- 
+                    TODO: Replace this section with dynamic data from backend
+                    Expected data structure from API:
+                    {
+                        id: string,
+                        name: string,
+                        contactNumber: string,
+                        email: string,
+                        dateOfBirth: string,
+                        status: "active" | "inactive",
+                        patientId: string,
+                        lastVisit: string
+                    }
+                    -->
+                    
+                    <!-- Sample patient (remove when integrating with backend) -->
+                    <div class="patient-row">
+                        <div class="patient-name">John Doe</div>
+                        <div class="contact-details">
+                            <div>0945-123-4567</div>
+                            <a href="mailto:johndoe@example.com">johndoe@example.com</a>
+                        </div>
+                        <div>January 15, 1990</div>
+                        <div><span class="status active">Active</span></div>
+                        <div class="patient-id">2024-001</div>
+                        <div class="last-visit">March 1, 2024</div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add this HTML right before the closing body tag -->
+    <div id="patientModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>Patient Details</h2>
+            <div class="patient-details">
+                <div class="detail-group">
+                    <div class="detail-label">Full Name</div>
+                    <div class="detail-value" id="modalName"></div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Contact Number</div>
+                    <div class="detail-value" id="modalPhone"></div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Email</div>
+                    <div class="detail-value" id="modalEmail"></div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Date of Birth</div>
+                    <div class="detail-value" id="modalDob"></div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Status</div>
+                    <div class="detail-value" id="modalStatus"></div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Patient ID</div>
+                    <div class="detail-value" id="modalPatientId"></div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Last Visit</div>
+                    <div class="detail-value" id="modalLastVisit"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="createAccountModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>Create Guest Account</h2>
+            <div class="form-container">
+                <div class="detail-group">
+                    <div class="detail-label">Full Name *</div>
+                    <input type="text" id="guestName" class="form-input" required>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Contact Number *</div>
+                    <input type="tel" id="guestPhone" class="form-input" required>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Email</div>
+                    <input type="email" id="guestEmail" class="form-input">
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Date of Birth *</div>
+                    <input type="date" id="guestDob" class="form-input" required>
+                </div>
+                
+                <div class="generated-credentials" style="display: none;">
+                    <div class="detail-group">
+                        <div class="detail-label">Generated Username</div>
+                        <div class="detail-value">
+                            <span id="generatedUsername"></span>
+                            <button onclick="copyText('generatedUsername')" class="copy-btn">Copy</button>
+                        </div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-label">Generated Password</div>
+                        <div class="detail-value">
+                            <span id="generatedPassword"></span>
+                            <button onclick="copyText('generatedPassword')" class="copy-btn">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="createGuestBtn" class="create-account-btn" style="width: 100%; margin-top: 20px;">
+                    Create Account
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference or use preferred color scheme
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            html.setAttribute('data-theme', 'dark');
+            themeToggle.checked = true;
+        }
+        
+        // Toggle theme on switch click
+        themeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('.status-tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                // Here you would typically filter the patient list
+                // based on active/inactive status
+            });
+        });
+        
+        // Search functionality
+        const searchInput = document.querySelector('.search input');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const patientRows = document.querySelectorAll('.patient-row');
+            
+            patientRows.forEach(row => {
+                const name = row.querySelector('.patient-name').textContent.toLowerCase();
+                const email = row.querySelector('.contact-details a').textContent.toLowerCase();
+                const phone = row.querySelector('.contact-details div').textContent.toLowerCase();
+                
+                if (name.includes(searchTerm) || email.includes(searchTerm) || phone.includes(searchTerm)) {
+                    row.style.display = 'grid';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Get modal elements
+        const modal = document.getElementById('patientModal');
+        const closeBtn = document.querySelector('.modal-close');
+
+        // Add click handlers to patient rows
+        document.querySelectorAll('.patient-row').forEach(row => {
+            row.addEventListener('click', () => {
+                // Get patient data from row
+                const name = row.querySelector('.patient-name').textContent;
+                const phone = row.querySelector('.contact-details div').textContent;
+                const email = row.querySelector('.contact-details a').textContent;
+                const dob = row.querySelector('.patient-row div:nth-child(3)').textContent;
+                const status = row.querySelector('.status').textContent;
+                const patientId = row.querySelector('.patient-id').textContent;
+                const lastVisit = row.querySelector('.last-visit').textContent;
+
+                // Update modal content
+                document.getElementById('modalName').textContent = name;
+                document.getElementById('modalPhone').textContent = phone;
+                document.getElementById('modalEmail').textContent = email;
+                document.getElementById('modalDob').textContent = dob;
+                document.getElementById('modalStatus').textContent = status;
+                document.getElementById('modalPatientId').textContent = patientId;
+                document.getElementById('modalLastVisit').textContent = lastVisit;
+
+                // Show modal
+                modal.style.display = 'block';
+            });
+        });
+
+        // Close modal when clicking X or outside
+        closeBtn.onclick = () => modal.style.display = 'none';
+        window.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+
+        const createAccountBtn = document.querySelector('.create-account-btn');
+        const createAccountModal = document.getElementById('createAccountModal');
+        const createGuestBtn = document.getElementById('createGuestBtn');
+
+        // Show modal when Create Guest Account is clicked
+        createAccountBtn.onclick = () => {
+            createAccountModal.style.display = 'block';
+            document.querySelector('.generated-credentials').style.display = 'none';
+        };
+
+        // Generate random credentials
+        function generateCredentials() {
+            const timestamp = Date.now();
+            const random = Math.floor(Math.random() * 1000);
+            return {
+                username: `guest${timestamp}${random}`,
+                password: Math.random().toString(36).slice(-10)
+            };
+        }
+
+        // Copy text functionality
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text);
+            const btn = event.target;
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = 'Copy', 1500);
+        }
+
+        // Create guest account
+        createGuestBtn.onclick = () => {
+            const name = document.getElementById('guestName').value;
+            const phone = document.getElementById('guestPhone').value;
+            const email = document.getElementById('guestEmail').value;
+            const dob = document.getElementById('guestDob').value;
+
+            if (!name || !phone || !dob) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            const credentials = generateCredentials();
+            document.getElementById('generatedUsername').textContent = credentials.username;
+            document.getElementById('generatedPassword').textContent = credentials.password;
+            document.querySelector('.generated-credentials').style.display = 'block';
+
+            // Here you would typically send this data to your backend
+            const userData = {
+                name,
+                phone,
+                email,
+                dob,
+                username: credentials.username,
+                password: credentials.password
+            };
+            console.log('User account created:', userData);
+        };
+
+        // Close account modal
+        const accountModalClose = createAccountModal.querySelector('.modal-close');
+        accountModalClose.onclick = () => createAccountModal.style.display = 'none';
+        window.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+            if (e.target === createAccountModal) createAccountModal.style.display = 'none';
+        };
+    </script>
+</body>
+</html>

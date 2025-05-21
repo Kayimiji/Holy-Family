@@ -1,0 +1,4681 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Patient Records - Holy Family Dental Clinic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <style>
+
+/* ============================================= */
+/* BASE STYLES & VARIABLES */
+/* ============================================= */
+
+:root {
+    --bg-color: #f5f7fa;
+    --x-button-color: #37adfc;
+    --calendar-hover: #37adfc;
+    --unavailable-time: #f5f5f5;
+    --calendar-color: #ffffff;
+    --progress-color: #e0e0e0;
+    --sidebar-bg: #2c3e50;
+    --sidebar-text: rgba(255, 255, 255, 0.9);
+    --sidebar-active: #00bfff;
+    --card-bg: #ffffff; /* Light theme card background */
+    --text-color: #2c3e50;
+    --text-muted: #7a8ba9;
+    --border-color: #e1e5eb;
+    --hover-bg: #f0f4f8;
+    --today-bg: #e6f7ff;
+    --selected-bg: #00bfff;
+    --selected-text: white;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --prevbutton-color: #2c3e50;
+    --nextbutton-color: #00bfff;
+}
+
+[data-theme="dark"] {
+    --nextbutton-color: #00526d;
+    --progress-color: #7c7c7c;
+    --x-button-color: #99d5fd;
+    --unavailable-time: #9b9b9b54;
+    --calendar-hover: #1d608d;
+    --calendar-color: #272727;
+    --bg-color: #1a1a1a;
+    --sidebar-bg: #151e25;
+    --sidebar-text: rgba(255, 255, 255, 0.85);
+    --sidebar-active: #00bfff;
+    --card-bg: #2d2d2d;
+    --text-color: #e0e0e0;
+    --text-muted: #aaa;
+    --border-color: #444;
+    --hover-bg: #333;
+    --today-bg: #003366;
+    --selected-bg: #006699;
+    --selected-text: white;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --prevbutton-color: #45494d;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    margin: 0;
+    transition: background-color 0.3s ease;
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: var(--bg-color);
+    color: var(--sidebar-text);
+}
+
+/* ============================================= */
+/* LAYOUT & STRUCTURE */
+/* ============================================= */
+
+.dashboard {
+    
+    display: flex;
+    height: 100vh;
+    min-height: 100vh;
+    overflow: hidden;
+    color: var(--text-color);
+}
+
+.sidebar {
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 20px 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.main-content {
+    flex-direction: column;
+    padding: 30px;
+    display: flex;
+    flex: 3;
+    transition: background-color 0.3s ease;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: -10px;
+    margin-top: -20px;
+}
+
+.top-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    margin-top: 10px; /* Changed from -30px to 10px */
+    margin-left: 0;
+}
+
+/* Update the .stats-container margins if needed */
+.stats-container {
+    display: flex;
+    gap: 50px;
+    flex: 2;
+    margin-top: 0; /* Add this if needed */
+}
+
+.profile-edit {
+    background: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 1px 1px;
+    font-size: 14px;
+    width: 100%;
+    max-width: 200px;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.profile-edit:focus {
+    outline: none;
+    border-color: var(--sidebar-active);
+    box-shadow: 0 0 0 2px rgba(0, 191, 255, 0.2);
+}
+
+.profile-container {
+    flex: 1;
+}
+
+.content-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.left-panel {
+    flex: 2;
+    min-width: 300px;
+    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: -25.5%;
+    position: relative;
+}
+
+.right-panel {
+    flex: 1.5;
+    min-width: 500px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 0;
+    height: auto;
+    overflow: visible;
+    position: relative;
+}
+
+.return-home-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.return-home-menu li {
+    margin-bottom: 5px;
+}
+
+.return-home-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.return-home-menu a:hover, .return-home-menu a.active {
+    background-color: rgba(0, 191, 255, 0.2);
+    color: white;
+    border-left: 3px solid var(--sidebar-active);
+}
+
+.return-home-menu i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+/* ============================================= */
+/* SIDEBAR COMPONENTS */
+/* ============================================= */
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.sidebar-logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-right: -5px;
+    margin-top: -45px;
+    margin-left: -20px;
+    object-fit: cover;
+}
+
+.sidebar-title h2 {
+    color: var(--sidebar-active);
+    margin: 0;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+}
+
+.sidebar-title p {
+    color: var(--sidebar-text);
+    font-size: 12px;
+    margin-top: 10px;
+    margin-left: -40px;
+    font-style: italic;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    white-space: normal;
+}
+
+.holy-family {
+    color: #1380d3;
+    font-weight: bold;
+}
+
+.dental-clinic {
+    color: #00c4cc;
+    font-weight: bold;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    margin-bottom: 5px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background-color: rgba(0, 191, 255, 0.2);
+    color: white;
+    border-left: 3px solid var(--sidebar-active);
+}
+
+.sidebar-menu i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.settings-menu a:hover, .return-home-menu a:hover {
+    background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
+    color: white; /* Change text color on hover */
+    border-left: 3px solid var(--sidebar-active); /* Add left border */
+    display: block; /* Ensure the hover effect spans the full width */
+    width: 100%; /* Extend hover effect across the full width */
+    padding-right: 25px; /* Maintain alignment */
+}
+
+
+/* ============================================= */
+/* CARDS & CONTAINERS */
+/* ============================================= */
+
+.card {
+    background: var(--border-color);
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-bottom: 85px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.card-header h2 {
+    color: var(--text-color);
+    margin: 0;
+    margin-top: -20px;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.filter-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filter-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-right: 5px;
+}
+
+.filter-select {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    font-size: 14px;
+    cursor: pointer;
+    min-width: 180px;
+}
+
+.treatment-history-container {
+    flex: 1;
+    padding-right: 10px;
+    padding-left: -5px;
+    height: 600px; /* Fixed height */
+    overflow-y: auto;
+    background-color: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================= */
+/* STATS CARDS */
+/* ============================================= */
+
+.stat-card {
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 255, 255, 0.1) 100%);
+    border-radius: 16px;
+    margin-left: -30px;
+    margin-top: -30px;
+    padding: 20px;
+    height: 90px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    flex: 1;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border-left: 6px solid;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+    z-index: 0;
+}
+
+.stat-card:nth-child(1) {
+    border-left-color: #2c3e50;
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(44, 62, 80, 0.1) 100%);
+}
+
+.stat-card:nth-child(2) {
+    border-left-color: #9C27B0;
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(156, 39, 176, 0.1) 100%);
+}
+
+.stat-card:nth-child(3) {
+    border-left-color: #4CAF50;
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(76, 175, 80, 0.1) 100%);
+}
+
+.stat-card:nth-child(4) {
+    border-left-color: #FF9800;
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 152, 0, 0.1) 100%);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+    font-size: 20px;
+    color: white;
+}
+
+.stat-card:hover .stat-icon {
+    transform: scale(1.1);
+}
+
+.stat-icon.clock-icon {
+    background: linear-gradient(135deg, #2c3e50, #4a6b8a);
+}
+
+.stat-icon.upcoming-icon {
+    background: linear-gradient(135deg, #9C27B0, #6A1B9A);
+}
+
+.stat-icon:nth-child(3) {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+}
+
+.stat-icon:nth-child(4) {
+    background: linear-gradient(135deg, #FF9800, #F57C00);
+}
+
+.stat-content {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+
+.stat-value {
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 5px;
+    transition: color 0.3s ease;
+    letter-spacing: 0.5px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    transition: color 0.3s ease;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-date {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+.stat-date i {
+    color: var(--sidebar-active);
+}
+
+/* Upcoming Card Specific Styles */
+.stat-card.upcoming-card {
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 191, 255, 0.05) 100%);
+    border-left: 4px solid var(--sidebar-active);
+    border-radius: 12px;
+    padding: 20px;
+    height: 90px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s, box-shadow 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card.upcoming-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(156, 39, 176, 0.1) 0%, transparent 70%);
+    animation: rotate 15s linear infinite;
+    z-index: 0;
+}
+
+.stat-card.upcoming-card .stat-icon {
+    animation: pulse-purple 2s infinite;
+}
+
+.stat-icon.upcoming-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 24px;
+    color: white;
+    background: linear-gradient(135deg, #9C27B0, #6A1B9A);
+    animation: pulse 2s infinite;
+}
+
+/* ============================================= */
+/* TABLES */
+/* ============================================= */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--card-bg);
+}
+
+th, td {
+    border: 1px solid var(--border-color); /* Add border to each cell */
+    padding: 12px;
+    text-align: left;
+    
+}
+
+th {
+    background-color: var(--sidebar-bg);
+    color: white;
+    font-weight: bold;
+}
+
+tr {
+    border-bottom: 1px solid var(--border-color);
+}
+
+tr:hover {
+    background-color: rgba(0, 191, 255, 0.05);
+}
+
+td {
+    padding: 12px;
+    color: var(--text-color);
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+
+.treatment-history-container table {
+    width: 100%;
+    border-collapse: separate;
+    table-layout: fixed; /* Force fixed table layout */
+    border-spacing: 0 10px;
+    background-color: var(--card-bg);
+}
+
+.treatment-history-container thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--sidebar-bg);
+}
+
+.treatment-history-container th {
+    background-color: var(--sidebar-bg);
+    color: white;
+    padding: 12px 15px;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.treatment-history-container tr {
+    background-color: var(--card-bg); /* Use the card background color */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.treatment-history-container tr:hover {
+    background-color: rgba(0, 191, 255, 0.1);
+}
+
+.treatment-history-container td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 12px;
+}
+
+.treatment-history-container td:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.treatment-history-container td:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+
+/* Set fixed widths for columns */
+.treatment-history-container th:nth-child(1),
+.treatment-history-container td:nth-child(1) {
+    width: 20%; /* Date & Time column */
+}
+
+.treatment-history-container th:nth-child(2),
+.treatment-history-container td:nth-child(2) {
+    width: 20%; /* Procedure column */
+}
+
+.treatment-history-container th:nth-child(3),
+.treatment-history-container td:nth-child(3) {
+    width: 10%; /* Cost column */
+}
+
+.treatment-history-container th:nth-child(4),
+.treatment-history-container td:nth-child(4) {
+    width: 10%; /* Status column */
+}
+
+.treatment-history-container th:nth-child(5),
+.treatment-history-container td:nth-child(5) {
+    width: 20%; /* Actions column */
+}
+
+.date-time-cell .date {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.date-time-cell .time {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.procedure-cell {
+    font-weight: 500;
+}
+
+.cost-cell {
+    font-weight: 600;
+    color: var(--sidebar-active);
+}
+
+
+/* ============================================= */
+/* BUTTONS & INTERACTIVE ELEMENTS */
+/* ============================================= */
+
+.btn {
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    margin-top: -10px;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    border: none;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--sidebar-active);
+    color: var(--sidebar-active);
+}
+
+.btn-outline:hover {
+    background-color: var(--sidebar-active);
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 8px 12px; /* Adjust padding for text */
+    border-radius: 8px; /* Slightly rounded corners */
+    transition: all 0.3s ease;
+    font-size: 14px; /* Adjust font size for text */
+    font-weight: 600; /* Make text bold */
+    text-transform: uppercase; /* Make text uppercase */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.action-btn:hover {
+    background-color: rgba(0, 191, 255, 0.1);
+    color: var(--sidebar-active);
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
+}
+
+.action-btn i {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.action-btn:hover i {
+    transform: scale(1.2);
+}
+
+.view-btn {
+    background-color: rgba(0, 191, 255, 0.05);
+    color: var(--sidebar-active);
+}
+
+.download-btn {
+    background-color: rgba(76, 175, 80, 0.05);
+    color: #4CAF50;
+}
+
+.view-btn:hover {
+    background-color: rgba(0, 191, 255, 0.2);
+    color: white;
+}
+
+.download-btn:hover {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: white;
+}
+
+/* Theme Toggle Switch */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    gap: 10px;
+}
+
+.theme-toggle-label {
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #00bfff;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* ============================================= */
+/* PROFILE SECTION */
+/* ============================================= */
+
+.profile-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.profile-card {
+    padding: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    margin-top: 10px;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    height: auto;
+    background: var(--card-bg);
+    text-align: center;
+    min-height: 400px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid var(--sidebar-active);
+}
+
+.profile-name {
+    color: var(--text-color);
+    margin: 0 0 15px;
+    font-size: 18px;
+}
+
+.profile-id {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-details {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.profile-label {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.profile-value {
+    color: var(--text-color);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.profile-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.profile-card .card-header h2 {
+    margin: 0;
+    flex-grow: 1;
+    margin-left: -50%;
+}
+
+#editProfileBtn {
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+.profile-content {
+    width: 100%;
+    text-align: left;
+}
+
+.profile-details {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.profile-label {
+    color: var(--text-muted);
+    font-size: 14px;
+    min-width: 120px;
+    text-align: left;
+}
+
+.profile-value {
+    color: var(--text-color);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: right;
+    flex-grow: 1;
+    padding-left: 20px;
+}
+
+
+
+/* ============================================= */
+/* DENTAL PROGRESS SECTION */
+/* ============================================= */
+
+.dental-progress-card h2{
+    font-size: 18px;
+    margin-bottom: -10px;
+    margin-left: 5px;
+    
+}
+
+.dental-progress-card {
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border-radius: 10px;
+    background: var(--card-bg);
+    max-height: 206px;
+    overflow: visible; /* Remove scrolling */
+    margin-top: -130px;
+    position: relative;
+    display: flex;
+    gap: 20px;
+    flex-direction: column; /* Ensure proper layout */
+    align-items: flex-start;
+}
+
+.progress-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    height: 160px;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.progress-item {
+    margin-top: -5px;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 100%;
+    margin-bottom: 10px;
+}
+
+.progress-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.5s ease;
+}
+
+.progress-item:hover img {
+    transform: scale(1.05);
+}
+
+.progress-tag {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: var(--sidebar-active);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* ============================================= */
+/* MODALS */
+/* ============================================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+}
+
+.big-clock {
+    font-size: 5rem;
+    font-weight: 700;
+    color: var(--sidebar-active);
+    margin: 20px 0;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 5px;
+}
+
+.big-date {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    margin-bottom: 30px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-modal:hover {
+    color: var(--sidebar-active);
+}
+
+.analog-clock {
+    width: 200px;
+    height: 200px;
+    border: 8px solid var(--sidebar-active);
+    border-radius: 50%;
+    margin: 20px auto;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
+    background: url('logo.png') no-repeat center center;
+    background-size: contain;
+}
+
+.clock-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    background: var(--sidebar-active);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+.hour-hand, .minute-hand, .second-hand {
+    transition: transform 0.5s cubic-bezier(0.4, 2.3, 0.3, 1);
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform-origin: 50% 100%;
+    background: var(--text-color);
+    border-radius: 5px;
+}
+
+.hour-hand {
+    width: 6px;
+    height: 50px;
+    margin-left: -3px;
+}
+
+.minute-hand {
+    width: 4px;
+    height: 70px;
+    margin-left: -2px;
+    background: var(--sidebar-active);
+}
+
+.second-hand {
+    width: 2px;
+    height: 80px;
+    margin-left: -1px;
+    background: #ff5555;
+}
+
+/* Clock Card Specific Styles */
+#clock-card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-left: 4px solid #00bfff;
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 191, 255, 0.05) 100%);
+}
+
+#clock-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 191, 255, 0.1);
+}
+
+.clock-container {
+    display: flex;
+    align-items: center;
+}
+
+.stat-icon.clock-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #2c3e50 0%, #4a6b8a 100%);
+    position: relative;
+    margin-right: 20px;
+    animation: pulse 2s infinite;
+}
+
+.clock-face {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.clock-hour-hand,
+.clock-minute-hand,
+.clock-second-hand {
+    position: absolute;
+    background: white;
+    border-radius: 3px;
+    transform-origin: bottom center;
+    left: 50%;
+    bottom: 50%;
+}
+
+.clock-hour-hand {
+    width: 3px;
+    height: 12px;
+    margin-left: -1.5px;
+    transform: rotate(30deg);
+}
+
+.clock-minute-hand {
+    width: 2px;
+    height: 16px;
+    margin-left: -1px;
+    transform: rotate(45deg);
+}
+
+.clock-second-hand {
+    width: 1px;
+    height: 18px;
+    background: #ff5555;
+    margin-left: -0.5px;
+    transform: rotate(10deg);
+}
+
+.time-part {
+    min-width: 30px;
+    text-align: center;
+    background: rgba(0, 191, 255, 0.1);
+    padding: 3px 6px;
+    border-radius: 6px;
+    margin: 0 2px;
+    font-family: 'Courier New', monospace;
+}
+
+.time-colon {
+    margin: 0 2px;
+    animation: blink 1s infinite;
+}
+
+.time-ampm {
+    font-size: 16px;
+    margin-left: 8px;
+    color: var(--sidebar-active);
+    background: rgba(0, 191, 255, 0.1);
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.calendar-date {
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+    background-color: transparent;
+}
+
+.calendar-date:hover {
+    background-color: var(--sidebar-active);
+    color: white;
+}
+
+.calendar-icon {
+    position: relative;
+    margin-right: 8px;
+}
+
+.calendar-top {
+    position: absolute;
+    top: -5px;
+    left: 3px;
+    width: 14px;
+    height: 6px;
+    background: #ff5555;
+    border-radius: 2px 2px 0 0;
+}
+
+.fa-calendar-alt {
+    color: var(--sidebar-active);
+}
+
+/* ============================================= */
+/* SORTING & FILTERING */
+/* ============================================= */
+
+.sort-btn {
+    background: none;
+    border: none;
+    color: white; /* Change this to white for better visibility */
+    cursor: pointer;
+    padding: 2px 5px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500; /* Add font weight for better visibility */
+}
+
+.sort-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #00bfff; /* Change hover color to match theme */
+}
+
+.sort-btn i {
+    color: white; /* Make icons white */
+}
+
+.sort-btn.asc .fa-sort-up,
+.sort-btn.desc .fa-sort-down {
+    color: #00bfff; /* Active sort icon color */
+    opacity: 1; /* Ensure full opacity */
+}
+
+.sort-btn span {
+    color: white; /* Ensure text is white */
+    opacity: 1; /* Ensure full opacity */
+}
+
+.sortable-header, .filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-actions {
+    display: flex;
+    gap: 5px;
+    margin-left: 10px;
+}
+
+.sort-btn, .filter-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 2px 5px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.sort-btn:hover, .filter-btn:hover {
+    background: rgba(0, 191, 255, 0.1);
+    color: var(--sidebar-active);
+}
+
+.sort-btn.active {
+    color: var(--sidebar-active);
+}
+
+.sort-btn .fa-sort-up,
+.sort-btn .fa-sort-down {
+    display: none;
+}
+
+.sort-btn.asc .fa-sort {
+    display: none;
+}
+
+.sort-btn.asc .fa-sort-up {
+    display: inline-block;
+    color: var(--sidebar-active);
+}
+
+.sort-btn.desc .fa-sort {
+    display: none;
+}
+
+.sort-btn.desc .fa-sort-down {
+    display: inline-block;
+    color: var(--sidebar-active);
+}
+
+.filter-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.filter-dropdown .dropdown-content {
+    position: absolute;
+    z-index: 9999;
+    overflow: visible;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--card-bg);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 9999;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    right: 0;
+    top: 100%;
+}
+
+.dropdown-content div {
+    color: var(--text-color);
+    padding: 8px 12px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.dropdown-content div:hover {
+    background-color: rgba(0, 191, 255, 0.1);
+    color: var(--sidebar-active);
+}
+
+.filter-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.filter-dropdown.active .dropdown-content {
+    display: block;
+}
+
+#resetTable {
+    background-color: #9adfff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+#resetTable:hover {
+    background-color: #e04444;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================= */
+/* APPOINTMENT MODAL STYLES */
+/* ============================================= */
+
+#newAppointmentModal .modal-content {
+    max-width: 900px;
+    border-radius: 15px;
+    background: var(--card-bg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+#newAppointmentModal h2 {
+    color: var(--sidebar-active);
+    margin: 15px 0 10px 0;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#newAppointmentModal .step-description {
+    color: var(--text-muted);
+    margin: 0 0 20px 0;
+    font-size: 14px;
+}
+
+.progress-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+    position: relative;
+    padding: 0 20px;
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+}
+
+.progress-step .circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--progress-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+.progress-step.active .circle {
+    background-color: var(--sidebar-active);
+    box-shadow: 0 0 0 5px rgba(0, 191, 255, 0.2);
+}
+
+.progress-step span {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.progress-step.active span {
+    color: var(--sidebar-active);
+    font-weight: 500;
+}
+
+.progress-line {
+    flex: 1;
+    height: 2px;
+    background-color: #e0e0e0;
+    position: relative;
+    top: -8px;
+}
+
+.date-time-container {
+    flex: 1;
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.calendar-container {
+    flex: 1;
+    background-color: var(--calendar-color);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+#calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.month-nav {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.month-nav:hover {
+    background-color: rgba(0, 191, 255, 0.1);
+    border-color: var(--sidebar-active);
+}
+
+#current-month {
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0;
+    font-size: 18px;
+}
+
+#calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.day-header {
+    font-weight: 600;
+    color: #7a8ba9;
+    font-size: 13px;
+    padding: 5px;
+}
+
+#calendar-dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    text-align: center;
+}
+
+.calendar-date {
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+    background-color: transparent;
+    position: relative;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 14px;
+}
+
+.calendar-date:hover:not(.disabled-date):not(.today):not(.selected) {
+    background-color: var(--calendar-hover);
+}
+
+.calendar-date.disabled-date {
+    color: #ccc;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.calendar-date.today {
+    background-color: rgba(0, 191, 255, 0.2);
+    color: var(--sidebar-active);
+    font-weight: bold;
+}
+
+.calendar-date.selected {
+    background-color: var(--sidebar-active);
+    color: white;
+    font-weight: bold;
+}
+
+.calendar-date.other-month {
+    opacity: 0.5;
+}
+
+
+
+
+.selected-date-display, .selected-time-display {
+    margin-top: auto; /* This will push it to the bottom */
+    font-weight: 600;
+    color: var(--text-color);
+    text-align: center;
+    padding: 12px;
+    background-color: rgba(0, 191, 255, 0.1);
+    border-radius: 8px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.selected-date-display i, .selected-time-display i {
+    color: var(--sidebar-active);
+}
+
+.time-slots-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: var(--calendar-color);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.time-slots-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.time-slots {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.time-slot {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.time-slot:hover:not(.unavailable):not(.active) {
+    background-color: var(--calendar-hover);
+    border-color: var(--sidebar-active);
+}
+
+.time-slot.active {
+    background-color: var(--sidebar-active);
+    color: white;
+    border-color: var(--sidebar-active);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
+}
+
+.time-slot.unavailable {
+    background-color: var(--unavailable-time);
+    color: #999;
+    cursor: not-allowed;
+    position: relative;
+    opacity: 0.7;
+}
+
+.time-slot.unavailable::after {
+    content: "Unavailable";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10px;
+    color: #6e6e6e;
+    text-decoration: none;
+}
+
+.confirmation-details {
+    background-color: rgba(0, 191, 255, 0.05);
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid var(--sidebar-active);
+    margin: 20px 0;
+}
+
+.detail-item {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.detail-item:last-child {
+    margin-bottom: 0;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: var(--text-color);
+    width: 100px;
+    flex-shrink: 0;
+    font-size: 14px;
+}
+
+.detail-value {
+    flex: 1;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.procedure-select, #other-procedure {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--calendar-color);
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+#appointment-notes {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    min-height: 80px;
+    font-size: 14px;
+    resize: vertical;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    margin-top: 10px;
+    background-color: rgba(0, 191, 255, 0.05);
+    border-top: 1px solid rgba(0, 191, 255, 0.2);
+}
+
+.step-navigation {
+    display: flex;
+    justify-content: space-between; /* This will push buttons to opposite ends */
+    padding: 15px 20px;
+    margin-top: 10px;
+    background-color: rgba(0, 191, 255, 0.05);
+    border-top: 1px solid rgba(0, 191, 255, 0.2);
+}
+
+.step-button {
+    background-color: var(--nextbutton-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 120px; /* Set minimum width for consistency */
+}
+
+.step-button:hover {
+    background-color: #006f94;
+    box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.step-button:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.step-button.prev {
+    background-color: #f5f5f5;
+    color: var(--prevbutton-color);
+    border: 1px solid var(--border-color);
+}
+
+.step-button:hover {
+    background-color: #009acd;
+    box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.step-button.prev:hover {
+    background-color: #e0e0e0;
+    
+}
+
+.appointment-step {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.appointment-step.active {
+    display: block;
+}
+
+/* Position confirm button to the right */
+#confirm-appointment-btn {
+    margin-left: auto;
+}
+
+/* ============================================= */
+/* WARNING & CONFIRMATION MODALS */
+/* ============================================= */
+
+#warningModal .modal-content {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.4s ease-out forwards;
+    transform: translateY(20px);
+    opacity: 0;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    margin-left: -12%;
+    top: 40%;
+    transform: translateY(-50%);
+}
+
+#warningModal .close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+#warningModal h3 {
+    color: #ff5555;
+    font-size: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#warningMessage {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+#warningOkBtn {
+    background-color: #ff5555;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 14px;
+}
+
+#warningOkBtn:hover {
+    background-color: #e04444;
+    box-shadow: 0 4px 8px rgba(255, 85, 85, 0.2);
+}
+
+#confirmationModal .modal-content {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.4s ease-out forwards;
+    transform: translateY(20px);
+    opacity: 0;
+    margin-left: -12%;
+    top: 40%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+}
+
+#confirmationModal .close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+#confirmationModal .close-modal:hover {
+    color: #4CAF50;
+}
+
+#confirmationModal h3 {
+    color: #4CAF50;
+    font-size: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#confirmationMessage {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+#confirmationOkBtn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 14px;
+}
+
+#confirmationOkBtn:hover {
+    background-color: #3e8e41;
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+}
+
+.checkmark-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.checkmark {
+    width: 72px;
+    height: 72px;
+    stroke-width: 2;
+    stroke: #4CAF50;
+    fill: none;
+    stroke-miterlimit: 10;
+    animation: scaleUp 0.3s ease-out forwards;
+}
+
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: drawCircle 0.6s ease-out forwards;
+}
+
+.checkmark-check {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: drawCheck 0.3s 0.6s ease-out forwards;
+}
+
+/* ============================================= */
+/* TOTAL COST MODAL */
+/* ============================================= */
+
+#totalCostModal .modal-content {
+    max-width: 800px;
+    text-align: left;
+}
+
+.payment-table-container {
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    overflow-x: auto;
+}
+
+.payment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.payment-table th {
+    background-color: var(--sidebar-bg);
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.payment-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.payment-table tr:last-child td {
+    border-bottom: none;
+}
+
+.payment-table tr:hover {
+    background-color: rgba(0, 191, 255, 0.05);
+}
+
+.total-row {
+    font-weight: 700;
+    background-color: #f5f7fa;
+}
+
+.total-row td {
+    border-top: 2px solid var(--sidebar-bg);
+}
+
+.cost-summary {
+    background-color: rgba(0, 191, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cost-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.cost-label {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.cost-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+#modal-total-cost {
+    color: #4CAF50;
+    font-size: 22px;
+}
+
+.cost-breakdown {
+    margin-top: 20px;
+}
+
+.cost-breakdown h3 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.cost-breakdown table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cost-breakdown th {
+    background-color: var(--sidebar-bg);
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+.cost-breakdown td {
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.cost-breakdown tr:last-child td {
+    border-bottom: none;
+}
+
+/* ============================================= */
+/* APPOINTMENT DETAILS MODAL */
+/* ============================================= */
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+    color: var(--sidebar-active);
+    margin: 0;
+    font-size: 24px;
+}
+
+.modal-status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.status-completed {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.status-upcoming {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #FFC107;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.status-canceled {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #F44336;
+    border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.modal-section {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.modal-section h3 {
+    color: var(--text-color);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+
+.info-value {
+    font-size: 15px;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.treatment-details {
+    background-color: rgba(0, 191, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--sidebar-active);
+}
+
+.treatment-details p {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.treatment-details p:last-child {
+    margin-bottom: 0;
+}
+
+.treatment-details strong {
+    color: var(--sidebar-active);
+}
+
+.photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.photo-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+.photo-item:hover {
+    transform: translateY(-5px);
+}
+
+.photo-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+.photo-caption {
+    padding: 8px;
+    background-color: var(--sidebar-bg);
+    color: white;
+    text-align: center;
+    font-size: 13px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.btn-primary {
+    background-color: var(--sidebar-active);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #009acd;
+    box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: var(--bg-color);
+    border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: var(--sidebar-active);
+    border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: #009acd;
+}
+
+.appointments-container .card {
+    height: 615px;
+    margin-left: -30px;
+    box-shadow: var(--shadow);
+    overflow-y: auto;
+}
+
+/* ============================================= */
+/* SCROLLBARS */
+/* ============================================= */
+
+.left-panel .card::-webkit-scrollbar-track,
+.right-panel .card::-webkit-scrollbar-track {
+    background: var(--bg-color);
+    border-radius: 3px;
+}
+
+.left-panel .card::-webkit-scrollbar-thumb,
+.right-panel .card::-webkit-scrollbar-thumb {
+    background: var(--sidebar-active);
+    border-radius: 3px;
+}
+
+.left-panel .card::-webkit-scrollbar-thumb:hover,
+.right-panel .card::-webkit-scrollbar-thumb:hover {
+    background: #009acd;
+}
+
+/* ============================================= */
+/* ANIMATIONS & KEYFRAMES */
+/* ============================================= */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-purple {
+    0% { box-shadow: 0 0 0 0 rgba(156, 39, 176, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(156, 39, 176, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(156, 39, 176, 0); }
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(156, 39, 176, 0.4); }
+    70% { box-shadow: 0 0 0 20px rgba(156, 39, 176, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(156, 39, 176, 0); }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes scaleUp {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+}
+
+@keyframes drawCircle {
+    0% { stroke-dashoffset: 166; }
+    100% { stroke-dashoffset: 0; }
+}
+
+@keyframes drawCheck {
+    0% { stroke-dashoffset: 48; }
+    100% { stroke-dashoffset: 0; }
+}
+
+/* ============================================= */
+/* UTILITY CLASSES */
+/* ============================================= */
+
+.required-field {
+    position: relative;
+}
+
+.required-field::after {
+    content: "*";
+    color: #ff5555;
+    margin-left: 4px;
+    font-size: 16px;
+}
+
+.blink {
+    animation: blink 1s infinite;
+}
+
+/* ============================================= */
+/* RESPONSIVE ADJUSTMENTS */
+/* ============================================= */
+
+@media (max-width: 768px) {
+    .treatment-history-container th, 
+    .treatment-history-container td {
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+    
+    .action-btn {
+        width: 30px;
+        height: 30px;
+        padding: 6px;
+    }
+}
+
+/* ============================================= */
+/* MOBILE RESPONSIVE STYLES */
+/* ============================================= */
+
+@media (max-width: 992px) {
+    .dashboard {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        padding: 10px 0;
+    }
+    
+    .sidebar-header {
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .sidebar-logo {
+        width: 60px;
+        height: 60px;
+        margin-top: 0;
+        margin-left: 0;
+    }
+    
+    .sidebar-title h2 {
+        font-size: 16px;
+    }
+    
+    .sidebar-title p {
+        font-size: 11px;
+        margin-left: 0;
+    }
+    
+    .sidebar-menu {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .sidebar-menu li {
+        margin: 5px;
+    }
+    
+    .sidebar-menu a {
+        padding: 8px 12px;
+        border-radius: 5px;
+        border-left: none !important;
+    }
+    
+    .settings-menu, .return-home-menu {
+        position: static;
+        width: 100%;
+    }
+    
+    .main-content {
+        padding: 15px;
+    }
+    
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .stats-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .stats-container .stat-card {
+        padding: 10px;    
+        height: auto;     
+        flex-direction: column; 
+        align-items: center;    
+        text-align: center;
+        width: 100%;      /* Make cards full width on mobile */
+    }
+
+    .stats-container .stat-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;      /* Make content full width */
+        margin-top: 6px;
+    }
+
+    .stats-container .stat-icon {
+        width: 35px;      
+        height: 35px;
+        font-size: 12px;  /* Reduce icon font size */
+        margin: 0 auto;   /* Center the icon */
+        margin-bottom: 8px; 
+    }
+
+    .stats-container .clock-container {
+        flex-direction: column;  /* Stack items vertically */
+        align-items: center;    /* Center items horizontally */
+        width: 100%;           /* Take full width */
+    }
+
+    .stats-container .clock-icon {
+        margin: 0 auto 8px auto; /* Center icon with bottom margin */
+    }
+
+    .stats-container .stat-value {
+        font-size: 14px;  /* Reduce stat value size */ 
+        margin-bottom: 2px;
+        width: 100%;      /* Full width for text */
+        text-align: center;
+    }
+
+    .stats-container .stat-label {
+        font-size: 10px;  /* Reduce label size */ 
+        width: 100%;      /* Full width for text */
+        text-align: center;
+    }
+
+    .stats-container .stat-date {
+        font-size: 9px;   /* Reduce date size */
+        width: 100%;     /* Full width */
+        justify-content: center;
+        margin-top: 4px;
+    }
+
+    /* Specific clock card adjustments */
+    #clock-card .clock-container {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .stats-container .clock-icon {
+        width: 25px;      /* Reduced from 35px */
+        height: 25px;     /* Reduced from 35px */
+        font-size: 10px;  /* Reduced from 12px */
+        margin: 0 auto;   
+        margin-bottom: 6px; /* Reduced from 8px */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #clock-card .clock-icon {
+        width: 20px;      /* Match the above size */
+        height: 20px;     /* Match the above size */
+        margin: 0 auto 40px auto;
+    }
+
+
+    .stat-card {
+        width: 100%;
+        padding: 20px;
+    height: 90px;
+    }
+    
+    .content-container {
+        flex-direction: column;
+    }
+    
+    .left-panel, .right-panel {
+        min-width: 100%;
+        max-width: 100%;
+        margin-top: 0;
+    }
+    
+    .profile-card {
+        min-height: auto;
+        padding: 20px;
+    }
+    
+    .profile-img {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .profile-name {
+        font-size: 16px;
+    }
+    
+    .profile-row {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .profile-value {
+        text-align: left;
+    }
+    
+    .treatment-history-container {
+        height: auto;
+        max-height: 400px;
+    }
+    
+    .treatment-history-container table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    .action-btn {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+    
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .filter-container {
+        width: 100%;
+    }
+    
+    .filter-select {
+        min-width: 100%;
+    }
+    
+    .modal-content {
+        width: 95% !important;
+        padding: 15px !important;
+    }
+    
+    .date-time-container {
+        flex-direction: column;
+    }
+    
+    .time-slots {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .progress-gallery {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .sidebar-menu {
+        flex-direction: column;
+    }
+    
+    .stat-value {
+        font-size: 22px;
+    }
+    
+    .time-slots {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+    
+    .profile-edit {
+        max-width: 100%;
+    }
+    
+    .modal-content {
+        width: 98% !important;
+        padding: 10px !important;
+    }
+    
+    #newAppointmentModal .modal-content h2 {
+        font-size: 20px;
+        margin-left: 0;
+    }
+    
+    .progress-indicator {
+        gap: 5px;
+        padding: 0 10px;
+    }
+    
+    .progress-step span {
+        font-size: 10px;
+    }
+    
+    .step-button {
+        padding: 8px 12px;
+        min-width: auto;
+    }
+}
+
+/* Touch-friendly elements */
+.btn, .action-btn, .time-slot, .calendar-date {
+    min-height: 44px; /* Minimum touch target size */
+    min-width: 44px;
+}
+
+/* Improved table responsiveness */
+.treatment-history-container th, 
+.treatment-history-container td {
+    padding: 8px;
+    font-size: 13px;
+}
+
+.treatment-history-container th:nth-child(1),
+.treatment-history-container td:nth-child(1) {
+    width: 25%;
+}
+
+.treatment-history-container th:nth-child(2),
+.treatment-history-container td:nth-child(2) {
+    width: 25%;
+}
+
+.treatment-history-container th:nth-child(3),
+.treatment-history-container td:nth-child(3) {
+    width: 15%;
+}
+
+.treatment-history-container th:nth-child(4),
+.treatment-history-container td:nth-child(4) {
+    width: 15%;
+}
+
+.treatment-history-container th:nth-child(5),
+.treatment-history-container td:nth-child(5) {
+    width: 20%;
+}
+
+/* Hide less important elements on mobile */
+@media (max-width: 768px) {
+    .sidebar-title p {
+        display: none;
+    }
+    
+    .stat-date {
+        display: none;
+    }
+    
+    .profile-id {
+        font-size: 12px;
+    }
+}
+
+/* Prevent zooming on input focus */
+input, select, textarea {
+    font-size: 16px !important;
+}
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
+                    <div class="logo-glow"></div>
+                </div>
+                <div class="sidebar-title">
+                    <h2>
+                        <span class="holy-family">HOLY FAMILY</span><br>
+                        <span class="dental-clinic">DENTAL CLINIC</span>
+                    </h2>
+                    <p>Creating beautiful smiles for every family</p>
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="MyRecords.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="forms.html"><i class="fas fa-file-medical"></i> Forms</a></li>
+                <li><a href="mygallery.html"><i class="fas fa-images"></i> My Gallery</a></li>
+                <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+            <!-- Add Return to Home menu at the bottom -->
+            <div style="position: absolute; bottom: 20px; width: 13%;">
+                <div style="position: absolute; bottom: 20px; width: 100%;">
+                    <ul class="sidebar-menu settings-menu">
+                        <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                    <ul class="sidebar-menu return-home-menu">
+                        <li><a href="landingpage.html"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            
+            <div class="header">
+                <h1>Dashboard</h1>
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <!-- New Appointment Button -->
+                    <button class="btn btn-outline" id="download-btn" style="margin-right: 10px;">
+                        <i class="fas fa-download"></i> Download My Records
+                    </button>
+                    <div class="theme-toggle">
+                        <span class="theme-toggle-label">Dark Mode</span>
+                        <label class="switch">
+                            <input type="checkbox" id="themeToggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard">
+                <div class="main-content">
+                    <div class="top-row">
+                        <!-- Stats Cards -->
+                        <div class="stats-container">
+                            <div class="stat-card" id="clock-card">
+                                <div class="clock-container">
+                                    <div class="stat-icon clock-icon">
+                                        <div class="clock-face">
+                                            <div class="clock-hour-hand"></div>
+                                            <div class="clock-minute-hand"></div>
+                                            <div class="clock-second-hand"></div>
+                                        </div>
+                                    </div>
+                                    <div class="stat-content">
+                                        <span class="stat-label">Current Time</span>
+                                        <span class="stat-value" id="current-time">
+                                            <span class="time-part hours"></span>
+                                            <span class="time-colon blink">:</span>
+                                            <span class="time-part minutes"></span>
+                                            <span class="time-colon blink">:</span>
+                                            <span class="time-part seconds"></span>
+                                            <span class="time-ampm"></span>
+                                        </span>
+                                        <div class="stat-date">
+                                            <div class="calendar-icon">
+                                                <div class="calendar-top"></div>
+                                                <i class="far fa-calendar-alt"></i>
+                                            </div>
+                                            <span id="current-date"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stat-card upcoming-card" style="cursor: pointer;">
+                                <div class="stat-icon upcoming-icon">
+                                    <i class="fas fa-calendar-plus"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <span class="stat-value" id="upcoming-count">0</span>
+                                    <span class="stat-label">Upcoming Appointments</span>
+                                    <div class="stat-date">
+                                        <i class="far fa-clock"></i>
+                                        <span>Next: No upcoming appointments</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon" style="background-color: #4CAF50;">
+                                    <i class="fas fa-peso-sign"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <span class="stat-value" id="total-cost">₱0</span>
+                                    <span class="stat-label">Total Treatment Cost</span>
+                                    <div class="stat-date">
+                                        <i class="far fa-calendar-alt"></i>
+                                        <span>All Time</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+            
+                    <!-- Appointments Card -->
+                    <div class="appointments-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2><i class="fas fa-calendar-check"></i> Appointments</h2>
+                                <div class="header-actions">
+                                    <button class="btn btn-outline" id="undoButton">
+                                        <i class="fas fa-undo"></i> Reset Filters
+                                    </button>
+                                    <button class="btn btn-outline" id="newAppointmentBtn">
+                                        <i class="fas fa-plus"></i> New Appointment
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="treatment-history-container">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background-color: var(--hover-bg);">
+                                            <th style="padding: 12px; text-align: left;">
+                                                <div class="sortable-header">
+                                                    <button class="sort-btn" data-sort="date" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; color: inherit;">
+                                                        <span>Date & Time</span>
+                                                        <i class="fas fa-sort"></i>
+                                                        <i class="fas fa-sort-up" style="display: none;"></i>
+                                                        <i class="fas fa-sort-down" style="display: none;"></i>
+                                                    </button>
+                                                    <div class="filter-dropdown">
+                                                        <button class="filter-btn">
+                                                            <i class="fas fa-filter"></i>
+                                                        </button>
+                                                        <div class="dropdown-content">
+                                                            <div data-filter="date" data-value="today">Today</div>
+                                                            <div data-filter="date" data-value="this-week">This Week</div>
+                                                            <div data-filter="date" data-value="last-week">Last Week</div>
+                                                            <div data-filter="date" data-value="last-month">Last Month</div>
+                                                            <div data-filter="date" data-value="older">Older</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th style="padding: 12px; text-align: left;">
+                                                <div class="filter-header">
+                                                    <span>Procedure</span>
+                                                    <div class="filter-dropdown">
+                                                        <button class="filter-btn">
+                                                            <i class="fas fa-filter"></i>
+                                                        </button>
+                                                        <div class="dropdown-content">
+                                                            <div data-filter="procedure" data-value="all">All Procedures</div>
+                                                            <div data-filter="procedure" data-value="Oral Prophylaxis">Oral Prophylaxis</div>
+                                                            <div data-filter="procedure" data-value="Topical Fluoride">Topical Fluoride</div>
+                                                            <div data-filter="procedure" data-value="Pit and Fissure Sealants">Pit and Fissure Sealants</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th style="padding: 12px; text-align: left;">
+                                                <div class="sortable-header">
+                                                    <button class="sort-btn" data-sort="cost">
+                                                        <span>Cost</span>
+                                                        <i class="fas fa-sort"></i>
+                                                        <i class="fas fa-sort-up" style="display: none;"></i>
+                                                        <i class="fas fa-sort-down" style="display: none;"></i>
+                                                    </button>
+                                                </div>
+                                            </th>
+                                            <th style="padding: 12px; text-align: left;">
+                                                <div class="filter-header">
+                                                    <span>Status</span>
+                                                    <div class="filter-dropdown">
+                                                        <button class="filter-btn">
+                                                            <i class="fas fa-filter"></i>
+                                                        </button>
+                                                        <div class="dropdown-content">
+                                                            <div data-filter="status" data-value="all">All Status</div>
+                                                            <div data-filter="status" data-value="completed">Completed</div>
+                                                            <div data-filter="status" data-value="upcoming">Upcoming</div>
+                                                            <div data-filter="status" data-value="canceled">Canceled</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th style="padding: 12px; text-align: left;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="appointment-row" data-id="1" style="border-bottom: 1px solid var(--border-color);">
+                                            <td class="date-time-cell">
+                                                <span class="date">January 10, 2024</span>
+                                                <span class="time">9:00 AM</span>
+                                            </td>
+                                            <td class="procedure-cell">Topical Fluoride</td>
+                                            <td class="cost-cell">₱5,000</td>
+                                            <td><span class="status-badge status-completed">Completed</span></td>
+                                            <td>
+                                                <button class="action-btn view-btn" data-id="1" title="View Details">View</button>
+                                                <button class="action-btn download-btn" data-id="1" title="Download">Download</button>
+                                            </td>
+                                        </tr>
+                                        <tr class="appointment-row" data-id="1" style="border-bottom: 1px solid var(--border-color);">
+                                            <td class="date-time-cell">
+                                                <span class="date">January 29, 2004</span>
+                                                <span class="time">9:00 AM</span>
+                                            </td>
+                                            <td class="procedure-cell">Topical Fluoride</td>
+                                            <td class="cost-cell">₱5,000</td>
+                                            <td><span class="status-badge status-completed">Completed</span></td>
+                                            <td>
+                                                <button class="action-btn view-btn" data-id="1" title="View Details">View</button>
+                                                <button class="action-btn download-btn" data-id="1" title="Download">Download</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Right Panel -->
+<div class="right-panel">
+    <!-- Patient Profile -->
+    <div class="card profile-card">
+        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Patient Profile</h2>
+            <button class="btn btn-outline enhanced-btn" id="editProfileBtn" style="margin-left: auto;">
+    <i class="fas fa-edit"></i> Edit
+</button>
+<button class="btn btn-outline enhanced-btn cancel-btn" id="cancelEditBtn" style="display: none;">
+    <i class="fas fa-times"></i>
+</button>
+        </div>
+        <div class="profile-content">
+            <img src="g1.jpg" alt="Patient Profile Photo" class="profile-img">
+            <h3 class="profile-name">Sammuel Cabison</h3>
+            <div class="profile-id">Patient ID: HFDC-2023-001</div>
+            <div class="profile-details">
+                <div class="profile-row">
+                    <span class="profile-label">Birthdate:</span>
+                    <span class="profile-value" id="birthdate-value">June 15, 1991</span>
+                    <input type="text" class="profile-edit" id="birthdate-edit" value="June 15, 1991" style="display: none;">
+                </div>
+                <div class="profile-row">
+                    <span class="profile-label">Age:</span>
+                    <span class="profile-value" id="age-value">32</span>
+                    <input type="number" class="profile-edit" id="age-edit" value="32" style="display: none;">
+                </div>
+                <div class="profile-row">
+                    <span class="profile-label">Gender:</span>
+                    <span class="profile-value" id="gender-value">Male</span>
+                    <select class="profile-edit" id="gender-edit" style="display: none;">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-label">Home Address:</span>
+                    <span class="profile-value" id="address-value">123 Main St, Quezon City</span>
+                    <input type="text" class="profile-edit" id="address-edit" value="123 Main St, Quezon City" style="display: none;">
+                </div>
+                <div class="profile-row">
+                    <span class="profile-label">Mobile Number:</span>
+                    <span class="profile-value" id="mobile-value">+63 912 345 6789</span>
+                    <input type="text" class="profile-edit" id="mobile-edit" value="+63 912 345 6789" style="display: none;">
+                </div>
+                <div class="profile-row">
+                    <span class="profile-label">Email Address:</span>
+                    <span class="profile-value" id="email-value">sammycabisheesh@example.com</span>
+                    <a href="settings.html" id="edit-email-link" class="profile-edit" style="display: none; color: var(--sidebar-active); text-decoration: underline;">Edit in Settings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add spacing between sections -->
+    <div style="height: 20px;"></div>
+    
+    <!-- Dental Progress -->
+    <div class="card dental-progress-card">
+        <div class="card-header">
+            <h2>Dental Progress</h2>
+            <div style="text-align: center; margin-top: 1px;">
+                <button class="btn btn-outline" id="viewGalleryBtn" onclick="window.location.href='mygallery.html'">
+                    <i class="fas fa-images"></i> View All
+                </button>
+        </div>
+        <div class="progress-gallery">
+            <div class="progress-item">
+                <img src="before.png" alt="Before Treatment" onclick="openImageModal()">
+                <span class="progress-tag">Before</span>
+            </div>
+            <div class="progress-item">
+                <img src="after.png" alt="After Treatment" onclick="openImageModal()">
+                <span class="progress-tag">After</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+                        <!-- Image Modal -->
+                        <div id="imageModal" class="modal">
+                            <div class="modal-content" style="max-width: 800px; text-align: center; position: relative;">
+                                <span class="close-modal" onclick="closeImageModal()">&times;</span>
+                                <div style="display: flex; gap: 20px; justify-content: center; align-items: center;">
+                                    <div>
+                                        <img id="beforeImage" src="before.png" alt="Before Treatment" style="max-width: 100%; border-radius: 10px;">
+                                        <p style="margin-top: 10px; color: var(--text-color); font-size: 16px;">Before Treatment</p>
+                                    </div>
+                                    <div>
+                                        <img id="afterImage" src="after.png" alt="After Treatment" style="max-width: 100%; border-radius: 10px;">
+                                        <p style="margin-top: 10px; color: var(--text-color); font-size: 16px;">After Treatment</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                                
+    
+    
+
+
+<!-- New Appointment Modal -->
+<div id="newAppointmentModal" class="modal">
+    <div class="modal-content" style="max-width: 700px; padding: 0; overflow: hidden;">
+        <!-- Compact Header -->
+        <div style="position: relative; padding: 15px 20px; background:var(--calendar-color); color: white; display: flex; align-items: center; gap: 15px;">
+            <img src="logo.png" alt="Holy Family Dental Clinic Logo" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin-top: -15px; margin-bottom: -10px; margin-left: -10px; ">
+            <h2 style="margin-left: -20px; font-size: 28px; font-family: 'Times New Roman', serif; line-height: 1; color: var(--sidebar-active); margin-top: -10px; margin-bottom: -10px; ">
+                HOLY FAMILY DENTAL CLINIC
+            </h2>
+            <span class="close-modal" style="position: absolute; top: 10px; right: 15px; color: var(--x-button-color); font-size: 24px;">&times;</span>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress-indicator">
+            <div class="progress-step active">
+                <div class="circle">1</div>
+                <span>Select Date & Time</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <div class="circle">2</div>
+                <span>Procedure & Notes</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <div class="circle">3</div>
+                <span>Confirmation</span>
+            </div>
+        </div>
+
+        <div class="modal-body" style="padding: 0 20px 20px;">
+            <!-- Step 1: Date & Time Selection -->
+<div class="appointment-step active" id="step-date-time">
+    <h2><i class="fas fa-calendar-alt"></i> Select Date & Time <span class="required-field"></span></h2>
+    <div class="date-time-container">
+        <!-- Calendar Section -->
+         
+        <div class="calendar-container">
+            <div id="calendar-header">
+                <button class="month-nav" id="prev-month"><i class="fas fa-chevron-left"></i></button>
+                <h3 id="current-month"></h3>
+                <button class="month-nav" id="next-month"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div id="calendar-days">
+                <div class="day-header">Sun</div>
+                <div class="day-header">Mon</div>
+                <div class="day-header">Tue</div>
+                <div class="day-header">Wed</div>
+                <div class="day-header">Thu</div>
+                <div class="day-header">Fri</div>
+                <div class="day-header">Sat</div>
+            </div>
+            <div id="calendar-dates"></div>
+            <div class="selected-date-display">
+                <i class="far fa-calendar-alt"></i>
+                <span id="selected-date-text">No date selected</span>
+            </div>
+        </div>
+
+        <!-- Time Slots Section -->
+        <div class="time-slots-container">
+            <h3 class="time-slots-title"><i class="far fa-clock"></i> Select Time</h3>
+            <div class="time-slots">
+                <button class="time-slot">9:00 AM</button>
+                <button class="time-slot">10:00 AM</button>
+                <button class="time-slot">11:00 AM</button>
+                <button class="time-slot">1:00 PM</button>
+                <button class="time-slot">2:00 PM</button>
+                <button class="time-slot">3:00 PM</button>
+            </div>
+            <div class="selected-time-display">
+                <i class="far fa-clock"></i>
+                <span id="selected-time-text">No time selected</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+            <!-- Step 2: Procedure & Notes -->
+            <div class="appointment-step" id="step-procedure">
+                <h2><i class="fas fa-stethoscope"></i> Procedure & Notes <span class="required-field"></span></h2>
+                <div class="detail-item">
+                    <span class="detail-label">Procedure:</span>
+                    <select class="procedure-select" id="procedure-select" required>
+                        <option value="" selected disabled>Select Procedure</option>
+                        <option value="Oral Prophylaxis">Oral Prophylaxis (Cleaning)</option>
+                        <option value="Topical Fluoride">Topical Fluoride Treatment</option>
+                        <option value="Pit and Fissure Sealants">Pit and Fissure Sealants</option>
+                        <option value="Consultation">Consultation</option>
+                    </select>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Notes:</span>
+                    <textarea id="appointment-notes" placeholder="Any special requests or concerns..."></textarea>
+                </div>
+            </div>
+
+            <!-- Step 3: Confirmation -->
+            <div class="appointment-step" id="step-confirm">
+                <h2><i class="fas fa-check-circle"></i> Confirm Appointment</h2>
+                <div class="confirmation-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Date:</span>
+                        <span class="detail-value" id="confirm-date">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Time:</span>
+                        <span class="detail-value" id="confirm-time">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Procedure:</span>
+                        <span class="detail-value" id="confirm-procedure">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Notes:</span>
+                        <span class="detail-value" id="confirm-notes">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-navigation">
+            <button class="step-button prev" id="prev-step-btn" disabled>
+                <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <button class="step-button next" id="next-step-btn">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+            <button class="step-button next" id="confirm-appointment-btn" style="display: none;">
+                <i class="fas fa-calendar-check"></i> Confirm Appointment
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<div id="upcomingModal" class="modal">
+    <div class="modal-content" style="max-width: 700px;">
+        <span class="close-modal">&times;</span>
+        <h2>Upcoming Appointments</h2>
+        <div class="upcoming-list-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Procedure</th>
+                        <th>Dentist</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="upcomingAppointmentsList">
+                    <!-- Appointments will be added here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Warning Modal -->
+<div id="warningModal" class="modal">
+    <div class="modal-content" style="max-width: 400px; text-align: center;">
+        <span class="close-modal">&times;</span>
+        <h3 style="color: #ff5555; font-size: 20px; margin-bottom: 15px;">
+            <i class="fas fa-exclamation-circle"></i> Warning
+        </h3>
+        <p id="warningMessage" style="color: #333; font-size: 16px; margin-bottom: 20px;">This is a warning message.</p>
+        <button class="btn btn-primary" id="warningOkBtn">OK</button>
+    </div>
+</div>
+
+
+
+
+
+<!-- Booking Confirmation Modal -->
+<div id="confirmationModal" class="modal">
+    <div class="modal-content" style="max-width: 400px; text-align: center;">
+        <span class="close-modal">&times;</span>
+        <h3 style="color: #4CAF50; font-size: 20px; margin-bottom: 15px;">
+            <i class="fas fa-check-circle"></i> Appointment Confirmed
+        </h3>
+        <!-- Animated Checkmark -->
+        <div class="checkmark-container">
+            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                <path class="checkmark-check" fill="none" d="M14 27l10 10 14-20" />
+            </svg>
+        </div>
+        <p id="confirmationMessage" style="color: #333; font-size: 16px; margin-bottom: 20px;">
+            Your appointment has been successfully booked!
+        </p>
+        <button class="btn btn-primary" id="confirmationOkBtn">OK</button>
+    </div>
+</div>
+
+
+
+
+<!-- Total Cost Modal -->
+<div id="totalCostModal" class="modal">
+    <div class="modal-content" style="max-width: 800px; text-align: left;">
+        <span class="close-modal">&times;</span>
+        <h2 style="color: var(--sidebar-active); font-size: 24px; margin-bottom: 20px;">
+            Treatment Cost Breakdown
+        </h2>
+        <div class="payment-table-container">
+            <table class="payment-table">
+                <thead>
+                    <tr>
+                        <th>Treatments</th>
+                        <th>Type of Payment</th>
+                        <th>Date</th>
+                        <th>Total (₱)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="procedure-breakdown">
+                    <!-- Rows will be dynamically added by JavaScript -->
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="3">GRAND TOTAL</td>
+                        <td id="modal-total-cost">₱0</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="clockModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Current Time</h2>
+        <div class="analog-clock">
+            <div class="hour-hand" id="hour-hand"></div>
+            <div class="minute-hand" id="minute-hand"></div>
+            <div class="second-hand" id="second-hand"></div>
+            <div class="clock-center"></div>
+        </div>
+        <div class="big-clock" id="big-clock">12:00:00</div>
+        <div class="big-date" id="big-date">Monday, January 1, 2023</div>
+    </div>
+</div>
+
+
+
+
+<div id="appointmentModal" class="modal">
+    <div class="modal-content" style="max-width: 800px; text-align: left;">
+        <span class="close-modal">&times;</span>
+        <div class="modal-header">
+            <div style="display: flex; align-items: center; gap: 0;">
+                <img src="logo.png" alt="Holy Family Dental Clinic Logo" style="width: 100px; height: 100px; border-radius: 50%;">
+                <h2 style="margin: 0; font-size: 24px; color: var(--sidebar-active);">Holy Family Dental Clinic</h2>
+            </div>
+            <div class="modal-status-badge status-completed">Completed</div>
+        </div>
+        
+        <div class="modal-body">
+            <div class="modal-section">
+                <h3><i class="fas fa-calendar-alt"></i> Appointment Information</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Date & Time:</span>
+                        <span class="info-value">January 10, 2024 - 9:00 AM</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Dentist:</span>
+                        <span class="info-value">Dr. Resurreccion</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Procedure:</span>
+                        <span class="info-value">Topical Fluoride</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Cost:</span>
+                        <span class="info-value">₱5,000</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Duration:</span>
+                        <span class="info-value">45 minutes</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Notes:</span>
+                        <span class="info-value">Patient showed good response to treatment. Recommended follow-up in 6 months.</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-section">
+                <h3><i class="fas fa-teeth"></i> Treatment Details</h3>
+                <div class="treatment-details">
+                    <p><strong>Procedure Description:</strong> Topical fluoride treatment involves applying fluoride directly to the teeth to strengthen enamel and prevent decay.</p>
+                    <p><strong>Teeth Treated:</strong> All teeth surfaces</p>
+                    <p><strong>Materials Used:</strong> Fluoride varnish (5% sodium fluoride)</p>
+                    <p><strong>Aftercare Instructions:</strong> Avoid eating or drinking for 30 minutes after treatment. Brush gently for the rest of the day.</p>
+                </div>
+            </div>
+            
+            <div class="modal-section">
+                <h3><i class="fas fa-camera"></i> Dental Progress Photos</h3>
+                <div class="photo-gallery">
+                    <div class="photo-item">
+                        <img src="before.png" alt="Before Treatment">
+                        <div class="photo-caption">Before Treatment</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="after.png" alt="After Treatment">
+                        <div class="photo-caption">After Treatment</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="downloadFullReport">
+                <i class="fas fa-file-pdf"></i> Download Full Report
+            </button>
+            <button class="btn btn-outline" id="printReport">
+                <i class="fas fa-print"></i> Print
+            </button>
+        </div>
+    </div>
+</div>
+    
+    
+            
+
+
+
+
+
+                                
+                                
+    
+
+
+
+    
+    
+<script>
+    // Global variables
+let selectedDate = null;
+let selectedTime = null;
+let currentMonth = new Date().getMonth();
+let currentYear = new Date().getFullYear();
+let currentStep = 0;
+
+// DOM elements
+const newAppointmentBtn = document.getElementById('newAppointmentBtn');
+const newAppointmentModal = document.getElementById('newAppointmentModal');
+const prevStepBtn = document.getElementById('prev-step-btn');
+const nextStepBtn = document.getElementById('next-step-btn');
+const confirmBtn = document.getElementById('confirm-appointment-btn');
+const steps = document.querySelectorAll('.appointment-step');
+const progressSteps = document.querySelectorAll('.progress-step');
+const procedureSelect = document.getElementById('procedure-select');
+const notesInput = document.getElementById('appointment-notes');
+const confirmDate = document.getElementById('confirm-date');
+const confirmTime = document.getElementById('confirm-time');
+const confirmProcedure = document.getElementById('confirm-procedure');
+const confirmNotes = document.getElementById('confirm-notes');
+const selectedDateText = document.getElementById('selected-date-text');
+const selectedTimeText = document.getElementById('selected-time-text');
+const calendarDates = document.getElementById('calendar-dates');
+const currentMonthDisplay = document.getElementById('current-month');
+const prevMonthBtn = document.getElementById('prev-month');
+const nextMonthBtn = document.getElementById('next-month');
+const timeSlots = document.querySelectorAll('.time-slot');
+const upcomingCard = document.querySelector('.stat-card.upcoming-card');
+const upcomingModal = document.getElementById('upcomingModal');
+const upcomingList = document.getElementById('upcomingAppointmentsList');
+const totalCostCard = document.querySelector('.stat-card:nth-child(3)');
+const totalCostModal = document.getElementById('totalCostModal');
+const breakdownTable = document.getElementById('procedure-breakdown');
+const clockCard = document.getElementById('clock-card');
+const clockModal = document.getElementById('clockModal');
+const viewButtons = document.querySelectorAll('.view-btn');
+const appointmentModal = document.getElementById('appointmentModal');
+const downloadBtn = document.getElementById('download-btn');
+const resetButton = document.getElementById('undoButton');
+const themeToggle = document.getElementById('themeToggle');
+const treatmentHistoryContainer = document.querySelector('.treatment-history-container tbody');
+
+// Appointment data
+const appointments = {
+    1: {
+        id: 1,
+        date: "January 10, 2024 - 9:00 AM",
+        procedure: "Topical Fluoride",
+        cost: "₱5,000",
+        status: "completed",
+        duration: "45 minutes",
+        notes: "Patient showed good response to treatment. Recommended follow-up in 6 months.",
+        procedureDesc: "Topical fluoride treatment involves applying fluoride directly to the teeth to strengthen enamel and prevent decay.",
+        teethTreated: "All teeth surfaces",
+        materials: "Fluoride varnish (5% sodium fluoride)",
+        aftercare: "Avoid eating or drinking for 30 minutes after treatment. Brush gently for the rest of the day.",
+        photos: ["before.png", "after.png"]
+    }
+};
+
+const procedureCosts = {
+    "Oral Prophylaxis": 1500,
+    "Topical Fluoride": 5000,
+    "Pit and Fissure Sealants": 1500,
+    "Consultation": 500
+};
+
+
+
+const emailValue = document.getElementById('email-value');
+const editEmailLink = document.getElementById('edit-email-link');
+const editProfileBtn = document.getElementById('editProfileBtn');
+const cancelEditBtn = document.getElementById('cancelEditBtn');
+let isEditing = false;
+
+// Redirect to settings.html when the email field is clicked in edit mode
+emailValue.addEventListener('click', function() {
+    if (isEditing) {
+        window.location.href = 'settings.html';
+        return false; // Prevent default behavior
+    }
+    return true;
+});
+
+editProfileBtn.addEventListener('click', function () {
+    isEditing = !isEditing;
+
+    if (isEditing) {
+        this.innerHTML = '<i class="fas fa-save"></i> Save';
+        cancelEditBtn.style.display = 'inline-block';
+        editEmailLink.style.display = 'inline-block'; // Show the link
+        // Show all edit inputs and hide values
+        document.getElementById('gender-edit').value = document.getElementById('gender-value').textContent;
+        document.querySelectorAll('.profile-value').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.profile-edit').forEach(el => el.style.display = 'inline-block');
+    } else {
+        this.innerHTML = '<i class="fas fa-edit"></i> Edit';
+        cancelEditBtn.style.display = 'none';
+        editEmailLink.style.display = 'none'; // Hide the link
+        // Save values and hide inputs
+        document.getElementById('gender-value').textContent = document.getElementById('gender-edit').value;
+        document.querySelectorAll('.profile-value').forEach(el => el.style.display = '');
+        document.querySelectorAll('.profile-edit').forEach(el => el.style.display = 'none');
+
+        // Update the displayed values
+        document.getElementById('birthdate-value').textContent = document.getElementById('birthdate-edit').value;
+        document.getElementById('age-value').textContent = document.getElementById('age-edit').value;
+    }
+});
+
+cancelEditBtn.addEventListener('click', function () {
+    isEditing = false;
+    editProfileBtn.innerHTML = '<i class="fas fa-edit"></i> Edit';
+    this.style.display = 'none';
+    // Reset values and hide inputs
+    document.querySelectorAll('.profile-value').forEach(el => el.style.display = '');
+    document.querySelectorAll('.profile-edit').forEach(el => el.style.display = 'none');
+});
+
+// Function to progress pic for comparison
+function openImageModal() {
+    const modal = document.getElementById('imageModal');
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Prevent scrolling
+}
+
+// Function to get all booked appointments in a structured way
+function getBookedAppointments() {
+    const bookedSlots = {};
+    
+    // Get from existing appointments in the table
+    const appointmentRows = document.querySelectorAll('.appointment-row');
+    appointmentRows.forEach(row => {
+        const dateText = row.querySelector('td:nth-child(1) .date').textContent;
+        const timeText = row.querySelector('td:nth-child(1) .time').textContent;
+        const date = new Date(dateText);
+        const dateKey = formatDateForComparison(date);
+        
+        if (!bookedSlots[dateKey]) {
+            bookedSlots[dateKey] = [];
+        }
+        
+        bookedSlots[dateKey].push(timeText.trim());
+    });
+    
+    return bookedSlots;
+}
+// Function to check if a time slot is available
+function isTimeSlotAvailable(date, time) {
+    const bookedSlots = getBookedAppointments();
+    const dateKey = formatDateForComparison(date);
+    
+    // Check if date is fully booked
+    if (bookedSlots[dateKey] && bookedSlots[dateKey].length >= 6) { // Assuming 6 slots per day max
+        return false;
+    }
+    
+    // Check if specific time is booked
+    if (bookedSlots[dateKey] && bookedSlots[dateKey].includes(time)) {
+        return false;
+    }
+    
+    return true;
+}
+
+// Function to check if a date is fully booked
+function isDateFullyBooked(date) {
+    const bookedSlots = getBookedAppointments();
+    const dateKey = formatDateForComparison(date);
+    
+    return bookedSlots[dateKey] && bookedSlots[dateKey].length >= 6; // 6 slots per day max
+}
+
+
+// Fully booked dates (sample data - in a real app this would come from your database)
+const fullyBookedDates = [
+    "2024-03-15", // YYYY-MM-DD format
+    "2024-03-20",
+    "2024-03-25"
+];
+
+// Initialize the application
+document.addEventListener('DOMContentLoaded', function() {
+    initializeTheme();
+    initializeClock();
+    initializeModals();
+    initializeCalendar();
+    initializeAppointments();
+    updateUpcomingAppointmentsCount();
+    calculateTotalCost();
+    initializeMobileMenu();
+    
+    // Make entire appointment row clickable
+    document.querySelectorAll('.appointment-row').forEach(row => {
+        row.addEventListener('click', function(e) {
+            // Don't trigger if clicking on action buttons
+            if (!e.target.closest('.action-btn')) {
+                const appointmentId = this.getAttribute('data-id');
+                openAppointmentModal(appointmentId);
+            }
+        });
+    });
+    
+    // Initialize sorting functionality
+    initializeSorting();
+    
+    // Initialize filter functionality
+    initializeFilters();
+});
+
+// Theme toggle functionality
+function initializeTheme() {
+    const rootElement = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    
+    if (savedTheme) {
+        rootElement.setAttribute('data-theme', savedTheme);
+        themeToggle.checked = savedTheme === 'dark';
+    }
+
+    themeToggle.addEventListener('change', function() {
+        const theme = this.checked ? 'dark' : 'light';
+        rootElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+    });
+}
+
+// Clock functionality
+function initializeClock() {
+    updateClock();
+    setInterval(updateClock, 1000);
+    
+    clockCard.addEventListener('click', () => {
+        clockModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+}
+
+function updateClock() {
+    const now = new Date();
+
+    // Digital clock
+    let hours = now.getHours();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Convert 0 to 12 for 12-hour format
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+
+    // Update main clock
+    const mainClock = document.getElementById('current-time');
+    const mainDate = document.getElementById('current-date');
+    if (mainClock && mainDate) {
+        mainClock.textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+        mainDate.textContent = now.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    }
+
+    // Update modal clock
+    const modalClock = document.getElementById('big-clock');
+    const modalDate = document.getElementById('big-date');
+    if (modalClock && modalDate) {
+        modalClock.textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+        modalDate.textContent = now.toLocaleDateString('en-US', {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric',
+        });
+    }
+
+    // Analog clock
+    const hourHand = document.getElementById('hour-hand');
+    const minuteHand = document.getElementById('minute-hand');
+    const secondHand = document.getElementById('second-hand');
+
+    const hourDegrees = (now.getHours() % 12) * 30 + (now.getMinutes() / 60) * 30;
+    const minuteDegrees = now.getMinutes() * 6;
+    const secondDegrees = now.getSeconds() * 6;
+
+    if (hourHand && minuteHand && secondHand) {
+        hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+        minuteHand.style.transform = `rotate(${minuteDegrees}deg)`;
+        secondHand.style.transform = `rotate(${secondDegrees}deg)`;
+    }
+}
+
+// Modal functionality
+function initializeModals() {
+    const modals = document.querySelectorAll('.modal');
+    const closeButtons = document.querySelectorAll('.close-modal');
+    
+    function closeModal(modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+    
+    function closeImageModal() {
+    document.getElementById('imageModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const modal = button.closest('.modal');
+            if (modal) closeModal(modal);
+        });
+    });
+    
+    modals.forEach(modal => {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal(modal);
+        });
+    });
+    
+    // Warning modal button
+    document.getElementById('warningOkBtn')?.addEventListener('click', function() {
+        document.getElementById('warningModal').style.display = 'none';
+    });
+    
+    // Confirmation modal button
+    document.getElementById('confirmationOkBtn')?.addEventListener('click', function() {
+        document.getElementById('confirmationModal').style.display = 'none';
+    });
+}
+
+// Calendar functionality
+function initializeCalendar() {
+    generateCalendar(currentMonth, currentYear);
+    
+    prevMonthBtn.addEventListener('click', function() {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        generateCalendar(currentMonth, currentYear);
+    });
+    
+    nextMonthBtn.addEventListener('click', function() {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        generateCalendar(currentMonth, currentYear);
+    });
+}
+
+function generateCalendar(month, year) {
+    calendarDates.innerHTML = '';
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    currentMonthDisplay.textContent = new Date(year, month).toLocaleDateString('en-US', {
+        month: 'long',
+        year: 'numeric'
+    });
+
+    // Empty cells for days before the first day of month
+    for (let i = 0; i < firstDay; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.classList.add('calendar-date', 'other-month');
+        calendarDates.appendChild(emptyCell);
+    }
+
+    // Days of the month
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dateCell = document.createElement('div');
+        dateCell.classList.add('calendar-date');
+        dateCell.textContent = day;
+
+        const cellDate = new Date(year, month, day);
+        cellDate.setHours(0, 0, 0, 0);
+
+        // Check if date is in the past
+        if (cellDate < today) {
+            dateCell.classList.add('disabled-date');
+        }
+        
+        // Check if date is fully booked
+        const dateString = formatDateForComparison(cellDate);
+        if (fullyBookedDates.includes(dateString)) {
+            dateCell.classList.add('disabled-date');
+            dateCell.title = "This date is fully booked";
+        }
+
+        dateCell.addEventListener('click', function() {
+            if (!this.classList.contains('disabled-date')) {
+                document.querySelectorAll('.calendar-date').forEach(d => d.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                selectedDate = new Date(year, month, parseInt(this.textContent));
+                selectedDateText.textContent = selectedDate.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+
+                updateTimeSlotsAvailability(selectedDate);
+            }
+        });
+
+        calendarDates.appendChild(dateCell);
+    }
+}
+
+function formatDateForComparison(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+function updateTimeSlotsAvailability(selectedDate) {
+    const now = new Date();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const bookedSlots = getBookedAppointments();
+    const selectedDateKey = formatDateForComparison(selectedDate);
+
+    timeSlots.forEach(slot => {
+        slot.classList.remove('unavailable', 'active');
+        slot.disabled = false;
+
+        const slotTime = slot.textContent.trim();
+        
+        // Check if slot is already booked
+        if (bookedSlots[selectedDateKey] && bookedSlots[selectedDateKey].includes(slotTime)) {
+            markSlotUnavailable(slot, "This time slot is already booked");
+            return;
+        }
+
+        // Check if slot is in the past
+        const [time, period] = slotTime.split(' ');
+        let [hours, minutes] = time.split(':').map(Number);
+        
+        if (period === 'PM' && hours !== 12) hours += 12;
+        if (period === 'AM' && hours === 12) hours = 0;
+
+        const slotDateTime = new Date(selectedDate);
+        slotDateTime.setHours(hours, minutes, 0, 0);
+
+        if (selectedDate.toDateString() === today.toDateString() && slotDateTime < now) {
+            markSlotUnavailable(slot, "This time slot has passed");
+            return;
+        }
+
+        slot.addEventListener('click', function() {
+            timeSlots.forEach(s => s.classList.remove('active'));
+            this.classList.add('active');
+            selectedTime = this.textContent.trim();
+            selectedTimeText.textContent = selectedTime;
+        });
+    });
+}
+
+function markSlotUnavailable(slot, reason) {
+    slot.classList.add('unavailable');
+    slot.disabled = true;
+    slot.title = reason;
+}
+
+// Sorting functionality
+function initializeSorting() {
+    document.querySelectorAll('.sort-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const sortBy = this.getAttribute('data-sort');
+            let direction = this.getAttribute('data-direction') || 'none';
+            
+            // Reset other buttons
+            document.querySelectorAll('.sort-btn').forEach(btn => {
+                if (btn !== this) {
+                    btn.setAttribute('data-direction', 'none');
+                    btn.querySelectorAll('i').forEach(icon => icon.style.display = 'none');
+                    btn.querySelector('.fa-sort').style.display = 'inline-block';
+                }
+            });
+
+            // Toggle between asc and desc only
+            if (direction === 'none' || direction === 'desc') {
+                direction = 'asc';
+                this.querySelectorAll('i').forEach(icon => icon.style.display = 'none');
+                this.querySelector('.fa-sort-up').style.display = 'inline-block';
+            } else {
+                direction = 'desc';
+                this.querySelectorAll('i').forEach(icon => icon.style.display = 'none');
+                this.querySelector('.fa-sort-down').style.display = 'inline-block';
+            }
+            
+            this.setAttribute('data-direction', direction);
+            sortAppointments(sortBy, direction);
+        });
+    });
+}
+
+function sortAppointments(sortBy, direction) {
+    const tbody = document.querySelector('.treatment-history-container tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr.appointment-row'));
+    
+    rows.sort((a, b) => {
+        const aValue = getSortValue(a, sortBy);
+        const bValue = getSortValue(b, sortBy);
+        
+        if (direction === 'asc') {
+            if (sortBy === 'date') {
+                return aValue - bValue;
+            }
+            return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+        } else {
+            if (sortBy === 'date') {
+                return bValue - aValue;
+            }
+            return bValue < aValue ? -1 : bValue > aValue ? 1 : 0;
+        }
+    });
+    
+    // Clear and re-append rows
+    tbody.innerHTML = '';
+    rows.forEach(row => tbody.appendChild(row));
+    
+    // Update the upcoming appointments count after sorting
+    updateUpcomingAppointmentsCount();
+}
+
+function resetSorting() {
+    const rows = Array.from(document.querySelectorAll('.appointment-row'));
+    const tbody = document.querySelector('.treatment-history-container tbody');
+    tbody.innerHTML = '';
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+function getSortValue(row, sortBy) {
+    switch(sortBy) {
+        case 'date':
+            const dateCell = row.querySelector('.date-time-cell');
+            const date = dateCell.querySelector('.date').textContent;
+            const time = dateCell.querySelector('.time').textContent;
+            return new Date(date + ' ' + time).getTime();
+            
+        case 'procedure':
+            return row.querySelector('.procedure-cell').textContent.trim().toLowerCase();
+            
+        case 'cost':
+            const costText = row.querySelector('.cost-cell').textContent;
+            return parseInt(costText.replace(/[^0-9]/g, '')) || 0;
+            
+        case 'status':
+            const statusText = row.querySelector('.status-badge').textContent.toLowerCase();
+            const statusOrder = {
+                'upcoming': 1,
+                'completed': 2,
+                'canceled': 3
+            };
+            return statusOrder[statusText] || 999;
+            
+        default:
+            return '';
+    }
+}
+
+// Filter functionality
+function initializeFilters() {
+    document.querySelectorAll('.filter-dropdown').forEach(dropdown => {
+        const button = dropdown.querySelector('.filter-btn');
+        const dropdownContent = dropdown.querySelector('.dropdown-content');
+        
+        // Toggle dropdown visibility when button is clicked
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isVisible = dropdownContent.style.display === 'block';
+            
+            // Hide all other dropdowns
+            document.querySelectorAll('.dropdown-content').forEach(content => {
+                if (content !== dropdownContent) {
+                    content.style.display = 'none';
+                }
+            });
+            
+            // Toggle this dropdown
+            dropdownContent.style.display = isVisible ? 'none' : 'block';
+        });
+        
+        // Handle filter selection
+        dropdown.querySelectorAll('.dropdown-content div').forEach(item => {
+            item.addEventListener('click', function() {
+                const filterType = this.getAttribute('data-filter');
+                const filterValue = this.getAttribute('data-value');
+                
+                // Mark this item as active
+                dropdown.querySelectorAll('.dropdown-content div').forEach(i => {
+                    i.classList.remove('active-filter');
+                });
+                this.classList.add('active-filter');
+                
+                // Apply filter
+                filterAppointments(filterType, filterValue);
+                
+                // Close dropdown
+                dropdownContent.style.display = 'none';
+            });
+        });
+        
+        // Highlight button when dropdown is hovered
+        dropdown.addEventListener('mouseenter', function() {
+            button.classList.add('dropdown-hover');
+        });
+        
+        dropdown.addEventListener('mouseleave', function() {
+            button.classList.remove('dropdown-hover');
+        });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.dropdown-content').forEach(content => {
+            content.style.display = 'none';
+        });
+    });
+}
+
+function filterAppointments(filterType, filterValue) {
+    const activeFilters = {
+        date: null,
+        procedure: null,
+        status: null
+    };
+    
+    // Collect all active filters
+    document.querySelectorAll('.dropdown-content div.active-filter').forEach(item => {
+        const type = item.getAttribute('data-filter');
+        const value = item.getAttribute('data-value');
+        activeFilters[type] = value;
+    });
+    
+    const rows = document.querySelectorAll('.appointment-row');
+    
+    rows.forEach(row => {
+        let shouldShow = true;
+        
+        // Apply all active filters
+        for (const [type, value] of Object.entries(activeFilters)) {
+            if (value && value !== 'all') {
+                if (type === 'date') {
+                    const dateText = row.querySelector('td:nth-child(1) .date').textContent;
+                    const date = new Date(dateText);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    
+                    const oneWeekAgo = new Date();
+                    oneWeekAgo.setDate(today.getDate() - 7);
+                    
+                    const lastMonth = new Date();
+                    lastMonth.setMonth(lastMonth.getMonth() - 1);
+                    
+                    switch(value) {
+                        case 'today':
+                            shouldShow = shouldShow && (date.toDateString() === today.toDateString());
+                            break;
+                        case 'this-week':
+                            shouldShow = shouldShow && (date >= today);
+                            break;
+                        case 'last-week':
+                            shouldShow = shouldShow && (date >= oneWeekAgo && date < today);
+                            break;
+                        case 'last-month':
+                            shouldShow = shouldShow && (date >= lastMonth && date < oneWeekAgo);
+                            break;
+                        case 'older':
+                            shouldShow = shouldShow && (date < lastMonth);
+                            break;
+                    }
+                } else if (type === 'procedure') {
+                    const procedure = row.querySelector('td:nth-child(2)').textContent.trim();
+                    shouldShow = shouldShow && (procedure === value);
+                } else if (type === 'status') {
+                    const status = row.querySelector('td:nth-child(4) .status-badge').textContent.trim().toLowerCase();
+                    shouldShow = shouldShow && (status === value);
+                }
+            }
+        }
+        
+        row.style.display = shouldShow ? '' : 'none';
+    });
+    
+    updateUpcomingAppointmentsCount();
+}
+
+// Appointment functionality
+function initializeAppointments() {
+    // New appointment button
+    newAppointmentBtn.addEventListener('click', function() {
+        newAppointmentModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        resetModal();
+    });
+
+    // Step navigation
+    nextStepBtn.addEventListener('click', function() {
+        if (validateCurrentStep()) {
+            goToStep(currentStep + 1);
+        }
+    });
+
+    prevStepBtn.addEventListener('click', function() {
+        if (currentStep > 0) {
+            goToStep(currentStep - 1);
+        }
+    });
+
+    confirmBtn.addEventListener('click', function() {
+    // Double-check availability before confirming
+    if (!isTimeSlotAvailable(selectedDate, selectedTime)) {
+        showWarning('This time slot is no longer available. Please select another time.');
+        return;
+    }
+
+    const newAppointment = {
+        id: Date.now(),
+        patientName: "Sammuel Cabison", // Get from profile
+        requestedDateTime: selectedDate.toLocaleDateString('en-US', { 
+            month: 'long', 
+            day: 'numeric', 
+            year: 'numeric' 
+        }) + ' ' + selectedTime,
+        procedure: procedureSelect.value,
+        requestDate: new Date().toISOString().split('T')[0],
+        status: "Pending"
+    };
+
+    // Store in localStorage for admin access
+    let appointmentRequests = JSON.parse(localStorage.getItem('appointmentRequests') || '[]');
+    appointmentRequests.push(newAppointment);
+    localStorage.setItem('appointmentRequests', JSON.stringify(appointmentRequests));
+
+    // Rest of your existing confirmation code...
+    appointments[newAppointment.id] = {
+        id: newAppointment.id,
+        date: newAppointment.requestedDateTime,
+        procedure: newAppointment.procedure,
+        cost: `₱${procedureCosts[procedureSelect.value]?.toLocaleString() || '1,500'}`,
+        status: 'upcoming',
+        duration: '30 minutes',
+        notes: notesInput.value || 'No notes provided',
+        procedureDesc: "Procedure details will be provided after your appointment.",
+        teethTreated: "To be determined",
+        materials: "Standard dental materials",
+        aftercare: "General dental care instructions will be provided after your appointment.",
+        photos: []
+    };
+    
+    // Add to table
+    addAppointmentToTable(appointments[newAppointment.id]);
+    
+    // Show confirmation
+    showConfirmation('Appointment request sent successfully! Please wait for admin approval.');
+    
+    // Close modal
+    closeAndResetModal();
+});
+
+    // Upcoming appointments card
+    upcomingCard.addEventListener('click', function() {
+        updateUpcomingAppointmentsCount();
+        openUpcomingModal();
+    });
+
+    // Total cost card
+    totalCostCard.addEventListener('click', function() {
+        calculateTotalCost();
+        populateCostBreakdown();
+        totalCostModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+
+    // View appointment buttons
+    viewButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent row click from triggering
+            const appointmentId = this.getAttribute('data-id');
+            openAppointmentModal(appointmentId);
+        });
+    });
+
+    // Reset button
+    resetButton.addEventListener('click', resetFilters);
+}
+
+function resetModal() {
+    selectedDate = null;
+    selectedTime = null;
+    procedureSelect.value = '';
+    notesInput.value = '';
+    
+    document.querySelectorAll('.calendar-date.selected').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('.time-slot.active').forEach(el => el.classList.remove('active'));
+    
+    selectedDateText.textContent = 'No date selected';
+    selectedTimeText.textContent = 'No time selected';
+    confirmDate.textContent = '-';
+    confirmTime.textContent = '-';
+    confirmProcedure.textContent = '-';
+    confirmNotes.textContent = '-';
+    
+    currentStep = 0;
+    steps.forEach(step => step.classList.remove('active'));
+    progressSteps.forEach(progress => progress.classList.remove('active'));
+    steps[0].classList.add('active');
+    progressSteps[0].classList.add('active');
+    
+    prevStepBtn.disabled = true;
+    nextStepBtn.style.display = 'inline-flex';
+    confirmBtn.style.display = 'none';
+}
+
+function validateCurrentStep() {
+    if (currentStep === 0) {
+        if (!selectedDate) {
+            showWarning('Please select a date for your appointment.');
+            return false;
+        }
+        if (!selectedTime) {
+            showWarning('Please select a time slot for your appointment.');
+            return false;
+        }
+    } else if (currentStep === 1) {
+        if (!procedureSelect.value) {
+            showWarning('Please select a procedure for your appointment.');
+            return false;
+        }
+    }
+    return true;
+}
+
+function goToStep(stepIndex) {
+    if (stepIndex > currentStep && !validateCurrentStep()) return;
+
+    steps[currentStep].classList.remove('active');
+    progressSteps[currentStep].classList.remove('active');
+    
+    steps[stepIndex].classList.add('active');
+    progressSteps[stepIndex].classList.add('active');
+    currentStep = stepIndex;
+
+    prevStepBtn.disabled = currentStep === 0;
+    nextStepBtn.style.display = currentStep === steps.length - 1 ? 'none' : 'inline-flex';
+    confirmBtn.style.display = currentStep === steps.length - 1 ? 'inline-flex' : 'none';
+
+    if (currentStep === steps.length - 1) {
+        confirmDate.textContent = selectedDate
+            ? selectedDate.toLocaleDateString('en-US', {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+            })
+            : 'No date selected';
+            
+        confirmTime.textContent = selectedTime || 'No time selected';
+        confirmProcedure.textContent = procedureSelect.value || 'No procedure selected';
+        confirmNotes.textContent = notesInput.value || 'No notes provided';
+    }
+}
+
+function closeAndResetModal() {
+    newAppointmentModal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    resetModal();
+}
+
+// Appointment table functions
+function addAppointmentToTable(appointment) {
+    const tableBody = document.querySelector('.treatment-history-container table tbody');
+    const newRow = document.createElement('tr');
+    newRow.classList.add('appointment-row');
+    newRow.dataset.id = appointment.id;
+
+    const statusClass = appointment.status.toLowerCase() === 'completed' ? 'status-completed' : 
+                       appointment.status.toLowerCase() === 'upcoming' ? 'status-upcoming' : 'status-canceled';
+    const statusText = appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1).toLowerCase();
+
+    newRow.innerHTML = `
+        <td class="date-time-cell">
+            <span class="date">${appointment.date.split(' - ')[0]}</span>
+            <span class="time">${appointment.date.split(' - ')[1]}</span>
+        </td>
+        <td class="procedure-cell">${appointment.procedure}</td>
+        <td class="cost-cell">${appointment.cost}</td>
+        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+        <td>
+            <button class="action-btn view-btn" data-id="${appointment.id}" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="action-btn download-btn" data-id="${appointment.id}" title="Download"><i class="fas fa-download"></i></button>
+        </td>
+    `;
+
+    tableBody.insertBefore(newRow, tableBody.firstChild);
+    
+    // Add click handler for the new row
+    newRow.addEventListener('click', function(e) {
+        if (!e.target.closest('.action-btn')) {
+            openAppointmentModal(appointment.id);
+        }
+    });
+    
+    // Add click handler for the view button
+    newRow.querySelector('.view-btn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        openAppointmentModal(appointment.id);
+    });
+    
+    updateUpcomingAppointmentsCount();
+    calculateTotalCost();
+}
+
+function updateUpcomingAppointmentsCount() {
+    const appointmentRows = document.querySelectorAll('.appointment-row');
+    let upcomingCount = 0;
+    let nextAppointmentDate = 'No upcoming appointments';
+
+    appointmentRows.forEach(row => {
+        if (row.style.display !== 'none') {
+            const statusBadge = row.querySelector('td:nth-child(4) .status-badge');
+            
+            if (statusBadge && statusBadge.textContent.trim().toLowerCase() === 'upcoming') {
+                upcomingCount++;
+                
+                const dateText = row.querySelector('td:nth-child(1) .date').textContent;
+                if (nextAppointmentDate === 'No upcoming appointments' || 
+                    new Date(dateText) < new Date(nextAppointmentDate)) {
+                    nextAppointmentDate = dateText;
+                } 
+            }
+        }
+    });
+
+    document.getElementById('upcoming-count').textContent = upcomingCount;
+    document.querySelector('.stat-card.upcoming-card .stat-date span').textContent = 
+        upcomingCount > 0 ? `Next: ${nextAppointmentDate}` : 'No upcoming appointments';
+}
+
+function openUpcomingModal() {
+    upcomingList.innerHTML = '';
+    const allAppointments = Array.from(document.querySelectorAll('.appointment-row'));
+    const upcomingAppointments = allAppointments.filter(row => {
+        const statusBadge = row.querySelector('td:nth-child(4) .status-badge');
+        return statusBadge && statusBadge.textContent.trim().toLowerCase() === 'upcoming';
+    });
+
+    if (upcomingAppointments.length === 0) {
+        upcomingList.innerHTML = '<tr><td colspan="4" style="text-align: center;">No upcoming appointments</td></tr>';
+    } else {
+        upcomingAppointments.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${cells[0].textContent}</td>
+                <td>${cells[1].textContent}</td>
+                <td>${cells[2].textContent}</td>
+                <td>${cells[3].innerHTML}</td>
+            `;
+            upcomingList.appendChild(newRow);
+        });
+    }
+
+    upcomingModal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function calculateTotalCost() {
+    const rows = document.querySelectorAll('.appointment-row');
+    let total = 0;
+
+    rows.forEach(row => {
+        if (row.style.display !== 'none') {
+            const costCell = row.querySelector('td:nth-child(3)');
+            if (costCell) {
+                const cost = parseInt(costCell.textContent.replace(/[^0-9]/g, ''), 10);
+                if (!isNaN(cost)) total += cost;
+            }
+        }
+    });
+
+    document.getElementById('total-cost').textContent = `₱${total.toLocaleString()}`;
+}
+
+function populateCostBreakdown() {
+    const rows = document.querySelectorAll('.appointment-row');
+    let grandTotal = 0;
+    breakdownTable.innerHTML = '';
+
+    rows.forEach(row => {
+        if (row.style.display !== 'none') {
+            const treatment = row.querySelector('td:nth-child(2)').textContent.trim();
+            const costText = row.querySelector('td:nth-child(3)').textContent.trim();
+            const date = row.querySelector('td:nth-child(1)').textContent.trim();
+            const status = row.querySelector('td:nth-child(4)').textContent.trim();
+            const typeOfPayment = "Cash";
+            const cost = parseInt(costText.replace(/[^0-9]/g, ''));
+
+            if (!isNaN(cost)) {
+                grandTotal += cost;
+                const rowElement = document.createElement('tr');
+                rowElement.innerHTML = `
+                    <td>${treatment}</td>
+                    <td>${typeOfPayment}</td>
+                    <td>${date}</td>
+                    <td>₱${cost.toLocaleString()}</td>
+                    <td>${status}</td>
+                `;
+                breakdownTable.appendChild(rowElement);
+            }
+        }
+    });
+
+    document.getElementById('modal-total-cost').textContent = `₱${grandTotal.toLocaleString()}`;
+}
+
+function openAppointmentModal(appointmentId) {
+    const appointment = appointments[appointmentId];
+    if (appointment) {
+        document.querySelector('.modal-status-badge').className = `modal-status-badge status-${appointment.status}`;
+        document.querySelector('.modal-status-badge').textContent = 
+            appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1).toLowerCase();
+
+        const infoValues = document.querySelectorAll('.info-value');
+        infoValues[0].textContent = appointment.date;
+        infoValues[1].textContent = appointment.procedure;
+        infoValues[2].textContent = appointment.cost;
+        infoValues[3].textContent = appointment.duration;
+        infoValues[4].textContent = appointment.notes;
+
+        const treatmentDetails = document.querySelector('.treatment-details');
+        treatmentDetails.innerHTML = `
+            <p><strong>Procedure Description:</strong> ${appointment.procedureDesc}</p>
+            <p><strong>Teeth Treated:</strong> ${appointment.teethTreated}</p>
+            <p><strong>Materials Used:</strong> ${appointment.materials}</p>
+            <p><strong>Aftercare Instructions:</strong> ${appointment.aftercare}</p>
+        `;
+
+        const photoGallery = document.querySelector('.photo-gallery');
+        photoGallery.innerHTML = '';
+        
+        if (appointment.photos && appointment.photos.length > 0) {
+            appointment.photos.forEach((photo, index) => {
+                const caption = index === 0 ? "Before Treatment" : "After Treatment";
+                photoGallery.innerHTML += `
+                    <div class="photo-item">
+                        <img src="${photo}" alt="${caption}">
+                        <div class="photo-caption">${caption}</div>
+                    </div>
+                `;
+            });
+        } else {
+            photoGallery.innerHTML = '<p>No photos available for this appointment</p>';
+        }
+
+        appointmentModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function resetFilters() {
+    // Get original table state
+    const tbody = document.querySelector('.treatment-history-container tbody');
+    const originalRows = Array.from(tbody.querySelectorAll('tr.appointment-row'));
+    
+    // Sort rows by date in descending order (most recent first)
+    originalRows.sort((a, b) => {
+        const aDate = new Date(a.querySelector('.date').textContent);
+        const bDate = new Date(b.querySelector('.date').textContent);
+        return bDate - aDate;
+    });
+    
+    // Reset table content
+    tbody.innerHTML = '';
+    originalRows.forEach(row => {
+        row.style.display = ''; // Show all rows
+        tbody.appendChild(row);
+    });
+
+    // Reset sort buttons
+    document.querySelectorAll('.sort-btn').forEach(button => {
+        button.setAttribute('data-direction', 'none');
+        button.querySelectorAll('i').forEach(icon => icon.style.display = 'none');
+        button.querySelector('.fa-sort').style.display = 'inline-block';
+    });
+
+    // Reset filter dropdowns
+    document.querySelectorAll('.filter-dropdown').forEach(dropdown => {
+        const items = dropdown.querySelectorAll('.dropdown-content div');
+        items.forEach(item => item.classList.remove('active-filter'));
+    });
+
+    // Visual feedback for reset button
+    const originalText = resetButton.innerHTML;
+    resetButton.innerHTML = '<i class="fas fa-check"></i> Reset Complete';
+    resetButton.style.backgroundColor = '#4CAF50';
+    resetButton.style.color = 'white';
+    
+    setTimeout(() => {
+        resetButton.innerHTML = originalText;
+        resetButton.style.backgroundColor = '';
+        resetButton.style.color = '';
+    }, 2000);
+    
+    // Update counts and stats
+    updateUpcomingAppointmentsCount();
+    calculateTotalCost();
+}
+
+function showWarning(message) {
+    const warningModal = document.getElementById('warningModal');
+    const warningMessage = document.getElementById('warningMessage');
+    warningMessage.textContent = message;
+    warningModal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function showConfirmation(message) {
+    const confirmationModal = document.getElementById('confirmationModal');
+    const confirmationMessage = document.getElementById('confirmationMessage');
+    confirmationMessage.textContent = message;
+    confirmationModal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+
+// Mobile menu toggle functionality
+function initializeMobileMenu() {
+    const mobileMenuButton = document.createElement('button');
+    mobileMenuButton.innerHTML = '<i class="fas fa-bars"></i>';
+    mobileMenuButton.classList.add('mobile-menu-toggle');
+    mobileMenuButton.style.display = 'none';
+    
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.parentNode.insertBefore(mobileMenuButton, sidebar);
+    
+    // Style the mobile menu button
+    mobileMenuButton.style.position = 'fixed';
+    mobileMenuButton.style.top = '10px';
+    mobileMenuButton.style.left = '10px';
+    mobileMenuButton.style.zIndex = '1000';
+    mobileMenuButton.style.background = 'var(--sidebar-active)';
+    mobileMenuButton.style.color = 'white';
+    mobileMenuButton.style.border = 'none';
+    mobileMenuButton.style.borderRadius = '50%';
+    mobileMenuButton.style.width = '40px';
+    mobileMenuButton.style.height = '40px';
+    mobileMenuButton.style.fontSize = '18px';
+    mobileMenuButton.style.cursor = 'pointer';
+    
+    // Toggle sidebar visibility
+    mobileMenuButton.addEventListener('click', function() {
+        if (sidebar.style.display === 'none' || !sidebar.style.display) {
+            sidebar.style.display = 'block';
+        } else {
+            sidebar.style.display = 'none';
+        }
+    });
+    
+    // Show/hide based on screen size
+    function checkScreenSize() {
+        if (window.innerWidth <= 992) {
+            mobileMenuButton.style.display = 'block';
+            sidebar.style.display = 'none';
+        } else {
+            mobileMenuButton.style.display = 'none';
+            sidebar.style.display = 'block';
+        }
+    }
+    
+    window.addEventListener('resize', checkScreenSize);
+    checkScreenSize();
+}
+
+
+    </script>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

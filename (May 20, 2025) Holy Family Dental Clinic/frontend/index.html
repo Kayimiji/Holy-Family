@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holy Family Dental Clinic</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: url('HolyFAmDentalClinic Bacground pic.png') no-repeat;
+            background-size: cover;
+            background-position: center -150px;
+            background-attachment: fixed;
+            margin: 0;
+            transition: background-image 0.3s ease-in-out;
+            position: relative;
+            min-height: 50vh;
+            overflow-x: hidden;
+        }
+
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #00bfff57 0%, #0066cc 100%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .preloader-logo {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: scale(0.5);
+            animation: logoReveal 1.5s ease-out forwards 0.5s;
+        }
+        
+        .preloader-text {
+            color: white;
+            font-size: 24px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: textReveal 1s ease-out forwards 1.5s;
+        }
+        
+        .loading-bar {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-top: 30px;
+            border-radius: 2px;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards 1.8s;
+        }
+        
+        .loading-progress {
+            height: 100%;
+            width: 0;
+            background: white;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        @keyframes logoReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            70% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes textReveal {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        body.preloader-active {
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .user-type-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(65, 65, 65, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+            backdrop-filter: blur(4px);
+            box-shadow: 10px 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .user-type-modal .modal-content {
+            background: rgba(255, 255, 255, 0.822);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .user-type-modal h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+
+        .user-type-modal p {
+            color: #555;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        .selection-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .role-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 25px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 160px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .role-btn i {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .patient-btn {
+            background-color: #00bfff;
+            color: white;
+        }
+
+        .doctor-btn {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .role-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .role-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .remember-me input {
+            cursor: pointer;
+            margin-right: 8px;
+        }
+
+        .remember-me label {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .modal-footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .modal-footer a {
+            color: #00bfff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .modal-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader - hidden by default, shown only on first visit -->
+    <div class="preloader" id="preloader" style="display: none;">
+        <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="preloader-logo">
+        <div class="preloader-text">Holy Family Dental Clinic</div>
+        <div class="loading-bar">
+            <div class="loading-progress" id="loadingProgress"></div>
+        </div>
+    </div>
+
+    <!-- User Type Selection Modal -->
+    <div class="user-type-modal" id="userTypeModal">
+        <div class="modal-content">
+            <h2>Welcome to Holy Family Dental Clinic</h2>
+            <p>Please select your role:</p>
+            <div class="selection-buttons">
+                <button id="patientBtn" class="role-btn patient-btn">
+                    <i class="fas fa-user"></i>
+                    <span>Patient/Guest</span>
+                </button>
+                <button id="doctorBtn" class="role-btn doctor-btn">
+                    <i class="fas fa-user-md"></i>
+                    <span>Doctor/Admin</span>
+                </button>
+            </div>
+            <div class="remember-me">
+                <input type="checkbox" id="rememberMe">
+                <label for="rememberMe">Remember my choice</label>
+            </div>
+            <div class="modal-footer">
+                <p>You can change this later from the website footer</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const preloader = document.getElementById('preloader');
+            const loadingProgress = document.getElementById('loadingProgress');
+            const userTypeModal = document.getElementById('userTypeModal');
+            const patientBtn = document.getElementById('patientBtn');
+            const doctorBtn = document.getElementById('doctorBtn');
+            const rememberMe = document.getElementById('rememberMe');
+            
+            // Check if this is a first visit or change role action
+            const isFirstVisit = sessionStorage.getItem('visited') === null;
+            const isChangeRole = window.location.search.includes('change-role');
+            
+            // Check if user choice was remembered
+            const rememberedChoice = localStorage.getItem('userTypeChoice');
+            const wasLoggedOut = sessionStorage.getItem('wasLoggedOut');
+            
+            if (isFirstVisit && !isChangeRole) {
+                // First visit - show preloader
+                sessionStorage.setItem('visited', 'true');
+                document.body.classList.add('preloader-active');
+                preloader.style.display = 'flex';
+                
+                // Simulate loading progress
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 10;
+                    if (progress > 100) progress = 100;
+                    loadingProgress.style.width = `${progress}%`;
+                    
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        
+                        // Animate out the preloader
+                        setTimeout(() => {
+                            preloader.style.opacity = '0';
+                            preloader.style.transform = 'translateY(-20px)';
+                            preloader.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                            
+                            setTimeout(() => {
+                                preloader.style.display = 'none';
+                                document.body.classList.remove('preloader-active');
+                                showUserTypeModal();
+                            }, 500);
+                        }, 300);
+                    }
+                }, 100);
+            } else {
+                // Not first visit or change role - show modal immediately
+                showUserTypeModal();
+            }
+            
+            function showUserTypeModal() {
+                if (rememberedChoice && !wasLoggedOut && !isChangeRole) {
+                    if (rememberedChoice === 'doctor') {
+                        window.location.href = "admin.html";
+                    } else {
+                        window.location.href = "landingpage.html";
+                    }
+                } else {
+                    // Clear the logged out flag
+                    sessionStorage.removeItem('wasLoggedOut');
+                    // Show the modal
+                    userTypeModal.style.display = 'flex';
+                }
+            }
+            
+            // Patient (Guest) button click - redirect to landing page
+            patientBtn.addEventListener('click', function() {
+                if (rememberMe.checked) {
+                    localStorage.setItem('userTypeChoice', 'patient');
+                } else {
+                    localStorage.removeItem('userTypeChoice');
+                }
+                window.location.href = "landingpage.html";
+            });
+            
+            // Doctor button click - redirect to admin page
+            doctorBtn.addEventListener('click', function() {
+                if (rememberMe.checked) {
+                    localStorage.setItem('userTypeChoice', 'doctor');
+                } else {
+                    localStorage.removeItem('userTypeChoice');
+                }
+                window.location.href = "admin.html";
+            });
+        });
+
+        // Admin logout function
+        function adminLogout() {
+            sessionStorage.setItem('wasLoggedOut', 'true');
+            localStorage.removeItem('userTypeChoice');
+            window.location.href = 'index.html';
+        }
+        
+        // Function to change role from footer
+        function changeUserRole() {
+            // Add parameter to indicate this is a role change
+            window.location.href = 'index.html?change-role=true';
+        }
+    </script>
+</body>
+</html>
