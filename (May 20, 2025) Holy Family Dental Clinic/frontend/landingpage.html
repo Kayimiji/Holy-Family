@@ -2247,6 +2247,25 @@
     font-weight: 500;
 }
 
+/* Add to your existing time slot styles */
+.time-slot.disabled {
+    background-color: #f5f5f5;
+    color: #999;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.unavailable-text {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.time-slot.disabled:hover {
+    background-color: #f5f5f5;
+    transform: none;
+}
+
 /* Selection info box */
 .selected-info-box {
     background: #f9f9f9;
@@ -2798,25 +2817,6 @@
                 </a>
             </div>
             
-            <!-- Social Media Links -->
-            <div class="social-icons">
-                <span>Follow us:</span>
-                <a href="https://www.facebook.com/profile.php?id=100076761485436" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-<!-- Services Grid -->
-<section class="services-container">
-    <div class="services-header">
-        <h2>Our Services</h2>
-    </div>
-    <div class="services-grid">
         <!-- Service Card 1 -->
         <div class="service-card" id="oral-prophylaxis">
             <div class="service-image">
@@ -3573,8 +3573,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    
-
     function navigateLeft() {
         currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - imagesToShow;
         updateGallery();
@@ -3867,6 +3865,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         return isValid;
     }
+    
 
     // Add confirmation handler
     function confirmBooking() {
@@ -4011,7 +4010,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const timeSlotsContainer = document.querySelector('.time-slots');
         timeSlotsContainer.innerHTML = '';
 
-        // Only generate time slots if a date is selected
         if (!selectedDate) {
             document.querySelector('.time-slots-header p').textContent = 'Please select a date first';
             document.getElementById('selectedTime').textContent = 'Not selected';
@@ -4021,30 +4019,51 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.querySelector('.time-slots-header p').textContent = 'Available time slots';
 
-        // Generate time slots based on day of week
-        let timeSlots = [];
+        // Set up time slots and their availability
+        const unavailableSlots = ['10:00 AM', '02:00 PM']; // Example of manually set unavailable slots
+        const timeSlots = ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'];
         const dayOfWeek = selectedDate.getDay();
         
-        // Different time slots for different days
-        if (dayOfWeek === 6) { // Saturday
-            timeSlots = ['09:00 AM', '10:00 AM', '11:00 AM'];
-        } else {
-            timeSlots = ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'];
+        if (dayOfWeek === 0) {
+            const message = document.createElement('div');
+            message.className = 'time-slot disabled';
+            message.textContent = 'Clinic is closed on Sundays';
+            timeSlotsContainer.appendChild(message);
+            return;
         }
+
+        const now = new Date();
+        const isToday = selectedDate.toDateString() === now.toDateString();
 
         timeSlots.forEach(time => {
             const slot = document.createElement('div');
             slot.className = 'time-slot';
-            slot.textContent = time;
             
-            slot.addEventListener('click', () => {
-                document.querySelectorAll('.time-slot.selected').forEach(el => {
-                    el.classList.remove('selected');
+            // Convert time string to Date object for comparison
+            const [hours, minutes] = time.split(':');
+            const isPM = time.includes('PM');
+            let slotHour = parseInt(hours);
+            if (isPM && slotHour !== 12) slotHour += 12;
+            const slotTime = new Date(selectedDate);
+            slotTime.setHours(slotHour, parseInt(minutes), 0);
+
+            const isUnavailable = unavailableSlots.includes(time);
+            const isPastTime = isToday && now > slotTime;
+
+            if (isUnavailable || isPastTime) {
+                slot.classList.add('disabled');
+                slot.innerHTML = `${time} <span class="unavailable-text">(Unavailable)</span>`;
+            } else {
+                slot.textContent = time;
+                slot.addEventListener('click', () => {
+                    document.querySelectorAll('.time-slot.selected').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    slot.classList.add('selected');
+                    selectedTime = time;
+                    document.getElementById('selectedTime').textContent = time;
                 });
-                slot.classList.add('selected');
-                selectedTime = time;
-                document.getElementById('selectedTime').textContent = time;
-            });
+            }
 
             timeSlotsContainer.appendChild(slot);
         });
