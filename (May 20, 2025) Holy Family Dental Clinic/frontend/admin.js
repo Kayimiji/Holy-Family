@@ -221,22 +221,27 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 async function fetchAppointmentRequests(date = null) {
     let url = date
-        ? `http://localhost:3000/api/gas/fetchToday`
+        ? `http://localhost:3000/api/gas/fetch/${date}`
         : `http://localhost:3000/api/gas/fetchAll`;
 
     try {
+        
         let response = await fetch(url);
         let data = await response.json();
 
         console.log("TEST:", data)
 
         if (date) {
+            todayAppointments = [];
+
+
             todayAppointments = data;
-            console.log("NO URL", url)
+            console.log("NO DATE URL", url)
         } else {
             appointmentRequests = data;
             console.log("URL", url)
         }
+
     } catch (error) {
         console.error("Failed to fetch appointments:", error);
     }
@@ -911,9 +916,12 @@ function ensureTimeFormat(timeStr) {
     return `${hours}:${minutes} ${ampm}`;
 }
 
-function updateAppointmentsForDate(date) {
+async function updateAppointmentsForDate(date) {
+
     // Format the selected date to YYYY-MM-DD format
-    const formattedDate = date.toISOString().split('T')[0];
+    // const formattedDate = date.toISOString().split('T')[0];
+    const formattedDate = date.toLocaleDateString('en-CA');
+    await fetchAppointmentRequests(formattedDate);
     const todayTableBody = document.getElementById('todayTableBody');
     const todayCount = document.getElementById('todayCount');
 
@@ -1232,6 +1240,7 @@ function initializeCalendar() {
     document.getElementById('today').addEventListener('click', () => {
         const today = new Date();
         updateCalendar(today);
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!")
 
         document.querySelectorAll('.calendar-day.selected').forEach(el => {
             el.classList.remove('selected');
@@ -1248,7 +1257,8 @@ function initializeCalendar() {
                     day: 'numeric'
                 });
                 document.getElementById('todayDate').textContent = formattedDate;
-                updateAppointmentsForDate(today);
+                console.log("???????????????????????????")
+                updateAppointmentsForDate(formattedDate);
             }
         });
     });
@@ -1332,6 +1342,8 @@ function updateCalendar(date) {
                 day: 'numeric'
             });
             document.getElementById('todayDate').textContent = formattedDate;
+            // console.log('Clicked', formattedDate);
+            // updateAppointmentsForDate(formattedDate);
         });
     }
 }
