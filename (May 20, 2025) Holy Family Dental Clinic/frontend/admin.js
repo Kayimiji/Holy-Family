@@ -233,11 +233,10 @@ async function fetchAppointmentRequests(date = null) {
         console.log("TEST:", data)
 
         if (date) {
-            todayAppointments = null;
+            todayAppointments = [];
 
 
             console.log("This one ran.")
-            if (data.length > 0)
             todayAppointments = data;
             console.log("NO URL", url)
         } else {
@@ -919,11 +918,12 @@ function ensureTimeFormat(timeStr) {
     return `${hours}:${minutes} ${ampm}`;
 }
 
-function updateAppointmentsForDate(date) {
+async function updateAppointmentsForDate(date) {
+    
     // Format the selected date to YYYY-MM-DD format
     // const formattedDate = date.toISOString().split('T')[0];
     const formattedDate = date.toLocaleDateString('en-CA');
-    fetchAppointmentRequests(formattedDate);
+    await fetchAppointmentRequests(formattedDate);
     const todayTableBody = document.getElementById('todayTableBody');
     const todayCount = document.getElementById('todayCount');
 
