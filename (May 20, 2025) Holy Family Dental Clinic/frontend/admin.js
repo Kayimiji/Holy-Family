@@ -220,23 +220,31 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 async function fetchAppointmentRequests(date = null) {
+    console.log("DATE", date);
     let url = date
-        ? `http://localhost:3000/api/gas/fetchToday`
+        ? `http://localhost:3000/api/gas/fetch/${date}`
         : `http://localhost:3000/api/gas/fetchAll`;
 
     try {
+        
         let response = await fetch(url);
         let data = await response.json();
 
         console.log("TEST:", data)
 
         if (date) {
+            todayAppointments = null;
+
+
+            console.log("This one ran.")
+            if (data.length > 0)
             todayAppointments = data;
             console.log("NO URL", url)
         } else {
             appointmentRequests = data;
             console.log("URL", url)
         }
+
     } catch (error) {
         console.error("Failed to fetch appointments:", error);
     }
@@ -913,7 +921,9 @@ function ensureTimeFormat(timeStr) {
 
 function updateAppointmentsForDate(date) {
     // Format the selected date to YYYY-MM-DD format
-    const formattedDate = date.toISOString().split('T')[0];
+    // const formattedDate = date.toISOString().split('T')[0];
+    const formattedDate = date.toLocaleDateString('en-CA');
+    fetchAppointmentRequests(formattedDate);
     const todayTableBody = document.getElementById('todayTableBody');
     const todayCount = document.getElementById('todayCount');
 
@@ -1248,7 +1258,8 @@ function initializeCalendar() {
                     day: 'numeric'
                 });
                 document.getElementById('todayDate').textContent = formattedDate;
-                updateAppointmentsForDate(today);
+                console.log('Clicked', formattedDate);
+                updateAppointmentsForDate(formattedDate);
             }
         });
     });
@@ -1262,6 +1273,7 @@ function initializeCalendar() {
 }
 
 function updateCalendar(date) {
+    console.log("UPDATE CALENDAR RUNNING");
     const currentMonthYear = document.getElementById('currentMonthYear');
     const calendarGrid = document.getElementById('calendarGrid');
     const today = new Date();
@@ -1332,6 +1344,8 @@ function updateCalendar(date) {
                 day: 'numeric'
             });
             document.getElementById('todayDate').textContent = formattedDate;
+            // console.log('Clicked', formattedDate);
+            // updateAppointmentsForDate(formattedDate);
         });
     }
 }
