@@ -221,11 +221,11 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 async function fetchAppointmentRequests(date = null) {
     let url = date
-        ? `http://localhost:3000/api/gas/fetch/${date}`
-        : `http://localhost:3000/api/gas/fetchAll`;
+        ? `http://localhost:3000/appointments?requestedDate=${encodeURIComponent(date)}`
+        : `http://localhost:3000/appointments`;
 
     try {
-        
+
         let response = await fetch(url);
         let data = await response.json();
 
