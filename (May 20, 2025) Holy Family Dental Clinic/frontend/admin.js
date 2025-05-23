@@ -6,7 +6,7 @@ let currentAcceptIds = [];
 let currentCompletionModal = null;
 let currentCompletionId = null;  // Add this line
 let currentWarningModal = null; // Add this at the top with other modal state variables
-let today = new Date().toISOString().split("T")[0];
+let today = new Date().toLocaleDateString('en-CA');
 
 
 // Debug logging function
@@ -221,22 +221,27 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 async function fetchAppointmentRequests(date = null) {
     let url = date
-        ? `http://localhost:3000/api/gas/fetchToday`
-        : `http://localhost:3000/api/gas/fetchAll`;
+        ? `http://localhost:3000/appointments/${encodeURIComponent(date)}`
+        : `http://localhost:3000/appointments`;
 
     try {
+
         let response = await fetch(url);
         let data = await response.json();
 
         console.log("TEST:", data)
 
         if (date) {
+            todayAppointments = [];
+
+
             todayAppointments = data;
-            console.log("NO URL", url)
+            console.log("NO DATE URL", url)
         } else {
             appointmentRequests = data;
             console.log("URL", url)
         }
+
     } catch (error) {
         console.error("Failed to fetch appointments:", error);
     }
@@ -293,19 +298,19 @@ function updateRequestsTable() {
     selectAllCheckbox.disabled = false;
 
     appointmentRequests.forEach(request => {
-        const requestDate = new Date(request.requestDate);
-        const requestedDate = new Date(request.requestedDate);
+        const requestDate = new Date(request.request_date);
+        const requestedDate = new Date(request.requested_date);
         const row = document.createElement('tr');
         row.innerHTML = `
             <td class="checkbox-wrapper"><input type="checkbox" data-id="${request.id}" ${selectAllCheckbox.checked ? 'checked' : ''}></td>
             <td class="clickable-cell" onclick="showAppointmentDetails(${request.id})">
-                <span class="patient-name">${request.firstName + ' ' + request.lastName}</span>
+                <span class="patient-name">${request.patient_name}</span>
             </td>
             <td class="clickable-cell" onclick="showAppointmentDetails(${request.id})">
                 ${formatDateForDisplay(requestedDate)}
             </td>
             <td class="clickable-cell" onclick="showAppointmentDetails(${request.id})">
-                ${ensureTimeFormat(request.requestedTime)}
+                ${ensureTimeFormat(request.requested_time)}
             </td>
             <td class="clickable-cell" onclick="showAppointmentDetails(${request.id})">
                 <span class="procedure-tag">${request.procedure}</span>
@@ -637,9 +642,9 @@ function previewTodayForm(formId) {
 
 // Today's appointments functions
 function initializeTodaySection() {
-    const today = new Date();
+    const thisDay = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    document.getElementById('todayDate').textContent = today.toLocaleDateString('en-US', options);
+    document.getElementById('todayDate').textContent = thisDay.toLocaleDateString('en-US', options);
     updateAppointmentsForDate(today);
 }
 
@@ -656,7 +661,7 @@ function cancelAppointment(id) {
         canceledCount.textContent = (parseInt(canceledCount.textContent) + 1).toString();
 
         // Update UI
-        updateAppointmentsForDate(new Date(appointment.date));
+        updateAppointmentsForDate(new Date(appointment.date).toLocaleDateString('en-CA'));
         updateStatistics();
         updateCalendar(new Date());
 
@@ -748,7 +753,7 @@ function proceedWithCompletion(id) {
     todayAppointments[appointmentIndex].completedAt = new Date().toISOString();
 
     // Update UI
-    updateAppointmentsForDate(new Date());
+    updateAppointmentsForDate(new Date().toLocaleDateString('en-CA'));
     updateStatistics();
     updateCalendar(new Date());
 
@@ -868,7 +873,7 @@ function proceedWithCancellation(id) {
             </div>`;
 
         // Update UI
-        updateAppointmentsForDate(new Date(appointment.date));
+        updateAppointmentsForDate(new Date(appointment.date).toLocaleDateString('en-CA'));
         updateStatistics();
         updateCalendar(new Date());
 
@@ -911,9 +916,12 @@ function ensureTimeFormat(timeStr) {
     return `${hours}:${minutes} ${ampm}`;
 }
 
-function updateAppointmentsForDate(date) {
+async function updateAppointmentsForDate(date) {
+
     // Format the selected date to YYYY-MM-DD format
-    const formattedDate = date.toISOString().split('T')[0];
+    // const formattedDate = date.toISOString().split('T')[0];
+    const formattedDate = date;
+    await fetchAppointmentRequests(formattedDate);
     const todayTableBody = document.getElementById('todayTableBody');
     const todayCount = document.getElementById('todayCount');
 
@@ -945,9 +953,11 @@ function updateAppointmentsForDate(date) {
     todayAppointments.sort((a, b) => {
         return b;
     });
+    console.log("TODAY::", todayAppointments)
 
     // Populate table with filtered and sorted appointments
     todayAppointments.forEach(appointment => {
+        console.log("APPOINT:", appointment)
         const appointmentDate = new Date(appointment.requestedDate);
         const row = document.createElement('tr');
         row.onclick = (e) => {
@@ -974,11 +984,11 @@ function updateAppointmentsForDate(date) {
             <td class="checkbox-wrapper">
                 ${appointment.status === "Scheduled" ? `<input type="checkbox" data-id="${appointment.id}">` : ''}
             </td>
-            <td><span class="patient-name" data-full-text="${appointment.firstName + ' ' + appointment.lastName}">${appointment.firstName + ' ' + appointment.lastName}</span></td>
+            <td><span class="patient-name" data-full-text="${appointment.patientName}">${appointment.patientName}</span></td>
             <td>${formatDateForDisplay(appointmentDate)}</td>
             <td>${ensureTimeFormat(appointment.requestedTime)}</td>
             <td><span class="procedure-tag" data-full-text="${appointment.procedure}">${appointment.procedure}</span></td>
-            <td><span class="status-badge status-${appointment.status.toLowerCase()}">
+            <td><span class="status-badge status-${appointment.status}">
                 ${appointment.status}
             </span></td>
             <td>${actionColumn}</td>
@@ -1232,6 +1242,7 @@ function initializeCalendar() {
     document.getElementById('today').addEventListener('click', () => {
         const today = new Date();
         updateCalendar(today);
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!")
 
         document.querySelectorAll('.calendar-day.selected').forEach(el => {
             el.classList.remove('selected');
@@ -1248,7 +1259,8 @@ function initializeCalendar() {
                     day: 'numeric'
                 });
                 document.getElementById('todayDate').textContent = formattedDate;
-                updateAppointmentsForDate(today);
+                console.log("???????????????????????????")
+                updateAppointmentsForDate(today.toLocaleDateString('en-CA'));
             }
         });
     });
@@ -1332,6 +1344,8 @@ function updateCalendar(date) {
                 day: 'numeric'
             });
             document.getElementById('todayDate').textContent = formattedDate;
+            // console.log('Clicked', formattedDate);
+            updateAppointmentsForDate(currentDate.toLocaleDateString('en-CA'));
         });
     }
 }
@@ -1526,10 +1540,16 @@ function openTab(evt, tabName) {
     }
 }
 
-function showAppointmentDetails(id) {
+async function fetchAppointmentRequestsById(id) {
+    const response = await fetch(`http://localhost:3000/appointments/${id}`)
+    return await response.json();
+}
+
+async function showAppointmentDetails(id) {
     debugLog('Opening details for ID', id);
     currentDetailId = id;
-    const request = appointmentRequests.find(req => req.id === id);
+    console.log(id)
+    const request = await fetchAppointmentRequestsById(id);
 
     if (!request) {
         debugLog('Request not found for ID', id);
@@ -1552,9 +1572,9 @@ function showAppointmentDetails(id) {
     closeRejectModal();
 
     // Populate patient info
-    document.getElementById('detail-patient-name').textContent = request.patientName;
-    document.getElementById('detail-patient-id').textContent = request.patientInfo?.patientId || 'N/A';
-    document.getElementById('detail-contact').textContent = request.contact || 'Not provided';
+    document.getElementById('detail-patient-name').textContent = request.patientInfo?.patientName;
+    // document.getElementById('detail-patient-id').textContent = request.patientInfo?.patientId || 'N/A';
+    document.getElementById('detail-contact').textContent = request.patientInfo?.phoneNumber || 'Not provided';
     document.getElementById('detail-email').textContent = request.patientInfo?.email || 'Not provided';
     document.getElementById('detail-age').textContent = request.patientInfo?.age || 'Not provided';
     document.getElementById('detail-gender').textContent = request.patientInfo?.gender || 'Not provided';
@@ -1929,7 +1949,7 @@ async function confirmAcceptAppointment() {
     updateRequestCount();
     updateStatistics();
     updateCalendar(new Date());
-    updateAppointmentsForDate(new Date());
+    updateAppointmentsForDate(new Date().toLocaleDateString('en-CA'));
 
     // Reset checkboxes
     document.getElementById('selectAll').checked = false;
@@ -2105,7 +2125,7 @@ function processBulkCompletion(ids) {
     });
 
     // Update UI
-    updateAppointmentsForDate(new Date());
+    updateAppointmentsForDate(new Date().toLocaleDateString('en-CA'));
     updateStatistics();
     updateCalendar(new Date());
 
@@ -2192,7 +2212,7 @@ function processBulkCancellation(ids) {
     });
 
     // Update UI
-    updateAppointmentsForDate(new Date());
+    updateAppointmentsForDate(new Date()).toLocaleDateString('en-CA');
     updateStatistics();
     updateCalendar(new Date());
 
@@ -2754,7 +2774,7 @@ function proceedWithCompletion(id) {
     todayAppointments[appointmentIndex].completedAt = new Date().toISOString();
 
     // Update UI
-    updateAppointmentsForDate(new Date());
+    updateAppointmentsForDate(new Date()).toLocaleDateString('en-CA');
     updateStatistics();
     updateCalendar(new Date());
 
