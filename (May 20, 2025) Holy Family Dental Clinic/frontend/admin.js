@@ -220,7 +220,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 async function fetchAppointmentRequests(date = null) {
-    console.log("DATE", date);
     let url = date
         ? `http://localhost:3000/api/gas/fetch/${date}`
         : `http://localhost:3000/api/gas/fetchAll`;
@@ -236,9 +235,8 @@ async function fetchAppointmentRequests(date = null) {
             todayAppointments = [];
 
 
-            console.log("This one ran.")
             todayAppointments = data;
-            console.log("NO URL", url)
+            console.log("NO DATE URL", url)
         } else {
             appointmentRequests = data;
             console.log("URL", url)
@@ -919,7 +917,7 @@ function ensureTimeFormat(timeStr) {
 }
 
 async function updateAppointmentsForDate(date) {
-    
+
     // Format the selected date to YYYY-MM-DD format
     // const formattedDate = date.toISOString().split('T')[0];
     const formattedDate = date.toLocaleDateString('en-CA');
@@ -1242,6 +1240,7 @@ function initializeCalendar() {
     document.getElementById('today').addEventListener('click', () => {
         const today = new Date();
         updateCalendar(today);
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!")
 
         document.querySelectorAll('.calendar-day.selected').forEach(el => {
             el.classList.remove('selected');
@@ -1258,7 +1257,7 @@ function initializeCalendar() {
                     day: 'numeric'
                 });
                 document.getElementById('todayDate').textContent = formattedDate;
-                console.log('Clicked', formattedDate);
+                console.log("???????????????????????????")
                 updateAppointmentsForDate(formattedDate);
             }
         });
@@ -1273,7 +1272,6 @@ function initializeCalendar() {
 }
 
 function updateCalendar(date) {
-    console.log("UPDATE CALENDAR RUNNING");
     const currentMonthYear = document.getElementById('currentMonthYear');
     const calendarGrid = document.getElementById('calendarGrid');
     const today = new Date();
