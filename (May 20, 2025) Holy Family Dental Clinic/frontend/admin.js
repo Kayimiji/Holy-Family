@@ -6,6 +6,8 @@ let currentAcceptIds = [];
 let currentCompletionModal = null;
 let currentCompletionId = null;  // Add this line
 let currentWarningModal = null; // Add this at the top with other modal state variables
+let today = new Date().toISOString().split("T")[0];
+
 
 // Debug logging function
 function debugLog(label, data) {
@@ -66,54 +68,54 @@ function showToast(message, type = 'info') {
 let appointmentRequests = [];
 let appointmentLogs = [];
 let todayAppointments = [
-    {
-        id: 1,
-        patientName: "John Smith",
-        date: new Date().toISOString().split('T')[0],
-        time: "10:00 AM",
-        procedure: "Dental Cleaning",
-        status: "Scheduled",
-        patientInfo: {
-            patientId: "HFDC-2023-003",
-            birthdate: "1985-03-20",
-            age: 38,
-            gender: "Male",
-            address: "789 Pine St, Manila",
-            email: "johnsmith@example.com"
-        }
-    },
-    {
-        id: 2,
-        patientName: "Maria Garcia",
-        date: new Date().toISOString().split('T')[0],
-        time: "11:30 AM",
-        procedure: "Tooth Extraction",
-        status: "Scheduled",
-        patientInfo: {
-            patientId: "HFDC-2023-004",
-            birthdate: "1988-11-12",
-            age: 35,
-            gender: "Female",
-            address: "321 Elm St, Pasig City",
-            email: "mariagarcia@example.com"
-        }
-    },
-    {
-        id: 3,
-        patientName: "David Wilson",
-        date: new Date(Date.now() + 86400000).toISOString().split('T')[0],
-        time: "9:00 AM",
-        procedure: "Tooth Extraction",
-        status: "Scheduled",
-        patientInfo: {
-            patientId: "HFDC-2023-005",
-            birthdate: "1979-09-05",
-            age: 44,
-            gender: "Male",
-            address: "654 Maple St, Taguig City",
-            email: "davidwilson@example.com"
-        }
-    }
+    // {
+    //     id: 1,
+    //     patientName: "John Smith",
+    //     date: new Date().toISOString().split('T')[0],
+    //     time: "10:00 AM",
+    //     procedure: "Dental Cleaning",
+    //     status: "Scheduled",
+    //     patientInfo: {
+    //         patientId: "HFDC-2023-003",
+    //         birthdate: "1985-03-20",
+    //         age: 38,
+    //         gender: "Male",
+    //         address: "789 Pine St, Manila",
+    //         email: "johnsmith@example.com"
+    //     }
+    // },
+    // {
+    //     id: 2,
+    //     patientName: "Maria Garcia",
+    //     date: new Date().toISOString().split('T')[0],
+    //     time: "11:30 AM",
+    //     procedure: "Tooth Extraction",
+    //     status: "Scheduled",
+    //     patientInfo: {
+    //         patientId: "HFDC-2023-004",
+    //         birthdate: "1988-11-12",
+    //         age: 35,
+    //         gender: "Female",
+    //         address: "321 Elm St, Pasig City",
+    //         email: "mariagarcia@example.com"
+    //     }
+    // },
+    // {
+    //     id: 3,
+    //     patientName: "David Wilson",
+    //     date: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+    //     time: "9:00 AM",
+    //     procedure: "Tooth Extraction",
+    //     status: "Scheduled",
+    //     patientInfo: {
+    //         patientId: "HFDC-2023-005",
+    //         birthdate: "1979-09-05",
+    //         age: 44,
+    //         gender: "Male",
+    //         address: "654 Maple St, Taguig City",
+    //         email: "davidwilson@example.com"
+    //     }
+    // }
 ];
 
 // Statistics data
@@ -164,6 +166,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         debugLog('Initializing dashboard...');
         await fetchAppointmentRequests();
         debugLog('Initial Appointment Requests', appointmentRequests);
+        await fetchAppointmentRequests(today);
         debugLog('Initial Today Appointments', todayAppointments);
 
         // Verify DOM elements including calendar elements
@@ -216,13 +219,24 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 });
 
-async function fetchAppointmentRequests() {
+async function fetchAppointmentRequests(date = null) {
+    let url = date
+        ? `http://localhost:3000/api/gas/fetchToday`
+        : `http://localhost:3000/api/gas/fetchAll`;
+
     try {
-        const response = await fetch("https://script.google.com/macros/s/AKfycbzr2bhvNSMtSL_0V7KGu-obBPuTywXtNP71xTmRkl01N9zlKWGZsvuydaTv38dITOMkJg/exec");
-        const data = await response.json();
+        let response = await fetch(url);
+        let data = await response.json();
+
         console.log("TEST:", data)
 
-        appointmentRequests = data;
+        if (date) {
+            todayAppointments = data;
+            console.log("NO URL", url)
+        } else {
+            appointmentRequests = data;
+            console.log("URL", url)
+        }
     } catch (error) {
         console.error("Failed to fetch appointments:", error);
     }
@@ -285,7 +299,7 @@ function updateRequestsTable() {
         row.innerHTML = `
             <td class="checkbox-wrapper"><input type="checkbox" data-id="${request.id}" ${selectAllCheckbox.checked ? 'checked' : ''}></td>
             <td class="clickable-cell" onclick="showAppointmentDetails(${request.id})">
-                <span class="patient-name">${request.patientName}</span>
+                <span class="patient-name">${request.firstName + ' ' + request.lastName}</span>
             </td>
             <td class="clickable-cell" onclick="showAppointmentDetails(${request.id})">
                 ${formatDateForDisplay(requestedDate)}
@@ -368,6 +382,7 @@ function updateModalButtons(status) {
 function showTodayAppointmentDetails(id) {
     currentTodayAppointmentId = id;
     const appointment = todayAppointments.find(app => app.id === id);
+    console.log("ALANSON:", appointment)
 
     if (!appointment) {
         showToast('Appointment not found', 'error');
@@ -386,17 +401,17 @@ function showTodayAppointmentDetails(id) {
     document.querySelector('.tab-btn[onclick*="today-patient-info"]').classList.add('active');
 
     // Populate patient info
-    document.getElementById('today-patient-name').textContent = appointment.patientName;
-    document.getElementById('today-patient-id').textContent = appointment.patientInfo?.patientId || 'N/A';
-    document.getElementById('today-contact').textContent = appointment.patientInfo?.contact || appointment.contact || 'Not provided';
-    document.getElementById('today-email').textContent = appointment.patientInfo?.email || 'Not provided';
-    document.getElementById('today-age').textContent = appointment.patientInfo?.age || 'Not provided';
-    document.getElementById('today-gender').textContent = appointment.patientInfo?.gender || 'Not provided';
-    document.getElementById('today-address').textContent = appointment.patientInfo?.address || 'Not provided';
+    document.getElementById('today-patient-name').textContent = appointment.firstName + '' + appointment.lastName;
+    document.getElementById('today-patient-id').textContent = appointment.patientId || 'N/A';
+    document.getElementById('today-contact').textContent = appointment.phoneNumber || 'Not provided';
+    document.getElementById('today-email').textContent = appointment.email || 'Not provided';
+    document.getElementById('today-age').textContent = appointment.age || 'Not provided';
+    document.getElementById('today-gender').textContent = appointment.gender || 'Not provided';
+    document.getElementById('today-address').textContent = appointment.address || 'Not provided';
 
     // Populate appointment info
-    document.getElementById('today-appointment-date').textContent = formatDateForDisplay(new Date(appointment.date));
-    document.getElementById('today-appointment-time').textContent = ensureTimeFormat(appointment.time);
+    document.getElementById('today-appointment-date').textContent = formatDateForDisplay(new Date(appointment.requestedDate));
+    document.getElementById('today-appointment-time').textContent = ensureTimeFormat(appointment.requestedTime);
     document.getElementById('today-procedure').textContent = appointment.procedure;
 
     // Set status badge
@@ -906,33 +921,34 @@ function updateAppointmentsForDate(date) {
     todayTableBody.innerHTML = '';
 
     // Filter appointments for selected date using strict equality
-    const dateAppointments = todayAppointments.filter(appointment => {
-        // Parse the appointment date string into a Date object
-        const apptDate = new Date(appointment.date);
-        // Compare year, month, and day separately
-        return apptDate.getFullYear() === date.getFullYear() &&
-            apptDate.getMonth() === date.getMonth() &&
-            apptDate.getDate() === date.getDate();
-    });
+    // const dateAppointments = todayAppointments.filter(appointment => {
+    //     // Parse the appointment date string into a Date object
+    //     const apptDate = new Date(appointment.date);
+    //     // Compare year, month, and day separately
+    //     return apptDate.getFullYear() === date.getFullYear() &&
+    //         apptDate.getMonth() === date.getMonth() &&
+    //         apptDate.getDate() === date.getDate();
+    // });
 
-    // Update appointment count
-    todayCount.textContent = dateAppointments.length;
+    // // Update appointment count
+    // todayCount.textContent = dateAppointments.length;
+    todayCount.textContent = todayAppointments.length
 
     // Show/hide based on count
-    if (dateAppointments.length > 0) {
+    if (todayAppointments.length > 0) {
         todayCount.classList.add('show');
     } else {
         todayCount.classList.remove('show');
     }
 
     // Sort appointments by time
-    dateAppointments.sort((a, b) => {
-        return a.time.localeCompare(b.time);
+    todayAppointments.sort((a, b) => {
+        return b;
     });
 
     // Populate table with filtered and sorted appointments
-    dateAppointments.forEach(appointment => {
-        const appointmentDate = new Date(appointment.date);
+    todayAppointments.forEach(appointment => {
+        const appointmentDate = new Date(appointment.requestedDate);
         const row = document.createElement('tr');
         row.onclick = (e) => {
             if (!e.target.closest('button') && !e.target.closest('input[type="checkbox"]')) {
@@ -958,9 +974,9 @@ function updateAppointmentsForDate(date) {
             <td class="checkbox-wrapper">
                 ${appointment.status === "Scheduled" ? `<input type="checkbox" data-id="${appointment.id}">` : ''}
             </td>
-            <td><span class="patient-name" data-full-text="${appointment.patientName}">${appointment.patientName}</span></td>
+            <td><span class="patient-name" data-full-text="${appointment.firstName + ' ' + appointment.lastName}">${appointment.firstName + ' ' + appointment.lastName}</span></td>
             <td>${formatDateForDisplay(appointmentDate)}</td>
-            <td>${ensureTimeFormat(appointment.time)}</td>
+            <td>${ensureTimeFormat(appointment.requestedTime)}</td>
             <td><span class="procedure-tag" data-full-text="${appointment.procedure}">${appointment.procedure}</span></td>
             <td><span class="status-badge status-${appointment.status.toLowerCase()}">
                 ${appointment.status}
@@ -1774,7 +1790,7 @@ function acceptRequest(id) {
 
     document.getElementById('acceptModalTitle').textContent = 'Accept Appointment';
     document.getElementById('acceptModalMessage').textContent =
-        `Are you sure you want to accept the appointment for ${request.patientName}?`;
+        `Are you sure you want to accept the appointment for ${request.firstName + ' ' + request.lastName}?`;
 
     // Store request data temporarily for confirmation handler
     window.currentRequestToNotify = request;
@@ -1782,67 +1798,47 @@ function acceptRequest(id) {
 }
 
 async function confirmSendNotification() {
-    const request = window.currentRequestToNotify;
-    if (!request) return;
+    const requests = window.currentRequestToNotify
+        ? [window.currentRequestToNotify]
+        : Array.isArray(window.bulkRequestsToNotify)
+            ? window.bulkRequestsToNotify
+            : [];
 
-    const rawDate = new Date(request.requestedDate);
-    const rawTime = new Date(request.requestedTime);
+    for (const request of requests) {
+        if (!request) continue;
 
-    const formattedDate = rawDate.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
+        const rawDate = new Date(request.date || request.requestedDate);
+        const rawTime = new Date(request.time || request.requestedTime);
 
-    const formattedTime = rawTime.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true
-    });
+        const formattedDate = rawDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
 
-    const messageText = `Hi ${request.patientName}, your appointment in Holy Family Dental Clinic for ${request.procedure} has been approved on ${formattedDate} at ${formattedTime}. Thank you and see you!`;
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const formattedTime = rawTime.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+        });
 
-    let contact = String(request.contact).padStart(11, "0");
-    const formattedNumber = contact.replace(/^0/, "+63");
+        const messageText = `Hi ${request.firstName + ' ' + request.lastName}, your appointment in Holy Family Dental Clinic for ${request.procedure} has been approved on ${formattedDate} at ${formattedTime}. Thank you and see you!`;
 
-    try {
-        if (isMobile) {
+        let contact = String(request.contact || request.phoneNumber || '').padStart(11, "0");
+        const formattedNumber = contact.replace(/^0/, "+63");
+
+        try {
             const smsBody = encodeURIComponent(messageText);
             window.location.href = `sms:${formattedNumber}?&body=${smsBody}`;
-            showToast(`SMS app opened for ${request.patientName}`, 'success');
-        } else {
-            await sendEmailInstead(
-                request.email,
-                messageText,
-                request.patientName,
-                request.procedure,
-                request.date,
-                request.time
-            );
-            showToast(`Email sent to ${request.patientName}`, 'success');
+            showToast(`SMS app opened for ${request.firstName + ' ' + request.lastName}`, 'success');
+            await new Promise(res => setTimeout(res, 600)); // Optional delay
+        } catch (error) {
+            console.error("Failed to notify:", request.firstName + ' ' + request.lastName, error);
+            showToast(`Failed to notify ${request.patientName}`, 'error');
         }
-    } catch (error) {
-        console.error("Notification failed:", error);
-        showToast("Failed to send notification.", 'error');
     }
 
     closeNotificationModal();
-}
-
-async function sendEmailInstead(email, messageText) {
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("message", messageText);
-    formData.append("sendEmailFallback", "true");
-
-    const response = await fetch("https://script.google.com/macros/s/AKfycbzr2bhvNSMtSL_0V7KGu-obBPuTywXtNP71xTmRkl01N9zlKWGZsvuydaTv38dITOMkJg/exec", {
-        method: "POST",
-        body: formData
-    });
-
-    const result = await response.text();
-    console.log("Email fallback result:", result);
 }
 
 function closeAcceptModal() {
@@ -1851,66 +1847,82 @@ function closeAcceptModal() {
     // currentAcceptIds = [];
 }
 
-function confirmAcceptAppointment() {
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+async function confirmAcceptAppointment() {
     const acceptedRequests = [];
 
-    if (currentAcceptId) {
-        const requestIndex = appointmentRequests.findIndex(req => req.id === currentAcceptId);
-        const todayIndex = todayAppointments.findIndex(app => app.id === currentAcceptId);
+    await fetch("http://localhost:3000/api/gas/send", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json" // 👈 You're using JSON to talk to your backend
+        },
+        body: JSON.stringify({
+            updateId: currentAcceptId,              // ID of the appointment to update
+            newStatus: "Scheduled"      // New status value
+        })
+    });
 
-        if (requestIndex !== -1) {
-            const request = appointmentRequests[requestIndex];
+    await fetchAppointmentRequests();
+    await fetchAppointmentRequests(today);
 
-            const newAppointment = {
-                id: Date.now(),
-                patientName: request.patientName,
-                date: request.requestedDate,
-                time: request.requestedTime,
-                procedure: request.procedure,
-                status: "Scheduled",
-                patientInfo: request.patientInfo
-            };
+    closeAcceptModal();
 
-            todayAppointments.push(newAppointment);
-            logAppointmentAction(request, "Accepted");
-            appointmentRequests.splice(requestIndex, 1);
-            acceptedRequests.push(newAppointment);
 
-            showToast(`Accepted appointment for ${request.patientName}`, 'success');
-        } else if (todayIndex !== -1) {
-            todayAppointments[todayIndex].status = "Completed";
-            showToast(`Completed appointment for ${todayAppointments[todayIndex].patientName}`, 'success');
-        }
-    } else if (currentAcceptIds.length > 0) {
-        currentAcceptIds.forEach(id => {
-            const requestIndex = appointmentRequests.findIndex(req => req.id === id);
-            const todayIndex = todayAppointments.findIndex(app => app.id === id);
+    // if (currentAcceptId) {
+    //     const requestIndex = appointmentRequests.findIndex(req => req.id === currentAcceptId);
+    //     const todayIndex = todayAppointments.findIndex(app => app.id === currentAcceptId);
 
-            if (requestIndex !== -1) {
-                const request = appointmentRequests[requestIndex];
+    //     if (requestIndex !== -1) {
+    //         const request = appointmentRequests[requestIndex];
 
-                const newAppointment = {
-                    id: Date.now() + Math.random(),
-                    patientName: request.patientName,
-                    date: request.requestedDate,
-                    time: request.requestedTime,
-                    procedure: request.procedure,
-                    status: "Scheduled",
-                    patientInfo: request.patientInfo
-                };
+    //         const newAppointment = {
+    //             id: Date.now(),
+    //             patientName: request.firstName + ' ' + request.lastName,
+    //             date: request.requestedDate,
+    //             time: request.requestedTime,
+    //             procedure: request.procedure,
+    //             status: "Scheduled",
+    //             patientInfo: request.patientInfo
+    //         };
 
-                todayAppointments.push(newAppointment);
-                logAppointmentAction(request, "Accepted");
-                appointmentRequests.splice(requestIndex, 1);
-                acceptedRequests.push(newAppointment);
-            } else if (todayIndex !== -1) {
-                todayAppointments[todayIndex].status = "Confirmed";
-            }
-        });
+    //         // todayAppointments.push(newAppointment);
+    //         // logAppointmentAction(request, "Accepted");
+    //         // appointmentRequests.splice(requestIndex, 1);
+    //         // acceptedRequests.push(newAppointment);
 
-        showToast(`Processed ${currentAcceptIds.length} appointments`, 'success');
-    }
+    //         showToast(`Accepted appointment for ${request.firstName + ' ' + request.lastName}`, 'success');
+    //     } else if (todayIndex !== -1) {
+    //         todayAppointments[todayIndex].status = "Completed";
+    //         showToast(`Completed appointment for ${todayAppointments[todayIndex].patientName}`, 'success');
+    //     }
+    // } else if (currentAcceptIds.length > 0) {
+    //     currentAcceptIds.forEach(id => {
+    //         const requestIndex = appointmentRequests.findIndex(req => req.id === id);
+    //         const todayIndex = todayAppointments.findIndex(app => app.id === id);
+
+    //         if (requestIndex !== -1) {
+    //             const request = appointmentRequests[requestIndex];
+
+    //             const newAppointment = {
+    //                 id: Date.now() + Math.random(),
+    //                 patientName: request.firstName + ' ' + request.lastName,
+    //                 date: request.requestedDate,
+    //                 time: request.requestedTime,
+    //                 procedure: request.procedure,
+    //                 status: "Scheduled",
+    //                 patientInfo: request.patientInfo
+    //             };
+
+    //             todayAppointments.push(newAppointment);
+    //             logAppointmentAction(request, "Accepted");
+    //             appointmentRequests.splice(requestIndex, 1);
+    //             acceptedRequests.push(newAppointment);
+    //         } else if (todayIndex !== -1) {
+    //             todayAppointments[todayIndex].status = "Confirmed";
+    //         }
+    //     });
+
+    //     showToast(`Processed ${currentAcceptIds.length} appointments`, 'success');
+    // }
 
     // Update UI
     updateRequestsTable();
@@ -1926,26 +1938,27 @@ function confirmAcceptAppointment() {
     updateBulkActionVisibility('todayTableBody', 'appointmentBulkActions', 'appointmentSelectedCount');
 
     // Close modal
-    closeAcceptModal();
 
     // Modal messaging
-    if (acceptedRequests.length === 1) {
-        const request = acceptedRequests[0];
-        window.currentRequestToNotify = request;
-        const label = isMobile
-            ? `Do you want to send a confirmation message via SMS to ${request.patientName}?`
-            : `Do you want to send a confirmation message via email to ${request.patientName}?`;
+    if (currentAcceptIds.length === 1) {
+        console.log(acceptedRequests)
 
+        let request = acceptedRequests[0];
+        console.log(request)
+        window.currentRequestToNotify = request;
+
+        const label = `Do you want to send a confirmation message via SMS to ${request.patientName}?`;
         document.getElementById("notificationModalMessage").textContent = label;
         document.getElementById("notificationConfirmationModal").classList.add("active");
-    } else if (acceptedRequests.length > 1) {
+    } else if (currentAcceptIds.length > 1) {
         window.bulkRequestsToNotify = acceptedRequests;
+        const names = acceptedRequests.map(r => r.patientName).join(", ");
 
-        const label = isMobile
-            ? `Do you want to send SMS confirmations to ${acceptedRequests.length} patients?`
-            : `Do you want to send email confirmations to ${acceptedRequests.length} patients?`;
+        // const label = isMobile
+        //     ? `Do you want to send SMS confirmations to ${acceptedRequests.length} patients?`
+        //     : `Do you want to send email confirmations to ${acceptedRequests.length} patients?`;
 
-        document.getElementById("notificationModalMessage").textContent = label;
+        document.getElementById("notificationModalMessage").textContent = `Do you want to send a confirmation message via SMS to  ${acceptedRequests.length} patients?`;
         document.getElementById("notificationConfirmationModal").classList.add("active");
     }
 }
