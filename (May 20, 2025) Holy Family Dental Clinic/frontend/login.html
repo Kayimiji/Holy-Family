@@ -342,11 +342,11 @@
                 <p>Don't have an account? <a href="signup.html">Create one</a></p>
             </div>
 
-            <form class="auth-form" id="signinForm">
+           <form class="auth-form" id="signinForm">
                 <div class="form-group">
-                    <label for="email">Email Address</label>
+                    <label for="loginField">Username / Email / Phone Number</label>
                     <i class="fas fa-envelope input-icon"></i>
-                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                    <input type="text" id="loginField" class="form-control" placeholder="Enter your username, email, or phone" required>
                 </div>
 
                 <div class="form-group">
@@ -357,8 +357,8 @@
 
                 <div class="form-footer">
                     <div class="remember-me">
-                        <input type="checkbox" id="remember">
-                        <label for="remember">Remember me</label>
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Remember me</label>
                     </div>
                     <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
                 </div>
@@ -366,71 +366,73 @@
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-sign-in-alt"></i> Sign In
                 </button>
-
-                <div class="social-login">
-                    <div class="social-divider">
-                        Or sign in with
-                    </div>
-                    <div class="social-buttons">
-                        <a href="#" class="social-btn facebook-btn">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="social-btn google-btn">
-                            <i class="fab fa-google"></i>
-                        </a>
-                    </div>
-                </div>
             </form>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const signinForm = document.getElementById('signinForm');
-            
-            signinForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Get form values
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
-                const rememberMe = document.getElementById('remember').checked;
-                
-                // Basic validation
-                if (!email || !password) {
-                    alert('Please fill in all fields');
+
+            signinForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const loginField = document.getElementById('loginField').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('remember').checked;
+
+            if (!loginField || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: loginField, password })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok || !result.user) {
+                    alert(result.message || 'Login failed');
                     return;
                 }
-                
-                // Here you would normally send the data to your backend
-                console.log('Signing in with:', { email, password, rememberMe });
-                
-                // For demo purposes, we'll simulate a successful login
-                // and redirect based on user type
-                const isAdmin = email.includes('admin');
-                
+
+                const user = result.user;
+
                 if (rememberMe) {
-                    localStorage.setItem('userTypeChoice', isAdmin ? 'doctor' : 'patient');
-                }
-                
-                // Redirect based on user type
-                if (isAdmin) {
-                    window.location.href = 'admin.html';
+                    localStorage.setItem('user', JSON.stringify(user));
                 } else {
-                    window.location.href = 'landingpage.html';
+                    sessionStorage.setItem('user', JSON.stringify(user));
                 }
-            });
-            
-            // Check if user is already logged in (for demo purposes)
-            const userType = localStorage.getItem('userTypeChoice');
-            if (userType) {
-                if (userType === 'doctor') {
-                    window.location.href = 'admin.html';
-                } else {
-                    window.location.href = 'landingpage.html';
-                }
+
+                signinForm.reset();
+
+                const userRole = user.username === 'admin' ? 'admin' : 'patient';
+                setTimeout(() => {
+                    window.location.href = userRole === 'admin' ? 'admin.html' : 'MyRecords.html';
+                }, 100);
+            } catch (err) {
+                console.error('Login error:', err);
+                alert('Something went wrong. Please try again.');
             }
+
+        });
+
+            // Optional: Auto-redirect if already remembered
+        const rememberedUser = localStorage.getItem('user') || sessionStorage.getItem('user');
+        if (rememberedUser) {
+            const user = JSON.parse(rememberedUser);
+        if (user.role === 'admin') {
+            window.location.href = 'admin.html';
+        } else {
+            window.location.href = 'landingpage.html';
+        }
+        }
         });
     </script>
+
 </body>
 </html>
