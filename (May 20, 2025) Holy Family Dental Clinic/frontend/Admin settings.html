@@ -605,7 +605,30 @@ input, select {
             <button class="logout-btn">Logout</button>
             <div style="clear: both;"></div>
         </div>
-    
+    </div>
+
+    <script>
+        function logout() {
+            fetch('http://localhost:3000/auth/logout', {
+                method: 'POST'
+            }).then(() => {
+                localStorage.removeItem('user');
+                sessionStorage.removeItem('user');
+                window.location.href = 'login.html';
+            }).catch((err) => {
+                console.error('Logout error:', err);
+                alert('Failed to logout. Please try again.');
+            });
+        }
+
+        // Attach the function to the logout button
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoutBtn = document.querySelector('.logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', logout);
+            }
+        });
+    </script>
 
 </body>
 </html>

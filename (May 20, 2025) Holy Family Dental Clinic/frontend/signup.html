@@ -466,7 +466,7 @@
         <div class="form-side">
             <div class="form-header">
                 <h1>Create Account</h1>
-                <p>Already have an account? <a href="login.html">Sign in</a></p>
+                <p>Already have an account? <a href="login.html?redirect=true">Sign in</a></p>
             </div>
 
             <form class="auth-form" id="signupForm">
@@ -524,6 +524,13 @@
                                 <input type="radio" name="gender" value="other"> Other
                             </label>
                         </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" class="form-control" placeholder="Enter your username" required>
                     </div>
                 </div>
 
@@ -723,6 +730,9 @@
                 
                 // Get gender
                 const gender = document.querySelector('input[name="gender"]:checked').value;
+
+                // Get username
+                const username = document.getElementById('username').value;
                 
                 // Validate password
                 const password = passwordInput.value;
@@ -751,23 +761,41 @@
                     submitBtn.disabled = true;
                     
                     // Simulate API call (replace with actual fetch/AJAX call)
-                    setTimeout(function() {
-                        // Hide form and show success message
-                        signupForm.style.display = 'none';
-                        successMessage.style.display = 'flex';
-                        
                         // In a real app, you would redirect or handle the response here
-                        console.log('Form submitted:', {
+                    fetch('http://localhost:3000/auth/signup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
                             firstName,
                             lastName,
                             email,
                             phone,
                             dob,
-                            age: calculateAge(dob),
                             gender,
+                            username,
                             password
-                        });
-                    }, 2000);
+                        })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                        if (data.message === 'Signup successful') {
+                            signupForm.style.display = 'none';
+                            successMessage.style.display = 'flex';
+                        } else {
+                            alert(data.message || 'Signup failed');
+                        }
+                        })
+                        .catch(err => {
+                        console.error(err);
+                        alert('Something went wrong. Please try again.');
+                        })
+                        .finally(() => {
+                        btnText.textContent = 'Create Account';
+                        spinner.style.display = 'none';
+                        submitBtn.disabled = false;
+                    });
                 }
             });
             
