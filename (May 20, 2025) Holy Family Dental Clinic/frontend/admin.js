@@ -8,6 +8,13 @@ let currentCompletionId = null;  // Add this line
 let currentWarningModal = null; // Add this at the top with other modal state variables
 let today = new Date().toLocaleDateString('en-CA');
 
+function showLoading() {
+    document.getElementById('loadingOverlay').style.display = 'flex';
+}
+
+function hideLoading() {
+    document.getElementById('loadingOverlay').style.display = 'none';
+}
 
 // Debug logging function
 function debugLog(label, data) {
@@ -220,6 +227,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 async function fetchAppointmentRequests(date = null) {
+    showLoading();
     let url = date
         ? `http://localhost:3000/appointments/${encodeURIComponent(date)}`
         : `http://localhost:3000/appointments`;
@@ -233,8 +241,6 @@ async function fetchAppointmentRequests(date = null) {
 
         if (date) {
             todayAppointments = [];
-
-
             todayAppointments = data;
             console.log("NO DATE URL", url)
         } else {
@@ -245,6 +251,8 @@ async function fetchAppointmentRequests(date = null) {
     } catch (error) {
         console.error("Failed to fetch appointments:", error);
     }
+
+    hideLoading();
 }
 
 // Appointment functions
@@ -917,47 +925,46 @@ function ensureTimeFormat(timeStr) {
 }
 
 async function updateAppointmentsForDate(date) {
-
-    // Format the selected date to YYYY-MM-DD format
-    // const formattedDate = date.toISOString().split('T')[0];
     const formattedDate = date;
     await fetchAppointmentRequests(formattedDate);
+
     const todayTableBody = document.getElementById('todayTableBody');
     const todayCount = document.getElementById('todayCount');
 
     // Clear existing appointments
     todayTableBody.innerHTML = '';
 
-    // Filter appointments for selected date using strict equality
-    // const dateAppointments = todayAppointments.filter(appointment => {
-    //     // Parse the appointment date string into a Date object
-    //     const apptDate = new Date(appointment.date);
-    //     // Compare year, month, and day separately
-    //     return apptDate.getFullYear() === date.getFullYear() &&
-    //         apptDate.getMonth() === date.getMonth() &&
-    //         apptDate.getDate() === date.getDate();
-    // });
-
-    // // Update appointment count
-    // todayCount.textContent = dateAppointments.length;
-    todayCount.textContent = todayAppointments.length
+    // Update appointment count
+    todayCount.textContent = todayAppointments.length;
 
     // Show/hide based on count
     if (todayAppointments.length > 0) {
         todayCount.classList.add('show');
     } else {
         todayCount.classList.remove('show');
+
+        // Show empty state row
+        const emptyRow = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 7;
+        td.style.textAlign = 'center';
+        td.style.color = 'var(--text-muted)';
+        td.style.padding = '20px';
+        td.textContent = 'No appointments found for this date.';
+        emptyRow.appendChild(td);
+        todayTableBody.appendChild(emptyRow);
+
+        // Exit early since there's nothing more to render
+        return;
     }
 
-    // Sort appointments by time
+    // Sort appointments by time (implement actual sorting logic if needed)
     todayAppointments.sort((a, b) => {
-        return b;
+        return a.requestedTime.localeCompare(b.requestedTime);
     });
-    console.log("TODAY::", todayAppointments)
 
-    // Populate table with filtered and sorted appointments
+    // Populate table
     todayAppointments.forEach(appointment => {
-        console.log("APPOINT:", appointment)
         const appointmentDate = new Date(appointment.requestedDate);
         const row = document.createElement('tr');
         row.onclick = (e) => {
@@ -967,7 +974,6 @@ async function updateAppointmentsForDate(date) {
         };
         row.style.cursor = 'pointer';
 
-        // Only show action buttons if status is not Completed or Cancelled
         let actionColumn = '';
         if (appointment.status === "Scheduled") {
             actionColumn = `
@@ -996,10 +1002,9 @@ async function updateAppointmentsForDate(date) {
         todayTableBody.appendChild(row);
     });
 
-
-    // Update bulk actions visibility
     updateBulkActionVisibility('todayTableBody', 'appointmentBulkActions', 'appointmentSelectedCount');
 }
+
 
 function showCancelConfirmation(id) {
     const appointment = todayAppointments.find(app => app.id === id);
@@ -1541,7 +1546,8 @@ function openTab(evt, tabName) {
 }
 
 async function fetchAppointmentRequestsById(id) {
-    const response = await fetch(`http://localhost:3000/appointments/${id}`)
+    const response = await fetch(`http://localhost:3000/appointments/id/${id}`)
+    console.log("BY ID:", response)
     return await response.json();
 }
 
