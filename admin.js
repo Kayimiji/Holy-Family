@@ -126,21 +126,21 @@ let todayAppointments = [
 ];
 
 // Statistics data
-const statsData = {
+let statsData = {
     weekly: {
         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        visits: [30, 45, 35, 50, 40, 35, 45],
-        income: [1500, 2250, 1750, 2500, 2000, 1750, 2250]
+        // visits: [30, 45, 35, 50, 40, 35, 45],
+        // income: [1500, 2250, 1750, 2500, 2000, 1750, 2250]
     },
     monthly: {
         labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-        visits: [200, 250, 180, 300],
-        income: [10000, 12500, 9000, 15000]
+        // visits: [200, 250, 180, 300],
+        // income: [10000, 12500, 9000, 15000]
     },
     yearly: {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        visits: [800, 900, 1200, 1100, 1300, 1400, 1200, 1100, 1000, 1200, 1300, 1500],
-        income: [40000, 45000, 60000, 55000, 65000, 70000, 60000, 55000, 50000, 60000, 65000, 75000]
+        // visits: [800, 900, 1200, 1100, 1300, 1400, 1200, 1100, 1000, 1200, 1300, 1500],
+        // income: [40000, 45000, 60000, 55000, 65000, 70000, 60000, 55000, 50000, 60000, 65000, 75000]
     }
 };
 
@@ -1110,9 +1110,13 @@ function updateStatistics() {
 // Chart functions
 let patientActivityChart;
 
-function initCharts() {
-    const ctx = document.getElementById('patientActivityChart').getContext('2d');
+async function initCharts() {
+    
+    await updateStatsData()
+    console.log("outside", statsData);
 
+    const ctx = document.getElementById('patientActivityChart').getContext('2d');
+    
     patientActivityChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -1189,6 +1193,8 @@ function updateTimePeriod(period) {
 function updateChartData(period, metric) {
     const data = statsData[period];
 
+    console.log("?????", data)
+
     patientActivityChart.data.datasets[0].label = metric === 'visits' ? 'Patient Visits' : 'Total Income ($)';
     patientActivityChart.data.datasets[0].data = metric === 'visits' ? data.visits : data.income;
     patientActivityChart.data.datasets[0].backgroundColor = metric === 'visits' ?
@@ -1214,6 +1220,39 @@ function updatePercentageText(period) {
     const text = `${percentage}% ${percentage >= 0 ? 'higher' : 'lower'} than last ${timeFrame}`;
     percentageElement.textContent = text;
     percentageElement.style.color = percentage >= 0 ? '#00bfff' : '#f44336';
+}
+
+async function updateStatsData() {
+  try {
+    const res = await fetch('http://localhost:3000/stats');
+    const data = await res.json();
+
+    const formatData = (rawData, labelList) => {
+      const map = new Map(rawData.map(item => [item.day || item.week || item.month, +item.visits]));
+      return labelList.map(label => map.get(label) || 0);
+    };
+
+    statsData = {
+      weekly: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        visits: formatData(data.weekly, ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']),
+      },
+      monthly: {
+        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        visits: formatData(data.monthly, ['Week 1', 'Week 2', 'Week 3', 'Week 4']),
+      },
+      yearly: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        visits: formatData(data.yearly, ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']),
+      }
+    };
+
+    console.log("inside", statsData);
+    // Use `statsData` to update charts or visuals here
+
+  } catch (err) {
+    console.error('Failed to load stats:', err);
+  }
 }
 
 // Calendar functions
