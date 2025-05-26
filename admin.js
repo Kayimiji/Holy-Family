@@ -126,22 +126,28 @@ let todayAppointments = [
 ];
 
 // Statistics data
-const statsData = {
-    weekly: {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        visits: [30, 45, 35, 50, 40, 35, 45],
-        income: [1500, 2250, 1750, 2500, 2000, 1750, 2250]
-    },
-    monthly: {
-        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-        visits: [200, 250, 180, 300],
-        income: [10000, 12500, 9000, 15000]
-    },
-    yearly: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        visits: [800, 900, 1200, 1100, 1300, 1400, 1200, 1100, 1000, 1200, 1300, 1500],
-        income: [40000, 45000, 60000, 55000, 65000, 70000, 60000, 55000, 50000, 60000, 65000, 75000]
-    }
+// let statsData = {
+//     weekly: {
+//         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+//         visits: [30, 45, 35, 50, 40, 35, 45],
+//         income: [1500, 2250, 1750, 2500, 2000, 1750, 2250]
+//     },
+//     monthly: {
+//         labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+//         visits: [200, 250, 180, 300],
+//         income: [10000, 12500, 9000, 15000]
+//     },
+//     yearly: {
+//         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+//         visits: [800, 900, 1200, 1100, 1300, 1400, 1200, 1100, 1000, 1200, 1300, 1500],
+//         income: [40000, 45000, 60000, 55000, 65000, 70000, 60000, 55000, 50000, 60000, 65000, 75000]
+//     }
+// };
+
+let statsData = {
+  weekly: { labels: [], visits: [] },
+  monthly: { labels: [], visits: [] },
+  yearly: { labels: [], visits: [] }
 };
 
 // Fix time conversion function
@@ -1110,9 +1116,13 @@ function updateStatistics() {
 // Chart functions
 let patientActivityChart;
 
-function initCharts() {
-    const ctx = document.getElementById('patientActivityChart').getContext('2d');
+async function initCharts() {
+    
+    await updateWeeklyStats()
+    console.log("outside", statsData);
 
+    const ctx = document.getElementById('patientActivityChart').getContext('2d');
+    
     patientActivityChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -1186,7 +1196,11 @@ function updateTimePeriod(period) {
     updatePercentageText(period);
 }
 
-function updateChartData(period, metric) {
+async function updateChartData(period, metric) {
+    console.log("updateChartData", period, metric)
+
+    await loadStatsForPeriod(period)
+
     const data = statsData[period];
 
     patientActivityChart.data.datasets[0].label = metric === 'visits' ? 'Patient Visits' : 'Total Income ($)';
@@ -1198,6 +1212,12 @@ function updateChartData(period, metric) {
 
     patientActivityChart.data.labels = data.labels;
     patientActivityChart.update();
+}
+
+async function loadStatsForPeriod(period) {
+  if (period === 'monthly') return updateMonthlyStats();
+  if (period === 'yearly') return updateYearlyStats();
+  if (period === 'weekly') return updateWeeklyStats();
 }
 
 function updatePercentageText(period) {
@@ -1217,6 +1237,67 @@ function updatePercentageText(period) {
 }
 
 // Calendar functions
+// Default: load weekly stats only
+async function updateWeeklyStats() {
+  try {
+    const res = await fetch('http://localhost:3000/stats/weekly');
+    const data = await res.json();
+
+    statsData.weekly = {
+      labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      visits: formatData(data, ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']),
+    };
+
+    console.log('Weekly stats loaded:', statsData.weekly);
+
+  } catch (err) {
+    console.error('Failed to load weekly stats:', err);
+  }
+}
+
+async function updateMonthlyStats() {
+  try {
+    const res = await fetch('http://localhost:3000/stats/monthly');
+    const data = await res.json();
+
+    const labels = Array.from({ length: data.length }, (_, i) => `Week ${i + 1}`);
+
+    statsData.monthly = {
+      labels,
+      visits: formatData(data, labels),
+    };
+
+    console.log('Monthly stats loaded:', statsData.monthly);
+
+  } catch (err) {
+    console.error('Failed to load monthly stats:', err);
+  }
+}
+
+async function updateYearlyStats() {
+  try {
+    const res = await fetch('http://localhost:3000/stats/yearly');
+    const data = await res.json();
+
+    const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    statsData.yearly = {
+      labels,
+      visits: formatData(data, labels),
+    };
+
+    console.log('Yearly stats loaded:', statsData.yearly);
+
+  } catch (err) {
+    console.error('Failed to load yearly stats:', err);
+  }
+}
+
+const formatData = (rawData, labels) => {
+  const map = new Map(rawData.map(item => [item.day || item.week || item.month, +item.visits]));
+  return labels.map(label => map.get(label) || 0);
+};
+
 function initializeCalendar() {
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const calendarDays = document.getElementById('calendarDays');
@@ -1247,7 +1328,6 @@ function initializeCalendar() {
     document.getElementById('today').addEventListener('click', () => {
         const today = new Date();
         updateCalendar(today);
-        console.log("!!!!!!!!!!!!!!!!!!!!!!!")
 
         document.querySelectorAll('.calendar-day.selected').forEach(el => {
             el.classList.remove('selected');
@@ -1264,7 +1344,6 @@ function initializeCalendar() {
                     day: 'numeric'
                 });
                 document.getElementById('todayDate').textContent = formattedDate;
-                console.log("???????????????????????????")
                 updateAppointmentsForDate(today.toLocaleDateString('en-CA'));
             }
         });
@@ -1349,7 +1428,6 @@ function updateCalendar(date) {
                 day: 'numeric'
             });
             document.getElementById('todayDate').textContent = formattedDate;
-            // console.log('Clicked', formattedDate);
             updateAppointmentsForDate(currentDate.toLocaleDateString('en-CA'));
         });
     }
