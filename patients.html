@@ -709,45 +709,45 @@
                     
                     <div class="divider"></div>
                     
-                    <div class="patient-header">
-                        <div>Patient name</div>
-                        <div>Contact details</div>
-                        <div>Date of Birth</div>
-                        <div>Status</div>
-                        <div>Patient ID</div>
-                        <div>Last Visit</div>
+                    <!-- <div class="search-container">
+                        <div class="search-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="searchPatients" placeholder="Search patients...">
+                        </div>
+                        <div class="filter-wrapper">
+                            <select id="statusFilter">
+                                <option value="">All Status</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                                <option value="New">New</option>
+                            </select>
+                            <button class="reset-btn" onclick="resetPatientFilters()">
+                                <i class="fas fa-sync-alt"></i>
+                                Reset
+                            </button>
+                        </div>
+                    </div> -->
+
+                    <div class="patients-table-container">
+                        <table class="patients-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="selectAllPatients"></th>
+                                    <th>Patient Name</th>
+                                    <th>Contact Details</th>
+                                    <th>Date of Birth</th>
+                                    <!-- <th>Status</th> -->
+                                    <!-- <th>Patient ID</th> -->
+                                    <th>Last Visit</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patientTableBody">
+                                <!-- Table rows will be dynamically populated -->
+                            </tbody>
+                        </table>
                     </div>
                 </header>
-                
-                <main>
-                    <!-- 
-                    TODO: Replace this section with dynamic data from backend
-                    Expected data structure from API:
-                    {
-                        id: string,
-                        name: string,
-                        contactNumber: string,
-                        email: string,
-                        dateOfBirth: string,
-                        status: "active" | "inactive",
-                        patientId: string,
-                        lastVisit: string
-                    }
-                    -->
-                    
-                    <!-- Sample patient (remove when integrating with backend) -->
-                    <div class="patient-row">
-                        <div class="patient-name">John Doe</div>
-                        <div class="contact-details">
-                            <div>0945-123-4567</div>
-                            <a href="mailto:johndoe@example.com">johndoe@example.com</a>
-                        </div>
-                        <div>January 15, 1990</div>
-                        <div><span class="status active">Active</span></div>
-                        <div class="patient-id">2024-001</div>
-                        <div class="last-visit">March 1, 2024</div>
-                    </div>
-                </main>
             </div>
         </div>
     </div>
@@ -860,7 +860,62 @@
                 localStorage.setItem('theme', 'light');
             }
         });
-        
+
+        async function fetchAllPatients() {
+            const response = await fetch(`http://localhost:3000/patients`);
+            return response.json();
+        }
+
+     async function populatePatientTable() {
+        const patients = await fetchAllPatients();
+        const tbody = document.getElementById('patientTableBody');
+        tbody.innerHTML = ''; // Clear previous rows
+
+        if (!patients || patients.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td colspan="8" style="text-align:center;">No patients yet</td>`;
+            tbody.appendChild(row);
+            return;
+        }
+
+        patients.forEach(patient => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="checkbox" data-id="${patient.id}"></td>
+                <td>${patient.patientName}</td>
+                <td>
+                    <div>${patient.phoneNumber || 'N/A'}</div>
+                    <div><a href="mailto:${patient.email}">${patient.email || 'N/A'}</a></div>
+                </td>
+                <td>${formatDate(patient.dateOfBirth)}</td>
+                <!-- <td>${patient.status || 'Unknown'}</td> -->
+                <!-- <td>${patient.id}</td> -->
+                <td>${formatDate(patient.lastVisit)}</td>
+                <td>
+                    <button onclick="viewPatient('${patient.id}')">View</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+function formatDate(date) {
+    if (!date) return 'N/A';
+    const d = new Date(date);
+    return isNaN(d) ? 'Invalid date' : d.toLocaleDateString('en-CA');
+}
+
+        function viewPatient(id) {
+            alert("Viewing patient: " + id);
+            // You can enhance this to show a modal with full details
+        }
+
+        // Call this when the page loads
+        window.onload = () => {
+            populatePatientTable();
+        };
+            
         // Tab switching functionality
         const tabs = document.querySelectorAll('.status-tab');
         tabs.forEach(tab => {

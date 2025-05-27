@@ -6,8 +6,15 @@ let currentAcceptIds = [];
 let currentCompletionModal = null;
 let currentCompletionId = null;  // Add this line
 let currentWarningModal = null; // Add this at the top with other modal state variables
-let today = new Date().toISOString().split("T")[0];
+let today = new Date().toLocaleDateString('en-CA');
 
+function showLoading() {
+    document.getElementById('loadingOverlay').style.display = 'flex';
+}
+
+function hideLoading() {
+    document.getElementById('loadingOverlay').style.display = 'none';
+}
 
 // Debug logging function
 function debugLog(label, data) {
@@ -119,22 +126,28 @@ let todayAppointments = [
 ];
 
 // Statistics data
-const statsData = {
-    weekly: {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        visits: [30, 45, 35, 50, 40, 35, 45],
-        income: [1500, 2250, 1750, 2500, 2000, 1750, 2250]
-    },
-    monthly: {
-        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-        visits: [200, 250, 180, 300],
-        income: [10000, 12500, 9000, 15000]
-    },
-    yearly: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        visits: [800, 900, 1200, 1100, 1300, 1400, 1200, 1100, 1000, 1200, 1300, 1500],
-        income: [40000, 45000, 60000, 55000, 65000, 70000, 60000, 55000, 50000, 60000, 65000, 75000]
-    }
+// let statsData = {
+//     weekly: {
+//         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+//         visits: [30, 45, 35, 50, 40, 35, 45],
+//         income: [1500, 2250, 1750, 2500, 2000, 1750, 2250]
+//     },
+//     monthly: {
+//         labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+//         visits: [200, 250, 180, 300],
+//         income: [10000, 12500, 9000, 15000]
+//     },
+//     yearly: {
+//         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+//         visits: [800, 900, 1200, 1100, 1300, 1400, 1200, 1100, 1000, 1200, 1300, 1500],
+//         income: [40000, 45000, 60000, 55000, 65000, 70000, 60000, 55000, 50000, 60000, 65000, 75000]
+//     }
+// };
+
+let statsData = {
+  weekly: { labels: [], visits: [] },
+  monthly: { labels: [], visits: [] },
+  yearly: { labels: [], visits: [] }
 };
 
 // Fix time conversion function
@@ -220,26 +233,32 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 async function fetchAppointmentRequests(date = null) {
+    showLoading();
     let url = date
-        ? `http://localhost:3000/api/gas/fetchToday`
-        : `http://localhost:3000/api/gas/fetchAll`;
+        ? `http://localhost:3000/appointments/${encodeURIComponent(date)}`
+        : `http://localhost:3000/appointments`;
 
     try {
+
         let response = await fetch(url);
         let data = await response.json();
 
         console.log("TEST:", data)
 
         if (date) {
+            todayAppointments = [];
             todayAppointments = data;
-            console.log("NO URL", url)
+            console.log("NO DATE URL", url)
         } else {
             appointmentRequests = data;
             console.log("URL", url)
         }
+
     } catch (error) {
         console.error("Failed to fetch appointments:", error);
     }
+
+    hideLoading();
 }
 
 // Appointment functions
@@ -293,19 +312,19 @@ function updateRequestsTable() {
     selectAllCheckbox.disabled = false;
 
     appointmentRequests.forEach(request => {
-        const requestDate = new Date(request.requestDate);
-        const requestedDate = new Date(request.requestedDate);
+        const requestDate = new Date(request.request_date);
+        const requestedDate = new Date(request.requested_date);
         const row = document.createElement('tr');
         row.innerHTML = `
             <td class="checkbox-wrapper"><input type="checkbox" data-id="${request.id}" ${selectAllCheckbox.checked ? 'checked' : ''}></td>
             <td class="clickable-cell" onclick="showAppointmentDetails(${request.id})">
-                <span class="patient-name">${request.firstName + ' ' + request.lastName}</span>
+                <span class="patient-name">${request.patient_name}</span>
             </td>
             <td class="clickable-cell" onclick="showAppointmentDetails(${request.id})">
                 ${formatDateForDisplay(requestedDate)}
             </td>
             <td class="clickable-cell" onclick="showAppointmentDetails(${request.id})">
-                ${ensureTimeFormat(request.requestedTime)}
+                ${ensureTimeFormat(request.requested_time)}
             </td>
             <td class="clickable-cell" onclick="showAppointmentDetails(${request.id})">
                 <span class="procedure-tag">${request.procedure}</span>
@@ -637,9 +656,9 @@ function previewTodayForm(formId) {
 
 // Today's appointments functions
 function initializeTodaySection() {
-    const today = new Date();
+    const thisDay = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    document.getElementById('todayDate').textContent = today.toLocaleDateString('en-US', options);
+    document.getElementById('todayDate').textContent = thisDay.toLocaleDateString('en-US', options);
     updateAppointmentsForDate(today);
 }
 
@@ -656,7 +675,7 @@ function cancelAppointment(id) {
         canceledCount.textContent = (parseInt(canceledCount.textContent) + 1).toString();
 
         // Update UI
-        updateAppointmentsForDate(new Date(appointment.date));
+        updateAppointmentsForDate(new Date(appointment.date).toLocaleDateString('en-CA'));
         updateStatistics();
         updateCalendar(new Date());
 
@@ -748,7 +767,7 @@ function proceedWithCompletion(id) {
     todayAppointments[appointmentIndex].completedAt = new Date().toISOString();
 
     // Update UI
-    updateAppointmentsForDate(new Date());
+    updateAppointmentsForDate(new Date().toLocaleDateString('en-CA'));
     updateStatistics();
     updateCalendar(new Date());
 
@@ -868,7 +887,7 @@ function proceedWithCancellation(id) {
             </div>`;
 
         // Update UI
-        updateAppointmentsForDate(new Date(appointment.date));
+        updateAppointmentsForDate(new Date(appointment.date).toLocaleDateString('en-CA'));
         updateStatistics();
         updateCalendar(new Date());
 
@@ -911,42 +930,46 @@ function ensureTimeFormat(timeStr) {
     return `${hours}:${minutes} ${ampm}`;
 }
 
-function updateAppointmentsForDate(date) {
-    // Format the selected date to YYYY-MM-DD format
-    const formattedDate = date.toISOString().split('T')[0];
+async function updateAppointmentsForDate(date) {
+    const formattedDate = date;
+    await fetchAppointmentRequests(formattedDate);
+
     const todayTableBody = document.getElementById('todayTableBody');
     const todayCount = document.getElementById('todayCount');
 
     // Clear existing appointments
     todayTableBody.innerHTML = '';
 
-    // Filter appointments for selected date using strict equality
-    // const dateAppointments = todayAppointments.filter(appointment => {
-    //     // Parse the appointment date string into a Date object
-    //     const apptDate = new Date(appointment.date);
-    //     // Compare year, month, and day separately
-    //     return apptDate.getFullYear() === date.getFullYear() &&
-    //         apptDate.getMonth() === date.getMonth() &&
-    //         apptDate.getDate() === date.getDate();
-    // });
-
-    // // Update appointment count
-    // todayCount.textContent = dateAppointments.length;
-    todayCount.textContent = todayAppointments.length
+    // Update appointment count
+    todayCount.textContent = todayAppointments.length;
 
     // Show/hide based on count
     if (todayAppointments.length > 0) {
         todayCount.classList.add('show');
     } else {
         todayCount.classList.remove('show');
+
+        // Show empty state row
+        const emptyRow = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 7;
+        td.style.textAlign = 'center';
+        td.style.color = 'var(--text-muted)';
+        td.style.padding = '20px';
+        td.textContent = 'No appointments found for this date.';
+        emptyRow.appendChild(td);
+        todayTableBody.appendChild(emptyRow);
+
+        // Exit early since there's nothing more to render
+        return;
     }
 
-    // Sort appointments by time
+    // Sort appointments by time (implement actual sorting logic if needed)
     todayAppointments.sort((a, b) => {
-        return b;
+        return a.requestedTime.localeCompare(b.requestedTime);
     });
 
-    // Populate table with filtered and sorted appointments
+    // Populate table
     todayAppointments.forEach(appointment => {
         const appointmentDate = new Date(appointment.requestedDate);
         const row = document.createElement('tr');
@@ -957,7 +980,6 @@ function updateAppointmentsForDate(date) {
         };
         row.style.cursor = 'pointer';
 
-        // Only show action buttons if status is not Completed or Cancelled
         let actionColumn = '';
         if (appointment.status === "Scheduled") {
             actionColumn = `
@@ -974,11 +996,11 @@ function updateAppointmentsForDate(date) {
             <td class="checkbox-wrapper">
                 ${appointment.status === "Scheduled" ? `<input type="checkbox" data-id="${appointment.id}">` : ''}
             </td>
-            <td><span class="patient-name" data-full-text="${appointment.firstName + ' ' + appointment.lastName}">${appointment.firstName + ' ' + appointment.lastName}</span></td>
+            <td><span class="patient-name" data-full-text="${appointment.patientName}">${appointment.patientName}</span></td>
             <td>${formatDateForDisplay(appointmentDate)}</td>
             <td>${ensureTimeFormat(appointment.requestedTime)}</td>
             <td><span class="procedure-tag" data-full-text="${appointment.procedure}">${appointment.procedure}</span></td>
-            <td><span class="status-badge status-${appointment.status.toLowerCase()}">
+            <td><span class="status-badge status-${appointment.status}">
                 ${appointment.status}
             </span></td>
             <td>${actionColumn}</td>
@@ -986,10 +1008,9 @@ function updateAppointmentsForDate(date) {
         todayTableBody.appendChild(row);
     });
 
-
-    // Update bulk actions visibility
     updateBulkActionVisibility('todayTableBody', 'appointmentBulkActions', 'appointmentSelectedCount');
 }
+
 
 function showCancelConfirmation(id) {
     const appointment = todayAppointments.find(app => app.id === id);
@@ -1095,9 +1116,13 @@ function updateStatistics() {
 // Chart functions
 let patientActivityChart;
 
-function initCharts() {
-    const ctx = document.getElementById('patientActivityChart').getContext('2d');
+async function initCharts() {
+    
+    await updateWeeklyStats()
+    console.log("outside", statsData);
 
+    const ctx = document.getElementById('patientActivityChart').getContext('2d');
+    
     patientActivityChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -1171,7 +1196,11 @@ function updateTimePeriod(period) {
     updatePercentageText(period);
 }
 
-function updateChartData(period, metric) {
+async function updateChartData(period, metric) {
+    console.log("updateChartData", period, metric)
+
+    await loadStatsForPeriod(period)
+
     const data = statsData[period];
 
     patientActivityChart.data.datasets[0].label = metric === 'visits' ? 'Patient Visits' : 'Total Income ($)';
@@ -1183,6 +1212,12 @@ function updateChartData(period, metric) {
 
     patientActivityChart.data.labels = data.labels;
     patientActivityChart.update();
+}
+
+async function loadStatsForPeriod(period) {
+  if (period === 'monthly') return updateMonthlyStats();
+  if (period === 'yearly') return updateYearlyStats();
+  if (period === 'weekly') return updateWeeklyStats();
 }
 
 function updatePercentageText(period) {
@@ -1202,6 +1237,67 @@ function updatePercentageText(period) {
 }
 
 // Calendar functions
+// Default: load weekly stats only
+async function updateWeeklyStats() {
+  try {
+    const res = await fetch('http://localhost:3000/stats/weekly');
+    const data = await res.json();
+
+    statsData.weekly = {
+      labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      visits: formatData(data, ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']),
+    };
+
+    console.log('Weekly stats loaded:', statsData.weekly);
+
+  } catch (err) {
+    console.error('Failed to load weekly stats:', err);
+  }
+}
+
+async function updateMonthlyStats() {
+  try {
+    const res = await fetch('http://localhost:3000/stats/monthly');
+    const data = await res.json();
+
+    const labels = Array.from({ length: data.length }, (_, i) => `Week ${i + 1}`);
+
+    statsData.monthly = {
+      labels,
+      visits: formatData(data, labels),
+    };
+
+    console.log('Monthly stats loaded:', statsData.monthly);
+
+  } catch (err) {
+    console.error('Failed to load monthly stats:', err);
+  }
+}
+
+async function updateYearlyStats() {
+  try {
+    const res = await fetch('http://localhost:3000/stats/yearly');
+    const data = await res.json();
+
+    const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    statsData.yearly = {
+      labels,
+      visits: formatData(data, labels),
+    };
+
+    console.log('Yearly stats loaded:', statsData.yearly);
+
+  } catch (err) {
+    console.error('Failed to load yearly stats:', err);
+  }
+}
+
+const formatData = (rawData, labels) => {
+  const map = new Map(rawData.map(item => [item.day || item.week || item.month, +item.visits]));
+  return labels.map(label => map.get(label) || 0);
+};
+
 function initializeCalendar() {
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const calendarDays = document.getElementById('calendarDays');
@@ -1248,7 +1344,7 @@ function initializeCalendar() {
                     day: 'numeric'
                 });
                 document.getElementById('todayDate').textContent = formattedDate;
-                updateAppointmentsForDate(today);
+                updateAppointmentsForDate(today.toLocaleDateString('en-CA'));
             }
         });
     });
@@ -1332,6 +1428,7 @@ function updateCalendar(date) {
                 day: 'numeric'
             });
             document.getElementById('todayDate').textContent = formattedDate;
+            updateAppointmentsForDate(currentDate.toLocaleDateString('en-CA'));
         });
     }
 }
@@ -1526,10 +1623,17 @@ function openTab(evt, tabName) {
     }
 }
 
-function showAppointmentDetails(id) {
+async function fetchAppointmentRequestsById(id) {
+    const response = await fetch(`http://localhost:3000/appointments/id/${id}`)
+    console.log("BY ID:", response)
+    return await response.json();
+}
+
+async function showAppointmentDetails(id) {
     debugLog('Opening details for ID', id);
     currentDetailId = id;
-    const request = appointmentRequests.find(req => req.id === id);
+    console.log(id)
+    const request = await fetchAppointmentRequestsById(id);
 
     if (!request) {
         debugLog('Request not found for ID', id);
@@ -1552,9 +1656,9 @@ function showAppointmentDetails(id) {
     closeRejectModal();
 
     // Populate patient info
-    document.getElementById('detail-patient-name').textContent = request.patientName;
-    document.getElementById('detail-patient-id').textContent = request.patientInfo?.patientId || 'N/A';
-    document.getElementById('detail-contact').textContent = request.contact || 'Not provided';
+    document.getElementById('detail-patient-name').textContent = request.patientInfo?.patientName;
+    // document.getElementById('detail-patient-id').textContent = request.patientInfo?.patientId || 'N/A';
+    document.getElementById('detail-contact').textContent = request.patientInfo?.phoneNumber || 'Not provided';
     document.getElementById('detail-email').textContent = request.patientInfo?.email || 'Not provided';
     document.getElementById('detail-age').textContent = request.patientInfo?.age || 'Not provided';
     document.getElementById('detail-gender').textContent = request.patientInfo?.gender || 'Not provided';
@@ -1929,7 +2033,7 @@ async function confirmAcceptAppointment() {
     updateRequestCount();
     updateStatistics();
     updateCalendar(new Date());
-    updateAppointmentsForDate(new Date());
+    updateAppointmentsForDate(new Date().toLocaleDateString('en-CA'));
 
     // Reset checkboxes
     document.getElementById('selectAll').checked = false;
@@ -2105,7 +2209,7 @@ function processBulkCompletion(ids) {
     });
 
     // Update UI
-    updateAppointmentsForDate(new Date());
+    updateAppointmentsForDate(new Date().toLocaleDateString('en-CA'));
     updateStatistics();
     updateCalendar(new Date());
 
@@ -2192,7 +2296,7 @@ function processBulkCancellation(ids) {
     });
 
     // Update UI
-    updateAppointmentsForDate(new Date());
+    updateAppointmentsForDate(new Date()).toLocaleDateString('en-CA');
     updateStatistics();
     updateCalendar(new Date());
 
@@ -2754,7 +2858,7 @@ function proceedWithCompletion(id) {
     todayAppointments[appointmentIndex].completedAt = new Date().toISOString();
 
     // Update UI
-    updateAppointmentsForDate(new Date());
+    updateAppointmentsForDate(new Date()).toLocaleDateString('en-CA');
     updateStatistics();
     updateCalendar(new Date());
 
