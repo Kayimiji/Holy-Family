@@ -3283,6 +3283,28 @@
 
 
     <script>
+        let currentStep = 1;
+        // Calendar functionality
+        let currentDate = new Date();
+        let selectedDate = null;
+        let selectedTime = null;
+         // Book Now Modal functionality
+        const modal = document.getElementById('bookNowModal');
+        const bookNowButtons = document.querySelectorAll('[href="#book-now"], .book-now-button, .book-consultation-btn, .lastbooknowbtn');
+        const modalContent = modal.querySelector('.book-modal-content');
+        const closeBtn = modal.querySelector('.close-book-modal');
+        let isDragging = false;
+        let startPos = { x: 0, y: 0 };
+        let currentPos = { x: 0, y: 0 };
+        let scale = 1;
+        let currentModalIndex = 0;
+        let lastScrollY = window.scrollY;
+        let currentIndex = 0;
+        const imagesToShow = 4;
+        const totalSteps = 4;
+
+
+
         document.addEventListener('DOMContentLoaded', function () {
             const navbar = document.querySelector(".navbar");
             const backToTopButton = document.getElementById("backToTop");
@@ -3303,14 +3325,7 @@
             const modalPrevBtn = document.querySelector('.modal-prev');
             const modalNextBtn = document.querySelector('.modal-next');
 
-            let isDragging = false;
-            let startPos = { x: 0, y: 0 };
-            let currentPos = { x: 0, y: 0 };
-            let scale = 1;
-            let currentModalIndex = 0;
-            let lastScrollY = window.scrollY;
-            let currentIndex = 0;
-            const imagesToShow = 4;
+            
 
             // Array to store all image sources from the gallery
             const allImageSources = Array.from(images).map(img => img.src);
@@ -3619,11 +3634,7 @@
 
 
         document.addEventListener('DOMContentLoaded', function() {
-        // Book Now Modal functionality
-        const modal = document.getElementById('bookNowModal');
-        const bookNowButtons = document.querySelectorAll('[href="#book-now"], .book-now-button, .book-consultation-btn, .lastbooknowbtn');
-        const modalContent = modal.querySelector('.book-modal-content');
-        const closeBtn = modal.querySelector('.close-book-modal');
+       
         
         // Open modal when any book now button is clicked
         bookNowButtons.forEach(button => {
@@ -3633,29 +3644,7 @@
             });
         });
 
-        function openBookModal() {
-            // Reset to first step
-            currentStep = 1;
-            showStep(1);
-            
-            // Show modal
-            modal.style.display = 'flex';
-            modal.style.opacity = '0';
-            
-            // Force reflow
-            modal.offsetHeight;
-            
-            // Add show class and fade in
-            requestAnimationFrame(() => {
-                modal.classList.add('show');
-                modal.style.opacity = '1';
-            });
-            
-            document.body.style.overflow = 'hidden';
-            
-            // Initialize calendar after modal is visible
-            setTimeout(initializeCalendar, 100);
-        }
+        
 
         // Close modal when clicking the X button
         closeBtn.addEventListener('click', () => {
@@ -3673,62 +3662,10 @@
         modalContent.addEventListener('click', (e) => {
             e.stopPropagation();
         });
-
-        function closeBookModal() {
-            modal.style.opacity = '0';
-            modal.classList.remove('show');
-            
-            setTimeout(() => {
-                modal.style.display = 'none';
-                // Reset form state if needed
-                currentStep = 1;
-                showStep(1);
-            }, 300);
-            
-            document.body.style.overflow = '';
-            
-            // Reset to first step when closing
-            currentStep = 1;
-            showStep(1);
-        }
-
+       
         // Steps navigation
-        let currentStep = 1;
-        const totalSteps = 4;
-        
-        function showStep(step) {
-            // Update progress indicator
-            document.querySelectorAll('.progress-step').forEach((stepEl, index) => {
-                if (index < step) {
-                    stepEl.classList.add('active');
-                } else {
-                    stepEl.classList.remove('active');
-                }
-            });
-            
-            // Show current step
-            document.querySelectorAll('.booking-step').forEach(s => s.style.display = 'none');
-            document.getElementById(`step${step}`).style.display = 'block';
-            
-            // Update button states
-            if (step === 1) {
-                document.querySelector('.modal-btn.back').disabled = true;
-            } else {
-                document.querySelector('.modal-btn.back').disabled = false;
-            }
-            
-            if (step === totalSteps) {
-                document.querySelector('.modal-btn.next').style.display = 'none';
-                document.querySelector('.modal-btn.submit').style.display = 'block';
-            } else {
-                document.querySelector('.modal-btn.next').style.display = 'block';
-                document.querySelector('.modal-btn.submit').style.display = 'block';
-            }
-            
-            // Scroll to top of modal
-            document.querySelector('.book-modal-content').scrollTop = 0;
-        }
 
+        
         // Next button click handler
         document.querySelectorAll('.modal-btn.next').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -3761,12 +3698,9 @@
 
         // Submit button click handler
         document.querySelector('.modal-btn.submit')?.addEventListener('click', () => {
-            // Here you would typically submit the form data to your backend
-            // For demo purposes, we'll just show the thank you step
-            currentStep++;
-            showStep(currentStep);
-            
+
             confirmBooking();
+            
             // Update thank you message with user's email
             const userEmail = document.querySelector('#step2 input[type="email"]').value;
             document.getElementById('summaryEmail').textContent = userEmail;
@@ -3807,10 +3741,138 @@
             document.getElementById('confirmPhone').textContent = phone ? phone.value : 'N/A';
         }
 
-        // Calendar functionality
-        let currentDate = new Date();
-        let selectedDate = null;
-        let selectedTime = null;
+        // Calendar navigation
+        document.querySelector('.calendar-nav.prev').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            initializeCalendar();
+        });
+
+        document.querySelector('.calendar-nav.next').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            initializeCalendar();
+        });
+
+        // Treatment selection change
+        document.getElementById('treatmentType').addEventListener('change', function() {
+            if (this.value && selectedDate) {
+                const treatmentText = this.options[this.selectedIndex].text;
+                document.getElementById('selectedTreatment').textContent = treatmentText.split(' - ')[0];
+            }
+        });
+
+        // Initialize calendar when modal opens
+        bookNowButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                setTimeout(initializeCalendar, 100);
+            });
+        });
+
+        // Social share buttons
+        document.querySelector('.share-btn.facebook')?.addEventListener('click', function() {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+        });
+
+        document.querySelector('.share-btn.twitter')?.addEventListener('click', function() {
+            const text = encodeURIComponent("I just booked an appointment with Holy Family Dental Clinic!");
+            window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+        });
+
+        document.querySelector('.share-btn.whatsapp')?.addEventListener('click', function() {
+            const text = encodeURIComponent("I just booked an appointment with Holy Family Dental Clinic!");
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        });
+    });
+
+        // Add confirmation handler
+        async function confirmBooking() {
+            if (validateStep(3)) {
+                currentStep++;
+                await showStep(currentStep);
+                console.log("PASOK BA??? 1")
+                await submitNewAppointment();
+            }
+
+        }
+
+        
+         function openBookModal() {
+            // Reset to first step
+            currentStep = 1;
+            showStep(1);
+            
+            // Show modal
+            modal.style.display = 'flex';
+            modal.style.opacity = '0';
+            
+            // Force reflow
+            modal.offsetHeight;
+            
+            // Add show class and fade in
+            requestAnimationFrame(() => {
+                modal.classList.add('show');
+                modal.style.opacity = '1';
+            });
+            
+            document.body.style.overflow = 'hidden';
+            
+            // Initialize calendar after modal is visible
+            setTimeout(initializeCalendar, 100);
+        }
+
+        function closeBookModal() {
+            modal.style.opacity = '0';
+            modal.classList.remove('show');
+            
+            setTimeout(() => {
+                modal.style.display = 'none';
+                // Reset form state if needed
+                currentStep = 1;
+                showStep(1);
+            }, 300);
+            
+            document.body.style.overflow = '';
+            
+            // Reset to first step when closing
+            currentStep = 1;
+            showStep(1);
+        }
+
+        
+        async function showStep(step) {
+            // Update progress indicator
+            document.querySelectorAll('.progress-step').forEach((stepEl, index) => {
+                if (index < step) {
+                    stepEl.classList.add('active');
+                } else {
+                    stepEl.classList.remove('active');
+                }
+            });
+            
+            // Show current step
+            document.querySelectorAll('.booking-step').forEach(s => s.style.display = 'none');
+            console.log("STEPEU:", step)
+            document.getElementById(`step${step}`).style.display = 'block';
+            
+            // Update button states
+            if (step === 1) {
+                document.querySelector('.modal-btn.back').disabled = true;
+            } else {
+                document.querySelector('.modal-btn.back').disabled = false;
+            }
+            
+            if (step === totalSteps) {
+                document.querySelector('.modal-btn.next').style.display = 'none';
+                document.querySelector('.modal-btn.submit').style.display = 'block';
+            } else {
+                document.querySelector('.modal-btn.next').style.display = 'block';
+                document.querySelector('.modal-btn.submit').style.display = 'block';
+            }
+            
+            // Scroll to top of modal
+            document.querySelector('.book-modal-content').scrollTop = 0;
+        }
+
 
         function initializeCalendar() {
             updateCalendarHeader();
@@ -3969,59 +4031,6 @@
             });
         }
 
-        // Calendar navigation
-        document.querySelector('.calendar-nav.prev').addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            initializeCalendar();
-        });
-
-        document.querySelector('.calendar-nav.next').addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            initializeCalendar();
-        });
-
-        // Treatment selection change
-        document.getElementById('treatmentType').addEventListener('change', function() {
-            if (this.value && selectedDate) {
-                const treatmentText = this.options[this.selectedIndex].text;
-                document.getElementById('selectedTreatment').textContent = treatmentText.split(' - ')[0];
-            }
-        });
-
-        // Initialize calendar when modal opens
-        bookNowButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                setTimeout(initializeCalendar, 100);
-            });
-        });
-
-        // Social share buttons
-        document.querySelector('.share-btn.facebook')?.addEventListener('click', function() {
-            const url = encodeURIComponent(window.location.href);
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
-        });
-
-        document.querySelector('.share-btn.twitter')?.addEventListener('click', function() {
-            const text = encodeURIComponent("I just booked an appointment with Holy Family Dental Clinic!");
-            window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
-        });
-
-        document.querySelector('.share-btn.whatsapp')?.addEventListener('click', function() {
-            const text = encodeURIComponent("I just booked an appointment with Holy Family Dental Clinic!");
-            window.open(`https://wa.me/?text=${text}`, '_blank');
-        });
-    });
-
-        // Add confirmation handler
-        async function confirmBooking() {
-            if (validateStep(3)) {
-                currentStep++;
-                showStep(currentStep);
-            }
-
-            await submitNewAppointment();
-        }
-
         
         // Step validation function
         function validateStep(step) {
@@ -4075,6 +4084,8 @@
         }
 
          async function submitNewAppointment() {
+                console.log("PASOK BA??? 22222")
+
             const appointmentData = {
                 patient_id: 1, // Replace with actual patient ID
                 procedure_id: 2, // Replace with actual procedure ID
