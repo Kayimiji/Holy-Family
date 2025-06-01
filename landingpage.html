@@ -3241,7 +3241,7 @@
             
             <div class="modal-buttons">
                 <button class="modal-btn back">Back</button>
-                <button class="modal-btn submit" onclick="confirmBooking()">Confirm Booking</button>
+                <button class="modal-btn submit">Confirm Booking</button>
             </div>
         </div>
 
@@ -3722,7 +3722,7 @@
                 document.querySelector('.modal-btn.submit').style.display = 'block';
             } else {
                 document.querySelector('.modal-btn.next').style.display = 'block';
-                document.querySelector('.modal-btn.submit').style.display = 'none';
+                document.querySelector('.modal-btn.submit').style.display = 'block';
             }
             
             // Scroll to top of modal
@@ -3766,6 +3766,7 @@
             currentStep++;
             showStep(currentStep);
             
+            confirmBooking();
             // Update thank you message with user's email
             const userEmail = document.querySelector('#step2 input[type="email"]').value;
             document.getElementById('summaryEmail').textContent = userEmail;
@@ -3773,105 +3774,6 @@
 
         // Return home button
         document.querySelector('.modal-btn.return-home')?.addEventListener('click', closeBookModal);
-
-        // Step validation function
-        function validateStep(step) {
-            let isValid = true;
-            
-            if (step === 1) {
-                // Validate treatment, date, and time selection
-                if (!document.getElementById('treatmentType').value) {
-                    alert('Please select a treatment');
-                    isValid = false;
-                } else if (!selectedDate) {
-                    alert('Please select a date');
-                    isValid = false;
-                } else if (!selectedTime) {
-                    alert('Please select a time slot');
-                    isValid = false;
-                }
-            } else if (step === 2) {
-                // Get the active form
-                const activeOption = document.querySelector('.option-btn.active');
-                if (!activeOption) {
-                    alert('Please select an option (Login, Sign Up, or Guest)');
-                    return false;
-                }
-
-                const activeForm = document.getElementById(`${activeOption.dataset.form}Form`);
-                const requiredFields = activeForm.querySelectorAll('input[required]');
-                
-                requiredFields.forEach(field => {
-                    if (!field.value) {
-                        field.style.borderColor = '#ff6b6b';
-                        isValid = false;
-                    } else {
-                        field.style.borderColor = '#ddd';
-                    }
-                });
-
-                if (!isValid) {
-                    alert('Please fill in all required fields');
-                }
-            } else if (step === 3) {
-                // Add validation for terms checkbox
-                const termsAccepted = document.getElementById('acceptTerms').checked;
-                if (!termsAccepted) {
-                    alert('Please accept the terms and conditions');
-                    isValid = false;
-                }
-            }
-            
-            return isValid;
-        }
-        
-
-        // Add confirmation handler
-        async function confirmBooking() {
-            if (validateStep(3)) {
-                currentStep++;
-                showStep(currentStep);
-            }
-
-            await submitNewAppointment();
-        }
-
-        async function submitNewAppointment() {
-            const appointmentData = {
-                patient_id: 1, // Replace with actual patient ID
-                procedure_id: 2, // Replace with actual procedure ID
-                request_date: new Date().toISOString(), // Current datetime
-                requested_date: "2025-06-01", // Replace with actual input
-                requested_time: "14:00",      // Replace with actual input
-                status_id: 1, // Typically 1 for "Pending"
-                files: "" // Optional: File URL, name, or leave empty
-            };
-
-            try {
-                const response = await fetch('http://localhost:3000/appointments', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(appointmentData)
-                });
-
-                if (!response.ok) {
-                throw new Error('Failed to create appointment');
-                }
-
-                const result = await response.json();
-                console.log('Appointment created:', result);
-
-                // Optional: update UI or show success toast
-                alert("Appointment successfully scheduled!");
-            } catch (error) {
-                console.error('Error creating appointment:', error);
-                alert("Failed to schedule appointment.");
-            } finally {
-                closeBookModal();
-            }
-        }
 
         // Update confirmation details based on the active form
         function updateConfirmationDetails() {
@@ -3893,9 +3795,9 @@
             document.getElementById('confirmTime').textContent = selectedTime;
             
             // Personal info - get from the active form
-            const firstName = activeForm.querySelector('input[placeholder="First Name"]').value;
-            const lastName = activeForm.querySelector('input[placeholder="Last Name"]').value;
-            const email = activeForm.querySelector('input[type="email"]').value;
+            const firstName = activeForm.querySelector('input[placeholder="First Name"]')?.value;
+            const lastName = activeForm.querySelector('input[placeholder="Last Name"]')?.value;
+            const email = activeForm.querySelector('input[type="email"]')?.value;
             
             document.getElementById('confirmName').textContent = `${firstName} ${lastName}`;
             document.getElementById('confirmEmail').textContent = email;
@@ -4109,6 +4011,106 @@
             window.open(`https://wa.me/?text=${text}`, '_blank');
         });
     });
+
+        // Add confirmation handler
+        async function confirmBooking() {
+            if (validateStep(3)) {
+                currentStep++;
+                showStep(currentStep);
+            }
+
+            await submitNewAppointment();
+        }
+
+        
+        // Step validation function
+        function validateStep(step) {
+            let isValid = true;
+            
+            if (step === 1) {
+                // Validate treatment, date, and time selection
+                if (!document.getElementById('treatmentType').value) {
+                    alert('Please select a treatment');
+                    isValid = false;
+                } else if (!selectedDate) {
+                    alert('Please select a date');
+                    isValid = false;
+                } else if (!selectedTime) {
+                    alert('Please select a time slot');
+                    isValid = false;
+                }
+            } else if (step === 2) {
+                // Get the active form
+                const activeOption = document.querySelector('.option-btn.active');
+                if (!activeOption) {
+                    alert('Please select an option (Login, Sign Up, or Guest)');
+                    return false;
+                }
+
+                const activeForm = document.getElementById(`${activeOption.dataset.form}Form`);
+                const requiredFields = activeForm.querySelectorAll('input[required]');
+                
+                requiredFields.forEach(field => {
+                    if (!field.value) {
+                        field.style.borderColor = '#ff6b6b';
+                        isValid = false;
+                    } else {
+                        field.style.borderColor = '#ddd';
+                    }
+                });
+
+                if (!isValid) {
+                    alert('Please fill in all required fields');
+                }
+            } else if (step === 3) {
+                // Add validation for terms checkbox
+                const termsAccepted = document.getElementById('acceptTerms').checked;
+                if (!termsAccepted) {
+                    alert('Please accept the terms and conditions');
+                    isValid = false;
+                }
+            }
+            
+            return isValid;
+        }
+
+         async function submitNewAppointment() {
+            const appointmentData = {
+                patient_id: 1, // Replace with actual patient ID
+                procedure_id: 2, // Replace with actual procedure ID
+                request_date: new Date().toISOString(), // Current datetime
+                requested_date: "2025-06-01", // Replace with actual input
+                requested_time: "14:00",      // Replace with actual input
+                status_id: 1, // Typically 1 for "Pending"
+                files: "" // Optional: File URL, name, or leave empty
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/appointments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(appointmentData)
+                });
+
+                if (!response.ok) {
+                throw new Error('Failed to create appointment');
+                }
+
+                const result = await response.json();
+                console.log('Appointment created:', result);
+
+                // Optional: update UI or show success toast
+                alert("Appointment successfully scheduled!");
+            } catch (error) {
+                console.error('Error creating appointment:', error);
+                alert("Failed to schedule appointment.");
+            } finally {
+                closeBookModal();
+            }
+        }
+
 
     </script>
 </body>
