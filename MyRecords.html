@@ -2799,7 +2799,7 @@
                 <li><a href="MyRecords.html"><i class="fas fa-home"></i> Dashboard</a></li>
                 <li><a href="forms.html"><i class="fas fa-file-medical"></i> Forms</a></li>
                 <li><a href="mygallery.html"><i class="fas fa-images"></i> My Gallery</a></li>
-                <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
             <!-- Add Return to Home menu at the bottom -->
             <div style="position: absolute; bottom: 20px; width: 13%;">
@@ -2808,7 +2808,7 @@
                         <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
                     </ul>
                     <ul class="sidebar-menu return-home-menu">
-                        <li><a href="landingpage.html"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
                     </ul>
                 </div>
             </div>
@@ -3600,23 +3600,24 @@
         ];
 
         // Initialize the application
-        document.addEventListener('DOMContentLoaded', async function() {
+        document.addEventListener('DOMContentLoaded', async function () {
             const userSessionStorage = sessionStorage.getItem('user');
             const userLocalStorage = localStorage.getItem('user'); 
             const user = userSessionStorage ? JSON.parse(userSessionStorage) : JSON.parse(userLocalStorage);
             userId = user.id;
+            console.log(userId)
 
             const profile = await fetchUserById(userId);
 
             if (profile) {
                 document.querySelector('.profile-name').textContent = profile.patientName || 'N/A';
-                document.querySelector('.profile-id').textContent =  'N/A'; 
+                document.querySelector('.profile-id').textContent = 'N/A'; 
                 document.getElementById('email-value').textContent = profile.email || 'N/A';
                 document.getElementById('mobile-value').textContent = profile.phoneNumber || 'N/A';
                 document.getElementById('address-value').textContent = profile.address || 'N/A';
                 document.getElementById('gender-value').textContent = profile.gender || 'N/A';
-                document.getElementById('birthdate-value').textContent = profile.birthdate || 'N/A'
-                document.getElementById('age-value').textContent = profile.age;
+                document.getElementById('birthdate-value').textContent = profile.birthdate || 'N/A';
+                document.getElementById('age-value').textContent = profile.age || 'N/A';
 
                 // Editable inputs
                 document.getElementById('birthdate-edit').value = profile.birthdate || '';
@@ -3624,8 +3625,6 @@
                 document.getElementById('gender-edit').value = profile.gender || 'Other';
                 document.getElementById('address-edit').value = profile.address || '';
                 document.getElementById('mobile-edit').value = profile.phoneNumber || '';
-                document.getElementById('mobile-edit').value = profile.phoneNumber || '';
-
             }
 
             initializeTheme();
@@ -3636,23 +3635,28 @@
             updateUpcomingAppointmentsCount();
             calculateTotalCost();
             initializeMobileMenu();
-            
-            
+
             // Make entire appointment row clickable
             document.querySelectorAll('.appointment-row').forEach(row => {
-                row.addEventListener('click', function(e) {
-                    // Don't trigger if clicking on action buttons
+                row.addEventListener('click', function (e) {
                     if (!e.target.closest('.action-btn')) {
                         const appointmentId = this.getAttribute('data-id');
                         openAppointmentModal(appointmentId);
                     }
                 });
             });
-            
-            // Initialize sorting functionality
+
+            const logoutButtons = document.querySelectorAll('.logout-btn');
+            logoutButtons.forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    sessionStorage.removeItem('user');
+                    localStorage.removeItem('user');
+                    window.location.href = 'landingpage.html';
+                });
+            });
+
             initializeSorting();
-            
-            // Initialize filter functionality
             initializeFilters();
         });
 

@@ -661,7 +661,7 @@
                 <li><a href="#"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
                 <li><a href="patients.html" class="active"><i class="fas fa-users"></i> <span>Patients</span></a></li>
                 <li><a href="#"><i class="fas fa-chart-line"></i> <span>Reports</span></a></li>
-                <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
             <!-- Add Return to Home menu at the bottom -->
             <div style="position: absolute; bottom: 20px; width: 100%;">
@@ -670,7 +670,7 @@
                         <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
                     </ul>
                     <ul class="sidebar-menu return-home-menu">
-                        <li><a href="landingpage.html"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
                     </ul>
                 </div>
             </div>
@@ -981,6 +981,17 @@ function formatDate(date) {
         window.onclick = (e) => {
             if (e.target === modal) modal.style.display = 'none';
         };
+
+        const logoutButtons = document.querySelectorAll('.logout-btn');
+        logoutButtons.forEach(button => {
+            button.addEventListener('click', async (e) => {
+                e.preventDefault();
+                sessionStorage.removeItem('user');
+                localStorage.removeItem('user');
+                window.location.href = 'landingpage.html';
+            });
+        });
+
 
         const createAccountBtn = document.querySelector('.create-account-btn');
         const createAccountModal = document.getElementById('createAccountModal');
