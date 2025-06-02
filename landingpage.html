@@ -3064,9 +3064,12 @@
                 <label for="treatmentType">Treatment Type</label>
                 <select id="treatmentType" required>
                     <option value="" disabled selected>Select a treatment</option>
-                    <option value="oral-prophylaxis">Oral Prophylaxis (Teeth Cleaning)</option>
-                    <option value="fluoride">Topical Fluoride Treatment</option>
-                    <option value="sealants">Pit and Fissure Sealants</option>
+                    <option value="1">Dental Cleaning</option>
+                    <option value="2">Root Canal</option>
+                    <option value="3">Tooth Extraction</option>
+                    <option value="4">Dental Filling</option>
+                    <option value="5">Dental Crown</option>
+                    <option value="6">Dental Bridge</option>
                 </select>
             </div>
             
@@ -3129,7 +3132,7 @@
             <!-- Login Form -->
             <form id="loginForm" class="auth-form">
                 <div class="form-group">
-                    <label for="loginEmail">Email</label>
+                    <label for="loginEmail">Username/Email/Phone Number</label>
                     <input type="email" id="loginEmail" placeholder="Enter your email" required>
                 </div>
                 <div class="form-group">
@@ -3166,6 +3169,18 @@
                     <input type="email" placeholder="Email Address" required>
                 </div>
                 <div class="form-group">
+                    <input type="phone" placeholder="Phone Number" required>
+                </div>
+                <div class="form-group">
+                    <input type="dob" placeholder="Date of Birth" required>
+                </div>
+                <div class="form-group">
+                    <input type="gender" placeholder="Gender" required>
+                </div>
+                <div class="form-group">
+                    <input type="username" placeholder="Username" required>
+                </div>
+                <div class="form-group">
                     <input type="password" placeholder="Create Password" required>
                 </div>
                 <div class="form-group">
@@ -3186,6 +3201,12 @@
                 </div>
                 <div class="form-group">
                     <input type="tel" placeholder="Phone Number (09XXXXXXXXX)" pattern="[0-9]{11}" required>
+                </div>
+                <div class="form-group">
+                    <input type="dob" placeholder="Date of Birth" required>
+                </div>
+                <div class="form-group">
+                    <input type="gender" placeholder="Gender" required>
                 </div>
             </form>
             
@@ -3668,7 +3689,7 @@
         
         // Next button click handler
         document.querySelectorAll('.modal-btn.next').forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', async () => {
                 // Validate current step before proceeding
                 if (validateStep(currentStep)) {
                     if (currentStep < totalSteps) {
@@ -3677,12 +3698,152 @@
                         
                         // Update confirmation details if moving to step 3
                         if (currentStep === 3) {
-                            updateConfirmationDetails();
+
+                            await checkSelectedOption();
+                            await updateConfirmationDetails();
                         }
                     }
                 }
             });
         });
+
+        async function checkSelectedOption() {
+           const selectedOption = document.querySelector('.option-btn.active')?.getAttribute('data-form');
+
+           let userInfo = { };
+
+            if (selectedOption === 'login') {
+                const loginField = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+
+               const response = await fetch('http://localhost:3000/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: loginField, password })
+                });
+
+                const loginData = await response.json();
+
+                if (response.ok) {
+                    // ✅ Save user info in sessionStorage
+                    sessionStorage.setItem('user', JSON.stringify(loginData.user));
+                } else {
+                    // ❌ Show error if login failed
+                    currentStep--;
+                    alert(loginData.message || 'Login failed. Please try again.');
+                }
+
+            } else if (selectedOption === 'signup') {
+                const inputs = document.querySelectorAll('#signupForm input');
+
+                const firstName = inputs[0].value;
+                const lastName = inputs[1].value;
+                const email = inputs[2].value;
+                const phone = inputs[3].value;
+                const dob = inputs[4].value;
+                const gender = inputs[5].value;
+                const username = inputs[6].value;
+                const password = inputs[7].value;
+                const confirmPassword = inputs[8].value;
+
+                // First: Signup
+                await fetch('http://localhost:3000/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        firstName,
+                        lastName,
+                        email,
+                        phone,
+                        dob,
+                        gender,
+                        username,
+                        password
+                    })
+                })
+                .then(async res => {
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        // Second: Auto-login after successful signup
+                        return fetch('http://localhost:3000/auth/login', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email, password }) // use same credentials
+                        });
+                    } else {
+                        throw new Error(data.message || 'Signup failed');
+                    }
+                })
+                .then(async loginRes => {
+                    const loginData = await loginRes.json();
+                    if (loginRes.ok) {
+                        sessionStorage.setItem('user', JSON.stringify(loginData.user));
+                    } else {
+                        throw new Error(loginData.message || 'Auto-login failed');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert(err.message || 'Something went wrong. Please try again.');
+                });
+
+            } else if (selectedOption === 'guest') {
+                const inputs = document.querySelectorAll('#guestForm input');
+                const firstName = inputs[0].value;
+                const lastName = inputs[1].value;
+                const email = inputs[2].value;
+                const phone = inputs[3].value;
+                const dob = inputs[4].value;
+                const gender = inputs[5].value;
+                const username = lastName + firstName;
+                const password = firstName;
+
+                // First: Signup
+                await fetch('http://localhost:3000/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        firstName,
+                        lastName,
+                        email,
+                        phone,
+                        dob,
+                        gender,
+                        username,
+                        password
+                    })
+                })
+                .then(async res => {
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        // Second: Auto-login after successful signup
+                        return fetch('http://localhost:3000/auth/login', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email, password }) // use same credentials
+                        });
+                    } else {
+                        throw new Error(data.message || 'Signup failed');
+                    }
+                })
+                .then(async loginRes => {
+                    const loginData = await loginRes.json();
+                    if (loginRes.ok) {
+                        sessionStorage.setItem('user', JSON.stringify(loginData.user));
+                    } else {
+                        throw new Error(loginData.message || 'Auto-login failed');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert(err.message || 'Something went wrong. Please try again.');
+                });
+
+            }
+
+        }
 
         // Back button click handler
         document.querySelectorAll('.modal-btn.back').forEach(btn => {
@@ -3714,6 +3875,7 @@
             const activeOption = document.querySelector('.option-btn.active');
             const activeForm = document.getElementById(`${activeOption.dataset.form}Form`);
             
+            console.log("ACTIVE FORM:", activeForm)
             // Treatment details
             const treatmentSelect = document.getElementById('treatmentType');
             const treatmentText = treatmentSelect.options[treatmentSelect.selectedIndex].text;
@@ -3727,18 +3889,25 @@
                 day: 'numeric' 
             });
             document.getElementById('confirmTime').textContent = selectedTime;
+
+            const userDetails = sessionStorage.getItem('user');
+            const user = JSON.parse(userDetails);
+            const patientName = user.name;
             
             // Personal info - get from the active form
-            const firstName = activeForm.querySelector('input[placeholder="First Name"]')?.value;
-            const lastName = activeForm.querySelector('input[placeholder="Last Name"]')?.value;
+            // const firstName = activeForm.querySelector('input[placeholder="First Name"]')?.value;
+            // const lastName = activeForm.querySelector('input[placeholder="Last Name"]')?.value;
+            console.log("PATIENT NAME?", patientName)
+
             const email = activeForm.querySelector('input[type="email"]')?.value;
             
-            document.getElementById('confirmName').textContent = `${firstName} ${lastName}`;
-            document.getElementById('confirmEmail').textContent = email;
+            //document.getElementById('confirmName').textContent = `${firstName} ${lastName}`;
+            document.getElementById('confirmName').textContent = `${patientName}`;
+            document.getElementById('confirmEmail').textContent = user.email;
             
             // Phone number (only for guest form)
-            const phone = activeForm.querySelector('input[type="tel"]');
-            document.getElementById('confirmPhone').textContent = phone ? phone.value : 'N/A';
+            // const phone = activeForm.querySelector('input[type="tel"]');
+            document.getElementById('confirmPhone').textContent = user.phone || 'N/A';
         }
 
         // Calendar navigation
@@ -4083,15 +4252,41 @@
             return isValid;
         }
 
-         async function submitNewAppointment() {
-                console.log("PASOK BA??? 22222")
+        async function submitNewAppointment() {
+           // const selectedOption = document.querySelector('.option-btn.active')?.getAttribute('data-form');
+
+            // if (!selectedOption) return null;
+
+            // if (selectedOption === 'login') {
+            //    const loginField = document.getElementById('loginEmail').value;
+            //    const password = document.getElementById('loginPassword').value;
+
+            //} else if (selectedOption === 'signup') {
+            //    const inputs = document.querySelectorAll('#signupForm input');
+            //    const firstName = inputs[0].value;
+            //    const lastName = inputs[1].value;
+            //    const email = inputs[2].value;
+            //    const password = inputs[3].value;
+            //    const confirmPassword = inputs[4].value;
+            //} else if (selectedOption === 'guest') {
+            //    const inputs = document.querySelectorAll('#guestForm input');
+            //    const firstName = inputs[0].value;
+            //    const lastName = inputs[1].value;
+            //    const email = inputs[2].value;
+            //    const phone = inputs[3].value;
+            //}
+            const userDetails = sessionStorage.getItem('user');
+            const user = JSON.parse(userDetails);
+
+            const treatmentSelect = document.getElementById('treatmentType');
+            const treatmentValue = treatmentSelect.options[treatmentSelect.selectedIndex].value;
 
             const appointmentData = {
-                patient_id: 1, // Replace with actual patient ID
-                procedure_id: 2, // Replace with actual procedure ID
+                patient_id: user.id, // Replace with actual patient ID
+                procedure_id: treatmentValue, // Replace with actual procedure ID
                 request_date: new Date().toISOString(), // Current datetime
-                requested_date: "2025-06-01", // Replace with actual input
-                requested_time: "14:00",      // Replace with actual input
+                requested_date: document.getElementById('selectedDate').textContent, // Replace with actual input
+                requested_time: document.getElementById('selectedTime').textContent,      // Replace with actual input
                 status_id: 1, // Typically 1 for "Pending"
                 files: "" // Optional: File URL, name, or leave empty
             };
@@ -4119,6 +4314,7 @@
                 alert("Failed to schedule appointment.");
             } finally {
                 closeBookModal();
+                window.location.href = 'MyRecords.html';
             }
         }
 

@@ -1968,6 +1968,7 @@ function closeAcceptModal() {
 
 async function confirmAcceptAppointment() {
     const request = appointmentRequests.find(req => req.id == currentAcceptId);
+    console.log("check request:", request)
 
     if (!request) {
         console.warn("No request found for currentAcceptId");

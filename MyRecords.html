@@ -3180,10 +3180,12 @@
                                     <span class="detail-label">Procedure:</span>
                                     <select class="procedure-select" id="procedure-select" required>
                                         <option value="" selected disabled>Select Procedure</option>
-                                        <option value="Oral Prophylaxis">Oral Prophylaxis (Cleaning)</option>
-                                        <option value="Topical Fluoride">Topical Fluoride Treatment</option>
-                                        <option value="Pit and Fissure Sealants">Pit and Fissure Sealants</option>
-                                        <option value="Consultation">Consultation</option>
+                                        <option value="1">Dental Cleaning</option>
+                                        <option value="2">Root Canal</option>
+                                        <option value="3">Tooth Extraction</option>
+                                        <option value="4">Dental Filling</option>
+                                        <option value="5">Dental Crown</option>
+                                        <option value="6">Dental Bridge</option>
                                     </select>
                                 </div>
                                 <div class="detail-item">
@@ -4224,12 +4226,15 @@
         }
 
         async function submitNewAppointment() {
+            let user = localStorage.getItem('user') || sessionStorage.getItem('user');
+            let jsonUser = JSON.parse(user);
+            
             const appointmentData = {
-                patient_id: 1, // Replace with actual patient ID
-                procedure_id: 2, // Replace with actual procedure ID
+                patient_id: jsonUser.id, // Replace with actual patient ID
+                procedure_id: document.getElementById('procedure-select').value, // Replace with actual procedure ID
                 request_date: new Date().toISOString(), // Current datetime
-                requested_date: "2025-06-01", // Replace with actual input
-                requested_time: "14:00",      // Replace with actual input
+                requested_date: document.getElementById('selected-date-text').textContent, // Replace with actual input
+                requested_time: document.getElementById('selected-time-text').textContent,      // Replace with actual input
                 status_id: 1, // Typically 1 for "Pending"
                 files: "" // Optional: File URL, name, or leave empty
             };
