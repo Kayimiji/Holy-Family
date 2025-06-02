@@ -210,6 +210,17 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         // Initialize components with error handling
         try {
+            const logoutButtons = document.querySelectorAll('.logout-btn');
+            logoutButtons.forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    sessionStorage.removeItem('user');
+                    localStorage.removeItem('user');
+                    window.location.href = 'landingpage.html';
+                });
+            });
+
+
             initCharts();
             initializeCalendar();
             updateRequestsTable();
