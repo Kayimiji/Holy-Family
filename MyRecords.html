@@ -4377,10 +4377,19 @@
                                 appointment.status.toLowerCase() === 'pending' ? 'status-upcoming' : 'status-canceled';
             const statusText = appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1).toLowerCase();
 
+            console.log("APPOINTMENT:", appointment)
+            const date = new Date(appointment.requestedDate);
+            const formatted = date.toLocaleString("en-PH", {
+                timeZone: "Asia/Manila",
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            });
+
             newRow.innerHTML = `
                 <td class="date-time-cell">
-                    <span class="date">${appointment.requestedDate.split(' - ')[0]}</span>
-                    <span class="time">${appointment.requestedDate.split(' - ')[1]}</span>
+                    <span class="date">${formatted}</span>
+                    <span class="time">${appointment.requestedTime}</span>
                 </td>
                 <td class="procedure-cell">${appointment.procedure}</td>
                 <td class="cost-cell">${appointment?.cost}</td>

@@ -7,6 +7,7 @@ let currentCompletionModal = null;
 let currentCompletionId = null;  // Add this line
 let currentWarningModal = null; // Add this at the top with other modal state variables
 let today = new Date().toLocaleDateString('en-CA');
+let isAcceptRequest = null;
 
 function showLoading() {
     document.getElementById('loadingOverlay').style.display = 'flex';
@@ -1592,9 +1593,26 @@ function submitRejection() {
 }
 
 async function rejectRequest(id, reason) {
+    isAcceptRequest = false;
     const requestIndex = appointmentRequests.findIndex(req => req.id === id);
     if (requestIndex !== -1) {
         const request = appointmentRequests[requestIndex];
+
+        const formattedRequest = {
+            patientName: request.patient_name,
+            procedure: request.procedure,
+            requestedDate: request.requested_date,
+            requestedTime: request.requested_time,
+            contact: request.contact,
+            email: request.email,
+            id: request.id
+        };
+
+        window.currentRequestToNotify = formattedRequest;
+
+        const label = `Do you want to send a confirmation message via SMS to ${formattedRequest.patientName}?`;
+        document.getElementById("notificationModalMessage").textContent = label;
+        document.getElementById("notificationConfirmationModal").classList.add("active");
 
         await fetch("http://localhost:3000/appointments/updateStatus", {
             method: "PUT",
@@ -1622,7 +1640,7 @@ async function rejectRequest(id, reason) {
         updateStatistics();
 
         // Show success notification
-        showToast(`Rejected appointment for ${request.patientName}`, 'warning');
+        showToast(`Rejected appointment for ${request.patient_name}`, 'warning');
     }
 }
 
@@ -1910,6 +1928,7 @@ function acceptRequest(id) {
     closeDetailsModal();
 
     // Then set up and show the accept confirmation
+    isAcceptRequest = true;
     currentAcceptId = id;
     currentAcceptIds = [id];
     let request = appointmentRequests.find(req => req.id === id);
@@ -1952,7 +1971,13 @@ async function confirmSendNotification() {
             hour12: true
         });
 
-        const messageText = `Hi ${request.patientName}, your appointment in Holy Family Dental Clinic for ${request.procedure} has been approved on ${formattedDate} at ${formattedTime}. Thank you and see you!`;
+        const rejectionReason = document.getElementById('rejectionReason').value.trim();
+
+        let messageText = isAcceptRequest
+            ? `Hi ${request.patientName}, your requested appointment in Holy Family Dental Clinic for ${request.procedure} scheduled on ${formattedDate} at ${formattedTime} has been approved. Thank you and see you!`
+            : `Hi ${request.patientName}, your requested appointment in Holy Family Dental Clinic for ${request.procedure} scheduled on ${formattedDate} at ${formattedTime} has been rejected` +
+            (rejectionReason ? ` due to ${rejectionReason}.` : `.`);
+
 
         let contact = String(request.contact || request.phoneNumber || '').padStart(11, "0");
         const formattedNumber = contact.replace(/^0/, "+63");
