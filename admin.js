@@ -8,6 +8,7 @@ let currentCompletionId = null;  // Add this line
 let currentWarningModal = null; // Add this at the top with other modal state variables
 let today = new Date().toLocaleDateString('en-CA');
 let isAcceptRequest = null;
+let allAppointmentRequests;
 
 function showLoading() {
     document.getElementById('loadingOverlay').style.display = 'flex';
@@ -177,6 +178,52 @@ function convertTo24Hour(time12h) {
 // Initialize the dashboard
 document.addEventListener('DOMContentLoaded', async function () {
     try {
+        const response = await fetch(`http://localhost:3000/appointments`);
+        allAppointmentRequests = await response.json();
+        console.log("LENGTH:", allAppointmentRequests.length)
+        const now = new Date();
+
+        allAppointmentRequests.forEach(async appointment => {
+            try {
+                const dateStr = appointment.requested_date;   // e.g., "2025-06-01T00:00:00.000Z"
+                const timeStr = appointment.requested_time;   // e.g., "16:30:00"
+
+                if (!dateStr || !timeStr) {
+                    console.warn("Skipping due to missing date/time:", appointment);
+                    return;
+                }
+
+                const date = new Date(dateStr);
+                // Get correct PH date in YYYY-MM-DD format
+                const dateOnly = date.toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' });
+                // Combine safely
+                const combinedDateTimeStr = `${dateOnly}T${timeStr}`;
+                const combinedDateTime = new Date(combinedDateTimeStr);  // interpreted in local time
+
+                if (isNaN(combinedDateTime)) {
+                    console.warn("Invalid combined datetime:", combinedDateTimeStr);
+                    return;
+                }
+
+                console.log("APPOITNMENT ID:", appointment.id)
+                if (combinedDateTime < now && (appointment.status_id === 1 || appointment.status_id == 2)) {
+                    const res = await fetch("http://localhost:3000/appointments/updateStatus", {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            appointment_id: appointment.id,
+                            new_status: 5
+                        })
+                    });
+                }
+            } catch (error) {
+                console.error("Error processing appointment:", appointment, error);
+            }
+        });
+
+
         debugLog('Initializing dashboard...');
         await fetchAppointmentRequests();
         debugLog('Initial Appointment Requests', appointmentRequests);
@@ -247,15 +294,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 async function fetchAppointmentRequests(date = null) {
     showLoading();
     let url = date
-        ? `http://localhost:3000/appointments/${encodeURIComponent(date)}`
+        ? `http://localhost:3000/appointments/${date}`
         : `http://localhost:3000/appointments`;
 
     try {
 
         let response = await fetch(url);
         let data = await response.json();
-
-        console.log("TEST:", data)
 
         if (date) {
             todayAppointments = [];
@@ -361,6 +406,7 @@ function updateRequestsTable() {
 }
 
 function updateRequestCount() {
+    showLoading();
     const requestCount = document.getElementById('requestCount');
     const count = appointmentRequests.length;
     requestCount.textContent = count;
@@ -371,6 +417,7 @@ function updateRequestCount() {
     } else {
         requestCount.classList.remove('show');
     }
+    hideLoading();
 }
 
 function openTodayTab(evt, tabName) {
@@ -432,8 +479,8 @@ function showTodayAppointmentDetails(id) {
     document.querySelector('.tab-btn[onclick*="today-patient-info"]').classList.add('active');
 
     // Populate patient info
-    document.getElementById('today-patient-name').textContent = appointment.firstName + '' + appointment.lastName;
-    document.getElementById('today-patient-id').textContent = appointment.patientId || 'N/A';
+    document.getElementById('today-patient-name').textContent = appointment.patient_name;
+    document.getElementById('today-patient-id').textContent = appointment.id || 'N/A';
     document.getElementById('today-contact').textContent = appointment.phoneNumber || 'Not provided';
     document.getElementById('today-email').textContent = appointment.email || 'Not provided';
     document.getElementById('today-age').textContent = appointment.age || 'Not provided';
@@ -441,8 +488,8 @@ function showTodayAppointmentDetails(id) {
     document.getElementById('today-address').textContent = appointment.address || 'Not provided';
 
     // Populate appointment info
-    document.getElementById('today-appointment-date').textContent = formatDateForDisplay(new Date(appointment.requestedDate));
-    document.getElementById('today-appointment-time').textContent = ensureTimeFormat(appointment.requestedTime);
+    document.getElementById('today-appointment-date').textContent = formatDateForDisplay(new Date(appointment.requested_date));
+    document.getElementById('today-appointment-time').textContent = ensureTimeFormat(appointment.requested_time);
     document.getElementById('today-procedure').textContent = appointment.procedure;
 
     // Set status badge
@@ -978,12 +1025,12 @@ async function updateAppointmentsForDate(date) {
 
     // Sort appointments by time (implement actual sorting logic if needed)
     todayAppointments.sort((a, b) => {
-        return a.requestedTime.localeCompare(b.requestedTime);
+        return a.requested_time.localeCompare(b.requested_time);
     });
 
     // Populate table
     todayAppointments.forEach(appointment => {
-        const appointmentDate = new Date(appointment.requestedDate);
+        const appointmentDate = new Date(appointment.requested_date);
         const row = document.createElement('tr');
         row.onclick = (e) => {
             if (!e.target.closest('button') && !e.target.closest('input[type="checkbox"]')) {
@@ -1008,9 +1055,9 @@ async function updateAppointmentsForDate(date) {
             <td class="checkbox-wrapper">
                 ${appointment.status === "Scheduled" ? `<input type="checkbox" data-id="${appointment.id}">` : ''}
             </td>
-            <td><span class="patient-name" data-full-text="${appointment.patientName}">${appointment.patientName}</span></td>
+            <td><span class="patient-name" data-full-text="${appointment.patient_name}">${appointment.patient_name}</span></td>
             <td>${formatDateForDisplay(appointmentDate)}</td>
-            <td>${ensureTimeFormat(appointment.requestedTime)}</td>
+            <td>${ensureTimeFormat(appointment.requested_time)}</td>
             <td><span class="procedure-tag" data-full-text="${appointment.procedure}">${appointment.procedure}</span></td>
             <td><span class="status-badge status-${appointment.status}">
                 ${appointment.status}
@@ -1094,6 +1141,7 @@ function showCancelConfirmation(id) {
 
 // Statistics functions
 function updateStatistics() {
+    showLoading();
     // Get today's date in YYYY-MM-DD format
     const today = new Date().toISOString().split('T')[0];
 
@@ -1123,6 +1171,7 @@ function updateStatistics() {
 
     // Keep walk-in at 0 as requested
     document.getElementById('walkInCount').textContent = '0';
+    hideLoading();
 }
 
 // Chart functions
@@ -1430,8 +1479,6 @@ function updateCalendar(date) {
                 el.classList.remove('selected');
             });
             dayElement.classList.add('selected');
-
-            updateAppointmentsForDate(currentDate);
 
             const formattedDate = currentDate.toLocaleDateString('en-US', {
                 weekday: 'long',
