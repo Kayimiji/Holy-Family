@@ -76,83 +76,13 @@ function showToast(message, type = 'info') {
 
 let appointmentRequests = [];
 let appointmentLogs = [];
-let todayAppointments = [
-    // {
-    //     id: 1,
-    //     patientName: "John Smith",
-    //     date: new Date().toISOString().split('T')[0],
-    //     time: "10:00 AM",
-    //     procedure: "Dental Cleaning",
-    //     status: "Scheduled",
-    //     patientInfo: {
-    //         patientId: "HFDC-2023-003",
-    //         birthdate: "1985-03-20",
-    //         age: 38,
-    //         gender: "Male",
-    //         address: "789 Pine St, Manila",
-    //         email: "johnsmith@example.com"
-    //     }
-    // },
-    // {
-    //     id: 2,
-    //     patientName: "Maria Garcia",
-    //     date: new Date().toISOString().split('T')[0],
-    //     time: "11:30 AM",
-    //     procedure: "Tooth Extraction",
-    //     status: "Scheduled",
-    //     patientInfo: {
-    //         patientId: "HFDC-2023-004",
-    //         birthdate: "1988-11-12",
-    //         age: 35,
-    //         gender: "Female",
-    //         address: "321 Elm St, Pasig City",
-    //         email: "mariagarcia@example.com"
-    //     }
-    // },
-    // {
-    //     id: 3,
-    //     patientName: "David Wilson",
-    //     date: new Date(Date.now() + 86400000).toISOString().split('T')[0],
-    //     time: "9:00 AM",
-    //     procedure: "Tooth Extraction",
-    //     status: "Scheduled",
-    //     patientInfo: {
-    //         patientId: "HFDC-2023-005",
-    //         birthdate: "1979-09-05",
-    //         age: 44,
-    //         gender: "Male",
-    //         address: "654 Maple St, Taguig City",
-    //         email: "davidwilson@example.com"
-    //     }
-    // }
-];
-
-// Statistics data
-// let statsData = {
-//     weekly: {
-//         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-//         visits: [30, 45, 35, 50, 40, 35, 45],
-//         income: [1500, 2250, 1750, 2500, 2000, 1750, 2250]
-//     },
-//     monthly: {
-//         labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-//         visits: [200, 250, 180, 300],
-//         income: [10000, 12500, 9000, 15000]
-//     },
-//     yearly: {
-//         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-//         visits: [800, 900, 1200, 1100, 1300, 1400, 1200, 1100, 1000, 1200, 1300, 1500],
-//         income: [40000, 45000, 60000, 55000, 65000, 70000, 60000, 55000, 50000, 60000, 65000, 75000]
-//     }
-// };
-
+let todayAppointments = [];
 let statsData = {
     weekly: { labels: [], visits: [] },
     monthly: { labels: [], visits: [] },
     yearly: { labels: [], visits: [] }
 };
 
-// Fix time conversion function
 function convertTo24Hour(time12h) {
     if (!time12h) return '';
 
@@ -274,12 +204,12 @@ document.addEventListener('DOMContentLoaded', async function () {
             updateRequestsTable();
             updateRequestCount();
             initializeTodaySection();
-            updateStatistics(); // Initial statistics update
+            // await updateStatistics(); // Initial statistics update
 
             // Set up auto-update interval for statistics (every 5 seconds)
             setInterval(() => {
                 updateStatistics();
-            }, 5000);
+            }, 200);
 
         } catch (e) {
             console.error('Failed to initialize dashboard components:', e);
@@ -295,7 +225,7 @@ async function fetchAppointmentRequests(date = null) {
     showLoading();
     let url = date
         ? `http://localhost:3000/appointments/${date}`
-        : `http://localhost:3000/appointments`;
+        : `http://localhost:3000/appointments/pending`;
 
     try {
 
@@ -721,8 +651,6 @@ function initializeTodaySection() {
     updateAppointmentsForDate(today);
 }
 
-
-
 function cancelAppointment(id) {
     const appointmentIndex = todayAppointments.findIndex(app => app.id === id);
     if (appointmentIndex !== -1) {
@@ -738,11 +666,9 @@ function cancelAppointment(id) {
         updateStatistics();
         updateCalendar(new Date());
 
-        showToast(`Appointment cancelled for ${appointment.patientName}`, 'warning');
+        showToast(`Appointment cancelled for ${appointment.patient_name}`, 'warning');
     }
 }
-
-
 
 function closePhotoConfirmationModal() {
     const modal = document.querySelector('.confirmation-modal');
@@ -817,21 +743,32 @@ function completeWithoutPhotos(id) {
     }
 }
 
-function proceedWithCompletion(id) {
+async function proceedWithCompletion(id) {
     const appointmentIndex = todayAppointments.findIndex(app => app.id === id);
     const appointment = todayAppointments[appointmentIndex];
 
     // Update appointment status
     todayAppointments[appointmentIndex].status = 'Completed';
-    todayAppointments[appointmentIndex].completedAt = new Date().toISOString();
+    todayAppointments[appointmentIndex].completedAt = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' });
+
+    await fetch("http://localhost:3000/appointments/updateStatus", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            appointment_id: id,   // 👈 Match the param your backend expects
+            new_status: 3        // 👈 Match field expected by backend
+        })
+    });
 
     // Update UI
-    updateAppointmentsForDate(new Date().toLocaleDateString('en-CA'));
+    updateAppointmentsForDate(new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' }));
     updateStatistics();
     updateCalendar(new Date());
 
     // Show confirmation
-    showToast(`Appointment completed for ${appointment.patientName}`, 'success');
+    showToast(`Appointment completed for ${appointment.patient_name}`, 'success');
 
     // Close modals
     closeCompletionModal();
@@ -896,7 +833,7 @@ function cancelTodayAppointment(id) {
                         <i class="fas fa-user"></i>
                         <div class="info-content">
                             <label>Patient</label>
-                            <span>${appointment.patientName}</span>
+                            <span>${appointment.patient_name}</span>
                         </div>
                     </div>
                     <div class="info-item">
@@ -928,7 +865,7 @@ function cancelTodayAppointment(id) {
     currentCompletionModal = modal;
 }
 
-function proceedWithCancellation(id) {
+async function proceedWithCancellation(id) {
     const appointmentIndex = todayAppointments.findIndex(app => app.id === id);
     if (appointmentIndex !== -1) {
         const appointment = todayAppointments[appointmentIndex];
@@ -945,13 +882,24 @@ function proceedWithCancellation(id) {
                 <i class="fas fa-times-circle"></i> This appointment has been cancelled
             </div>`;
 
+        await fetch("http://localhost:3000/appointments/updateStatus", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                appointment_id: id,   // 👈 Match the param your backend expects
+                new_status: 4        // 👈 Match field expected by backend
+            })
+        });
+
         // Update UI
         updateAppointmentsForDate(new Date(appointment.date).toLocaleDateString('en-CA'));
         updateStatistics();
         updateCalendar(new Date());
 
         // Show confirmation toast
-        showToast(`Appointment cancelled for ${appointment.patientName}`, 'warning');
+        showToast(`Appointment cancelled for ${appointment.patient_name}`, 'warning');
 
         // Close the confirmation modal
         closeCompletionModal();
@@ -1109,7 +1057,7 @@ function showCancelConfirmation(id) {
                         <i class="fas fa-user"></i>
                         <div class="info-content">
                             <label>Patient</label>
-                            <span>${appointment.patientName}</span>
+                            <span>${appointment.patient_name}</span>
                         </div>
                     </div>
                     <div class="info-item">
@@ -1140,15 +1088,14 @@ function showCancelConfirmation(id) {
 }
 
 // Statistics functions
-function updateStatistics() {
+async function updateStatistics() {
     showLoading();
-    // Get today's date in YYYY-MM-DD format
-    const today = new Date().toISOString().split('T')[0];
-
     // Count only today's scheduled appointments
-    const scheduledToday = todayAppointments.filter(app =>
-        app.date === today && app.status === "Scheduled"
-    ).length;
+    const scheduledToday = todayAppointments.filter(app => {
+        const appDate = new Date(app.requested_date).toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' });
+        return appDate === today && app.status === "Scheduled";
+    }).length;
+
 
     // Count total appointment requests
     const requests = appointmentRequests.length;
@@ -1160,7 +1107,7 @@ function updateStatistics() {
 
     // Count all cancelled appointments
     const canceled = todayAppointments.filter(app =>
-        app.status === "Cancelled"
+        app.status === "Cancelled" || app.status === "Autocancelled"
     ).length;
 
     // Update the UI
@@ -1684,7 +1631,7 @@ async function rejectRequest(id, reason) {
         // Update UI
         updateRequestsTable();
         updateRequestCount();
-        updateStatistics();
+        await updateStatistics();
 
         // Show success notification
         showToast(`Rejected appointment for ${request.patient_name}`, 'warning');
@@ -1904,9 +1851,9 @@ function previewForm(formId) {
     `;
 }
 
-function uploadForm() {
-    showToast('Upload form functionality would be implemented here', 'info');
-}
+// function uploadForm() {
+//     showToast('Upload form functionality would be implemented here', 'info');
+// }
 
 function loadAppointmentHistory(patientId) {
     const historyList = document.getElementById('appointmentHistoryList');
@@ -1977,10 +1924,8 @@ function acceptRequest(id) {
     // Then set up and show the accept confirmation
     isAcceptRequest = true;
     currentAcceptId = id;
-    currentAcceptIds = [id];
+    currentAcceptIds = null;
     let request = appointmentRequests.find(req => req.id === id);
-    console.log("TESTappointment:", request)
-    console.log("ID:", id)
 
     document.getElementById('acceptModalTitle').textContent = 'Accept Appointment';
     document.getElementById('acceptModalMessage').textContent =
@@ -2050,64 +1995,88 @@ function closeAcceptModal() {
 }
 
 async function confirmAcceptAppointment() {
-    const request = appointmentRequests.find(req => req.id == currentAcceptId);
-    console.log("check request:", request)
+    if (currentAcceptId) {
+        // ✅ Single appointment flow
+        const request = appointmentRequests.find(req => req.id == currentAcceptId);
 
-    if (!request) {
-        console.warn("No request found for currentAcceptId");
+        if (!request) {
+            console.warn("No request found for currentAcceptId");
+            return;
+        }
+
+        const formattedRequest = {
+            patientName: request.patient_name,
+            procedure: request.procedure,
+            requestedDate: request.requested_date,
+            requestedTime: request.requested_time,
+            contact: request.contact,
+            email: request.email,
+            id: request.id
+        };
+
+        window.currentRequestToNotify = formattedRequest;
+
+        const label = `Do you want to send a confirmation message via SMS to ${formattedRequest.patientName}?`;
+        document.getElementById("notificationModalMessage").textContent = label;
+        document.getElementById("notificationConfirmationModal").classList.add("active");
+
+        // Update backend
+        await fetch("http://localhost:3000/appointments/updateStatus", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ appointment_id: currentAcceptId, new_status: 2 })
+        });
+
+    } else if (Array.isArray(currentAcceptIds) && currentAcceptIds.length > 0) {
+        // ✅ Bulk flow
+        for (const id of currentAcceptIds) {
+            await fetch("http://localhost:3000/appointments/updateStatus", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ appointment_id: id, new_status: 2 })
+            });
+        }
+
+        // Optionally store data for bulk SMS
+        window.bulkRequestsToNotify = currentAcceptIds.map(id => {
+            const req = appointmentRequests.find(r => r.id === id);
+            return req ? {
+                patientName: req.patient_name,
+                procedure: req.procedure,
+                requestedDate: req.requested_date,
+                requestedTime: req.requested_time,
+                contact: req.contact,
+                email: req.email,
+                id: req.id
+            } : null;
+        }).filter(Boolean);
+
+        document.getElementById("notificationModalMessage").textContent =
+            `Do you want to send confirmation messages to ${window.bulkRequestsToNotify.length} patients?`;
+        document.getElementById("notificationConfirmationModal").classList.add("active");
+    } else {
+        console.warn("No appointments selected.");
         return;
     }
 
-    // Prepare modal content BEFORE updating the appointmentRequests
-    const formattedRequest = {
-        patientName: request.patient_name,
-        procedure: request.procedure,
-        requestedDate: request.requested_date,
-        requestedTime: request.requested_time,
-        contact: request.contact,
-        email: request.email,
-        id: request.id
-    };
-
-    window.currentRequestToNotify = formattedRequest;
-
-    const label = `Do you want to send a confirmation message via SMS to ${formattedRequest.patientName}?`;
-    document.getElementById("notificationModalMessage").textContent = label;
-    document.getElementById("notificationConfirmationModal").classList.add("active");
-
-    // Update the appointment status
-    await fetch("http://localhost:3000/appointments/updateStatus", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            appointment_id: currentAcceptId,
-            new_status: 2
-        })
-    });
-
-    // Refresh the appointment lists AFTER modal and update
+    // ✅ Shared post-update logic
     await fetchAppointmentRequests();
     await fetchAppointmentRequests(today);
 
-    // Close the original modal
     closeAcceptModal();
 
-    // Update UI elements
     updateRequestsTable();
     updateRequestCount();
-    updateStatistics();
+    await updateStatistics();
     updateCalendar(new Date());
     updateAppointmentsForDate(new Date().toLocaleDateString('en-CA'));
 
-    // Reset checkboxes
     document.getElementById('selectAll').checked = false;
     document.getElementById('selectAllToday').checked = false;
+
     updateBulkActionVisibility('requestTableBody', 'requestBulkActions', 'requestSelectedCount');
     updateBulkActionVisibility('todayTableBody', 'appointmentBulkActions', 'appointmentSelectedCount');
 }
-
 
 
 function closeNotificationModal() {
@@ -2241,7 +2210,7 @@ function bulkCompleteAppointments() {
     setTimeout(() => modal.classList.add('active'), 10);
 }
 
-function processBulkCompletion(ids) {
+async function processBulkCompletion(ids) {
     ids.forEach(id => {
         const appointmentIndex = todayAppointments.findIndex(app => app.id === id);
         if (appointmentIndex !== -1) {
@@ -2252,7 +2221,7 @@ function processBulkCompletion(ids) {
 
     // Update UI
     updateAppointmentsForDate(new Date().toLocaleDateString('en-CA'));
-    updateStatistics();
+    await updateStatistics();
     updateCalendar(new Date());
 
     // Reset select all checkbox
@@ -2329,7 +2298,7 @@ function bulkCancelAppointments() {
     setTimeout(() => modal.classList.add('active'), 10);
 }
 
-function processBulkCancellation(ids) {
+async function processBulkCancellation(ids) {
     ids.forEach(id => {
         const appointmentIndex = todayAppointments.findIndex(app => app.id === id);
         if (appointmentIndex !== -1) {
@@ -2339,7 +2308,7 @@ function processBulkCancellation(ids) {
 
     // Update UI
     updateAppointmentsForDate(new Date()).toLocaleDateString('en-CA');
-    updateStatistics();
+    await updateStatistics();
     updateCalendar(new Date());
 
     // Reset select all checkbox
@@ -2511,7 +2480,7 @@ function loadTodayAppointmentHistory(patientId) {
 }
 
 // Check for expired appointments
-function checkExpiredAppointments() {
+async function checkExpiredAppointments() {
     const now = new Date();
     const expired = appointmentRequests.filter(request => {
         const requestDate = new Date(request.requestedDate + ' ' + convertTo24Hour(request.requestedTime));
@@ -2536,7 +2505,7 @@ function checkExpiredAppointments() {
         // Update UI
         updateRequestsTable();
         updateRequestCount();
-        updateStatistics();
+        await updateStatistics();
         updateCalendar(new Date());
     }
 }
@@ -2620,7 +2589,7 @@ function confirmAppointment(id) {
 
     // Set up and show the accept confirmation modal
     currentAcceptId = id;
-    currentAcceptIds = [id];
+    currentAcceptIds = null;
 
     document.getElementById('acceptModalTitle').textContent = 'Confirm Appointment';
     document.getElementById('acceptModalMessage').textContent =
@@ -2679,7 +2648,7 @@ function completeAppointment(id) {
                         <i class="fas fa-user"></i>
                         <div class="info-content">
                             <label>Patient</label>
-                            <span>${appointment.patientName}</span>
+                            <span>${appointment.patient_name}</span>
                         </div>
                     </div>
                     <div class="info-item">
@@ -2871,49 +2840,7 @@ function closeWarningModal() {
     }
 }
 
-function proceedToPhotos(id) {
-    closeWarningModal();  // Keep this existing close
-    closeCompletionModal(); // Add this line to close completion modal
-    showTodayAppointmentDetails(id);
-
-    setTimeout(() => {
-        const photosTabBtn = document.querySelector('.tab-btn[onclick*="today-photos"]');
-        if (photosTabBtn) {
-            photosTabBtn.click();
-        }
-    }, 100);
-}
-
-function completeWithoutPhotos(id) {
-    if (confirm('Are you sure you want to complete this appointment without photos? This action cannot be undone.')) {
-        proceedWithCompletion(id);
-        closeWarningModal();
-    }
-}
-
-function proceedWithCompletion(id) {
-    const appointmentIndex = todayAppointments.findIndex(app => app.id === id);
-    const appointment = todayAppointments[appointmentIndex];
-
-    // Update appointment status
-    todayAppointments[appointmentIndex].status = 'Completed';
-    todayAppointments[appointmentIndex].completedAt = new Date().toISOString();
-
-    // Update UI
-    updateAppointmentsForDate(new Date()).toLocaleDateString('en-CA');
-    updateStatistics();
-    updateCalendar(new Date());
-
-    // Show confirmation
-    showToast(`Appointment completed for ${appointment.patientName}`, 'success');
-
-    // Close modals
-    closeCompletionModal();
-    closeTodayAppointmentModal();
-}
-
 // Form management functions
-
 // Global variable to track the current patient ID
 let currentPatientId = null;
 
