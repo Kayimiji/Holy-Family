@@ -99,146 +99,156 @@
     padding: 20px 0;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
+    width: 280px;
+    flex-shrink: 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .main-content {
     flex-direction: column;
     padding: 30px;
     display: flex;
-    flex: 3;
-    transition: background-color 0.3s ease;
+    flex: 1;
+    width: calc(100% - 280px);
+    margin-left: auto;
+    background: linear-gradient(to bottom right, var(--bg-color) 0%, rgba(255, 255, 255, 0.05) 100%);
+    min-height: 100vh;
+    transition: all 0.3s ease;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
-    margin-top: -20px;
+    margin-bottom: 20px;
+    padding: 15px 25px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .return-home-menu {
     list-style: none;
     padding: 0;
     margin: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .return-home-menu li {
-    margin-bottom: 5px;
+    margin: 5px 0;
 }
 
 .return-home-menu a {
     display: flex;
     align-items: center;
-    padding: 12px 20px;
+    padding: 12px 25px;
     color: var(--sidebar-text);
     text-decoration: none;
     transition: all 0.3s ease;
+    font-size: 0.95rem;
+    border-left: 3px solid transparent;
 }
 
-.return-home-menu a:hover, .return-home-menu a.active {
-    background-color: rgba(0, 191, 255, 0.2);
-    color: white;
-    border-left: 3px solid var(--sidebar-active);
+.return-home-menu a:hover {
+    background: rgba(0, 191, 255, 0.1);
+    border-left-color: var(--sidebar-active);
+    padding-left: 28px;
 }
 
-.return-home-menu i {
-    margin-right: 10px;
-    width: 20px;
-    text-align: center;
-}
-/* ============================================= */
-/* SIDEBAR COMPONENTS */
-/* ============================================= */
+        /* ============================================= */
+        /* SIDEBAR COMPONENTS */
+        /* ============================================= */
 
-.sidebar-header {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    margin-bottom: 30px;
-}
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
 
-.sidebar-logo {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    margin-right: -5px;
-    margin-top: -45px;
-    margin-left: -20px;
-    object-fit: cover;
-}
+        .sidebar-logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin-right: -5px;
+            margin-top: -45px;
+            margin-left: -20px;
+            object-fit: cover;
+        }
 
-.sidebar-title h2 {
-    color: var(--sidebar-active);
-    margin: 0;
-    font-size: 18px;
-    line-height: 1;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    white-space: nowrap;
-}
+        .sidebar-title h2 {
+            color: var(--sidebar-active);
+            margin: 0;
+            font-size: 18px;
+            line-height: 1;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
 
-.sidebar-title p {
-    color: var(--sidebar-text);
-    font-size: 12px;
-    margin-top: 10px;
-    margin-left: -40px;
-    font-style: italic;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    white-space: normal;
-}
+        .sidebar-title p {
+            color: var(--sidebar-text);
+            font-size: 12px;
+            margin-top: 10px;
+            margin-left: -40px;
+            font-style: italic;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            white-space: normal;
+        }
 
-.holy-family {
-    color: #1380d3;
-    font-weight: bold;
-}
+        .holy-family {
+            color: #1380d3;
+            font-weight: bold;
+        }
 
-.dental-clinic {
-    color: #00c4cc;
-    font-weight: bold;
-}
+        .dental-clinic {
+            color: #00c4cc;
+            font-weight: bold;
+        }
 
-.sidebar-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+            margin-bottom: 20px;
+        }
 
-.sidebar-menu li {
-    margin-bottom: 5px;
-}
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
 
-.sidebar-menu a {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    color: var(--sidebar-text);
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
 
-.sidebar-menu a:hover, .sidebar-menu a.active {
-    background-color: rgba(0, 191, 255, 0.2);
-    color: white;
-    border-left: 3px solid var(--sidebar-active);
-}
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+        }
 
-.sidebar-menu i {
-    margin-right: 10px;
-    width: 20px;
-    text-align: center;
-}
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
 
-.settings-menu a:hover, .return-home-menu a:hover {
-    background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
-    color: white; /* Change text color on hover */
-    border-left: 3px solid var(--sidebar-active); /* Add left border */
-    display: block; /* Ensure the hover effect spans the full width */
-    width: 100%; /* Extend hover effect across the full width */
-    padding-right: 25px; /* Maintain alignment */
-}
+        .settings-menu a:hover, .return-home-menu a:hover {
+            background-color: rgba(0, 191, 255, 0.1); /* Hover background color */
+            color: var(--sidebar-text); /* Change text color on hover */
+            border-left: 3px solid var(--sidebar-active); /* Add left border */
+        }
 
 
         .btn {
@@ -632,6 +642,194 @@
             cursor: pointer;
             margin-left: 10px;
         }
+
+        /* Update container and table styles for better UI */
+.patients-table-container {
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+    margin-top: 20px;
+    background: linear-gradient(to bottom, var(--card-bg) 0%, var(--bg-color) 100%);
+    box-shadow: 0 12px 24px -6px rgba(0,0,0,0.1);
+    transition: none; /* Remove transition */
+}
+
+.patients-table-container:hover {
+    /* Remove transform and shadow change */
+    box-shadow: 0 12px 24px -6px rgba(0,0,0,0.1);
+}
+
+.patients-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--card-bg);
+}
+
+.patients-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.patients-table th {
+    background: linear-gradient(to bottom, var(--sidebar-bg) 0%, #1e2a3a 100%);
+    color: var(--sidebar-text);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    padding: 16px 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+}
+
+.patients-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+
+.patients-table tbody tr {
+    transition: none; /* Remove transition */
+    border-left: 3px solid transparent;
+}
+
+.patients-table tbody tr:hover {
+    background-color: var(--hover-bg);
+    border-left: 3px solid var(--sidebar-active);
+    /* Remove transform scale effect */
+}
+
+/* Enhanced the contact info styling */
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 4px 0;
+}
+
+.contact-info .email {
+    color: var(--sidebar-active);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.contact-info .email:hover {
+    color: #0099cc;
+}
+
+.contact-info .phone {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Enhanced checkbox styling */
+.patients-table input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--card-bg);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.patients-table input[type="checkbox"]:checked {
+    background: var(--sidebar-active);
+    border-color: var(--sidebar-active);
+}
+
+.patients-table input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+}
+
+/* Action button enhancements */
+.action-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(to bottom right, var(--sidebar-active), #0099cc);
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.action-btn:hover {
+    background: linear-gradient(to bottom right, #0099cc, var(--sidebar-active));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,191,255,0.3);
+}
+
+/* Sorting styles */
+.patients-table th.sort-asc::after {
+    content: ' ↑';
+    color: var(--sidebar-active);
+}
+
+.patients-table th.sort-desc::after {
+    content: ' ↓';
+    color: var(--sidebar-active);
+}
+
+.patients-table th:not(:first-child) {
+    cursor: pointer;
+}
+
+.patients-table th:not(:first-child):hover {
+    background: linear-gradient(to bottom, var(--sidebar-bg) 0%, #2a3f54 100%);
+}
+
+/* Update sidebar structure for better layout */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.sidebar-menu {
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+/* Fix bottom menu styling */
+.bottom-menu {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.settings-menu, .return-home-menu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Remove the absolute positioning */
+.bottom-menu > div {
+    position: static;
+}
     </style>
 </head>
 <body>
@@ -660,16 +858,14 @@
                 <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
             <!-- Add Return to Home menu at the bottom -->
-            <div style="position: absolute; bottom: 20px; width: 100%;">
-                <div style="position: absolute; bottom: 20px; width: 100%;">
-                    <ul class="sidebar-menu settings-menu">
-                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-                    </ul>
-                    <ul class="sidebar-menu return-home-menu">
-                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
-                    </ul>
-                </div>
-            </div>
+            <div class="bottom-menu">
+    <ul class="sidebar-menu settings-menu">
+        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+    </ul>
+    <ul class="sidebar-menu return-home-menu">
+        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+    </ul>
+</div>
         </div>
 
         <div class="main-content">
@@ -683,11 +879,20 @@
 
             <div class="container">
                 <header>
-                    <h1>Patients List</h1>
-                    
-                    <div class="status-tabs">
-                        <div class="status-tab active">Active (34)</div>
-                        <div class="status-tab inactive">Inactive (25)</div>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <h1>Patients List</h1>
+                        <span class="total-patients" style="
+                            color: var(--text-muted);
+                            font-size: 16px;
+                            background: var(--hover-bg);
+                            padding: 4px 12px;
+                            border-radius: 20px;
+                            display: inline-flex;
+                            align-items: center;
+                        ">
+                            <i class="fas fa-users" style="margin-right: 6px;"></i>
+                            Total: <span id="patientCount">0</span>
+                        </span>
                     </div>
                     
                     <div class="search-filter">
@@ -732,8 +937,6 @@
                                     <th>Patient Name</th>
                                     <th>Contact Details</th>
                                     <th>Date of Birth</th>
-                                    <!-- <th>Status</th> -->
-                                    <!-- <th>Patient ID</th> -->
                                     <th>Last Visit</th>
                                     <th>Action</th>
                                 </tr>
@@ -862,39 +1065,70 @@
             return response.json();
         }
 
-     async function populatePatientTable() {
-        const patients = await fetchAllPatients();
-        const tbody = document.getElementById('patientTableBody');
-        tbody.innerHTML = ''; // Clear previous rows
+async function populatePatientTable(sortBy = 'patientName', sortOrder = 'asc') {
+    const patients = await fetchAllPatients();
+    const tbody = document.getElementById('patientTableBody');
+    const patientCount = document.getElementById('patientCount');
+    
+    // Update the total count
+    patientCount.textContent = patients ? patients.length : 0;
+    
+    tbody.innerHTML = '';
 
-        if (!patients || patients.length === 0) {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td colspan="8" style="text-align:center;">No patients yet</td>`;
-            tbody.appendChild(row);
-            return;
-        }
-
-        patients.forEach(patient => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><input type="checkbox" data-id="${patient.id}"></td>
-                <td>${patient.patientName}</td>
-                <td>
-                    <div>${patient.phoneNumber || 'N/A'}</div>
-                    <div><a href="mailto:${patient.email}">${patient.email || 'N/A'}</a></div>
-                </td>
-                <td>${formatDate(patient.dateOfBirth)}</td>
-                <!-- <td>${patient.status || 'Unknown'}</td> -->
-                <!-- <td>${patient.id}</td> -->
-                <td>${formatDate(patient.lastVisit)}</td>
-                <td>
-                    <button onclick="viewPatient('${patient.id}')">View</button>
-                </td>
-            `;
-            tbody.appendChild(row);
-        });
+    if (!patients || patients.length === 0) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td colspan="6" class="empty-state">
+                <i class="fas fa-user-slash fa-2x"></i>
+                <p>No patients found</p>
+            </td>`;
+        tbody.appendChild(row);
+        return;
     }
+
+    // Sort patients array
+    patients.sort((a, b) => {
+        let valueA = a[sortBy]?.toLowerCase() || '';
+        let valueB = b[sortBy]?.toLowerCase() || '';
+        
+        if (sortOrder === 'asc') {
+            return valueA.localeCompare(valueB);
+        } else {
+            return valueB.localeCompare(valueA);
+        }
+    });
+
+    patients.forEach(patient => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td><input type="checkbox" data-id="${patient.id}"></td>
+            <td>
+                <div class="patient-name">${patient.patientName}</div>
+                <div class="patient-id" style="color: var(--text-muted); font-size: 0.8rem;">ID: ${patient.id}</div>
+            </td>
+            <td>
+                <div class="contact-info">
+                    <a href="mailto:${patient.email}" class="email">
+                        <i class="fas fa-envelope"></i>
+                        ${patient.email || 'N/A'}
+                    </a>
+                    <span class="phone">
+                        <i class="fas fa-phone"></i>
+                        ${patient.phoneNumber || 'N/A'}
+                    </span>
+                </div>
+            </td>
+            <td>${formatDate(patient.dateOfBirth)}</td>
+            <td>${formatDate(patient.lastVisit)}</td>
+            <td>
+                <button class="action-btn" onclick="viewPatient('${patient.id}')">
+                    <i class="fas fa-eye"></i> View
+                </button>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
 
 function formatDate(date) {
     if (!date) return 'N/A';
@@ -1054,6 +1288,39 @@ function formatDate(date) {
             if (e.target === modal) modal.style.display = 'none';
             if (e.target === createAccountModal) createAccountModal.style.display = 'none';
         };
+
+        // Add click handlers for column headers
+document.querySelectorAll('.patients-table thead th').forEach(header => {
+    if (header.textContent !== '' && !header.querySelector('input')) { // Skip checkbox column
+        header.style.cursor = 'pointer';
+        header.addEventListener('click', () => {
+            const sortBy = getSortByFromHeader(header.textContent);
+            const currentOrder = header.getAttribute('data-order') || 'asc';
+            const newOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+            
+            // Update sort indicators
+            document.querySelectorAll('.patients-table thead th').forEach(h => {
+                h.removeAttribute('data-order');
+                h.classList.remove('sort-asc', 'sort-desc');
+            });
+            
+            header.setAttribute('data-order', newOrder);
+            header.classList.add(`sort-${newOrder}`);
+            
+            populatePatientTable(sortBy, newOrder);
+        });
+    }
+});
+
+function getSortByFromHeader(headerText) {
+    const sortMap = {
+        'Patient Name': 'patientName',
+        'Contact Details': 'email',
+        'Date of Birth': 'dateOfBirth',
+        'Last Visit': 'lastVisit'
+    };
+    return sortMap[headerText.trim()] || 'patientName';
+}
     </script>
 </body>
 </html>
