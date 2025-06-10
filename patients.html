@@ -99,7 +99,6 @@
     padding: 20px 0;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
-    width: 280px;
     flex-shrink: 0;
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
@@ -163,92 +162,94 @@
         /* ============================================= */
 
         .sidebar-header {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 30px;
+}
 
-        .sidebar-logo {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            margin-right: -5px;
-            margin-top: -45px;
-            margin-left: -20px;
-            object-fit: cover;
-        }
+.sidebar-logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-right: -5px;
+    margin-top: -45px;
+    margin-left: -20px;
+    object-fit: cover;
+}
 
-        .sidebar-title h2 {
-            color: var(--sidebar-active);
-            margin: 0;
-            font-size: 18px;
-            line-height: 1;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            white-space: nowrap;
-        }
+.sidebar-title h2 {
+    color: var(--sidebar-active);
+    margin: 0;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+}
 
-        .sidebar-title p {
-            color: var(--sidebar-text);
-            font-size: 12px;
-            margin-top: 10px;
-            margin-left: -40px;
-            font-style: italic;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-            white-space: normal;
-        }
+.sidebar-title p {
+    color: var(--sidebar-text);
+    font-size: 12px;
+    margin-top: 10px;
+    margin-left: -40px;
+    font-style: italic;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    white-space: normal;
+}
 
-        .holy-family {
-            color: #1380d3;
-            font-weight: bold;
-        }
+.holy-family {
+    color: #1380d3;
+    font-weight: bold;
+}
 
-        .dental-clinic {
-            color: #00c4cc;
-            font-weight: bold;
-        }
+.dental-clinic {
+    color: #00c4cc;
+    font-weight: bold;
+}
 
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            flex: 1;
-            margin-bottom: 20px;
-        }
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
-        .sidebar-menu li {
-            margin-bottom: 5px;
-        }
+.sidebar-menu li {
+    margin-bottom: 5px;
+}
 
         .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
 
-        .sidebar-menu a:hover, .sidebar-menu a.active {
-            background-color: rgba(0, 191, 255, 0.2);
-            color: white;
-            border-left: 3px solid var(--sidebar-active);
-        }
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background-color: rgba(0, 191, 255, 0.2);
+    color: white;
+    border-left: 3px solid var(--sidebar-active);
+}
 
-        .sidebar-menu i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
+.sidebar-menu i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
 
-        .settings-menu a:hover, .return-home-menu a:hover {
-            background-color: rgba(0, 191, 255, 0.1); /* Hover background color */
-            color: var(--sidebar-text); /* Change text color on hover */
-            border-left: 3px solid var(--sidebar-active); /* Add left border */
-        }
+.settings-menu a:hover, .return-home-menu a:hover {
+    background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
+    color: white; /* Change text color on hover */
+    border-left: 3px solid var(--sidebar-active); /* Add left border */
+    display: block; /* Ensure the hover effect spans the full width */
+    width: 100%; /* Extend hover effect across the full width */
+    padding-right: 25px; /* Maintain alignment */
+}
+
 
 
         .btn {
@@ -410,13 +411,15 @@
         
         .search-filter {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            gap: 20px; /* Increase gap between elements */
             margin-bottom: 20px;
+            width: 100%;
         }
         
         .search {
-            flex: 1;
-            margin-right: 15px;
+            min-width: 200px;
+            width: 80%; /* Reduce width to leave more space */
         }
         
         .search input {
@@ -444,12 +447,58 @@
             cursor: pointer;
             color: var(--text-color);
             transition: all 0.3s ease;
+            white-space: nowrap; /* Prevent filter text from wrapping */
+            flex-shrink: 0; /* Prevent filter from shrinking */
+            margin-left: auto; /* Push filter and create button to the right */
+            position: relative;
         }
         
         .filter:hover {
             background-color: var(--border-color);
         }
         
+        .filter-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    min-width: 180px;
+    z-index: 100;
+    margin-top: 5px;
+    display: none;
+}
+
+.filter-dropdown.show {
+    display: block;
+}
+
+.filter-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.filter-dropdown li {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-dropdown li:hover {
+    background: var(--hover-bg);
+}
+
+.filter-dropdown li.active {
+    background: var(--hover-bg);
+    color: var(--sidebar-active);
+}
+
         .divider {
             height: 1px;
             background-color: var(--border-color);
@@ -800,24 +849,12 @@
     background: linear-gradient(to bottom, var(--sidebar-bg) 0%, #2a3f54 100%);
 }
 
-/* Update sidebar structure for better layout */
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
-
-.sidebar-menu {
-    flex: 1;
-    margin-bottom: 20px;
-}
 
 /* Fix bottom menu styling */
 .bottom-menu {
     margin-top: auto;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 10px;
-    padding-bottom: 20px;
+    padding-bottom: 60px;
 }
 
 .settings-menu, .return-home-menu {
@@ -829,6 +866,26 @@
 /* Remove the absolute positioning */
 .bottom-menu > div {
     position: static;
+}
+
+/* Add highlight style */
+.highlight {
+    background-color: rgba(0, 191, 255, 0.2);
+    padding: 2px;
+    border-radius: 2px;
+}
+
+/* Add this to the CSS section */
+.search-hidden {
+    visibility: hidden;
+    height: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+}
+
+.patients-table tr {
+    height: 72px; /* Set a fixed height for table rows */
 }
     </style>
 </head>
@@ -901,6 +958,13 @@
                         </div>
                         <div class="filter">
                             <i class="fas fa-filter"></i> Filter
+                            <div class="filter-dropdown">
+                                <ul>
+                                    <li data-sort="asc"><i class="fas fa-sort-alpha-down"></i> A-Z</li>
+                                    <li data-sort="desc"><i class="fas fa-sort-alpha-up"></i> Z-A</li>
+                                    <li data-sort="recent"><i class="fas fa-clock"></i> Recent Visit</li>
+                                </ul>
+                            </div>
                         </div>
                         <button class="create-account-btn">
                             <i class="fas fa-user-plus"></i>
@@ -1157,25 +1221,86 @@ function formatDate(date) {
             });
         });
         
-        // Search functionality
+        // Update the search functionality to use visibility instead of display
         const searchInput = document.querySelector('.search input');
         searchInput.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const patientRows = document.querySelectorAll('.patient-row');
+            const searchTerm = this.value.toLowerCase().trim();
+            const rows = document.querySelectorAll('#patientTableBody tr');
             
-            patientRows.forEach(row => {
-                const name = row.querySelector('.patient-name').textContent.toLowerCase();
-                const email = row.querySelector('.contact-details a').textContent.toLowerCase();
-                const phone = row.querySelector('.contact-details div').textContent.toLowerCase();
+            rows.forEach(row => {
+                // Get elements that need highlighting
+                const nameEl = row.querySelector('.patient-name');
+                const idEl = row.querySelector('.patient-id');
+                const emailEl = row.querySelector('.email');
+                const phoneEl = row.querySelector('.phone');
                 
-                if (name.includes(searchTerm) || email.includes(searchTerm) || phone.includes(searchTerm)) {
-                    row.style.display = 'grid';
+                // Store original text if not already stored
+                if (!nameEl.dataset.original) {
+                    nameEl.dataset.original = nameEl.textContent;
+                    idEl.dataset.original = idEl.textContent;
+                    emailEl.dataset.original = emailEl.textContent;
+                    phoneEl.dataset.original = phoneEl.textContent;
+                }
+                
+                // Reset to original text
+                nameEl.innerHTML = nameEl.dataset.original;
+                idEl.innerHTML = idEl.dataset.original;
+                emailEl.innerHTML = emailEl.dataset.original;
+                phoneEl.innerHTML = phoneEl.dataset.original;
+                
+                if (searchTerm) {
+                    // Highlight matching text
+                    const highlightText = (element) => {
+                        const text = element.dataset.original;
+                        const regex = new RegExp(searchTerm, 'gi');
+                        element.innerHTML = text.replace(regex, match => `<span class="highlight">${match}</span>`);
+                    };
+                    
+                    // Check and highlight matches
+                    const matches = [
+                        nameEl.dataset.original.toLowerCase().includes(searchTerm),
+                        idEl.dataset.original.toLowerCase().includes(searchTerm),
+                        emailEl.dataset.original.toLowerCase().includes(searchTerm),
+                        phoneEl.dataset.original.toLowerCase().includes(searchTerm)
+                    ];
+                    
+                    if (matches.some(match => match)) {
+                        row.classList.remove('search-hidden');
+                        if (matches[0]) highlightText(nameEl);
+                        if (matches[1]) highlightText(idEl);
+                        if (matches[2]) highlightText(emailEl);
+                        if (matches[3]) highlightText(phoneEl);
+                    } else {
+                        row.classList.add('search-hidden');
+                    }
                 } else {
-                    row.style.display = 'none';
+                    row.classList.remove('search-hidden');
                 }
             });
+            
+            // Update the visible count
+            const visibleRows = document.querySelectorAll('#patientTableBody tr:not([style*="display: none"])').length;
+            document.getElementById('patientCount').textContent = visibleRows;
         });
 
+        // Update the clear search handler
+        searchInput.addEventListener('search', function() {
+            if (this.value === '') {
+                const rows = document.querySelectorAll('#patientTableBody tr');
+                rows.forEach(row => {
+                    row.classList.remove('search-hidden');
+                    // Reset all highlighted elements to original text
+                    ['patient-name', 'patient-id', 'email', 'phone'].forEach(className => {
+                        const el = row.querySelector('.' + className);
+                        if (el && el.dataset.original) {
+                            el.innerHTML = el.dataset.original;
+                        }
+                    });
+                });
+                document.getElementById('patientCount').textContent = rows.length;
+            }
+        });
+    
         // Get modal elements
         const modal = document.getElementById('patientModal');
         const closeBtn = document.querySelector('.modal-close');
@@ -1321,6 +1446,48 @@ function getSortByFromHeader(headerText) {
     };
     return sortMap[headerText.trim()] || 'patientName';
 }
+
+/* Filter dropdown functionality */
+const filterBtn = document.querySelector('.filter');
+const filterDropdown = document.querySelector('.filter-dropdown');
+const filterOptions = document.querySelectorAll('.filter-dropdown li');
+
+// Toggle filter dropdown
+filterBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    filterDropdown.classList.toggle('show');
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', () => {
+    filterDropdown.classList.remove('show');
+});
+
+// Handle filter selection
+filterOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        const sortType = option.dataset.sort;
+        
+        // Remove active class from all options
+        filterOptions.forEach(opt => opt.classList.remove('active'));
+        // Add active class to selected option
+        option.classList.add('active');
+        
+        switch(sortType) {
+            case 'asc':
+                populatePatientTable('patientName', 'asc');
+                break;
+            case 'desc':
+                populatePatientTable('patientName', 'desc');
+                break;
+            case 'recent':
+                populatePatientTable('lastVisit', 'desc');
+                break;
+        }
+        
+        filterDropdown.classList.remove('show');
+    });
+});
     </script>
 </body>
 </html>
