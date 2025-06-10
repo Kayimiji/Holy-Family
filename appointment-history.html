@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appointment Request Logs - Holy Family Dental Clinic</title>
+    <title>Appointment History - Holy Family Dental Clinic</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -359,24 +359,22 @@ input:checked + .slider:before {
     gap: 6px;
 }
 
-.status-accepted {
+.status-completed {
     background-color: #e3fcef;
     color: #00a651;
     border: 1px solid #00a651;
 }
 
-.status-rejected {
+.status-canceled {
     background-color: #fee7e7;
     color: #dc3545;
     border: 1px solid #dc3545;
 }
 
-.status-accepted i {
-    color: #00a651;
-}
-
-.status-rejected i {
-    color: #dc3545;
+.status-autocanceled {
+    background-color: #fef3cd;
+    color: #856404;
+    border: 1px solid #856404;
 }
 
     .empty-state {
@@ -474,7 +472,7 @@ input:checked + .slider:before {
             </div>
             <ul class="sidebar-menu">
                 <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="appointment-request-logs.html" class="active"><i class="fas fa-clipboard-list"></i> <span>Appointment Request Logs</span></a></li>
+                <li><a href="appointment-request-logs.html"><i class="fas fa-clipboard-list"></i> <span>Appointment Request Logs</span></a></li>
                 <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
                 <li><a href="patients.html"><i class="fas fa-users"></i> <span>Patients</span></a></li>
                 <li><a href="#"><i class="fas fa-chart-line"></i> <span>Reports</span></a></li>
@@ -495,7 +493,7 @@ input:checked + .slider:before {
         <div class="main-content">
             <div class="container">
                 <div class="header">
-                    <h1>Appointment Request Logs</h1>
+                    <h1>Appointment History</h1>
                     <div class="controls">
                         <!-- Theme Toggle -->
                         <div class="theme-toggle">
@@ -512,15 +510,16 @@ input:checked + .slider:before {
                     <!-- Search Box -->
                     <div class="search-box">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="searchInput" placeholder="Search logs...">
+                        <input type="text" id="searchInput" placeholder="Search history...">
                     </div>
 
                     <!-- Filters -->
                     <div class="filter-controls">
                         <select id="statusFilter">
                             <option value="">All Status</option>
-                            <option value="accepted">Accepted</option>
-                            <option value="rejected">Rejected</option>
+                            <option value="completed">Completed</option>
+                            <option value="canceled">Canceled</option>
+                            <option value="autocanceled">Auto Canceled</option>
                         </select>
 
                         <select id="sortBy">
@@ -538,8 +537,6 @@ input:checked + .slider:before {
                             <th>Response Date & Time</th>
                             <th>Status</th>
                             <th>Patient Name</th>
-                            <th>Requested Schedule</th>
-                            <th>Request Date</th>
                             <th>Procedure</th>
                         </tr>
                     </thead>
@@ -558,31 +555,26 @@ input:checked + .slider:before {
             //---------------------------------------
             // Temporary sample data - will be replaced later kanila master ate
 
-            //hindi po talaga ito clickable. logs po ito- logs an official record for appitnment history
+            // hindi po talaga ito clickabel. logs po ito- logs an official record for appitnment history
+
             const logs = [
                 {
                     responseDate: '2024-01-15T10:00:00',
                     patientName: 'Sophia Grace B. Abacco',
-                    appointmentDateTime: '2024-01-20T10:00:00',
-                    timestamp: '2024-01-15T09:30:00',
                     service: 'Teeth Cleaning',
-                    status: 'accepted'
+                    status: 'completed'
                 },
                 {
                     responseDate: '2024-01-14T15:00:00',
                     patientName: 'Sammuel D.V. Cabison',
-                    appointmentDateTime: '2024-01-21T15:30:00',
-                    timestamp: '2024-01-14T14:15:00',
                     service: 'Root Canal',
-                    status: 'rejected'
+                    status: 'canceled'
                 },
                 {
                     responseDate: '2024-01-13T11:15:00',
                     patientName: 'Kristina Casandra S. Samillano',
-                    appointmentDateTime: '2024-01-19T14:30:00',
-                    timestamp: '2024-01-13T11:00:00',
                     service: 'Teeth Extraction',
-                    status: 'rejected'
+                    status: 'autocanceled'
                 }
             ];
 
@@ -596,7 +588,7 @@ const sampleLogs = [
         appointmentDateTime: '2024-01-20T10:00:00',
         timestamp: '2024-01-15T09:30:00',
         service: 'Teeth Cleaning',
-        status: 'accepted'
+        status: 'completed'
     },
     {
         responseDate: '2024-01-14T15:00:00',
@@ -604,7 +596,7 @@ const sampleLogs = [
         appointmentDateTime: '2024-01-21T15:30:00',
         timestamp: '2024-01-14T14:15:00',
         service: 'Root Canal',
-        status: 'accepted'
+        status: 'completed'
     },
     {
         responseDate: '2024-01-13T12:30:00',
@@ -612,7 +604,7 @@ const sampleLogs = [
         appointmentDateTime: '2024-01-19T13:00:00',
         timestamp: '2024-01-13T11:00:00',
         service: 'Dental Checkup',
-        status: 'rejected'
+        status: 'autocanceled'
     }
 ];
 
@@ -640,16 +632,23 @@ if (!localStorage.getItem('appointmentRequestLogs')) {
                         <td><i class="far fa-clock"></i> ${log.responseDate ? formatDateTime(log.responseDate) : '-'}</td>
                         <td>
                             <span class="status-badge status-${log.status.toLowerCase()}">
-                                <i class="fas ${log.status === 'accepted' ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                                <i class="fas ${getStatusIcon(log.status)}"></i>
                                 ${log.status}
                             </span>
                         </td>
                         <td><i class="far fa-user"></i> ${log.patientName}</td>
-                        <td><i class="far fa-calendar-alt"></i> ${formatDateTime(log.appointmentDateTime)}</td>
-                        <td><i class="far fa-calendar-check"></i> ${formatDateTime(log.timestamp)}</td>
                         <td><i class="fas fa-tooth"></i> ${log.service}</td>
                     </tr>
                 `).join('');
+            }
+
+            function getStatusIcon(status) {
+                switch(status.toLowerCase()) {
+                    case 'completed': return 'fa-check-circle';
+                    case 'canceled': return 'fa-times-circle';
+                    case 'autocanceled': return 'fa-clock';
+                    default: return 'fa-circle';
+                }
             }
 
             // Filter and search functionality

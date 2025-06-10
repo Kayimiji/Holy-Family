@@ -94,156 +94,152 @@
         }
         
         .sidebar {
-            background-color: var(--sidebar-bg);
-            color: var(--sidebar-text);
-            padding: 20px 0;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
-            width: 250px;
-            flex-shrink: 0;
-            position: relative;
-        }
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 20px 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
 
-        .main-content {
-            flex-direction: column;
-            padding: 30px;
-            display: flex;
-            flex: 1;
-            transition: background-color 0.3s ease;
-            overflow-y: auto;
-        }
+.main-content {
+    flex-direction: column;
+    padding: 30px;
+    display: flex;
+    flex: 3;
+    transition: background-color 0.3s ease;
+}
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            margin-top: -20px;
-        }
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    margin-top: -20px;
+}
 
-        .return-home-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+.return-home-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
-        .return-home-menu li {
-            margin-bottom: 5px;
-        }
+.return-home-menu li {
+    margin-bottom: 5px;
+}
 
-        .return-home-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
+.return-home-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
 
-        .return-home-menu a:hover, .return-home-menu a.active {
-            background-color: rgba(0, 191, 255, 0.2);
-            color: white;
-            border-left: 3px solid var(--sidebar-active);
-        }
+.return-home-menu a:hover, .return-home-menu a.active {
+    background-color: rgba(0, 191, 255, 0.2);
+    color: white;
+    border-left: 3px solid var(--sidebar-active);
+}
 
-        .return-home-menu i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
+.return-home-menu i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+/* ============================================= */
+/* SIDEBAR COMPONENTS */
+/* ============================================= */
 
-        /* ============================================= */
-        /* SIDEBAR COMPONENTS */
-        /* ============================================= */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 30px;
+}
 
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
+.sidebar-logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-right: -5px;
+    margin-top: -45px;
+    margin-left: -20px;
+    object-fit: cover;
+}
 
-        .sidebar-logo {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            margin-right: -5px;
-            margin-top: -45px;
-            margin-left: -20px;
-            object-fit: cover;
-        }
+.sidebar-title h2 {
+    color: var(--sidebar-active);
+    margin: 0;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+}
 
-        .sidebar-title h2 {
-            color: var(--sidebar-active);
-            margin: 0;
-            font-size: 18px;
-            line-height: 1;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            white-space: nowrap;
-        }
+.sidebar-title p {
+    color: var(--sidebar-text);
+    font-size: 12px;
+    margin-top: 10px;
+    margin-left: -40px;
+    font-style: italic;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    white-space: normal;
+}
 
-        .sidebar-title p {
-            color: var(--sidebar-text);
-            font-size: 12px;
-            margin-top: 10px;
-            margin-left: -40px;
-            font-style: italic;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-            white-space: normal;
-        }
+.holy-family {
+    color: #1380d3;
+    font-weight: bold;
+}
 
-        .holy-family {
-            color: #1380d3;
-            font-weight: bold;
-        }
+.dental-clinic {
+    color: #00c4cc;
+    font-weight: bold;
+}
 
-        .dental-clinic {
-            color: #00c4cc;
-            font-weight: bold;
-        }
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+.sidebar-menu li {
+    margin-bottom: 5px;
+}
 
-        .sidebar-menu li {
-            margin-bottom: 5px;
-        }
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
 
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background-color: rgba(0, 191, 255, 0.2);
+    color: white;
+    border-left: 3px solid var(--sidebar-active);
+}
 
-        .sidebar-menu a:hover, .sidebar-menu a.active {
-            background-color: rgba(0, 191, 255, 0.2);
-            color: white;
-            border-left: 3px solid var(--sidebar-active);
-        }
+.sidebar-menu i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
 
-        .sidebar-menu i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
+.settings-menu a:hover, .return-home-menu a:hover {
+    background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
+    color: white; /* Change text color on hover */
+    border-left: 3px solid var(--sidebar-active); /* Add left border */
+    display: block; /* Ensure the hover effect spans the full width */
+    width: 100%; /* Extend hover effect across the full width */
+    padding-right: 25px; /* Maintain alignment */
+}
 
-        .settings-menu a:hover, .return-home-menu a:hover {
-            background-color: rgba(0, 191, 255, 0.2);
-            color: white;
-            border-left: 3px solid var(--sidebar-active);
-            display: block;
-            width: 100%;
-            padding-right: 25px;
-        }
 
         .btn {
             padding: 8px 15px;
@@ -658,7 +654,7 @@
             <ul class="sidebar-menu">
                 <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
                 <li><a href="appointment-request-logs.html"><i class="fas fa-clipboard-list"></i> <span>Appointment Request Logs</span></a></li>
-                <li><a href="#"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
+                <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
                 <li><a href="patients.html" class="active"><i class="fas fa-users"></i> <span>Patients</span></a></li>
                 <li><a href="#"><i class="fas fa-chart-line"></i> <span>Reports</span></a></li>
                 <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
