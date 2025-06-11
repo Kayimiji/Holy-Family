@@ -9,6 +9,16 @@ let currentWarningModal = null; // Add this at the top with other modal state va
 let today = new Date().toLocaleDateString('en-CA');
 let isAcceptRequest = null;
 let allAppointmentRequests;
+const nowPH = new Date().toLocaleString('en-PH', {
+    timeZone: 'Asia/Manila',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+});
+
 
 function showLoading() {
     document.getElementById('loadingOverlay').style.display = 'flex';
@@ -136,17 +146,80 @@ document.addEventListener('DOMContentLoaded', async function () {
                 }
 
                 console.log("APPOITNMENT ID:", appointment.id)
-                if (combinedDateTime < now && (appointment.status_id === 1 || appointment.status_id == 2)) {
-                    const res = await fetch("http://localhost:3000/appointments/updateStatus", {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            appointment_id: appointment.id,
-                            new_status: 5
+                if (combinedDateTime < now) {
+                    if (appointment.status_id === 1) {
+                        const res = await fetch("http://localhost:3000/appointments/updateStatus", {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                appointment_id: appointment.id,
+                                new_status: 7
+                            })
+                        }).then(response => {
+                            if (!response.ok) {
+                                throw new Error("Failed to update appointment status");
+                            }
+                            // ✅ After updating appointment, create a log
+                            return fetch("http://localhost:3000/logs", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    timestamp: nowPH,
+                                    appointment_id: appointment.id,          // Optional: reference to appointment
+                                    status_update: 7, // Your custom log message
+                                })
+                            });
                         })
-                    });
+                            .then(logResponse => {
+                                if (!logResponse.ok) {
+                                    throw new Error("Failed to create log");
+                                }
+                                console.log("Log created successfully");
+                            })
+                            .catch(error => {
+                                console.error("Error:", error);
+                            });
+                    } else if (appointment.status_id == 2) {
+                        const res = await fetch("http://localhost:3000/appointments/updateStatus", {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                appointment_id: appointment.id,
+                                new_status: 6
+                            })
+                        }).then(response => {
+                            if (!response.ok) {
+                                throw new Error("Failed to update appointment status");
+                            }
+                            // ✅ After updating appointment, create a log
+                            return fetch("http://localhost:3000/logs", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    timestamp: nowPH,
+                                    appointment_id: appointment.id,          // Optional: reference to appointment
+                                    status_update: 6, // Your custom log message
+                                })
+                            });
+                        })
+                            .then(logResponse => {
+                                if (!logResponse.ok) {
+                                    throw new Error("Failed to create log");
+                                }
+                                console.log("Log created successfully");
+                            })
+                            .catch(error => {
+                                console.error("Error:", error);
+                            });
+                    }
                 }
             } catch (error) {
                 console.error("Error processing appointment:", appointment, error);
@@ -758,9 +831,34 @@ async function proceedWithCompletion(id) {
         },
         body: JSON.stringify({
             appointment_id: id,   // 👈 Match the param your backend expects
-            new_status: 3        // 👈 Match field expected by backend
+            new_status: 4        // 👈 Match field expected by backend
         })
-    });
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error("Failed to update appointment status");
+        }
+        // ✅ After updating appointment, create a log
+        return fetch("http://localhost:3000/logs", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                timestamp: nowPH,
+                appointment_id: id,          // Optional: reference to appointment
+                status_update: 4, // Your custom log message
+            })
+        });
+    })
+        .then(logResponse => {
+            if (!logResponse.ok) {
+                throw new Error("Failed to create log");
+            }
+            console.log("Log created successfully");
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
 
     // Update UI
     updateAppointmentsForDate(new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' }));
@@ -889,9 +987,34 @@ async function proceedWithCancellation(id) {
             },
             body: JSON.stringify({
                 appointment_id: id,   // 👈 Match the param your backend expects
-                new_status: 4        // 👈 Match field expected by backend
+                new_status: 5        // 👈 Match field expected by backend
             })
-        });
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to update appointment status");
+            }
+            // ✅ After updating appointment, create a log
+            return fetch("http://localhost:3000/logs", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    timestamp: nowPH,
+                    appointment_id: id,          // Optional: reference to appointment
+                    status_update: 5, // Your custom log message
+                })
+            });
+        })
+            .then(logResponse => {
+                if (!logResponse.ok) {
+                    throw new Error("Failed to create log");
+                }
+                console.log("Log created successfully");
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
 
         // Update UI
         updateAppointmentsForDate(new Date(appointment.date).toLocaleDateString('en-CA'));
@@ -1615,9 +1738,34 @@ async function rejectRequest(id, reason) {
             },
             body: JSON.stringify({
                 appointment_id: id,   // 👈 Match the param your backend expects
-                new_status: 4        // 👈 Match field expected by backend
+                new_status: 3        // 👈 Match field expected by backend
             })
-        });
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to update appointment status");
+            }
+            // ✅ After updating appointment, create a log
+            return fetch("http://localhost:3000/logs", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    timestamp: nowPH,
+                    appointment_id: id,          // Optional: reference to appointment
+                    status_update: 3, // Your custom log message
+                })
+            });
+        })
+            .then(logResponse => {
+                if (!logResponse.ok) {
+                    throw new Error("Failed to create log");
+                }
+                console.log("Log created successfully");
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
 
         // Log the rejection
         logAppointmentAction({
@@ -2025,7 +2173,32 @@ async function confirmAcceptAppointment() {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ appointment_id: currentAcceptId, new_status: 2 })
-        });
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to update appointment status");
+            }
+            // ✅ After updating appointment, create a log
+            return fetch("http://localhost:3000/logs", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    timestamp: nowPH,
+                    appointment_id: currentAcceptId,          // Optional: reference to appointment
+                    status_update: 2, // Your custom log message
+                })
+            });
+        })
+            .then(logResponse => {
+                if (!logResponse.ok) {
+                    throw new Error("Failed to create log");
+                }
+                console.log("Log created successfully");
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
 
     } else if (Array.isArray(currentAcceptIds) && currentAcceptIds.length > 0) {
         // ✅ Bulk flow
@@ -2034,7 +2207,32 @@ async function confirmAcceptAppointment() {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ appointment_id: id, new_status: 2 })
-            });
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to update appointment status");
+                }
+                // ✅ After updating appointment, create a log
+                return fetch("http://localhost:3000/logs", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        timestamp: nowPH,
+                        appointment_id: id,          // Optional: reference to appointment
+                        status_update: 2, // Your custom log message
+                    })
+                });
+            })
+                .then(logResponse => {
+                    if (!logResponse.ok) {
+                        throw new Error("Failed to create log");
+                    }
+                    console.log("Log created successfully");
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
         }
 
         // Optionally store data for bulk SMS

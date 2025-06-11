@@ -519,8 +519,9 @@ input:checked + .slider:before {
                     <div class="filter-controls">
                         <select id="statusFilter">
                             <option value="">All Status</option>
-                            <option value="accepted">Accepted</option>
+                            <option value="scheduled">Scheduled</option>
                             <option value="rejected">Rejected</option>
+                            <option value="autorejected">Autorejected</option>
                         </select>
 
                         <select id="sortBy">
@@ -552,74 +553,64 @@ input:checked + .slider:before {
     </div>
 
     <script>
-        
         document.addEventListener('DOMContentLoaded', function() {
             
             //---------------------------------------
             // Temporary sample data - will be replaced later kanila master ate
 
             //hindi po talaga ito clickable. logs po ito- logs an official record for appitnment history
-            const logs = [
-                {
-                    responseDate: '2024-01-15T10:00:00',
-                    patientName: 'Sophia Grace B. Abacco',
-                    appointmentDateTime: '2024-01-20T10:00:00',
-                    timestamp: '2024-01-15T09:30:00',
-                    service: 'Teeth Cleaning',
-                    status: 'accepted'
-                },
-                {
-                    responseDate: '2024-01-14T15:00:00',
-                    patientName: 'Sammuel D.V. Cabison',
-                    appointmentDateTime: '2024-01-21T15:30:00',
-                    timestamp: '2024-01-14T14:15:00',
-                    service: 'Root Canal',
-                    status: 'rejected'
-                },
-                {
-                    responseDate: '2024-01-13T11:15:00',
-                    patientName: 'Kristina Casandra S. Samillano',
-                    appointmentDateTime: '2024-01-19T14:30:00',
-                    timestamp: '2024-01-13T11:00:00',
-                    service: 'Teeth Extraction',
-                    status: 'rejected'
-                }
-            ];
+            let logs = [];
 
             const tableBody = document.getElementById('logsTableBody');
 
-            // Sample data for demonstration
-const sampleLogs = [
-    {
-        responseDate: null,
-        patientName: 'Sophia Grace B. Abacco',
-        appointmentDateTime: '2024-01-20T10:00:00',
-        timestamp: '2024-01-15T09:30:00',
-        service: 'Teeth Cleaning',
-        status: 'accepted'
-    },
-    {
-        responseDate: '2024-01-14T15:00:00',
-        patientName: 'Sammuel D.V. Cabison',
-        appointmentDateTime: '2024-01-21T15:30:00',
-        timestamp: '2024-01-14T14:15:00',
-        service: 'Root Canal',
-        status: 'accepted'
-    },
-    {
-        responseDate: '2024-01-13T12:30:00',
-        patientName: 'Kristina Casandra S. Samillano',
-        appointmentDateTime: '2024-01-19T13:00:00',
-        timestamp: '2024-01-13T11:00:00',
-        service: 'Dental Checkup',
-        status: 'rejected'
-    }
-];
+            // Automatic call to fetch logs
+            fetch("http://localhost:3000/logs/requestLogs")
+                .then(response => {
+                    if (!response.ok) throw new Error("Failed to fetch logs");
+                    return response.json();
+                })
+                .then(data => {
+                    logs = data;  // Assign fetched logs to the global variable
+                    //filterAndDisplayLogs();  // Trigger UI update
+                    displayLogs(logs)
+                })
+                .catch(error => {
+                    console.error("Error loading logs:", error);
+                });
 
-// Store sample data in localStorage if no existing logs
-if (!localStorage.getItem('appointmentRequestLogs')) {
-    localStorage.setItem('appointmentRequestLogs', JSON.stringify(sampleLogs));
-}
+
+            // Sample data for demonstration
+            //const sampleLogs = [
+            //    {
+            //        responseDate: null,
+            //        patientName: 'Sophia Grace B. Abacco',
+            //        appointmentDateTime: '2024-01-20T10:00:00',
+            //        timestamp: '2024-01-15T09:30:00',
+            //        service: 'Teeth Cleaning',
+            //        status: 'accepted'
+            //    },
+            //    {
+            //        responseDate: '2024-01-14T15:00:00',
+            //        patientName: 'Sammuel D.V. Cabison',
+            //        appointmentDateTime: '2024-01-21T15:30:00',
+            //        timestamp: '2024-01-14T14:15:00',
+            //        service: 'Root Canal',
+            //        status: 'accepted'
+            //    },
+            //    {
+            //        responseDate: '2024-01-13T12:30:00',
+            //        patientName: 'Kristina Casandra S. Samillano',
+            //        appointmentDateTime: '2024-01-19T13:00:00',
+            //        timestamp: '2024-01-13T11:00:00',
+            //        service: 'Dental Checkup',
+            //        status: 'rejected'
+            //    }
+            //];
+
+            // Store sample data in localStorage if no existing logs
+            // if (!localStorage.getItem('appointmentRequestLogs')) {
+            //    localStorage.setItem('appointmentRequestLogs', JSON.stringify(sampleLogs));
+            //}
 
             function displayLogs(logsToDisplay) {
                 if (logsToDisplay.length === 0) {
@@ -637,17 +628,17 @@ if (!localStorage.getItem('appointmentRequestLogs')) {
                 // Update the log display to include icons
                 tableBody.innerHTML = logsToDisplay.map(log => `
                     <tr>
-                        <td><i class="far fa-clock"></i> ${log.responseDate ? formatDateTime(log.responseDate) : '-'}</td>
+                        <td><i class="far fa-clock"></i> ${log.timestamp ? formatDateTime(log.timestamp) : '-'}</td>
                         <td>
                             <span class="status-badge status-${log.status.toLowerCase()}">
-                                <i class="fas ${log.status === 'accepted' ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                                <i class="fas ${log.status.toLowerCase() === 'scheduled' ? 'fa-check-circle' : 'fa-times-circle'}"></i>
                                 ${log.status}
                             </span>
                         </td>
-                        <td><i class="far fa-user"></i> ${log.patientName}</td>
-                        <td><i class="far fa-calendar-alt"></i> ${formatDateTime(log.appointmentDateTime)}</td>
-                        <td><i class="far fa-calendar-check"></i> ${formatDateTime(log.timestamp)}</td>
-                        <td><i class="fas fa-tooth"></i> ${log.service}</td>
+                        <td><i class="far fa-user"></i> ${log.patient_name}</td>
+                        <td><i class="far fa-calendar-alt"></i> ${formatDateTime(combineDateAndTime(log.requested_date, log.requested_time))}</td>
+                        <td><i class="far fa-calendar-check"></i> ${formatDate(log.request_date)}</td>
+                        <td><i class="fas fa-tooth"></i> ${log.procedure}</td>
                     </tr>
                 `).join('');
             }
@@ -655,13 +646,13 @@ if (!localStorage.getItem('appointmentRequestLogs')) {
             // Filter and search functionality
             function filterAndDisplayLogs() {
                 let filteredLogs = [...logs];
-                const searchTerm = searchInput.value.toLowerCase();
-                const statusValue = statusFilter.value.toLowerCase();
+                const searchTerm = searchInput ? searchInput.value.toLowerCase() : null;
+                const statusValue = statusFilter ? statusFilter.value.toLowerCase() : null;
 
                 filteredLogs = filteredLogs.filter(log => {
-                    const matchesSearch = log.patientName.toLowerCase().includes(searchTerm) ||
-                                        log.service.toLowerCase().includes(searchTerm);
-                    const matchesStatus = !statusValue || log.status.toLowerCase() === statusValue;
+                    const matchesSearch = log.patient_name?.toLowerCase().includes(searchTerm) ||
+                                        log.procedure?.toLowerCase().includes(searchTerm);
+                    const matchesStatus = !statusValue || log.status?.toLowerCase() === statusValue;
                     return matchesSearch && matchesStatus;
                 });
 
@@ -674,24 +665,39 @@ if (!localStorage.getItem('appointmentRequestLogs')) {
                         filteredLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                         break;
                     case 'name-asc':
-                        filteredLogs.sort((a, b) => a.patientName.localeCompare(b.patientName));
+                        filteredLogs.sort((a, b) => a.patient_name.localeCompare(b.patient_name));
                         break;
                     case 'name-desc':
-                        filteredLogs.sort((a, b) => b.patientName.localeCompare(a.patientName));
+                        filteredLogs.sort((a, b) => b.patient_name.localeCompare(a.patient_name));
                         break;
                 }
 
                 displayLogs(filteredLogs);
             }
 
+            function combineDateAndTime(dateStr, timeStr) {
+                // Ensure date is in YYYY-MM-DD and time in HH:mm:ss format
+                const datePart = dateStr.split('T')[0]; // "2025-06-12"
+                return `${datePart}T${timeStr}`;        // "2025-06-12T13:00:00"
+            }
+
             function formatDateTime(dateTimeStr) {
                 const date = new Date(dateTimeStr);
-                return date.toLocaleString('en-US', {
+                if (isNaN(date)) return '-';  // fallback if invalid
+                return date.toLocaleString('en-PH', {
                     year: 'numeric',
                     month: 'short',
                     day: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit'
+                });
+            }
+            function formatDate(dateTimeStr) {
+                const date = new Date(dateTimeStr);
+                return date.toLocaleString('en-PH', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
                 });
             }
 
@@ -717,7 +723,7 @@ if (!localStorage.getItem('appointmentRequestLogs')) {
             });
 
             // Initial display
-            filterAndDisplayLogs();
+            //filterAndDisplayLogs();
         });
     </script>
 </body>

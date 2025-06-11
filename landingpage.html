@@ -3323,6 +3323,15 @@
         let currentIndex = 0;
         const imagesToShow = 4;
         const totalSteps = 4;
+        const nowPH = new Date().toLocaleString('en-PH', {
+            timeZone: 'Asia/Manila',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
 
 
 
@@ -4298,7 +4307,32 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(appointmentData)
-                });
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error("Failed to update appointment status");
+                    }
+                    // ✅ After updating appointment, create a log
+                    return fetch("http://localhost:3000/logs", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            timestamp: nowPH,
+                            appointment_id: id,          // Optional: reference to appointment
+                            status_update: 1, // Your custom log message
+                        })
+                    });
+                })
+                    .then(logResponse => {
+                        if (!logResponse.ok) {
+                            throw new Error("Failed to create log");
+                        }
+                        console.log("Log created successfully");
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
 
                 if (!response.ok) {
                 throw new Error('Failed to create appointment');
