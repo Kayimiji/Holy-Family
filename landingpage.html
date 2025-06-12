@@ -274,8 +274,10 @@
             width: 80%;
             overflow: hidden;
             bottom: -70px;
-            right: -30%;
-            max-width: 70%;
+            right: 0;
+            margin: 20px 0; /* Changed from margin: 20px auto */
+            max-width: 100%;
+            padding: 0 0 0 20px; /* Changed padding to only left side */
             
         }
 
@@ -284,15 +286,25 @@
             max-width: 100%;
             height: auto;
             display: flex;
-            transition: transform 0.5s ease-in-out;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 15px 0;
+            gap: 1px;
+            scroll-behavior: smooth;
+            justify-content: flex-start; /* Added to align content left */
         }
 
         .gallery-images img {
             cursor: pointer;
             min-width: 25%;
-            box-sizing: border-box;
-            padding: 5px;
-            border-radius: 50px 0;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 20px;
+            scroll-snap-align: start; /* Changed from center to start */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transform: scale(0.98);
+            transition: transform 0.3s ease;
         }
 
         .gallery-images img.hover {
@@ -2372,9 +2384,9 @@
 
     .image-gallery {
         right: 0;
-        margin: 20px auto;
+        margin: 20px 0; /* Changed from margin: 20px auto */
         max-width: 100%;
-        padding: 0 20px;
+        padding: 0 0 0 20px; /* Changed padding to only left side */
     }
     
 
@@ -2397,16 +2409,312 @@
         display: none;
     }
 
-    /* Make images scroll horizontally with touch */
+   /* Make images scroll horizontally with touch */
     .gallery-images {
         display: flex;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
-        padding: 10px 0;
-        /* Add smooth scrolling */
+        padding: 15px 0;
+        gap: 1px;
         scroll-behavior: smooth;
+        justify-content: flex-start; /* Added to align content left */
     }
+
+    .gallery-images img {
+        min-width: 85%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 20px;
+        scroll-snap-align: start; /* Changed from center to start */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        transform: scale(0.98);
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-images img:active {
+        transform: scale(0.95);
+    }
+
+    .records-bookmark {
+        right: -5px;
+        top: 30%;
+        padding: 10px 20px;
+        font-size: 14px;
+        transform-origin: right top;
+        transform: rotate(-90deg) translateY(-100%);
+        background-color: rgba(0, 191, 255, 0.9);
+        backdrop-filter: blur(5px);
+        z-index: 1100;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .records-bookmark i {
+        font-size: 18px;
+        margin-right: 10px;
+        transform: rotate(90deg);
+    }
+
+
+
+    /* Doctor's Story Section adjustments */
+    .doctora-story {
+        padding: 80px 0;
+    }
+
+    .doctora-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 50px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .doctora-image {
+        order: 1;
+        margin-top: -50px;
+    }
+
+    .image-frame {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .doctora-badge {
+        position: static;
+        transform: translateY(0);
+        margin-top: 10px;
+    }
+
+    .doctora-text {
+        order: 2;
+    }
+
+    /* Services section adjustments */
+    .services-container {
+        padding: 40px 0;
+    }
+
+    .services-grid {
+        margin-left: 0;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+
+    .service-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .service-image {
+        height: 150px;
+    }
+
+    .service-content {
+        padding: 20px;
+    }
+
+    .service-content h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .service-content p {
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    .service-price {
+        padding: 4px 10px;
+        font-size: 14px;
+    }
+
+    /* Contact section adjustments */
+    .contact {
+        padding: 80px 0;
+    }
+
+    .contact-container {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .contact-info {
+        flex: 1;
+    }
+
+    .contact-form {
+        flex: 1;
+    }
+
+    .contact-column {
+        flex: 1;
+        min-width: 100%;
+    }
+
+    .map-container {
+        order: 1;
+        width: 100%;
+        height: 300px;
+    }
+
+    .contact-columns-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    /* Footer adjustments */
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-column {
+        width: 100%;
+        text-align: center;
+    }
+
+    .logo-column {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .footer-logo {
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .footer-logo img {
+        height: 150px;
+    }
+
+    .footer-column h4 {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .footer-column ul li {
+        margin-bottom: 8px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px 0;
+    }
+
+    .footer-bottom p {
+        font-size: 12px;
+    }
+
+    /* Adjust modal styles for mobile */
+    .book-modal {
+        padding: 10px;
+    }
+
+    .book-modal-content {
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .progress-indicator {
+        max-width: 100%;
+    }
+
+    .progress-step {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .step-number {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+
+    .step-label {
+        font-size: 10px;
+    }
+
+    .booking-step h2 {
+        font-size: 20px;
+    }
+
+    .step-description {
+        font-size: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        margin-bottom: 5px;
+        font-size: 12px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .form-group select {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .submit-btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    /* Adjust calendar styles for mobile */
+    .calendar-section {
+        margin: 15px 0;
+    }
+
+    .calendar-header {
+        margin-bottom: 10px;
+    }
+
+    .calendar-header h3 {
+        font-size: 16px;
+    }
+
+    .calendar-nav {
+        font-size: 18px;
+    }
+
+    .calendar-day {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    .calendar-day.selected {
+        padding: 10px;
+    }
+
+    .time-slots-header h4 {
+        font-size: 14px;
+    }
+
+    .time-slots-header p {
+        font-size: 12px;
+    }
+
+    .time-slot {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+
 
     /* Burger menu styles */
 .burger-menu {
