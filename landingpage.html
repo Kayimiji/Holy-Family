@@ -274,10 +274,8 @@
             width: 80%;
             overflow: hidden;
             bottom: -70px;
-            right: 0;
-            margin: 20px 0; /* Changed from margin: 20px auto */
-            max-width: 100%;
-            padding: 0 0 0 20px; /* Changed padding to only left side */
+            right: -30%;
+            max-width: 70%;
             
         }
 
@@ -286,25 +284,15 @@
             max-width: 100%;
             height: auto;
             display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            padding: 15px 0;
-            gap: 1px;
-            scroll-behavior: smooth;
-            justify-content: flex-start; /* Added to align content left */
+            transition: transform 0.5s ease-in-out;
         }
 
         .gallery-images img {
             cursor: pointer;
             min-width: 25%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 20px;
-            scroll-snap-align: start; /* Changed from center to start */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transform: scale(0.98);
-            transition: transform 0.3s ease;
+            box-sizing: border-box;
+            padding: 5px;
+            border-radius: 50px 0;
         }
 
         .gallery-images img.hover {
@@ -313,7 +301,6 @@
             opacity: 0.8;
         
         }
-        
 
 
 
@@ -2297,7 +2284,7 @@
 }
 
 /*---------------------------------------------*/
-            /* Responsive Styles */
+/* Responsive Styles */
 /*--------------------------------------------- */
 /* ----------------------------------------------------------------------------- */
 /*--------------------------- Mobile Responsive Styles ---------------------------*/
@@ -2345,6 +2332,10 @@
     body {
     background-position: 70% 60%; /* Center horizontally, align to top */
     background-size: 350%; /* Increase zoom level */
+    background-attachment: fixed; /* Add this to fix background while scrolling */
+    -webkit-background-size: cover; /* Add for Safari support */
+    -moz-background-size: cover; /* Add for Firefox support */
+    -o-background-size: cover; /* Add for Opera support */
 }
 
     /* Navbar adjustments */
@@ -2436,6 +2427,13 @@
         transform: scale(0.95);
     }
 
+    /* Scroll Down Button adjustments */
+.scroll-down-container {
+    margin: 40px auto;
+    margin-left: 150px;
+    text-align: left;
+}
+
     .records-bookmark {
         right: -5px;
         top: 30%;
@@ -2477,16 +2475,18 @@
     }
 
     .image-frame {
-        width: 100%;
+        width: 50%;
         max-width: 300px;
         height: auto;
         margin: 0 auto;
+        margin-left: 10px;
     }
 
     .doctora-badge {
         position: static;
         transform: translateY(0);
         margin-top: 10px;
+        width: 50%;
     }
 
     .doctora-text {
@@ -2941,6 +2941,8 @@
 body.menu-open {
     overflow: hidden;
 }
+
+
 
 
     </style>
@@ -4076,7 +4078,7 @@ document.querySelectorAll('.menu-item').forEach(item => {
         // Close modal when clicking outside
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
-                closeBookModal();
+                closeModalFunc();
             }
         });
 
