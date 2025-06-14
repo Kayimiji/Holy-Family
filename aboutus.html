@@ -220,74 +220,7 @@
             background: #009acd;
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 992px) {
-            .service-detail-content {
-                flex-direction: column;
-                gap: 40px;
-            }
-            
-            .service-detail-image {
-                order: -1;
-            }
-            
-            .benefits-list {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .services-hero {
-                padding: 150px 0 80px;
-            }
-            
-            .services-hero h1 {
-                font-size: 36px;
-            }
-            
-            .services-hero p {
-                font-size: 18px;
-            }
-            
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .service-detail h2 {
-                font-size: 30px;
-            }
-            
-            .services-cta h2 {
-                font-size: 30px;
-            }
-            
-            .footer-content {
-                flex-direction: column;
-            }
-            
-            .footer-column {
-                min-width: 100%;
-            }
-            
-            .footer-column h4 {
-                margin-bottom: 15px;
-            }
-            
-            .left-links {
-                padding-left: 40%;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .left-links {
-                padding-left: 20%;
-            }
-            
-            .logo {
-                margin-left: 20px;
-                height: 80px;
-            }
-        }
+        
 
         .logo {
             height: 100px;
@@ -327,12 +260,7 @@
             margin-right: 8px;
             transform: rotate(-90deg);
         }
-        @media (max-width: 768px) {
-            .records-bookmark {
-                display: none;
-            }
-        }
-
+        
 
 
 
@@ -557,40 +485,7 @@
             color: #777;
         }
 
-        /* Responsive adjustments for doctor section */
-        @media (max-width: 992px) {
-            .doctor-container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-            
-            .doctor-image {
-                max-width: 500px;
-                margin: 0 auto;
-            }
-            
-            .doctor-info h2 {
-                font-size: 36px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .doctor-section {
-                padding: 40px 0;
-            }
-            
-            .doctor-info h2 {
-                font-size: 32px;
-            }
-            
-            .doctor-title {
-                font-size: 16px;
-            }
-            
-            .doctor-bio {
-                font-size: 15px;
-            }
-        }
+        
 
 
 
@@ -844,72 +739,440 @@
             width: 100%;
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 992px) {
-            .doctora-content {
-                flex-direction: column;
-                gap: 40px;
-            }
-            
-            .doctora-image, .doctora-text {
-                flex: none;
-                width: 100%;
-            }
-            
-            .image-frame {
-                max-width: 500px;
-                margin: 0 auto;
-            }
-        }
 
-        @media (max-width: 768px) {
-            .doctora-story {
-                padding: 80px 0;
-            }
-            
-            .doctora-story h2 {
-                font-size: 32px;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-            
-            .learn-more-btn, .book-consultation-btn {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .contact-form {
-                padding: 25px;
-                margin-top: 30px;
-            }
-            
-            .contact-form h2 {
-                font-size: 22px;
-            }
-            
-            .lastcall h2 {
-                font-size: 28px;
-            }
-            
-            .lastbooknowbtn {
-                padding: 12px 30px;
-                font-size: 16px;
-            }
-            
-            .footer-content {
-                flex-direction: column;
-            }
-            
-            .footer-column {
-                min-width: 100%;
-            }
-            
-            .footer-column h4 {
-                margin-bottom: 15px;
-            }
-        }
+@media (max-width: 768px) {
+
+    
+         /* Burger menu styles */
+.burger-menu {
+    display: none; /* Hidden by default */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001;
+    margin-left: 15px;
+    margin-right: auto;
+    order: -1;
+}
+
+.burger-menu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: #2c3e50; /* Changed from #fff to a darker color */
+    margin: 5px auto;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Added subtle shadow */
+}
+
+.logo {
+        display: none;
+    }
+
+    
+
+.content-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.content-overlay.active {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Mobile menu styles */
+.mobile-menu {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: -100%; /* Start from off-screen instead of using transform */
+    width: 55%;
+    height: 100%;
+    background: #2c3e50;
+    color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transition: left 0.3s ease-in-out; /* Change from transform to left */
+    transition: transform 0.3s ease;
+}
+
+.mobile-menu.active {
+    left: 0;
+    opacity: 1;
+    transform: translateX(0);
+    display: flex;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.close-menu {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.menu-items {
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 80px; /* Add space below header */
+    gap: 20px;
+}
+
+.menu-item {
+    color: #f2f2f2;
+    text-decoration: none;
+    padding: 15px 0;
+    font-size: 24px; /* Increase font size */
+    transition: color 0.3s ease;
+    width: 100%;
+    text-align: center;
+}
+
+.menu-item:hover {
+    color: #00bfff;
+}
+
+.dropdown-btn {
+    background: none;
+    border: none;
+    color: #f2f2f2;
+    padding: 10px 0;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.dropdown-content {
+    display: none;
+    padding-left: 15px;
+    margin-top: 5px;
+}
+
+.dropdown-content a {
+    display: block;
+    color: #f2f2f2;
+    text-decoration: none;
+    padding: 8px 0;
+    font-size: 16px;
+}
+
+.dropdown-content a:hover {
+    color: #00bfff;
+}
+
+.mobile-auth-box {
+    margin-top: auto; /* Push to bottom */
+    padding: 20px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.mobile-auth-box .menu-item {
+    font-size: 20px;
+    padding: 10px 0;
+}
+
+.mobile-menu.active .menu-header {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Menu items staggered animation */
+.menu-items > * {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.3s ease-in-out;
+}
+
+.mobile-menu.active .menu-items > * {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Add staggered delay for menu items */
+.mobile-menu.active .menu-items > *:nth-child(1) { transition-delay: 0.1s; }
+.mobile-menu.active .menu-items > *:nth-child(2) { transition-delay: 0.2s; }
+.mobile-menu.active .menu-items > *:nth-child(3) { transition-delay: 0.3s; }
+.mobile-menu.active .menu-items > *:nth-child(4) { transition-delay: 0.4s; }
+.mobile-menu.active .menu-items > *:nth-child(5) { transition-delay: 0.5s; }
+
+/* Close button positioning */
+.close-menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 32px;
+    cursor: pointer;
+}
+
+
+.records-bookmark {
+    position: fixed;
+    right: -5px;
+    top: 25%;
+    padding: 10px 20px;
+    font-size: 14px;
+    transform-origin: right top;
+    transform: rotate(-90deg) translateY(-100%);
+    background-color: rgba(0, 191, 255, 0.9);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px 5px 0 0;
+    z-index: 1100;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    cursor: move;
+}
+
+/* Add these new styles for left/right positioning */
+.records-bookmark.left {
+    left: -5px;
+    right: auto;
+    transform-origin: left top;
+    transform: rotate(90deg) translateY(-100%);
+}
+
+.records-bookmark.right {
+    right: -5px;
+    left: auto;
+    transform-origin: right top;
+    transform: rotate(-90deg) translateY(-100%);
+}
+
+
+    .burger-menu {
+        display: block;
+    }
+    
+    .left-links, .auth-box {
+        display: none;
+    }
+    
+    /* Burger menu animation when active */
+    .burger-menu.active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    
+    .burger-menu.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .burger-menu.active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .doctor-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    .doctor-image {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+        aspect-ratio: 1;
+        border-radius: 50%;
+    }
+
+    .doctor-image img {
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .doctor-info {
+        text-align: center;
+        padding: 0 15px;
+    }
+
+    .doctor-info h2 {
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+
+    .doctor-title {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .doctor-bio {
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .doctor-quote {
+        font-size: 16px;
+        padding: 15px;
+        margin: 20px 0;
+    }
+
+    .doctor-education {
+        margin-top: 20px;
+    }
+
+    .education-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .education-icon {
+        margin: 0 0 10px 0;
+        font-size: 24px;
+    }
+
+    .education-text h4 {
+        font-size: 15px;
+        margin-bottom: 5px;
+    }
+
+    .education-text p {
+        font-size: 13px;
+    }
+
+    /* About header mobile adjustments */
+    .about-header {
+        padding: 0 15px;
+        margin-bottom: 30px;
+    }
+
+    .about-header h1 {
+        font-size: 42px;
+        text-align: center;
+    }
+
+    /* About image mobile adjustment */
+    .about-image {
+        height: 300px;
+        margin-top: 20px;
+    }
+
+    .lastcall {
+        padding: 20px 15px;
+    }
+
+    .lastcall h2 {
+        font-size: 20px;
+    }
+
+    .lastbooknowbtn {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+
+
+    /* Footer adjustments */
+     .footer {
+    padding: 20px 0 10px !important;
+}
+    .footer-content {
+        grid-template-columns: 1fr; /* Stack all sections vertically */
+        gap: 15px;
+        padding: 0 15px;
+    }
+
+    .footer-logo {
+        margin-left: -25px;
+        text-align: center;
+        margin-top: -15px;
+    }
+
+    .footer-logo img {
+        height: 80px;
+        margin-right: 10px;
+    }
+
+    .footer-section {
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    
+    .footer-logo h3 {
+        font-size: 18px;
+        margin-bottom: 5px;
+        margin-left: -27px;
+        color: #00c4cc;
+    }
+
+    .logo-slogan {
+        font-size: 9px;
+        margin-top: -33px;
+        margin-left: 40px;
+        padding-left: 0;
+    }
+
+    .footer-section h3::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    .footer-column {
+        font-size: 20px;
+    }
+
+    .contact-item {
+        font-size: 12px;
+    }
+
+
+}
+
+
+    /* Hide desktop menu items */
+    .left-links,
+    .right-links {
+        display: none;
+    }
+
+
+body.menu-open {
+    overflow: hidden;
+}
     </style>
 </head>
 <body>
@@ -928,6 +1191,14 @@
         <!-- Logo placed outside of left-links -->
         <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="logo">
         
+         <!-- Burger menu button (mobile only) -->
+<button class="burger-menu" id="burgerMenu">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+
         <!-- Left links (text only) -->
         <div class="left-links">
             <a href="landingpage.html">Home</a>
@@ -1113,7 +1384,80 @@
     </footer>
 
 
+    <!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+    <div class="menu-header">
+        <button class="close-menu" id="closeMenu">&times;</button>
+    </div>
+    <div class="menu-items">
+        <a href="landingpage.html" class="menu-item">Home</a>
+        <div class="mobile-nav-services">
+            <button class="dropdown-btn">
+                Services <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="services.html#oral-prophylaxis-detail"><i class="fas fa-tooth"></i> Oral Prophylaxis</a>
+                <a href="services.html#fluoride-detail"><i class="fas fa-shield-virus"></i> Topical Fluoride</a>
+                <a href="services.html#sealants-detail"><i class="fas fa-teeth-open"></i> Pit and Fissure Sealants</a>
+            </div>
+        </div>
+        <a href="aboutus.html" class="menu-item">About Us</a>
+        <a href="landingpage.html#contact" class="menu-item">Find Us</a>
+        <div class="mobile-auth-box">
+            <a href="signup.html" class="menu-item">Sign Up</a>
+            <a href="login.html" class="menu-item">Log In</a>
+        </div>
+    </div>
+</div>
+
+<div class="content-overlay"></div>
+
+
     <script>
+
+        // Mobile menu functionality
+          burgerMenu.addEventListener('click', function() {
+    this.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+    document.querySelector('.content-overlay').classList.toggle('active');
+    document.body.classList.toggle('menu-open');
+});
+
+// Update the close menu handler
+closeMenu.addEventListener('click', function() {
+    burgerMenu.classList.remove('active');
+    mobileMenu.classList.remove('active');
+    document.querySelector('.content-overlay').classList.remove('active');
+    document.body.classList.remove('menu-open');
+});
+
+// Add click handler for the overlay
+document.querySelector('.content-overlay').addEventListener('click', function() {
+    burgerMenu.classList.remove('active');
+    mobileMenu.classList.remove('active');
+    this.classList.remove('active');
+    document.body.classList.remove('menu-open');
+});
+        
+        // Dropdown functionality for mobile
+        dropdownBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const dropdown = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                icon.style.transform = dropdown.style.display === 'block' ? 'rotate(180deg)' : 'rotate(0deg)';
+            });
+        });
+
+// Close menu when clicking on a menu item
+document.querySelectorAll('.menu-item').forEach(item => {
+    item.addEventListener('click', function() {
+        burgerMenu.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        document.body.classList.remove('menu-open');
+    });
+});
     
     document.addEventListener('DOMContentLoaded', function() {
     const navbar = document.querySelector(".navbar");
@@ -1156,6 +1500,126 @@
                 window.location.href = 'index.html';
             });
         }
+
+
+        // Add this code in your existing <script> section
+document.addEventListener('DOMContentLoaded', function() {
+    // Only enable dragging for mobile devices
+    if (window.matchMedia("(max-width: 768px)").matches) {
+        const recordsBookmark = document.querySelector('.records-bookmark');
+        let isDraggingBookmark = false;
+        let startY, startTop;
+
+        // Load saved position
+        const savedPosition = localStorage.getItem('recordsBookmarkPosition') || 'right';
+        const savedTop = localStorage.getItem('recordsBookmarkTop');
+        
+        if (savedTop) {
+            recordsBookmark.style.top = savedTop;
+        }
+        
+        if (savedPosition === 'left') {
+            recordsBookmark.classList.remove('right');
+            recordsBookmark.classList.add('left');
+            recordsBookmark.style.left = '-5px';
+            recordsBookmark.style.right = 'auto';
+        }
+
+        function handleBookmarkStart(e) {
+            isDraggingBookmark = true;
+            const touch = e.type === 'touchstart' ? e.touches[0] : e;
+            startY = touch.clientY;
+            startTop = recordsBookmark.offsetTop;
+            
+            recordsBookmark.style.transition = 'none';
+            recordsBookmark.style.cursor = 'grabbing';
+            
+            // Prevent default only for touch events
+            if (e.type === 'touchstart') {
+                e.preventDefault();
+            }
+        }
+
+        function handleBookmarkMove(e) {
+            if (!isDraggingBookmark) return;
+            e.preventDefault();
+            
+            const touch = e.type === 'touchmove' ? e.touches[0] : e;
+            const dy = touch.clientY - startY;
+            
+            // Calculate new position with boundaries
+            const newTop = Math.max(
+                100, // Minimum distance from top
+                Math.min(
+                    window.innerHeight - 100, // Maximum distance from bottom
+                    startTop + dy
+                )
+            );
+            
+            recordsBookmark.style.top = `${newTop}px`;
+        }
+
+        function handleBookmarkEnd(e) {
+            if (!isDraggingBookmark) return;
+            isDraggingBookmark = false;
+            
+            recordsBookmark.style.transition = 'all 0.3s ease';
+            recordsBookmark.style.cursor = 'move';
+            
+            // Handle horizontal snap
+            const rect = recordsBookmark.getBoundingClientRect();
+            const position = rect.left < window.innerWidth / 2 ? 'left' : 'right';
+            
+            updateBookmarkPosition(position);
+        }
+
+        function updateBookmarkPosition(position) {
+            recordsBookmark.classList.remove('left', 'right');
+            recordsBookmark.classList.add(position);
+            
+            if (position === 'left') {
+                recordsBookmark.style.left = '-5px';
+                recordsBookmark.style.right = 'auto';
+            } else {
+                recordsBookmark.style.right = '-5px';
+                recordsBookmark.style.left = 'auto';
+            }
+            
+            // Save position
+            localStorage.setItem('recordsBookmarkPosition', position);
+            localStorage.setItem('recordsBookmarkTop', recordsBookmark.style.top);
+        }
+
+        // Add event listeners
+        recordsBookmark.addEventListener('touchstart', handleBookmarkStart, { passive: false });
+        document.addEventListener('touchmove', handleBookmarkMove, { passive: false });
+        document.addEventListener('touchend', handleBookmarkEnd);
+        
+        recordsBookmark.addEventListener('mousedown', handleBookmarkStart);
+        document.addEventListener('mousemove', handleBookmarkMove);
+        document.addEventListener('mouseup', handleBookmarkEnd);
+
+        // Prevent normal click when dragging
+        recordsBookmark.addEventListener('click', function(e) {
+            if (isDraggingBookmark) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
+    }
+});
+
+
+
+
+
+
+//-------------------------------------
+//---------------NEED KO PA AYUSIN YUNG BOOKMARK MOVES(ALSO CAN MOVE TRU LEFT OR RIGHT)----------------------
+//-------------------------------------
+//-------------------------------------
+
+
     </script>
 </body>
 </html>
