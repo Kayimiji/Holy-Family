@@ -2445,23 +2445,7 @@
         cursor: move;
     }
 
-    /* Left position variant */
-    .records-bookmark.left {
-        left: -5px;
-        right: auto;
-        transform: translateY(-50%) rotate(270deg);
-        transform-origin: left top;
-    }
-
-
-/* Right position variant (default) */
-.records-bookmark.right {
-    right: -5px;
-    left: auto;
-    
-    transform-origin: right top;
-}
-
+   
     /* Doctor's Story Section adjustments */
     .doctora-story {
         padding: 80px 0;
@@ -4904,88 +4888,7 @@ document.querySelectorAll('.menu-item').forEach(item => {
             }
         }
 
-// Only enable dragging for mobile devices
-if (window.matchMedia("(max-width: 768px)").matches) {
-    const recordsBookmark = document.querySelector('.records-bookmark');
-    let isDraggingBookmark = false;
-    let startX, startY, startLeft, startTop;
-    let bookmarkRect;
 
-    
-
-    function handleBookmarkStart(e) {
-        isDraggingBookmark = true;
-        const touch = e.type === 'touchstart' ? e.touches[0] : e;
-        
-        bookmarkRect = recordsBookmark.getBoundingClientRect();
-        startX = touch.clientX;
-        startY = touch.clientY;
-        startLeft = bookmarkRect.left;
-        startTop = bookmarkRect.top;
-        
-        recordsBookmark.style.transition = 'none';
-        recordsBookmark.style.cursor = 'grabbing';
-    }
-
-    function handleBookmarkMove(e) {
-        if (!isDraggingBookmark) return;
-        e.preventDefault();
-        
-        const touch = e.type === 'touchmove' ? e.touches[0] : e;
-        const dx = touch.clientX - startX;
-        const dy = touch.clientY - startY;
-        
-        const newTop = Math.max(150, Math.min(window.innerHeight - 150, startTop + dy));
-        
-        recordsBookmark.style.top = `${newTop}px`;
-    }
-
-    function handleBookmarkEnd() {
-        if (!isDraggingBookmark) return;
-        isDraggingBookmark = false;
-        
-        recordsBookmark.style.transition = 'all 0.3s ease';
-        recordsBookmark.style.cursor = 'move';
-        
-        const rect = recordsBookmark.getBoundingClientRect();
-        const viewportWidth = window.innerWidth;
-        
-        // Horizontal snap
-        const position = rect.left + (rect.width / 2) < viewportWidth / 2 ? 'left' : 'right';
-        recordsBookmark.classList.remove('left', 'right');
-        recordsBookmark.classList.add(position);
-        
-        if (position === 'left') {
-            recordsBookmark.style.left = '-5px';
-            recordsBookmark.style.right = 'auto';
-        } else {
-            recordsBookmark.style.right = '-5px';
-            recordsBookmark.style.left = 'auto';
-        }
-        
-        // Save position
-        localStorage.setItem('recordsBookmarkPosition', position);
-        localStorage.setItem('recordsBookmarkTop', recordsBookmark.style.top);
-    }
-
-    // Touch events
-    recordsBookmark.addEventListener('touchstart', handleBookmarkStart, { passive: false });
-    document.addEventListener('touchmove', handleBookmarkMove, { passive: false });
-    document.addEventListener('touchend', handleBookmarkEnd);
-
-    // Mouse events
-    recordsBookmark.addEventListener('mousedown', handleBookmarkStart);
-    document.addEventListener('mousemove', handleBookmarkMove);
-    document.addEventListener('mouseup', handleBookmarkEnd);
-
-    // Prevent click during drag
-    recordsBookmark.addEventListener('click', function(e) {
-        if (isDraggingBookmark) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-    });
-}
 
 
 
