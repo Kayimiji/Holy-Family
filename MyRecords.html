@@ -2413,310 +2413,7 @@
         animation: blink 1s infinite;
     }
 
-    /* ============================================= */
-    /* RESPONSIVE ADJUSTMENTS */
-    /* ============================================= */
-
-    @media (max-width: 768px) {
-        .treatment-history-container th, 
-        .treatment-history-container td {
-            padding: 10px 8px;
-            font-size: 13px;
-        }
-        
-        .action-btn {
-            width: 30px;
-            height: 30px;
-            padding: 6px;
-        }
-    }
-
-    /* ============================================= */
-    /* MOBILE RESPONSIVE STYLES */
-    /* ============================================= */
-
-    @media (max-width: 992px) {
-        .dashboard {
-            flex-direction: column;
-        }
-        
-        .sidebar {
-            width: 100%;
-            height: auto;
-            padding: 10px 0;
-        }
-        
-        .sidebar-header {
-            padding: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .sidebar-logo {
-            width: 60px;
-            height: 60px;
-            margin-top: 0;
-            margin-left: 0;
-        }
-        
-        .sidebar-title h2 {
-            font-size: 16px;
-        }
-        
-        .sidebar-title p {
-            font-size: 11px;
-            margin-left: 0;
-        }
-        
-        .sidebar-menu {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .sidebar-menu li {
-            margin: 5px;
-        }
-        
-        .sidebar-menu a {
-            padding: 8px 12px;
-            border-radius: 5px;
-            border-left: none !important;
-        }
-        
-        .settings-menu, .return-home-menu {
-            position: static;
-            width: 100%;
-        }
-        
-        .main-content {
-            padding: 15px;
-        }
-        
-        .header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-        }
-        
-        .stats-container {
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .stats-container .stat-card {
-            padding: 10px;    
-            height: auto;     
-            flex-direction: column; 
-            align-items: center;    
-            text-align: center;
-            width: 100%;      /* Make cards full width on mobile */
-        }
-
-        .stats-container .stat-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;      /* Make content full width */
-            margin-top: 6px;
-        }
-
-        .stats-container .stat-icon {
-            width: 35px;      
-            height: 35px;
-            font-size: 12px;  /* Reduce icon font size */
-            margin: 0 auto;   /* Center the icon */
-            margin-bottom: 8px; 
-        }
-
-        .stats-container .clock-container {
-            flex-direction: column;  /* Stack items vertically */
-            align-items: center;    /* Center items horizontally */
-            width: 100%;           /* Take full width */
-        }
-
-        .stats-container .clock-icon {
-            margin: 0 auto 8px auto; /* Center icon with bottom margin */
-        }
-
-        .stats-container .stat-value {
-            font-size: 14px;  /* Reduce stat value size */ 
-            margin-bottom: 2px;
-            width: 100%;      /* Full width for text */
-            text-align: center;
-        }
-
-        .stats-container .stat-label {
-            font-size: 10px;  /* Reduce label size */ 
-            width: 100%;      /* Full width for text */
-            text-align: center;
-        }
-
-        .stats-container .stat-date {
-            font-size: 9px;   /* Reduce date size */
-            width: 100%;     /* Full width */
-            justify-content: center;
-            margin-top: 4px;
-        }
-
-        /* Specific clock card adjustments */
-        #clock-card .clock-container {
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-
-        .stats-container .clock-icon {
-            width: 25px;      /* Reduced from 35px */
-            height: 25px;     /* Reduced from 35px */
-            font-size: 10px;  /* Reduced from 12px */
-            margin: 0 auto;   
-            margin-bottom: 6px; /* Reduced from 8px */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #clock-card .clock-icon {
-            width: 20px;      /* Match the above size */
-            height: 20px;     /* Match the above size */
-            margin: 0 auto 40px auto;
-        }
-
-
-        .stat-card {
-            width: 100%;
-            padding: 20px;
-        height: 90px;
-        }
-        
-        .content-container {
-            flex-direction: column;
-        }
-        
-        .left-panel, .right-panel {
-            min-width: 100%;
-            max-width: 100%;
-            margin-top: 0;
-        }
-        
-        .profile-card {
-            min-height: auto;
-            padding: 20px;
-        }
-        
-        .profile-img {
-            width: 80px;
-            height: 80px;
-        }
-        
-        .profile-name {
-            font-size: 16px;
-        }
-        
-        .profile-row {
-            flex-direction: column;
-            gap: 5px;
-        }
-        
-        .profile-value {
-            text-align: left;
-        }
-        
-        .treatment-history-container {
-            height: auto;
-            max-height: 400px;
-        }
-        
-        .treatment-history-container table {
-            display: block;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-        
-        .action-btn {
-            padding: 6px 8px;
-            font-size: 12px;
-        }
-        
-        .card-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-        }
-        
-        .filter-container {
-            width: 100%;
-        }
-        
-        .filter-select {
-            min-width: 100%;
-        }
-        
-        .modal-content {
-            width: 95% !important;
-            padding: 15px !important;
-        }
-        
-        .date-time-container {
-            flex-direction: column;
-        }
-        
-        .time-slots {
-            grid-template-columns: repeat(3, 1fr);
-        }
-        
-        .progress-gallery {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .sidebar-menu {
-            flex-direction: column;
-        }
-        
-        .stat-value {
-            font-size: 22px;
-        }
-        
-        .time-slots {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        
-        .btn {
-            padding: 6px 10px;
-            font-size: 12px;
-        }
-        
-        .profile-edit {
-            max-width: 100%;
-        }
-        
-        .modal-content {
-            width: 98% !important;
-            padding: 10px !important;
-        }
-        
-        #newAppointmentModal .modal-content h2 {
-            font-size: 20px;
-            margin-left: 0;
-        }
-        
-        .progress-indicator {
-            gap: 5px;
-            padding: 0 10px;
-        }
-        
-        .progress-step span {
-            font-size: 10px;
-        }
-        
-        .step-button {
-            padding: 8px 12px;
-            min-width: auto;
-        }
-    }
+    
 
     /* Touch-friendly elements */
     .btn, .action-btn, .time-slot, .calendar-date {
@@ -2756,29 +2453,982 @@
         width: 20%;
     }
 
-    /* Hide less important elements on mobile */
+
+
+
+
+
+
+
+
+
+    
     @media (max-width: 768px) {
-        .sidebar-title p {
-            display: none;
-        }
-        
-        .stat-date {
-            display: none;
-        }
-        
-        .profile-id {
-            font-size: 12px;
-        }
+
+        html, body {
+        height: 100%;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
+
+    .header {
+        margin-top: -10px; 
+        padding: 20px; /* Add padding for better spacing */
+        align-items: center;
+        
+    }
+
+    .header h1 {
+        font-size: 18px; /* Smaller size for mobile */
+        margin-left: 55px; /* Make space for burger menu */
+        margin-bottom: -10px;
+    }
+
+    /* Adjust layout spacing */
+    .main-content {
+        padding: 10px;
+    }
+
+    .main-content {
+        padding: 10px;
+        margin-top: 60px;
+        height: auto;
+    }
+
+    .dashboard {
+        overflow-y: auto;
+        height: auto;
+    }
+
+    .content-container {
+        overflow-y: auto;
+        height: auto;
+    }
+
+    .top-row {
+        margin-top: 20px; /* Adjust top spacing */
+        padding: 0 15px;
+        width: 100%;
+    }
+
+
+    /* Adjust button sizes in header */
+    .header .btn {
+        padding: 6px 10px;
+        margin-left: 30px;
+        font-size: 12px;
+    }
+
+    .theme-toggle {
+        margin-left: -10px;
+    }
+
+    .theme-toggle-label {
+        font-size: 12px;
+    }
+
+    /* Adjust the download button in header */
+    #download-btn {
+        padding: 6px 15px;
+        margin-top: 10px;
+        font-size: 9px;
+    }
+
+    .header .btn i {
+        font-size: 12px;
+    }
+
+    /* Make header more compact */
+    .header > div {
+        gap: 10px;
+    }
+
+        
+        .burger-menu {
+    display: block;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 1px;
+}
+
+.burger-menu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px 0;
+    background-color: #2c3e50; /* Darker color for better visibility */
+    transition: all 0.3s ease;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* Add shadow for better contrast */
+}
+
+/* Active state for burger menu */
+.burger-menu.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+    background-color: #2c3e50;
+}
+
+.burger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-menu.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+    background-color: #2c3e50;
+}
+
+    .content-overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        z-index: 999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .content-overlay.active {
+        display: block;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* Mobile menu styles */
+    .mobile-menu {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: -100%; /* Start from off-screen instead of using transform */
+        width: 55%;
+        height: 100%;
+        background: #2c3e50;
+        color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        transition: left 0.3s ease-in-out; /* Change from transform to left */
+        transition: transform 0.3s ease;
+    }
+
+    .mobile-menu.active {
+        left: 0;
+        opacity: 1;
+        transform: translateX(0);
+        display: flex;
+    }
+
+    .menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .close-menu {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 28px;
+        cursor: pointer;
+    }
+
+    .menu-items {
+        display: flex; 
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-top: 80px; /* Add space below header */
+        gap: 20px;
+    }
+
+    .menu-item {
+        color: #f2f2f2;
+        text-decoration: none;
+        padding: 15px 0;
+        font-size: 24px; /* Increase font size */
+        transition: color 0.3s ease;
+        width: 100%;
+        text-align: center;
+    }
+
+    .menu-item:hover {
+        color: #00bfff;
+    }
+
+    .dropdown-btn {
+        background: none;
+        border: none;
+        color: #f2f2f2;
+        padding: 10px 0;
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        padding-left: 15px;
+        margin-top: 5px;
+    }
+
+    .dropdown-content a {
+        display: block;
+        color: #f2f2f2;
+        text-decoration: none;
+        padding: 8px 0;
+        font-size: 16px;
+    }
+
+    .dropdown-content a:hover {
+        color: #00bfff;
+    }
+
+    .mobile-auth-box {
+        margin-top: auto; /* Push to bottom */
+        padding: 20px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .mobile-auth-box .menu-item {
+        font-size: 20px;
+        padding: 10px 0;
+    }
+
+    .mobile-menu.active .menu-header {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Menu items staggered animation */
+    .menu-items > * {
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .mobile-menu.active .menu-items > * {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    /* Add staggered delay for menu items */
+    .mobile-menu.active .menu-items > *:nth-child(1) { transition-delay: 0.1s; }
+    .mobile-menu.active .menu-items > *:nth-child(2) { transition-delay: 0.2s; }
+    .mobile-menu.active .menu-items > *:nth-child(3) { transition-delay: 0.3s; }
+    .mobile-menu.active .menu-items > *:nth-child(4) { transition-delay: 0.4s; }
+    .mobile-menu.active .menu-items > *:nth-child(5) { transition-delay: 0.5s; }
+
+    /* Close button positioning */
+    .close-menu {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 32px;
+        cursor: pointer;
+    }
+
+    /* Hide desktop sidebar */
+    .sidebar {
+        display: none;
+    }
+
+    .burger-menu {
+        display: block;
+    }
+    
+    .left-links, .auth-box {
+        display: none;
+    }
+    
+    /* Burger menu animation when active */
+    .burger-menu.active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    
+    .burger-menu.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .burger-menu.active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+     .dashboard {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: -100%;
+    transition: top 0.3s ease;
+    z-index: 1000;
+  }
+  
+  .sidebar.active {
+    top: 0;
+  }
+  
+  .main-content {
+    padding: 15px;
+    margin-top: 60px; /* Space for fixed header */
+  }
+  
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    z-index: 900;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .top-row {
+        margin: -90px -15px 0 -15px; /* Negative margins to reach edges */
+        padding: 0; /* Remove padding */
+        width: calc(100% + 30px); /* Extend width */
+    }
+  
+  
+  
+  
+  
+  .left-panel, .right-panel {
+    min-width: 100%;
+    max-width: 100%;
+    margin-top: 0;
+  }
+  
+  .treatment-history-container {
+    height: 400px;
+  }
+  
+  /* Mobile menu styles */
+  .mobile-menu-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1100;
+  }
+  
+  .mobile-menu-toggle span {
+    width: 100%;
+    height: 3px;
+    background: var(--sidebar-active);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+  }
+  
+  .mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 950;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100%;
+    background: var(--sidebar-bg);
+    z-index: 1000;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+  }
+  
+  .mobile-menu.active {
+    left: 0;
+  }
+  
+  .mobile-menu-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  
+  .mobile-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
+  
+  .close-mobile-menu {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .mobile-nav-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .mobile-nav-items li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+  }
+  
+  .mobile-nav-items li a i {
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
+  }
+  
+  .mobile-nav-items li a:hover {
+    background: rgba(0,191,255,0.2);
+    border-left: 3px solid var(--sidebar-active);
+  }
+  
+  /* Table adjustments */
+  .treatment-history-container {
+    overflow-x: auto;
+  }
+  
+  .treatment-history-container table {
+    min-width: 600px;
+  }
+  
+  /* Card adjustments */
+  .card {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .dental-progress-card {
+    margin-top: 0;
+    max-height: none;
+  }
+  
+  /* Modal adjustments */
+  .modal-content {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  /* Hide desktop sidebar on mobile */
+  .sidebar:not(.mobile-menu) {
+    display: none;
+  }
+
+  .btn {
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+  
+  .action-btn {
+    padding: 12px;
+    font-size: 16px;
+  }
+  
+  .time-slot, .calendar-date {
+    padding: 15px;
+  }
+  
+  .profile-row {
+    padding: 15px 0;
+  }
+  
+  /* Prevent zooming on input focus */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+
+   .stats-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 5px;
+        padding: 0; /* Remove padding */
+        margin: 0;
+        width: 100%;
+        overflow-x: hidden;
+        justify-content: stretch; /* Change to stretch */
+    }
+
+    .stat-card {
+        min-width: 0; /* Remove min-width */
+        flex: 1; /* Make cards take equal space */
+        margin: 0; /* Remove margin */
+        padding: 8px;
+        height: 70px;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-card.upcoming-card {
+    min-width: 105px;
+    width: 20px;
+    flex: 0 0 auto;
+    margin: 5px;
+    padding: 8px;
+    height: 70px; /* Reduced height */
+    scroll-snap-align: start;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* Adjust content sizing */
+    display: flex;
+    align-items: center;
+}
+
+.stat-icon.clock-icon {
+        width: 20px; /* Reduced from 60px */
+        height: 20px; /* Reduced from 60px */
+        margin-right: 5px;
+        padding: 4px;
+    }
+
+    /* Adjust the clock face inside the icon */
+    .clock-face {
+        width: 16px; /* Reduced from 40px */
+        height: 16px; /* Reduced from 40px */
+        border: 1px solid rgba(255, 255, 255, 0.8); /* Thinner border */
+    }
+     /* Adjust clock hands */
+    .clock-hour-hand {
+        width: 1px;
+        height: 5px;
+        margin-left: -0.5px;
+    }
+
+    .clock-minute-hand {
+        width: 1px;
+        height: 7px;
+        margin-left: -0.5px;
+    }
+
+    .clock-second-hand {
+        width: 0.5px;
+        height: 8px;
+        margin-left: -0.25px;
+    }
+
+    /* Adjust the clock content spacing */
+    .clock-container {
+        gap: 5px;
+        align-items: center;
+    }
+
+/* Adjust the icon size */
+.stat-card.upcoming-card .stat-icon {
+    width: 25px;
+    height: 25px;
+    font-size: 12px;
+    margin-right: 8px;
+}
+
+/* Adjust text sizes */
+.stat-card.upcoming-card .stat-value {
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.stat-card.upcoming-card .stat-label {
+    font-size: 10px;
+}
+
+.stat-card.upcoming-card .stat-date {
+    font-size: 8px;
+}
+
+.stat-card.upcoming-card .stat-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+}
+
+    .appointments-container .card {
+        max-height: 400px;
+        margin-left: 0;
+    }
+
+    .treatment-history-container {
+        max-height: 350px;
+    }
+
+
+    .treatment-history-container {
+        padding: 5px;
+        max-height: 350px;
+    }
+
+    .treatment-history-container th,
+    .treatment-history-container td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .status-badge {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+
+    .action-btn {
+        padding: 4px 8px;
+        font-size: 12px;
+        min-height: 30px;
+        min-width: 30px;
+    }
+
+    .action-btn i {
+        font-size: 12px;
+    }
+
+    /* Adjust primary buttons */
+    .btn {
+        padding: 6px 12px;
+        font-size: 12px;
+        min-height: 30px;
+    }
+
+    .btn i {
+        font-size: 12px;
+    }
+
+    /* Adjust header buttons */
+    .header .btn {
+        padding: 4px 8px;
+        font-size: 11px;
+        margin-left: 10px;
+    }
+
+    #download-btn {
+        padding: 4px 8px;
+        margin-top: 5px;
+        font-size: 11px;
+    }
+
+    /* Adjust modal buttons */
+    .step-button {
+        padding: 6px 12px;
+        font-size: 12px;
+        min-width: 80px;
+    }
+
+    /* Adjust filter buttons */
+    .filter-btn, .sort-btn {
+        padding: 4px;
+        font-size: 11px;
+    }
+
+    .filter-btn i, .sort-btn i {
+        font-size: 11px;
+    }
+
+    /* Reset button */
+    #undoButton {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+
+    #newAppointmentBtn {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+
+.treatment-history-container {
+        padding: 5px;
+        max-height: 450px;
+        margin-left: -15px; /* Adjust these margins */
+        margin-right: -15px;
+        overflow-x: auto; /* Enable horizontal scroll for table */
+        width: calc(100% + 30px); /* Make it wider */
+    }
+
+    .treatment-history-container table {
+        min-width: 800px; /* Set minimum width */
+        width: 100%;
+        margin: 0; /* Remove any margins */
+    }
+
+
+    .appointments-container {
+        margin-top: 30px; /* Add space after stat cards */
+    }
+
+    /* Adjust card padding */
+    .appointments-container .card {
+        padding: 10px;
+        margin-left: -15px; /* Match container margins */
+        margin-right: -15px;
+        width: calc(100% + 30px);
+        overflow-x: hidden; /* Hide horizontal scroll on container */
+    }
+
+    /* Adjust main content padding */
+    .main-content {
+        padding: 10px;
+    }
+
+    /* Ensure the container fills available space */
+    .content-container {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+
+    .right-panel {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Move dental progress card above profile card */
+    .dental-progress-card {
+        order: -1; /* Negative order moves it to the top */
+        margin-top: 20px !important; /* Override previous margin */
+        margin-bottom: 20px;
+    }
+
+    .profile-card {
+        order: 1;
+        margin-top: 0;
+    }
+
+    /* Adjust dental progress card for mobile */
+    .dental-progress-card {
+        max-height: none;
+        padding: 15px;
+    }
+
+    /* Adjust progress gallery for mobile */
+    .progress-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        height: auto;
+    }
+
+    .progress-item {
+        height: 150px;
+    }
+
+    /* Adjust profile card spacing */
+    .profile-card {
+        margin-bottom: 20px;
+    }
+
+
+}
+    .stats-container::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .stats-container::-webkit-scrollbar-track {
+        background: var(--bg-color);
+    }
+
+    .stats-container::-webkit-scrollbar-thumb {
+        background: var(--sidebar-active);
+        border-radius: 2px;
+    }
+
+
+    /* Adjust icon sizes */
+    .stat-icon {
+        width: 20px; /* Smaller icon */
+        height: 20px;
+        font-size: 10px;
+        margin-right: 4px;
+        padding: 5px;
+    }
+
+    /* Adjust text sizes */
+    .stat-value {
+        font-size: 12px;
+        margin-bottom: 2px;
+        white-space: nowrap;
+    }
+
+    .stat-label {
+        font-size: 8px;
+        white-space: nowrap;
+    }
+
+    .stat-date {
+        font-size: 7px;
+        white-space: nowrap;
+    }
+
+    .time-part {
+        font-size: 12px;
+    }
+
+    .time-ampm {
+        font-size: 10px;
+    }
+
+    .stat-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Adjust time display in clock card */
+    .time-part {
+        font-size: 14px;
+    }
+
+    .time-ampm {
+        font-size: 10px;
+    }
+
+    /* Remove scroll snap */
+    .stats-container {
+        scroll-snap-type: none;
+        -webkit-overflow-scrolling: auto;
+    }
+
+    /* Adjust calendar icon */
+    .calendar-icon {
+        margin-right: 2px;
+    }
+
+    .stat-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1px;
+    }
+
+    /* Remove scrollbar */
+    .stats-container::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    .stats-container::-webkit-scrollbar-track {
+        background: var(--card-bg);
+    }
+
+    .stats-container::-webkit-scrollbar-thumb {
+        background: var(--sidebar-active);
+        border-radius: 2px;
+    }
+
+
+
+
+
+/* Hide desktop menu items */
+.left-links,
+.right-links {
+    display: none;
+}
+
+
+body.menu-open {
+    overflow: hidden;
+}
+
+
+/* Prevent zooming on input focus */
+input, select, textarea {
+    font-size: 16px !important;
+}
+    
+
 
     /* Prevent zooming on input focus */
     input, select, textarea {
         font-size: 16px !important;
     }
+
+
+
     </style>
 </head>
 
 <body>
+
+    <div class="burger-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<div class="mobile-menu">
+    <div class="menu-header">
+        <button class="close-menu">&times;</button>
+    </div>
+    <nav class="menu-items">
+        <a href="MyRecords.html" class="menu-item"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="forms.html" class="menu-item"><i class="fas fa-file-medical"></i> Forms</a>
+        <a href="mygallery.html" class="menu-item"><i class="fas fa-images"></i> My Gallery</a>
+        <div class="mobile-auth-box">
+            <a href="settings.html" class="menu-item"><i class="fas fa-cog"></i> Settings</a>
+            <a href="landingpage.html" class="menu-item logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+</div>
+
+<div class="content-overlay"></div>
+
+
     <div class="dashboard">
         <!-- Sidebar Navigation -->
         <div class="sidebar">
@@ -3417,6 +4067,39 @@
                     
     
         <script>
+
+           document.addEventListener('DOMContentLoaded', function() {
+    const burgerMenu = document.querySelector('.burger-menu');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const contentOverlay = document.querySelector('.content-overlay');
+    const closeMenu = document.querySelector('.close-menu');
+
+    burgerMenu.addEventListener('click', toggleMenu);
+    closeMenu.addEventListener('click', toggleMenu);
+    contentOverlay.addEventListener('click', toggleMenu);
+
+    function toggleMenu() {
+        mobileMenu.classList.toggle('active');
+        contentOverlay.classList.toggle('active');
+        
+        // Animate burger menu
+        burgerMenu.classList.toggle('active');
+        
+        // Prevent body scroll when menu is open
+        if (mobileMenu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    // Close menu when clicking menu items
+    document.querySelectorAll('.mobile-menu .menu-item').forEach(item => {
+        item.addEventListener('click', toggleMenu);
+    });
+});
+
+
             // Global variables
         let selectedDate = null;
         let selectedTime = null;
