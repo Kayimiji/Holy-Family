@@ -178,9 +178,6 @@
             margin-right: 8px;
             transform: rotate(-90deg);
         }
-        
-
-
 
 
         /* Blurred half rectangle */
@@ -2436,7 +2433,7 @@
 
     .records-bookmark {
         right: -5px;
-        top: 30%;
+        top: 25%;
         padding: 10px 20px;
         font-size: 14px;
         transform-origin: right top;
@@ -2445,15 +2442,25 @@
         backdrop-filter: blur(5px);
         z-index: 1100;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        cursor: move;
     }
 
-    .records-bookmark i {
-        font-size: 18px;
-        margin-right: 10px;
-        transform: rotate(90deg);
+    /* Left position variant */
+    .records-bookmark.left {
+        left: -5px;
+        right: auto;
+        transform: translateY(-50%) rotate(270deg);
+        transform-origin: left top;
     }
 
 
+/* Right position variant (default) */
+.records-bookmark.right {
+    right: -5px;
+    left: auto;
+    
+    transform-origin: right top;
+}
 
     /* Doctor's Story Section adjustments */
     .doctora-story {
@@ -2654,92 +2661,149 @@
             margin-bottom: 15px;
     }
 
+
+
+
     /* Contact section adjustments */
     .contact {
-        padding: 40px 20px;
+        padding: 15px 0;
     }
 
     .contact-container {
         flex-direction: column;
-        gap: 30px;
-        padding: 0 15px;
-    }
-
-    /* Move contact form to top */
-    .contact-form {
-        order: 1;
-        flex: 1;
-        width: 100%;
-        margin: 0;
-    }
-
-    /* Contact info in middle */
-    .contact-info {
-        order: 2;
+        gap: 40px;
     }
 
     .contact-info h2 {
-        margin-top: 20px;
-    }
-
-    /* Contact columns in middle */
-    .contact-columns-container {
-        order: 2;
-        margin-top: 20px;
-        padding: 15px;
-    }
-
-    /* Map at bottom */
-    .map-container {
-        order: 3;
-        width: 100%;
-        height: 300px;
-        margin-top: 30px;
-    }
-
-    /* Footer adjustments */
-    .footer-content {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .footer-column {
-        width: 100%;
-        text-align: center;
-    }
-
-    .logo-column {
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
-    .footer-logo {
-        justify-content: center;
+        margin-left: 40px;
+        margin-top: 1px;
         margin-bottom: 10px;
     }
 
-    .footer-logo img {
-        height: 150px;
+    .contact-form {
+        flex: 1;
     }
 
-    .footer-column h4 {
+    .contact-column {
+        flex: 1;
+        min-width: 100%;
+    }
+
+    .map-container {
+        order: 0; /* Moves map to top */
+        margin-top: 20px;
+        margin-bottom: -20px;
+        width: 100%;
+        height: 300px;
+    
+    }
+
+    .contact-columns-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr; 
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .contact-column {
+        min-width: auto; 
+        width: 100%; 
+        padding: 12px;
+        margin: 0; 
+    }
+
+    
+    .contact-column-header h3 {
         font-size: 16px;
-        margin-bottom: 15px;
     }
 
-    .footer-column ul li {
-        margin-bottom: 8px;
+    .contact-detail {
+        font-size: 14px;
     }
 
-    .footer-bottom {
-        flex-direction: column;
-        align-items: center;
-        padding: 15px 0;
+    .social-icons {
+        justify-content: center;
     }
 
-    .footer-bottom p {
+
+    .lastcall {
+        padding: 20px 15px;
+    }
+
+    .lastcall h2 {
+        font-size: 20px;
+    }
+
+    .lastbooknowbtn {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+
+
+    /* Footer adjustments */
+     .footer {
+    padding: 20px 0 10px !important;
+}
+    .footer-content {
+        grid-template-columns: 1fr; /* Stack all sections vertically */
+        gap: 15px;
+        padding: 0 15px;
+    }
+
+    .footer-logo {
+        margin-left: -25px;
+        text-align: center;
+        margin-top: -15px;
+    }
+
+    .footer-logo img {
+        height: 80px;
+        margin-right: 10px;
+    }
+
+    .footer-section {
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    
+    .footer-logo h3 {
+        font-size: 18px;
+        margin-bottom: 5px;
+        margin-left: -27px;
+        color: #00c4cc;
+    }
+
+    .logo-slogan {
+        font-size: 9px;
+        margin-top: -33px;
+        margin-left: 40px;
+        padding-left: 0;
+    }
+
+    .footer-section h3::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    .footer-column {
+        font-size: 20px;
+    }
+
+    .contact-item {
         font-size: 12px;
     }
+
+
+    
+
+    
+
 
     /* Adjust modal styles for mobile */
     .book-modal {
@@ -3034,8 +3098,7 @@
     cursor: pointer;
 }
 
-/* Show burger menu on mobile */
-@media (max-width: 768px) {
+
     .burger-menu {
         display: block;
     }
@@ -3064,7 +3127,7 @@
     .right-links {
         display: none;
     }
-}
+
 
 body.menu-open {
     overflow: hidden;
@@ -4776,6 +4839,15 @@ document.querySelectorAll('.menu-item').forEach(item => {
         }
 
         async function submitNewAppointment() {
+           // const selectedOption = document.querySelector('.option-btn.active')?.getAttribute('data-form');
+
+            // if (!selectedOption) return null;
+
+            // if (selectedOption === 'login') {
+            //    const loginField = document.getElementById('loginEmail').value;
+            //    const password = document.getElementById('loginPassword').value;
+
+            //} else if (selectedOption === 'signup') {
             //    const inputs = document.querySelectorAll('#signupForm input');
             //    const firstName = inputs[0].value;
             //    const lastName = inputs[1].value;
@@ -4831,6 +4903,98 @@ document.querySelectorAll('.menu-item').forEach(item => {
                 window.location.href = 'MyRecords.html';
             }
         }
+
+// Only enable dragging for mobile devices
+if (window.matchMedia("(max-width: 768px)").matches) {
+    const recordsBookmark = document.querySelector('.records-bookmark');
+    let isDraggingBookmark = false;
+    let startX, startY, startLeft, startTop;
+    let bookmarkRect;
+
+    
+
+    function handleBookmarkStart(e) {
+        isDraggingBookmark = true;
+        const touch = e.type === 'touchstart' ? e.touches[0] : e;
+        
+        bookmarkRect = recordsBookmark.getBoundingClientRect();
+        startX = touch.clientX;
+        startY = touch.clientY;
+        startLeft = bookmarkRect.left;
+        startTop = bookmarkRect.top;
+        
+        recordsBookmark.style.transition = 'none';
+        recordsBookmark.style.cursor = 'grabbing';
+    }
+
+    function handleBookmarkMove(e) {
+        if (!isDraggingBookmark) return;
+        e.preventDefault();
+        
+        const touch = e.type === 'touchmove' ? e.touches[0] : e;
+        const dx = touch.clientX - startX;
+        const dy = touch.clientY - startY;
+        
+        const newTop = Math.max(150, Math.min(window.innerHeight - 150, startTop + dy));
+        
+        recordsBookmark.style.top = `${newTop}px`;
+    }
+
+    function handleBookmarkEnd() {
+        if (!isDraggingBookmark) return;
+        isDraggingBookmark = false;
+        
+        recordsBookmark.style.transition = 'all 0.3s ease';
+        recordsBookmark.style.cursor = 'move';
+        
+        const rect = recordsBookmark.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        
+        // Horizontal snap
+        const position = rect.left + (rect.width / 2) < viewportWidth / 2 ? 'left' : 'right';
+        recordsBookmark.classList.remove('left', 'right');
+        recordsBookmark.classList.add(position);
+        
+        if (position === 'left') {
+            recordsBookmark.style.left = '-5px';
+            recordsBookmark.style.right = 'auto';
+        } else {
+            recordsBookmark.style.right = '-5px';
+            recordsBookmark.style.left = 'auto';
+        }
+        
+        // Save position
+        localStorage.setItem('recordsBookmarkPosition', position);
+        localStorage.setItem('recordsBookmarkTop', recordsBookmark.style.top);
+    }
+
+    // Touch events
+    recordsBookmark.addEventListener('touchstart', handleBookmarkStart, { passive: false });
+    document.addEventListener('touchmove', handleBookmarkMove, { passive: false });
+    document.addEventListener('touchend', handleBookmarkEnd);
+
+    // Mouse events
+    recordsBookmark.addEventListener('mousedown', handleBookmarkStart);
+    document.addEventListener('mousemove', handleBookmarkMove);
+    document.addEventListener('mouseup', handleBookmarkEnd);
+
+    // Prevent click during drag
+    recordsBookmark.addEventListener('click', function(e) {
+        if (isDraggingBookmark) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+}
+
+
+
+
+
+//-------------------------------------
+//---------------NEED KO PA AYUSIN YUNG BOOKMARK MOVES(ALSO CAN MOVE TRU LEFT OR RIGHT)----------------------
+//-------------------------------------
+//-------------------------------------
 
 
     </script>
