@@ -2947,9 +2947,13 @@
                                                         </button>
                                                         <div class="dropdown-content">
                                                             <div data-filter="procedure" data-value="all">All Procedures</div>
-                                                            <div data-filter="procedure" data-value="Oral Prophylaxis">Oral Prophylaxis</div>
-                                                            <div data-filter="procedure" data-value="Topical Fluoride">Topical Fluoride</div>
-                                                            <div data-filter="procedure" data-value="Pit and Fissure Sealants">Pit and Fissure Sealants</div>
+                                                            <div data-filter="procedure" data-value="Dental Cleaning">Dental Cleaning</div>
+                                                            <div data-filter="procedure" data-value="Root Canal">Root Canal</div>
+                                                            <div data-filter="procedure" data-value="Tooth Extraction">Tooth Extraction</div>
+                                                            <div data-filter="procedure" data-value="Dental Filling">Dental Filling</div>
+                                                            <div data-filter="procedure" data-value="Dental Crown">Dental Crown</div>
+                                                            <div data-filter="procedure" data-value="Dental Bridge">Dental Bridge</div>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2974,8 +2978,9 @@
                                                         <div class="dropdown-content">
                                                             <div data-filter="status" data-value="all">All Status</div>
                                                             <div data-filter="status" data-value="completed">Completed</div>
-                                                            <div data-filter="status" data-value="upcoming">Upcoming</div>
+                                                            <div data-filter="status" data-value="scheduled">Scheduled</div>
                                                             <div data-filter="status" data-value="canceled">Canceled</div>
+                                                            <div data-filter="status" data-value="autocancelled">Autocancelled</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -3425,6 +3430,15 @@
         let currentStep = 0;
         let userId = null;
         let appointmentRequests = [];
+        const nowPH = new Date().toLocaleString('en-PH', {
+            timeZone: 'Asia/Manila',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
 
         // DOM elements
         const newAppointmentBtn = document.getElementById('newAppointmentBtn');
@@ -4250,7 +4264,32 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(appointmentData)
-                });
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error("Failed to update appointment status");
+                    }
+                    // ✅ After updating appointment, create a log
+                    return fetch("http://localhost:3000/logs", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            timestamp: new Date().toISOString(),
+                            appointment_id: id,          // Optional: reference to appointment
+                            status_update: 1, // Your custom log message
+                        })
+                    });
+                })
+                    .then(logResponse => {
+                        if (!logResponse.ok) {
+                            throw new Error("Failed to create log");
+                        }
+                        console.log("Log created successfully");
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
 
                 if (!response.ok) {
                 throw new Error('Failed to create appointment');
@@ -4405,6 +4444,7 @@
             // Add click handler for the new row
             newRow.addEventListener('click', function(e) {
                 if (!e.target.closest('.action-btn')) {
+                    console.log("DITO111111111111?")
                     openAppointmentModal(appointment.id);
                 }
             });
@@ -4412,6 +4452,8 @@
             // Add click handler for the view button
             newRow.querySelector('.view-btn').addEventListener('click', function(e) {
                 e.stopPropagation();
+                    console.log("DITOO22222222222?")
+
                 openAppointmentModal(appointment.id);
             });
             
@@ -4450,9 +4492,10 @@
             const allAppointments = Array.from(document.querySelectorAll('.appointment-row'));
             const upcomingAppointments = allAppointments.filter(row => {
                 const statusBadge = row.querySelector('td:nth-child(4) .status-badge');
-                return statusBadge && statusBadge.textContent.trim().toLowerCase() === 'upcoming';
+                return statusBadge && statusBadge.textContent.trim().toLowerCase() === 'scheduled';
             });
 
+            console.log("UPCOMING APPO:", upcomingAppointments)
             if (upcomingAppointments.length === 0) {
                 upcomingList.innerHTML = '<tr><td colspan="4" style="text-align: center;">No upcoming appointments</td></tr>';
             } else {
@@ -4523,6 +4566,9 @@
         }
 
         function openAppointmentModal(appointmentId) {
+            console.log("NAGOPEN BA")
+            appointmentModal.classList.remove('hidden');
+            appointmentModal.classList.add('active');
             const appointment = appointments[appointmentId];
             if (appointment) {
                 document.querySelector('.modal-status-badge').className = `modal-status-badge status-${appointment.status}`;
