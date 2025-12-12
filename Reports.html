@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SMART DENTISTRY - Reports</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--accent:#00d4ff;--muted:#f8f9fb;--dark:#2c3e50;}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Poppins",sans-serif;background:var(--muted);color:#222}
+    .sidebar{position:fixed;top:0;left:0;width:220px;height:100vh;background:var(--dark);color:#fff;display:flex;flex-direction:column;justify-content:space-between}
+    .sidebar .logo{padding:20px;text-align:center;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.06)}
+    .sidebar-menu a 
+     /* Sidebar Container */
+.sidebar {
+    width: 260px;
+    background-color: #2d3e50;   /* Dark blue-gray */
+    min-height: 100vh;
+    padding: 20px 0;
+    color: #ffffff;
+    font-family: "Inter", sans-serif;
+}
+
+/* Logo / Title Section */
+.sidebar .logo-container {
+    text-align: left;
+    padding-left: 20px;
+    margin-bottom: 30px;
+}
+
+.sidebar .logo-container img {
+    width: 55px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.sidebar .logo-container h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    color: #37c2ff;
+}
+
+/* Menu Items */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.sidebar ul li i,
+.sidebar ul li svg {
+    color: #e6e6e6;   /* Light icon color */
+    font-size: 18px;
+}
+
+.sidebar ul li:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Bottom Items (Settings & Return Home) */
+.sidebar .bottom-links {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sidebar .bottom-links li {
+    padding: 12px 20px;
+}
+
+/* Active Link */
+.sidebar ul li.active {
+    background: rgba(255, 255, 255, 0.15);
+    border-left: 4px solid #37c2ff;
+    padding-left: 16px;
+}
+   
+    .sidebar ul{list-style:none;padding:0 0 20px 0}
+    .sidebar li{padding:12px 20px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:0.2s;color:#fff}
+    .sidebar li:hover,.sidebar li.active{background:var(--accent);color:#000;border-radius:0 30px 30px 0}
+    .sidebar .bottom{padding:18px;font-size:14px}
+    .main{margin-left:220px;padding:24px}
+    .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .header h1{color:var(--accent);font-size:20px}
+    .header .actions{display:flex;gap:12px;align-items:center}
+    .actions i{font-size:18px;color:var(--accent);cursor:pointer}
+    .filters{display:flex;gap:10px;align-items:center;margin-bottom:14px}
+    .filters input, .filters select{padding:8px;border-radius:6px;border:1px solid #ddd}
+    .summary{display:flex;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+    .card{background:#fff;padding:14px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.06);min-width:180px}
+    .card h4{margin-bottom:6px;font-size:13px;color:#666}
+    .card .value{font-weight:700;font-size:18px}
+    .layout{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+    .chart-box{background:#fff;padding:16px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.06)}
+    .table-box{background:#fff;padding:12px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.06);margin-top:16px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #eee;font-size:13px}
+    .controls{display:flex;gap:10px;align-items:center}
+    .btn{background:var(--accent);color:#000;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div>
+      <div class="logo"><i class="fa-solid fa-tooth"></i><br/>SMART<br/>DENTISTRY</div>
+      <ul>
+        <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
+        <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
+        <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+        <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+        <li><a href="Data-Back-Up.html"><i class="fas fa-database"></i> Data Backup</a></li>
+        <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+         <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
+        <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+     <!-- Add Return to Home menu at the bottom -->
+            <div style="position: absolute; bottom: 20px; width: 13%;">
+                <div style="position: absolute; bottom: 20px; width: 100%;">
+                    <ul class="sidebar-menu settings-menu">
+                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                    <ul class="sidebar-menu return-home-menu">
+                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                    </ul>
+                </div>
+            </div>
+  </aside>
+
+  <main class="main">
+    <div class="header">
+      <h1>Reports</h1>
+      <div class="actions">
+        <div style="text-align:right">
+          <div style="font-size:12px;color:#666">Reports Center</div>
+          <div style="font-weight:700">Dr. Arvin</div>
+        </div>
+        <i class="fa-regular fa-bell" title="Notifications"></i>
+        <i class="fa-regular fa-circle-user" title="Profile"></i>
+      </div>
+    </div>
+
+    <div class="filters">
+      <label><strong>Date:</strong></label>
+      <input type="date" id="fromDate">
+      <input type="date" id="toDate">
+      <label><strong>Type:</strong></label>
+      <select id="reportType">
+        <option value="income">Income</option>
+        <option value="appointments">Appointments</option>
+        <option value="balance">Outstanding Balances</option>
+      </select>
+      <div style="margin-left:auto" class="controls">
+        <button class="btn" id="generateBtn">Generate</button>
+        <button class="btn" id="exportBtn">Export CSV</button>
+      </div>
+    </div>
+
+    <div class="summary">
+      <div class="card"><h4>Total Items</h4><div class="value" id="totalItems">0</div></div>
+      <div class="card"><h4>Total Amount</h4><div class="value" id="totalAmount">PHP 0.00</div></div>
+      <div class="card"><h4>Period</h4><div class="value" id="periodText">—</div></div>
+    </div>
+
+    <div class="layout">
+      <div>
+        <div class="chart-box">
+          <h4 style="margin:0 0 8px 0;color:#666">Monthly Summary</h4>
+          <canvas id="reportsChart" height="160"></canvas>
+        </div>
+
+        <div class="table-box" id="tableBox">
+          <h4 style="margin:0 0 8px 0;color:#666">Report Entries</h4>
+          <table id="reportsTable">
+            <thead>
+              <tr><th>#</th><th>Date</th><th>Patient</th><th>Type</th><th>Amount</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <h4 style="margin:0 0 8px 0;color:#666">Top 5 Procedures (by revenue)</h4>
+        <canvas id="topProcedures" height="200"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // sample data
+    const sample = [
+      {date:'2025-10-01', patient:'John D.', type:'Income', amount:1500},
+      {date:'2025-10-02', patient:'Maria S.', type:'Income', amount:2400},
+      {date:'2025-10-03', patient:'Patient #324', type:'Balance', amount:320},
+      {date:'2025-10-05', patient:'Anna L.', type:'Appointment', amount:0},
+      {date:'2025-10-12', patient:'Paul R.', type:'Income', amount:900}
+    ];
+
+    const reportsTableBody = document.querySelector('#reportsTable tbody');
+    const totalItemsEl = document.getElementById('totalItems');
+    const totalAmountEl = document.getElementById('totalAmount');
+    const periodText = document.getElementById('periodText');
+
+    function renderTable(data){
+      reportsTableBody.innerHTML = '';
+      data.forEach((r,i)=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${i+1}</td><td>${r.date}</td><td>${r.patient}</td><td>${r.type}</td><td>PHP ${r.amount.toFixed(2)}</td>`;
+        reportsTableBody.appendChild(tr);
+      });
+      totalItemsEl.textContent = data.length;
+      const total = data.reduce((s,o)=>s+o.amount,0);
+      totalAmountEl.textContent = 'PHP ' + total.toFixed(2);
+    }
+
+    // initial render
+    renderTable(sample);
+    periodText.textContent = 'Oct 1, 2025 – Oct 31, 2025';
+
+    // simple charts
+    const reportsCtx = document.getElementById('reportsChart').getContext('2d');
+    const reportsChart = new Chart(reportsCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Week 1','Week 2','Week 3','Week 4'],
+        datasets: [{label:'Revenue', data:[4500,7200,5300,6100], backgroundColor:'#00d4ff'}]
+      },
+      options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
+    });
+
+    const topCtx = document.getElementById('topProcedures').getContext('2d');
+    new Chart(topCtx, {
+      type: 'doughnut',
+      data: {labels:['Filling','Cleaning','Extraction','Crown','Whitening'], datasets:[{data:[3200,2600,1800,1500,900], backgroundColor:['#00d4ff','#32cd32','#ffcd3c','#9b59b6','#ff7f50']}]},
+      options:{responsive:true,plugins:{legend:{position:'bottom'}}}
+    });
+
+    // Export visible table rows to CSV
+    function exportTableToCSV(filename = 'reports.csv'){
+      const rows = Array.from(document.querySelectorAll('#reportsTable tr'));
+      const csv = rows.map(r=>{
+        return Array.from(r.querySelectorAll('th,td')).map(cell => `"${(cell.textContent||'').replace(/"/g,'""')}"`).join(',');
+      }).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', filename);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+
+    document.getElementById('exportBtn').addEventListener('click', ()=>exportTableToCSV());
+    document.getElementById('generateBtn').addEventListener('click', ()=>{
+      // minimal filter: filter by report type and date range
+      const from = document.getElementById('fromDate').value;
+      const to = document.getElementById('toDate').value;
+      const type = document.getElementById('reportType').value;
+      let filtered = sample.slice();
+      if(type){
+        if(type === 'income') filtered = filtered.filter(r => r.type.toLowerCase().includes('income'));
+        if(type === 'appointments') filtered = filtered.filter(r => r.type.toLowerCase().includes('appointment'));
+        if(type === 'balance') filtered = filtered.filter(r => r.type.toLowerCase().includes('balance'));
+      }
+      if(from) filtered = filtered.filter(r => r.date >= from);
+      if(to) filtered = filtered.filter(r => r.date <= to);
+      renderTable(filtered);
+      // update charts with simple totals based on filtered data (demo only)
+      const weeklyTotals = [0,0,0,0];
+      filtered.forEach(r=>{
+        const day = new Date(r.date).getDate();
+        const week = Math.min(3, Math.floor((day-1)/7));
+        weeklyTotals[week] += r.amount;
+      });
+      reportsChart.data.datasets[0].data = weeklyTotals;
+      reportsChart.update();
+      periodText.textContent = (from||'—') + ' – ' + (to||'—');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Dentistry - Terms of Service</title>
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* CSS Variables */
+:root {
+  --sidebar-bg: #2C3E50;
+  --header-bg: #67CAFB;
+  --accent-color: #67CAFB;
+  --text-dark: #2C3E50;
+  --text-light: #6C757D;
+  --border: #E0E6ED;
+  --background: #F8F9FA;
+  --white: #FFFFFF;
+  --gray: #CCCCCC;
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+}
+/* Reset & Base Styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Poppins', sans-serif; background-color: var(--background); color: var(--text-dark); line-height: 1.6; overflow-x: hidden; }
+/* Container Layout */
+.container { display: flex; min-height: 100vh; }
+/* Sidebar Styles */
+.sidebar { background-color: var(--sidebar-bg); color: var(--white); width: 260px; display: flex; flex-direction: column; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; }
+.logo { padding: var(--spacing-lg) var(--spacing-md); border-bottom: 1px solid rgba(255,255,255,0.1); }
+.logo h1 { font-size: var(--text-xl); font-weight: 700; color: var(--white); text-align: center; }
+.nav-menu { list-style: none; flex: 1; padding: var(--spacing-md) 0; }
+.nav-item { margin-bottom: var(--spacing-xs); }
+.nav-item a { display: flex; align-items: center; padding: var(--spacing-sm) var(--spacing-md); color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease; }
+.nav-item a:hover { background-color: rgba(255,255,255,0.1); color: var(--white); }
+.nav-item i { width: 20px; margin-right: var(--spacing-sm); font-size: var(--text-base); text-align: center; }
+.sidebar-footer { padding: var(--spacing-md); border-top: 1px solid rgba(255,255,255,0.1); }
+/* Main Content */
+.main-content { flex: 1; margin-left: 260px; display: flex; flex-direction: column; min-height: 100vh; }
+/* Header */
+.content-header { background-color: var(--header-bg); color: var(--white); padding: var(--spacing-md) var(--spacing-lg); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.header-content { display: flex; align-items: center; gap: var(--spacing-md); }
+.back-button { color: var(--white); text-decoration: none; font-size: var(--text-lg); padding: var(--spacing-xs); border-radius: var(--radius-sm); transition: background-color 0.3s ease; }
+.back-button:hover { background-color: rgba(255,255,255,0.2); }
+.content-header h1 { font-size: var(--text-xl); font-weight: 700; margin: 0; }
+/* Terms Container */
+.terms-container { flex: 1; background-color: var(--white); margin: var(--spacing-lg); padding: var(--spacing-xl); border-radius: var(--radius-lg); box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow-y: auto; max-height: calc(100vh - 200px); }
+.terms-section { margin-bottom: var(--spacing-xl); padding-bottom: var(--spacing-lg); border-bottom: 1px solid var(--border); }
+.terms-section:last-of-type { border-bottom: none; }
+.terms-section h2 { font-size: var(--text-2xl); font-weight: 700; color: var(--text-dark); margin-bottom: var(--spacing-sm); text-align: center; }
+.terms-section h3 { font-size: var(--text-lg); font-weight: 600; color: var(--text-dark); margin-bottom: var(--spacing-md); padding-left: var(--spacing-sm); border-left: 4px solid var(--accent-color); }
+.subtitle { text-align: center; font-size: var(--text-base); color: var(--text-light); margin-bottom: var(--spacing-lg); font-weight: 500; }
+.intro-text { font-size: var(--text-base); margin-bottom: var(--spacing-md); text-align: justify; }
+.terms-section p { font-size: var(--text-base); margin-bottom: var(--spacing-md); text-align: justify; line-height: 1.7; }
+.terms-section ul { margin: var(--spacing-md) 0; padding-left: var(--spacing-lg); }
+.terms-section li { margin-bottom: var(--spacing-sm); font-size: var(--text-base); line-height: 1.6; text-align: justify; }
+.terms-section li:last-child { margin-bottom: 0; }
+.terms-section strong { color: var(--text-dark); font-weight: 600; }
+.terms-section a { color: var(--accent-color); text-decoration: none; transition: color 0.3s ease; }
+.terms-section a:hover { color: var(--sidebar-bg); text-decoration: underline; }
+.address { font-style: italic; color: var(--text-light); }
+/* Final Note Section */
+.final-note { background: linear-gradient(135deg, #E4F3FF 0%, #F0F8FF 100%); padding: var(--spacing-lg); border-radius: var(--radius-md); border-left: 4px solid var(--accent-color); margin-top: var(--spacing-xl); }
+.final-note h3 { color: var(--accent-color); border-left-color: var(--accent-color); }
+/* Action Buttons */
+.action-buttons { display: flex; justify-content: center; gap: var(--spacing-md); padding: var(--spacing-lg); background-color: var(--white); border-top: 1px solid var(--border); }
+.btn { padding: var(--spacing-md) var(--spacing-xl); border: none; border-radius: var(--radius-lg); font-family: 'Poppins', sans-serif; font-size: var(--text-base); font-weight: 600; cursor: pointer; transition: all 0.3s ease; min-width: 150px; text-transform: uppercase; letter-spacing: 0.5px; }
+.btn-accept { background-color: var(--accent-color); color: var(--white); }
+.btn-accept:hover { background-color: #5ab0e0; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+.btn-decline { background-color: var(--gray); color: var(--text-dark); }
+.btn-decline:hover { background-color: #b3b3b3; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+/* Mobile Menu Toggle */
+.mobile-menu-toggle { display: none; position: fixed; top: var(--spacing-md); left: var(--spacing-md); z-index: 1001; background-color: var(--accent-color); color: var(--white); border: none; border-radius: var(--radius-sm); width: 44px; height: 44px; align-items: center; justify-content: center; font-size: var(--text-lg); cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container { flex-direction: column; }
+  .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; width: 280px; }
+  .sidebar.mobile-open { transform: translateX(0); }
+  .main-content { margin-left: 0; }
+  .mobile-menu-toggle { display: flex; }
+  .terms-container { margin: var(--spacing-md); padding: var(--spacing-lg); max-height: calc(100vh - 180px); }
+  .action-buttons { flex-direction: column; align-items: center; }
+  .btn { width: 100%; max-width: 300px; }
+}
+@media (max-width: 480px) {
+  .content-header { padding: var(--spacing-md); }
+  .content-header h1 { font-size: var(--text-lg); }
+  .terms-container { margin: var(--spacing-sm); padding: var(--spacing-md); }
+  .terms-section h2 { font-size: var(--text-xl); }
+  .terms-section h3 { font-size: var(--text-base); }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- Left Sidebar -->
+  <aside class="sidebar">
+    <div class="logo"><h1>SMART DENTISTRY</h1></div>
+    <nav class="nav-menu">
+      <ul>
+        <li class="nav-item"><a href="#"><i class="fas fa-clinic-medical"></i> <span>My Clinic</span></a></li>
+        <li class="nav-item"><a href="#"><i class="fas fa-calendar-alt"></i> <span>Appointment</span></a></li>
+        <li class="nav-item"><a href="#"><i class="fas fa-user-injured"></i> <span>Patient</span></a></li>
+        <li class="nav-item"><a href="#"><i class="fas fa-money-bill-wave"></i> <span>Finance</span></a></li>
+        <li class="nav-item"><a href="#"><i class="fas fa-database"></i> <span>Data Backup</span></a></li>
+        <li class="nav-item"><a href="#"><i class="fas fa-chart-bar"></i> <span>Reports</span></a></li>
+        <li class="nav-item"><a href="#"><i class="fas fa-shield-alt"></i> <span>Privacy Policy</span></a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="nav-item"><a href="#"><i class="fas fa-cog"></i> <span>Settings</span></a></div>
+      <div class="nav-item"><a href="#"><i class="fas fa-sign-out-alt"></i> <span>Log out</span></a></div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <header class="content-header">
+      <div class="header-content">
+        <a href="#" class="back-button"><i class="fas fa-arrow-left"></i></a>
+        <h1>Terms of service and Condition</h1>
+      </div>
+    </header>
+
+    <!-- Terms Container -->
+    <div class="terms-container">
+      <!-- Section 0 -->
+      <section class="terms-section">
+        <h2>SMART DENTISTRY</h2>
+        <p class="subtitle">Terms of Service and User Agreement<br>Effective Date: 2026 - 10 - 11</p>
+        <p class="intro-text">Welcome to SMART DENTISTRY, a web-based dental management platform developed to simplify clinic operations, patient record management, and appointment scheduling.</p>
+        <p class="intro-text">These Terms of Service ("Terms", "Agreement") govern your use of the SMART DENTISTRY website, application, and all associated services (collectively referred to as the "Service").</p>
+        <p class="intro-text">By registering or using the Service, you agree to be bound by these Terms. Please read them carefully before using the platform.</p>
+      </section>
+
+      <!-- Section 1 -->
+      <section class="terms-section">
+        <h3>1. Acceptance of Terms</h3>
+        <p>By accessing or using SMART DENTISTRY, you acknowledge that you have read, understood, and agree to comply with these Terms and any policies if you need it. Including our Privacy Policy.</p>
+        <p>If you do not agree with any part of these Terms, you must discontinue using the Service immediately.</p>
+      </section>
+
+      <!-- Section 2 -->
+      <section class="terms-section">
+        <h3>2. Description of Service</h3>
+        <p>SMART DENTISTRY provides a digital dental record management system that allows clinics to store, organize, and manage patient data, appointments, and treatment histories securely.</p>
+        <p>The platform may also include features such as:</p>
+        <ul>
+          <li>Online appointment booking;</li>
+          <li>Patient record tracking;</li>
+          <li>Cloud-based data storage;</li>
+          <li>Role-based access staff;</li>
+          <li>System analytics and AI-assisted insights (if available).</li>
+        </ul>
+        <p>SMART DENTISTRY is intended for licensed dental professionals, clinic staff, and authorized users only.</p>
+      </section>
+
+      <!-- Section 3 -->
+      <section class="terms-section">
+        <h3>3. User Accounts and Responsibilities</h3>
+        <p><strong>1) Account registration</strong></p>
+        <p>To use the Service, users must create an account by providing accurate and complete information. Users are responsible for maintaining the confidentiality of their login credentials and for all activities that occur under their account.</p>
+      </section>
+
+      <!-- Section 4 -->
+      <section class="terms-section">
+        <h3>4. Account Security</h3>
+        <p>You agree to:</p>
+        <ul>
+          <li>Keep your username and password confidential;</li>
+          <li>Notify SMART DENTISTRY immediately of any unauthorized access or breach;</li>
+          <li>Notify SMART DENTISTRY immediately on behalf of public service.</li>
+        </ul>
+        <p>SMART DENTISTRY will not be liable for any loss or damage arising from unauthorized use of your account.</p>
+      </section>
+
+      <!-- Section 5 -->
+      <section class="terms-section">
+        <h3>5. User Obligations</h3>
+        <p>By using the Service, you agree to:</p>
+        <ul>
+          <li>Use the platform only for dental and professional dental purposes;</li>
+          <li>Avoid sharing patient information without proper authorization;</li>
+          <li>Refrain from uploading harmful, illegal or misleading data;</li>
+          <li>Respect patient confidentiality and data protection standards;</li>
+          <li>Follow ethical guidelines in line with the Data Privacy Act of 2012 and applicable laws.</li>
+        </ul>
+      </section>
+
+      <!-- Section 6 -->
+      <section class="terms-section">
+        <h3>6. Data Ownership and Usage</h3>
+        <p>All patient and clinic records stored within SMART DENTISTRY remain the sole property of their respective owners (the clinic or practitioner). SMART DENTISTRY does not claim ownership of uploaded contents.</p>
+        <p>By using the system, you grant SMART DENTISTRY a limited license to store, process, and transmit data solely for the purpose of providing and improving the Service.</p>
+        <p>For details on how data is collected and protected, refer to our Privacy Policy.</p>
+      </section>
+
+      <!-- Section 7 -->
+      <section class="terms-section">
+        <h3>7. Service Access and Availability</h3>
+        <p>We strive to keep SMART DENTISTRY operational 24/7; however, we do not guarantee uninterrupted access due to maintenance, system upgrades, or unforeseen technical issues. We reserve the right to modify, suspend, or discontinue any part of the Service without prior notice.</p>
+      </section>
+
+      <!-- Section 8 -->
+      <section class="terms-section">
+        <h3>8. Payments and Subscriptions (if applicable)</h3>
+        <p>If SMART DENTISTRY offers paid services or subscriptions, users agree to provide accurate payment information and comply with billing terms. All transactions are processed through secure, third-party payment providers, and SMART DENTISTRY does not store payment card details.</p>
+      </section>
+
+      <!-- Section 9 -->
+      <section class="terms-section">
+        <h3>9. Intellectual Property</h3>
+        <p>All content, trademarks, software, and system designs within SMART DENTISTRY are the intellectual property of the developers or their licensors. You may not copy, reproduce, distribute, or modify any part of the system without prior written consent.</p>
+      </section>
+
+      <!-- Section 10 -->
+      <section class="terms-section">
+        <h3>10. Limitation of Liability</h3>
+        <p>SMART DENTISTRY and its developers shall not be held liable for:</p>
+        <ul>
+          <li>Any direct or indirect damages arising from system use or data errors;</li>
+          <li>Unauthorized access, data loss, or interruptions beyond our control;</li>
+          <li>Misuse or improper handling of data by users or third parties.</li>
+        </ul>
+        <p>While every effort is made to maintain data accuracy and security, users are encouraged to back up their information regularly.</p>
+      </section>
+
+      <!-- Section 11 -->
+      <section class="terms-section">
+        <h3>11. Termination</h3>
+        <p>SMART DENTISTRY reserves the right to suspend or terminate accounts for violations of these Terms or applicable laws. Users may also voluntarily terminate their accounts by contacting support.</p>
+      </section>
+
+      <!-- Section 12 -->
+      <section class="terms-section">
+        <h3>12. Modifications to Terms</h3>
+        <p>We may revise these Terms periodically. The revised Terms will be posted on our website with an updated effective date. Continued use of SMART DENTISTRY after changes implies acceptance of the new Terms.</p>
+      </section>
+
+      <!-- Section 13 -->
+      <section class="terms-section">
+        <h3>13. Governing Law</h3>
+        <p>These Terms are governed by the laws of the Philippines. Any disputes arising from these Terms or the use of SMART DENTISTRY will be subject to the exclusive jurisdiction of Philippine courts.</p>
+      </section>
+
+      <!-- Section 14 -->
+      <section class="terms-section">
+        <h3>14. Contact Information</h3>
+        <p>For any questions regarding these Terms, please contact us:</p>
+        <ul>
+          <li>Email: smartdentistry@gmail.com</li>
+          <li>Address: Brgy. Ayala Alabang, Muntinlupa City, Philippines</li>
+        </ul>
+      </section>
+
+      <!-- Final Note -->
+      <section class="final-note">
+        <h3>Final Note</h3>
+        <p>By clicking "ACCEPT", you acknowledge that you have read and agree to these Terms of Service. Your continued use of SMART DENTISTRY constitutes your acceptance.</p>
+      </section>
+    </div>
+
+    <!-- Bottom Buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-accept" id="acceptBtn">ACCEPT</button>
+      <button class="btn btn-decline" id="declineBtn">DECLINE</button>
+    </div>
+  </main>
+</div>
+
+<!-- Mobile Menu Toggle -->
+<button class="mobile-menu-toggle" id="mobileMenuToggle"><i class="fas fa-bars"></i></button>
+
+<script>
+// JavaScript Code
+document.addEventListener('DOMContentLoaded', function() {
+    initPage();
+    setupEventListeners();
+});
+
+function initPage() {
+    console.log('Smart Dentistry Terms and Conditions page initialized');
+    setActiveNavItem();
+}
+
+function setActiveNavItem() {
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        const link = item.querySelector('a');
+        if (link && link.textContent.includes('Privacy Policy')) {
+            item.classList.add('active');
+        }
+    });
+}
+
+function setupEventListeners() {
+    const acceptBtn = document.getElementById('acceptBtn');
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', function() {
+            alert('You have accepted the Terms of Service.');
+        });
+    }
+
+    const declineBtn = document.getElementById('declineBtn');
+    if (declineBtn) {
+        declineBtn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to decline the Terms of Service? You will not be able to use SMART DENTISTRY.')) {
+                alert('You have declined the Terms of Service.');
+                window.location.href = 'index.html';
+            }
+        });
+    }
+
+    const backButton = document.querySelector('.back-button');
+    if (backButton) {
+        backButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.history.back();
+        });
+    }
+
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const sidebar = document.querySelector('.sidebar');
+    if (mobileMenuToggle && sidebar) {
+        mobileMenuToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('mobile-open');
+        });
+    }
+
+    document.addEventListener('click', function(e) {
+        if (sidebar && sidebar.classList.contains('mobile-open')) {
+            if (!sidebar.contains(e.target) && e.target !== mobileMenuToggle) {
+                sidebar.classList.remove('mobile-open');
+            }
+        }
+    });
+
+    enableSmoothScrolling();
+}
+
+function enableSmoothScrolling() {
+    const links = document.querySelectorAll('a[href^="#"]');
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const headerHeight = document.querySelector('.content-header').offsetHeight;
+                const targetPosition = targetElement.offsetTop - headerHeight - 20;
+                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+            }
+        });
+    });
+}
+
+function addVisualEnhancements() {
+    window.addEventListener('load', function() {
+        document.body.classList.add('loaded');
+    });
+    window.addEventListener('scroll', function() {
+        const header = document.querySelector('.content-header');
+        if (window.scrollY > 50) {
+            header.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+        } else {
+            header.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+        }
+    });
+}
+document.addEventListener('DOMContentLoaded', function() {
+    addVisualEnhancements();
+});
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.target.matches('input, textarea')) {
+        document.getElementById('acceptBtn')?.click();
+    }
+    if (e.key === 'Escape') {
+        document.getElementById('declineBtn')?.click();
+    }
+});
+</script>
+</body>
+</html>
