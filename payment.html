@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Method with Logs</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    input, select, button {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+    button {
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: #007bff;
+      color: white;
+      border: none;
+    }
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+      border: none;
+    }
+    .btn-success {
+      background: #28a745;
+      color: white;
+      border: none;
+    }
+    .section {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 15px;
+    }
+    .methods-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      cursor: pointer;
+    }
+    .methods-list li.selected {
+      background: #e9f2ff;
+      border-color: #007bff;
+    }
+    .logs {
+      background: #f1f1f1;
+      padding: 10px;
+      border-radius: 5px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+    .log-entry {
+      border-bottom: 1px solid #ddd;
+      padding: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Payment Method System</h2>
+
+    <div class="section">
+      <h3>Add Payment Method</h3>
+      <div style="display:flex; gap:10px; flex-wrap: wrap;">
+        <input type="text" id="methodType" placeholder="Type (e.g. GCash, Visa)" style="flex:1;" />
+        <input type="text" id="methodName" placeholder="Account Name" style="flex:1;" />
+        <button class="btn-primary" onclick="addMethod()">Add</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Available Methods</h3>
+      <ul id="methodsList" class="methods-list"></ul>
+      <p id="noMethods" style="color:gray;">No payment methods added yet.</p>
+    </div>
+
+    <div class="section">
+      <h3>Make a Payment</h3>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <input type="number" id="amount" placeholder="Amount (₱)" style="width:150px;" />
+        <button class="btn-success" onclick="makePayment()">Pay</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 style="display:flex; justify-content:space-between; align-items:center;">
+        Logs
+        <button onclick="clearLogs()" style="font-size:14px; background:none; border:none; color:gray; cursor:pointer;">Clear Logs</button>
+      </h3>
+      <div id="logs" class="logs"></div>
+    </div>
+  </div>
+
+  <script>
+    const methods = [];
+    let selectedMethod = null;
+    const logs = [];
+
+    function addLog(message) {
+      const time = new Date().toLocaleTimeString();
+      logs.unshift({ message, time });
+      renderLogs();
+    }
+
+    function renderLogs() {
+      const logContainer = document.getElementById("logs");
+      if (logs.length === 0) {
+        logContainer.innerHTML = "<p style='color:gray;'>No logs yet.</p>";
+        return;
+      }
+      logContainer.innerHTML = logs
+        .map(log => `<div class='log-entry'>[${log.time}] ${log.message}</div>`)
+        .join("");
+    }
+
+    function addMethod() {
+      const type = document.getElementById("methodType").value.trim();
+      const name = document.getElementById("methodName").value.trim();
+      if (!type || !name) return alert("Please fill in both fields.");
+      const method = { id: Date.now(), type, name };
+      methods.push(method);
+      addLog(`Added new payment method: ${type} - ${name}`);
+      document.getElementById("methodType").value = "";
+      document.getElementById("methodName").value = "";
+      renderMethods();
+    }
+
+    function renderMethods() {
+      const list = document.getElementById("methodsList");
+      const noMethods = document.getElementById("noMethods");
+      list.innerHTML = "";
+      if (methods.length === 0) {
+        noMethods.style.display = "block";
+        return;
+      }
+      noMethods.style.display = "none";
+      methods.forEach((m) => {
+        const li = document.createElement("li");
+        li.textContent = `${m.type} - ${m.name}`;
+        if (selectedMethod && selectedMethod.id === m.id) li.classList.add("selected");
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "Remove";
+        removeBtn.className = "btn-danger";
+        removeBtn.onclick = (e) => {
+          e.stopPropagation();
+          removeMethod(m.id);
+        };
+        li.appendChild(removeBtn);
+        li.onclick = () => selectMethod(m.id);
+        list.appendChild(li);
+      });
+    }
+
+    function selectMethod(id) {
+      selectedMethod = methods.find((m) => m.id === id);
+      addLog(`Selected payment method: ${selectedMethod.type} - ${selectedMethod.name}`);
+      renderMethods();
+    }
+
+    function removeMethod(id) {
+      const index = methods.findIndex((m) => m.id === id);
+      if (index > -1) {
+        const removed = methods.splice(index, 1)[0];
+        addLog(`Removed payment method: ${removed.type} - ${removed.name}`);
+        if (selectedMethod && selectedMethod.id === id) selectedMethod = null;
+        renderMethods();
+      }
+    }
+
+    function makePayment() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      if (!selectedMethod) return alert("Please select a payment method.");
+      if (!amount || amount <= 0) return alert("Enter a valid amount.");
+      addLog(`Payment of ₱${amount.toFixed(2)} made using ${selectedMethod.type} - ${selectedMethod.name}`);
+      document.getElementById("amount").value = "";
+    }
+
+    function clearLogs() {
+      logs.length = 0;
+      renderLogs();
+      addLog("Cleared all logs.");
+    }
+
+    renderLogs();
+  </script>
+</body>
+</html>

@@ -187,12 +187,12 @@
         }
 
         .holy-family {
-            color: #1380d3;
+            color: #00bbff;
             font-weight: bold;
         }
 
         .dental-clinic {
-            color: #00c4cc;
+            color: #00bbff;
             font-weight: bold;
         }
 
@@ -389,14 +389,14 @@
             grid-template-columns: repeat(5, 1fr);
             gap: 15px;
             margin-top: 20px;
-            max-height: 200px; /* Set maximum height */
+            max-height: 180px; /* Set maximum height */
             overflow-y: auto; /* Enable vertical scrolling */
             padding-right: 10px; /* Add padding for scrollbar */
         }
 
         /* Add custom scrollbar styling */
         .stat-cards-container::-webkit-scrollbar {
-            width: 8px;
+            width: 5px;
         }
 
         .stat-cards-container::-webkit-scrollbar-track {
@@ -410,7 +410,7 @@
         }
 
         .stat-cards-container::-webkit-scrollbar-thumb:hover {
-            background: #0099cc;
+            background: ;
         }
 
         .stat-card {
@@ -559,7 +559,7 @@
             gap: 5px;
         }
 
-        .status-pending {
+        .status-re-schedule {
             background-color: #fff3cd;
             color: #856404;
         }
@@ -569,7 +569,7 @@
             color: #155724;
         }
 
-        .status-rejected {
+        .status-cancelled {
             background-color: #f8d7da;
             color: #721c24;
         }
@@ -2498,18 +2498,20 @@
                 </div>
                 <div class="sidebar-title">
                     <h2>
-                        <span class="holy-family">HOLY FAMILY</span><br>
-                        <span class="dental-clinic">DENTAL CLINIC</span>
+                        <span class="holy-family">SMART</span><br>
+                        <span class="dental-clinic">DENTISTRY</span>
                     </h2>
-                    <p>Creating beautiful smiles for every family</p>
                 </div>
             </div>
             <ul class="sidebar-menu">
                 <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="appointment-request-logs.html"><i class="fas fa-clipboard-list"></i> <span>Appointment Request Logs</span></a></li>
+                <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
                 <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
                 <li><a href="patients.html"><i class="fas fa-users"></i> <span>Patients</span></a></li>
-                <li><a href="#"><i class="fas fa-chart-line"></i> <span>Reports</span></a></li>
+                <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+                <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> <span> Data BackUp</a></li>
+                <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+                <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
                 <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
             <!-- Add Return to Home menu at the bottom -->
@@ -2573,8 +2575,8 @@
                         </div>
                         <div class="stat-card">
                             <i class="fas fa-times-circle icon"></i>
-                            <h3>Canceled</h3>
-                            <div class="number" id="canceledCount">0</div>
+                            <h3>Reschedule</h3>
+                            <div class="number" id="RescheduleCount">0</div>
                         </div>
                         <div class="stat-card">
                             <i class="fas fa-user-plus icon"></i>
@@ -2627,7 +2629,7 @@
                                     <i class="fas fa-check"></i> Accept Selected
                                 </button>
                                 <button class="action-btn reject-btn" onclick="showBulkRejectModal()">
-                                    <i class="fas fa-times"></i> Reject Selected
+                                    <i class="fas fa-times"></i> Re-schedule Selected
                                 </button>
                             </div>
                         </div>
@@ -2661,7 +2663,7 @@
                                         <th>Requested Date</th>
                                         <th>Requested Time</th>
                                         <th>Procedure</th>
-                                        <th>Request Date</th>
+                                        <th>Doctor</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -3048,7 +3050,7 @@
                                 <i class="fas fa-check"></i> Accept
                             </button>
                             <button class="action-btn reject-btn" onclick="showRejectModal(currentDetailId); event.stopPropagation();">
-                                <i class="fas fa-times"></i> Reject
+                                <i class="fas fa-times"></i> Re-schedule
                             </button>
                         </div>
                     </div>
