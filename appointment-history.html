@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appointment History - Holy Family Dental Clinic</title>
+    <title>Appointment History - Smart Dentistry</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -464,18 +464,20 @@ input:checked + .slider:before {
                 </div>
                 <div class="sidebar-title">
                     <h2>
-                        <span class="holy-family">HOLY FAMILY</span><br>
-                        <span class="dental-clinic">DENTAL CLINIC</span>
+                        <span class="holy-family">SMART</span><br>
+                        <span class="dental-clinic">DENTISTRY</span>
                     </h2>
-                    <p>Creating beautiful smiles for every family</p>
                 </div>
             </div>
-            <ul class="sidebar-menu">
-                <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="appointment-request-logs.html"><i class="fas fa-clipboard-list"></i> <span>Appointment Request Logs</span></a></li>
-                <li><a href="appointment-history.html" class="active"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
+             <ul class="sidebar-menu">
+               <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
+                <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
                 <li><a href="patients.html"><i class="fas fa-users"></i> <span>Patients</span></a></li>
-                <li><a href="#"><i class="fas fa-chart-line"></i> <span>Reports</span></a></li>
+                <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+                <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> <span> Data BackUp</a></li>
+                <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+                <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
                 <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
             <!-- Add Return to Home menu at the bottom -->
@@ -519,7 +521,7 @@ input:checked + .slider:before {
                             <option value="">All Status</option>
                             <option value="completed">Completed</option>
                             <option value="canceled">Canceled</option>
-                            <option value="autocanceled">Auto Canceled</option>
+                            <option value="autocancelled">Auto Cancelled</option>
                         </select>
 
                         <select id="sortBy">
@@ -557,61 +559,57 @@ input:checked + .slider:before {
 
             // hindi po talaga ito clickabel. logs po ito- logs an official record for appitnment history
 
-            const logs = [
+            let logs = [];
+
+            const tableBody = document.getElementById('logsTableBody');
+
+            fetch("http://localhost:3000/logs/history")
+            .then(response => {
+                if (!response.ok) throw new Error("Failed to fetch logs");
+                return response.json();
+            })
+            .then(data => {
+                logs = data;  // Assign fetched logs to the global variable
+                // filterAndDisplayLogs();  // Trigger UI update
+                displayLogs(logs);
+            })
+            .catch(error => {
+                console.error("Error loading logs:", error);
+            });
+
+
+            // Sample data for demonstration
+            const sampleLogs = [
                 {
-                    responseDate: '2024-01-15T10:00:00',
+                    responseDate: null,
                     patientName: 'Sophia Grace B. Abacco',
+                    appointmentDateTime: '2024-01-20T10:00:00',
+                    timestamp: '2024-01-15T09:30:00',
                     service: 'Teeth Cleaning',
                     status: 'completed'
                 },
                 {
                     responseDate: '2024-01-14T15:00:00',
                     patientName: 'Sammuel D.V. Cabison',
+                    appointmentDateTime: '2024-01-21T15:30:00',
+                    timestamp: '2024-01-14T14:15:00',
                     service: 'Root Canal',
-                    status: 'canceled'
+                    status: 'completed'
                 },
                 {
-                    responseDate: '2024-01-13T11:15:00',
+                    responseDate: '2024-01-13T12:30:00',
                     patientName: 'Kristina Casandra S. Samillano',
-                    service: 'Teeth Extraction',
+                    appointmentDateTime: '2024-01-19T13:00:00',
+                    timestamp: '2024-01-13T11:00:00',
+                    service: 'Dental Checkup',
                     status: 'autocanceled'
                 }
             ];
 
-            const tableBody = document.getElementById('logsTableBody');
-
-            // Sample data for demonstration
-const sampleLogs = [
-    {
-        responseDate: null,
-        patientName: 'Sophia Grace B. Abacco',
-        appointmentDateTime: '2024-01-20T10:00:00',
-        timestamp: '2024-01-15T09:30:00',
-        service: 'Teeth Cleaning',
-        status: 'completed'
-    },
-    {
-        responseDate: '2024-01-14T15:00:00',
-        patientName: 'Sammuel D.V. Cabison',
-        appointmentDateTime: '2024-01-21T15:30:00',
-        timestamp: '2024-01-14T14:15:00',
-        service: 'Root Canal',
-        status: 'completed'
-    },
-    {
-        responseDate: '2024-01-13T12:30:00',
-        patientName: 'Kristina Casandra S. Samillano',
-        appointmentDateTime: '2024-01-19T13:00:00',
-        timestamp: '2024-01-13T11:00:00',
-        service: 'Dental Checkup',
-        status: 'autocanceled'
-    }
-];
-
-// Store sample data in localStorage if no existing logs
-if (!localStorage.getItem('appointmentRequestLogs')) {
-    localStorage.setItem('appointmentRequestLogs', JSON.stringify(sampleLogs));
-}
+            // Store sample data in localStorage if no existing logs
+            if (!localStorage.getItem('appointmentRequestLogs')) {
+                localStorage.setItem('appointmentRequestLogs', JSON.stringify(sampleLogs));
+            }
 
             function displayLogs(logsToDisplay) {
                 if (logsToDisplay.length === 0) {
@@ -629,15 +627,15 @@ if (!localStorage.getItem('appointmentRequestLogs')) {
                 // Update the log display to include icons
                 tableBody.innerHTML = logsToDisplay.map(log => `
                     <tr>
-                        <td><i class="far fa-clock"></i> ${log.responseDate ? formatDateTime(log.responseDate) : '-'}</td>
+                        <td><i class="far fa-clock"></i> ${log.timestamp ? formatDateTime(log.timestamp) : '-'}</td>
                         <td>
                             <span class="status-badge status-${log.status.toLowerCase()}">
                                 <i class="fas ${getStatusIcon(log.status)}"></i>
                                 ${log.status}
                             </span>
                         </td>
-                        <td><i class="far fa-user"></i> ${log.patientName}</td>
-                        <td><i class="fas fa-tooth"></i> ${log.service}</td>
+                        <td><i class="far fa-user"></i> ${log.patient_name}</td>
+                        <td><i class="fas fa-tooth"></i> ${log.procedure}</td>
                     </tr>
                 `).join('');
             }
@@ -646,7 +644,7 @@ if (!localStorage.getItem('appointmentRequestLogs')) {
                 switch(status.toLowerCase()) {
                     case 'completed': return 'fa-check-circle';
                     case 'canceled': return 'fa-times-circle';
-                    case 'autocanceled': return 'fa-clock';
+                    case 'autocancelled': return 'fa-clock';
                     default: return 'fa-circle';
                 }
             }

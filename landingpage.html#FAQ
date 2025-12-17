@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FAQ - DentalCare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        :root{--primary:#00bfff;--dark:#2c3e50;--muted:#666}
+        body{font-family:Inter,Arial,sans-serif;margin:0;color:#222;background:#f7fbff}
+        /* Unified navbar / button styles (replaces inline navbar styling) */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:12px 4%;
+            background: rgba(255,255,255,0.58);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 6px 30px rgba(0,0,0,0.06);
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+        }
+        .nav-left{display:flex;align-items:center;gap:20px}
+        .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+        .brand img{height:46px;transition:transform .28s ease;border-radius:8px}
+        .brand .title{color:var(--primary);font-size:1.45rem;font-weight:800}
+        .nav-links{display:flex;gap:18px;align-items:center}
+        .nav-links a{color:#444;text-decoration:none;font-weight:500;padding:8px 6px;border-radius:6px;transition:all .18s}
+        .nav-links a:hover{color:var(--primary)}
+        .nav-links a.active{color:var(--primary);font-weight:700}
+        .nav-actions{display:flex;gap:12px;align-items:center}
+        .btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 16px;border-radius:8px;text-decoration:none;font-weight:600}
+        .btn-outline{color:var(--primary);border:2px solid var(--primary);background:transparent}
+        .btn-primary{color:#fff;background:linear-gradient(45deg,var(--primary),#83C5BE);box-shadow:0 6px 20px rgba(0,0,0,0.06)}
+
+        .container{max-width:1100px;margin:48px auto;padding:0 20px}
+        .hero{background:linear-gradient(90deg,var(--primary) 0%, #e3f2fd 100%);padding:36px;border-radius:12px;color:#fff}
+        .hero h1{margin:0;font-size:28px;letter-spacing:-0.4px}
+        .intro{margin:18px 0 0;font-size:15px;opacity:.95}
+        .faq{margin-top:28px}
+        .accordion-item{background:#fff;border-radius:10px;margin-bottom:12px;box-shadow:0 6px 18px rgba(0,0,0,0.04);overflow:hidden;border:1px solid rgba(0,0,0,0.03)}
+        .accordion-header{display:flex;justify-content:space-between;align-items:center;padding:18px;cursor:pointer}
+        .accordion-header h3{margin:0;font-size:16px;color:var(--dark)}
+        .accordion-body{padding:0 18px 18px 18px;display:none;color:#444;line-height:1.6;font-size:14px}
+        .accordion-header .chev{color:var(--primary);transition:transform .25s ease}
+        .accordion-item.open .accordion-body{display:block}
+        .accordion-item.open .chev{transform:rotate(180deg)}
+        .small-note{margin-top:10px;font-size:13px;color:#555}
+
+        /* Footer */
+        .site-footer{
+            margin-top:40px;
+            background: linear-gradient(180deg, #ffffff, #f6f9fc);
+            border-top:1px solid rgba(0,0,0,0.04);
+            padding:28px 4%;
+            color:#444;
+        }
+        .footer-inner{
+            max-width:1100px;
+            margin:0 auto;
+            display:flex;
+            gap:24px;
+            align-items:flex-start;
+            justify-content:space-between;
+            flex-wrap:wrap;
+        }
+        .footer-col{flex:1 1 220px; min-width:180px}
+        .footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+        .footer-brand img{height:40px;border-radius:8px}
+        .footer-col h4{margin:0 0 8px 0;color:var(--primary)}
+        .footer-col p{margin:0 0 8px 0;color:var(--muted);font-size:0.95rem}
+        .footer-links{display:flex;flex-direction:column;gap:6px}
+        .footer-links a{color:#444;text-decoration:none;font-weight:500;transition:color .18s ease}
+        .footer-links a:hover{color:var(--primary)}
+        .socials{display:flex;gap:10px;margin-top:8px}
+        .socials a{width:40px;height:40px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(0,191,255,0.06), rgba(131,197,190,0.03));color:var(--primary);text-decoration:none;font-size:16px}
+        .footer-note{margin-top:18px;color:#777;font-size:0.95rem;text-align:center;width:100%}
+
+        @media (max-width:600px){.hero h1{font-size:22px}}
+        @media (max-width:760px){.nav-links{display:none}}
+    </style>
+</head>
+<body>
+    <!-- unified navbar -->
+    <nav class="navbar" aria-label="Main navigation">
+        <div class="nav-left">
+            <a class="brand" href="landingpage.html">
+                <img src="logo.png" alt="Logo">
+                <span class="title">SMART DENTISTRY</span>
+            </a>
+            <div class="nav-links" role="navigation">
+                <a href="landingpage.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="FAQ.html" class="active">FAQ</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+        <div class="nav-actions">
+            <a class="btn btn-outline" href="login.html">Login</a>
+            <a class="btn btn-primary" href="signup.html">Sign Up</a>
+        </div>
+    </nav>
+
+    <main class="container" role="main">
+        <section class="hero" aria-labelledby="faq-title">
+            <h1 id="faq-title">Frequently Asked Questions (FAQ)</h1>
+            <p class="intro">Answers to common questions about appointments, services, payments and clinic policies. If you don't find what you're looking for, contact us and we'll help.</p>
+        </section>
+
+        <section class="faq" aria-label="FAQ list">
+            <div class="accordion-item" id="q1">
+                <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" aria-controls="a1">
+                    <h3>How do I book an appointment?</h3>
+                    <span class="chev"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="accordion-body" id="a1">
+                    <p>You can book online using the "Book Now" button on our website, call our clinic during operating hours, or sign in to your account and choose a preferred date and time.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item" id="q2">
+                <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" aria-controls="a2">
+                    <h3>What are your clinic hours?</h3>
+                    <span class="chev"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="accordion-body" id="a2">
+                    <p>Our general operating hours are Monday to Saturday, 9:00 AM – 6:00 PM. We are closed on Sundays and public holidays. Emergency slots may be available — call us for urgent concerns.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item" id="q3">
+                <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" aria-controls="a3">
+                    <h3>Do you accept insurance?</h3>
+                    <span class="chev"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="accordion-body" id="a3">
+                    <p>We accept a variety of dental insurance plans. Please bring your insurance card on your first visit so our staff can verify coverage and assist with claims.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item" id="q4">
+                <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" aria-controls="a4">
+                    <h3>What is your cancellation or rescheduling policy?</h3>
+                    <span class="chev"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="accordion-body" id="a4">
+                    <p>Please notify us at least 24 hours in advance to reschedule or cancel. Late cancellations or no-shows may be subject to a fee to help us manage appointment availability.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item" id="q5">
+                <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" aria-controls="a5">
+                    <h3>What precautions are you taking for infection control (COVID-19)?</h3>
+                    <span class="chev"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="accordion-body" id="a5">
+                    <p>We follow standard infection control protocols: enhanced cleaning, PPE for staff, screening of patients, and spacing of appointments to reduce waiting room density. If you have symptoms, please call to reschedule.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item" id="q6">
+                <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" aria-controls="a6">
+                    <h3>How can I access my records?</h3>
+                    <span class="chev"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="accordion-body" id="a6">
+                    <p>Registered patients can access "My Records" via the website when signed in. For copies or transfer of records, contact our clinic reception and we'll assist you with the process.</p>
+                </div>
+            </div>
+
+            <p class="small-note">Still have questions? Email us at <a href="Smartdentistry@gmail.com">smartdesntstry@gmail.com</a>.</p>
+        </section>
+    </main>
+
+    <!-- replaced footer with connected multi-column footer -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-inner">
+            <div class="footer-col">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="DentalCare logo">
+                    <div>
+                        <strong style="color:var(--primary)">Smart Dentistry</strong>
+                        <div style="color:var(--muted);font-size:0.95rem">Terms & Conditions | Privacy Policy | Data & Security | Language </div>
+                    </div>
+                </div>
+                <p>Your trusted partner in oral health. Committed to providing quality dental care for a brighter smile.</p>
+                <p>Phone: +63 935 337 8245 • Email: Smartdentistry@gmail.com</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <nav class="footer-links" aria-label="Footer Links">
+                    <a href="landingpage.html">Home</a>
+                    <a href="services.html">Services</a>
+                    <a href="records.html">My Records</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="login.html">Login</a>
+                    <a href="signup.html">Sign Up</a>
+                </nav>
+            </div>
+
+            <div class="footer-col">
+                <h4>Connect</h4>
+                <p>Follow us for updates and oral care tips</p>
+                <div class="socials" aria-label="Social links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note">© <span id="year"></span> DentalCare — All rights reserved.</div>
+    </footer>
+
+    <script>
+        // Simple accessible accordion
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', toggleAccordion);
+            header.addEventListener('keydown', function(e){
+                if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAccordion.call(this); }
+            });
+        });
+
+        function toggleAccordion() {
+            const item = this.parentElement;
+            const open = item.classList.contains('open');
+            // close all
+            document.querySelectorAll('.accordion-item').forEach(i => {
+                i.classList.remove('open');
+                i.querySelector('.accordion-header').setAttribute('aria-expanded','false');
+            });
+            // toggle current
+            if (!open) {
+                item.classList.add('open');
+                this.setAttribute('aria-expanded','true');
+            }
+        }
+        // set footer year
+        (function(){ var el = document.getElementById('year'); if(el) el.textContent = new Date().getFullYear(); })();
+    </script>
+</body>
+</html>

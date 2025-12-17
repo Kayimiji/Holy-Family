@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - Holy Family Dental Clinic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+       
+        :root{
+            --primary:#2196f3;
+            --primary-2:#64b5f6;
+            --muted:#666;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding-top: 80px;
+            background: #f8f9fa;
+        }
+
+        .services-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .services-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .services-header h1 {
+            color: #2196f3;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #2196f3, #64b5f6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 32px;
+        }
+
+        .service-card h3 {
+            color: #2196f3;
+            margin: 15px 0;
+            font-size: 1.5rem;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .book-button {
+            background: linear-gradient(45deg, #2196f3, #64b5f6);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .book-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Unified navbar / button styles (replaces inline navbar styles) */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 4%;
+            background: rgba(255,255,255,0.58);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 6px 30px rgba(33,150,243,0.06);
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+        }
+        .nav-left{display:flex;align-items:center;gap:20px}
+        .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+        .brand img{height:46px;transition:transform .28s ease; border-radius:8px}
+        .brand .title{color:var(--primary); font-size:1.45rem; font-weight:800}
+
+        .nav-links{display:flex;gap:18px;align-items:center}
+        .nav-links a{color:#444;text-decoration:none;font-weight:500;padding:8px 6px;border-radius:6px;transition:all .18s}
+        .nav-links a:hover{color:var(--primary)}
+        .nav-links a.active{color:var(--primary);font-weight:700}
+
+        .nav-actions{display:flex;gap:12px;align-items:center}
+        .btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 16px;font-weight:600;border-radius:8px;text-decoration:none}
+        .btn-outline{color:var(--primary);border:2px solid var(--primary);background:transparent}
+        .btn-primary{color:#fff;background:linear-gradient(45deg,var(--primary),var(--primary-2));box-shadow:0 6px 20px rgba(0,0,0,0.06)}
+
+        /* Footer */
+        .site-footer{
+            margin-top:40px;
+            background: linear-gradient(180deg, #ffffff, #f6f9fc);
+            border-top:1px solid rgba(0,0,0,0.04);
+            padding:36px 4%;
+            color:#444;
+        }
+        .footer-inner{
+            max-width:1200px;
+            margin:0 auto;
+            display:flex;
+            gap:24px;
+            align-items:flex-start;
+            justify-content:space-between;
+            flex-wrap:wrap;
+        }
+        .footer-col{flex:1 1 220px; min-width:180px}
+        .footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+        .footer-brand img{height:40px;border-radius:8px}
+        .footer-col h4{margin:0 0 8px 0;color:var(--primary)}
+        .footer-col p{margin:0 0 8px 0;color:var(--muted);font-size:0.95rem}
+        .footer-links{display:flex;flex-direction:column;gap:6px}
+        .footer-links a{color:#444;text-decoration:none;font-weight:500;transition:color .18s ease}
+        .footer-links a:hover{color:var(--primary)}
+        .socials{display:flex;gap:10px;margin-top:8px}
+        .socials a{
+            width:40px;height:40px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;
+            background:linear-gradient(180deg, rgba(33,150,243,0.06), rgba(100,181,246,0.03));
+            color:var(--primary);text-decoration:none;font-size:16px;
+        }
+        .footer-note{margin-top:18px;color:#777;font-size:0.95rem;text-align:center;width:100%}
+
+        @media (max-width:900px){
+            .nav-links{display:none}
+        }
+    </style>
+</head>
+<body>
+    <!-- replace inline navbar with shared, semantic navbar -->
+    <nav class="navbar" role="navigation" aria-label="Primary">
+        <div class="nav-left">
+            <a class="brand" href="landingpage.html">
+                <img src="logo.png" alt="Logo">
+                <span class="title">DentalCare</span>
+            </a>
+
+            <div class="nav-links" role="menu">
+                <a href="landingpage.html">Home</a>
+                <a href="services.html" class="active">Services</a>
+                <a href="FAQ.html">FAQ</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+
+        <div class="nav-actions">
+            <a class="btn btn-outline" href="login.html">Login</a>
+            <a class="btn btn-primary" href="signup.html">Sign Up</a>
+        </div>
+    </nav>
+    <div class="services-container">
+        <div class="services-header">
+            <h1>Our Dental Services</h1>
+            <p>Comprehensive dental care tailored to your needs</p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-tooth"></i>
+                </div>
+                <h3>General Dentistry</h3>
+                <p>Comprehensive dental care including cleanings, fillings, and preventive treatments.</p>
+                <a href="#book" class="book-button">Book Now</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <h3>Cosmetic Dentistry</h3>
+                <p>Transform your smile with whitening, veneers, and other aesthetic treatments.</p>
+                <a href="#book" class="book-button">Book Now</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-teeth"></i>
+                </div>
+                <h3>Orthodontics</h3>
+                <p>Straighten your teeth with braces, aligners, and other orthodontic solutions.</p>
+                <a href="#book" class="book-button">Book Now</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-teeth-open"></i>
+                </div>
+                <h3>Oral Surgery</h3>
+                <p>Expert surgical procedures including extractions and implant placements.</p>
+                <a href="#book" class="book-button">Book Now</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Pediatric Dentistry</h3>
+                <p>Specialized dental care for children in a comfortable, friendly environment.</p>
+                <a href="#book" class="book-button">Book Now</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <h3>Restorative Dentistry</h3>
+                <p>Restore damaged teeth with crowns, bridges, and dental implants.</p>
+                <a href="#book" class="book-button">Book Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (connected links like other pages) -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-inner">
+            <div class="footer-col">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="DentalCare logo">
+                    <div>
+                        <strong style="color:var(--primary)">DentalCare</strong>
+                        <div style="color:var(--muted);font-size:0.95rem">Compassionate dental care in Metro Manila</div>
+                    </div>
+                </div>
+                <p>123 Dental Street, Healthcare City</p>
+                <p>Phone: +63 912 345 6789 • Email: info@dentalcare.com</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <nav class="footer-links" aria-label="Footer Links">
+                    <a href="landingpage.html">Home</a>
+                    <a href="services.html">Services</a>
+                    <a href="FAQ.html">FAQ</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="login.html">Login</a>
+                    <a href="signup.html">Sign Up</a>
+                </nav>
+            </div>
+
+            <div class="footer-col">
+                <h4>Connect</h4>
+                <p>Follow us for updates and oral care tips</p>
+                <div class="socials" aria-label="Social links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note">© <span id="year"></span> DentalCare — All rights reserved.</div>
+    </footer>
+
+    <script>
+        // set footer year
+        (function(){ var y = new Date().getFullYear(); var el = document.getElementById('year'); if(el) el.textContent = y; })();
+    </script>
+</body>
+</html>
+    </style>

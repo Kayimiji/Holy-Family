@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMART DENTISTRY - Data Security</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Color Variables */
+    :root {
+      --white: white;
+      --medium-blue: #37d4ff;
+      --pale-blue: #F1FAFF;
+      --white: #ffffff;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 5%;
+      background-color: var white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .logo span {
+      color: white;
+    }
+    body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.navbar {
+    width: 100%;
+    background: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 40px;
+    margin-right: 10px;
+}
+
+.brand {
+    font-weight: 700;
+    font-size: 24px;
+    color: #00bfff;
+    margin-right: 40px;
+}
+
+.nav-link {
+    margin: 0 18px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #444;
+}
+
+.nav-link.active {
+    color: #00c6ff;
+    font-weight: 600;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.login-btn {
+    padding: 10px 26px;
+    border-radius: 10px;
+    border: 2px solid #1ebeff;
+    color: #1ebeff;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.signup-btn {
+    padding: 10px 26px;
+    border-radius: 10px;
+    background: linear-gradient(to right, #00c6ff, #1e90ff);
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+    /* Section Header */
+    .section-header {
+      background-color: var(--medium-blue);
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .section-header h1 {
+      font-size: 2.5rem;
+      color: white;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-header p {
+      max-width: 700px;
+      margin: 0 auto;
+      color: white;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      font-weight: 400;
+    }
+
+    .section-header p strong {
+      color: #f8f9fa;
+      font-weight: 600;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      padding: 4rem 5%;
+      text-align: center;
+      background-color: var(--white);
+    }
+
+    .intro-text {
+      max-width: 800px;
+      margin: 0 auto 3rem;
+      font-size: 1.1rem;
+      color: #555;
+      text-align: center;
+    }
+
+    .intro-text h2 {
+      font-size: 1.8rem;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+    }
+
+    .intro-text h3 {
+      font-size: 1.3rem;
+      color: #2c3e50;
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+
+    .security-icons {
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+      margin-bottom: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .security-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.3s;
+    }
+
+    .security-icon:hover {
+      transform: translateY(-10px);
+    }
+
+    .icon-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: var(--pale-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      transition: all 0.3s;
+    }
+
+    .security-icon:hover .icon-circle {
+      background-color: var(--medium-blue);
+    }
+
+    .icon-circle i {
+      font-size: 2rem;
+      color: var(--medium-blue);
+      transition: color 0.3s;
+    }
+
+    .security-icon:hover .icon-circle i {
+      color: white;
+    }
+
+    .icon-label {
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    /* Features Container */
+    .features-container {
+      display: flex;
+      gap: 2rem;
+      padding: 0 5% 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: stretch;
+      background-color: var(--white);
+    }
+
+    .features-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--pale-blue);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      border-left: 4px solid var(--medium-blue);
+      height: 100%;
+      min-height: 180px;
+    }
+
+    .feature-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+      background: #e8f7ff;
+    }
+
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background-color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card:hover .feature-icon {
+      background-color: var(--medium-blue);
+      transform: scale(1.1);
+    }
+
+    .feature-icon i {
+      font-size: 1.6rem;
+      color: var(--medium-blue);
+      transition: color 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon i {
+      color: white;
+    }
+
+    .feature-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .feature-card h3 {
+      margin-bottom: 1rem;
+      color: var(--medium-blue);
+      font-size: 1.3rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .feature-card p {
+      color: #555;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .navbar { flex-direction: column; padding: 1rem 5%; }
+      .nav-links { margin: 1.5rem 0; }
+      .features-container { flex-direction: column; gap: 1.5rem; }
+    }
+
+    @media (max-width: 768px) {
+      .security-icons { flex-direction: column; gap: 1.5rem; }
+      .feature-card { flex-direction: column; text-align: center; border-left: none; border-top: 4px solid var(--medium-blue); }
+      .feature-icon { margin-bottom: 1rem; }
+    }
+
+    @media (max-width: 576px) {
+      .section-header h1 { font-size: 2rem; }
+      .auth-buttons { flex-direction: column; width: 100%; gap: 0.5rem; }
+      .auth-buttons .btn { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <div class="navbar">
+    <div class="nav-left">
+        <img src="logo.png" class="logo"/>
+
+        <span class="brand">Smart Dentistry</span>
+        <div class="nav-links" role="navigation" aria-label="Primary"></div>
+        <a href="landingpage.html">Home</a>
+        <a href="contact.html">Contact</a>
+        <a href="DataSecurity.html"class="active">Data Security</a>
+        <a href="FAQ.html">FAQ</a>
+      </div>
+
+    <div class="nav-right">
+        <a href="#" class="login-btn">Login</a>
+        <a href="#" class="signup-btn">Sign Up</a>
+    </div>
+</div>
+
+
+  <!-- Section Header -->
+  <section class="section-header">
+    <h1>DATA SECURITY</h1>
+    <p><strong>SMART DENTISTRY</strong> ensures all patient information is guarded with strict security protocols, keeping sensitive details safe from unauthorized access.</p>
+  </section>
+
+  <!-- Main Content -->
+  <section class="main-content">
+    <div class="intro-text">
+      <h2>Our Security Features</h2>
+      <h3>Protecting your data with advanced security measures</h3>
+    </div>
+
+    <div class="security-icons">
+      <div class="security-icon">
+        <div class="icon-circle"><i class="fas fa-lock"></i></div>
+        <span class="icon-label">End-to-End Encryption</span>
+      </div>
+      <div class="security-icon">
+        <div class="icon-circle"><i class="fas fa-cloud"></i></div>
+        <span class="icon-label">Secure Cloud Storage</span>
+      </div>
+      <div class="security-icon">
+        <div class="icon-circle"><i class="fas fa-shield-alt"></i></div>
+        <span class="icon-label">Advanced Protection</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features-container">
+    <div class="features-column">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-user-lock"></i></div>
+        <div class="feature-content">
+          <h3>Role-Based Access</h3>
+          <p>Each user gets customized access — SMART DENTISTRY lets you assign roles so your team only sees the information relevant to their work.</p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-database"></i></div>
+        <div class="feature-content">
+          <h3>Secure Record Storage</h3>
+          <p>Your dental records are stored in a highly protected environment, defended by multiple layers of security to prevent data breaches.</p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-key"></i></div>
+        <div class="feature-content">
+          <h3>Advanced Encryption</h3>
+          <p>From personal details to treatment history, SMART DENTISTRY encrypts all data to keep it unreadable to outside parties.</p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-wifi"></i></div>
+        <div class="feature-content">
+          <h3>Safe Connection</h3>
+          <p>Every online interaction with SMART DENTISTRY uses secure, encrypted channels to maintain privacy and trust.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="features-column">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+        <div class="feature-content">
+          <h3>Cloud Backup & Recovery</h3>
+          <p>With automatic cloud backups, your data is always safe and can be quickly restored if something unexpected happens.</p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-user-shield"></i></div>
+        <div class="feature-content">
+          <h3>Full Data Ownership</h3>
+          <p>SMART DENTISTRY believes your data belongs to you — you have complete ownership and the ability to export your records anytime.</p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-sign-out-alt"></i></div>
+        <div class="feature-content">
+          <h3>Smart Auto-Logout</h3>
+          <p>For extra protection, the system automatically logs out inactive users to prevent unauthorized access.</p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-headset"></i></div>
+        <div class="feature-content">
+          <h3>Trusted Support</h3>
+          <p>Our team at SMART DENTISTRY provides both reliable tools and personal support, ensuring your practice runs smoothly while keeping data secure.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const featureCards = document.querySelectorAll('.feature-card');
+
+      function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8;
+      }
+
+      function handleScroll() {
+        featureCards.forEach(card => {
+          if (isInViewport(card)) {
+            card.classList.add('visible');
+          }
+        });
+      }
+
+      handleScroll();
+      window.addEventListener('scroll', handleScroll);
+
+      // Button Alerts
+      document.querySelector('.btn-outline').addEventListener('click', () => {
+        alert('Redirecting to registration page...');
+      });
+      document.querySelector('.btn-primary').addEventListener('click', () => {
+        alert('Redirecting to login page...');
+      });
+
+      // Active Nav
+      const navLinks = document.querySelectorAll('.nav-links a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          navLinks.forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+
+      // Equalize Feature Card Heights
+      function equalizeCardHeights() {
+        const cards = document.querySelectorAll('.feature-card');
+        let maxHeight = 0;
+        cards.forEach(card => {
+          card.style.height = 'auto';
+          maxHeight = Math.max(maxHeight, card.offsetHeight);
+        });
+        cards.forEach(card => (card.style.height = maxHeight + 'px'));
+      }
+
+      window.addEventListener('load', equalizeCardHeights);
+      window.addEventListener('resize', equalizeCardHeights);
+    });
+  </script>
+</body>
+</html>

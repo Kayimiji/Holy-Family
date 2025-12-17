@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contact Us - DentalCare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --primary:#37d4ff;
+            --primary-2:#64b5f6;
+            --muted:#666;
+            --bg:#f8f9fa;
+            --card-bg:#fff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.06);
+            --radius:16px;
+        }
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding-top: 84px;
+            background: var(--bg);
+            color: #444;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+        }
+
+        /* Navbar styles (replaced inline styling) */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 4%;
+            background: rgba(255,255,255,0.58);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 6px 30px rgba(33,150,243,0.06);
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+        }
+        .nav-left{display:flex;align-items:center;gap:24px}
+        .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+        .brand img{height:46px;transition:transform .28s ease, filter .28s ease; border-radius:8px}
+        .brand img:hover{transform:scale(1.06); filter:brightness(1.02)}
+        .brand .title{color:var(--primary); font-size:1.45rem; font-weight:800; letter-spacing:-0.4px}
+
+        .nav-links{display:flex;gap:20px;align-items:center}
+        .nav-links a{
+            color:#444;
+            text-decoration:none;
+            font-weight:500;
+            font-size:1.03rem;
+            padding:8px 6px;
+            border-radius:6px;
+            transition: all .22s ease;
+        }
+        .nav-links a:hover{color:var(--primary); transform:translateY(-2px)}
+        .nav-links a.active{
+            color:var(--primary);
+            font-weight:700;
+            position:relative;
+        }
+
+        .nav-actions{display:flex;gap:12px;align-items:center}
+        .btn {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            padding:8px 18px;
+            font-weight:600;
+            border-radius:8px;
+            cursor:pointer;
+            transition:transform .18s ease, box-shadow .18s ease;
+            text-decoration:none;
+        }
+        .btn-outline{
+            color:var(--primary);
+            border:2px solid var(--primary);
+            background:transparent;
+        }
+        .btn-outline:hover{background:rgba(33,150,243,0.06); transform:translateY(-2px)}
+        .btn-primary{
+            color:#fff;
+            background:linear-gradient(45deg,var(--primary),var(--primary-2));
+            box-shadow:0 6px 20px rgba(33,150,243,0.12);
+        }
+        .btn-primary:hover{transform:translateY(-3px)}
+
+        /* Contact layout */
+        .contact-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .contact-info, .contact-form {
+            background: var(--card-bg);
+            padding: 36px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        .contact-info h2, .contact-form h2 { color: var(--primary); margin-bottom:18px }
+
+        .info-item{display:flex;gap:18px;align-items:flex-start;margin-bottom:22px}
+        .info-item i{
+            background: linear-gradient(180deg, rgba(33,150,243,0.12), rgba(100,181,246,0.06));
+            color:var(--primary);
+            font-size:18px;
+            width:44px;
+            height:44px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            border-radius:10px;
+            flex-shrink:0;
+            box-shadow: 0 6px 20px rgba(33,150,243,0.03);
+        }
+        .info-item h4{margin:0 0 6px 0; font-size:1rem}
+        .info-item p{margin:0;color:var(--muted);font-size:0.95rem}
+
+        /* Form */
+        .form-group{margin-bottom:18px}
+        .form-group label{display:block;margin-bottom:8px;color:var(--muted);font-size:0.95rem}
+        .form-group input, .form-group textarea{
+            width:100%;
+            padding:12px 14px;
+            border:1px solid #e6e9ee;
+            border-radius:10px;
+            font-size:0.98rem;
+            transition:box-shadow .18s ease, border-color .18s ease;
+            background:#fff;
+        }
+        .form-group input:focus, .form-group textarea:focus{
+            outline:none;
+            border-color:var(--primary);
+            box-shadow:0 6px 18px rgba(33,150,243,0.06);
+        }
+        .submit-btn{
+            background:linear-gradient(45deg,var(--primary),var(--primary-2));
+            color:#fff;
+            padding:12px 26px;
+            border:none;
+            border-radius:999px;
+            font-size:1rem;
+            font-weight:700;
+            cursor:pointer;
+            transition:transform .22s ease, box-shadow .22s ease;
+        }
+        .submit-btn:active{transform:translateY(1px)}
+        .success-message{
+            display:none;
+            margin-top:14px;
+            padding:12px 14px;
+            border-radius:10px;
+            background:linear-gradient(90deg, rgba(76,175,80,0.12), rgba(76,175,80,0.06));
+            color:#2e7d32;
+            font-weight:600;
+        }
+
+        /* Map */
+        .map-container{margin-top:20px;border-radius:12px;overflow:hidden;border:1px solid rgba(0,0,0,0.04)}
+        .map-container iframe{width:100%;height:320px;border:0;display:block}
+
+        /* Responsive */
+        @media (max-width:900px){
+            .contact-container{grid-template-columns:1fr; padding: 20px}
+            .nav-links{display:none}
+            .nav-actions{gap:8px}
+            .brand .title{font-size:1.2rem}
+            .navbar{padding:10px 3%}
+        }
+        @media (max-width:480px){
+            .brand img{height:40px}
+            .brand .title{font-size:1.05rem}
+            .contact-container{gap:22px}
+            .map-container iframe{height:220px}
+        }
+
+        /* Footer */
+        .site-footer{
+            margin-top:40px;
+            background: linear-gradient(180deg, #ffffff, #f6f9fc);
+            border-top:1px solid rgba(0,0,0,0.04);
+            padding:36px 4%;
+            color:#444;
+        }
+        .footer-inner{
+            max-width:1200px;
+            margin:0 auto;
+            display:flex;
+            gap:24px;
+            align-items:flex-start;
+            justify-content:space-between;
+            flex-wrap:wrap;
+        }
+        .footer-col{flex:1 1 220px; min-width:180px}
+        .footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+        .footer-brand img{height:40px;border-radius:8px}
+        .footer-col h4{margin:0 0 8px 0;color:var(--primary)}
+        .footer-col p{margin:0 0 8px 0;color:var(--muted);font-size:0.95rem}
+        .footer-links{display:flex;flex-direction:column;gap:6px}
+        .footer-links a{color:#444;text-decoration:none;font-weight:500;transition:color .18s ease}
+        .footer-links a:hover{color:var(--primary)}
+        .socials{display:flex;gap:10px;margin-top:8px}
+        .socials a{
+            width:40px;height:40px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;
+            background:linear-gradient(180deg, rgba(33,150,243,0.06), rgba(100,181,246,0.03));
+            color:var(--primary);text-decoration:none;font-size:16px;
+        }
+        .footer-note{margin-top:18px;color:var(--muted);font-size:0.95rem;text-align:center;width:100%}
+
+        @media (max-width:760px){
+            .footer-inner{gap:18px}
+            .footer-col{flex:1 1 100%}
+            .nav-links{display:none}
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <!-- replaced inline nav with semantic class-based nav -->
+        <div class="nav-left">
+            <a class="brand" href="land.html">
+                <img src="logo.png" alt="Logo">
+                <span class="title">Smart Dentistry</span>
+            </a>
+
+            <div class="nav-links" role="navigation" aria-label="Primary">
+                <a href="landingpage.html">Home</a>
+                <a href="contact.html"class="active">Contact</a>
+                <a href="DataSecurity.html">Data Security</a>
+                <a href="FAQ.html">FAQ</a>
+            </div>
+        </div>
+
+        <div class="nav-actions">
+            <a class="btn btn-outline" href="login.html">Login</a>
+            <a class="btn btn-primary" href="signup.html">Sign Up</a>
+        </div>
+    </nav>
+
+    <div class="contact-container" id="contact">
+        <div class="contact-info">
+            <h2>Contact Information</h2>
+            <div class="info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                    <h4>Address</h4>
+                    <p>200 Pulong Buhangin <br>Bulacan, Philippines</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-phone-alt"></i>
+                <div>
+                    <h4>Phone</h4>
+                    <p>+63 935 337 8245</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-envelope"></i>
+                <div>
+                    <h4>Email</h4>
+                    <p>smartdentistry@gmail.com</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-clock"></i>
+                <div>
+                    <h4>Working Hours</h4>
+                    <p>Monday - Saturday: 9:00 AM - 6:00 PM<br>Sunday: Closed</p>
+                </div>
+            </div>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.802548850011!2d121.0442!3d14.5577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTTCsDMzJzI3LjciTiAxMjHCsDAyJzM5LjEiRQ!5e0!3m2!1sen!2sph!4v1635134!" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h2>Send us a Message</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+                <div class="success-message" id="successMessage" role="status" aria-live="polite">Thank you! Your message has been sent.</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-inner">
+            <div class="footer-col">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="DentalCare logo">
+                    <div>
+                        <strong style="color:var(--primary)">Smart Dentistry</strong>
+                        <div style="color:var(--muted);font-size:0.95rem">Your oral health, our priority</div>
+                </div>
+                <p class="footer-desc">200 Pulong Buhangin, Bulacan — Mon–Sat 9:00–18:00</p>
+                <p class="footer-desc">Phone: +63 935 337 8245 • Email: smartdentistry@gmail.com</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <nav class="footer-links" aria-label="Footer Links">
+                    <a href="landingpage.html">Home</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="Datasecurity.html">Data Security</a>
+                    <a href="FAQ.html">FAQ</a>
+                    <a href="login.html">Login</a>
+                    <a href="signup.html">Sign Up</a>
+                </nav>
+            </div>
+
+            <div class="footer-col">
+                <h4>Connect</h4>
+                <p>Follow us for updates and oral care tips</p>
+                <div class="socials" aria-label="Social links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note">© <span id="year"></span> SmartDentistry — All rights reserved.</div>
+    </footer>
+
+    <script>
+        (function(){
+            const form = document.getElementById('contactForm');
+            const success = document.getElementById('successMessage');
+            if(!form) return;
+            form.addEventListener('submit', function(e){
+                e.preventDefault();
+                // basic UX: show success then clear fields
+                success.style.display = 'block';
+                success.style.opacity = '0';
+                // fade in
+                requestAnimationFrame(()=> success.style.transition='opacity .28s ease', success.style.opacity='1');
+                form.querySelectorAll('input, textarea').forEach(el => el.value = '');
+                // hide after 4s
+                setTimeout(()=> {
+                    success.style.opacity = '0';
+                    setTimeout(()=> success.style.display = 'none', 280);
+                }, 4000);
+            });
+        })();
+        // update footer year
+        (function(){ document.getElementById('year').textContent = new Date().getFullYear(); })();
+    </script>
+</body>
+</html>
