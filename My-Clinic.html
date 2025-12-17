@@ -471,128 +471,143 @@
     border-radius: 10px;
     color: #2e3a43;
     font-family: Arial, sans-serif;
+      }
 }
+    .prescription-container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
 
-.prescription-container {
-    width: 100%;
-    padding: 25px;
-    background: #fff;
-    border-radius: 10px;
-    font-family: Arial, sans-serif;
-}
+    .prescription-form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+    }
 
-h2, h3 {
-    margin-bottom: 12px;
-    color: #1e2a36;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px 25px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group.full {
-    grid-column: span 2;
-}
-
-label {
-    font-weight: 600;
-    margin-bottom: 4px;
-    font-size: 14px;
-}
-
-input, select, textarea {
-    padding: 8px 10px;
-    border: 1px solid #c9c9c9;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
-.medications-grid {
-    display: grid;
-    grid-template-columns: 150px 1fr 150px;
-    align-items: start;
-    gap: 15px;
-    margin-top: 15px;
-}
-
-.add-btn, .preview-btn, .print-btn, .pdf-btn {
-    padding: 8px 14px;
-    border-radius: 6px;
-    border: 1px solid #888;
-    cursor: pointer;
-    background: #f2f2f2;
-}
-
-.add-btn:hover, .preview-btn:hover, .print-btn:hover, .pdf-btn:hover {
-    background: #e1e1e1;
-}
-
-.action-buttons {
-    margin-top: 25px;
-    display: flex;
-    gap: 15px;
-}
-
-.print-btn {
-    background: #4CAF50;
-    color: white;
-    border: none;
-}
-
-.print-btn:hover {
-    background: #439b46;
-}
-
-.pdf-btn {
-    background: #1976D2;
-    color: white;
-    border: none;
-}
-
-.pdf-btn:hover {
-    background: #155faf;
-}
-
-@media (max-width: 768px) {
     .form-grid {
-        grid-template-columns: 1fr;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
     }
-    .medications-grid {
-        grid-template-columns: 1fr;
-    }
-    .action-buttons {
-        flex-direction: column;
-    }
-}
 
-
-    /* ============================================= */
-    /* TAB PANELS */
-    /* ============================================= */
-    .tab-content {
+    label {
+      font-weight: 600;
       margin-top: 10px;
-      background: #f9f9f9;
-      border-radius: 8px;
-      box-shadow: inset 0 0 4px rgba(0,0,0,0.1);
-      padding: 15px;
-      flex: 1;
-    }
-
-    .tab-panel {
-      display: none;
-    }
-
-    .tab-panel.active {
       display: block;
-      animation: fadeIn 0.3s ease;
     }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .action-buttons {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .print-btn {
+      background: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+    }
+
+    .pdf-btn {
+      background: #0d6efd;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+    }
+
+    /* PREVIEW */
+    .prescription-preview {
+      margin-top: 30px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    #previewBox {
+      min-height: 250px;
+      border: 1px dashed #bbb;
+      padding: 15px;
+      margin-top: 10px;
+
+    }
+    .sidebar-menu {
+    position: relative;
+    }
+    .dropdown > a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    /* Dropdown base */
+.submenu {
+  display: none;
+  list-style: none;
+  padding-left: 45px;
+  background: rgba(255,255,255,0.05);
+  }
+
+  /* Arrow animation */
+  .arrow {
+    transition: transform 0.3s ease;
+    font-size: 12px;
+  }
+
+  /* Active state */
+  .dropdown.active .submenu {
+    display: block;
+  }
+
+  .dropdown.active .arrow {
+    transform: rotate(180deg);
+  }
+
+
+    .submenu {
+      display: none;
+      list-style: none;
+      padding-left: 45px;
+      background: rgba(255,255,255,0.05);
+    }
+
+    .submenu li a {
+      padding: 10px 20px;
+      font-size: 14px;
+      color: white;
+      display: block;
+      text-decoration: none;
+    }
+
+    .submenu li a:hover {
+      background: rgba(0,191,255,0.2);
+    }
+
+    .arrow {
+      font-size: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown.active .arrow {
+      transform: rotate(180deg);
+    }
+</style>
+
+  <style>
+
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(5px); }
@@ -604,42 +619,79 @@ input, select, textarea {
 <body>
   <div class="dashboard">
     <!-- SIDEBAR -->
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <img src="logo.png" alt="Logo" class="sidebar-logo">
-        <div class="sidebar-title">
-          <h2>SMART<br>DENTISTRY</h2>
-        </div>
-      </div>
+    <<!-- SIDEBAR -->
+<div class="sidebar">
 
-      <ul class="sidebar-menu">
-        <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
-        <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
-        <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-        <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-        <li><a href="Data-Back-Up.html"><i class="fas fa-database"></i> Data Backup</a></li>
-        <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-         <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
-        <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-      </ul>
-       <!-- Add Return to Home menu at the bottom -->
-            <div style="position: absolute; bottom: 20px; width: 13%;">
-                <div style="position: absolute; bottom: 20px; width: 100%;">
-                    <ul class="sidebar-menu settings-menu">
-                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-                    </ul>
-                    <ul class="sidebar-menu return-home-menu">
-                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
-                    </ul>
-                </div>
-            </div>  
+  <div class="sidebar-header">
+    <img src="logo.png" class="sidebar-logo">
+    <div class="sidebar-title">
+      <h2>SMART<br>DENTISTRY</h2>
     </div>
+  </div>
 
-              
-      
-      <!-- MAIN -->
-    <div class="main">
+  <ul class="sidebar-menu">
+
+    <li>
+      <a href="admin.html">
+        <i class="fas fa-home"></i> Dashboard
+      </a>
+    </li>
+
+    <!-- MY CLINIC DROPDOWN -->
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle">
+        <i class="fas fa-tooth"></i>
+        <span>My Clinic</span>
+        <i class="fas fa-chevron-down arrow"></i>
+      </a>
+
+      <ul class="submenu">
+        <li><a href="clinic-profile.html">Clinic Profile</a></li>
+        <li><a href="doctors.html">Doctors</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="clinic-schedule.html">Clinic Schedule</a></li>
+      </ul>
+    </li>
+
+    <li>
+      <a href="appointment-logs.html">
+        <i class="fas fa-clipboard-list"></i> Appointment Logs
+      </a>
+    </li>
+
+    <li>
+      <a href="patients.html">
+        <i class="fas fa-users"></i> Patients
+      </a>
+    </li>
+
+    <li>
+      <a href="Finance.html">
+        <i class="fas fa-dollar-sign"></i> Finance
+      </a>
+    </li>
+
+    <li>
+      <a href="Reports.html">
+        <i class="fas fa-chart-line"></i> Reports
+      </a>
+    </li>
+    <li>
+      <a href="Tutorial.html">
+        <i class="fas fa-chart-line"></i> Tutorial
+      </a>
+    </li>
+
+    <li>
+      <a href="landingpage.html">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </li>
+
+  </ul>
+</div>
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
       <div class="topbar">
         <div>Dental Chart</div>
         <div class="tutorial-btn">Tutorial Guide</div>
@@ -689,70 +741,122 @@ input, select, textarea {
         <!-- LEFT PANEL -->
         <div class="prescription-container">
 
-    <h2>Prescription Details</h2>
-<div class="form-grid">
-    <div class="form-group">
-        <label for="clinicName">Clinic Name</label>
-        <input type="text" id="clinicName" placeholder="Enter clinic name">
+      <!-- PRESCRIPTION DETAILS -->
+      <div class="prescription-form">
+        <h2>Prescription Details</h2>
+
+        <div class="form-grid">
+          <div>
+            <label>Clinic Name</label>
+            <input type="text">
+          </div>
+
+          <div>
+            <label>Doctor Name</label>
+            <input type="text">
+          </div>
+
+          <div>
+            <label>Date</label>
+            <input type="date">
+          </div>
+
+          <div>
+            <label>Patient Name</label>
+            <input type="text">
+          </div>
+
+          <div>
+            <label>Age</label>
+            <input type="number">
+          </div>
+
+          <div>
+            <label>Gender</label>
+            <select>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+          </div>
+        </div>
+
+        <label>Diagnosis</label>
+        <textarea></textarea>
+
+        <label>Clinic Contact</label>
+        <input type="text">
+
+        <h4>Medications</h4>
+        <button>+ Add Medicine</button>
+
+        <label>Additional Notes</label>
+        <textarea></textarea>
+
+        <button onclick="updatePreview()">Update Preview</button>
+
+      </div>
+
+      <!-- MEDICATIONS LIST -->
+      <div id="medicationsList">  
+
     </div>
 
-    <div class="form-group">
-        <label for="doctorName">Doctor Name</label>
-        <input type="text" id="doctorName" placeholder="Enter doctor's name">
+<script>
+
+function toggleClinic() {
+  const dropdown = document.querySelector(".dropdown");
+  dropdown.classList.toggle("active");
+
+  const submenu = document.getElementById("clinicSubmenu");
+  submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+}
+
+function updatePreview() {
+
+  const clinic = document.getElementById("clinicName").value;
+  const doctor = document.getElementById("doctorName").value;
+  const date = document.getElementById("date").value;
+  const patient = document.getElementById("patientName").value;
+  const age = document.getElementById("age").value;
+  const gender = document.getElementById("gender").value;
+  const diagnosis = document.getElementById("diagnosis").value;
+  const contact = document.getElementById("clinicContact").value;
+  const notes = document.getElementById("additionalNotes").value;
+
+  let meds = "";
+  const medsInputs = document.querySelectorAll("#medicationsList div");
+
+  medsInputs.forEach((med, index) => {
+    const inputs = med.querySelectorAll("input");
+    meds += `${index + 1}. ${inputs[0].value} - ${inputs[1].value}, ${inputs[2].value}<br>`;
+  });
+
+  document.getElementById("previewBox").innerHTML = `
+    <h3>${clinic}</h3>
+    <p><strong>Doctor:</strong> ${doctor}</p>
+    <p><strong>Date:</strong> ${date}</p>
+    <hr>
+
+    <p><strong>Patient:</strong> ${patient}</p>
+    <p><strong>Age:</strong> ${age}</p>
+    <p><strong>Gender:</strong> ${gender}</p>
+
+    <p><strong>Diagnosis:</strong><br>${diagnosis}</p>
+
+    <h4>Medications</h4>
+    ${meds || "No medicines added"}
+
+    <p><strong>Additional Notes:</strong><br>${notes}</p>
+
+    <hr>
+    <p><strong>Clinic Contact:</strong> ${contact}</p>
+  `;
+}
+</script>
+    <div class="action-buttons">
+        <button class="print-btn" onclick="window.print()">Print</button>
+        <button class="pdf-btn">Export as PDF</button>
     </div>
-
-    <div class="form-group">
-        <label for="date">Date</label>
-        <input type="date" id="date">
-    </div>
-
-    <div class="form-group">
-        <label for="patientName">Patient Name</label>
-        <input type="text" id="patientName" placeholder="Enter patient name">
-    </div>
-
-    <div class="form-group">
-        <label for="age">Age</label>
-        <input type="number" id="age" placeholder="Age">
-    </div>
-
-    <div class="form-group">
-        <label for="gender">Gender</label>
-        <select id="gender">
-            <option value="">Select gender</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-        </select>
-    </div>
-
-    <div class="form-group full">
-        <label for="diagnosis">Diagnosis</label>
-        <textarea id="diagnosis" placeholder="Enter diagnosis"></textarea>
-    </div>
-
-    <div class="form-group full">
-        <label for="clinicContact">Clinic Contact</label>
-        <input type="text" id="clinicContact" placeholder="Enter contact number">
-    </div>
-
-    </div>
-
-    <h3>Medications</h3>
-
-    <!-- ADD MEDICINE BUTTON -->
-    <button id="addMedicineBtn" class="add-btn">+ Add Medicine</button>
-
-    <!-- WHERE NEW MEDICINE ROWS WILL APPEAR -->
-    <div id="medications-list"></div>
-
-    <!-- NOTES + PREVIEW BTN -->
-    <div class="form-group">
-        <label>Additional Notes:</label>
-        <textarea id="additionalNotes" rows="3"></textarea>
-    </div>
-
-<button id="updatePreviewBtn">Update Preview</button>
 </div>
 
         <!-- PREVIEW PANEL -->
@@ -873,64 +977,24 @@ ${additionalNotes.value}
 document.getElementById("updatePreviewBtn").addEventListener("click", updatePreview);
 </script>
 
-  <!-- SCRIPT -->
   <script>
-    const dropdown = document.getElementById('toothConditionDropdown');
-    let selectedCondition = dropdown.value;
-    dropdown.addEventListener('change', () => selectedCondition = dropdown.value);
+function toggleClinic(e) {
+  e.preventDefault();
 
-    const teethGrid = document.getElementById('teethGrid');
-    const totalTeeth = 64;
-    const conditionData = {16:'decay',25:'decay',36:'decay',11:'perio',31:'perio',18:'missing',28:'missing'};
-    const colorMap = {damage:'#FF8A65',decay:'#9C27B0',missing:'#F44336',perio:'#2196F3',developmental:'#4CAF50'};
+  const dropdown = e.currentTarget.parentElement;
+  dropdown.classList.toggle("active");
 
-    for (let i = 1; i <= totalTeeth; i++) {
-      const tooth = document.createElement('div');
-      tooth.classList.add('tooth');
-      tooth.dataset.id = i;
-      updateToothColor(tooth, i);
-      tooth.addEventListener('click', () => {
-        conditionData[i] = selectedCondition;
-        updateToothColor(tooth, i);
-        refreshListedConditions();
-      });
-      teethGrid.appendChild(tooth);
-    }
+  const submenu = dropdown.querySelector(".submenu");
+  submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+}
 
-    function updateToothColor(toothEl, id) {
-      const cond = conditionData[id];
-      toothEl.style.background = colorMap[cond] || '#fafafa';
-    }
+  document.querySelector(".dropdown-toggle").addEventListener("click", function (e) {
+    e.preventDefault();
+    this.parentElement.classList.toggle("active");
+  });
 
-    function refreshListedConditions() {
-      const decay = [], perio = [], missing = [];
-      for (const id in conditionData) {
-        if (conditionData[id] === 'decay') decay.push(id);
-        if (conditionData[id] === 'perio') perio.push(id);
-        if (conditionData[id] === 'missing') missing.push(id);
-      }
-      document.getElementById('decayTeeth').textContent = decay.join(', ') || 'None';
-      document.getElementById('perioTeeth').textContent = perio.join(', ') || 'None';
-      document.getElementById('missingTeeth').textContent = missing.join(', ') || 'None';
-    }
 
-    const buttons = document.querySelectorAll('.btn-box');
-    const panels = document.querySelectorAll('.tab-panel');
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        buttons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const target = btn.dataset.tab;
-        panels.forEach(panel => {
-          panel.classList.remove('active');
-          if (panel.id === 'tab-' + target) panel.classList.add('active');
-        });
-      });
-    });
+</script>
 
-    document.getElementById('editBtn').addEventListener('click', () => {
-      alert('Edit mode triggered!');
-    });
-  </script>
 </body>
 </html>

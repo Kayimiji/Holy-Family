@@ -237,6 +237,34 @@
         input:checked + .slider:before {
             transform: translateX(26px);
       }
+      .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+        }
+
+        .modal-box {
+        background: #fff;
+        width: 400px;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 12px;
+        }
+
+        .modal-box input,
+        .modal-box select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        }
+
+        .modal-actions {
+        text-align: right;
+        margin-top: 10px;
+        }
+
     .bottom {padding: 20px;font-size: 14px;}
     .main {margin-left: 220px;padding: 20px 40px;}
     .header {display: flex;justify-content: space-between;align-items: center;margin-bottom: 20px;}
@@ -318,22 +346,160 @@
       <div class="report-card">💰 Patients with Balance</div>
     </div>
 
-    <button class="plus-btn" onclick="window.location.href='add-patient.html'"><i class="fa-solid fa-plus"></i></button>
-  </div>
+    <button class="green-btn" onclick="openPayments()">View Payments</button>
+    <button class="plus-btn" onclick="openAddPayment()">
+    <i class="fa-solid fa-plus"></i>
+    </button>
 
-  <script>
-    const ctx = document.getElementById("financeChart");
-    new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN"],
-        datasets: [
-          {label: "Total Revenue", data: [12000,9000,11000,4000,20000,15000], backgroundColor: "#00d4ff"},
-          {label: "Net Income", data: [8000,7000,5000,2000,14000,12000], backgroundColor: "#32cd32"},
-        ],
-      },
-      options: {responsive:true,scales:{y:{beginAtZero:true}}}
-    });
-  </script>
+    
+</script>
+    <div id="addPaymentModal" class="modal">
+  <div class="modal-box">
+    <h3>Add Payment</h3>
+
+    <input id="patientName" type="text" placeholder="Patient Name">
+    <input id="patientContact" type="text" placeholder="Contact Number">
+
+    <input id="payAmount" type="number" placeholder="Amount (PHP)">
+    <select id="payMode">
+      <option value="">Mode of Payment</option>
+      <option>Cash</option>
+      <option>GCash</option>
+      <option>Bank Transfer</option>
+    </select>
+    <input id="payRemarks" type="text" placeholder="Remarks">
+
+    <div class="modal-actions">
+      <button onclick="closeAddPayment()">Cancel</button>
+      <button class="green-btn" onclick="savePayment()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW PAYMENTS MODAL -->
+<div id="paymentsModal" class="modal">
+  <div class="modal-box" style="width:700px;">
+    <h3>Payments</h3>
+
+    <table width="100%" border="1" cellpadding="8">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Patient</th>
+          <th>Amount</th>
+          <th>Mode</th>
+          <th>Receipt</th>
+        </tr>
+      </thead>
+      <tbody id="paymentsTable"></tbody>
+    </table>
+
+    <div class="modal-actions">
+      <button onclick="closePayments()">Close</button>
+    </div>
+  </div>
+</div>
+<div id="receiptModal" class="modal">
+  <div class="modal-box" id="receiptContent">
+    <h2 style="text-align:center;">Payment Receipt</h2>
+    <hr>
+
+    <p><strong>Patient:</strong> <span id="rName"></span></p>
+    <p><strong>Contact:</strong> <span id="rContact"></span></p>
+    <p><strong>Date:</strong> <span id="rDate"></span></p>
+    <p><strong>Mode:</strong> <span id="rMode"></span></p>
+    <p><strong>Remarks:</strong> <span id="rRemarks"></span></p>
+
+    <h3>Total: ₱<span id="rAmount"></span></h3>
+
+    <div class="modal-actions">
+      <button onclick="printReceipt()">🖨 Print</button>
+      <button onclick="closeReceipt()">Close</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
+<script>
+const ctx = document.getElementById("financeChart");
+new Chart(ctx, {
+  type: "bar",
+  data: {
+    labels: ["JAN","FEB","MAR","APR","MAY","JUN"],
+    datasets: [
+      { label: "Total Revenue", data: [12000,9000,11000,4000,20000,15000], backgroundColor: "#00d4ff" },
+      { label: "Net Income", data: [8000,7000,5000,2000,14000,12000], backgroundColor: "#32cd32" }
+    ]
+  },
+  options: { responsive: true, scales: { y: { beginAtZero: true } } }
+});
+
+
+let payments = JSON.parse(localStorage.getItem("payments")) || [];
+let totalBalance = 150; // initial balance
+
+function openPayments() {
+  document.getElementById("paymentsModal").style.display = "block";
+  renderPayments();
+}
+
+function closePayments() {
+  document.getElementById("paymentsModal").style.display = "none";
+}
+
+function openAddPayment() {
+  document.getElementById("addPaymentModal").style.display = "block";
+}
+
+function closeAddPayment() {
+  document.getElementById("addPaymentModal").style.display = "none";
+}
+
+function savePayment() {
+  const amount = parseFloat(document.getElementById("payAmount").value);
+  const mode = document.getElementById("payMode").value;
+  const remarks = document.getElementById("payRemarks").value;
+
+  if (!amount || !mode) {
+    alert("Please enter amount and payment mode");
+    return;
+  }
+
+  const payment = {
+    date: new Date().toLocaleDateString(),
+    amount,
+    mode,
+    remarks
+  };
+
+  payments.push(payment);
+  localStorage.setItem("payments", JSON.stringify(payments));
+
+  updateTotals();
+  closeAddPayment();
+  clearPaymentForm();
+}
+
+function renderPayments() {
+  const tbody = document.getElementById("paymentsTable");
+  tbody.innerHTML = "";
+
+  payments.forEach(p => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${p.date}</td>
+        <td>PHP ${p.amount.toFixed(2)}</td>
+        <td>${p.mode}</td>
+        <td>${p.remarks || "-"}</td>
+      </tr>
+    `;
+  });
+}
+
+function updateTotals() {
+  const totalPaid = payments.reduce((sum, p) => sum + p.amount, 0);
+  totalBalance = Math.max(0, 150 - totalPaid);
+  document.querySelector(".card:nth-child(3)").innerHTML = `Total Balance<br>PHP ${totalBalance.toFixed(2)}`;
+}
+</script>
