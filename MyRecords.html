@@ -1103,14 +1103,18 @@ h2 {
                         </div>
                     </div>
                 </div>
-
+                <button class="View-btn" onclick="viewPatient()">View</button>
                 <button id="createGuestBtn" class="create-account-btn" style="width: 100%; margin-top: 20px;">
                     Create Account
                 </button>
             </div>
         </div>
     </div>
-
+    <script>
+    function viewPatient() {
+            window.location.href = "View.html";
+        }
+    </script>
     <script>
         // Theme toggle functionality
         const themeToggle = document.getElementById('themeToggle');
