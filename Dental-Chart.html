@@ -605,19 +605,20 @@
   <style>
 
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+   /* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .content{grid-template-columns:1fr}
+  .right-panel{flex-direction:row}
+}
+</style>
 </head>
 
 <body>
-  <div class="dashboard">
-    <!-- SIDEBAR -->
-    <<!-- SIDEBAR -->
-<div class="sidebar">
 
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
   <div class="sidebar-header">
     <img src="logo.png" class="sidebar-logo">
     <div class="sidebar-title">
@@ -626,66 +627,32 @@
   </div>
 
   <ul class="sidebar-menu">
+    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
 
-    <li>
-      <a href="admin.html">
-        <i class="fas fa-home"></i> Dashboard
-      </a>
-    </li>
-
-    <!-- MY CLINIC DROPDOWN -->
-    <li class="dropdown">
+    <li class="dropdown open">
       <a href="#" class="dropdown-toggle">
-        <i class="fas fa-tooth"></i>
-        <span>My Clinic</span>
+        <i class="fas fa-tooth"></i> My Clinic
         <i class="fas fa-chevron-down arrow"></i>
       </a>
-
       <ul class="submenu">
-        <li><a href="clinic-profile.html">Clinic Profile</a></li>
+        <li><a href="clinic-profile.html" class="active">Clinic Profile</a></li>
         <li><a href="Dental-Chart.html">Dental Chart</a></li>
         <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
         <li><a href="Data-Files.html">Data Files</a></li>
       </ul>
     </li>
 
-    <li>
-      <a href="appointment-logs.html">
-        <i class="fas fa-clipboard-list"></i> Appointment Logs
-      </a>
-    </li>
-
-    <li>
-      <a href="patients.html">
-        <i class="fas fa-users"></i> Patients
-      </a>
-    </li>
-
-    <li>
-      <a href="Finance.html">
-        <i class="fas fa-dollar-sign"></i> Finance
-      </a>
-    </li>
-
-    <li>
-      <a href="Reports.html">
-        <i class="fas fa-chart-line"></i> Reports
-      </a>
-    </li>
-    <li>
-      <a href="Tutorial.html">
-        <i class="fas fa-chart-line"></i> Tutorial
-      </a>
-    </li>
-
-    <li>
-      <a href="landingpage.html">
-        <i class="fas fa-sign-out-alt"></i> Logout
-      </a>
-    </li>
-
+    <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
+    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+    <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+    <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
+    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
   </ul>
-</div>
+</aside>
+
+  <div class="main">  
+
     <!-- MAIN CONTENT -->
     <div class="main-content">
       <div class="topbar">
