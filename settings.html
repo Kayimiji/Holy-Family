@@ -484,7 +484,7 @@ body {
                 <li><a href="MyRecords.html"><i class="fas fa-home"></i> Dashboard</a></li>
                 <li><a href="forms.html"><i class="fas fa-file-medical"></i> Forms</a></li>
                 <li><a href="mygallery.html"><i class="fas fa-images"></i> My Gallery</a></li>
-                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
             <!-- Add Return to Home menu at the bottom -->
             <div style="position: absolute; bottom: 20px; width: 13%;">
@@ -493,7 +493,7 @@ body {
                         <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
                     </ul>
                     <ul class="sidebar-menu return-home-menu">
-                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                        <li><a href="landingpage.html"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
                     </ul>
                 </div>
             </div>
@@ -519,7 +519,7 @@ body {
                 </div>
                 <form id="accountForm">
                     <div class="form-group">
-                        <label for="email" class="form-label">Clinic name</label>
+                        <label for="email" class="form-label">Email Address</label>
                         <input type="email" id="email" class="form-control" value="sammycabisheesh@example.com" required>
                     </div>
                     
@@ -560,7 +560,10 @@ body {
                             <label style="display: flex; align-items: center; gap: 10px;">
                                 <input type="checkbox" checked>
                                 Treatment updates
-                    
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox">
+                                Promotions and offers
                             </label>
                         </div>
                     </div>
@@ -631,17 +634,6 @@ body {
                 rootElement.setAttribute('data-theme', theme);
                 localStorage.setItem('theme', theme);
             });
-
-            const logoutButtons = document.querySelectorAll('.logout-btn');
-            logoutButtons.forEach(button => {
-                button.addEventListener('click', async (e) => {
-                    e.preventDefault();
-                    sessionStorage.removeItem('user');
-                    localStorage.removeItem('user');
-                    window.location.href = 'landingpage.html';
-                });
-            });
-
 
             // Mobile menu toggle
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');

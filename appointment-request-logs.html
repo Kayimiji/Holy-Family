@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appointment Logs- Smart Dentistry</title>
+    <title>Appointment Request Logs - Holy Family Dental Clinic</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -346,38 +346,33 @@ input:checked + .slider:before {
         border-bottom: none;
     }
 
-    /* Update status badge styles */
-.status-badge {
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
+    .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-transform: capitalize;
+    }
 
-.status-accepted {
-    background-color: #e3fcef;
-    color: #00a651;
-    border: 1px solid #00a651;
-}
+    .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+    }
 
-.status-rejected {
-    background-color: #fee7e7;
-    color: #dc3545;
-    border: 1px solid #dc3545;
-}
+    .status-approved {
+        background-color: #d4edda;
+        color: #155724;
+    }
 
-.status-accepted i {
-    color: #00a651;
-}
+    .status-rejected {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
 
-.status-rejected i {
-    color: #dc3545;
-}
+    .status-completed {
+        background-color: #cce5ff;
+        color: #004085;
+    }
 
     .empty-state {
         text-align: center;
@@ -474,14 +469,11 @@ input:checked + .slider:before {
             </div>
             <ul class="sidebar-menu">
                 <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
-                <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
+                <li><a href="appointment-request-logs.html" class="active"><i class="fas fa-clipboard-list"></i> <span>Appointment Request Logs</span></a></li>
+                <li><a href="#"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
                 <li><a href="patients.html"><i class="fas fa-users"></i> <span>Patients</span></a></li>
-                <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-                <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> <span> Data BackUp</a></li>
-                <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-                <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
-                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> <span>Reports</span></a></li>
+                <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
             <!-- Add Return to Home menu at the bottom -->
             <div style="position: absolute; bottom: 20px; width: 13%;">
@@ -490,7 +482,7 @@ input:checked + .slider:before {
                         <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
                     </ul>
                     <ul class="sidebar-menu return-home-menu">
-                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                        <li><a href="landingpage.html"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
                     </ul>
                 </div>
             </div>
@@ -522,9 +514,10 @@ input:checked + .slider:before {
                     <div class="filter-controls">
                         <select id="statusFilter">
                             <option value="">All Status</option>
-                            <option value="scheduled">Scheduled</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
                             <option value="rejected">Rejected</option>
-                            <option value="autorejected">Autorejected</option>
+                            <option value="completed">Completed</option>
                         </select>
 
                         <select id="sortBy">
@@ -539,12 +532,12 @@ input:checked + .slider:before {
                 <table class="logs-table">
                     <thead>
                         <tr>
-                            <th>Response Date & Time</th> <!-- kung kailan inaccept/cancel ni admin-->
-                            <th>Status</th>
+                            <th>Date & Time</th>
                             <th>Patient Name</th>
-                            <th>Requested Schedule</th> <!-- kung kailan want ni patient mag book ng appoitnment -->
-                            <th>Request Date</th> <!-- kung kailan nagrequest si patient ng appoitnment-->
+                            <th>Requested Schedule</th>
                             <th>Procedure</th>
+                            <th>Status</th>
+                            <th>Action Type</th>
                         </tr>
                     </thead>
                     <tbody id="logsTableBody">
@@ -556,64 +549,11 @@ input:checked + .slider:before {
     </div>
 
     <script>
+        
         document.addEventListener('DOMContentLoaded', function() {
-            
-            //---------------------------------------
-            // Temporary sample data - will be replaced later kanila master ate
-
-            //hindi po talaga ito clickable. logs po ito- logs an official record for appitnment history
-            let logs = [];
-
+            // Get logs from localStorage
+            const logs = JSON.parse(localStorage.getItem('appointmentRequestLogs') || '[]');
             const tableBody = document.getElementById('logsTableBody');
-
-            // Automatic call to fetch logs
-            fetch("http://localhost:3000/logs/requestLogs")
-                .then(response => {
-                    if (!response.ok) throw new Error("Failed to fetch logs");
-                    return response.json();
-                })
-                .then(data => {
-                    logs = data;  // Assign fetched logs to the global variable
-                    //filterAndDisplayLogs();  // Trigger UI update
-                    displayLogs(logs)
-                })
-                .catch(error => {
-                    console.error("Error loading logs:", error);
-                });
-
-
-            // Sample data for demonstration
-            //const sampleLogs = [
-            //    {
-            //        responseDate: null,
-            //        patientName: 'Sophia Grace B. Abacco',
-            //        appointmentDateTime: '2024-01-20T10:00:00',
-            //        timestamp: '2024-01-15T09:30:00',
-            //        service: 'Teeth Cleaning',
-            //        status: 'accepted'
-            //    },
-            //    {
-            //        responseDate: '2024-01-14T15:00:00',
-            //        patientName: 'Sammuel D.V. Cabison',
-            //        appointmentDateTime: '2024-01-21T15:30:00',
-            //        timestamp: '2024-01-14T14:15:00',
-            //        service: 'Root Canal',
-            //        status: 'accepted'
-            //    },
-            //    {
-            //        responseDate: '2024-01-13T12:30:00',
-            //        patientName: 'Kristina Casandra S. Samillano',
-            //        appointmentDateTime: '2024-01-19T13:00:00',
-            //        timestamp: '2024-01-13T11:00:00',
-            //        service: 'Dental Checkup',
-            //        status: 'rejected'
-            //    }
-            //];
-
-            // Store sample data in localStorage if no existing logs
-            // if (!localStorage.getItem('appointmentRequestLogs')) {
-            //    localStorage.setItem('appointmentRequestLogs', JSON.stringify(sampleLogs));
-            //}
 
             function displayLogs(logsToDisplay) {
                 if (logsToDisplay.length === 0) {
@@ -628,20 +568,14 @@ input:checked + .slider:before {
                     return;
                 }
 
-                // Update the log display to include icons
                 tableBody.innerHTML = logsToDisplay.map(log => `
                     <tr>
-                        <td><i class="far fa-clock"></i> ${log.timestamp ? formatDateTime(log.timestamp) : '-'}</td>
-                        <td>
-                            <span class="status-badge status-${log.status.toLowerCase()}">
-                                <i class="fas ${log.status.toLowerCase() === 'scheduled' ? 'fa-check-circle' : 'fa-times-circle'}"></i>
-                                ${log.status}
-                            </span>
-                        </td>
-                        <td><i class="far fa-user"></i> ${log.patient_name}</td>
-                        <td><i class="far fa-calendar-alt"></i> ${formatDateTime(combineDateAndTime(log.requested_date, log.requested_time))}</td>
-                        <td><i class="far fa-calendar-check"></i> ${formatDate(log.request_date)}</td>
-                        <td><i class="fas fa-tooth"></i> ${log.procedure}</td>
+                        <td><i class="far fa-clock"></i> ${formatDateTime(log.timestamp)}</td>
+                        <td><i class="far fa-user"></i> ${log.patientName}</td>
+                        <td><i class="far fa-calendar-alt"></i> ${formatDateTime(log.appointmentDateTime)}</td>
+                        <td><i class="fas fa-tooth"></i> ${log.service}</td>
+                        <td><span class="status-badge status-${log.status.toLowerCase()}">${log.status}</span></td>
+                        <td><i class="fas fa-tag"></i> ${log.action}</td>
                     </tr>
                 `).join('');
             }
@@ -649,13 +583,13 @@ input:checked + .slider:before {
             // Filter and search functionality
             function filterAndDisplayLogs() {
                 let filteredLogs = [...logs];
-                const searchTerm = searchInput ? searchInput.value.toLowerCase() : null;
-                const statusValue = statusFilter ? statusFilter.value.toLowerCase() : null;
+                const searchTerm = searchInput.value.toLowerCase();
+                const statusValue = statusFilter.value.toLowerCase();
 
                 filteredLogs = filteredLogs.filter(log => {
-                    const matchesSearch = log.patient_name?.toLowerCase().includes(searchTerm) ||
-                                        log.procedure?.toLowerCase().includes(searchTerm);
-                    const matchesStatus = !statusValue || log.status?.toLowerCase() === statusValue;
+                    const matchesSearch = log.patientName.toLowerCase().includes(searchTerm) ||
+                                        log.service.toLowerCase().includes(searchTerm);
+                    const matchesStatus = !statusValue || log.status.toLowerCase() === statusValue;
                     return matchesSearch && matchesStatus;
                 });
 
@@ -668,39 +602,24 @@ input:checked + .slider:before {
                         filteredLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                         break;
                     case 'name-asc':
-                        filteredLogs.sort((a, b) => a.patient_name.localeCompare(b.patient_name));
+                        filteredLogs.sort((a, b) => a.patientName.localeCompare(b.patientName));
                         break;
                     case 'name-desc':
-                        filteredLogs.sort((a, b) => b.patient_name.localeCompare(a.patient_name));
+                        filteredLogs.sort((a, b) => b.patientName.localeCompare(a.patientName));
                         break;
                 }
 
                 displayLogs(filteredLogs);
             }
 
-            function combineDateAndTime(dateStr, timeStr) {
-                // Ensure date is in YYYY-MM-DD and time in HH:mm:ss format
-                const datePart = dateStr.split('T')[0]; // "2025-06-12"
-                return `${datePart}T${timeStr}`;        // "2025-06-12T13:00:00"
-            }
-
             function formatDateTime(dateTimeStr) {
                 const date = new Date(dateTimeStr);
-                if (isNaN(date)) return '-';  // fallback if invalid
-                return date.toLocaleString('en-PH', {
+                return date.toLocaleString('en-US', {
                     year: 'numeric',
                     month: 'short',
                     day: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit'
-                });
-            }
-            function formatDate(dateTimeStr) {
-                const date = new Date(dateTimeStr);
-                return date.toLocaleString('en-PH', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
                 });
             }
 
@@ -726,7 +645,7 @@ input:checked + .slider:before {
             });
 
             // Initial display
-            //filterAndDisplayLogs();
+            filterAndDisplayLogs();
         });
     </script>
 </body>

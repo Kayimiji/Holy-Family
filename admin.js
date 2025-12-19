@@ -6,27 +6,6 @@ let currentAcceptIds = [];
 let currentCompletionModal = null;
 let currentCompletionId = null;  // Add this line
 let currentWarningModal = null; // Add this at the top with other modal state variables
-let today = new Date().toLocaleDateString('en-CA');
-let isAcceptRequest = null;
-let allAppointmentRequests;
-const nowPH = new Date().toLocaleString('en-PH', {
-    timeZone: 'Asia/Manila',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-});
-
-
-function showLoading() {
-    document.getElementById('loadingOverlay').style.display = 'flex';
-}
-
-function hideLoading() {
-    document.getElementById('loadingOverlay').style.display = 'none';
-}
 
 // Debug logging function
 function debugLog(label, data) {
@@ -86,13 +65,77 @@ function showToast(message, type = 'info') {
 
 let appointmentRequests = [];
 let appointmentLogs = [];
-let todayAppointments = [];
-let statsData = {
-    weekly: { labels: [], visits: [] },
-    monthly: { labels: [], visits: [] },
-    yearly: { labels: [], visits: [] }
+let todayAppointments = [
+    {
+        id: 1,
+        patientName: "John Smith",
+        date: new Date().toISOString().split('T')[0],
+        time: "10:00 AM",
+        procedure: "Dental Cleaning",
+        status: "Scheduled",
+        patientInfo: {
+            patientId: "HFDC-2023-003",
+            birthdate: "1985-03-20",
+            age: 38,
+            gender: "Male",
+            address: "789 Pine St, Manila",
+            email: "johnsmith@example.com"
+        }
+    },
+    {
+        id: 2,
+        patientName: "Maria Garcia",
+        date: new Date().toISOString().split('T')[0],
+        time: "11:30 AM",
+        procedure: "Tooth Extraction",
+        status: "Scheduled",
+        patientInfo: {
+            patientId: "HFDC-2023-004",
+            birthdate: "1988-11-12",
+            age: 35,
+            gender: "Female",
+            address: "321 Elm St, Pasig City",
+            email: "mariagarcia@example.com"
+        }
+    },
+    {
+        id: 3,
+        patientName: "David Wilson",
+        date: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+        time: "9:00 AM",
+        procedure: "Tooth Extraction",
+        status: "Scheduled",
+        patientInfo: {
+            patientId: "HFDC-2023-005",
+            birthdate: "1979-09-05",
+            age: 44,
+            gender: "Male",
+            address: "654 Maple St, Taguig City",
+            email: "davidwilson@example.com"
+        }
+    }
+];
+
+// Statistics data
+const statsData = {
+    weekly: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        visits: [30, 45, 35, 50, 40, 35, 45],
+        income: [1500, 2250, 1750, 2500, 2000, 1750, 2250]
+    },
+    monthly: {
+        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        visits: [200, 250, 180, 300],
+        income: [10000, 12500, 9000, 15000]
+    },
+    yearly: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        visits: [800, 900, 1200, 1100, 1300, 1400, 1200, 1100, 1000, 1200, 1300, 1500],
+        income: [40000, 45000, 60000, 55000, 65000, 70000, 60000, 55000, 50000, 60000, 65000, 75000]
+    }
 };
 
+// Fix time conversion function
 function convertTo24Hour(time12h) {
     if (!time12h) return '';
 
@@ -118,119 +161,9 @@ function convertTo24Hour(time12h) {
 // Initialize the dashboard
 document.addEventListener('DOMContentLoaded', async function () {
     try {
-        const response = await fetch(`http://localhost:3000/appointments`);
-        allAppointmentRequests = await response.json();
-        console.log("LENGTH:", allAppointmentRequests.length)
-        const now = new Date();
-
-        allAppointmentRequests.forEach(async appointment => {
-            try {
-                const dateStr = appointment.requested_date;   // e.g., "2025-06-01T00:00:00.000Z"
-                const timeStr = appointment.requested_time;   // e.g., "16:30:00"
-
-                if (!dateStr || !timeStr) {
-                    console.warn("Skipping due to missing date/time:", appointment);
-                    return;
-                }
-
-                const date = new Date(dateStr);
-                // Get correct PH date in YYYY-MM-DD format
-                const dateOnly = date.toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' });
-                // Combine safely
-                const combinedDateTimeStr = `${dateOnly}T${timeStr}`;
-                const combinedDateTime = new Date(combinedDateTimeStr);  // interpreted in local time
-
-                if (isNaN(combinedDateTime)) {
-                    console.warn("Invalid combined datetime:", combinedDateTimeStr);
-                    return;
-                }
-
-                console.log("APPOITNMENT ID:", appointment.id)
-                if (combinedDateTime < now) {
-                    if (appointment.status_id === 1) {
-                        const res = await fetch("http://localhost:3000/appointments/updateStatus", {
-                            method: "PUT",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                appointment_id: appointment.id,
-                                new_status: 7
-                            })
-                        }).then(response => {
-                            if (!response.ok) {
-                                throw new Error("Failed to update appointment status");
-                            }
-                            // ✅ After updating appointment, create a log
-                            return fetch("http://localhost:3000/logs", {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify({
-                                    timestamp: nowPH,
-                                    appointment_id: appointment.id,          // Optional: reference to appointment
-                                    status_update: 7, // Your custom log message
-                                })
-                            });
-                        })
-                            .then(logResponse => {
-                                if (!logResponse.ok) {
-                                    throw new Error("Failed to create log");
-                                }
-                                console.log("Log created successfully");
-                            })
-                            .catch(error => {
-                                console.error("Error:", error);
-                            });
-                    } else if (appointment.status_id == 2) {
-                        const res = await fetch("http://localhost:3000/appointments/updateStatus", {
-                            method: "PUT",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                appointment_id: appointment.id,
-                                new_status: 6
-                            })
-                        }).then(response => {
-                            if (!response.ok) {
-                                throw new Error("Failed to update appointment status");
-                            }
-                            // ✅ After updating appointment, create a log
-                            return fetch("http://localhost:3000/logs", {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify({
-                                    timestamp: nowPH,
-                                    appointment_id: appointment.id,          // Optional: reference to appointment
-                                    status_update: 6, // Your custom log message
-                                })
-                            });
-                        })
-                            .then(logResponse => {
-                                if (!logResponse.ok) {
-                                    throw new Error("Failed to create log");
-                                }
-                                console.log("Log created successfully");
-                            })
-                            .catch(error => {
-                                console.error("Error:", error);
-                            });
-                    }
-                }
-            } catch (error) {
-                console.error("Error processing appointment:", appointment, error);
-            }
-        });
-
-
         debugLog('Initializing dashboard...');
         await fetchAppointmentRequests();
         debugLog('Initial Appointment Requests', appointmentRequests);
-        await fetchAppointmentRequests(today);
         debugLog('Initial Today Appointments', todayAppointments);
 
         // Verify DOM elements including calendar elements
@@ -261,28 +194,17 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         // Initialize components with error handling
         try {
-            const logoutButtons = document.querySelectorAll('.logout-btn');
-            logoutButtons.forEach(button => {
-                button.addEventListener('click', async (e) => {
-                    e.preventDefault();
-                    sessionStorage.removeItem('user');
-                    localStorage.removeItem('user');
-                    window.location.href = 'landingpage.html';
-                });
-            });
-
-
             initCharts();
             initializeCalendar();
             updateRequestsTable();
             updateRequestCount();
             initializeTodaySection();
-            // await updateStatistics(); // Initial statistics update
+            updateStatistics(); // Initial statistics update
 
             // Set up auto-update interval for statistics (every 5 seconds)
             setInterval(() => {
                 updateStatistics();
-            }, 200);
+            }, 5000);
 
         } catch (e) {
             console.error('Failed to initialize dashboard components:', e);
@@ -294,31 +216,16 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 });
 
-async function fetchAppointmentRequests(date = null) {
-    showLoading();
-    let url = date
-        ? `http://localhost:3000/appointments/${date}`
-        : `http://localhost:3000/appointments/pending`;
-
+async function fetchAppointmentRequests() {
     try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbzr2bhvNSMtSL_0V7KGu-obBPuTywXtNP71xTmRkl01N9zlKWGZsvuydaTv38dITOMkJg/exec");
+        const data = await response.json();
+        console.log("TEST:", data)
 
-        let response = await fetch(url);
-        let data = await response.json();
-
-        if (date) {
-            todayAppointments = [];
-            todayAppointments = data;
-            console.log("NO DATE URL", url)
-        } else {
-            appointmentRequests = data;
-            console.log("URL", url)
-        }
-
+        appointmentRequests = data;
     } catch (error) {
         console.error("Failed to fetch appointments:", error);
     }
-
-    hideLoading();
 }
 
 // Appointment functions
@@ -372,19 +279,19 @@ function updateRequestsTable() {
     selectAllCheckbox.disabled = false;
 
     appointmentRequests.forEach(request => {
-        const requestDate = new Date(request.request_date);
-        const requestedDate = new Date(request.requested_date);
+        const requestDate = new Date(request.requestDate);
+        const requestedDate = new Date(request.requestedDate);
         const row = document.createElement('tr');
         row.innerHTML = `
             <td class="checkbox-wrapper"><input type="checkbox" data-id="${request.id}" ${selectAllCheckbox.checked ? 'checked' : ''}></td>
             <td class="clickable-cell" onclick="showAppointmentDetails(${request.id})">
-                <span class="patient-name">${request.patient_name}</span>
+                <span class="patient-name">${request.patientName}</span>
             </td>
             <td class="clickable-cell" onclick="showAppointmentDetails(${request.id})">
                 ${formatDateForDisplay(requestedDate)}
             </td>
             <td class="clickable-cell" onclick="showAppointmentDetails(${request.id})">
-                ${ensureTimeFormat(request.requested_time)}
+                ${ensureTimeFormat(request.requestedTime)}
             </td>
             <td class="clickable-cell" onclick="showAppointmentDetails(${request.id})">
                 <span class="procedure-tag">${request.procedure}</span>
@@ -409,7 +316,6 @@ function updateRequestsTable() {
 }
 
 function updateRequestCount() {
-    showLoading();
     const requestCount = document.getElementById('requestCount');
     const count = appointmentRequests.length;
     requestCount.textContent = count;
@@ -420,7 +326,6 @@ function updateRequestCount() {
     } else {
         requestCount.classList.remove('show');
     }
-    hideLoading();
 }
 
 function openTodayTab(evt, tabName) {
@@ -463,7 +368,6 @@ function updateModalButtons(status) {
 function showTodayAppointmentDetails(id) {
     currentTodayAppointmentId = id;
     const appointment = todayAppointments.find(app => app.id === id);
-    console.log("ALANSON:", appointment)
 
     if (!appointment) {
         showToast('Appointment not found', 'error');
@@ -482,17 +386,17 @@ function showTodayAppointmentDetails(id) {
     document.querySelector('.tab-btn[onclick*="today-patient-info"]').classList.add('active');
 
     // Populate patient info
-    document.getElementById('today-patient-name').textContent = appointment.patient_name;
-    document.getElementById('today-patient-id').textContent = appointment.id || 'N/A';
-    document.getElementById('today-contact').textContent = appointment.phoneNumber || 'Not provided';
-    document.getElementById('today-email').textContent = appointment.email || 'Not provided';
-    document.getElementById('today-age').textContent = appointment.age || 'Not provided';
-    document.getElementById('today-gender').textContent = appointment.gender || 'Not provided';
-    document.getElementById('today-address').textContent = appointment.address || 'Not provided';
+    document.getElementById('today-patient-name').textContent = appointment.patientName;
+    document.getElementById('today-patient-id').textContent = appointment.patientInfo?.patientId || 'N/A';
+    document.getElementById('today-contact').textContent = appointment.patientInfo?.contact || appointment.contact || 'Not provided';
+    document.getElementById('today-email').textContent = appointment.patientInfo?.email || 'Not provided';
+    document.getElementById('today-age').textContent = appointment.patientInfo?.age || 'Not provided';
+    document.getElementById('today-gender').textContent = appointment.patientInfo?.gender || 'Not provided';
+    document.getElementById('today-address').textContent = appointment.patientInfo?.address || 'Not provided';
 
     // Populate appointment info
-    document.getElementById('today-appointment-date').textContent = formatDateForDisplay(new Date(appointment.requested_date));
-    document.getElementById('today-appointment-time').textContent = ensureTimeFormat(appointment.requested_time);
+    document.getElementById('today-appointment-date').textContent = formatDateForDisplay(new Date(appointment.date));
+    document.getElementById('today-appointment-time').textContent = ensureTimeFormat(appointment.time);
     document.getElementById('today-procedure').textContent = appointment.procedure;
 
     // Set status badge
@@ -718,11 +622,13 @@ function previewTodayForm(formId) {
 
 // Today's appointments functions
 function initializeTodaySection() {
-    const thisDay = new Date();
+    const today = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    document.getElementById('todayDate').textContent = thisDay.toLocaleDateString('en-US', options);
+    document.getElementById('todayDate').textContent = today.toLocaleDateString('en-US', options);
     updateAppointmentsForDate(today);
 }
+
+
 
 function cancelAppointment(id) {
     const appointmentIndex = todayAppointments.findIndex(app => app.id === id);
@@ -735,13 +641,15 @@ function cancelAppointment(id) {
         canceledCount.textContent = (parseInt(canceledCount.textContent) + 1).toString();
 
         // Update UI
-        updateAppointmentsForDate(new Date(appointment.date).toLocaleDateString('en-CA'));
+        updateAppointmentsForDate(new Date(appointment.date));
         updateStatistics();
         updateCalendar(new Date());
 
-        showToast(`Appointment cancelled for ${appointment.patient_name}`, 'warning');
+        showToast(`Appointment cancelled for ${appointment.patientName}`, 'warning');
     }
 }
+
+
 
 function closePhotoConfirmationModal() {
     const modal = document.querySelector('.confirmation-modal');
@@ -816,57 +724,21 @@ function completeWithoutPhotos(id) {
     }
 }
 
-async function proceedWithCompletion(id) {
+function proceedWithCompletion(id) {
     const appointmentIndex = todayAppointments.findIndex(app => app.id === id);
     const appointment = todayAppointments[appointmentIndex];
 
     // Update appointment status
     todayAppointments[appointmentIndex].status = 'Completed';
-    todayAppointments[appointmentIndex].completedAt = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' });
-
-    await fetch("http://localhost:3000/appointments/updateStatus", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            appointment_id: id,   // 👈 Match the param your backend expects
-            new_status: 4        // 👈 Match field expected by backend
-        })
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error("Failed to update appointment status");
-        }
-        // ✅ After updating appointment, create a log
-        return fetch("http://localhost:3000/logs", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                timestamp: nowPH,
-                appointment_id: id,          // Optional: reference to appointment
-                status_update: 4, // Your custom log message
-            })
-        });
-    })
-        .then(logResponse => {
-            if (!logResponse.ok) {
-                throw new Error("Failed to create log");
-            }
-            console.log("Log created successfully");
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
+    todayAppointments[appointmentIndex].completedAt = new Date().toISOString();
 
     // Update UI
-    updateAppointmentsForDate(new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' }));
+    updateAppointmentsForDate(new Date());
     updateStatistics();
     updateCalendar(new Date());
 
     // Show confirmation
-    showToast(`Appointment completed for ${appointment.patient_name}`, 'success');
+    showToast(`Appointment completed for ${appointment.patientName}`, 'success');
 
     // Close modals
     closeCompletionModal();
@@ -931,7 +803,7 @@ function cancelTodayAppointment(id) {
                         <i class="fas fa-user"></i>
                         <div class="info-content">
                             <label>Patient</label>
-                            <span>${appointment.patient_name}</span>
+                            <span>${appointment.patientName}</span>
                         </div>
                     </div>
                     <div class="info-item">
@@ -963,7 +835,7 @@ function cancelTodayAppointment(id) {
     currentCompletionModal = modal;
 }
 
-async function proceedWithCancellation(id) {
+function proceedWithCancellation(id) {
     const appointmentIndex = todayAppointments.findIndex(app => app.id === id);
     if (appointmentIndex !== -1) {
         const appointment = todayAppointments[appointmentIndex];
@@ -980,49 +852,13 @@ async function proceedWithCancellation(id) {
                 <i class="fas fa-times-circle"></i> This appointment has been cancelled
             </div>`;
 
-        await fetch("http://localhost:3000/appointments/updateStatus", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                appointment_id: id,   // 👈 Match the param your backend expects
-                new_status: 5        // 👈 Match field expected by backend
-            })
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to update appointment status");
-            }
-            // ✅ After updating appointment, create a log
-            return fetch("http://localhost:3000/logs", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    timestamp: nowPH,
-                    appointment_id: id,          // Optional: reference to appointment
-                    status_update: 5, // Your custom log message
-                })
-            });
-        })
-            .then(logResponse => {
-                if (!logResponse.ok) {
-                    throw new Error("Failed to create log");
-                }
-                console.log("Log created successfully");
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-
         // Update UI
-        updateAppointmentsForDate(new Date(appointment.date).toLocaleDateString('en-CA'));
+        updateAppointmentsForDate(new Date(appointment.date));
         updateStatistics();
         updateCalendar(new Date());
 
         // Show confirmation toast
-        showToast(`Appointment cancelled for ${appointment.patient_name}`, 'warning');
+        showToast(`Appointment cancelled for ${appointment.patientName}`, 'warning');
 
         // Close the confirmation modal
         closeCompletionModal();
@@ -1060,48 +896,43 @@ function ensureTimeFormat(timeStr) {
     return `${hours}:${minutes} ${ampm}`;
 }
 
-async function updateAppointmentsForDate(date) {
-    const formattedDate = date;
-    await fetchAppointmentRequests(formattedDate);
-
+function updateAppointmentsForDate(date) {
+    // Format the selected date to YYYY-MM-DD format
+    const formattedDate = date.toISOString().split('T')[0];
     const todayTableBody = document.getElementById('todayTableBody');
     const todayCount = document.getElementById('todayCount');
 
     // Clear existing appointments
     todayTableBody.innerHTML = '';
 
+    // Filter appointments for selected date using strict equality
+    const dateAppointments = todayAppointments.filter(appointment => {
+        // Parse the appointment date string into a Date object
+        const apptDate = new Date(appointment.date);
+        // Compare year, month, and day separately
+        return apptDate.getFullYear() === date.getFullYear() &&
+            apptDate.getMonth() === date.getMonth() &&
+            apptDate.getDate() === date.getDate();
+    });
+
     // Update appointment count
-    todayCount.textContent = todayAppointments.length;
+    todayCount.textContent = dateAppointments.length;
 
     // Show/hide based on count
-    if (todayAppointments.length > 0) {
+    if (dateAppointments.length > 0) {
         todayCount.classList.add('show');
     } else {
         todayCount.classList.remove('show');
-
-        // Show empty state row
-        const emptyRow = document.createElement('tr');
-        const td = document.createElement('td');
-        td.colSpan = 7;
-        td.style.textAlign = 'center';
-        td.style.color = 'var(--text-muted)';
-        td.style.padding = '20px';
-        td.textContent = 'No appointments found for this date.';
-        emptyRow.appendChild(td);
-        todayTableBody.appendChild(emptyRow);
-
-        // Exit early since there's nothing more to render
-        return;
     }
 
-    // Sort appointments by time (implement actual sorting logic if needed)
-    todayAppointments.sort((a, b) => {
-        return a.requested_time.localeCompare(b.requested_time);
+    // Sort appointments by time
+    dateAppointments.sort((a, b) => {
+        return a.time.localeCompare(b.time);
     });
 
-    // Populate table
-    todayAppointments.forEach(appointment => {
-        const appointmentDate = new Date(appointment.requested_date);
+    // Populate table with filtered and sorted appointments
+    dateAppointments.forEach(appointment => {
+        const appointmentDate = new Date(appointment.date);
         const row = document.createElement('tr');
         row.onclick = (e) => {
             if (!e.target.closest('button') && !e.target.closest('input[type="checkbox"]')) {
@@ -1110,6 +941,7 @@ async function updateAppointmentsForDate(date) {
         };
         row.style.cursor = 'pointer';
 
+        // Only show action buttons if status is not Completed or Cancelled
         let actionColumn = '';
         if (appointment.status === "Scheduled") {
             actionColumn = `
@@ -1126,11 +958,11 @@ async function updateAppointmentsForDate(date) {
             <td class="checkbox-wrapper">
                 ${appointment.status === "Scheduled" ? `<input type="checkbox" data-id="${appointment.id}">` : ''}
             </td>
-            <td><span class="patient-name" data-full-text="${appointment.patient_name}">${appointment.patient_name}</span></td>
+            <td><span class="patient-name" data-full-text="${appointment.patientName}">${appointment.patientName}</span></td>
             <td>${formatDateForDisplay(appointmentDate)}</td>
-            <td>${ensureTimeFormat(appointment.requested_time)}</td>
+            <td>${ensureTimeFormat(appointment.time)}</td>
             <td><span class="procedure-tag" data-full-text="${appointment.procedure}">${appointment.procedure}</span></td>
-            <td><span class="status-badge status-${appointment.status}">
+            <td><span class="status-badge status-${appointment.status.toLowerCase()}">
                 ${appointment.status}
             </span></td>
             <td>${actionColumn}</td>
@@ -1138,9 +970,10 @@ async function updateAppointmentsForDate(date) {
         todayTableBody.appendChild(row);
     });
 
+
+    // Update bulk actions visibility
     updateBulkActionVisibility('todayTableBody', 'appointmentBulkActions', 'appointmentSelectedCount');
 }
-
 
 function showCancelConfirmation(id) {
     const appointment = todayAppointments.find(app => app.id === id);
@@ -1180,7 +1013,7 @@ function showCancelConfirmation(id) {
                         <i class="fas fa-user"></i>
                         <div class="info-content">
                             <label>Patient</label>
-                            <span>${appointment.patient_name}</span>
+                            <span>${appointment.patientName}</span>
                         </div>
                     </div>
                     <div class="info-item">
@@ -1211,14 +1044,14 @@ function showCancelConfirmation(id) {
 }
 
 // Statistics functions
-async function updateStatistics() {
-    showLoading();
-    // Count only today's scheduled appointments
-    const scheduledToday = todayAppointments.filter(app => {
-        const appDate = new Date(app.requested_date).toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' });
-        return appDate === today && app.status === "Scheduled";
-    }).length;
+function updateStatistics() {
+    // Get today's date in YYYY-MM-DD format
+    const today = new Date().toISOString().split('T')[0];
 
+    // Count only today's scheduled appointments
+    const scheduledToday = todayAppointments.filter(app =>
+        app.date === today && app.status === "Scheduled"
+    ).length;
 
     // Count total appointment requests
     const requests = appointmentRequests.length;
@@ -1230,7 +1063,7 @@ async function updateStatistics() {
 
     // Count all cancelled appointments
     const canceled = todayAppointments.filter(app =>
-        app.status === "Cancelled" || app.status === "Autocancelled"
+        app.status === "Cancelled"
     ).length;
 
     // Update the UI
@@ -1241,17 +1074,12 @@ async function updateStatistics() {
 
     // Keep walk-in at 0 as requested
     document.getElementById('walkInCount').textContent = '0';
-    hideLoading();
 }
 
 // Chart functions
 let patientActivityChart;
 
-async function initCharts() {
-
-    await updateWeeklyStats()
-    console.log("outside", statsData);
-
+function initCharts() {
     const ctx = document.getElementById('patientActivityChart').getContext('2d');
 
     patientActivityChart = new Chart(ctx, {
@@ -1327,11 +1155,7 @@ function updateTimePeriod(period) {
     updatePercentageText(period);
 }
 
-async function updateChartData(period, metric) {
-    console.log("updateChartData", period, metric)
-
-    await loadStatsForPeriod(period)
-
+function updateChartData(period, metric) {
     const data = statsData[period];
 
     patientActivityChart.data.datasets[0].label = metric === 'visits' ? 'Patient Visits' : 'Total Income ($)';
@@ -1343,12 +1167,6 @@ async function updateChartData(period, metric) {
 
     patientActivityChart.data.labels = data.labels;
     patientActivityChart.update();
-}
-
-async function loadStatsForPeriod(period) {
-    if (period === 'monthly') return updateMonthlyStats();
-    if (period === 'yearly') return updateYearlyStats();
-    if (period === 'weekly') return updateWeeklyStats();
 }
 
 function updatePercentageText(period) {
@@ -1368,67 +1186,6 @@ function updatePercentageText(period) {
 }
 
 // Calendar functions
-// Default: load weekly stats only
-async function updateWeeklyStats() {
-    try {
-        const res = await fetch('http://localhost:3000/stats/weekly');
-        const data = await res.json();
-
-        statsData.weekly = {
-            labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-            visits: formatData(data, ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']),
-        };
-
-        console.log('Weekly stats loaded:', statsData.weekly);
-
-    } catch (err) {
-        console.error('Failed to load weekly stats:', err);
-    }
-}
-
-async function updateMonthlyStats() {
-    try {
-        const res = await fetch('http://localhost:3000/stats/monthly');
-        const data = await res.json();
-
-        const labels = Array.from({ length: data.length }, (_, i) => `Week ${i + 1}`);
-
-        statsData.monthly = {
-            labels,
-            visits: formatData(data, labels),
-        };
-
-        console.log('Monthly stats loaded:', statsData.monthly);
-
-    } catch (err) {
-        console.error('Failed to load monthly stats:', err);
-    }
-}
-
-async function updateYearlyStats() {
-    try {
-        const res = await fetch('http://localhost:3000/stats/yearly');
-        const data = await res.json();
-
-        const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-        statsData.yearly = {
-            labels,
-            visits: formatData(data, labels),
-        };
-
-        console.log('Yearly stats loaded:', statsData.yearly);
-
-    } catch (err) {
-        console.error('Failed to load yearly stats:', err);
-    }
-}
-
-const formatData = (rawData, labels) => {
-    const map = new Map(rawData.map(item => [item.day || item.week || item.month, +item.visits]));
-    return labels.map(label => map.get(label) || 0);
-};
-
 function initializeCalendar() {
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const calendarDays = document.getElementById('calendarDays');
@@ -1475,7 +1232,7 @@ function initializeCalendar() {
                     day: 'numeric'
                 });
                 document.getElementById('todayDate').textContent = formattedDate;
-                updateAppointmentsForDate(today.toLocaleDateString('en-CA'));
+                updateAppointmentsForDate(today);
             }
         });
     });
@@ -1550,6 +1307,8 @@ function updateCalendar(date) {
             });
             dayElement.classList.add('selected');
 
+            updateAppointmentsForDate(currentDate);
+
             const formattedDate = currentDate.toLocaleDateString('en-US', {
                 weekday: 'long',
                 year: 'numeric',
@@ -1557,7 +1316,6 @@ function updateCalendar(date) {
                 day: 'numeric'
             });
             document.getElementById('todayDate').textContent = formattedDate;
-            updateAppointmentsForDate(currentDate.toLocaleDateString('en-CA'));
         });
     }
 }
@@ -1709,63 +1467,10 @@ function submitRejection() {
     currentDetailId = null;
 }
 
-async function rejectRequest(id, reason) {
-    isAcceptRequest = false;
+function rejectRequest(id, reason) {
     const requestIndex = appointmentRequests.findIndex(req => req.id === id);
     if (requestIndex !== -1) {
         const request = appointmentRequests[requestIndex];
-
-        const formattedRequest = {
-            patientName: request.patient_name,
-            procedure: request.procedure,
-            requestedDate: request.requested_date,
-            requestedTime: request.requested_time,
-            contact: request.contact,
-            email: request.email,
-            id: request.id
-        };
-
-        window.currentRequestToNotify = formattedRequest;
-
-        const label = `Do you want to send a confirmation message via SMS to ${formattedRequest.patientName}?`;
-        document.getElementById("notificationModalMessage").textContent = label;
-        document.getElementById("notificationConfirmationModal").classList.add("active");
-
-        await fetch("http://localhost:3000/appointments/updateStatus", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                appointment_id: id,   // 👈 Match the param your backend expects
-                new_status: 3        // 👈 Match field expected by backend
-            })
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to update appointment status");
-            }
-            // ✅ After updating appointment, create a log
-            return fetch("http://localhost:3000/logs", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    timestamp: nowPH,
-                    appointment_id: id,          // Optional: reference to appointment
-                    status_update: 3, // Your custom log message
-                })
-            });
-        })
-            .then(logResponse => {
-                if (!logResponse.ok) {
-                    throw new Error("Failed to create log");
-                }
-                console.log("Log created successfully");
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
 
         // Log the rejection
         logAppointmentAction({
@@ -1779,10 +1484,10 @@ async function rejectRequest(id, reason) {
         // Update UI
         updateRequestsTable();
         updateRequestCount();
-        await updateStatistics();
+        updateStatistics();
 
         // Show success notification
-        showToast(`Rejected appointment for ${request.patient_name}`, 'warning');
+        showToast(`Rejected appointment for ${request.patientName}`, 'warning');
     }
 }
 
@@ -1805,17 +1510,10 @@ function openTab(evt, tabName) {
     }
 }
 
-async function fetchAppointmentRequestsById(id) {
-    const response = await fetch(`http://localhost:3000/appointments/id/${id}`)
-    console.log("BY ID:", response)
-    return await response.json();
-}
-
-async function showAppointmentDetails(id) {
+function showAppointmentDetails(id) {
     debugLog('Opening details for ID', id);
     currentDetailId = id;
-    console.log(id)
-    const request = await fetchAppointmentRequestsById(id);
+    const request = appointmentRequests.find(req => req.id === id);
 
     if (!request) {
         debugLog('Request not found for ID', id);
@@ -1838,9 +1536,9 @@ async function showAppointmentDetails(id) {
     closeRejectModal();
 
     // Populate patient info
-    document.getElementById('detail-patient-name').textContent = request.patientInfo?.patientName;
-    // document.getElementById('detail-patient-id').textContent = request.patientInfo?.patientId || 'N/A';
-    document.getElementById('detail-contact').textContent = request.patientInfo?.phoneNumber || 'Not provided';
+    document.getElementById('detail-patient-name').textContent = request.patientName;
+    document.getElementById('detail-patient-id').textContent = request.patientInfo?.patientId || 'N/A';
+    document.getElementById('detail-contact').textContent = request.contact || 'Not provided';
     document.getElementById('detail-email').textContent = request.patientInfo?.email || 'Not provided';
     document.getElementById('detail-age').textContent = request.patientInfo?.age || 'Not provided';
     document.getElementById('detail-gender').textContent = request.patientInfo?.gender || 'Not provided';
@@ -1999,9 +1697,9 @@ function previewForm(formId) {
     `;
 }
 
-// function uploadForm() {
-//     showToast('Upload form functionality would be implemented here', 'info');
-// }
+function uploadForm() {
+    showToast('Upload form functionality would be implemented here', 'info');
+}
 
 function loadAppointmentHistory(patientId) {
     const historyList = document.getElementById('appointmentHistoryList');
@@ -2070,14 +1768,13 @@ function acceptRequest(id) {
     closeDetailsModal();
 
     // Then set up and show the accept confirmation
-    isAcceptRequest = true;
     currentAcceptId = id;
-    currentAcceptIds = null;
+    currentAcceptIds = [id];
     let request = appointmentRequests.find(req => req.id === id);
 
     document.getElementById('acceptModalTitle').textContent = 'Accept Appointment';
     document.getElementById('acceptModalMessage').textContent =
-        `Are you sure you want to accept the appointment for ${request.patient_name}?`;
+        `Are you sure you want to accept the appointment for ${request.patientName}?`;
 
     // Store request data temporarily for confirmation handler
     window.currentRequestToNotify = request;
@@ -2085,55 +1782,67 @@ function acceptRequest(id) {
 }
 
 async function confirmSendNotification() {
-    const requests = window.currentRequestToNotify
-        ? [window.currentRequestToNotify]
-        : Array.isArray(window.bulkRequestsToNotify)
-            ? window.bulkRequestsToNotify
-            : [];
+    const request = window.currentRequestToNotify;
+    if (!request) return;
 
-    for (const request of requests) {
-        if (!request) continue;
+    const rawDate = new Date(request.requestedDate);
+    const rawTime = new Date(request.requestedTime);
 
-        // Parse and format the date
-        const dateObj = new Date(request.requestedDate);
-        const dateOnly = dateObj.toISOString().split("T")[0]; // "2025-05-31"
-        const fullDateTime = new Date(`${dateOnly}T${request.requestedTime}`);
+    const formattedDate = rawDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
 
-        const formattedDate = dateObj.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
+    const formattedTime = rawTime.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+    });
 
-        const formattedTime = fullDateTime.toLocaleTimeString('en-US', {
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true
-        });
+    const messageText = `Hi ${request.patientName}, your appointment in Holy Family Dental Clinic for ${request.procedure} has been approved on ${formattedDate} at ${formattedTime}. Thank you and see you!`;
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-        const rejectionReason = document.getElementById('rejectionReason').value.trim();
+    let contact = String(request.contact).padStart(11, "0");
+    const formattedNumber = contact.replace(/^0/, "+63");
 
-        let messageText = isAcceptRequest
-            ? `Hi ${request.patientName}, your requested appointment in Holy Family Dental Clinic for ${request.procedure} scheduled on ${formattedDate} at ${formattedTime} has been approved. Thank you and see you!`
-            : `Hi ${request.patientName}, your requested appointment in Holy Family Dental Clinic for ${request.procedure} scheduled on ${formattedDate} at ${formattedTime} has been rejected` +
-            (rejectionReason ? ` due to ${rejectionReason}.` : `.`);
-
-
-        let contact = String(request.contact || request.phoneNumber || '').padStart(11, "0");
-        const formattedNumber = contact.replace(/^0/, "+63");
-
-        try {
+    try {
+        if (isMobile) {
             const smsBody = encodeURIComponent(messageText);
             window.location.href = `sms:${formattedNumber}?&body=${smsBody}`;
             showToast(`SMS app opened for ${request.patientName}`, 'success');
-            await new Promise(res => setTimeout(res, 600));
-        } catch (error) {
-            console.error("Failed to notify:", request.patientName, error);
-            showToast(`Failed to notify ${request.patientName}`, 'error');
+        } else {
+            await sendEmailInstead(
+                request.email,
+                messageText,
+                request.patientName,
+                request.procedure,
+                request.date,
+                request.time
+            );
+            showToast(`Email sent to ${request.patientName}`, 'success');
         }
+    } catch (error) {
+        console.error("Notification failed:", error);
+        showToast("Failed to send notification.", 'error');
     }
 
     closeNotificationModal();
+}
+
+async function sendEmailInstead(email, messageText) {
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("message", messageText);
+    formData.append("sendEmailFallback", "true");
+
+    const response = await fetch("https://script.google.com/macros/s/AKfycbzr2bhvNSMtSL_0V7KGu-obBPuTywXtNP71xTmRkl01N9zlKWGZsvuydaTv38dITOMkJg/exec", {
+        method: "POST",
+        body: formData
+    });
+
+    const result = await response.text();
+    console.log("Email fallback result:", result);
 }
 
 function closeAcceptModal() {
@@ -2142,138 +1851,103 @@ function closeAcceptModal() {
     // currentAcceptIds = [];
 }
 
-async function confirmAcceptAppointment() {
+function confirmAcceptAppointment() {
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const acceptedRequests = [];
+
     if (currentAcceptId) {
-        // ✅ Single appointment flow
-        const request = appointmentRequests.find(req => req.id == currentAcceptId);
+        const requestIndex = appointmentRequests.findIndex(req => req.id === currentAcceptId);
+        const todayIndex = todayAppointments.findIndex(app => app.id === currentAcceptId);
 
-        if (!request) {
-            console.warn("No request found for currentAcceptId");
-            return;
+        if (requestIndex !== -1) {
+            const request = appointmentRequests[requestIndex];
+
+            const newAppointment = {
+                id: Date.now(),
+                patientName: request.patientName,
+                date: request.requestedDate,
+                time: request.requestedTime,
+                procedure: request.procedure,
+                status: "Scheduled",
+                patientInfo: request.patientInfo
+            };
+
+            todayAppointments.push(newAppointment);
+            logAppointmentAction(request, "Accepted");
+            appointmentRequests.splice(requestIndex, 1);
+            acceptedRequests.push(newAppointment);
+
+            showToast(`Accepted appointment for ${request.patientName}`, 'success');
+        } else if (todayIndex !== -1) {
+            todayAppointments[todayIndex].status = "Completed";
+            showToast(`Completed appointment for ${todayAppointments[todayIndex].patientName}`, 'success');
         }
+    } else if (currentAcceptIds.length > 0) {
+        currentAcceptIds.forEach(id => {
+            const requestIndex = appointmentRequests.findIndex(req => req.id === id);
+            const todayIndex = todayAppointments.findIndex(app => app.id === id);
 
-        const formattedRequest = {
-            patientName: request.patient_name,
-            procedure: request.procedure,
-            requestedDate: request.requested_date,
-            requestedTime: request.requested_time,
-            contact: request.contact,
-            email: request.email,
-            id: request.id
-        };
+            if (requestIndex !== -1) {
+                const request = appointmentRequests[requestIndex];
 
-        window.currentRequestToNotify = formattedRequest;
+                const newAppointment = {
+                    id: Date.now() + Math.random(),
+                    patientName: request.patientName,
+                    date: request.requestedDate,
+                    time: request.requestedTime,
+                    procedure: request.procedure,
+                    status: "Scheduled",
+                    patientInfo: request.patientInfo
+                };
 
-        const label = `Do you want to send a confirmation message via SMS to ${formattedRequest.patientName}?`;
-        document.getElementById("notificationModalMessage").textContent = label;
-        document.getElementById("notificationConfirmationModal").classList.add("active");
-
-        // Update backend
-        await fetch("http://localhost:3000/appointments/updateStatus", {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ appointment_id: currentAcceptId, new_status: 2 })
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to update appointment status");
+                todayAppointments.push(newAppointment);
+                logAppointmentAction(request, "Accepted");
+                appointmentRequests.splice(requestIndex, 1);
+                acceptedRequests.push(newAppointment);
+            } else if (todayIndex !== -1) {
+                todayAppointments[todayIndex].status = "Confirmed";
             }
-            // ✅ After updating appointment, create a log
-            return fetch("http://localhost:3000/logs", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    timestamp: nowPH,
-                    appointment_id: currentAcceptId,          // Optional: reference to appointment
-                    status_update: 2, // Your custom log message
-                })
-            });
-        })
-            .then(logResponse => {
-                if (!logResponse.ok) {
-                    throw new Error("Failed to create log");
-                }
-                console.log("Log created successfully");
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
+        });
 
-    } else if (Array.isArray(currentAcceptIds) && currentAcceptIds.length > 0) {
-        // ✅ Bulk flow
-        for (const id of currentAcceptIds) {
-            await fetch("http://localhost:3000/appointments/updateStatus", {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ appointment_id: id, new_status: 2 })
-            }).then(response => {
-                if (!response.ok) {
-                    throw new Error("Failed to update appointment status");
-                }
-                // ✅ After updating appointment, create a log
-                return fetch("http://localhost:3000/logs", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        timestamp: nowPH,
-                        appointment_id: id,          // Optional: reference to appointment
-                        status_update: 2, // Your custom log message
-                    })
-                });
-            })
-                .then(logResponse => {
-                    if (!logResponse.ok) {
-                        throw new Error("Failed to create log");
-                    }
-                    console.log("Log created successfully");
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
-        }
-
-        // Optionally store data for bulk SMS
-        window.bulkRequestsToNotify = currentAcceptIds.map(id => {
-            const req = appointmentRequests.find(r => r.id === id);
-            return req ? {
-                patientName: req.patient_name,
-                procedure: req.procedure,
-                requestedDate: req.requested_date,
-                requestedTime: req.requested_time,
-                contact: req.contact,
-                email: req.email,
-                id: req.id
-            } : null;
-        }).filter(Boolean);
-
-        document.getElementById("notificationModalMessage").textContent =
-            `Do you want to send confirmation messages to ${window.bulkRequestsToNotify.length} patients?`;
-        document.getElementById("notificationConfirmationModal").classList.add("active");
-    } else {
-        console.warn("No appointments selected.");
-        return;
+        showToast(`Processed ${currentAcceptIds.length} appointments`, 'success');
     }
 
-    // ✅ Shared post-update logic
-    await fetchAppointmentRequests();
-    await fetchAppointmentRequests(today);
-
-    closeAcceptModal();
-
+    // Update UI
     updateRequestsTable();
     updateRequestCount();
-    await updateStatistics();
+    updateStatistics();
     updateCalendar(new Date());
-    updateAppointmentsForDate(new Date().toLocaleDateString('en-CA'));
+    updateAppointmentsForDate(new Date());
 
+    // Reset checkboxes
     document.getElementById('selectAll').checked = false;
     document.getElementById('selectAllToday').checked = false;
-
     updateBulkActionVisibility('requestTableBody', 'requestBulkActions', 'requestSelectedCount');
     updateBulkActionVisibility('todayTableBody', 'appointmentBulkActions', 'appointmentSelectedCount');
+
+    // Close modal
+    closeAcceptModal();
+
+    // Modal messaging
+    if (acceptedRequests.length === 1) {
+        const request = acceptedRequests[0];
+        window.currentRequestToNotify = request;
+        const label = isMobile
+            ? `Do you want to send a confirmation message via SMS to ${request.patientName}?`
+            : `Do you want to send a confirmation message via email to ${request.patientName}?`;
+
+        document.getElementById("notificationModalMessage").textContent = label;
+        document.getElementById("notificationConfirmationModal").classList.add("active");
+    } else if (acceptedRequests.length > 1) {
+        window.bulkRequestsToNotify = acceptedRequests;
+
+        const label = isMobile
+            ? `Do you want to send SMS confirmations to ${acceptedRequests.length} patients?`
+            : `Do you want to send email confirmations to ${acceptedRequests.length} patients?`;
+
+        document.getElementById("notificationModalMessage").textContent = label;
+        document.getElementById("notificationConfirmationModal").classList.add("active");
+    }
 }
 
 
@@ -2408,7 +2082,7 @@ function bulkCompleteAppointments() {
     setTimeout(() => modal.classList.add('active'), 10);
 }
 
-async function processBulkCompletion(ids) {
+function processBulkCompletion(ids) {
     ids.forEach(id => {
         const appointmentIndex = todayAppointments.findIndex(app => app.id === id);
         if (appointmentIndex !== -1) {
@@ -2418,8 +2092,8 @@ async function processBulkCompletion(ids) {
     });
 
     // Update UI
-    updateAppointmentsForDate(new Date().toLocaleDateString('en-CA'));
-    await updateStatistics();
+    updateAppointmentsForDate(new Date());
+    updateStatistics();
     updateCalendar(new Date());
 
     // Reset select all checkbox
@@ -2496,7 +2170,7 @@ function bulkCancelAppointments() {
     setTimeout(() => modal.classList.add('active'), 10);
 }
 
-async function processBulkCancellation(ids) {
+function processBulkCancellation(ids) {
     ids.forEach(id => {
         const appointmentIndex = todayAppointments.findIndex(app => app.id === id);
         if (appointmentIndex !== -1) {
@@ -2505,8 +2179,8 @@ async function processBulkCancellation(ids) {
     });
 
     // Update UI
-    updateAppointmentsForDate(new Date()).toLocaleDateString('en-CA');
-    await updateStatistics();
+    updateAppointmentsForDate(new Date());
+    updateStatistics();
     updateCalendar(new Date());
 
     // Reset select all checkbox
@@ -2678,7 +2352,7 @@ function loadTodayAppointmentHistory(patientId) {
 }
 
 // Check for expired appointments
-async function checkExpiredAppointments() {
+function checkExpiredAppointments() {
     const now = new Date();
     const expired = appointmentRequests.filter(request => {
         const requestDate = new Date(request.requestedDate + ' ' + convertTo24Hour(request.requestedTime));
@@ -2703,7 +2377,7 @@ async function checkExpiredAppointments() {
         // Update UI
         updateRequestsTable();
         updateRequestCount();
-        await updateStatistics();
+        updateStatistics();
         updateCalendar(new Date());
     }
 }
@@ -2787,7 +2461,7 @@ function confirmAppointment(id) {
 
     // Set up and show the accept confirmation modal
     currentAcceptId = id;
-    currentAcceptIds = null;
+    currentAcceptIds = [id];
 
     document.getElementById('acceptModalTitle').textContent = 'Confirm Appointment';
     document.getElementById('acceptModalMessage').textContent =
@@ -2846,7 +2520,7 @@ function completeAppointment(id) {
                         <i class="fas fa-user"></i>
                         <div class="info-content">
                             <label>Patient</label>
-                            <span>${appointment.patient_name}</span>
+                            <span>${appointment.patientName}</span>
                         </div>
                     </div>
                     <div class="info-item">
@@ -3038,7 +2712,49 @@ function closeWarningModal() {
     }
 }
 
+function proceedToPhotos(id) {
+    closeWarningModal();  // Keep this existing close
+    closeCompletionModal(); // Add this line to close completion modal
+    showTodayAppointmentDetails(id);
+
+    setTimeout(() => {
+        const photosTabBtn = document.querySelector('.tab-btn[onclick*="today-photos"]');
+        if (photosTabBtn) {
+            photosTabBtn.click();
+        }
+    }, 100);
+}
+
+function completeWithoutPhotos(id) {
+    if (confirm('Are you sure you want to complete this appointment without photos? This action cannot be undone.')) {
+        proceedWithCompletion(id);
+        closeWarningModal();
+    }
+}
+
+function proceedWithCompletion(id) {
+    const appointmentIndex = todayAppointments.findIndex(app => app.id === id);
+    const appointment = todayAppointments[appointmentIndex];
+
+    // Update appointment status
+    todayAppointments[appointmentIndex].status = 'Completed';
+    todayAppointments[appointmentIndex].completedAt = new Date().toISOString();
+
+    // Update UI
+    updateAppointmentsForDate(new Date());
+    updateStatistics();
+    updateCalendar(new Date());
+
+    // Show confirmation
+    showToast(`Appointment completed for ${appointment.patientName}`, 'success');
+
+    // Close modals
+    closeCompletionModal();
+    closeTodayAppointmentModal();
+}
+
 // Form management functions
+
 // Global variable to track the current patient ID
 let currentPatientId = null;
 
