@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Clinic - Smart Dentistry</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --sidebar-bg:#2c3e50;
+  --sidebar-active:#00bfff;
+  --bg:#eef8fc;
+  --card:#ffffff;
+  --shadow:0 4px 12px rgba(0,0,0,.08);
+  --text:#2c3e50;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+body{background:var(--bg);color:var(--text)}
+
+/* ===== LAYOUT ===== */
+.dashboard{display:flex;min-height:100vh}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:250px;
+  background:var(--sidebar-bg);
+  color:#fff;
+  position:fixed;
+  top:0;left:0;bottom:0;
+}
+.sidebar-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:20px;
+}
+.sidebar-logo{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+}
+.sidebar-title h2{
+  font-size:16px;
+  color:var(--sidebar-active);
+  line-height:1.1;
+}
+.sidebar-menu{list-style:none}
+.sidebar-menu a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 20px;
+  color:#fff;
+  text-decoration:none;
+}
+.sidebar-menu a:hover,
+.sidebar-menu a.active{
+  background:rgba(0,191,255,.2);
+  border-left:4px solid var(--sidebar-active);
+}
+
+/* Dropdown */
+.dropdown .arrow{
+  margin-left:auto;
+  transition:.3s;
+}
+.dropdown.open .arrow{
+  transform:rotate(180deg);
+}
+.submenu{
+  list-style:none;
+  display:none;
+  background:#243444;
+}
+.dropdown.open .submenu{
+  display:block;
+}
+.submenu a{
+  padding:10px 40px;
+  font-size:14px;
+}
+
+/* ===== MAIN ===== */
+.main{
+  margin-left:250px;
+  width:calc(100% - 250px);
+  display:flex;
+  flex-direction:column;
+}
+
+/* ===== HEADER ===== */
+.header{
+  background:#3de8ff;
+  padding:15px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:700;
+}
+.tutorial-btn{
+  background:#a7ff83;
+  border:none;
+  padding:6px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* ===== CONTENT ===== */
+.content{
+  padding:24px;
+  display:grid;
+  grid-template-columns:1fr 180px;
+  gap:24px;
+}
+
+/* ===== PROFILE CARD ===== */
+.profile-card{
+  background:var(--card);
+  border-radius:12px;
+  padding:24px;
+  box-shadow:var(--shadow);
+}
+.form-head{font-weight:700;margin:14px 0}
+.form-row{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:10px;
+}
+.form-row .label{width:150px;font-size:13px}
+input{
+  flex:1;
+  padding:8px 10px;
+  border:1px solid #ddd;
+  border-radius:6px;
+}
+.section{
+  border-top:1px dashed #eee;
+  padding-top:14px;
+  margin-top:14px;
+}
+.signature-box{
+  height:70px;
+  border:1px solid #ddd;
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:cursive;
+}
+
+/* ===== RIGHT PANEL ===== */
+.right-panel{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  align-items:center;
+}
+.clinic-logo{
+  background:#fff;
+  padding:14px;
+  border-radius:10px;
+  box-shadow:var(--shadow);
+}
+.change{
+  background:#e6fbff;
+  padding:10px;
+  border-radius:8px;
+  font-weight:600;
+}
+.fab button{
+  width:44px;
+  height:44px;
+  border:none;
+  border-radius:50%;
+  background:#00bfff;
+  color:#fff;
+  cursor:pointer;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .content{grid-template-columns:1fr}
+  .right-panel{flex-direction:row}
+}
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <img src="logo.png" class="sidebar-logo">
+    <div class="sidebar-title">
+      <h2>SMART<br>DENTISTRY</h2>
+    </div>
+  </div>
+
+  <ul class="sidebar-menu">
+    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+
+    <li class="dropdown open">
+      <a href="#" class="dropdown-toggle">
+        <i class="fas fa-tooth"></i> My Clinic
+        <i class="fas fa-chevron-down arrow"></i>
+      </a>
+      <ul class="submenu">
+        <li><a href="clinic-profile.html" class="active">Clinic Profile</a></li>
+        <li><a href="Dental-Chart.html">Dental Chart</a></li>
+        <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
+        <li><a href="Data-Files.html">Data Files</a></li>
+      </ul>
+    </li>
+
+    <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
+    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+    <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+    <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
+    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+  </ul>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+<div class="header">
+  <span>Profile</span>
+  <button class="tutorial-btn">Tutorial Guide</button>
+</div>
+
+<div class="content">
+
+<div class="profile-card">
+  <div class="form-head">Clinic Information</div>
+  <div class="form-row"><div class="label">Clinic Name</div><input></div>
+  <div class="form-row"><div class="label">Contact Number</div><input></div>
+  <div class="form-row"><div class="label">Address</div><input></div>
+
+  <div class="section">
+    <div class="form-head">Dentist Information</div>
+    <div class="form-row"><div class="label">Dentist Name</div><input></div>
+    <div class="form-row"><div class="label">Contact Number</div><input></div>
+    <div class="form-row"><div class="label">Email</div><input></div>
+  </div>
+
+  <div class="section">
+    <div class="form-head">Prescription Details</div>
+    <div class="form-row"><div class="label">License No.</div><input></div>
+    <div class="form-row"><div class="label">Degree</div><input></div>
+    <div class="form-row">
+      <div class="label">Signature</div>
+      <div class="signature-box">Signature</div>
+    </div>
+  </div>
+</div>
+
+<div class="right-panel">
+  <div class="clinic-logo">
+    <img src="logo.png" style="max-width:100%">
+  </div>
+  <div class="change">Change Logo</div>
+  <div class="fab"><button>✎</button></div>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+document.querySelector('.dropdown-toggle').addEventListener('click', e=>{
+  e.preventDefault();
+  e.currentTarget.parentElement.classList.toggle('open');
+});
+</script>
+
+</body>
+</html>
