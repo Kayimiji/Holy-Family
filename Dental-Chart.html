@@ -105,33 +105,27 @@
             text-align: center;
         }
         .sidebar-header {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            margin-bottom: 30px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 20px;
         }
 
         .sidebar-logo {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            margin-right: -5px;
-            margin-top: -45px;
-            margin-left: -20px;
-            object-fit: cover;
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          object-fit: cover;
+          margin: 0;     /* REMOVE negative margins */
         }
 
         .sidebar-title h2 {
-            color: var(--sidebar-active);
-            margin: 0;
-            font-size: 18px;
-            line-height: 1;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            white-space: nowrap;
+          font-size: 20px;
+          line-height: 1.2;
+          margin: 0;
+          color: #00e5ff;
         }
+
 
         .sidebar-title p {
             color: var(--sidebar-text);
@@ -284,16 +278,18 @@
     }
 
     .topbar {
-      background: #3de8ff;
+      background: linear-gradient(90deg, #00e5ff, #00bcd4);
       color: white;
-      height: 60px;
+      height: 56px;               /* FIXED height */
       display: flex;
+      align-items: center;        /* vertical center */
       justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-      font-weight: bold;
-      flex-shrink: 0;
+      padding: 0 24px;
+      font-weight: 600;
+      font-size: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
+
 
     .tutorial-btn {
       background: #a7ff83;
@@ -453,7 +449,7 @@
     min-width: 0;
 }
 
-#preview-box {
+  .preview-box {
     width: 100%;
     min-height: 300px;
     padding: 15px;
@@ -465,12 +461,12 @@
   .preview-section {
       flex: 2.2;   /* keep moderate */
       .prescription-container {
-    width: 100%;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    color: #2e3a43;
-    font-family: Arial, sans-serif;
+      width: 100%;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      color: #2e3a43;
+      font-family: Arial, sans-serif;
       }
 }
     .prescription-container {
@@ -694,7 +690,6 @@
     <div class="main-content">
       <div class="topbar">
         <div>Dental Chart</div>
-        <div class="tutorial-btn">Tutorial Guide</div>
       </div>
 
       <div class="content"> 
@@ -742,6 +737,7 @@
         <div class="prescription-container">
 
       <!-- PRESCRIPTION DETAILS -->
+       
       <div class="prescription-form">
         <h2>Prescription Details</h2>
 
@@ -786,18 +782,15 @@
         <label>Clinic Contact</label>
         <input type="text">
 
-        <h4>Medications</h4>
-        <button>+ Add Medicine</button>
-
         <label>Additional Notes</label>
         <textarea></textarea>
 
-        <button onclick="updatePreview()">Update Preview</button>
-
-      </div>
 
       <!-- MEDICATIONS LIST -->
-      <div id="medicationsList">  
+      <button id="addMedicineBtn">+ Add Medicine</button>
+      <div id="medicationsList"></div>
+      
+      <button onclick="updatePreview()">Update Preview</button>
 
     </div>
 
@@ -811,47 +804,59 @@ function toggleClinic() {
   submenu.style.display = submenu.style.display === "block" ? "none" : "block";
 }
 
+
 function updatePreview() {
 
-  const clinic = document.getElementById("clinicName").value;
-  const doctor = document.getElementById("doctorName").value;
-  const date = document.getElementById("date").value;
-  const patient = document.getElementById("patientName").value;
-  const age = document.getElementById("age").value;
-  const gender = document.getElementById("gender").value;
-  const diagnosis = document.getElementById("diagnosis").value;
-  const contact = document.getElementById("clinicContact").value;
-  const notes = document.getElementById("additionalNotes").value;
-
-  let meds = "";
-  const medsInputs = document.querySelectorAll("#medicationsList div");
-
-  medsInputs.forEach((med, index) => {
-    const inputs = med.querySelectorAll("input");
-    meds += `${index + 1}. ${inputs[0].value} - ${inputs[1].value}, ${inputs[2].value}<br>`;
+  let medsHTML = "";
+  document.querySelectorAll("#medicationsList div").forEach((row, i) => {
+    const inputs = row.querySelectorAll("input");
+    medsHTML += `<p>${i+1}. ${inputs[0].value} – ${inputs[1].value}, ${inputs[2].value}</p>`;
   });
 
-  document.getElementById("previewBox").innerHTML = `
-    <h3>${clinic}</h3>
-    <p><strong>Doctor:</strong> ${doctor}</p>
-    <p><strong>Date:</strong> ${date}</p>
+  document.getElementById("preview-box").innerHTML = `
+    <h3>${clinicName.value}</h3>
+    <p><strong>Doctor:</strong> ${doctorName.value}</p>
+    <p><strong>Date:</strong> ${date.value}</p>
     <hr>
 
-    <p><strong>Patient:</strong> ${patient}</p>
-    <p><strong>Age:</strong> ${age}</p>
-    <p><strong>Gender:</strong> ${gender}</p>
+    <p><strong>Patient:</strong> ${patientName.value}</p>
+    <p><strong>Age / Gender:</strong> ${age.value} / ${gender.value}</p>
 
-    <p><strong>Diagnosis:</strong><br>${diagnosis}</p>
+    <p><strong>Diagnosis:</strong></p>
+    <p>${diagnosis.value}</p>
 
-    <h4>Medications</h4>
-    ${meds || "No medicines added"}
+    <p><strong>Medications:</strong></p>
+    ${medsHTML || "<em>No medicines added</em>"}
 
-    <p><strong>Additional Notes:</strong><br>${notes}</p>
+    <p><strong>Notes:</strong></p>
+    <p>${additionalNotes.value}</p>
 
     <hr>
-    <p><strong>Clinic Contact:</strong> ${contact}</p>
+    <p><strong>Clinic Contact:</strong> ${clinicContact.value}</p>
   `;
 }
+
+
+
+document.getElementById("addMedicineBtn").addEventListener("click", () => {
+  const list = document.getElementById("medicationsList");
+
+  const row = document.createElement("div");
+  row.style.display = "flex";
+  row.style.gap = "5px";
+  row.style.marginBottom = "5px";
+
+  row.innerHTML = `
+    <input placeholder="Medicine">
+    <input placeholder="Dosage">
+    <input placeholder="Frequency">
+    <button onclick="this.parentElement.remove()">✖</button>
+  `;
+
+  list.appendChild(row);
+});
+
+
 </script>
     <div class="action-buttons">
         <button class="print-btn" onclick="window.print()">Print</button>

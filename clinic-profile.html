@@ -100,13 +100,7 @@ body{background:var(--bg);color:var(--text)}
   align-items:center;
   font-weight:700;
 }
-.tutorial-btn{
-  background:#a7ff83;
-  border:none;
-  padding:6px 12px;
-  border-radius:6px;
-  cursor:pointer;
-}
+
 
 /* ===== CONTENT ===== */
 .content{
@@ -229,12 +223,6 @@ input{
 
 <!-- MAIN -->
 <div class="main">
-
-<div class="header">
-  <span>Profile</span>
-  <button class="tutorial-btn">Tutorial Guide</button>
-</div>
-
 <div class="content">
 
 <div class="profile-card">
@@ -250,35 +238,153 @@ input{
     <div class="form-row"><div class="label">Email</div><input></div>
   </div>
 
-  <div class="section">
-    <div class="form-head">Prescription Details</div>
-    <div class="form-row"><div class="label">License No.</div><input></div>
-    <div class="form-row"><div class="label">Degree</div><input></div>
-    <div class="form-row">
-      <div class="label">Signature</div>
-      <div class="signature-box">Signature</div>
+  <div class="form-row">
+  <div class="label">Signature</div>
+  <div>
+    <canvas id="signaturePad" width="220" height="70"
+      style="border:1px dashed #ccc;border-radius:6px"></canvas>
+    <div style="margin-top:5px">
+      <button type="button" onclick="clearSignature()">Clear</button>
     </div>
   </div>
 </div>
-
-<div class="right-panel">
-  <div class="clinic-logo">
-    <img src="logo.png" style="max-width:100%">
-  </div>
-  <div class="change">Change Logo</div>
-  <div class="fab"><button>✎</button></div>
+  <button id="saveProfile"
+    style="margin-top:20px;padding:10px 18px;border:none;
+    border-radius:8px;background:#00bfff;color:white;cursor:pointer">
+    💾 Save Profile
+</button>
 </div>
+
+<div class="clinic-logo">
+  <img id="logoPreview" src="logo.png" style="max-width:100%">
+</div>
+
+<input type="file" id="logoInput" accept="image/*" hidden>
+
+<div class="change" onclick="document.getElementById('logoInput').click()">
+  Change Logo
+</div>
+
 
 </div>
 </div>
 </div>
 
 <script>
-document.querySelector('.dropdown-toggle').addEventListener('click', e=>{
-  e.preventDefault();
-  e.currentTarget.parentElement.classList.toggle('open');
-});
-</script>
+// ===== SIGNATURE =====
+const canvas = document.getElementById('signaturePad');
+const ctx = canvas.getContext('2d');
+let drawing = false;
 
+canvas.onmousedown = () => drawing = true;
+canvas.onmouseup = () => {
+  drawing = false;
+  ctx.beginPath();
+};
+canvas.onmousemove = e => {
+  if (!drawing) return;
+  ctx.lineWidth = 2;
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = '#000';
+  ctx.lineTo(e.offsetX, e.offsetY);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(e.offsetX, e.offsetY);
+};
+
+function clearSignature(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+}
+
+// ===== LOGO PREVIEW =====
+document.getElementById('logoInput').addEventListener('change', e=>{
+  const file = e.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    document.getElementById('logoPreview').src = reader.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+// ===== SAVE PROFILE =====
+document.getElementById('saveProfile').onclick = () => {
+
+  const data = new FormData();
+
+  data.append('clinicName', document.querySelectorAll('input')[0].value);
+  data.append('clinicContact', document.querySelectorAll('input')[1].value);
+  data.append('clinicAddress', document.querySelectorAll('input')[2].value);
+
+  data.append('dentistName', document.querySelectorAll('input')[3].value);
+  data.append('dentistContact', document.querySelectorAll('input')[4].value);
+  data.append('dentistEmail', document.querySelectorAll('input')[5].value);
+
+  data.append('licenseNo', document.querySelectorAll('input')[6].value);
+  data.append('degree', document.querySelectorAll('input')[7].value);
+
+  data.append('signature', canvas.toDataURL());
+  data.append('logo', document.getElementById('logoInput').files[0]);
+
+  fetch('save_clinic.php',{
+    method:'POST',
+    body:data
+  })
+  .then(res=>res.text())
+  .then(()=>{
+    alert('Clinic Profile Saved Successfully!');
+  });
+};
+<?php
+// LOGO
+$logoPath = '';
+if(isset($_FILES['logo'])){
+  $logoName = time().'_logo.png';
+  move_uploaded_file($_FILES['logo']['tmp_name'], "uploads/$logoName");
+  $logoPath = "uploads/$logoName";
+}
+
+// SIGNATURE
+$signature = $_POST['signature'];
+$signature = str_replace('data:image/png;base64,','',$signature);
+$signature = base64_decode($signature);
+
+$sigName = time().'_signature.png';
+file_put_contents("uploads/$sigName",$signature);
+
+// 👉 save paths to DB if needed
+echo "saved";
+<?php
+require_once('tcpdf/tcpdf.php');
+
+$pdf = new TCPDF();
+$pdf->AddPage();
+
+// FETCH FROM DB (example)
+$logo = "uploads/latest_logo.png";
+$signature = "uploads/latest_signature.png";
+
+// LOGO
+$pdf->Image($logo,10,10,30);
+
+// TITLE
+$pdf->SetFont('helvetica','B',14);
+$pdf->Cell(0,20,'Dental Prescription',0,1,'C');
+
+$pdf->Ln(10);
+
+// BODY
+$pdf->SetFont('helvetica','',11);
+$pdf->MultiCell(0,8,"Rx:\nAmoxicillin 500mg\n3x daily after meals");
+
+// SIGNATURE
+$pdf->Ln(20);
+$pdf->Image($signature,130,$pdf->GetY(),40);
+$pdf->Ln(15);
+$pdf->Cell(0,5,"Dentist Signature",0,1,'R');
+
+$pdf->Output('prescription.pdf','I');
+</script>
 </body>
 </html>
