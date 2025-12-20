@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SMART DENTISTRY - Dental Certificate</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--accent:#00d4ff;--muted:#f8f9fb;--dark:#2c3e50;}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Poppins",sans-serif;background:var(--muted);color:#222}
+    .sidebar{position:fixed;top:0;left:0;width:220px;height:100vh;background:var(--dark);color:#fff;display:flex;flex-direction:column;justify-content:space-between}
+    .sidebar .logo{padding:20px;text-align:center;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.06)}
+    .sidebar .logo i{color:var(--accent);font-size:28px}
+    .sidebar ul{list-style:none;padding:0 0 20px 0}
+    .sidebar li{padding:12px 20px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:0.2s;color:#fff}
+    .sidebar li:hover,.sidebar li.active{background:var(--accent);color:#000;border-radius:0 30px 30px 0}
+    .sidebar .bottom{padding:18px;font-size:14px}
+    .main{margin-left:220px;padding:24px}
+    h1{color:var(--accent);margin-bottom:12px}
+    .layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .form-box{background:#fff;padding:14px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.06)}
+    .form-group{margin-bottom:10px;display:flex;flex-direction:column;gap:4px}
+    .form-group label{font-weight:600;font-size:13px}
+    .form-group input,.form-group textarea,.form-group select{padding:8px;border:1px solid #ddd;border-radius:6px;font-family:inherit}
+    .btn{background:var(--accent);color:#000;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
+    .secondary{background:#fff;border:1px solid #ddd;color:#000;padding:8px 12px;border-radius:8px;cursor:pointer}
+    .preview{background:#fff;padding:30px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.06);border:2px solid #ddd;font-family:'Georgia',serif;text-align:center;min-height:400px;display:flex;flex-direction:column;justify-content:center}
+    .cert-header{font-size:24px;font-weight:700;color:#2c3e50;margin-bottom:10px}
+    .cert-line{width:100%;height:2px;background:#00d4ff;margin:15px 0}
+    .cert-text{font-size:14px;color:#333;line-height:1.6;margin:10px 0}
+    .cert-name{font-size:18px;font-weight:700;color:#00d4ff;margin:15px 0}
+    .cert-details{font-size:12px;color:#666;margin:10px 0}
+    .print-btn{margin-top:12px}
+    
+    </style>
+</head>
+<body>
+    
+    <aside class="sidebar">
+    <div>
+      <div class="logo"><i class="fa-solid fa-tooth"></i><br/>SMART<br/>DENTISTRY</div>
+      <ul>
+        <li onclick="location.href='dashboard.html'"><i class="fa-solid fa-gauge-high"></i> Dashboard</li>
+        <li onclick="location.href='patients.html'"><i class="fa-solid fa-user"></i> Patients</li>
+        <li onclick="location.href='patients.html#appointments'"><i class="fa-solid fa-calendar-days"></i> Appointments</li>
+        <li onclick="location.href='patients.html'"><i class="fa-solid fa-clipboard-list"></i> Records</li>
+        <li onclick="location.href='patients.html'"><i class="fa-solid fa-money-bill-trend-up"></i> Finance</li>
+        <li onclick="location.href='backup.html'"><i class="fa-solid fa-database"></i> Backup</li>
+        <li onclick="location.href='datatransfer.html'"><i class="fa-solid fa-arrows-left-right"></i> Data Transfer</li>
+        <li onclick="location.href='reports.html'"><i class="fa-solid fa-file-lines"></i> Reports</li>
+      </ul>
+    </div>
+    <div class="bottom">⚙️ Settings &nbsp; • &nbsp; 🚪 Logout</div>
+  </aside>
+
+  </body>
+</html>

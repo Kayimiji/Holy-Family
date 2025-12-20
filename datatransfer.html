@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SMART DENTISTRY - Dental Certificate</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--accent:#00d4ff;--muted:#f8f9fb;--dark:#2c3e50;}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Poppins",sans-serif;background:var(--muted);color:#222}
+    .sidebar{position:fixed;top:0;left:0;width:220px;height:100vh;background:var(--dark);color:#fff;display:flex;flex-direction:column;justify-content:space-between}
+    .sidebar .logo{padding:20px;text-align:center;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.06)}
+    .sidebar .logo i{color:var(--accent);font-size:28px}
+    .sidebar ul{list-style:none;padding:0 0 20px 0}
+    .sidebar li{padding:12px 20px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:0.2s;color:#fff}
+    .sidebar li:hover,.sidebar li.active{background:var(--accent);color:#000;border-radius:0 30px 30px 0}
+    .sidebar .bottom{padding:18px;font-size:14px}
+    .main{margin-left:220px;padding:24px}
+    h1{color:var(--accent);margin-bottom:12px}
+    .layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .form-box{background:#fff;padding:14px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.06)}
+    .form-group{margin-bottom:10px;display:flex;flex-direction:column;gap:4px}
+    .form-group label{font-weight:600;font-size:13px}
+    .form-group input,.form-group textarea,.form-group select{padding:8px;border:1px solid #ddd;border-radius:6px;font-family:inherit}
+    .btn{background:var(--accent);color:#000;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
+    .secondary{background:#fff;border:1px solid #ddd;color:#000;padding:8px 12px;border-radius:8px;cursor:pointer}
+    .preview{background:#fff;padding:30px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.06);border:2px solid #ddd;font-family:'Georgia',serif;text-align:center;min-height:400px;display:flex;flex-direction:column;justify-content:center}
+    .cert-header{font-size:24px;font-weight:700;color:#2c3e50;margin-bottom:10px}
+    .cert-line{width:100%;height:2px;background:#00d4ff;margin:15px 0}
+    .cert-text{font-size:14px;color:#333;line-height:1.6;margin:10px 0}
+    .cert-name{font-size:18px;font-weight:700;color:#00d4ff;margin:15px 0}
+    .cert-details{font-size:12px;color:#666;margin:10px 0}
+    .print-btn{margin-top:12px}
+
+    /* Tabs for 3D viewers */
+    .tabs-container{background:#fff;padding:14px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.06);margin-top:16px}
+    .tab-buttons{display:flex;gap:6px;border-bottom:2px solid #eee;margin-bottom:14px}
+    .tab-btn{background:transparent;border:none;padding:10px 16px;cursor:pointer;font-weight:600;color:#666;border-bottom:3px solid transparent;transition:0.2s}
+    .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+    .tab-content{display:none}
+    .tab-content.active{display:block}
+    .viewer-3d{width:100%;height:500px;border:1px solid #ddd;border-radius:6px;background:#f5f5f5}
+    .teeth-diagram{width:100%;max-width:600px;margin:20px auto}
+    .svg-viewer{width:100%;height:500px}
+    .embed-viewer{width:100%;height:550px;border:1px solid #ddd;border-radius:6px}
+
+    /* Teeth SVG styling */
+    .tooth-svg{fill:#fff;stroke:#333;stroke-width:2;cursor:pointer;transition:0.2s}
+    .tooth-svg:hover{fill:#e8f4ff;stroke:var(--accent);stroke-width:2.5}
+    .tooth-svg.treated{fill:#c8f0ff;stroke:var(--accent);stroke-width:2}
+    .tooth-label{font-size:12px;fill:#333;text-anchor:middle;pointer-events:none}
+
+    /* Tutorial/help UI */
+    .help-btn {
+      background:#fff;border:1px solid #ddd;color:#000;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600;margin-left:12px;
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    .help-modal{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:60}
+    .help-content{background:#fff;padding:20px;border-radius:10px;max-width:720px;width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.2);color:#222}
+    .help-content h2{margin:0 0 10px;color:var(--dark)}
+    .help-steps{font-size:14px;line-height:1.5;margin:10px 0}
+    .help-actions{display:flex;gap:10px;justify-content:space-between;margin-top:14px;align-items:center}
+    .help-right{display:flex;gap:10px}
+    .help-close{background:#eee;border:1px solid #ddd;padding:8px 10px;border-radius:8px;cursor:pointer}
+    .dont-show{font-size:13px;display:flex;align-items:center;gap:8px;color:#333}
+    @media (max-width:600px){ .help-content{padding:14px} }
+    @media print{ .help-modal{display:none} }
+
+    /* Virtual mouse and spotlight for guided tour */
+    .tour-spotlight{
+      position:fixed;pointer-events:none;border:3px solid rgba(0,212,255,0.95);
+      border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,0.35);transition:all 500ms ease;
+      z-index:120;display:none;background:transparent;
+    }
+    .tour-vmouse{
+      position:fixed;width:18px;height:28px;background:#fff;border:2px solid #222;border-radius:4px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.25);transform:translate(-50%,-50%);transition:transform 600ms cubic-bezier(.2,.9,.2,1);
+      z-index:130;display:none;pointer-events:none;
+    }
+    .tour-controls{
+      position:fixed;right:18px;bottom:18px;z-index:140;display:none;gap:8px;
+    }
+    .tour-controls .secondary{padding:6px 10px;border-radius:6px}
+    @media print{ .tour-spotlight,.tour-vmouse,.tour-controls{display:none !important} }
+
+    /* visual improvements for tutorial */
+    .tour-spotlight.pulse{ animation: pulseGlow 1400ms infinite; }
+    @keyframes pulseGlow{
+      0%{ box-shadow:0 8px 30px rgba(0,0,0,0.35), 0 0 0 0 rgba(0,212,255,0.12); }
+      50%{ box-shadow:0 12px 40px rgba(0,0,0,0.45), 0 0 0 12px rgba(0,212,255,0.06); }
+      100%{ box-shadow:0 8px 30px rgba(0,0,0,0.35), 0 0 0 0 rgba(0,212,255,0.12); }
+    }
+
+    .tour-tooltip{
+      position:fixed;max-width:320px;background:#fff;border-radius:8px;padding:12px;border:1px solid #e6f7fb;
+      box-shadow:0 8px 28px rgba(0,0,0,0.18);z-index:135;display:none;
+      font-size:13px;color:#0b3b47;line-height:1.3;
+    }
+    .tour-tooltip h4{margin:0 0 6px 0;font-size:14px;color:#007b9a}
+    .tour-tooltip p{margin:0}
+    .tour-progress{position:fixed;left:18px;bottom:18px;background:rgba(255,255,255,0.95);padding:8px 10px;border-radius:8px;border:1px solid #eee;font-size:13px;z-index:140;display:none}
+    .tour-step-controls{position:fixed;left:150px;bottom:18px;z-index:140;display:none;gap:8px}
+    .tour-step-controls button{padding:6px 10px;border-radius:6px}
+
+    /* dim overlay behind spotlight to mute rest of UI */
+    .dim-overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,0.55);backdrop-filter:blur(2px);z-index:110;display:none;pointer-events:none;
+      transition:opacity .35s ease;
+    }
+
+    /* additional highlight on the actual form element being showcased */
+    .tour-highlight{
+      position:relative;z-index:122;box-shadow:0 10px 40px rgba(0,212,255,0.22), 0 0 0 4px rgba(0,212,255,0.12) !important;
+      border-radius:8px !important; transition:box-shadow .25s ease, transform .18s ease;
+      transform: translateZ(0) scale(1.01);
+    }
+
+    /* mouse click animation */
+    .tour-vmouse.clicked{ transform: translate(-50%,-50%) scale(0.9); box-shadow:0 4px 12px rgba(0,0,0,0.25); transition:transform .12s ease; }
+
+    /* tooltip subtle entrance */
+    .tour-tooltip.show{ animation: popIn .28s cubic-bezier(.2,.9,.3,1); display:block; }
+    @keyframes popIn{ from{ opacity:0; transform:translateY(8px) scale(.98)} to{ opacity:1; transform:translateY(0) scale(1)} }
+
+    /* Data Transfer panel styling */
+    .dt-panel { border: 1px dashed #e6f7fb; background: #ffffff; padding:12px; border-radius:8px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .dt-panel .secondary { display:inline-flex; align-items:center; gap:8px; }
+    .dt-status { font-size:13px; }
+    /* Simple toast */
+    .dt-toast { position:fixed; right:18px; bottom:18px; background:#fff; border-left:4px solid var(--accent); padding:10px 14px; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.12); z-index:9999; font-weight:600; color:#0b3b47; }
+    .dt-toast.success { border-left-color:#28a745; }
+    .dt-toast.error { border-left-color:#dc3545; }
+
+    /* New CSS for grid layout and Data Transfer tutorial modal */
+    .right-lower-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:16px;
+      align-items:start;
+    }
+    #dtHelpModal .help-content{
+      max-width:500px;
+      width:100%;
+      padding:18px;
+    }
+    #dtHelpModal h2{
+      font-size:18px;
+      margin-bottom:12px;
+      color:var(--dark);
+    }
+    #dtHelpModal .help-steps{
+      font-size:14px;
+      line-height:1.5;
+      margin:10px 0;
+    }
+    #dtHelpModal .help-actions{
+      display:flex;
+      gap:10px;
+      justify-content:space-between;
+      margin-top:14px;
+      align-items:center;
+    }
+    #dtHelpModal .help-close{
+      background:#eee;
+      border:1px solid #ddd;
+      padding:8px 10px;
+      border-radius:8px;
+      cursor:pointer;
+    }
+    #dtHelpModal .dont-show{
+      font-size:13px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:#333;
+    }
+    @media (max-width:600px){ #dtHelpModal .help-content{padding:14px} }
+    @media print{ #dtHelpModal{display:none} }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div>
+      <div class="logo"><i class="fa-solid fa-tooth"></i><br/>SMART<br/>DENTISTRY</div>
+      <ul>
+        <li onclick="location.href='admin.html'"><i class="fa-solid fa-gauge-high"></i> Dashboard</li>
+        <li onclick="location.href='patients.html'"><i class="fa-solid fa-user"></i> Patients</li>
+        <li onclick="location.href='patients.html#appointments'"><i class="fa-solid fa-calendar-days"></i> Appointments</li>
+        <li onclick="location.href='patients.html'"><i class="fa-solid fa-clipboard-list"></i> Records</li>
+        <li onclick="location.href='patients.html'"><i class="fa-solid fa-money-bill-trend-up"></i> Finance</li>
+        <li onclick="location.href='backup.html'"><i class="fa-solid fa-database"></i> Backup</li>
+        <li onclick="location.href='datatransfer.html'"><i class="fa-solid fa-arrows-left-right"></i> Data Transfer</li>
+        <li onclick="location.href='reports.html'"><i class="fa-solid fa-file-lines"></i> Reports</li>
+      </ul>
+    </div>
+    <div class="bottom">⚙️ Settings &nbsp; • &nbsp; 🚪 Logout</div>
+  </aside>
+
+  <main class="main">
+    <h1>Dental Certificate
+      <button id="helpBtn" class="help-btn" title="How to use">❓ How to use</button>
+    </h1>
+
+    <div class="layout">
+      <div class="form-box">
+        <h3 style="margin:0 0 10px 0;color:#666">Certificate Details</h3>
+
+        <div class="form-group">
+          <label>Patient Name</label>
+          <input type="text" id="patientName" placeholder="John Doe">
+        </div>
+
+        <div class="form-group">
+          <label>Treatment Type</label>
+          <select id="treatmentType">
+            <option value="">Select treatment</option>
+            <option value="Dental Cleaning">Dental Cleaning</option>
+            <option value="Root Canal Treatment">Root Canal Treatment</option>
+            <option value="Teeth Whitening">Teeth Whitening</option>
+            <option value="Cavity Filling">Cavity Filling</option>
+            <option value="Extraction">Extraction</option>
+            <option value="Orthodontic">Orthodontic</option>
+            <option value="General Checkup">General Checkup</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Treatment Date</label>
+          <input type="date" id="treatmentDate">
+        </div>
+
+        <div class="form-group">
+          <label>Dentist Name</label>
+          <input type="text" id="dentistName" placeholder="Dr. Arvin">
+        </div>
+
+        <div class="form-group">
+          <label>Dentist License</label>
+          <input type="text" id="dentistLicense" placeholder="License #">
+        </div>
+
+        <div class="form-group">
+          <label>Notes/Remarks</label>
+          <textarea id="remarks" rows="3" placeholder="Additional notes..."></textarea>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:12px">
+          <button class="btn" id="generateCertBtn"><i class="fa-solid fa-refresh"></i> Update Preview</button>
+          <button class="secondary" id="clearFormBtn"><i class="fa-solid fa-times"></i> Clear</button>
+        </div>
+      </div>
+
+      <div class="preview" id="certificatePreview">
+        <div class="cert-header">🦷 DENTAL CERTIFICATE 🦷</div>
+        <div class="cert-line"></div>
+        <div class="cert-text">This is to certify that</div>
+        <div class="cert-name" id="previewName">Patient Name</div>
+        <div class="cert-text">has undergone</div>
+        <div class="cert-text" style="font-weight:700;color:#333" id="previewTreatment">Treatment Type</div>
+        <div class="cert-text">on <span id="previewDate">Date</span></div>
+        <div class="cert-line"></div>
+        <div class="cert-details">
+          <div>Dentist: <span id="previewDentist">Dr. Name</span></div>
+          <div>License: <span id="previewLicense">License #</span></div>
+          <div style="margin-top:6px" id="previewRemarks"></div>
+        </div>
+        <div style="margin-top:20px;font-size:12px;color:#666">
+          <div style="margin:15px 0">_________________________</div>
+          <div>Signature & Date</div>
+        </div>
+        <button class="btn print-btn" id="printBtn" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Certificate</button>
+      </div>
+
+      <!-- Right-lower grid: Data Transfer panel next to SVG diagram -->
+      <div class="right-lower-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;align-items:start">
+        <div class="form-box dt-panel" aria-labelledby="dtTitle">
+          <h3 id="dtTitle" style="margin:0 0 10px 0;color:#666">Data Transfer</h3>
+          <div class="form-group">
+            <label><input type="checkbox" id="includeTeeth" checked> Include teeth states (treated)</label>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <button class="btn" id="exportJsonBtn"><i class="fa-solid fa-download"></i> Export JSON</button>
+            <label class="secondary" for="importJsonFile" style="cursor:pointer"><i class="fa-solid fa-upload"></i> Import JSON</label>
+            <input type="file" id="importJsonFile" accept=".json" style="display:none">
+            <button class="btn" id="transferBtn"><i class="fa-solid fa-share-from-square"></i> Transfer</button>
+            <button class="help-close secondary" id="dtHelpBtn" title="How to use Data Transfer">How to use</button>
+            <button class="secondary" id="clearDataBtn"><i class="fa-solid fa-trash"></i> Clear Certificate</button>
+          </div>
+          <div class="dt-status" id="dtStatus" aria-live="polite" style="margin-top:10px;color:#666">No transfers yet.</div>
+        </div>
+
+        <!-- SVG diagram moved here (next to Data Transfer) -->
+        <div class="form-box svg-panel" aria-labelledby="svgTitle">
+          <h3 id="svgTitle" style="margin:0 0 10px 0;color:#666">SVG Teeth Diagram</h3>
+          <div id="svgContainer" style="overflow:auto">
+            <svg id="teethSvg" class="svg-viewer" viewBox="0 0 1000 650" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <!-- Gradients for realistic tooth shading -->
+                <linearGradient id="toothGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+                  <stop offset="50%" style="stop-color:#f5f5f5;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#e8e8e8;stop-opacity:1" />
+                </linearGradient>
+                
+                <linearGradient id="toothGradientLower" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" style="stop-color:#fafafa;stop-opacity:1" />
+                  <stop offset="50%" style="stop-color:#f0f0f0;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#e0e0e0;stop-opacity:1" />
+                </linearGradient>
+
+                <radialGradient id="treatmentGradient">
+                  <stop offset="0%" style="stop-color:#a8e6ff;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0.8" />
+                </radialGradient>
+
+                <!-- Shadow filter -->
+                <filter id="toothShadow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/>
+                </filter>
+                
+                <filter id="treatmentGlow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="1.5"/>
+                  <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#00d4ff" flood-opacity="0.4"/>
+                </filter>
+              </defs>
+
+              <!-- Background gum line -->
+              <rect x="30" y="155" width="940" height="20" fill="#e0897d" rx="2" opacity="0.4"/>
+              <text x="490" y="175" font-size="11" text-anchor="middle" fill="#888">Gum Line</text>
+
+              <!-- UPPER TEETH ROW -->
+              <!-- Tooth 8 (Upper Left Incisor) -->
+              <g data-tooth="8" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="50" y="70" width="35" height="58" rx="4" fill="url(#toothGradient)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <ellipse cx="67.5" cy="128" rx="14" ry="18" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <line x1="67.5" y1="75" x2="67.5" y2="118" stroke="#e8e8e8" stroke-width="0.8" opacity="0.7"/>
+                <circle cx="62" cy="85" r="1.5" fill="#999" opacity="0.3"/>
+                <text x="67.5" y="155" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">8</text>
+              </g>
+
+              <!-- Tooth 7 (Upper Left Canine) -->
+              <g data-tooth="7" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <polygon class="tooth-svg" points="95,65 122,68 125,128 95,132" fill="url(#toothGradient)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <ellipse cx="110" cy="132" rx="11" ry="16" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <line x1="110" y1="70" x2="110" y2="120" stroke="#e8e8e8" stroke-width="0.8" opacity="0.7"/>
+                <text x="110" y="155" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">7</text>
+              </g>
+
+              <!-- Tooth 6 (Upper Left Premolar) -->
+              <g data-tooth="6" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="135" y="68" width="40" height="60" rx="4" fill="url(#toothGradient)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <line x1="155" y1="68" x2="155" y2="128" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <ellipse cx="155" cy="134" rx="15" ry="20" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <circle cx="145" cy="88" r="1.5" fill="#999" opacity="0.4"/>
+                <circle cx="165" cy="88" r="1.5" fill="#999" opacity="0.4"/>
+                <text x="155" y="157" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">6</text>
+              </g>
+
+              <!-- Tooth 5 (Upper Left Premolar) -->
+              <g data-tooth="5" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="185" y="68" width="40" height="60" rx="4" fill="url(#toothGradient)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <line x1="205" y1="68" x2="205" y2="128" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <ellipse cx="205" cy="134" rx="15" ry="20" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <circle cx="195" cy="88" r="1.5" fill="#999" opacity="0.4"/>
+                <circle cx="215" cy="88" r="1.5" fill="#999" opacity="0.4"/>
+                <text x="205" y="157" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">5</text>
+              </g>
+
+              <!-- Tooth 4 (Upper Left Molar) -->
+              <g data-tooth="4" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="235" y="65" width="45" height="63" rx="4" fill="url(#toothGradient)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <line x1="252" y1="65" x2="252" y2="128" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <line x1="268" y1="65" x2="268" y2="128" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <circle cx="245" cy="85" r="1.5" fill="#999" opacity="0.5"/>
+                <circle cx="260" cy="85" r="1.5" fill="#999" opacity="0.5"/>
+                <circle cx="275" cy="85" r="1.5" fill="#999" opacity="0.5"/>
+                <ellipse cx="257.5" cy="137" rx="17" ry="22" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <text x="257.5" y="160" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">4</text>
+              </g>
+
+              <!-- Upper Right Quadrant -->
+              
+              <!-- Tooth 3 (Upper Right Molar) -->
+              <g data-tooth="3" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="320" y="65" width="45" height="63" rx="4" fill="url(#toothGradient)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <line x1="337" y1="65" x2="337" y2="128" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <line x1="353" y1="65" x2="353" y2="128" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <circle cx="330" cy="85" r="1.5" fill="#999" opacity="0.5"/>
+                <circle cx="345" cy="85" r="1.5" fill="#999" opacity="0.5"/>
+                <circle cx="360" cy="85" r="1.5" fill="#999" opacity="0.5"/>
+                <ellipse cx="342.5" cy="137" rx="17" ry="22" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <text x="342.5" y="160" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">3</text>
+              </g>
+
+              <!-- Tooth 2 (Upper Right Premolar) -->
+              <g data-tooth="2" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="375" y="68" width="40" height="60" rx="4" fill="url(#toothGradient)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <line x1="395" y1="68" x2="395" y2="128" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <ellipse cx="395" cy="134" rx="15" ry="20" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <circle cx="385" cy="88" r="1.5" fill="#999" opacity="0.4"/>
+                <circle cx="405" cy="88" r="1.5" fill="#999" opacity="0.4"/>
+                <text x="395" y="157" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">2</text>
+              </g>
+
+              <!-- Tooth 1 (Upper Right Premolar) -->
+              <g data-tooth="1" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="425" y="68" width="40" height="60" rx="4" fill="url(#toothGradient)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <line x1="445" y1="68" x2="445" y2="128" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <ellipse cx="445" cy="134" rx="15" ry="20" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <circle cx="435" cy="88" r="1.5" fill="#999" opacity="0.4"/>
+                <circle cx="455" cy="88" r="1.5" fill="#999" opacity="0.4"/>
+                <text x="445" y="157" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">1</text>
+              </g>
+
+              <!-- Tooth 9 (Upper Right Incisor) -->
+              <g data-tooth="9" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="475" y="70" width="35" height="58" rx="4" fill="url(#toothGradient)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <ellipse cx="492.5" cy="128" rx="14" ry="18" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <line x1="492.5" y1="75" x2="492.5" y2="118" stroke="#e8e8e8" stroke-width="0.8" opacity="0.7"/>
+                <circle cx="487" cy="85" r="1.5" fill="#999" opacity="0.3"/>
+                <text x="492.5" y="155" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">9</text>
+              </g>
+
+              <!-- Tooth 8b (Upper Right Canine) -->
+              <g data-tooth="8b" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <polygon class="tooth-svg" points="520,65 547,68 550,128 520,132" fill="url(#toothGradient)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <ellipse cx="535" cy="132" rx="11" ry="16" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <line x1="535" y1="70" x2="535" y2="120" stroke="#e8e8e8" stroke-width="0.8" opacity="0.7"/>
+                <text x="535" y="155" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">8</text>
+              </g>
+
+              <!-- LOWER TEETH ROW -->
+              <!-- Tooth 24 (Lower Left Molar) -->
+              <g data-tooth="24" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="50" y="220" width="45" height="63" rx="4" fill="url(#toothGradientLower)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <line x1="67" y1="220" x2="67" y2="283" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <line x1="84" y1="220" x2="84" y2="283" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <circle cx="60" cy="240" r="1.5" fill="#999" opacity="0.5"/>
+                <circle cx="75" cy="240" r="1.5" fill="#999" opacity="0.5"/>
+                <circle cx="90" cy="240" r="1.5" fill="#999" opacity="0.5"/>
+                <ellipse cx="72.5" cy="297" rx="17" ry="22" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <circle cx="70" cy="315" r="0.8" fill="#999" opacity="0.3"/>
+                <circle cx="72" cy="318" r="0.8" fill="#999" opacity="0.3"/>
+                <text x="72.5" y="345" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">24</text>
+              </g>
+
+              <!-- Tooth 25 (Lower Left Premolar) -->
+              <g data-tooth="25" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="105" y="223" width="40" height="60" rx="4" fill="url(#toothGradientLower)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <line x1="125" y1="223" x2="125" y2="283" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <ellipse cx="125" cy="297" rx="15" ry="20" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <circle cx="115" cy="240" r="1.5" fill="#999" opacity="0.4"/>
+                <circle cx="135" cy="240" r="1.5" fill="#999" opacity="0.4"/>
+                <text x="125" y="320" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">25</text>
+              </g>
+
+              <!-- Tooth 26 (Lower Left Premolar) -->
+              <g data-tooth="26" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="155" y="223" width="40" height="60" rx="4" fill="url(#toothGradientLower)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <line x1="175" y1="223" x2="175" y2="283" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <ellipse cx="175" cy="297" rx="15" ry="20" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <circle cx="165" cy="240" r="1.5" fill="#999" opacity="0.4"/>
+                <circle cx="185" cy="240" r="1.5" fill="#999" opacity="0.4"/>
+                <text x="175" y="320" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">26</text>
+              </g>
+
+              <!-- Tooth 27 (Lower Left Canine) -->
+              <g data-tooth="27" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <polygon class="tooth-svg" points="205,225 232,220 235,280 205,285" fill="url(#toothGradientLower)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <ellipse cx="220" cy="295" rx="11" ry="16" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <line x1="220" y1="225" x2="220" y2="275" stroke="#e8e8e8" stroke-width="0.8" opacity="0.7"/>
+                <text x="220" y="320" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">27</text>
+              </g>
+
+              <!-- Tooth 28 (Lower Left Incisor) -->
+              <g data-tooth="28" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="250" y="225" width="35" height="58" rx="4" fill="url(#toothGradientLower)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <ellipse cx="267.5" cy="283" rx="14" ry="18" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <line x1="267.5" y1="230" x2="267.5" y2="273" stroke="#e8e8e8" stroke-width="0.8" opacity="0.7"/>
+                <circle cx="262" cy="240" r="1.5" fill="#999" opacity="0.3"/>
+                <text x="267.5" y="315" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">28</text>
+              </g>
+
+              <!-- Lower Right Quadrant -->
+              
+              <!-- Tooth 29 (Lower Right Incisor) -->
+              <g data-tooth="29" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="315" y="225" width="35" height="58" rx="4" fill="url(#toothGradientLower)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <ellipse cx="332.5" cy="283" rx="14" ry="18" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <line x1="332.5" y1="230" x2="332.5" y2="273" stroke="#e8e8e8" stroke-width="0.8" opacity="0.7"/>
+                <circle cx="327" cy="240" r="1.5" fill="#999" opacity="0.3"/>
+                <text x="332.5" y="315" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">29</text>
+              </g>
+
+              <!-- Tooth 30 (Lower Right Canine) -->
+              <g data-tooth="30" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <polygon class="tooth-svg" points="360,225 387,220 390,280 360,285" fill="url(#toothGradientLower)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <ellipse cx="375" cy="295" rx="11" ry="16" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <line x1="375" y1="225" x2="375" y2="275" stroke="#e8e8e8" stroke-width="0.8" opacity="0.7"/>
+                <text x="375" y="320" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">30</text>
+              </g>
+
+              <!-- Tooth 31 (Lower Right Premolar) -->
+              <g data-tooth="31" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="405" y="223" width="40" height="60" rx="4" fill="url(#toothGradientLower)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <line x1="425" y1="223" x2="425" y2="283" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <ellipse cx="425" cy="297" rx="15" ry="20" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <circle cx="415" cy="240" r="1.5" fill="#999" opacity="0.4"/>
+                <circle cx="435" cy="240" r="1.5" fill="#999" opacity="0.4"/>
+                <text x="425" y="320" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">31</text>
+              </g>
+
+              <!-- Tooth 32 (Lower Right Premolar) -->
+              <g data-tooth="32" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="455" y="223" width="40" height="60" rx="4" fill="url(#toothGradientLower)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <line x1="475" y1="223" x2="475" y2="283" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <ellipse cx="475" cy="297" rx="15" ry="20" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <circle cx="465" cy="240" r="1.5" fill="#999" opacity="0.4"/>
+                <circle cx="485" cy="240" r="1.5" fill="#999" opacity="0.4"/>
+                <text x="475" y="320" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">32</text>
+              </g>
+
+              <!-- Tooth 33 (Lower Right Molar) -->
+              <g data-tooth="33" onclick="toggleTooth(this)" class="tooth-group" filter="url(#toothShadow)">
+                <rect class="tooth-svg" x="505" y="220" width="45" height="63" rx="4" fill="url(#toothGradientLower)" stroke="#c0c0c0" stroke-width="1.5"/>
+                <line x1="522" y1="220" x2="522" y2="283" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <line x1="539" y1="220" x2="539" y2="283" stroke="#e8e8e8" stroke-width="1" opacity="0.7"/>
+                <circle cx="515" cy="240" r="1.5" fill="#999" opacity="0.5"/>
+                <circle cx="530" cy="240" r="1.5" fill="#999" opacity="0.5"/>
+                <circle cx="545" cy="240" r="1.5" fill="#999" opacity="0.5"/>
+                <ellipse cx="527.5" cy="297" rx="17" ry="22" fill="none" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
+                <circle cx="525" cy="315" r="0.8" fill="#999" opacity="0.3"/>
+                <circle cx="527" cy="318" r="0.8" fill="#999" opacity="0.3"/>
+                <text x="527.5" y="345" font-size="10" text-anchor="middle" fill="#666" class="tooth-label" font-weight="600">33</text>
+              </g>
+
+              <!-- Legend -->
+              <g id="legend" transform="translate(50, 390)">
+                <text x="0" y="0" font-size="12" font-weight="bold" fill="#333">Legend:</text>
+                <rect x="0" y="12" width="24" height="24" fill="url(#toothGradient)" stroke="#c0c0c0" stroke-width="1.5" rx="2" filter="url(#toothShadow)"/>
+                <text x="32" y="28" font-size="11" fill="#333">Healthy Tooth</text>
+                
+                <rect x="160" y="12" width="24" height="24" fill="url(#treatmentGradient)" stroke="#00a8cc" stroke-width="2" rx="2" filter="url(#treatmentGlow)"/>
+                <text x="192" y="28" font-size="11" fill="#333">Treated Tooth</text>
+
+                <text x="0" y="55" font-size="10" fill="#888" font-style="italic">💡 Click any tooth to mark as treated</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Three.js 3D Model (default active) -->
+      <div id="threejs-tab" class="tab-content active">
+        <canvas id="canvas3d" class="viewer-3d"></canvas>
+        <p style="text-align:center;margin-top:12px;font-size:13px;color:#666">Drag to rotate | Scroll to zoom | 3D interactive teeth model</p>
+      </div>
+
+      <!-- Sketchfab Embedded Viewer -->
+      <div id="sketchfab-tab" class="tab-content">
+        <iframe class="embed-viewer" title="Dental Teeth 3D Model" frameborder="0" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-allow="execution-allow-xr-spatial-tracking" src="https://sketchfab.com/models/7b0d9d8e5c4b3a2f1e0d/embed?autoplay=1&ui_theme=dark"> </iframe>
+        <p style="text-align:center;margin-top:12px;font-size:13px;color:#666">High-quality 3D teeth model from Sketchfab community</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Tutorial / Help Modal (hidden by default) -->
+  <div id="helpModal" class="help-modal" style="display:none" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="help-content">
+      <h2 id="helpTitle">How to use the Dental Certificate</h2>
+      <div class="help-steps">
+        <ol>
+          <li>Enter the patient name in "Patient Name".</li>
+          <li>Select the treatment from "Treatment Type".</li>
+          <li>Pick the treatment date using the date input.</li>
+          <li>Fill dentist name and license fields.</li>
+          <li>Add notes/remarks (optional). Line breaks are preserved.</li>
+          <li>Click "Update Preview" to refresh the certificate preview.</li>
+          <li>Click "Print Certificate" to print or save as PDF.</li>
+          <li><strong>NEW:</strong> View interactive 3D teeth visualizations in the tabs below!</li>
+        </ol>
+        <strong>Quick tips:</strong>
+        <ul>
+          <li>Use "Clear" to reset all fields.</li>
+          <li>Click teeth in the SVG diagram to mark treatments.</li>
+          <li>Explore different 3D viewers to find your favorite.</li>
+        </ul>
+      </div>
+      <div class="help-actions">
+        <label class="dont-show"><input type="checkbox" id="dontShowCheckbox"> Don't show again</label>
+        <div class="help-right">
+          <button id="playTourBtn" class="btn" title="Watch guided tour">▶ Play Tutorial</button>
+          <button id="closeHelpBtn" class="help-close">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Guided tour UI elements -->
+  <div id="tourOverlay" class="dim-overlay" aria-hidden="true"></div>
+  <div id="tourSpot" class="tour-spotlight" aria-hidden="true"></div>
+  <div id="tourMouse" class="tour-vmouse" aria-hidden="true"></div>
+  <div id="tourControls" class="tour-controls" aria-hidden="true">
+    <button id="stopTourBtn" class="secondary">Stop Tutorial</button>
+  </div>
+
+  <!-- Tooltip, progress and step controls -->
+  <div id="tourTooltip" class="tour-tooltip" aria-hidden="true">
+    <h4 id="tourTitle"></h4>
+    <p id="tourDesc"></p>
+  </div>
+  <div id="tourProgress" class="tour-progress" aria-hidden="true">Step <span id="tourIndex">1</span> / <span id="tourTotal">1</span></div>
+  <div id="tourStepControls" class="tour-step-controls" aria-hidden="true">
+    <!-- step controls removed per request -->
+  </div>
+
+  <!-- Load Three.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const tabName = btn.getAttribute('data-tab');
+        document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+        document.getElementById(tabName).classList.add('active');
+        btn.classList.add('active');
+        // Trigger resize for canvas if switching to 3D
+        if(tabName==='threejs-tab'){ window.dispatchEvent(new Event('resize')); }
+      });
+    });
+
+    // SVG Teeth Interaction
+    function toggleTooth(el){
+      el.classList.toggle('treated');
+    }
+
+    // Three.js 3D Teeth Implementation
+    (function(){
+      const canvas = document.getElementById('canvas3d');
+      if(!canvas) return;
+      
+      let scene, camera, renderer, teeth = [];
+      let isInitialized = false;
+
+      function init(){
+        if(isInitialized) return;
+        // Scene setup
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xf5f5f5);
+        scene.fog = new THREE.Fog(0xf5f5f5, 100, 1000);
+
+        // Camera
+        camera = new THREE.PerspectiveCamera(75, canvas.clientWidth/canvas.clientHeight, 0.1, 1000);
+        camera.position.z = 8;
+
+        // Renderer
+        renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        renderer.shadowMap.enabled = true;
+
+        // Lighting
+        const light1 = new THREE.DirectionalLight(0xffffff, 0.8);
+        light1.position.set(5,10,5);
+        light1.castShadow = true;
+        scene.add(light1);
+
+        const light2 = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(light2);
+
+        // Create teeth geometry (simplified cylinders)
+        createTeeth();
+
+        // Handle resize
+        window.addEventListener('resize', onWindowResize);
+        // Mouse controls
+        let isDragging = false;
+        let previousMousePosition = {x:0, y:0};
+        canvas.addEventListener('mousedown', (e)=>{ isDragging=true; previousMousePosition={x:e.clientX, y:e.clientY}; });
+        canvas.addEventListener('mousemove', (e)=>{
+          if(isDragging){
+            const deltaX = e.clientX - previousMousePosition.x;
+            const deltaY = e.clientY - previousMousePosition.y;
+            teeth.forEach(tooth=>{
+              tooth.rotation.y += deltaX*0.01;
+              tooth.rotation.x += deltaY*0.01;
+            });
+            previousMousePosition = {x:e.clientX, y:e.clientY};
+          }
+        });
+        canvas.addEventListener('mouseup', ()=>{ isDragging=false; });
+        canvas.addEventListener('wheel', (e)=>{
+          e.preventDefault();
+          camera.position.z += e.deltaY*0.005;
+          camera.position.z = Math.max(3, Math.min(20, camera.position.z));
+        });
+
+        isInitialized = true;
+        animate();
+      }
+
+      function createTeeth(){
+        // Create 16 stylized teeth (upper: 8, lower: 8)
+        const toothGeometry = new THREE.CylinderGeometry(0.6, 0.5, 1.5, 32);
+        const positions = [
+          {x:-5.5, y:2, z:0}, {x:-4, y:2, z:0}, {x:-2.5, y:2, z:0}, {x:-1, y:2, z:0},
+          {x:1, y:2, z:0}, {x:2.5, y:2, z:0}, {x:4, y:2, z:0}, {x:5.5, y:2, z:0},
+          {x:-5.5, y:-2, z:0}, {x:-4, y:-2, z:0}, {x:-2.5, y:-2, z:0}, {x:-1, y:-2, z:0},
+          {x:1, y:-2, z:0}, {x:2.5, y:-2, z:0}, {x:4, y:-2, z:0}, {x:5.5, y:-2, z:0}
+        ];
+
+        positions.forEach((pos,idx)=>{
+          const material = new THREE.MeshPhongMaterial({
+            color: idx<8 ? 0xffffff : 0xfafafa,
+            shininess: 100,
+            emissive: 0x000000
+          });
+          const tooth = new THREE.Mesh(toothGeometry, material);
+          tooth.position.set(pos.x, pos.y, pos.z);
+          tooth.castShadow = true;
+          tooth.receiveShadow = true;
+          tooth.userData = {index:idx+1};
+          scene.add(tooth);
+          teeth.push(tooth);
+        });
+      }
+
+      function onWindowResize(){
+        const w = canvas.clientWidth;
+        const h = canvas.clientHeight;
+        camera.aspect = w/h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      }
+
+      function animate(){
+        requestAnimationFrame(animate);
+        // Gentle auto-rotation if not dragging
+        teeth.forEach(tooth=>{
+          tooth.rotation.y += 0.0005;
+        });
+        renderer.render(scene, camera);
+      }
+
+      // Initialize when tab becomes visible
+      const threejsTab = document.getElementById('threejs-tab');
+      const observer = new MutationObserver(()=>{
+        if(threejsTab.classList.contains('active') && !isInitialized){
+          init();
+        }
+      });
+      observer.observe(threejsTab, {attributes:true});
+
+      // Also try to init on page load if tab is active
+      setTimeout(()=>{
+        if(threejsTab.classList.contains('active')){
+          init();
+        }
+      }, 100);
+    })();
+
+    document.getElementById('generateCertBtn').addEventListener('click', ()=>{
+      const name = document.getElementById('patientName').value || 'Patient Name';
+      const treat = document.getElementById('treatmentType').value || 'Treatment Type';
+      const date = document.getElementById('treatmentDate').value || 'Date';
+      const dent = document.getElementById('dentistName').value || 'Dr. Name';
+      const lic = document.getElementById('dentistLicense').value || 'License #';
+      const rem = document.getElementById('remarks').value;
+
+      document.getElementById('previewName').textContent = name;
+      document.getElementById('previewTreatment').textContent = treat;
+      document.getElementById('previewDate').textContent = date;
+      document.getElementById('previewDentist').textContent = dent;
+      document.getElementById('previewLicense').textContent = lic;
+      document.getElementById('previewRemarks').innerHTML = rem ? `<div style="margin-top:8px;font-size:12px">${rem.replace(/\n/g,'<br>')}</div>` : '';
+    });
+
+    document.getElementById('clearFormBtn').addEventListener('click', ()=>{
+      document.getElementById('patientName').value='';
+      document.getElementById('treatmentType').value='';
+      document.getElementById('treatmentDate').value='';
+      document.getElementById('dentistName').value='';
+      document.getElementById('dentistLicense').value='';
+      document.getElementById('remarks').value='';
+    });
+
+    // Data Transfer helpers
+    function gatherCertificateData(includeTeeth = true){
+      const data = {
+        patientName: document.getElementById('patientName').value || '',
+        treatmentType: document.getElementById('treatmentType').value || '',
+        treatmentDate: document.getElementById('treatmentDate').value || '',
+        dentistName: document.getElementById('dentistName').value || '',
+        dentistLicense: document.getElementById('dentistLicense').value || '',
+        remarks: document.getElementById('remarks').value || '',
+        generatedAt: new Date().toISOString()
+      };
+      if(includeTeeth){
+        const treated = Array.from(document.querySelectorAll('.tooth-group.treated')).map(g => g.getAttribute('data-tooth'));
+        data.treatedTeeth = treated;
+      }
+      return data;
+    }
+
+    function downloadJSON(filename, obj){
+      const blob = new Blob([JSON.stringify(obj, null, 2)], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function showToast(msg, type='success', ms=3000){
+      const t = document.createElement('div'); t.className = 'dt-toast ' + (type==='success' ? 'success' : (type==='error' ? 'error' : ''));
+      t.textContent = msg; document.body.appendChild(t);
+      setTimeout(()=> { t.style.opacity = '0'; setTimeout(()=> t.remove(), 300); }, ms);
+    }
+
+    function updateDtStatus(txt){
+      const s = document.getElementById('dtStatus');
+      s.textContent = txt + ' — ' + new Date().toLocaleString();
+    }
+
+    // Export JSON
+    document.getElementById('exportJsonBtn').addEventListener('click', ()=> {
+      const include = !!document.getElementById('includeTeeth').checked;
+      const payload = gatherCertificateData(include);
+      const filename = `dental-certificate-${(payload.patientName||'patient').replace(/\s+/g,'_')}-${new Date().toISOString().slice(0,10)}.json`;
+      downloadJSON(filename, payload);
+      showToast('Exported JSON', 'success');
+      updateDtStatus('Last exported');
+    });
+
+    // Import JSON
+    document.getElementById('importJsonFile').addEventListener('change', function(e){
+      const f = this.files[0];
+      if(!f) return;
+      const r = new FileReader();
+      r.onload = () => {
+        try{
+          const parsed = JSON.parse(r.result);
+          // populate known fields if present (safe checks)
+          if(parsed.patientName) document.getElementById('patientName').value = parsed.patientName;
+          if(parsed.treatmentType) document.getElementById('treatmentType').value = parsed.treatmentType;
+          if(parsed.treatmentDate) document.getElementById('treatmentDate').value = parsed.treatmentDate;
+          if(parsed.dentistName) document.getElementById('dentistName').value = parsed.dentistName;
+          if(parsed.dentistLicense) document.getElementById('dentistLicense').value = parsed.dentistLicense;
+          if(parsed.remarks) document.getElementById('remarks').value = parsed.remarks;
+          // teeth
+          if(Array.isArray(parsed.treatedTeeth)){
+            document.querySelectorAll('.tooth-group').forEach(g=> g.classList.remove('treated'));
+            parsed.treatedTeeth.forEach(id => {
+              const el = document.querySelector(`.tooth-group[data-tooth="${id}"]`);
+              if(el) el.classList.add('treated');
+            });
+          }
+          // refresh preview
+          document.getElementById('generateCertBtn').click();
+          showToast('Imported JSON and populated fields', 'success');
+          updateDtStatus('Last imported');
+        }catch(err){
+          showToast('Import failed: invalid JSON', 'error');
+        }
+      };
+      r.readAsText(f);
+      this.value = '';
+    });
+
+    // Simulate transfer (POST) - shows progress & result
+    document.getElementById('transferBtn').addEventListener('click', async ()=>{
+      const include = !!document.getElementById('includeTeeth').checked;
+      const payload = gatherCertificateData(include);
+      updateDtStatus('Transferring...');
+      showToast('Starting transfer...', 'success', 1600);
+      // simulate network
+      setTimeout(()=> {
+        // pretend success
+        showToast('Transfer successful', 'success');
+        updateDtStatus('Last transferred');
+      }, 900);
+    });
+
+    // Clear certificate data
+    document.getElementById('clearDataBtn').addEventListener('click', ()=>{
+      if(!confirm('Clear certificate fields and treated tooth marks?')) return;
+      document.getElementById('patientName').value='';
+      document.getElementById('treatmentType').value='';
+      document.getElementById('treatmentDate').value='';
+      document.getElementById('dentistName').value='';
+      document.getElementById('dentistLicense').value='';
+      document.getElementById('remarks').value='';
+      document.querySelectorAll('.tooth-group.treated').forEach(g=>g.classList.remove('treated'));
+      document.getElementById('generateCertBtn').click();
+      showToast('Certificate cleared', 'success');
+      updateDtStatus('Cleared');
+    });
+    // Help modal logic: auto-open for new users, "Don't show again" persisted in localStorage
+    (function(){
+      const helpBtn = document.getElementById('helpBtn');
+      const helpModal = document.getElementById('helpModal');
+      const closeHelpBtn = document.getElementById('closeHelpBtn');
+      const dontShowCheckbox = document.getElementById('dontShowCheckbox');
+      const STORAGE_KEY = 'mdc_cert_help_dont_show';
+
+      // populate example values only if form is empty (prevent overwriting)
+      function populateExampleIfEmpty(){
+        const isEmpty =
+          !document.getElementById('patientName').value &&
+          !document.getElementById('treatmentType').value &&
+          !document.getElementById('treatmentDate').value &&
+          !document.getElementById('dentistName').value &&
+          !document.getElementById('dentistLicense').value &&
+          !document.getElementById('remarks').value;
+
+        if(!isEmpty) return;
+
+        document.getElementById('patientName').value = 'Jane Doe';
+        document.getElementById('treatmentType').value = 'Teeth Whitening';
+        document.getElementById('treatmentDate').value = new Date().toISOString().slice(0,10);
+        document.getElementById('dentistName').value = 'Dr. Arvin';
+        document.getElementById('dentistLicense').value = 'LIC-12345';
+        document.getElementById('remarks').value = 'Patient responded well to treatment.\nFollow-up in 2 weeks.';
+        document.getElementById('generateCertBtn').click();
+      }
+
+      function openHelp(){ helpModal.style.display = 'flex'; }
+      function closeHelp(){
+        if(dontShowCheckbox.checked){
+          try{ localStorage.setItem(STORAGE_KEY, '1'); }catch(e){}
+        }
+        helpModal.style.display = 'none';
+      }
+
+      try{
+        const optedOut = localStorage.getItem(STORAGE_KEY) === '1';
+        if(!optedOut){
+          // open and populate example after a short delay
+          setTimeout(()=>{ openHelp(); populateExampleIfEmpty(); }, 600);
+        }
+      }catch(e){}
+
+      helpBtn.addEventListener('click', ()=>{
+        // show help and populate example if the form is empty
+        openHelp();
+        populateExampleIfEmpty();
+      });
+      closeHelpBtn.addEventListener('click', closeHelp);
+      helpModal.addEventListener('click', (e)=>{ if(e.target === helpModal) closeHelp(); });
+    })();
+
+    // Guided tour (enhanced: captions, controls, keyboard shortcuts)
+    (function(){
+      const playBtn = document.getElementById('playTourBtn');
+      const stopBtn = document.getElementById('stopTourBtn');
+      const spot = document.getElementById('tourSpot');
+      const mouse = document.getElementById('tourMouse');
+      const controls = document.getElementById('tourControls');
+      const tooltip = document.getElementById('tourTooltip');
+      const tourTitle = document.getElementById('tourTitle');
+      const tourDesc = document.getElementById('tourDesc');
+      const progress = document.getElementById('tourProgress');
+      const tourIndexEl = document.getElementById('tourIndex');
+      const tourTotalEl = document.getElementById('tourTotal');
+      const stepControls = document.getElementById('tourStepControls');
+      const overlay = document.getElementById('tourOverlay');
+
+      let timers = [], running = false, paused = false, current = 0;
+      let prevHighlighted = null;
+
+      const steps = [
+        {sel:'#patientName', title:'Patient name', desc:'Enter the full patient name here.', type:'John Doe'},
+        {sel:'#treatmentType', title:'Treatment type', desc:'Pick the treatment performed.', setVal:'Teeth Whitening'},
+        {sel:'#treatmentDate', title:'Date', desc:'Select the treatment date.', setVal:new Date().toISOString().slice(0,10)},
+        {sel:'#dentistName', title:'Dentist', desc:'Enter the attending dentist name.', type:'Dr. Arvin'},
+        {sel:'#dentistLicense', title:'License', desc:'Enter the dentist license or ID.', type:'LIC-12345'},
+        {sel:'#remarks', title:'Notes', desc:'Add remarks or follow-up instructions if any.', type:'Patient responded well to treatment.\nFollow-up in 2 weeks.'},
+        {sel:'#generateCertBtn', title:'Preview', desc:'Click Update Preview to refresh the certificate display.', click:true},
+        {sel:'#printBtn', title:'Print', desc:'Use Print to save or print the certificate (this step just shows the print button).', pause:800}
+      ];
+
+      tourTotalEl.textContent = steps.length;
+
+      function clearTimers(){ timers.forEach(t=>clearTimeout(t)); timers=[]; running=false; paused=false; hideTourUI(); resetPositions(); removeHighlight(); }
+      function showTourUI(){ overlay && (overlay.style.display='block'); overlay && (overlay.style.opacity='1'); spot.style.display='block'; mouse.style.display='block'; controls.style.display='flex'; controls.setAttribute('aria-hidden','false'); tooltip.style.display='block'; progress.style.display='block'; stepControls.style.display='flex'; tooltip.setAttribute('aria-hidden','false'); progress.setAttribute('aria-hidden','false'); stepControls.setAttribute('aria-hidden','false'); }
+      function hideTourUI(){ if(overlay){ overlay.style.opacity='0'; setTimeout(()=>overlay.style.display='none',200); } spot.style.display='none'; mouse.style.display='none'; controls.style.display='none'; tooltip.style.display='none'; progress.style.display='none'; stepControls.style.display='none'; }
+      function resetPositions(){ spot.style.width = spot.style.height = spot.style.left = spot.style.top = ''; mouse.style.left = mouse.style.top = ''; tooltip.style.left = tooltip.style.top = ''; tooltip.style.transform = ''; spot.classList.remove('pulse'); }
+
+      function addHighlight(el){
+        removeHighlight();
+        try{
+          prevHighlighted = el;
+          el.classList.add('tour-highlight');
+        }catch(e){}
+      }
+      function removeHighlight(){
+        if(prevHighlighted){
+          try{ prevHighlighted.classList.remove('tour-highlight'); }catch(e){}
+          prevHighlighted = null;
+        }
+      }
+
+      function moveToRect(rect, extraOffset=10){
+        const left = Math.max(8, rect.left - extraOffset);
+        const top = Math.max(8, rect.top - extraOffset);
+        const width = Math.max(64, rect.width + extraOffset*2);
+        const height = Math.max(40, rect.height + extraOffset*2);
+        spot.style.left = left + 'px';
+        spot.style.top = top + 'px';
+        spot.style.width = width + 'px';
+        spot.style.height = height + 'px';
+        spot.classList.add('pulse');
+        mouse.style.left = (rect.left + rect.width - 10) + 'px';
+        mouse.style.top = (rect.top + rect.height - 10) + 'px';
+        // apply highlight to target element (visual border/shadow)
+        const targetEl = document.elementFromPoint(rect.left + rect.width/2, rect.top + rect.height/2);
+        if(targetEl) addHighlight(targetEl.closest ? targetEl.closest(sanitizeSelector(targetEl)) || targetEl : targetEl);
+      }
+
+      // helper: best-effort to find same element (fallback uses provided selector inside steps)
+      function sanitizeSelector(el){
+        // Return simple selector from element tag+id or tag+class when available
+        if(!el) return '';
+        if(el.id) return '#'+el.id;
+        if(el.className && typeof el.className === 'string'){
+          const cls = el.className.split(' ')[0];
+          if(cls) return el.tagName.toLowerCase()+'.'+cls;
+        }
+        return el.tagName.toLowerCase();
+      }
+
+      function positionTooltip(rect){
+        // prefer tooltip above element, otherwise below
+        const ttW = 320;
+        const aboveTop = rect.top - 12 - 10; // leave gap
+        const belowTop = rect.top + rect.height + 12;
+        const left = Math.min(window.innerWidth - ttW - 12, Math.max(12, rect.left));
+        if(aboveTop > 80){
+          tooltip.style.left = left + 'px';
+          tooltip.style.top = (aboveTop - 72) + 'px';
+          tooltip.style.transform = 'translateY(-6px)';
+        } else {
+          tooltip.style.left = left + 'px';
+          tooltip.style.top = belowTop + 'px';
+          tooltip.style.transform = 'translateY(6px)';
+        }
+        tooltip.classList.add('show');
+      }
+
+      function typeInto(el, text, speed=40){
+        return new Promise(res=>{
+          if(!running || paused) return res();
+          el.focus();
+          el.value = '';
+          let i=0;
+          function step(){
+            if(!running || paused) return res();
+            if(i<=text.length){
+              el.value = text.slice(0,i);
+              i++;
+              timers.push(setTimeout(step, speed));
+            } else res();
+          }
+          step();
+        });
+      }
+
+      async function runStep(idx){
+        if(!running) return;
+        current = idx;
+        const s = steps[idx];
+        const el = document.querySelector(s.sel);
+        if(!el) return;
+        el.scrollIntoView({behavior:'smooth', block:'center'});
+        // wait for scroll
+        await new Promise(r=> timers.push(setTimeout(r, 450)));
+        const rect = el.getBoundingClientRect();
+        moveToRect(rect);
+        positionTooltip(rect);
+        addHighlight(el);
+        tourIndexEl.textContent = idx+1;
+        tourTitle.textContent = s.title || '';
+        tourDesc.textContent = s.desc || '';
+
+        // small settle delay
+        await new Promise(r=> timers.push(setTimeout(r, 500)));
+        if(s.type){
+          await typeInto(el, s.type, 40);
+          await new Promise(r=> timers.push(setTimeout(r, 300)));
+        } else if(s.setVal){
+          if(el.tagName.toLowerCase()==='select' || el.type==='date'){
+            el.value = s.setVal;
+            el.dispatchEvent(new Event('change', {bubbles:true}));
+          } else {
+            el.value = s.setVal;
+          }
+          await new Promise(r=> timers.push(setTimeout(r, 300)));
+        } else if(s.click){
+          // animate a little click effect on mouse
+          mouse.classList.add('clicked');
+          el.click();
+          timers.push(setTimeout(()=> mouse.classList.remove('clicked'), 300));
+          await new Promise(r=> timers.push(setTimeout(r, 450)));
+        } else if(s.pause){
+          await new Promise(r=> timers.push(setTimeout(r, s.pause)));
+        }
+        // remove highlight after each step small delay to avoid overlap
+        timers.push(setTimeout(removeHighlight, 250));
+      }
+
+      async function playFrom(start=0){
+        if(running) return;
+        running = true; paused = false;
+        showTourUI();
+        for(let i=start;i<steps.length && running;i++){
+          // wait if paused
+          while(paused && running){ await new Promise(r=> timers.push(setTimeout(r, 200))); }
+          await runStep(i);
+          // small gap then auto-advance if still running
+          if(running && !paused){
+            await new Promise(r=> timers.push(setTimeout(r, 450)));
+          }
+        }
+        // done
+        clearTimers();
+      }
+
+      // controls
+      playBtn && playBtn.addEventListener('click', ()=>{
+        const helpModal = document.getElementById('helpModal');
+        if(helpModal) helpModal.style.display='none';
+        // ensure example values are filled if empty (keeps prior logic)
+        try{ document.getElementById('patientName'); }catch(e){}
+        setTimeout(()=>{ if(!running) playFrom(0); }, 250);
+      });
+      stopBtn && stopBtn.addEventListener('click', ()=> clearTimers());
+      // Prev/Next/Pause buttons removed — keyboard navigation remains (see key handlers)
+
+      // keyboard support: Esc stops, Space toggles pause, Arrow keys navigate
+      window.addEventListener('keydown', (ev)=>{
+        if(!running) return;
+        if(ev.key === 'Escape'){ clearTimers(); }
+        else if(ev.code === 'Space'){ ev.preventDefault(); paused = !paused; }
+        else if(ev.key === 'ArrowRight'){ clearTimers(); setTimeout(()=> playFrom(Math.min(current+1, steps.length-1)), 120); }
+        else if(ev.key === 'ArrowLeft'){ clearTimers(); setTimeout(()=> playFrom(Math.max(0,current-1)), 120); }
+      });
+
+      // cleanup on unload
+      window.addEventListener('beforeunload', clearTimers);
+    })();
+
+    // Data Transfer tutorial persistence & modal
+    (function(){
+      const btn = document.getElementById('dtHelpBtn');
+      const modal = document.getElementById('dtHelpModal');
+      const closeBtn = document.getElementById('dtCloseHelpBtn');
+      const checkbox = document.getElementById('dtDontShowCheckbox');
+      const STORAGE_KEY = 'mdc_dt_help_dont_show';
+
+      function open(){ modal.style.display='flex'; }
+      function close(){
+        if(checkbox.checked){
+          try{ localStorage.setItem(STORAGE_KEY, '1'); }catch(e){}
+        }
+        modal.style.display='none';
+      }
+      btn && btn.addEventListener('click', ()=> open());
+      closeBtn && closeBtn.addEventListener('click', ()=> close());
+      modal && modal.addEventListener('click', (e)=> { if(e.target === modal) close(); });
+
+      // auto-open once if user hasn't opted out
+      try{
+        const optedOut = localStorage.getItem(STORAGE_KEY) === '1';
+        if(!optedOut){
+          setTimeout(()=> open(), 800);
+        }
+      }catch(e){}
+    })();
+  </script>
+</body>
+</html>
