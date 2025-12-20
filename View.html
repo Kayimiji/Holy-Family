@@ -1060,9 +1060,119 @@
         </div>
     </div>
 
-    <!-- Notification -->
-    <div class="notification" id="notification"></div>
+<!-- Notification -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
 
-    <script src="script.js"></script>
-</body>
+    /* ================================
+       TAB FUNCTIONALITY
+    ================================= */
+    const tabs = document.querySelectorAll(".tab");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            tabs.forEach(t => t.classList.remove("active"));
+            tabContents.forEach(c => c.classList.remove("active"));
+
+            tab.classList.add("active");
+            document.getElementById(`${tab.dataset.tab}-tab`).classList.add("active");
+        });
+    });
+
+    /* ================================
+       MODAL HELPERS
+    ================================= */
+    function openModal(id) {
+        document.getElementById(id).style.display = "flex";
+    }
+
+    function closeModal(modal) {
+        modal.style.display = "none";
+    }
+
+    document.querySelectorAll(".close-modal").forEach(btn => {
+        btn.addEventListener("click", () => {
+            closeModal(btn.closest(".modal"));
+        });
+    });
+
+    window.addEventListener("click", e => {
+        document.querySelectorAll(".modal").forEach(modal => {
+            if (e.target === modal) modal.style.display = "none";
+        });
+    });
+
+    /* ================================
+       EDIT PROFILE MODAL
+    ================================= */
+    document.getElementById("edit-profile-btn")
+        .addEventListener("click", () => openModal("edit-profile-modal"));
+
+    document.getElementById("save-profile-btn")
+        .addEventListener("click", () => {
+            showNotification("Profile updated successfully", "success");
+            closeModal(document.getElementById("edit-profile-modal"));
+        });
+
+    /* ================================
+       ADD SCHEDULE MODAL
+    ================================= */
+    document.getElementById("add-schedule-btn")
+        .addEventListener("click", () => openModal("add-schedule-modal"));
+
+    document.getElementById("save-schedule-btn")
+        .addEventListener("click", () => {
+            showNotification("Appointment added successfully", "success");
+            closeModal(document.getElementById("add-schedule-modal"));
+        });
+
+    /* ================================
+       APPOINTMENT ACTION MODAL
+    ================================= */
+    let selectedAppointment = null;
+
+    document.querySelectorAll(".action-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            selectedAppointment = btn.dataset.appointment;
+            openModal("appointment-actions-modal");
+        });
+    });
+
+    document.getElementById("edit-appointment-btn")
+        .addEventListener("click", () => {
+            showNotification(`Editing appointment #${selectedAppointment}`, "info");
+        });
+
+    document.getElementById("cancel-appointment-btn")
+        .addEventListener("click", () => {
+            showNotification(`Appointment #${selectedAppointment} cancelled`, "error");
+            closeModal(document.getElementById("appointment-actions-modal"));
+        });
+
+    document.getElementById("reschedule-appointment-btn")
+        .addEventListener("click", () => {
+            showNotification(`Rescheduling appointment #${selectedAppointment}`, "info");
+        });
+
+    document.getElementById("view-details-btn")
+        .addEventListener("click", () => {
+            showNotification(`Viewing details of appointment #${selectedAppointment}`, "info");
+        });
+
+    /* ================================
+       NOTIFICATION
+    ================================= */
+    function showNotification(message, type) {
+        const notification = document.getElementById("notification");
+        notification.textContent = message;
+        notification.className = `notification show ${type}`;
+
+        setTimeout(() => {
+            notification.classList.remove("show");
+        }, 3000);
+    }       
+});
+</script>
+    <div class="notification" id="notification"></div>
 </html>
