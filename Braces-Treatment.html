@@ -16,7 +16,7 @@
       --card:#ffffff;
       --shadow:0 4px 12px rgba(0,0,0,.08);
       --text:#2c3e50;
-      --sidebar-width:250px;
+      --sidebar-width:220px; /* updated */
       --sidebar-collapsed-width:64px;
     }
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
@@ -196,50 +196,93 @@
       border-radius: 4px;
       border: none;
     }
+
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--sidebar-bg);
+      color: #fff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      transition: width 0.28s, transform 0.28s;
+      z-index: 1200;
+    }
+
+    .sidebar .logo {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #00bfff;
+    }
+
+    .sidebar .logo i {
+      font-size: 24px;
+      margin-right: 10px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar ul li {
+      padding: 15px 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .sidebar ul li:hover,
+    .sidebar ul li.active {
+      background: rgba(0, 191, 255, 0.2);
+    }
+
+    .sidebar .bottom {
+      margin-top: auto;
+      padding: 20px;
+      border-top: 1px solid #34495e;
+    }
+
+    .sidebar .bottom div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .sidebar .bottom div:hover {
+      color: #00bfff;
+    }
+
   </style>
 </head>
 <body>
  <aside class="sidebar">
-  <div class="sidebar-header">
-    <img src="logo.png" class="sidebar-logo">
-    <div class="sidebar-title">
-      <h2>SMART<br>DENTISTRY</h2>
-    </div>
+  <div class="logo">
+    <i class="fa-solid fa-tooth"></i>
+    <span>SMART DENTISTRY</span>
   </div>
-
-  <ul class="sidebar-menu">
-    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-
-    <li class="dropdown open">
-      <a href="#" class="dropdown-toggle">
-        <i class="fas fa-tooth"></i> My Clinic
-        <i class="fas fa-chevron-down arrow"></i>
-      </a>
-      <ul class="submenu">
-        <li><a href="clinic-profile.html" >Clinic Profile</a></li>
-        <li><a href="Dental-Chart.html">Dental Chart</a></li>
-        <li><a href="Braces-Treatment.html"class="active">Braces Treatment</a></li>
-        <li><a href="Data-Files.html">Data Files</a></li>
-      </ul>
-    </li>
-
-    <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
-    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-    <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-    <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
-    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+  <ul>
+    <li class="active"><i class="fa-solid fa-gauge-high"></i> Dashboard</li>
+    <li><i class="fa-solid fa-user"></i> Patients</li>
+    <li><i class="fa-solid fa-calendar-days"></i> Appointments</li>
+    <li><i class="fa-solid fa-certificate"></i> Certificates</li>
   </ul>
+  <div class="bottom">
+    <div><i class="fas fa-cog"></i> Settings</div>
+    <div><i class="fas fa-sign-out-alt"></i> Logout</div>
+  </div>
 </aside>
-
-<!-- overlay used for mobile when sidebar is open -->
-<div id="sidebarOverlay" class="sidebar-overlay" hidden onclick="toggleSidebar(false)"></div>
 
 <!-- MAIN CONTENT -->
 <div class="main">
 
 <div class="header">
-  <button id="sidebarToggle" class="btn-outline" aria-label="Toggle sidebar" title="Toggle sidebar"><i class="fas fa-bars"></i></button>
   <div class="header-left"><i class="fa fa-arrow-left"></i> Braces Treatment Plan</div>
   <button class="add-btn">ADD A PATIENT</button>
 </div>
@@ -429,38 +472,11 @@ document.getElementById("saveTreatmentBtn").onclick = () => {
 
 // Sidebar toggle behaviour
 document.addEventListener('DOMContentLoaded', function () {
-  const sidebarToggle = document.getElementById('sidebarToggle');
-  const bodyEl = document.body;
-  const sidebarOverlay = document.getElementById('sidebarOverlay');
-
-  function setCollapsed(collapsed) {
-    if (collapsed) bodyEl.classList.add('sidebar-collapsed');
-    else bodyEl.classList.remove('sidebar-collapsed');
-    localStorage.setItem('sidebarCollapsed', collapsed ? '1' : '0');
-  }
-
-  function toggleSidebar(forceOpen) {
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile) {
-      const willOpen = (forceOpen === true) || !bodyEl.classList.contains('sidebar-open');
-      if (willOpen) { bodyEl.classList.add('sidebar-open'); sidebarOverlay.hidden = false; }
-      else { bodyEl.classList.remove('sidebar-open'); setTimeout(()=> sidebarOverlay.hidden = true, 220); }
-    } else {
-      setCollapsed(!bodyEl.classList.contains('sidebar-collapsed'));
-    }
-  }
-
-  sidebarToggle?.addEventListener('click', () => toggleSidebar());
-  window.toggleSidebar = toggleSidebar;
-
-  if (localStorage.getItem('sidebarCollapsed') === '1' && window.innerWidth > 768) {
-    setCollapsed(true);
-  }
-
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 768) { bodyEl.classList.remove('sidebar-open'); sidebarOverlay.hidden = true; }
-    else { bodyEl.classList.remove('sidebar-collapsed'); }
-  });
+  // Sidebar toggling intentionally disabled: keep sidebar always visible.
+  window.toggleSidebar = function () { console.log('Sidebar toggling disabled'); };
+  document.getElementById('sidebarOverlay')?.remove();
+  document.getElementById('sidebarToggle')?.remove();
+  document.body.classList.remove('sidebar-collapsed', 'sidebar-open');
 });
 </script>
 </body>

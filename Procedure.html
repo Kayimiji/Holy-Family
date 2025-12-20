@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dental Procedures</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+    body {
+      background: #f4f6f8;
+      padding: 40px;
+    }
+    .card {
+      max-width: 420px;
+      margin: auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      overflow: hidden;
+    }
+    .search-bar {
+      background: #00cfff;
+      padding: 10px;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+    }
+    .content {
+      padding: 15px;
+    }
+    .title {
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .item {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      cursor: pointer;
+    }
+    .item.active {
+      background: #00cfff;
+      color: #fff;
+      border-color: #00cfff;
+    }
+    .item.selected {
+      border: 2px solid #1e90ff;
+    }
+    .item i {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="search-bar">
+    <input type="text" placeholder="🔍 Preventive Dental Procedures" />
+  </div>
+
+  <div class="content">
+    <div class="title">Procedure(s) found</div>
+
+    <div class="item active">
+      <i class="fa-solid fa-tooth"></i>
+      Preventive Dental Procedures
+    </div>
+
+    <div class="item">
+      <i class="fa-solid fa-screwdriver-wrench"></i>
+      Restorative Dental Procedures
+    </div>
+
+    <div class="item selected">
+      <i class="fa-solid fa-teeth"></i>
+      Cosmetic Dental Procedures
+    </div>
+
+    <div class="item">
+      <i class="fa-solid fa-align-center"></i>
+      Orthodontic Treatments
+    </div>
+
+    <div class="item">
+      <i class="fa-solid fa-scalpel"></i>
+      Oral Surgery Procedures
+    </div>
+
+    <div class="item">
+      <i class="fa-solid fa-heart-pulse"></i>
+      Periodontal (Gum) Treatments
+    </div>
+
+    <div class="item">
+      <i class="fa-solid chart"></i>
+      Metal braces application
+    </div>
+    <div class="item">
+      <i class="fa-solid chart"></i>
+      Ceramic braces application 
+    </div>
+</div>     
+
+</body>
+</html>
+</style>

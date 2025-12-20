@@ -25,71 +25,24 @@ body{background:var(--bg);color:var(--text)}
 
 /* ===== SIDEBAR ===== */
 .sidebar{
-  width:250px;
-  background:var(--sidebar-bg);
+  width:220px;
+  height:100vh;
+  background:#2c3e50;
   color:#fff;
   position:fixed;
   top:0;left:0;bottom:0;
-}
-.sidebar-header{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:20px;
-}
-.sidebar-logo{
-  width:50px;
-  height:50px;
-  border-radius:50%;
-}
-.sidebar-title h2{
-  font-size:16px;
-  color:var(--sidebar-active);
-  line-height:1.1;
-}
-.sidebar-menu{list-style:none}
-.sidebar-menu a{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px 20px;
-  color:#fff;
-  text-decoration:none;
-}
-.sidebar-menu a:hover,
-.sidebar-menu a.active{
-  background:rgba(0,191,255,.2);
-  border-left:4px solid var(--sidebar-active);
-}
-
-/* Dropdown */
-.dropdown .arrow{
-  margin-left:auto;
-  transition:.3s;
-}
-.dropdown.open .arrow{
-  transform:rotate(180deg);
-}
-.submenu{
-  list-style:none;
-  display:none;
-  background:#243444;
-}
-.dropdown.open .submenu{
-  display:block;
-}
-.submenu a{
-  padding:10px 40px;
-  font-size:14px;
-}
-
-/* ===== MAIN ===== */
-.main{
-  margin-left:250px;
-  width:calc(100% - 250px);
   display:flex;
   flex-direction:column;
 }
+.logo { padding:20px; text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); }
+.logo i { color:#00d4ff; font-size:28px; }
+.sidebar ul { list-style:none; padding:20px 0; flex-grow:1; }
+.sidebar li { padding:12px 20px; display:flex; align-items:center; gap:10px; cursor:pointer; }
+.sidebar li:hover, .sidebar li.active { background:#00d4ff; color:#000; border-radius:0 30px 30px 0; }
+.bottom { padding:18px; border-top:1px solid rgba(255,255,255,0.1); }
+
+/* adjust main area */
+.main{ margin-left:220px; width:calc(100% - 220px); }
 
 /* ===== HEADER ===== */
 .header{
@@ -182,43 +135,26 @@ input{
 }
 </style>
 </head>
-
 <body>
 
 <div class="dashboard">
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
-  <div class="sidebar-header">
-    <img src="logo.png" class="sidebar-logo">
-    <div class="sidebar-title">
-      <h2>SMART<br>DENTISTRY</h2>
-    </div>
+  <div class="logo">
+    <i class="fa-solid fa-tooth"></i>
+    <span>SMART DENTISTRY</span>
   </div>
-
-  <ul class="sidebar-menu">
-    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-
-    <li class="dropdown open">
-      <a href="#" class="dropdown-toggle">
-        <i class="fas fa-tooth"></i> My Clinic
-        <i class="fas fa-chevron-down arrow"></i>
-      </a>
-      <ul class="submenu">
-        <li><a href="clinic-profile.html" class="active">Clinic Profile</a></li>
-        <li><a href="Dental-Chart.html">Dental Chart</a></li>
-        <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
-        <li><a href="Data-Files.html">Data Files</a></li>
-      </ul>
-    </li>
-
-    <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
-    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-    <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-    <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
-    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+  <ul>
+    <li class="active"><i class="fa-solid fa-gauge-high"></i> Dashboard</li>
+    <li><i class="fa-solid fa-user"></i> Patients</li>
+    <li><i class="fa-solid fa-calendar-days"></i> Appointments</li>
+    <li><i class="fa-solid fa-certificate"></i> Certificates</li>
   </ul>
+  <div class="bottom">
+    <div><i class="fas fa-cog"></i> Settings</div>
+    <div><i class="fas fa-sign-out-alt"></i> Logout</div>
+  </div>
 </aside>
 
 <!-- MAIN -->
@@ -377,14 +313,3 @@ $pdf->Ln(10);
 // BODY
 $pdf->SetFont('helvetica','',11);
 $pdf->MultiCell(0,8,"Rx:\nAmoxicillin 500mg\n3x daily after meals");
-
-// SIGNATURE
-$pdf->Ln(20);
-$pdf->Image($signature,130,$pdf->GetY(),40);
-$pdf->Ln(15);
-$pdf->Cell(0,5,"Dentist Signature",0,1,'R');
-
-$pdf->Output('prescription.pdf','I');
-</script>
-</body>
-</html>
