@@ -1,1866 +1,292 @@
-97% of storage used … If you run out of space, you can't save to Drive, back up Google Photos, or use Gmail. Get 30 GB of storage for ₱49 ₱10/month for 3 months.
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Smart Dentistry - Modern Dental Care</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Gallery - Holy Family Dental Clinic</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #034681;
-            --secondary: #1f86e0;
-            --dark: #2C3333;
-            --light: #FAFAFA;
-            --accent: #E29578;
-            --muted: rgba(0,0,0,0.56);
-            --danger: #D64545;
-            --success: #1E88E5;
-        }
-        
-        * {
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            color: #222;
-            background: var(--light);
-            line-height: 1.6;
-        }
-
-        /* ===== IMPROVED NAVBAR ===== */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 5%;
-            min-height: 64px;
-            background: rgba(255,255,255,0.58);
-            backdrop-filter: blur(6px);
-            border-bottom: 1px solid transparent;
-            box-shadow: 0 6px 30px rgba(0,0,0,0.06);
-            transition: background .25s ease, box-shadow .25s ease, border-color .25s ease;
-        }
-
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-
-        .brand img {
-            height: 46px;
-            transition: transform .28s ease, filter .28s ease;
-            border-radius: 8px;
-        }
-
-        .brand img:hover {
-            transform: scale(1.06);
-            filter: brightness(1.02);
-        }
-
-        .brand .title {
-            color: var(--primary);
-            font-size: 1.45rem;
-            font-weight: 800;
-            letter-spacing: -0.4px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 18px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: #444;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1.03rem;
-            padding: 8px 6px;
-            border-radius: 6px;
-            transition: all .22s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        .nav-links a.active {
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        .nav-actions {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 18px;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            min-height: 44px;
-        }
-
-        .btn-outline {
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            background: transparent;
-        }
-
-        .btn-primary {
-            color: #fff;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-            border: none;
-        }
-
-        /* Mobile nav toggle */
-        .nav-toggle {
-            display: none;
-            background: transparent;
-            border: none;
-            color: inherit;
-            font-size: 1.2rem;
-            padding: 8px;
-            border-radius: 8px;
-            cursor: pointer;
-            min-height: 44px;
-            min-width: 44px;
-        }
-
-        /* Navbar states */
-        .navbar.transparent {
-            background: transparent;
-            box-shadow: none;
-            border-bottom-color: transparent;
-        }
-
-        .navbar.transparent .brand .title,
-        .navbar.transparent .nav-links a {
-            color: #fff;
-        }
-
-        .navbar.transparent .btn-outline {
-            color: #fff;
-            border-color: rgba(255,255,255,0.35);
-            background: transparent;
-        }
-
-        .navbar.transparent .btn-primary {
-            color: #fff;
-            background: rgba(255,255,255,0.12);
-            box-shadow: none;
-        }
-
-        .navbar.scrolled {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(6px);
-            box-shadow: 0 6px 30px rgba(0,0,0,0.06);
-            border-bottom-color: rgba(0,0,0,0.03);
-        }
-
-        .navbar.scrolled .brand .title,
-        .navbar.scrolled .nav-links a {
-            color: #444;
-        }
-
-        .navbar.scrolled .brand .title {
-            color: var(--primary);
-            font-weight: 800;
-        }
-
-        .navbar.scrolled .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .navbar.scrolled .btn-outline {
-            color: var(--primary);
-            border-color: var(--primary);
-            background: transparent;
-        }
-
-        .navbar.scrolled .btn-primary {
-            color: #fff;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-        }
-
-        /* ===== HERO SECTION ===== */
-        .main-section {
-            background: linear-gradient(90deg, #2196f3 60%, #e3f2fd 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 100px 5% 60px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .main-left {
-            max-width: 500px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .main-left h1 {
-            color: #fff;
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin: 0 0 0.6rem 0;
-            line-height: 1.1;
-            letter-spacing: -0.6px;
-        }
-
-        .main-left h1 span {
-            display: inline-block;
-            font-size: 2.8rem;
-            line-height: 1.02;
-        }
-
-        .nowrap {
-            white-space: nowrap;
-        }
-
-        .main-left p {
-            color: #e3f2fd;
-            font-size: 1.08rem;
-            margin: 0 0 2rem 0;
-            line-height: 1.55;
-            max-width: 46ch;
-        }
-
-        .book-now-button {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: #fff;
-            padding: 14px 32px;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-height: 50px;
-        }
-
-        .book-now-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-
-        .hero-gallery {
-            margin-top: 30px;
-        }
-
-        .hero-gallery span {
-            color: #fff;
-            font-size: 1.3rem;
-            font-weight: 700;
-            display: block;
-            margin-bottom: 12px;
-        }
-
-        .hero-thumb-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
-        }
-
-        .hero-thumb-grid img {
-            width: 100%;
-            height: 90px;
-            object-fit: cover;
-            border-radius: 12px;
-            transition: transform 0.3s ease;
-        }
-
-        .hero-thumb-grid img:hover {
-            transform: scale(1.05);
-        }
-
-        .main-right {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .main-right img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 15px;
-        }
-
-        /* Decorative elements */
-        .left-rect {
-            position: absolute;
-            left: -72px;
-            top: 48px;
-            width: 360px;
-            height: 560px;
-            border-radius: 24px;
-            pointer-events: none;
-            z-index: 0;
-            background: linear-gradient(135deg, rgba(0,109,119,0.18) 0%, rgba(131,197,190,0.09) 60%);
-            filter: blur(22px);
-            box-shadow: 0 30px 80px rgba(6, 45, 44, 0.14);
-            transform: rotate(-6deg) translateZ(0);
-        }
-
-        /* ===== FEATURES SECTION ===== */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 20px 60px;
-        }
-
-        .features {
-            text-align: center;
-        }
-
-        .features h2 {
-            font-size: 32px;
-            color: var(--dark);
-            margin-bottom: 20px;
-        }
-
-        .features > p {
-            color: #666;
-            font-size: 1.1rem;
-            margin-bottom: 50px;
-            line-height: 1.6;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        /* larger feature cards to accommodate bigger pictures */
-        .feature-card {
-            background: linear-gradient(145deg, #ffffff, #f0f9ff);
-            padding: 48px; /* increased padding to fit larger image */
-            border-radius: 20px;
-            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.10);
-            transition: all 0.36s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(33, 150, 243, 0.1);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(33, 150, 243, 0.2);
-            background: linear-gradient(145deg, #ffffff, #e3f2fd);
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.8), transparent);
-            transform: translateX(-100%);
-            transition: 0.6s;
-        }
-
-        .feature-card:hover::before {
-            transform: translateX(100%);
-        }
-
-        .feature-icon {
-            background: linear-gradient(45deg, #2196f3, #64b5f6);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            color: white;
-            font-size: 24px;
-            box-shadow: 0 4px 15px rgba(0, 150, 243, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover .feature-icon {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
-        }
-
-        .feature-card h3 {
-            color: var(--dark);
-            margin: 0 0 15px;
-            font-size: 1.3rem;
-        }
-
-        .feature-card p {
-            color: #666;
-            font-size: 14px;
-            line-height: 1.6;
-            margin: 0;
-        }
-
-        /* Focus style for accessibility */
-        .feature-card[role="button"]:focus {
-            transform: translateY(-8px);
-            box-shadow: 0 18px 40px rgba(30,136,229,0.12);
-            outline: 3px solid rgba(30,136,229,0.10);
-            transition: transform .18s ease, box-shadow .18s ease;
-        }
-
-        /* new: use picture instead of icon for feature cards */
-        .feature-image{
-            width:120px;
-            height:120px;
-            border-radius:14px;
-            overflow:hidden;
-            margin:0 auto 20px;
-            box-shadow:0 10px 30px rgba(33,150,243,0.12);
-            transition:transform .28s ease, box-shadow .28s ease;
-        }
-        .feature-image img{
-            width:100%;
-            height:100%;
-            object-fit:cover;
-            display:block;
-        }
-        .feature-card:hover .feature-image{
-            transform:scale(1.06);
-            box-shadow:0 14px 36px rgba(33,150,243,0.18);
-        }
-
-        /* ===== MOBILE FEATURES SECTION ===== */
-        .mobile-features {
-            margin-top: 80px;
-            text-align: center;
-        }
-
-        .mobile-features h2 {
-            color: #2196f3;
-            font-size: 32px;
-            margin-bottom: 50px;
-        }
-
-        .mobile-features-content {
-            display: flex;
-            align-items: center;
-            gap: 50px;
-            padding: 20px;
-        }
-
-        .mobile-mockup {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-        }
-
-        .mobile-mockup img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 30px;
-            box-shadow: 0 20px 40px rgba(33, 150, 243, 0.2);
-        }
-
-        .mobile-features-grid {
-            flex: 2;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .mobile-feature {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .mobile-feature-icon {
-            background: #2196f3;
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .mobile-feature-icon i {
-            color: white;
-            font-size: 32px;
-        }
-
-        .mobile-feature h3 {
-            color: #2196f3;
-            margin: 10px 0;
-            font-size: 1.2rem;
-        }
-
-        .mobile-feature p {
-            color: #666;
-            margin: 0;
-        }
-
-        /* ===== GALLERY SECTION ===== */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .gallery img {
-            width: 100%;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .gallery img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        /* ===== GALLERY SLIDER (new) ===== */
-        .gallery-slider {
-            position: relative;
-            width: 100%;
-            margin-top: 40px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .gallery-viewport {
-            flex: 1 1 auto;
-            overflow: hidden;
-            border-radius: 12px;
-            background: transparent;
-            /* allow horizontal pan inside the gallery; global mobile still set to pan-y */
-            touch-action: pan-x;
-        }
-
-        .gallery-track {
-            display: flex;
-            transition: transform 380ms cubic-bezier(.22,.9,.32,1);
-            will-change: transform;
-        }
-
-        .gallery-slide {
-            min-width: 100%;
-            box-sizing: border-box;
-            padding: 12px;
-            display: grid;
-            grid-template-columns: repeat(5, 1fr); /* 5 pics per slide */
-            gap: 12px;
-            align-items: center;
-        }
-
-        .gallery-slide img {
-            width: 100%;
-            height: 110px;
-            object-fit: cover;
-            border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-            display: block;
-        }
-
-        /* nav buttons */
-        .gallery-nav {
-            background: rgba(255,255,255,0.96);
-            border: 0;
-            padding: 8px 10px;
-            border-radius: 10px;
-            min-width: 44px;
-            min-height: 44px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-        .gallery-nav:disabled { opacity: 0.45; cursor: default; }
-
-        /* dots */
-        .gallery-dots {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-            justify-content: center;
-        }
-        .gallery-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.12);
-            cursor: pointer;
-        }
-        .gallery-dot.active { background: var(--primary); }
-
-        /* ===== HORIZONTAL SCROLL GALLERY FOR MOBILE ===== */
-        .mobile-gallery-container {
-            display: none;
-            width: 100%;
-            margin-top: 40px;
-            position: relative;
-        }
-
-        .mobile-gallery-scroll {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            gap: 12px;
-            padding: 12px 0;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
-        }
-
-        .mobile-gallery-scroll::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Edge */
-        }
-
-        .mobile-gallery-scroll img {
-            scroll-snap-align: start;
-            flex: 0 0 auto;
-            width: 180px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .mobile-gallery-indicator {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 16px;
-        }
-
-        .mobile-gallery-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-        }
-
-        .mobile-gallery-dot.active {
-            background: var(--primary);
-            transform: scale(1.2);
-        }
-
-        /* ===== FOOTER ===== */
-        .site-footer {
-            margin-top: 40px;
-            background: linear-gradient(180deg, #ffffff, #f6f9fc);
-            border-top: 1px solid rgba(0,0,0,0.04);
-            padding: 36px 5%;
-            color: #444;
-        }
-
-        .footer-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            gap: 24px;
-            align-items: flex-start;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-
-        .footer-col {
-            flex: 1 1 220px;
-            min-width: 180px;
-        }
-
-        .footer-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .footer-brand img {
-            height: 40px;
-            border-radius: 8px;
-        }
-
-        .footer-col h4 {
-            margin: 0 0 8px 0;
-            color: var(--primary);
-        }
-
-        .footer-col p {
-            margin: 0 0 8px 0;
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        .footer-links {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .footer-links a {
-            color: #444;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color .18s ease;
-            padding: 4px 0;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .socials {
-            display: flex;
-            gap: 10px;
-            margin-top: 8px;
-        }
-
-        .socials a {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(180deg, rgba(33,150,243,0.06), rgba(100,181,246,0.03));
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .socials a:hover {
-            transform: translateY(-3px);
-            background: linear-gradient(180deg, rgba(33,150,243,0.12), rgba(100,181,246,0.06));
-        }
-
-        .footer-note {
-            margin-top: 18px;
-            color: #777;
-            font-size: 0.95rem;
-            text-align: center;
-            width: 100%;
-        }
-
-        /* ===== MODALS ===== */
-        .modal {
-            position: fixed;
-            inset: 0;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            background: rgba(8,12,16,0.45);
-            z-index: 2000;
-            padding: 20px;
-        }
-
-        .modal.open {
-            display: flex;
-        }
-
-        .modal-dialog {
-            width: 100%;
-            max-width: 720px;
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 20px 60px rgba(2,32,39,0.18);
-            display: grid;
-            grid-template-columns: 1fr 360px;
-            overflow: hidden;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-left {
-            padding: 28px 32px;
-        }
-
-        .modal-right {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            padding: 26px;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 18px;
-            right: 22px;
-            background: transparent;
-            border: none;
-            font-size: 22px;
-            color: var(--light);
-            cursor: pointer;
-            min-height: 44px;
-            min-width: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-left .modal-close {
-            color: var(--dark);
-        }
-
-        .modal-form label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 700;
-            color: #222;
-        }
-
-        .modal-form input, .modal-form textarea, .modal-form select {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: 10px;
-            border: 1px solid rgba(0,0,0,0.08);
-            margin-bottom: 12px;
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-
-        .toggle-pass {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            color: var(--primary);
-            padding: 6px;
-            border-radius: 8px;
-            min-height: 44px;
-            min-width: 44px;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 6px;
-        }
-
-        .modal-note {
-            font-size: 0.9rem;
-            color: var(--muted);
-            margin-top: 8px;
-        }
-
-        .error {
-            color: var(--danger);
-            font-size: 0.95rem;
-            margin-top: 6px;
-            display: none;
-        }
-
-        .success {
-            color: var(--success);
-            font-size: 0.98rem;
-            margin-top: 8px;
-            display: none;
-        }
-
-        /* ===== MOBILE RESPONSIVENESS ===== */
-        @media (max-width: 1024px) {
-            .main-section {
-                padding: 100px 4% 60px;
-            }
-            
-            .main-right img {
-                max-width: 90%;
-            }
-            
-            .mobile-features-content {
-                gap: 30px;
-            }
-        }
-
-        @media (max-width: 900px) {
-            .features-grid { grid-template-columns: 1fr; gap: 20px; }
-            .feature-card { padding: 36px; } /* reduce from desktop but still roomy */
-            .feature-image{ width:96px; height:96px; }
-            .mobile-features-content { flex-direction: column; gap: 30px; }
-            .mobile-mockup { order: -1; }
-            .mobile-mockup img { max-width: 250px; }
-            .mobile-features-grid { grid-template-columns: 1fr; }
-            .modal-dialog { grid-template-columns: 1fr; max-width: 520px; }
-            .modal-right { padding: 20px; border-top-left-radius: 0; border-top-right-radius: 0; }
-            .modal-left { padding: 20px; }
-            .mobile-gallery-container { display: block; }
-            .gallery-slider { display: none; }
-        }
-
-        @media (max-width: 768px) {
-            html {
-                font-size: 14px;
-            }
-            
-            .navbar {
-                padding: 10px 4%;
-            }
-            
-            .brand img {
-                height: 36px;
-            }
-            
-            .container {
-                padding: 60px 16px 40px;
-            }
-            
-            .features h2, .mobile-features h2 {
-                font-size: 1.8rem;
-            }
-            
-            .btn, button, .book-now-button, .submit-btn {
-                min-height: 44px;
-                min-width: 44px;
-                padding: 12px 20px;
-                font-size: 1rem;
-            }
-            
-            .hero-thumb-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .gallery {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .footer-inner {
-                gap: 16px;
-            }
-            
-            .footer-col {
-                flex: 1 1 100%;
-                margin-bottom: 20px;
-            }
-            
-            .footer-brand {
-                justify-content: center;
-                text-align: center;
-            }
-            
-            input, textarea, select {
-                font-size: 16px;
-                padding: 14px 12px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            html {
-                font-size: 13px;
-            }
-            
-            .container {
-                padding: 40px 12px 30px;
-            }
-            
-            .main-section {
-                padding: 80px 4% 30px;
-            }
-            
-            .main-left h1 {
-                font-size: 1.8rem;
-            }
-            
-            .main-left h1 span {
-                font-size: 2rem;
-            }
-            
-            .hero-thumb-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .hero-thumb-grid img {
-                height: 60px;
-            }
-            
-            .features-grid, .mobile-features-grid {
-                gap: 16px;
-            }
-            
-            .feature-card, .mobile-feature {
-                padding: 28px; /* compact but comfortable */
-            }
-            
-            .feature-image{ width:72px; height:72px; } /* revert to smaller image on tiny screens */
-            
-            .modal-dialog {
-                margin: 10px;
-            }
-            
-            .modal-actions {
-                flex-direction: column;
-                gap: 8px;
-            }
-            
-            .modal-actions .btn {
-                width: 100%;
-            }
-            
-            .gallery {
-                grid-template-columns: 1fr;
-            }
-            
-            /* Mobile gallery adjustments for small screens */
-            .mobile-gallery-scroll img {
-                width: 160px;
-                height: 110px;
-            }
-        }
-
-        /* Enhanced touch interactions for mobile */
-        @media (hover: none) and (pointer: coarse) {
-            .feature-card:hover {
-                transform: none;
-            }
-            
-            .btn:hover, .book-now-button:hover, .socials a:hover {
-                transform: none;
-            }
-            
-            /* Add active states for touch feedback */
-            .btn:active, .book-now-button:active, .feature-card:active, .socials a:active {
-                transform: scale(0.98);
-                transition: transform 0.1s ease;
-            }
-        }
-
-        /* Records Bookmark Button (vertical on the right) */
-        .records-bookmark {
-            position: fixed;
-            right: 45px;
-            top: 25%;
-            transform: translateY(-50%) rotate(270deg);
-            transform-origin: right top;
-            background-color: #00bfff;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 5px 5px 0 0;
-            text-decoration: none;
-            font-weight: 600;
-            z-index: 999;
-            box-shadow: -2px -2px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-        }
-
-        .records-bookmark:hover {
-            background-color: #009acd;
-            transform: translateY(-50%) rotate(270deg) translateX(5px);
-            color: white;
-        }
-
-        .records-bookmark i {
-            margin-right: 8px;
-            transform: rotate(-90deg);
-        }
-
-        @media (max-width: 768px) {
-            .records-bookmark {
-                display: none;
-            }
-        }
-
-        /* ===== SECURITY / DATA section (scoped to .security-section) ===== */
-        .security-section .section-header{
-            background-color: #00bfff;
-            padding: 3rem 1rem;
-            text-align: center;
-            color: #fff;
-            margin-top: 40px;
-            border-radius: 10px;
-        }
-        .security-section .section-header h1{ font-size:2rem; margin:0 0 .5rem; }
-        .security-section .section-header p{ max-width:900px;margin:0 auto;color:rgba(255,255,255,0.95) }
-
-        .security-section .main-content{ padding:48px 5%; background:#fff; }
-        .security-section .intro-text{ max-width:900px;margin:0 auto 24px;text-align:center }
-        .security-section .intro-text h2{ color:#2c3e50;margin:0 0 .25rem }
-        .security-section .intro-text h3{ color:#556; font-weight:600; margin:0 }
-
-        .security-section .security-icons{ display:flex;gap:24px;justify-content:center;margin-top:18px;flex-wrap:wrap }
-        .security-section .security-icon{ display:flex;flex-direction:column;align-items:center;gap:10px;min-width:160px }
-        .security-section .icon-circle{ width:72px;height:72px;border-radius:50%;background:#f0fbff;display:flex;align-items:center;justify-content:center;color:#007b9a;font-size:22px;box-shadow:0 6px 18px rgba(0,0,0,0.06) }
-        .security-section .icon-label{ font-weight:600;color:#2c3e50 }
-
-        .security-section .features-container{ background:linear-gradient(180deg,#f8fbff,#fff); padding:30px 5%; margin-top:18px; border-radius:12px; }
-        .security-section .features-column{ display:grid;grid-template-columns:repeat(2,1fr);gap:18px; max-width:1100px;margin:0 auto }
-        .security-section .feature-card{ display:flex;gap:16px;align-items:flex-start;background:#fff;padding:18px;border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,0.04); }
-        .security-section .feature-icon{ width:54px;height:54px;border-radius:10px;background:#e8f8ff;display:flex;align-items:center;justify-content:center;color:#007b9a;font-size:20px }
-        .security-section .feature-content h3{ margin:0 0 6px;color:#11303b }
-        .security-section .feature-content p{ margin:0;color:#465a61 }
-        @media (max-width:900px){ .security-section .features-column{ grid-template-columns: 1fr } .security-section .security-icons{ gap:12px } }
-        /* ...existing code continues... */
-
-    </style>
+        /* ============================================= */
+/* BASE STYLES & VARIABLES */
+/* ============================================= */
+
+:root {
+    --bg-color: #f5f7fa;
+    --sidebar-bg: #2c3e50;
+    --sidebar-text: rgba(255, 255, 255, 0.9);
+    --sidebar-active: #00bfff;
+    --card-bg: #ffffff; /* Light theme card background */
+    --text-color: #2c3e50;
+    --text-muted: #7a8ba9;
+    --border-color: #e1e5eb;
+    --hover-bg: #f0f4f8;
+    --today-bg: #e6f7ff;
+    --selected-bg: #00bfff;
+    --selected-text: white;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --modal-bg: #ffffff;
+    --modal-text: #2c3e50;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --sidebar-bg: #151e25;
+    --sidebar-text: rgba(255, 255, 255, 0.85);
+    --sidebar-active: #00bfff;
+    --card-bg: #2d2d2d;
+    --text-color: #e0e0e0;
+    --text-muted: #aaa;
+    --border-color: #444;
+    --hover-bg: #333;
+    --today-bg: #003366;
+    --selected-bg: #006699;
+    --selected-text: white;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --modal-bg: #2d2d2d;
+    --modal-text: #e0e0e0;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    margin: 0;
+    transition: background-color 0.3s ease;
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: var(--bg-color);
+    color: var(--sidebar-text);
+}
+
+/* ============================================= */
+/* LAYOUT & STRUCTURE */
+/* ============================================= */
+
+.dashboard {
+    display: flex;
+    height: 100vh;
+    min-height: 100vh;
+    overflow: hidden;
+    color: var(--text-color);
+}
+.sidebar {
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 20px 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.main-content {
+    flex-direction: column;
+    padding: 30px;
+    display: flex;
+    flex: 3;
+    transition: background-color 0.3s ease;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    margin-top: -20px;
+}
+
+.return-home-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.return-home-menu li {
+    margin-bottom: 5px;
+}
+
+.return-home-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.return-home-menu a:hover, .return-home-menu a.active {
+    background-color: rgba(0, 191, 255, 0.2);
+    color: white;
+    border-left: 3px solid var(--sidebar-active);
+}
+
+.return-home-menu i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+/* ============================================= */
+/* SIDEBAR COMPONENTS */
+/* ============================================= */
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.sidebar-logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-right: -5px;
+    margin-top: -45px;
+    margin-left: -20px;
+    object-fit: cover;
+}
+
+.sidebar-title h2 {
+    color: var(--sidebar-active);
+    margin: 0;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+}
+
+.sidebar-title p {
+    color: var(--sidebar-text);
+    font-size: 12px;
+    margin-top: 10px;
+    margin-left: -40px;
+    font-style: italic;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    white-space: normal;
+}
+
+.holy-family {
+    color: #1380d3;
+    font-weight: bold;
+}
+
+.dental-clinic {
+    color: #00c4cc;
+    font-weight: bold;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    margin-bottom: 5px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background-color: rgba(0, 191, 255, 0.2);
+    color: white;
+    border-left: 3px solid var(--sidebar-active);
+}
+
+.sidebar-menu i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.settings-menu a:hover, .return-home-menu a:hover {
+    background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
+    color: white; /* Change text color on hover */
+    border-left: 3px solid var(--sidebar-active); /* Add left border */
+    display: block; /* Ensure the hover effect spans the full width */
+    width: 100%; /* Extend hover effect across the full width */
+    padding-right: 25px; /* Maintain alignment */
+}
+
+.btn {
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    margin-top: -10px;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    border: none;
+}
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--sidebar-active);
+    color: var(--sidebar-active);
+}
+
+.btn-outline:hover {
+    background-color: var(--sidebar-active);
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
+}
+
+        </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar transparent" role="navigation" aria-label="Primary">
-        <div class="nav-left">
-            <a class="brand" href="landingpage.html">
-                <img src="logo.png" alt="Smart Dentistry Logo">
-                <span class="title">Smart Dentistry</span>
-            </a>
-
-            <!-- Mobile nav toggle -->
-            <button id="navToggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" type="button" title="Menu">
-                <i class="fas fa-bars" aria-hidden="true"></i>
-            </button>
-
-            <div class="nav-links" role="menu">
-                <a href="landingpage.html" class="active">Home</a>
-                <a href="services.html">Services</a>
-                <a href="FAQ.html">FAQ</a>
-                <a href="contact.html">Contact</a>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
+                    <div class="logo-glow"></div>
+                </div>
+                <div class="sidebar-title">
+                    <h2>
+                        <span class="holy-family">HOLY FAMILY</span><br>
+                        <span class="dental-clinic">DENTAL CLINIC</span>
+                    </h2>
+                    <p>Creating beautiful smiles for every family</p>
+                </div>
             </div>
-        </div>
-
-        <div class="nav-actions">
-            <button id="open-login" class="btn btn-outline" type="button">Login</button>
-            <button id="open-signup" class="btn btn-primary" type="button">Sign Up</button>
-        </div>
-    </nav>
-
-    <a id="myRecordsBtn" class="records-bookmark" href="records.html" role="button" aria-label="My Records" title="My Records">
-        <i class="fas fa-bookmark" aria-hidden="true"></i>
-        <span class="br-label">My Records</span>
-    </a>
-
-    <!-- Hero Section -->
-    <div class="main-section">
-        <div class="left-rect" aria-hidden="true"></div>
-        <div class="main-left">
-            <h1>DISCOVER <span class="nowrap">SMART DENTISTRY</span></h1>
-            <p>Our mission is to provide exceptional oral health and wellness to ensure that patients can continue to live a healthy and happy life inside and outside of their bodies.</p>
-            <button id="open-book" class="book-now-button" type="button">Book Now</button>
-            
-            <div class="hero-gallery" aria-hidden="true">
-                <span>Gallery</span>
-                <div class="hero-thumb-grid">
-                    <img src="g1.jpg" alt="Clinic 1">
-                    <img src="g2.jpg" alt="Clinic 2">
-                    <img src="g3.jpg" alt="Clinic 3">
-                    <img src="g4.jpg" alt="Clinic 4">
-                    <img src="g5.jpg" alt="Clinic 5">
-                    <img src="g6.jpg" alt="Clinic 6">
-                    <img src="g7.jpg" alt="Clinic 7">
-                    <img src="g8.jpg" alt="Clinic 8">
-                    <img src="g9.jpg" alt="Clinic 9">
-                    <img src="g10.jpg" alt="Clinic 10">
+            <ul class="sidebar-menu">
+                <li><a href="MyRecords.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="forms.html"><i class="fas fa-file-medical"></i> Forms</a></li>
+                <li><a href="mygallery.html"><i class="fas fa-images"></i> My Gallery</a></li>
+                <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+            <!-- Add Return to Home menu at the bottom -->
+            <div style="position: absolute; bottom: 20px; width: 13%;">
+                <div style="position: absolute; bottom: 20px; width: 100%;">
+                    <ul class="sidebar-menu settings-menu">
+                        <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                    <ul class="sidebar-menu return-home-menu">
+                        <li><a href="landingpage.html"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="main-right">
-            <img src="landing.png" alt="Modern dental care illustration">
-        </div>
-    </div>
 
-    <!-- Features Section -->
-    <div class="container">
-        <section class="features">
-            <h2>Our Clinic Features</h2>
-            <p>Designed with ease of use in mind, you will be up and running with Smart Dentistry in a few minutes! We have included the features that you need the most:</p>
-            
-            <div class="features-grid">
-                <div class="feature-card" role="button" tabindex="0">
-                    <div class="feature-image">
-                        <img src="finance.png" alt="Easy Appointment">
-                    </div>
-                    <h3>Expenses Monitoring</h3>
-                    <p>Track your daily, weekly and monthly expenses in your clinic.</p>
-                </div>
-                
-                <div class="feature-card" role="button" tabindex="0">
-                    <div class="feature-image">
-                        <img src="feature-expert-dentists.jpg" alt="Expert Dentists">
-                    </div>
-                    <h3>Multi-Platform</h3>
-                    <p>Access your data from your computer through a web browser and other phone or tablet.</p>
-                </div>
-                
-                <div class="feature-card" role="button" tabindex="0">
-                    <div class="feature-image">
-                        <img src="feature-modern-equipment.jpg" alt="Modern Equipment">
-                    </div>
-                    <h3>Prescription Plan</h3>
-                    <p>Create, print and email your prescriptions to your patients in an instant.</p>
-                </div>
-                
-                <div class="feature-card" role="button" tabindex="0">
-                    <div class="feature-image">
-                        <img src="feature-flexible-hours.jpg" alt="Flexible Hours">
-                    </div>
-                    <h3>Multi-Dentist</h3>
-                    <p>Add up to 4 dentists as user &amp; assign them to your patient appointments. *For web version only.</p>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Mobile Features Section -->
-        <section class="mobile-features">
-            <h2>Mobile App Features</h2>
-            <div class="mobile-features-content">
-                <div class="mobile-mockup">
-                    <img src="mobile-mockup.png" alt="Smart Dentistry mobile app">
-                </div>
-                <div class="mobile-features-grid">
-                    <div class="mobile-feature">
-                        <div class="mobile-feature-icon">
-                            <i class="fas fa-bell" aria-hidden="true"></i>
-                        </div>
-                        <h3>Appointment Reminders</h3>
-                        <p>Never miss an appointment with our smart notification system.</p>
-                    </div>
-                    
-                    <div class="mobile-feature">
-                        <div class="mobile-feature-icon">
-                            <i class="fas fa-tooth" aria-hidden="true"></i>
-                        </div>
-                        <h3>Oral Health Tracking</h3>
-                        <p>Track your oral health progress and get personalized tips.</p>
-                    </div>
-                    
-                    <div class="mobile-feature">
-                        <div class="mobile-feature-icon">
-                            <i class="fas fa-comments" aria-hidden="true"></i>
-                        </div>
-                        <h3>Direct Chat with Dentists</h3>
-                        <p>Get answers to your dental questions directly from our experts.</p>
-                    </div>
-                    
-                    <div class="mobile-feature">
-                        <div class="mobile-feature-icon">
-                            <i class="fas fa-file-medical" aria-hidden="true"></i>
-                        </div>
-                        <h3>Digital Records</h3>
-                        <p>Access your dental records anytime, anywhere with our secure app.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Gallery Section -->
-        <section class="features">
-            <h2>Our Clinic Gallery</h2>
-            <p>Take a look at our modern facilities and comfortable environment designed for your dental care needs.</p>
-            
-            <!-- Desktop Gallery Slider -->
-            <div class="gallery-slider">
-                <button class="gallery-nav prev" aria-label="Previous images" type="button">
-                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                </button>
-                
-                <div class="gallery-viewport">
-                    <div class="gallery-track">
-                        <div class="gallery-slide">
-                            <img src="g1.jpg" alt="Clinic reception area">
-                            <img src="g2.jpg" alt="Dental examination room">
-                            <img src="g3.jpg" alt="Modern dental equipment">
-                            <img src="g4.jpg" alt="Comfortable waiting area">
-                            <img src="g5.jpg" alt="Sterilization area">
-                        </div>
-                        <div class="gallery-slide">
-                            <img src="g6.jpg" alt="Dental chair with panoramic view">
-                            <img src="g7.jpg" alt="Pediatric dental room">
-                            <img src="g8.jpg" alt="Digital X-ray equipment">
-                            <img src="g9.jpg" alt="Dental laboratory">
-                            <img src="g10.jpg" alt="Smiling patient">
-                        </div>
-                    </div>
-                </div>
-                
-                <button class="gallery-nav next" aria-label="Next images" type="button">
-                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                </button>
-            </div>
-            
-            <div class="gallery-dots">
-                <div class="gallery-dot active" role="button" tabindex="0" aria-label="Show slide 1"></div>
-                <div class="gallery-dot" role="button" tabindex="0" aria-label="Show slide 2"></div>
-            </div>
-            
-            <!-- Mobile Gallery (Horizontal Scroll) -->
-            <div class="mobile-gallery-container">
-                <div class="mobile-gallery-scroll">
-                    <img src="g1.jpg" alt="Clinic reception area">
-                    <img src="g2.jpg" alt="Dental examination room">
-                    <img src="g3.jpg" alt="Modern dental equipment">
-                    <img src="g4.jpg" alt="Comfortable waiting area">
-                    <img src="g5.jpg" alt="Sterilization area">
-                    <img src="g6.jpg" alt="Dental chair with panoramic view">
-                    <img src="g7.jpg" alt="Pediatric dental room">
-                    <img src="g8.jpg" alt="Digital X-ray equipment">
-                    <img src="g9.jpg" alt="Dental laboratory">
-                    <img src="g10.jpg" alt="Smiling patient">
-                </div>
-                <div class="mobile-gallery-indicator">
-                    <div class="mobile-gallery-dot active"></div>
-                    <div class="mobile-gallery-dot"></div>
-                    <div class="mobile-gallery-dot"></div>
-                    <div class="mobile-gallery-dot"></div>
-                    <div class="mobile-gallery-dot"></div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- START: Transferred Security / Features block -->
-    <section class="security-section" aria-labelledby="security-heading">
-      <section class="section-header" id="security-heading">
-        <h1>DATA SECURITY</h1>
-        <p><strong>SMART DENTISTRY</strong> ensures all patient information is guarded with strict security protocols, keeping sensitive details safe from unauthorized access.</p>
-      </section>
-
-      <!-- Main Content -->
-      <section class="main-content" aria-describedby="security-intro">
-        <div class="intro-text" id="security-intro">
-          <h2>Our Security Features</h2>
-          <h3>Protecting your data with advanced security measures</h3>
-        </div>
-
-        <div class="security-icons" role="list">
-          <div class="security-icon" role="listitem">
-            <div class="icon-circle"><i class="fas fa-lock" aria-hidden="true"></i></div>
-            <span class="icon-label">End-to-End Encryption</span>
-          </div>
-          <div class="security-icon" role="listitem">
-            <div class="icon-circle"><i class="fas fa-cloud" aria-hidden="true"></i></div>
-            <span class="icon-label">Secure Cloud Storage</span>
-          </div>
-          <div class="security-icon" role="listitem">
-            <div class="icon-circle"><i class="fas fa-shield-alt" aria-hidden="true"></i></div>
-            <span class="icon-label">Advanced Protection</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Features -->
-      <section class="features-container" aria-label="Security features list">
-        <div class="features-column">
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-user-lock" aria-hidden="true"></i></div>
-            <div class="feature-content">
-              <h3>Role-Based Access</h3>
-              <p>Each user gets customized access — SMART DENTISTRY lets you assign roles so your team only sees the information relevant to their work.</p>
-            </div>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-database" aria-hidden="true"></i></div>
-            <div class="feature-content">
-              <h3>Secure Record Storage</h3>
-              <p>Your dental records are stored in a highly protected environment, defended by multiple layers of security to prevent data breaches.</p>
-            </div>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-key" aria-hidden="true"></i></div>
-            <div class="feature-content">
-              <h3>Advanced Encryption</h3>
-              <p>From personal details to treatment history, SMART DENTISTRY encrypts all data to keep it unreadable to outside parties.</p>
-            </div>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-wifi" aria-hidden="true"></i></div>
-            <div class="feature-content">
-              <h3>Safe Connection</h3>
-              <p>Every online interaction with SMART DENTISTRY uses secure, encrypted channels to maintain privacy and trust.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="features-column">
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-cloud-upload-alt" aria-hidden="true"></i></div>
-            <div class="feature-content">
-              <h3>Cloud Backup & Recovery</h3>
-              <p>With automatic cloud backups, your data is always safe and can be quickly restored if something unexpected happens.</p>
-            </div>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-user-shield" aria-hidden="true"></i></div>
-            <div class="feature-content">
-              <h3>Full Data Ownership</h3>
-              <p>SMART DENTISTRY believes your data belongs to you — you have complete ownership and the ability to export your records anytime.</p>
-            </div>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-sign-out-alt" aria-hidden="true"></i></div>
-            <div class="feature-content">
-              <h3>Smart Auto-Logout</h3>
-              <p>For extra protection, the system automatically logs out inactive users to prevent unauthorized access.</p>
-            </div>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-headset" aria-hidden="true"></i></div>
-            <div class="feature-content">
-              <h3>Trusted Support</h3>
-              <p>Our team at SMART DENTISTRY provides both reliable tools and personal support, ensuring your practice runs smoothly while keeping data secure.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </section>
-    <!-- END: Transferred Security / Features block -->
-
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <div class="footer-col">
-                <div class="footer-brand">
-                    <img src="logo.png" alt="Smart Dentistry Logo">
-                    <h4>Smart Dentistry</h4>
-                </div>
-                <p>Providing exceptional dental care with modern technology and experienced professionals.</p>
-                <div class="socials">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
-                </div>
-            </div>
-            
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <div class="footer-links">
-                    <a href="landingpage.html">Home</a>
-                    <a href="services.html">Services</a>
-                    <a href="FAQ.html">FAQ</a>
-                    <a href="contact.html">Contact</a>
-                </div>
-            </div>
-            
-            <div class="footer-col">
-                <h4>Services</h4>
-                <div class="footer-links">
-                    <a href="#">Teeth Cleaning</a>
-                    <a href="#">Dental Implants</a>
-                    <a href="#">Teeth Whitening</a>
-                    <a href="#">Orthodontics</a>
-                </div>
-            </div>
-            
-            <div class="footer-col">
-                <h4>Contact Info</h4>
-                <p><i class="fas fa-map-marker-alt" aria-hidden="true"></i> 123 Dental Street, City</p>
-                <p><i class="fas fa-phone" aria-hidden="true"></i> (123) 456-7890</p>
-                <p><i class="fas fa-envelope" aria-hidden="true"></i> info@smartdentistry.com</p>
-            </div>
-            
-            <div class="footer-note">
-                <p>&copy; 2023 Smart Dentistry. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Modals -->
-    <!-- Login Modal -->
-    <div id="login-modal" class="modal" role="dialog" aria-labelledby="login-title" aria-hidden="true">
-        <div class="modal-dialog">
-            <button class="modal-close" aria-label="Close login modal" type="button">
-                <i class="fas fa-times" aria-hidden="true"></i>
-            </button>
-            <div class="modal-left">
-                <h2 id="login-title">Login to Your Account</h2>
-                <form class="modal-form">
-                    <label for="login-email">Email</label>
-                    <input type="email" id="login-email" placeholder="Enter your email" required>
-                    
-                    <label for="login-password">Password</label>
-                    <div style="position:relative;">
-                        <input type="password" id="login-password" placeholder="Enter your password" required>
-                        <button type="button" class="toggle-pass" aria-label="Toggle password visibility">
-                            <i class="fas fa-eye" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="error" id="login-error">Invalid email or password. Please try again.</div>
-                    <div class="success" id="login-success">Login successful! Redirecting...</div>
-                    
-                    <div class="modal-actions">
-                        <button type="submit" class="btn btn-primary">Login</button>
-                        <button type="button" class="btn btn-outline" id="switch-to-signup">Create Account</button>
-                    </div>
-                    
-                    <div class="modal-note">
-                        <a href="#">Forgot your password?</a>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-right">
-                <div>
-                    <h3>Welcome Back!</h3>
-                    <p>Access your dental records, appointments, and more.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Signup Modal -->
-    <div id="signup-modal" class="modal" role="dialog" aria-labelledby="signup-title" aria-hidden="true">
-        <div class="modal-dialog">
-            <button class="modal-close" aria-label="Close signup modal" type="button">
-                <i class="fas fa-times" aria-hidden="true"></i>
-            </button>
-            <div class="modal-left">
-                <h2 id="signup-title">Create Your Account</h2>
-                <form class="modal-form">
-                    <label for="signup-name">Full Name</label>
-                    <input type="text" id="signup-name" placeholder="Enter your full name" required>
-                    
-                    <label for="signup-email">Email</label>
-                    <input type="email" id="signup-email" placeholder="Enter your email" required>
-                    
-                    <label for="signup-phone">Phone Number</label>
-                    <input type="tel" id="signup-phone" placeholder="Enter your phone number" required>
-                    
-                    <label for="signup-password">Password</label>
-                    <div style="position:relative;">
-                        <input type="password" id="signup-password" placeholder="Create a password" required>
-                        <button type="button" class="toggle-pass" aria-label="Toggle password visibility">
-                            <i class="fas fa-eye" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="error" id="signup-error">Please check your information and try again.</div>
-                    <div class="success" id="signup-success">Account created successfully!</div>
-                    
-                    <div class="modal-actions">
-                        <button type="submit" class="btn btn-primary">Create Account</button>
-                        <button type="button" class="btn btn-outline" id="switch-to-login">Already have an account?</button>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-right">
-                <div>
-                    <h3>Join Smart Dentistry</h3>
-                    <p>Create an account to book appointments and manage your dental health.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Book Appointment Modal -->
-    <div id="book-modal" class="modal" role="dialog" aria-labelledby="book-title" aria-hidden="true">
-        <div class="modal-dialog">
-            <button class="modal-close" aria-label="Close booking modal" type="button">
-                <i class="fas fa-times" aria-hidden="true"></i>
-            </button>
-            <div class="modal-left">
-                <h2 id="book-title">Book an Appointment</h2>
-                <form class="modal-form">
-                    <label for="book-service">Service</label>
-                    <select id="book-service" required>
-                        <option value="">Select a service</option>
-                        <option value="cleaning">Teeth Cleaning</option>
-                        <option value="whitening">Teeth Whitening</option>
-                        <option value="checkup">Dental Checkup</option>
-                        <option value="filling">Tooth Filling</option>
-                        <option value="implant">Dental Implant</option>
-                    </select>
-                    
-                    <label for="book-date">Preferred Date</label>
-                    <input type="date" id="book-date" required>
-                    
-                    <label for="book-time">Preferred Time</label>
-                    <input type="time" id="book-time" required>
-                    
-                    <label for="book-notes">Additional Notes</label>
-                    <textarea id="book-notes" placeholder="Any specific concerns or requests"></textarea>
-                    
-                    <div class="error" id="book-error">Please fill all required fields correctly.</div>
-                    <div class="success" id="book-success">Appointment booked successfully! We'll confirm shortly.</div>
-                    
-                    <div class="modal-actions">
-                        <button type="submit" class="btn btn-primary">Book Appointment</button>
-                        <button type="button" class="btn btn-outline" id="book-cancel">Cancel</button>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-right">
-                <div>
-                    <h3>Schedule Your Visit</h3>
-                    <p>Our team will contact you to confirm your appointment details.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // DOM Elements
-        const navToggle = document.getElementById('navToggle');
-        const navLinks = document.querySelector('.nav-links');
-        const navbar = document.querySelector('.navbar');
-        const mainSection = document.querySelector('.main-section');
-        
-        // Modal elements
-        const loginModal = document.getElementById('login-modal');
-        const signupModal = document.getElementById('signup-modal');
-        const bookModal = document.getElementById('book-modal');
-        const openLoginBtn = document.getElementById('open-login');
-        const openSignupBtn = document.getElementById('open-signup');
-        const openBookBtn = document.getElementById('open-book');
-        const closeBtns = document.querySelectorAll('.modal-close');
-        const switchToSignup = document.getElementById('switch-to-signup');
-        const switchToLogin = document.getElementById('switch-to-login');
-        const bookCancel = document.getElementById('book-cancel');
-        
-        // Gallery elements
-        const galleryPrev = document.querySelector('.gallery-nav.prev');
-        const galleryNext = document.querySelector('.gallery-nav.next');
-        const galleryDots = document.querySelectorAll('.gallery-dot');
-        const galleryTrack = document.querySelector('.gallery-track');
-        const mobileGalleryScroll = document.querySelector('.mobile-gallery-scroll');
-        const mobileGalleryDots = document.querySelectorAll('.mobile-gallery-dot');
-        
-        // Toggle password visibility
-        const togglePassBtns = document.querySelectorAll('.toggle-pass');
-        
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const scrollPosition = window.scrollY;
-            const mainSectionHeight = mainSection.offsetHeight;
-            
-            if (scrollPosition > 50) {
-                navbar.classList.add('scrolled');
-                navbar.classList.remove('transparent');
-            } else {
-                navbar.classList.remove('scrolled');
-                navbar.classList.add('transparent');
-            }
-        });
-        
-        // Mobile nav toggle
-        navToggle.addEventListener('click', () => {
-            const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
-            navToggle.setAttribute('aria-expanded', !isExpanded);
-            navLinks.classList.toggle('open');
-        });
-        
-        // Close mobile nav when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!navbar.contains(e.target) && navLinks.classList.contains('open')) {
-                navLinks.classList.remove('open');
-                navToggle.setAttribute('aria-expanded', 'false');
-            }
-        });
-        
-        // Modal functions
-        function openModal(modal) {
-            modal.classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeModal(modal) {
-            modal.classList.remove('open');
-            document.body.style.overflow = '';
-        }
-        
-        function closeAllModals() {
-            closeModal(loginModal);
-            closeModal(signupModal);
-            closeModal(bookModal);
-        }
-        
-        // Modal event listeners
-        openLoginBtn.addEventListener('click', () => openModal(loginModal));
-        openSignupBtn.addEventListener('click', () => openModal(signupModal));
-        openBookBtn.addEventListener('click', () => openModal(bookModal));
-        
-        closeBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const modal = this.closest('.modal');
-                closeModal(modal);
-            });
-        });
-        
-        switchToSignup.addEventListener('click', () => {
-            closeModal(loginModal);
-            openModal(signupModal);
-        });
-        
-        switchToLogin.addEventListener('click', () => {
-            closeModal(signupModal);
-            openModal(loginModal);
-        });
-        
-        bookCancel.addEventListener('click', () => closeModal(bookModal));
-        
-        // Close modal when clicking outside
-        window.addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal')) {
-                closeAllModals();
-            }
-        });
-        
-        // Toggle password visibility
-        togglePassBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const input = this.parentElement.querySelector('input');
-                const icon = this.querySelector('i');
-                
-                if (input.type === 'password') {
-                    input.type = 'text';
-                    icon.classList.remove('fa-eye');
-                    icon.classList.add('fa-eye-slash');
-                } else {
-                    input.type = 'password';
-                    icon.classList.remove('fa-eye-slash');
-                    icon.classList.add('fa-eye');
-                }
-            });
-        });
-        
-        // Form submission (demo only)
-        document.querySelectorAll('.modal-form').forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // In a real app, you would send data to a server here
-                // For demo purposes, we'll just show a success message
-                const errorEl = this.querySelector('.error');
-                const successEl = this.querySelector('.success');
-                
-                // Hide any previous messages
-                if (errorEl) errorEl.style.display = 'none';
-                if (successEl) successEl.style.display = 'block';
-                
-                // Close modal after a delay
-                setTimeout(() => {
-                    const modal = this.closest('.modal');
-                    closeModal(modal);
-                }, 2000);
-            });
-        });
-        
-        // Desktop Gallery Slider
-        let currentSlide = 0;
-        const totalSlides = document.querySelectorAll('.gallery-slide').length;
-        
-        function updateGallery() {
-            galleryTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
-            
-            // Update dots
-            galleryDots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
-            });
-            
-            // Update button states
-            galleryPrev.disabled = currentSlide === 0;
-            galleryNext.disabled = currentSlide === totalSlides - 1;
-        }
-        
-        galleryPrev.addEventListener('click', () => {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateGallery();
-            }
-        });
-        
-        galleryNext.addEventListener('click', () => {
-            if (currentSlide < totalSlides - 1) {
-                currentSlide++;
-                updateGallery();
-            }
-        });
-        
-        // Dot navigation
-        galleryDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                currentSlide = index;
-                updateGallery();
-            });
-        });
-        
-        // Mobile Gallery Scroll Indicator
-        if (mobileGalleryScroll) {
-            mobileGalleryScroll.addEventListener('scroll', () => {
-                const scrollLeft = mobileGalleryScroll.scrollLeft;
-                const scrollWidth = mobileGalleryScroll.scrollWidth - mobileGalleryScroll.clientWidth;
-                const dotIndex = Math.round((scrollLeft / scrollWidth) * (mobileGalleryDots.length - 1));
-                
-                mobileGalleryDots.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === dotIndex);
-                });
-            });
-        }
-        
-        // Initialize
-        updateGallery();
-        
-        // Set minimum date for booking to today
-        const today = new Date().toISOString().split('T')[0];
-        const bookDateInput = document.getElementById('book-date');
-        if (bookDateInput) {
-            bookDateInput.min = today;
-        }
-
-        /* Small enhancement: keyboard activation + focus scroll for "My Records" bookmark */
-        (function() {
-        	const myBtn = document.getElementById('myRecordsBtn');
-        	if (!myBtn) return;
-        
-        	// Ensure Enter/Space activate like a button (anchors already do this, but keep for accessibility)
-        	myBtn.addEventListener('keydown', (e) => {
-        		if (e.key === 'Enter' || e.key === ' ') {
-        			e.preventDefault();
-        			myBtn.click();
-        		}
-        	});
-        
-        	// Optional: when focusing the button, slightly scroll into view on small screens
-        	myBtn.addEventListener('focus', () => {
-        		if (window.innerWidth <= 900) {
-        			setTimeout(() => myBtn.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);
-        		}
-        	});
-        })();
-    </script>
+       
+    
 </body>
 </html>
