@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Us - Smart Dentistry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Import fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Raleway:wght@100..900&display=swap');
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navbar container */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(4px);
+            padding: 11px 20px;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-to-top {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            background: rgba(0, 191, 255, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .back-to-top:hover {
+            background: rgba(0, 191, 255, 1);
+            transform: translateY(-5px);
+        }
+
+        .back-to-top.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Left-aligned links */
+        .left-links {
+            display: flex;
+            padding-left: 67%;
+            white-space: nowrap;
+        }
+
+        /* Right links (Sign In, Log In) */
+        .auth-box {
+            display: flex;
+            align-items: center;
+            gap: -9px;
+            padding: -10px 20px;
+            background: rgba(0, 191, 255, 0.1);
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            border-radius: 8px;
+            transform: translateX(-15%);
+            margin-left: auto;
+        }
+
+        .auth-box a {
+            font-size: 16px;
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .auth-box span {
+            color: #2c3e50;
+            font-weight: 500;
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .navbar a {
+            color: #2c3e50;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .navbar a:hover {
+            background-color: #00bfff;
+            border-radius: 50px;
+            color: white;
+        }
+
+        .logo {
+            height: 100px;
+            position: absolute;
+            margin-left: 150px;
+        }
+
+        /* Records Bookmark Button */
+        .records-bookmark {
+            position: fixed;
+            right: 45px;
+            top: 25%;
+            transform: translateY(-50%) rotate(270deg);
+            transform-origin: right top;
+            background-color: #00bfff;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px 5px 0 0;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 999;
+            box-shadow: -2px -2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+
+        .records-bookmark:hover {
+            background-color: #009acd;
+            transform: translateY(-50%) rotate(270deg) translateX(5px);
+            color: white;
+        }
+
+        .records-bookmark i {
+            margin-right: 8px;
+            transform: rotate(-90deg);
+        }
+
+        @media (max-width: 768px) {
+            .records-bookmark {
+                display: none;
+            }
+        }
+
+        /* Find Us Hero Section */
+        .findus-hero {
+            background: linear-gradient(135deg, #00bfff 0%, #4c93da 100%);
+            color: white;
+            padding: 120px 0 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 80px;
+        }
+
+        .findus-hero::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .findus-hero::after {
+            content: "";
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .findus-hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .findus-hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .findus-hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        /* Find Us Section */
+        .find-us-section {
+            background: #ffffff;
+            padding: 80px 20px;
+        }
+
+        .find-us-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .find-us-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .find-us-info {
+            display: contents;
+        }
+
+        .info-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #e8e8e8;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .info-card:hover {
+            border-color: #00bfff;
+            transform: translateY(-2px);
+        }
+
+        .info-card-icon {
+            font-size: 28px;
+            color: #00bfff;
+            margin-bottom: 15px;
+        }
+
+        .info-card h3 {
+            font-size: 16px;
+            color: #2c3e50;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+
+        .info-card p {
+            margin: 0;
+            color: #666;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .find-us-map {
+            grid-column: span 2;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e8e8e8;
+            height: 300px;
+        }
+
+        .find-us-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Last Call Section */
+        .lastcall {
+            background-color: #f5f5f5;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .lastcall-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lastcall h2 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-shadow: none;
+        }
+
+        .lastbooknowbtn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 35px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            background-color: #00bfff;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            box-shadow: none;
+        }
+
+        .lastbooknowbtn i {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .lastbooknowbtn:hover {
+            background-color: #0080ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.2);
+        }
+
+        .lastbooknowbtn:hover i {
+            transform: translateX(3px);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 20px 0 20px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            gap: 30px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 180px;
+            margin-bottom: 30px;
+        }
+
+        .logo-column {
+            flex: 1.5;
+            min-width: 220px;
+            text-align: left;
+            padding-right: 30px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: -10px;
+            margin-left: -250px;
+        }
+
+        .footer-logo img {
+            height: 200px;
+            margin-right: -10px;
+        }
+
+        .footer-logo h3 {
+            font-size: 26px;
+            font-weight: 600;
+            margin: 0 0 10px -30px;
+            color: #00c4cc;
+            white-space: nowrap;
+        }
+
+        .logo-slogan {
+            font-size: 14px;
+            margin-top: -85px;
+            margin-left: -90px;
+            padding-left: 0;
+        }
+
+        .footer-column h4 {
+            color: #4eb2ff;
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: #00bfff;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .footer-column ul li a:hover {
+            color: #00bfff;
+            padding-left: 5px;
+        }
+
+        .contact-methods {
+            margin-bottom: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .contact-item i {
+            color: #00bfff;
+            width: 16px;
+            text-align: center;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+            font-size: 30px;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .footer-social a:hover {
+            background-color: #00bfff;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .change-role-btn {
+            background-color: transparent;
+            border: 1px solid #00bfff;
+            color: #00bfff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .change-role-btn:hover {
+            background-color: #00bfff;
+            color: white;
+        }
+
+        /* Contact Form Section */
+        .contact-form-section {
+            background: white;
+            padding: 80px 20px;
+        }
+
+        .contact-form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-header h2 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 36px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .form-header h2 span {
+            color: #00bfff;
+        }
+
+        .form-header p {
+            font-size: 14px;
+            color: #999;
+            margin: 0;
+        }
+
+        .contact-form {
+            background: #fafafa;
+            padding: 35px;
+            border-radius: 8px;
+            border: 1px solid #e8e8e8;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #2c3e50;
+            font-size: 13px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #e8e8e8;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00bfff;
+            box-shadow: 0 0 0 2px rgba(0, 191, 255, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 11px 25px;
+            background: #00bfff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .submit-btn:hover {
+            background: #0080ff;
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .find-us-content {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .find-us-map {
+                grid-column: span 3;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .find-us-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .find-us-map {
+                grid-column: span 2;
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .findus-hero {
+                padding: 100px 0 50px;
+            }
+
+            .findus-hero h1 {
+                font-size: 36px;
+            }
+
+            .findus-hero p {
+                font-size: 16px;
+            }
+
+            .find-us-section {
+                padding: 60px 20px;
+            }
+
+            .info-card {
+                padding: 20px;
+            }
+
+            .contact-form {
+                padding: 30px;
+            }
+
+            .form-header h2 {
+                font-size: 32px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .lastcall h2 {
+                font-size: 28px;
+            }
+
+            .lastbooknowbtn {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+            }
+
+            .footer-column {
+                min-width: 100%;
+            }
+
+            .left-links {
+                padding-left: 40%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .left-links {
+                padding-left: 20%;
+            }
+
+            .logo {
+                margin-left: 20px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Records Bookmark Button -->
+    <a href="MyRecords.html" class="records-bookmark">
+        <i class="fas fa-file-medical"></i>
+        My Records
+    </a>
+
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <img src="logo.png" alt="Smart Dentistry Logo" class="logo">
+        
+        <div class="left-links">
+            <a href="landingpage.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="aboutus.html">About Us</a>
+            <a href="findus.html">Find Us</a>
+        </div>
+
+        <div class="right-links auth-box">
+            <a href="signup.html">SIGN UP</a>
+            <span>|</span>
+            <a href="login.html">LOG IN</a>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" title="Go to top">
+        ↑
+    </button>
+
+    <!-- Find Us Hero Section -->
+    <section class="findus-hero">
+        <div class="findus-hero-content">
+            <h1>Find Us</h1>
+            <p>Visit our clinic and experience exceptional dental care</p>
+        </div>
+    </section>
+
+    <!-- Find Us Section -->
+    <section class="find-us-section" id="find-us">
+        <div class="find-us-container">
+            <div class="find-us-content">
+                <div class="find-us-info">
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Our Location</h3>
+                        <p>Smart Dentistry Clinic<br>123 Medical Plaza Drive<br>Healthcare District<br>City, State 12345</p>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <h3>Contact Us</h3>
+                        <p><strong>Phone:</strong> (123) 456-7890<br><strong>Email:</strong> smartdentistry@gmail.com<br><strong>Emergency:</strong> (123) 456-7891</p>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Business Hours</h3>
+                        <p><strong>Mon-Fri:</strong> 9AM - 6PM<br><strong>Sat:</strong> 9AM - 2PM<br><strong>Sun:</strong> Closed</p>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-tooth"></i>
+                        </div>
+                        <h3>Services</h3>
+                        <p>Cleanings, Fillings, Orthodontics, Cosmetic Dentistry & More</p>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h3>Expert Team</h3>
+                        <p>Highly trained dentists with 10+ years experience</p>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h3>Award Winning</h3>
+                        <p>Recognized for excellence in patient care</p>
+                    </div>
+                </div>
+
+                <div class="find-us-map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.1234567890123!2d-74.00601234567890!3d40.71278901234567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a31289a8c0f%3A0x1234567890abcdef!2s123%20Medical%20Plaza%20Drive!5e0!3m2!1sen!2sus!4v1234567890123" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section">
+        <div class="contact-form-container">
+            <div class="form-header">
+                <h2>Get in <span>Touch</span></h2>
+                <p>Have questions? We'd love to hear from you. Send us a message!</p>
+            </div>
+
+            <form class="contact-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Last Call Section -->
+    <div class="lastcall" id="lastcall">
+        <div class="lastcall-content">
+            <h2>Are you ready to transform your smile?</h2>
+            <a href="landingpage.html#book-now" class="lastbooknowbtn">Book Now <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column logo-column">
+                <div class="footer-logo">
+                    <img src="logo.png" alt="Smart Dentistry Logo">
+                    <h3>Smart Dentistry</h3>
+                </div>
+                <p class="logo-slogan">Creating Beautiful Smiles For Every Family</p>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="landingpage.html">Home</a></li>
+                    <li><a href="MyRecords.html">My Records</a></li>
+                    <li><a href="services.html">Services</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="services.html#oral-prophylaxis-detail">Oral Prophylaxis</a></li>
+                    <li><a href="services.html#fluoride-detail">Topical Fluoride</a></li>
+                    <li><a href="services.html#sealants-detail">Pit and Fissure Sealants</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="aboutus.html">FAQs</a></li>
+                    <li><a href="findus.html">Find Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Connect With Us</h4>
+                <div class="contact-methods">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>smartdentistry@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>(123) 456-7890</span>
+                    </div>
+                </div>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com" target="_blank" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Smart Dentistry. All rights reserved.</p>
+            <button id="changeRoleBtn" class="change-role-btn">
+                <i class="fas fa-sync-alt"></i> Change Role
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbar = document.querySelector(".navbar");
+            const backToTopButton = document.getElementById("backToTop");
+            let lastScrollY = window.scrollY;
+
+            window.addEventListener('scroll', function() {
+                const currentScrollY = window.scrollY;
+                
+                if (currentScrollY > lastScrollY) {
+                    navbar.style.transform = `translateY(-${currentScrollY}px)`;
+                } else if (currentScrollY < lastScrollY) {
+                    navbar.style.transform = `translateY(-${currentScrollY}px)`;
+                }
+                
+                lastScrollY = currentScrollY;
+                backToTopButton.classList.toggle("show", currentScrollY > 300);
+            });
+
+            backToTopButton.addEventListener("click", function() {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                navbar.style.transform = "translateY(0)";
+            });
+        });
+
+        const changeRoleBtn = document.getElementById('changeRoleBtn');
+        if (changeRoleBtn) {
+            changeRoleBtn.addEventListener('click', function() {
+                localStorage.removeItem('userTypeChoice');
+                window.location.href = 'index.html';
+            });
+        }
+    </script>
+</body>
+</html>

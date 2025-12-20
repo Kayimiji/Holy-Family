@@ -44,7 +44,7 @@ body { font-family: 'Poppins', sans-serif; background-color: var(--background); 
 /* Container Layout */
 .container { display: flex; min-height: 100vh; }
 /* Sidebar Styles */
-.sidebar { background-color: var(--sidebar-bg); color: var(--white); width: 260px; display: flex; flex-direction: column; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; }
+.sidebar { background-color: var(--sidebar-bg); color: var(--white); width: 220px; display: flex; flex-direction: column; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; }
 .logo { padding: var(--spacing-lg) var(--spacing-md); border-bottom: 1px solid rgba(255,255,255,0.1); }
 .logo h1 { font-size: var(--text-xl); font-weight: 700; color: var(--white); text-align: center; }
 .nav-menu { list-style: none; flex: 1; padding: var(--spacing-md) 0; }
@@ -53,8 +53,9 @@ body { font-family: 'Poppins', sans-serif; background-color: var(--background); 
 .nav-item a:hover { background-color: rgba(255,255,255,0.1); color: var(--white); }
 .nav-item i { width: 20px; margin-right: var(--spacing-sm); font-size: var(--text-base); text-align: center; }
 .sidebar-footer { padding: var(--spacing-md); border-top: 1px solid rgba(255,255,255,0.1); }
+.sidebar .active { background-color: rgba(255,255,255,0.2); }
 /* Main Content */
-.main-content { flex: 1; margin-left: 260px; display: flex; flex-direction: column; min-height: 100vh; }
+.main-content { flex: 1; margin-left: 220px; display: flex; flex-direction: column; min-height: 100vh; }
 /* Header */
 .content-header { background-color: var(--header-bg); color: var(--white); padding: var(--spacing-md) var(--spacing-lg); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 .header-content { display: flex; align-items: center; gap: var(--spacing-md); }
@@ -113,21 +114,19 @@ body { font-family: 'Poppins', sans-serif; background-color: var(--background); 
 <div class="container">
   <!-- Left Sidebar -->
   <aside class="sidebar">
-    <div class="logo"><h1>SMART DENTISTRY</h1></div>
-    <nav class="nav-menu">
-      <ul>
-        <li class="nav-item"><a href="#"><i class="fas fa-clinic-medical"></i> <span>My Clinic</span></a></li>
-        <li class="nav-item"><a href="#"><i class="fas fa-calendar-alt"></i> <span>Appointment</span></a></li>
-        <li class="nav-item"><a href="#"><i class="fas fa-user-injured"></i> <span>Patient</span></a></li>
-        <li class="nav-item"><a href="#"><i class="fas fa-money-bill-wave"></i> <span>Finance</span></a></li>
-        <li class="nav-item"><a href="#"><i class="fas fa-database"></i> <span>Data Backup</span></a></li>
-        <li class="nav-item"><a href="#"><i class="fas fa-chart-bar"></i> <span>Reports</span></a></li>
-        <li class="nav-item"><a href="#"><i class="fas fa-shield-alt"></i> <span>Privacy Policy</span></a></li>
-      </ul>
-    </nav>
-    <div class="sidebar-footer">
-      <div class="nav-item"><a href="#"><i class="fas fa-cog"></i> <span>Settings</span></a></div>
-      <div class="nav-item"><a href="#"><i class="fas fa-sign-out-alt"></i> <span>Log out</span></a></div>
+    <div class="logo">
+      <i class="fa-solid fa-tooth"></i>
+      <span>SMART DENTISTRY</span>
+    </div>
+    <ul>
+      <li class="active"><i class="fa-solid fa-gauge-high"></i> Dashboard</li>
+      <li><i class="fa-solid fa-user"></i> Patients</li>
+      <li><i class="fa-solid fa-calendar-days"></i> Appointments</li>
+      <li><i class="fa-solid fa-certificate"></i> Certificates</li>
+    </ul>
+    <div class="bottom">
+      <div><i class="fas fa-cog"></i> Settings</div>
+      <div><i class="fas fa-sign-out-alt"></i> Logout</div>
     </div>
   </aside>
 

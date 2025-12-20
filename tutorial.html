@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Start Tutorial - Smart Dentistry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: linear-gradient(135deg, #00bfff 0%, #4c93da 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Tutorial Container */
+        .tutorial-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 900px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .tutorial-wrapper {
+            display: flex;
+            position: relative;
+            min-height: 600px;
+        }
+
+        /* Slide Container */
+        .slides-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tutorial-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tutorial-slide.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .tutorial-slide.prev {
+            transform: translateX(-100%);
+        }
+
+        /* Slide Content */
+        .slide-icon {
+            font-size: 80px;
+            color: #00bfff;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .tutorial-slide h2 {
+            font-size: 32px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .tutorial-slide p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.8;
+            max-width: 500px;
+            margin-bottom: 30px;
+        }
+
+        /* Demo Animation Box */
+        .demo-box {
+            background: #f8f9fa;
+            border: 2px dashed #00bfff;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-content {
+            text-align: center;
+            z-index: 2;
+        }
+
+        /* Animated Demo Elements */
+        .booking-demo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+        }
+
+        .booking-step {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            position: relative;
+            animation: slideUp 0.6s ease-out backwards;
+        }
+
+        .booking-step:nth-child(1) { animation-delay: 0s; }
+        .booking-step:nth-child(2) { animation-delay: 0.2s; }
+        .booking-step:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .booking-step.active {
+            border-color: #00bfff;
+            background: rgba(0, 191, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+        }
+
+        .booking-step-number {
+            font-weight: 700;
+            color: #00bfff;
+            font-size: 14px;
+        }
+
+        .booking-step-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        /* Services Demo */
+        .services-demo {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .service-card-demo {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            min-width: 120px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .service-card-demo:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .service-card-demo:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 191, 255, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(0, 191, 255, 0); }
+        }
+
+        .service-card-demo i {
+            font-size: 24px;
+            color: #00bfff;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .service-card-demo p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Records Demo */
+        .records-demo {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            max-width: 250px;
+        }
+
+        .record-item {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 6px;
+            border-left: 4px solid #00bfff;
+            text-align: left;
+            animation: slideIn 0.5s ease-out backwards;
+        }
+
+        .record-item:nth-child(1) { animation-delay: 0s; }
+        .record-item:nth-child(2) { animation-delay: 0.2s; }
+        .record-item:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .record-item-title {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 12px;
+        }
+
+        .record-item-date {
+            font-size: 11px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        /* Controls */
+        .tutorial-controls {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+            min-width: 150px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #00bfff;
+            transition: width 0.5s ease;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-skip {
+            background: transparent;
+            color: #999;
+            border: 1px solid #ddd;
+        }
+
+        .btn-skip:hover {
+            color: #666;
+            border-color: #bbb;
+        }
+
+        .btn-prev {
+            background: #f0f0f0;
+            color: #2c3e50;
+        }
+
+        .btn-prev:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-next, .btn-finish {
+            background: #00bfff;
+            color: white;
+        }
+
+        .btn-next:hover, .btn-finish:hover {
+            background: #009acd;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: #00bfff;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tutorial-slide {
+                padding: 40px 20px;
+                min-height: 500px;
+            }
+
+            .tutorial-slide h2 {
+                font-size: 24px;
+            }
+
+            .slide-icon {
+                font-size: 60px;
+            }
+
+            .booking-demo {
+                grid-template-columns: 1fr;
+            }
+
+            .tutorial-controls {
+                padding: 15px 20px;
+                flex-direction: column;
+            }
+
+            .control-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tutorial-container">
+        <div class="tutorial-wrapper">
+            <div class="slides-container">
+                <!-- Slide 1: Welcome -->
+                <div class="tutorial-slide active">
+                    <div class="slide-icon">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <h2>Welcome to Smart Dentistry!</h2>
+                    <p>Let us show you how to make the most of our dental clinic system. This quick tutorial will guide you through all the amazing features we offer.</p>
+                    <div style="margin-top: 30px; color: #999; font-size: 14px;">
+                        <i class="fas fa-info-circle"></i> Takes about 2-3 minutes
+                    </div>
+                </div>
+
+                <!-- Slide 2: Book Appointment -->
+                <div class="tutorial-slide">
+                    <div class="slide-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h2>Booking an Appointment</h2>
+                    <p>Schedule your dental visit in just 3 simple steps. Choose your service, select a time, and you're done!</p>
+                    <div class="demo-box">
+                        <div class="booking-demo">
+                            <div class="booking-step active" data-step="1">
+                                <div class="booking-step-number">Step 1</div>
+                                <div class="booking-step-text">Select Service</div>
+                            </div>
+                            <div class="booking-step" data-step="2">
+                                <div class="booking-step-number">Step 2</div>
+                                <div class="booking-step-text">Choose Time</div>
+                            </div>
+                            <div class="booking-step" data-step="3">
+                                <div class="booking-step-number">Step 3</div>
+                                <div class="booking-step-text">Confirm</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Services -->
+                <div class="tutorial-slide">
+                    <div class="slide-icon">
+                        <i class="fas fa-tooth"></i>
+                    </div>
+                    <h2>Explore Our Services</h2>
+                    <p>We offer a wide range of dental services tailored to your needs. Hover over services to learn more about each one.</p>
+                    <div class="demo-box">
+                        <div class="services-demo">
+                            <div class="service-card-demo">
+                                <i class="fas fa-tooth"></i>
+                                <p>Oral Prophylaxis</p>
+                            </div>
+                            <div class="service-card-demo">
+                                <i class="fas fa-shield-alt"></i>
+                                <p>Fluoride Treatment</p>
+                            </div>
+                            <div class="service-card-demo">
+                                <i class="fas fa-teeth"></i>
+                                <p>Sealants</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: My Records -->
+                <div class="tutorial-slide">
+                    <div class="slide-icon">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <h2>Access Your Dental Records</h2>
+                    <p>Keep all your medical history in one secure place. Access treatment history, invoices, and prescriptions anytime.</p>
+                    <div class="demo-box">
+                        <div class="records-demo">
+                            <div class="record-item">
+                                <div class="record-item-title">✓ Treatment History</div>
+                                <div class="record-item-date">Updated regularly</div>
+                            </div>
+                            <div class="record-item">
+                                <div class="record-item-title">✓ Invoices & Receipts</div>
+                                <div class="record-item-date">All transactions saved</div>
+                            </div>
+                            <div class="record-item">
+                                <div class="record-item-title">✓ Prescriptions</div>
+                                <div class="record-item-date">Easy to download</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 5: Account Management -->
+                <div class="tutorial-slide">
+                    <div class="slide-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h2>Manage Your Account</h2>
+                    <p>Update your profile, change settings, and manage your appointments from your personalized dashboard.</p>
+                    <p style="font-size: 14px; color: #00bfff; margin-top: 20px;">
+                        <i class="fas fa-check-circle"></i> Create a free account to get started
+                    </p>
+                </div>
+
+                <!-- Slide 6: Contact & Support -->
+                <div class="tutorial-slide">
+                    <div class="slide-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h2>Need Help?</h2>
+                    <p>Our support team is here to assist you. Contact us via phone, email, or visit our clinic location.</p>
+                    <div style="margin-top: 30px; color: #666; font-size: 14px; line-height: 2;">
+                        <div><i class="fas fa-phone"></i> (123) 456-7890</div>
+                        <div><i class="fas fa-envelope"></i> smartdentristrygmail.com</div>
+                        <div><i class="fas fa-map-marker-alt"></i> 1397 Hulo, Santa Maria, Bulacan</div>
+                    </div>
+                </div>
+
+                <!-- Slide 7: Let's Get Started -->
+                <div class="tutorial-slide">
+                    <div class="slide-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h2>You're All Set!</h2>
+                    <p>You now know all the basics. Ready to experience exceptional dental care?</p>
+                    <p style="margin-top: 20px;">
+                        <a href="signup.html" style="display: inline-block; padding: 12px 30px; background: #00bfff; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.background='#009acd'" onmouseout="this.style.background='#00bfff'">
+                            Create Your Account
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="tutorial-controls">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 14.28%;"></div>
+            </div>
+
+            <div class="control-buttons">
+                <button class="btn btn-prev" id="prevBtn" onclick="changeSlide(-1)">
+                    <i class="fas fa-chevron-left"></i> Back
+                </button>
+                <button class="btn btn-next" id="nextBtn" onclick="changeSlide(1)">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+                <button class="btn btn-finish" id="finishBtn" onclick="finishTutorial()" style="display: none;">
+                    <i class="fas fa-check"></i> Finish
+                </button>
+            </div>
+
+            <button class="btn btn-skip" onclick="skipTutorial()">Skip</button>
+        </div>
+
+        <div style="text-align: center; padding: 10px; background: white; border-top: 1px solid #eee;">
+            <div class="dots" id="dotsContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.tutorial-slide');
+        const totalSlides = slides.length;
+
+        // Initialize dots
+        function initializeDots() {
+            const dotsContainer = document.getElementById('dotsContainer');
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = `dot ${i === 0 ? 'active' : ''}`;
+                dot.onclick = () => goToSlide(i);
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function changeSlide(direction) {
+            const newSlide = currentSlide + direction;
+            if (newSlide >= 0 && newSlide < totalSlides) {
+                goToSlide(newSlide);
+            }
+        }
+
+        function goToSlide(n) {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active', 'prev');
+                if (index === n) {
+                    slide.classList.add('active');
+                } else if (index < n) {
+                    slide.classList.add('prev');
+                }
+            });
+
+            // Update dots
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === n);
+            });
+
+            // Update buttons
+            document.getElementById('prevBtn').disabled = n === 0;
+            document.getElementById('nextBtn').style.display = n === totalSlides - 1 ? 'none' : 'flex';
+            document.getElementById('finishBtn').style.display = n === totalSlides - 1 ? 'flex' : 'none';
+
+            // Update progress bar
+            const progress = ((n + 1) / totalSlides) * 100;
+            document.querySelector('.progress-fill').style.width = progress + '%';
+
+            // Animate booking steps on slide 2
+            if (n === 1) {
+                animateBookingSteps();
+            }
+
+            currentSlide = n;
+        }
+
+        function animateBookingSteps() {
+            const steps = document.querySelectorAll('.booking-step');
+            let stepIndex = 0;
+            steps.forEach(step => step.classList.remove('active'));
+
+            const interval = setInterval(() => {
+                if (stepIndex < steps.length) {
+                    steps[stepIndex].classList.add('active');
+                    stepIndex++;
+                } else {
+                    clearInterval(interval);
+                    stepIndex = 0;
+                    setTimeout(animateBookingSteps, 3000);
+                }
+            }, 800);
+        }
+
+        function skipTutorial() {
+            if (confirm('Skip the tutorial and go to home page?')) {
+                window.location.href = 'landingpage.html';
+            }
+        }
+
+        function finishTutorial() {
+            window.location.href = 'signup.html';
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Initialize
+        initializeDots();
+        goToSlide(0);
+    </script>
+</body>
+</html>
