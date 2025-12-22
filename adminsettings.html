@@ -97,9 +97,17 @@
             background-color: var(--sidebar-bg);
             color: var(--sidebar-text);
             padding: 20px 0;
+            width: 220px; /* enforce new width */
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
             transition: background-color 0.3s ease;
         }
+        .logo { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .logo i { color: #00d4ff; font-size: 28px; }
+        .sidebar ul { list-style: none; padding: 20px 0; flex-grow: 1; }
+        .sidebar li { padding: 12px 20px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .sidebar li:hover, .sidebar li.active { background: #00d4ff; color: #000; border-radius: 0 30px 30px 0; }
+        .bottom { padding: 18px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .main-content { margin-left: 220px; } /* keep content from hiding under sidebar */
 
         .main-content {
             flex-direction: column;
@@ -772,38 +780,19 @@
 	 <div class="dashboard">
         <!-- Sidebar Navigation -->
         <div class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo-container">
-                    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
-                    <div class="logo-glow"></div>
-                </div>
-                <div class="sidebar-title">
-                    <h2>
-                        <span class="holy-family">SMART</span><br>
-                        <span class="dental-clinic">DENTISTRY</span>
-                    </h2>
-                </div>
+            <div class="logo">
+                <i class="fa-solid fa-tooth"></i>
+                <span>SMART DENTISTRY</span>
             </div>
-            <ul class="sidebar-menu">
-                <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
-                <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
-                <li><a href="patients.html"><i class="fas fa-users"></i> <span>Patients</span></a></li>
-                <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-                <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> <span> Data BackUp</a></li>
-                <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-                <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
+            <ul>
+                <li class="active"><i class="fa-solid fa-gauge-high"></i> Dashboard</li>
+                <li><i class="fa-solid fa-user"></i> Patients</li>
+                <li><i class="fa-solid fa-calendar-days"></i> Appointments</li>
+                <li><i class="fa-solid fa-certificate"></i> Certificates</li>
             </ul>
-            <!-- Add Return to Home menu at the bottom -->
-            <div style="position: absolute; bottom: 20px; width: 13%;">
-                <div style="position: absolute; bottom: 20px; width: 100%;">
-                    <ul class="sidebar-menu settings-menu">
-                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-                    </ul>
-                    <ul class="sidebar-menu return-home-menu">
-                        <li><a href="index.html"><i class="fas fa-home"></i> Return to Home</a></li>
-                    </ul>
-                </div>
+            <div class="bottom">
+                <div><i class="fas fa-cog"></i> Settings</div>
+                <div><i class="fas fa-sign-out-alt"></i> Logout</div>
             </div>
         </div>
  

@@ -16,6 +16,8 @@
       --card:#ffffff;
       --shadow:0 4px 12px rgba(0,0,0,.08);
       --text:#2c3e50;
+      --sidebar-width:220px; /* updated */
+      --sidebar-collapsed-width:64px;
     }
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
     body{background:var(--bg);color:var(--text)}
@@ -25,11 +27,13 @@
 
     /* ===== SIDEBAR ===== */
     .sidebar{
-      width:250px;
+      width:var(--sidebar-width);
       background:var(--sidebar-bg);
       color:#fff;
       position:fixed;
       top:0;left:0;bottom:0;
+      transition:width .28s, transform .28s;
+      z-index:1200;
     }
     .sidebar-header{
       display:flex;
@@ -86,10 +90,11 @@
 
        /* ===== MAIN ===== */
       .main{
-        margin-left:250px;
-        width:calc(100% - 250px);
+        margin-left:var(--sidebar-width);
+        width:calc(100% - var(--sidebar-width));
         display:flex;
         flex-direction:column;
+        transition:margin-left .28s;
       }
 
       /* ===== HEADER ===== */
@@ -191,40 +196,87 @@
       border-radius: 4px;
       border: none;
     }
+
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--sidebar-bg);
+      color: #fff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      transition: width 0.28s, transform 0.28s;
+      z-index: 1200;
+    }
+
+    .sidebar .logo {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #00bfff;
+    }
+
+    .sidebar .logo i {
+      font-size: 24px;
+      margin-right: 10px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar ul li {
+      padding: 15px 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .sidebar ul li:hover,
+    .sidebar ul li.active {
+      background: rgba(0, 191, 255, 0.2);
+    }
+
+    .sidebar .bottom {
+      margin-top: auto;
+      padding: 20px;
+      border-top: 1px solid #34495e;
+    }
+
+    .sidebar .bottom div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .sidebar .bottom div:hover {
+      color: #00bfff;
+    }
+
   </style>
 </head>
 <body>
  <aside class="sidebar">
-  <div class="sidebar-header">
-    <img src="logo.png" class="sidebar-logo">
-    <div class="sidebar-title">
-      <h2>SMART<br>DENTISTRY</h2>
-    </div>
+  <div class="logo">
+    <i class="fa-solid fa-tooth"></i>
+    <span>SMART DENTISTRY</span>
   </div>
-
-  <ul class="sidebar-menu">
-    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-
-    <li class="dropdown open">
-      <a href="#" class="dropdown-toggle">
-        <i class="fas fa-tooth"></i> My Clinic
-        <i class="fas fa-chevron-down arrow"></i>
-      </a>
-      <ul class="submenu">
-        <li><a href="clinic-profile.html" >Clinic Profile</a></li>
-        <li><a href="Dental-Chart.html">Dental Chart</a></li>
-        <li><a href="Braces-Treatment.html"class="active">Braces Treatment</a></li>
-        <li><a href="Data-Files.html">Data Files</a></li>
-      </ul>
-    </li>
-
-    <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
-    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-    <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-    <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
-    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+  <ul>
+    <li class="active"><i class="fa-solid fa-gauge-high"></i> Dashboard</li>
+    <li><i class="fa-solid fa-user"></i> Patients</li>
+    <li><i class="fa-solid fa-calendar-days"></i> Appointments</li>
+    <li><i class="fa-solid fa-certificate"></i> Certificates</li>
   </ul>
+  <div class="bottom">
+    <div><i class="fas fa-cog"></i> Settings</div>
+    <div><i class="fas fa-sign-out-alt"></i> Logout</div>
+  </div>
 </aside>
 
 <!-- MAIN CONTENT -->
@@ -247,19 +299,19 @@
   <div class="card">
     <h3>Select Archwires sequence</h3>
     <ul class="selectable">
-      <li><label><input type="radio" name="archwire"><span>Initial alignment: NiTi wires</span></label></li>
-      <li><label><input type="radio" name="archwire"><span>Working phase: Stainless steel wires</span></label></li>
-      <li><label><input type="radio" name="archwire"><span>Finishing & detailing wires</span></label></li>
+      <li><label><input type="radio" name="archwire" value="Initial alignment: NiTi wires"><span>Initial alignment: NiTi wires</span></label></li>
+      <li><label><input type="radio" name="archwire" value="Working phase: Stainless steel wires"><span>Working phase: Stainless steel wires</span></label></li>
+      <li><label><input type="radio" name="archwire" value="Finishing & detailing wires"><span>Finishing & detailing wires</span></label></li>
     </ul>
   </div>
 
   <div class="card">
     <h3>Select Auxiliaries</h3>
     <ul class="selectable">
-      <li><label><input type="checkbox"><span>Elastics (rubber bands)</span></label></li>
-      <li><label><input type="checkbox"><span>Power chains</span></label></li>
-      <li><label><input type="checkbox"><span>Springs</span></label></li>
-      <li><label><input type="checkbox"><span>Bite turbos</span></label></li>
+      <li><label><input type="checkbox" name="auxiliaries" value="Elastics (rubber bands)"><span>Elastics (rubber bands)</span></label></li>
+      <li><label><input type="checkbox" name="auxiliaries" value="Power chains"><span>Power chains</span></label></li>
+      <li><label><input type="checkbox" name="auxiliaries" value="Springs"><span>Springs</span></label></li>
+      <li><label><input type="checkbox" name="auxiliaries" value="Bite turbos"><span>Bite turbos</span></label></li>
     </ul>
   </div>
 
@@ -382,56 +434,23 @@ saveBtn.onclick = () => {
 
 function updateTreatment() {
   const archwire = document.querySelector('input[name="archwire"]:checked');
-  const aux = [...document.querySelectorAll('input[type="checkbox"]:checked')].map(a => a.nextElementSibling.innerText);
-  let text = '';
-  if (archwire) text += archwire.nextElementSibling.innerText + '<br>';
-  if (aux.length) text += aux.join(', ');
-  document.getElementById('treatmentOutput').innerHTML = text || 'No selection yet';
+  const aux = [...document.querySelectorAll('input[name="auxiliaries"]:checked')].map(a => a.value);
+  let lines = [];
+  if (archwire) lines.push(archwire.value);
+  if (aux.length) lines.push(aux.join(', '));
+  document.getElementById('treatmentOutput').innerHTML = lines.length ? lines.join('<br>') : 'No selection yet';
 }
 
-document.querySelectorAll('input').forEach(i => i.addEventListener('change', updateTreatment));
+document.querySelectorAll('input[name="archwire"], input[name="auxiliaries"]').forEach(i => i.addEventListener('change', updateTreatment));
 
-function saveTreatmentPlan() {
-  const phase = document.querySelector(
-    'input[name="archwire"]:checked'
-  )?.value || "N/A";
-
-  const aux = [...document.querySelectorAll(
-    'input[name="auxiliaries"]:checked'
-  )].map(a => a.value).join(", ") || "None";
-
-  document.getElementById("previewPhase").textContent = phase;
-  document.getElementById("previewAux").textContent = aux;
-  document.getElementById("previewDuration").textContent = "12–24 months";
-
-  alert("Treatment plan saved!");
-}
-
-let selectedPhase = null;
-
+// Phases selection should update the treatment preview
 document.querySelectorAll(".phase-row").forEach(row => {
   row.addEventListener("click", () => {
-
-    // Remove previous selection
-    document.querySelectorAll(".phase-row")
-      .forEach(r => r.classList.remove("selected"));
-
-    // Mark selected
+    document.querySelectorAll(".phase-row").forEach(r => r.classList.remove("selected"));
     row.classList.add("selected");
-
-    // Store data
-    selectedPhase = {
-      phase: row.dataset.phase,
-      description: row.dataset.description,
-      duration: row.dataset.duration
-    };
-
-    // Update Treatment Preview
-    document.getElementById("previewArchwire").textContent =
-      selectedPhase.phase;
-
-    document.getElementById("previewDuration").textContent =
-      selectedPhase.duration;
+    const text = `${row.dataset.phase} — ${row.dataset.description} (${row.dataset.duration})`;
+    document.getElementById('treatmentOutput').innerHTML = text;
+    selectedPhase = { phase: row.dataset.phase, description: row.dataset.description, duration: row.dataset.duration };
   });
 });
 
@@ -451,11 +470,14 @@ document.getElementById("saveTreatmentBtn").onclick = () => {
   // Ready for backend save
 };
 
-
-
-
-
+// Sidebar toggle behaviour
+document.addEventListener('DOMContentLoaded', function () {
+  // Sidebar toggling intentionally disabled: keep sidebar always visible.
+  window.toggleSidebar = function () { console.log('Sidebar toggling disabled'); };
+  document.getElementById('sidebarOverlay')?.remove();
+  document.getElementById('sidebarToggle')?.remove();
+  document.body.classList.remove('sidebar-collapsed', 'sidebar-open');
+});
 </script>
-
 </body>
 </html>

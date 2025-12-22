@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In - SMART DENTISTRY</title>
+    <title>Sign In - Holy Family Dental Clinic</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         /* Base Styles */
@@ -20,12 +20,10 @@
         }
 
         body {
-            Smart Dentistry: 'Inter', Arial, sans-serif;
-            background: url('background-image.jpg') no-repeat center center fixed;
+            font-family: 'Inter', Arial, sans-serif;
+            background: url('HolyFAmDentalClinic Bacground pic.png') no-repeat;
             backdrop-filter: blur(5px);
             background-size: cover;
-            background-position: center -100px;
-            background-attachment: fixed;
             margin: 0;
             padding: 0;
             min-height: 100vh;
@@ -42,13 +40,13 @@
             min-height: 600px;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 15px 30px rgba(81, 182, 255, 0.2);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
         }
 
         /* Left Side - Welcome Section */
         .welcome-side {
             flex: 1;
-            background: rgba(12, 41, 70, 0.85);
+            background: rgba(44, 62, 80, 0.85);
             color: white;
             padding: 40px;
             display: flex;
@@ -328,10 +326,10 @@
     <div class="auth-container">
         <!-- Welcome Side -->
         <div class="welcome-side">
-            <img src="logo.png" alt="Smart dentistry Logo">
+            <img src="logo.png" alt="Holy Family Dental Clinic Logo">
             <h2>Welcome Back!</h2>
             <div class="divider"></div>
-            <p>Log In to access your dental records, appointments, and personalized care from Smart Dentistry.</p>
+            <p>Log In to access your dental records, appointments, and personalized care from Holy Family Dental Clinic.</p>
             <a href="landingpage.html" class="back-to-home">
                 <i class="fas fa-arrow-left"></i> Back to Home
             </a>
@@ -344,11 +342,11 @@
                 <p>Don't have an account? <a href="signup.html">Create one</a></p>
             </div>
 
-           <form class="auth-form" id="signinForm">
+            <form class="auth-form" id="signinForm">
                 <div class="form-group">
-                    <label for="loginField">Username / Email / Phone Number</label>
+                    <label for="email">Email Address</label>
                     <i class="fas fa-envelope input-icon"></i>
-                    <input type="text" id="loginField" class="form-control" placeholder="Enter your username, email, or phone" required>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
                 </div>
 
                 <div class="form-group">
@@ -359,8 +357,8 @@
 
                 <div class="form-footer">
                     <div class="remember-me">
-                    <input type="checkbox" id="remember">
-                    <label for="remember">Remember me</label>
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me</label>
                     </div>
                     <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
                 </div>
@@ -368,73 +366,71 @@
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-sign-in-alt"></i> Sign In
                 </button>
+
+                <div class="social-login">
+                    <div class="social-divider">
+                        Or sign in with
+                    </div>
+                    <div class="social-buttons">
+                        <a href="#" class="social-btn facebook-btn">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-btn google-btn">
+                            <i class="fab fa-google"></i>
+                        </a>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const signinForm = document.getElementById('signinForm');
-
-            signinForm.addEventListener('submit', async function (e) {
-            e.preventDefault();
-
-            const loginField = document.getElementById('loginField').value.trim();
-            const password = document.getElementById('password').value;
-            const rememberMe = document.getElementById('remember').checked;
-
-            if (!loginField || !password) {
-                alert('Please fill in all fields');
-                return;
-            }
-
-            try {
-                const response = await fetch('http://localhost:3000/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: loginField, password })
-                });
-
-                const result = await response.json();
-
-                if (!response.ok || !result.user) {
-                    alert(result.message || 'Login failed');
+            
+            signinForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const rememberMe = document.getElementById('remember').checked;
+                
+                // Basic validation
+                if (!email || !password) {
+                    alert('Please fill in all fields');
                     return;
                 }
-
-                const user = result.user;
-
+                
+                // Here you would normally send the data to your backend
+                console.log('Signing in with:', { email, password, rememberMe });
+                
+                // For demo purposes, we'll simulate a successful login
+                // and redirect based on user type
+                const isAdmin = email.includes('admin');
+                
                 if (rememberMe) {
-                    localStorage.setItem('user', JSON.stringify(user));
-                } else {
-                    sessionStorage.setItem('user', JSON.stringify(user));
+                    localStorage.setItem('userTypeChoice', isAdmin ? 'doctor' : 'patient');
                 }
-
-                signinForm.reset();
-
-                const userRole = user.username === 'admin' ? 'admin' : 'patient';
-                setTimeout(() => {
-                    window.location.href = userRole === 'admin' ? 'admin.html' : 'MyRecords.html';
-                }, 100);
-            } catch (err) {
-                console.error('Login error:', err);
-                alert('Something went wrong. Please try again.');
+                
+                // Redirect based on user type
+                if (isAdmin) {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'landingpage.html';
+                }
+            });
+            
+            // Check if user is already logged in (for demo purposes)
+            const userType = localStorage.getItem('userTypeChoice');
+            if (userType) {
+                if (userType === 'doctor') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'landingpage.html';
+                }
             }
-
-        });
-
-            // Optional: Auto-redirect if already remembered
-        const rememberedUser = localStorage.getItem('user') || sessionStorage.getItem('user');
-        if (rememberedUser) {
-            const user = JSON.parse(rememberedUser);
-        if (user.role === 'admin') {
-            window.location.href = 'admin.html';
-        } else {
-            window.location.href = 'landingpage.html';
-        }
-        }
         });
     </script>
-
 </body>
 </html>
