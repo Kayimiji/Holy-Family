@@ -1059,9 +1059,106 @@
             </div>
         </div>
     </div>
+    <div class="modal" id="edit-appointment-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Edit Appointment</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="edit-app-date">
+            </div>
+            <div class="form-group">
+                <label>Treatment</label>
+                <input type="text" id="edit-app-treatment">
+            </div>
+            <div class="form-group">
+                <label>Time</label>
+                <input type="time" id="edit-app-time">
+            </div>
+            <div class="form-group">
+                <label>Comments</label>
+                <textarea id="edit-app-comments"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary close-modal">Cancel</button>
+            <button class="btn btn-primary" id="save-edit-appointment">Save</button>
+        </div>
+    </div>
+</div>
+</body>
 
-<!-- Notification -->
+
 <script>
+let selectedAppointment = null;
+
+document.getElementById("edit-appointment-btn").addEventListener("click", () => {
+    const cells = selectedAppointment.children;
+
+    document.getElementById("edit-app-date").value =
+        new Date(cells[0].innerText).toISOString().split("T")[0];
+    document.getElementById("edit-app-treatment").value = cells[1].innerText;
+    document.getElementById("edit-app-time").value = cells[2].innerText;
+    document.getElementById("edit-app-comments").value = cells[3].innerText;
+
+    closeModal(document.getElementById("appointment-actions-modal"));
+    openModal("edit-appointment-modal");
+});
+
+document.getElementById("save-edit-appointment").addEventListener("click", () => {
+    const cells = selectedAppointment.children;
+
+    cells[0].innerText = new Date(document.getElementById("edit-app-date").value).toDateString();
+    cells[1].innerText = document.getElementById("edit-app-treatment").value;
+    cells[2].innerText = document.getElementById("edit-app-time").value;
+    cells[3].innerText = document.getElementById("edit-app-comments").value;
+
+    closeModal(document.getElementById("edit-appointment-modal"));
+    showNotification("Appointment updated", "success");
+});
+
+document.getElementById("save-schedule-btn").addEventListener("click", () => {
+    const date = document.getElementById("schedule-date").value;
+    const treatment = document.getElementById("schedule-treatment").value;
+    const time = document.getElementById("schedule-time").value;
+    const comments = document.getElementById("schedule-comments").value || "No Comments";
+
+    if (!date || !time) {
+        showNotification("Please fill required fields", "error");
+        return;
+    }
+
+    const tableBody = document.querySelector(".appointments-table tbody");
+    const newId = Date.now();
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${new Date(date).toDateString()}</td>
+        <td>${treatment}</td>
+        <td>${time}</td>
+        <td>${comments}</td>
+        <td class="status-completed">Pending</td>
+        <td>
+            <button class="action-btn" data-appointment="${newId}">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </td>
+    `;
+
+    tableBody.prepend(row);
+
+    row.querySelector(".action-btn").addEventListener("click", () => {
+        selectedAppointment = row;
+        openModal("appointment-actions-modal");
+    });
+
+    closeModal(document.getElementById("add-schedule-modal"));
+    showNotification("Appointment added successfully", "success");
+});
+
 document.addEventListener("DOMContentLoaded", () => {
 
     /* ================================
@@ -1106,14 +1203,28 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ================================
        EDIT PROFILE MODAL
     ================================= */
-    document.getElementById("edit-profile-btn")
-        .addEventListener("click", () => openModal("edit-profile-modal"));
+document.getElementById("edit-profile-btn")
+      .addEventListener("click", () => openModal("edit-profile-modal"));
 
-    document.getElementById("save-profile-btn")
-        .addEventListener("click", () => {
-            showNotification("Profile updated successfully", "success");
-            closeModal(document.getElementById("edit-profile-modal"));
-        });
+document.getElementById("save-profile-btn").addEventListener("click", () => {
+
+    document.querySelector(".patient-name").innerText =
+     document.getElementById("edit-name").value;
+
+    const infoValues = document.querySelectorAll(".info-value");
+
+    infoValues[0].innerText = document.getElementById("edit-age").value;
+    infoValues[1].innerText = document.getElementById("edit-gender").value;
+    infoValues[2].innerText = new Date(document.getElementById("edit-birthdate").value)
+.toDateString();    
+    infoValues[3].innerText = document.getElementById("edit-address").value;
+    infoValues[4].innerText = document.getElementById("edit-contact").value;
+    infoValues[5].innerText = document.getElementById("edit-status").value;
+
+    closeModal(document.getElementById("edit-profile-modal"));
+    showNotification("Patient profile updated", "success");
+});
+
 
     /* ================================
        ADD SCHEDULE MODAL

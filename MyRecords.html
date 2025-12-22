@@ -1103,20 +1103,23 @@ h2 {
                         </div>
                     </div>
                 </div>
-                <button class="View-btn" onclick="viewPatient()">View</button>
+                <button class="btn btn-primary" onclick="viewPatient()">View</button>
                 <li><a href="View.html"></i> View</a></li></ul>
-                <button id="createGuestBtn" class="create-account-btn" style="width: 100%; margin-top: 20px;">
+                <button class="btn btn-secondary" onclick="closeCreateAccountModal()">
+                    Cancel  
+</button>
+                <button class="btn btn-primary" onclick="createGuestAccount()">
+
                     Create Account
                 </button>
             </div>
         </div>
     </div>
     <script>
-    function viewPatient() {
-            window.location.href = "View.html";
+        
+        function viewPatient(patientId) {
+            window.location.href = "View.html?id=" + patientId;
         }
-    </script>
-    <script>
         // Theme toggle functionality
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
