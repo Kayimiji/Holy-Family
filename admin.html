@@ -865,6 +865,81 @@
             background-color: #dc3545;
         	color: white;
     	}
+        .dashboard {
+        display: flex;
+        }
+
+        .main-content {
+        flex: 1;
+        padding: 20px;
+        }
+
+       .calendar-sidebar {
+        width: 280px;
+        background: #ffffff;
+        padding: 16px;
+        border-radius: 12px;
+        }
+
+        /* HEADER */
+        .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        }
+
+        .month-title {
+        font-weight: 600;
+        }
+
+        .nav-btn {
+        border: 1px solid #d1d5db;
+        background: #fff;
+        padding: 4px 8px;
+        cursor: pointer;
+        }
+
+        /* GRID */
+        .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+        }
+
+        /* DAYS */
+        .day {
+        font-size: 12px;
+        color: #6b7280;
+        text-align: center;
+        }
+
+        /* DATES */
+        .date {
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        cursor: pointer;
+        }
+
+        .date:hover {
+        background: #e0f2fe;
+        }
+
+        .date.active {
+        background: #38bdf8;
+        color: #fff;
+        font-weight: 600;
+        }
+
+        /* EMPTY CELLS */
+        .date.empty {
+        pointer-events: none;
+        }
+
+
  
     	/* Calendar Styles */
         .calendar-container {
@@ -1643,59 +1718,58 @@
 </div>
 </div>
  
-<!-- Bottom Right Container -->
-<div class="left-container" style="flex: 0.8; background: var(--card-bg);">
-<div class="calendar-container">
-<div class="calendar-header">
-<h2>
-<i class="fas fa-calendar-alt"></i>
-<span id="currentMonthYear"></span>
-</h2>
-<div class="calendar-nav">
-<button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
-<button id="today">Today</button>
-<button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
-</div>
-</div>
-<div class="calendar-grid" id="calendarDays">
-<!-- Days of week headers will be added here -->
-</div>
-<div class="calendar-grid" id="calendarGrid">
-<!-- Calendar days will be added here -->
-</div>
-</div>
-</div>
- 
-<!-- Accept Confirmation Modal -->
-<div id="acceptConfirmationModal" class="confirmation-modal">
-<div class="confirmation-content">
-<div class="modal-decoration modal-decoration-1"></div>
-<div class="modal-decoration modal-decoration-2"></div>
- 
-<div class="confirmation-header" style="display: flex; justify-content: space-between; align-items: center;">
-<div style="display: flex; align-items: center;">
-<div class="confirmation-icon accept-icon">
-<i class="fas fa-check-circle"></i>
-</div>
-<h3 class="confirmation-title" id="acceptModalTitle">Accept Appointment</h3>
-</div>
-<button onclick="closeAcceptModal()" style="background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1.2rem;">
-<i class="fas fa-times"></i>
-</button>
-</div>
- 
-<p class="confirmation-message" id="acceptModalMessage">
-                            Are you sure you want to accept this appointment?
-</p>
- 
-<div class="confirmation-buttons">
-<button class="cancel-btn" onclick="closeAcceptModal()">
-<i class="fas fa-times"></i> Cancel
-</button>
-<button class="confirm-btn" onclick="confirmAcceptAppointment()">
-<i class="fas fa-check"></i> Complete
-</button>
-</div>
+
+<!-- RIGHT SIDEBAR CALENDAR -->
+  <div class="calendar-sidebar">
+  <div class="calendar-header">
+    <button class="nav-btn">&#8249;</button>
+    <span class="month-title">May 2025</span>
+    <button class="nav-btn">&#8250;</button>
+  </div>
+
+  <div class="calendar-grid">
+    <!-- DAYS -->
+    <div class="day">Sun</div>
+    <div class="day">Mon</div>
+    <div class="day">Tue</div>
+    <div class="day">Wed</div>
+    <div class="day">Thu</div>
+    <div class="day">Fri</div>
+    <div class="day">Sat</div>
+
+    <!-- DATES -->
+    <div class="date">1</div>
+    <div class="date">2</div>
+    <div class="date">3</div>
+    <div class="date">4</div>
+    <div class="date">5</div>
+    <div class="date">6</div>
+    <div class="date">7</div>
+    <div class="date">8</div>
+    <div class="date">9</div>
+    <div class="date">10</div>
+    <div class="date">11</div>
+    <div class="date">12</div>
+    <div class="date">13</div>
+    <div class="date">14</div>
+    <div class="date">15</div>
+    <div class="date">16</div>
+    <div class="date">17</div>
+    <div class="date">18</div>
+    <div class="date">19</div>
+    <div class="date">20</div>
+    <div class="date">21</div>
+    <div class="date">22</div>
+    <div class="date">23</div>
+    <div class="date">24</div>
+    <div class="date">25</div>  
+    <div class="date">26</div>
+    <div class="date">27</div>
+    <div class="date">28</div>
+    <div class="date">29</div>
+    <div class="date">30</div>
+    
+  </div>
 </div>
 </div>
  
@@ -2187,6 +2261,7 @@ function initializeRescheduleCalendar() {
         calendarGrid.appendChild(dayElement);
 	}
 }
+
  
 // Calendar navigation functions for reschedule modal
 function reschedulePrevMonth() {
