@@ -614,9 +614,11 @@
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
+    <link rel="stylesheet" href="assets/tutorial.css">
 </head>
 
 <body>
+  <button id="tutorialLaunchBtn" class="tutorial-launch-btn" aria-label="Start tour">🎓 Tour</button>
   <div class="dashboard">
     <!-- SIDEBAR -->
     <<!-- SIDEBAR -->
@@ -997,6 +999,15 @@ function toggleClinic(e) {
 
 
 </script>
-
+<script src="assets/tutorial.js"></script>
+<script>
+  // My-Clinic page step set
+  const clinicSteps = [
+    {selector: '.sidebar', title: 'Clinic Sidebar', content: 'Navigate clinic features and settings.'},
+    {selector: '#preview-box', title: 'Preview Panel', content: 'Preview documents and records.'},
+    {selector: '#addMedicineBtn', title: 'Add Medicine', content: 'Add meds to prescriptions quickly.'}
+  ];
+  document.getElementById('tutorialLaunchBtn')?.addEventListener('click', ()=> window.startTour(clinicSteps));
+</script>
 </body>
 </html>

@@ -1,0 +1,31 @@
+/* Tutorial component styles */
+:root{
+  --tour-accent:#00d4ff;
+  --tour-bg: rgba(10,10,12,0.6);
+  --tooltip-bg:#fff;
+  --tooltip-text:#111;
+}
+.tutorial-launch-btn{
+  position:fixed;right:20px;bottom:20px;z-index:9999;background:var(--tour-accent);color:#fff;border:none;border-radius:50px;padding:12px 16px;font-weight:600;box-shadow:0 6px 18px rgba(0,0,0,0.15);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}
+.tutorial-launch-btn:active{transform:scale(.98)}
+.tour-overlay{position:fixed;inset:0;background:var(--tour-bg);z-index:9998;opacity:0;pointer-events:none;transition:opacity .25s ease}
+.tour-overlay.show{opacity:1;pointer-events:auto}
+.tour-spotlight{position:absolute;border-radius:8px;box-shadow:0 0 0 9999px var(--tour-bg),0 8px 30px rgba(0,0,0,0.4);transition:all .32s cubic-bezier(.2,.9,.3,1);z-index:9999;pointer-events:none;border:2px solid rgba(255,255,255,0.08);}
+.tour-tooltip{position:absolute;max-width:360px;background:var(--tooltip-bg);color:var(--tooltip-text);padding:14px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.15);z-index:10000;transform-origin:top left;opacity:0;transition:all .22s ease}
+.tour-tooltip.show{opacity:1;transform:translateY(0)}
+.tour-tooltip h3{margin:0 0 6px;font-size:15px;color:var(--tour-accent)}
+.tour-tooltip p{margin:0;font-size:13px;color:#333}
+.tour-controls{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
+.tour-controls button{background:transparent;border:1px solid #e6e9ee;padding:6px 8px;border-radius:6px;cursor:pointer}
+.tour-controls button.primary{background:var(--tour-accent);color:#fff;border-color:transparent}
+.tour-step-indicator{font-size:12px;color:#666;margin-right:auto;align-self:center}
+.tour-pulse{animation:tour-pulse 1.6s infinite}
+@keyframes tour-pulse{0%{box-shadow:0 0 0 0 rgba(0,212,255,0.2)}70%{box-shadow:0 0 0 12px rgba(0,212,255,0)}100%{box-shadow:0 0 0 0 rgba(0,212,255,0)}}
+@media (max-width:640px){.tour-tooltip{max-width:280px;padding:12px}}
+
+/* Demo helpers for tutorial.html */
+.demo-box{background:#fff;padding:20px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.06);min-height:180px}
+.demo-step{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;border:1px solid #f0f2f6;margin-bottom:8px}
+.demo-step .dot{width:36px;height:36px;background:var(--tour-accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
+.demo-step.fade-in{animation:demoFade .5s ease both}
+@keyframes demoFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}

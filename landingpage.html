@@ -2648,6 +2648,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="assets/tutorial.css">
 </head>
 <body>
     <!-- Records Bookmark Button -->
@@ -4113,6 +4114,16 @@
                 window.open(`https://wa.me/?text=${text}`, '_blank');
             });
         });
+    </script>
+    <script src="assets/tutorial.js"></script>
+    <script>
+      // Landing page specific tour steps
+      const landingSteps = [
+        {selector: '.navbar', title: 'Navbar', content: 'Quick access to pages and actions.'},
+        {selector: '.features-section', title: 'Features', content: 'Discover key features of the system.'},
+        {selector: '#bookNowModal', title: 'Book Now', content: 'Book appointments with clinics.'}
+      ];
+      document.getElementById('tutorialLaunchBtn')?.addEventListener('click', ()=> window.startTour(landingSteps));
     </script>
 </body>
 </html>

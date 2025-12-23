@@ -393,6 +393,12 @@
 <body>
     <div class="tutorial-container">
         <div class="tutorial-wrapper">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                <div>
+                    <button id="playDemoBtn" class="btn">Play Demo</button>
+                    <button id="startTourBtn" class="btn" style="margin-left:8px">Start Guided Tour</button>
+                </div>
+            </div>
             <div class="slides-container">
                 <!-- Slide 1: Welcome -->
                 <div class="tutorial-slide active">
@@ -640,6 +646,19 @@
         // Initialize
         initializeDots();
         goToSlide(0);
+
+        // Play demo / start guided tour wiring
+        document.getElementById('playDemoBtn')?.addEventListener('click', function(){
+            window.playTutorialDemo(document.getElementById('demoBox'));
+        });
+        document.getElementById('startTourBtn')?.addEventListener('click', function(){
+            const steps = [
+                {selector:'#playDemoBtn', title:'Play Demo', content:'Click to watch an animated demo of routine tasks.', pulse:true},
+                {selector:'.slides-container', title:'Slides', content:'Browse slides for a step-by-step visual tutorial.'},
+                {selector:'.demo-box', title:'Demo Steps', content:'Auto-illustrated steps you can replay.'}
+            ];
+            window.startTour(steps);
+        });
     </script>
 </body>
 </html>

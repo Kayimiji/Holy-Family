@@ -230,8 +230,10 @@
             text-decoration: underline;
         }
     </style>
+    <link rel="stylesheet" href="assets/tutorial.css">
 </head>
 <body>
+    <button id="tutorialLaunchBtn" class="tutorial-launch-btn" aria-label="Start tour">🎓 Tour</button>
     <!-- Preloader - hidden by default, shown only on first visit -->
     <div class="preloader" id="preloader" style="display: none;">
         <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="preloader-logo">
@@ -366,6 +368,15 @@
             // Add parameter to indicate this is a role change
             window.location.href = 'index.html?change-role=true';
         }
+    </script>
+    <script src="assets/tutorial.js"></script>
+    <script>
+      const pageSteps = [
+        {selector: 'nav', title: 'Navigation', content: 'Use the navigation to reach pages.'},
+        {selector: '#userTypeModal', title: 'Sign-in', content: 'Select your role and sign in.'},
+        {selector: '.preloader', title: 'Loading', content: 'Shown on first visit', pulse:true}
+      ];
+      document.getElementById('tutorialLaunchBtn')?.addEventListener('click', ()=> window.startTour(pageSteps));
     </script>
 </body>
 </html>
