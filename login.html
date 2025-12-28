@@ -1,440 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In - SMART DENTISTRY</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        /* Base Styles */
-        :root {
-            --primary-color: #00bfff;
-            --secondary-color: #003a73;
-            --text-color: #2c3e50;
-            --text-muted: #777;
-            --border-color: #ddd;
-            --light-bg: #f5f7fa;
-            --white: #ffffff;
-            --success-color: #4CAF50;
-            --error-color: #F44336;
-        }
+  <meta charset="UTF-8">
+  <title>Smart Dentistry | Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            Smart Dentistry: 'Inter', Arial, sans-serif;
-            background: url('background-image.jpg') no-repeat center center fixed;
-            backdrop-filter: blur(5px);
-            background-size: cover;
-            background-position: center -100px;
-            background-attachment: fixed;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-        /* Container */
-        .auth-container {
-            display: flex;
-            max-width: 1000px;
-            width: 90%;
-            min-height: 600px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(81, 182, 255, 0.2);
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
 
-        /* Left Side - Welcome Section */
-        .welcome-side {
-            flex: 1;
-            background: rgba(12, 41, 70, 0.85);
-            color: white;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            backdrop-filter: blur(5px);
-        }
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #eef6fb;
+    }
 
-        .welcome-side img {
-            width: 120px;
-            margin-bottom: 30px;
-        }
+    .login-wrapper {
+      width: 1000px;
+      height: 550px;
+      background: #fff;
+      border-radius: 18px;
+      display: flex;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
 
-        .welcome-side h2 {
-            font-size: 28px;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
+    /* ===== LEFT (FORM) ===== */
+    .login-form {
+      flex: 1;
+      padding: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
-        .welcome-side p {
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            max-width: 350px;
-        }
+    .login-form h2 {
+      font-size: 32px;
+      margin-bottom: 30px;
+      color: #222;
+    }
 
-        .welcome-side .divider {
-            width: 50px;
-            height: 3px;
-            background: var(--primary-color);
-            margin: 20px 0;
-        }
+    .field {
+      margin-bottom: 20px;
+    }
 
-        .back-to-home {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
+    .field label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
 
-        .back-to-home:hover {
-            color: white;
-        }
+    .field input {
+      width: 100%;
+      padding: 14px 15px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+    }
 
-        /* Right Side - Form Section */
-        .form-side {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+    .password-wrapper {
+      position: relative;
+    }
 
-        .form-header {
-            margin-bottom: 30px;
-            text-align: center;
-        }
+    .password-wrapper i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #777;
+    }
 
-        .form-header h1 {
-            color: var(--secondary-color);
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
+    .actions {
+      display: flex;
+      gap: 15px;
+      margin: 25px 0;
+    }
 
-        .form-header p {
-            color: var(--text-muted);
-            font-size: 16px;
-        }
+    .btn-login {
+      background: linear-gradient(to right, #0a5ec2, #1e90ff);
+      color: white;
+      padding: 14px 30px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
 
-        .form-header p a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-        }
+    .btn-create {
+      background: white;
+      color: #0a5ec2;
+      padding: 14px 25px;
+      border-radius: 10px;
+      border: 2px solid #0a5ec2;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
 
-        /* Form Styles */
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+    .forgot {
+      color: #0a5ec2;
+      text-decoration: none;
+      font-weight: 500;
+    }
 
-        .form-group {
-            max-width: 90%;
-            position: relative;
-        }
+    /* ===== RIGHT (WELCOME) ===== */
+    .login-info {
+      flex: 1;
+      background: linear-gradient(180deg, #0a5ec2, #167ee6);
+      color: white;
+      padding: 80px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-color);
-            font-weight: 500;
-            font-size: 14px;
-        }
+    .login-info h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
 
-        .form-control {
-            width: 100%;
-            padding: 12px 15px 12px 45px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-        }
+    .login-info p {
+      font-size: 18px;
+      line-height: 1.6;
+      opacity: 0.95;
+    }
 
-        .form-control:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.1);
-        }
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .login-wrapper {
+        flex-direction: column;
+        height: auto;
+      }
 
-        .input-icon {
-            position: absolute;
-            left: 15px;
-            top: 38px;
-            color: var(--text-muted);
-            font-size: 18px;
-        }
-
-        .form-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-muted);
-        }
-
-        .remember-me input {
-            cursor: pointer;
-        }
-
-        .forgot-password {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .forgot-password:hover {
-            text-decoration: underline;
-        }
-
-        /* Button Styles */
-        .btn {
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #009acd;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-secondary {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #1a2a3a;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .social-login {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .social-divider {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: var(--text-muted);
-            font-size: 14px;
-            margin: 10px 0;
-        }
-
-        .social-divider::before,
-        .social-divider::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: var(--border-color);
-        }
-
-        .social-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .social-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 18px;
-            transition: all 0.3s ease;
-        }
-
-        .facebook-btn {
-            background-color: #3b5998;
-        }
-
-        .google-btn {
-            background-color: #db4437;
-        }
-
-        .social-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .auth-container {
-                flex-direction: column;
-                min-height: auto;
-            }
-            
-            .welcome-side {
-                padding: 30px 20px;
-                display: none; /* Hide welcome side on mobile */
-            }
-            
-            .form-side {
-                padding: 40px 25px;
-            }
-        }
-
-        /* Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .auth-form {
-            animation: fadeIn 0.5s ease;
-        }
-    </style>
+      .login-info {
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="auth-container">
-        <!-- Welcome Side -->
-        <div class="welcome-side">
-            <img src="logo.png" alt="Smart dentistry Logo">
-            <h2>Welcome Back!</h2>
-            <div class="divider"></div>
-            <p>Log In to access your dental records, appointments, and personalized care from Smart Dentistry.</p>
-            <a href="landingpage.html" class="back-to-home">
-                <i class="fas fa-arrow-left"></i> Back to Home
-            </a>
-        </div>
 
-        <!-- Form Side -->
-        <div class="form-side">
-            <div class="form-header">
-                <h1>Log In</h1>
-                <p>Don't have an account? <a href="signup.html">Create one</a></p>
-            </div>
+  <div class="login-wrapper">
+    
+    <!-- LEFT FORM -->
+    <div class="login-form">
+      <h2>Login to Your Account</h2>
 
-           <form class="auth-form" id="signinForm">
-                <div class="form-group">
-                    <label for="loginField">Username / Email / Phone Number</label>
-                    <i class="fas fa-envelope input-icon"></i>
-                    <input type="text" id="loginField" class="form-control" placeholder="Enter your username, email, or phone" required>
-                </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" placeholder="Enter your email">
+      </div>
 
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <i class="fas fa-lock input-icon"></i>
-                    <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
-                </div>
+      <div class="field password-wrapper">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Enter your password">
+        <i class="fa fa-eye" onclick="togglePassword()"></i>
+      </div>
 
-                <div class="form-footer">
-                    <div class="remember-me">
-                    <input type="checkbox" id="remember">
-                    <label for="remember">Remember me</label>
-                    </div>
-                    <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
-                </div>
+      <div class="actions">
+        <button class="btn-login">Login</button>
+        <button class="btn-create">Create Account</button>
+      </div>
 
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-sign-in-alt"></i> Sign In
-                </button>
-            </form>
-        </div>
+      <a href="#" class="forgot">Forgot your password?</a>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const signinForm = document.getElementById('signinForm');
+    <!-- RIGHT INFO -->
+    <div class="login-info">
+      <h2>Welcome Back!</h2>
+      <p>
+        Log in to manage your appointments, view treatment plans,
+        and access your dental records easily.
+      </p>
+    </div>
 
-            signinForm.addEventListener('submit', async function (e) {
-            e.preventDefault();
+  </div>
 
-            const loginField = document.getElementById('loginField').value.trim();
-            const password = document.getElementById('password').value;
-            const rememberMe = document.getElementById('remember').checked;
-
-            if (!loginField || !password) {
-                alert('Please fill in all fields');
-                return;
-            }
-
-            try {
-                const response = await fetch('http://localhost:3000/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: loginField, password })
-                });
-
-                const result = await response.json();
-
-                if (!response.ok || !result.user) {
-                    alert(result.message || 'Login failed');
-                    return;
-                }
-
-                const user = result.user;
-
-                if (rememberMe) {
-                    localStorage.setItem('user', JSON.stringify(user));
-                } else {
-                    sessionStorage.setItem('user', JSON.stringify(user));
-                }
-
-                signinForm.reset();
-
-                const userRole = user.username === 'admin' ? 'admin' : 'patient';
-                setTimeout(() => {
-                    window.location.href = userRole === 'admin' ? 'admin.html' : 'MyRecords.html';
-                }, 100);
-            } catch (err) {
-                console.error('Login error:', err);
-                alert('Something went wrong. Please try again.');
-            }
-
-        });
-
-            // Optional: Auto-redirect if already remembered
-        const rememberedUser = localStorage.getItem('user') || sessionStorage.getItem('user');
-        if (rememberedUser) {
-            const user = JSON.parse(rememberedUser);
-        if (user.role === 'admin') {
-            window.location.href = 'admin.html';
-        } else {
-            window.location.href = 'landingpage.html';
-        }
-        }
-        });
-    </script>
+  <script>
+    function togglePassword() {
+      const pwd = document.getElementById("password");
+      pwd.type = pwd.type === "password" ? "text" : "password";
+    }
+  </script>
 
 </body>
 </html>
