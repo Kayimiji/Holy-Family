@@ -1888,6 +1888,42 @@
             errorMsg.textContent = error.message;
         }
         }
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            const track = document.querySelector(".gallery-track");
+            const slides = document.querySelectorAll(".gallery-slide");
+            const prevBtn = document.querySelector(".gallery-nav.prev");
+            const nextBtn = document.querySelector(".gallery-nav.next");
+
+            let currentIndex = 0;
+            const totalSlides = slides.length;
+
+            function updateSlider() {
+                const offset = -currentIndex * 100;
+                track.style.transform = `translateX(${offset}%)`;
+
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex === totalSlides - 1;
+            }
+
+            nextBtn.addEventListener("click", () => {
+                if (currentIndex < totalSlides - 1) {
+                    currentIndex++;
+                    updateSlider();
+                }
+            });
+
+            prevBtn.addEventListener("click", () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateSlider();
+                }
+            });
+
+            updateSlider(); // initial state
+        });
+
+
 
         
         // Close modal when clicking outside
