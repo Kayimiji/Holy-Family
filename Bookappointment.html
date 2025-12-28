@@ -1,0 +1,46 @@
+<!-- Book Appointment Modal -->
+    <div id="book-modal" class="modal" role="dialog" aria-labelledby="book-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <button class="modal-close" aria-label="Close booking modal" type="button">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+            <div class="modal-left">
+                <h2 id="book-title">Book an Appointment</h2>
+                <form class="modal-form">
+                    <label for="book-service">Service</label>
+                    <select id="book-service" required>
+                        <option value="">Select a service</option>
+                        <option value="cleaning">Teeth Cleaning</option>
+                        <option value="whitening">Teeth Whitening</option>
+                        <option value="checkup">Dental Checkup</option>
+                        <option value="filling">Tooth Filling</option>
+                        <option value="implant">Dental Implant</option>
+                    </select>
+                    
+                    <label for="book-date">Preferred Date</label>
+                    <input type="date" id="book-date" required>
+                    
+                    <label for="book-time">Preferred Time</label>
+                    <input type="time" id="book-time" required>
+                    
+                    <label for="book-notes">Additional Notes</label>
+                    <textarea id="book-notes" placeholder="Any specific concerns or requests"></textarea>
+                    
+                    <div class="error" id="book-error">Please fill all required fields correctly.</div>
+                    <div class="success" id="book-success">Appointment booked successfully! We'll confirm shortly.</div>
+                    
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-primary">Book Appointment</button>
+                        <button type="button" class="btn btn-outline" id="book-cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-right">
+                <div>
+                    <h3>Schedule Your Visit</h3>
+                    <p>Our team will contact you to confirm your appointment details.</p>
+
+                </div>
+            </div>
+        </div>
+    </div>

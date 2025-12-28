@@ -264,7 +264,6 @@
             max-width: 46ch;
         }
 
-
         .book-now-button {
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             color: #fff;
@@ -921,6 +920,125 @@
             margin-top: 8px;
             display: none;
         }
+        /* Modal Overlay */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        /* Show modal */
+        .modal.show {
+            display: flex;
+        }
+
+        /* Modal Box */
+        .modal-dialog {
+            background: #fff;
+            width: 90%;
+            max-width: 900px;
+            border-radius: 12px;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Close Button */
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Left & Right Panels */
+        .modal-left,
+        .modal-right {
+            padding: 30px;
+        }
+
+        .modal-left {
+            width: 60%;
+        }
+
+        .modal-right {
+            width: 40%;
+            background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Typography */
+        .modal-left h2 {
+            margin-bottom: 15px;
+        }
+
+        .modal-left h3 {
+            margin-top: 20px;
+        }
+
+        .modal-left ul {
+            padding-left: 20px;
+        }
+
+        .modal-left ul li {
+            margin-bottom: 8px;
+        }
+
+        /* Buttons */
+        .modal-actions {
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #0b5ed7;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .modal-dialog {
+                flex-direction: column;
+            }
+            .modal-left,
+            .modal-right {
+                width: 100%;
+            }
+        }
+
 
         /* ===== MOBILE RESPONSIVENESS ===== */
         @media (max-width: 1024px) {
@@ -1332,7 +1450,7 @@
         <div class="main-left">
             <h1>DISCOVER <span class="nowrap">SMART DENTISTRY</span></h1>
             <p>Our mission is to provide exceptional oral health and wellness to ensure that patients can continue to live a healthy and happy life inside and outside of their bodies.</p>
-            <button id="open-book" class="book-now-button" type="button">Book Appointment Now</button>
+            <button id="open-book" class="book-now-button" type="button">Learn more</button>
         </div>
         <div class="main-right">
             <img src="landing.png" alt="Modern dental care illustration">
@@ -1631,52 +1749,58 @@
         </div>
     </div>
 
-    <!-- Book Appointment Modal -->
-    <div id="book-modal" class="modal" role="dialog" aria-labelledby="book-title" aria-hidden="true">
+    <!-- Learn More About Us Modal -->
+     <button class="btn btn-primary open-about">
+        Learn More About Us
+     </button>
+
+    <div id="about-modal" class="modal" role="dialog" aria-labelledby="about-title" aria-hidden="true">
         <div class="modal-dialog">
-            <button class="modal-close" aria-label="Close booking modal" type="button">
+            <button class="modal-close" aria-label="Close about modal" type="button">
                 <i class="fas fa-times" aria-hidden="true"></i>
             </button>
+
             <div class="modal-left">
-                <h2 id="book-title">Book an Appointment</h2>
-                <form class="modal-form">
-                    <label for="book-service">Service</label>
-                    <select id="book-service" required>
-                        <option value="">Select a service</option>
-                        <option value="cleaning">Teeth Cleaning</option>
-                        <option value="whitening">Teeth Whitening</option>
-                        <option value="checkup">Dental Checkup</option>
-                        <option value="filling">Tooth Filling</option>
-                        <option value="implant">Dental Implant</option>
-                    </select>
-                    
-                    <label for="book-date">Preferred Date</label>
-                    <input type="date" id="book-date" required>
-                    
-                    <label for="book-time">Preferred Time</label>
-                    <input type="time" id="book-time" required>
-                    
-                    <label for="book-notes">Additional Notes</label>
-                    <textarea id="book-notes" placeholder="Any specific concerns or requests"></textarea>
-                    
-                    <div class="error" id="book-error">Please fill all required fields correctly.</div>
-                    <div class="success" id="book-success">Appointment booked successfully! We'll confirm shortly.</div>
-                    
-                    <div class="modal-actions">
-                        <button type="submit" class="btn btn-primary">Book Appointment</button>
-                        <button type="button" class="btn btn-outline" id="book-cancel">Cancel</button>
-                    </div>
-                </form>
+                <h2 id="about-title">Learn More About Us</h2>
+
+                <p>
+                    We are a trusted dental clinic committed to providing high-quality,
+                    compassionate, and affordable dental care for patients of all ages.
+                </p>
+
+                <h3>Why Choose Us?</h3>
+                <ul>
+                    <li>✔ Experienced and friendly dental professionals</li>
+                    <li>✔ Modern equipment and safe procedures</li>
+                    <li>✔ Comfortable and patient-focused care</li>
+                    <li>✔ Affordable and transparent pricing</li>
+                </ul>
+
+                <h3>Our Services</h3>
+                <p>
+                    Teeth Cleaning, Whitening, Dental Checkups, Tooth Fillings,
+                    and Dental Implants.
+                </p>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-primary modal-close">
+                        Close
+                    </button>
+                </div>
             </div>
+
             <div class="modal-right">
                 <div>
-                    <h3>Schedule Your Visit</h3>
-                    <p>Our team will contact you to confirm your appointment details.</p>
-
+                    <h3>Your Smile Matters</h3>
+                    <p>
+                        Our mission is to help you achieve a healthy, confident smile
+                        through professional and personalized dental care.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
+
         <!-- In the footer section of landingpage.html -->
                 <div class="footer-bottom">
                     <button id="changeRoleBtn" class="change-role-btn">
@@ -1685,6 +1809,44 @@
                 </div>
 
      <script>
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            const aboutModal = document.getElementById("about-modal");
+            const learnMoreBtn = document.querySelector(".open-about");
+            const closeBtns = aboutModal.querySelectorAll(".modal-close");
+
+            // OPEN modal
+            learnMoreBtn.addEventListener("click", () => {
+                aboutModal.classList.add("show");
+                aboutModal.setAttribute("aria-hidden", "false");
+            });
+
+            // CLOSE modal (buttons)
+            closeBtns.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    aboutModal.classList.remove("show");
+                    aboutModal.setAttribute("aria-hidden", "true");
+                });
+            });
+
+            // CLOSE kapag click sa background
+            aboutModal.addEventListener("click", (e) => {
+                if (e.target === aboutModal) {
+                    aboutModal.classList.remove("show");
+                    aboutModal.setAttribute("aria-hidden", "true");
+                }
+            });
+
+            // CLOSE gamit ESC key
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") {
+                    aboutModal.classList.remove("show");
+                    aboutModal.setAttribute("aria-hidden", "true");
+                }
+            });
+        });
+
+
         // DOM Elements
         const navToggle = document.getElementById('navToggle');
         const navLinks = document.querySelector('.nav-links');
@@ -2047,20 +2209,6 @@
 
             });
 
-            // Mobile Gallery Scroll Indicator
-        if (mobileGalleryScroll) {
-            mobileGalleryScroll.addEventListener('scroll', () => {
-                const scrollLeft = mobileGalleryScroll.scrollLeft;
-                const scrollWidth = mobileGalleryScroll.scrollWidth - mobileGalleryScroll.clientWidth;
-                const dotIndex = Math.round((scrollLeft / scrollWidth) * (mobileGalleryDots.length - 1));
-                
-
-                 mobileGalleryDots.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === dotIndex);
-                });
-
-                });
-        }
         
         // Initialize
         updateGallery();

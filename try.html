@@ -1,198 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Smart Dentistry | Login</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Smart Dentistry</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Segoe UI", sans-serif;
-    }
+<style>
+/* ========== BASIC ========== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #eef6fb;
-    }
+/* ========== HERO ========== */
+.main-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 80px;
+    background: linear-gradient(135deg,#36d1dc,#5b86e5);
+    color: white;
+}
 
-    .login-wrapper {
-      width: 1000px;
-      height: 550px;
-      background: #fff;
-      border-radius: 18px;
-      display: flex;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-    }
+.book-now-button {
+    padding: 14px 26px;
+    border: none;
+    border-radius: 30px;
+    background: #0b5ed7;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
 
-    /* ===== LEFT (FORM) ===== */
-    .login-form {
-      flex: 1;
-      padding: 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
+/* ========== MODAL SYSTEM ========== */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
 
-    .login-form h2 {
-      font-size: 32px;
-      margin-bottom: 30px;
-      color: #222;
-    }
+.modal.open {
+    display: flex;
+}
 
-    .field {
-      margin-bottom: 20px;
-    }
+.modal-dialog {
+    background: #fff;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 12px;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
 
-    .field label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
+.modal-left,
+.modal-right {
+    padding: 30px;
+}
 
-    .field input {
-      width: 100%;
-      padding: 14px 15px;
-      border-radius: 10px;
-      border: 1px solid #ddd;
-      font-size: 16px;
-    }
+.modal-left { width: 60%; }
+.modal-right {
+    width: 40%;
+    background: #0b5ed7;
+    color: white;
+    display: flex;
+    align-items: center;
+}
 
-    .password-wrapper {
-      position: relative;
-    }
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border: none;
+    background: none;
+    font-size: 20px;
+    cursor: pointer;
+}
 
-    .password-wrapper i {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      color: #777;
-    }
-
-    .actions {
-      display: flex;
-      gap: 15px;
-      margin: 25px 0;
-    }
-
-    .btn-login {
-      background: linear-gradient(to right, #0a5ec2, #1e90ff);
-      color: white;
-      padding: 14px 30px;
-      border-radius: 10px;
-      border: none;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .btn-create {
-      background: white;
-      color: #0a5ec2;
-      padding: 14px 25px;
-      border-radius: 10px;
-      border: 2px solid #0a5ec2;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .forgot {
-      color: #0a5ec2;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    /* ===== RIGHT (WELCOME) ===== */
-    .login-info {
-      flex: 1;
-      background: linear-gradient(180deg, #0a5ec2, #167ee6);
-      color: white;
-      padding: 80px 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .login-info h2 {
-      font-size: 32px;
-      margin-bottom: 20px;
-    }
-
-    .login-info p {
-      font-size: 18px;
-      line-height: 1.6;
-      opacity: 0.95;
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 900px) {
-      .login-wrapper {
+@media(max-width:768px){
+    .modal-dialog {
         flex-direction: column;
-        height: auto;
-      }
-
-      .login-info {
-        text-align: center;
-      }
     }
-  </style>
+    .modal-left,.modal-right { width:100%; }
+}
+</style>
 </head>
+
 <body>
 
-  <div class="login-wrapper">
-    
-    <!-- LEFT FORM -->
-    <div class="login-form">
-      <h2>Login to Your Account</h2>
-
-      <div class="field">
-        <label>Email</label>
-        <input type="email" placeholder="Enter your email">
-      </div>
-
-      <div class="field password-wrapper">
-        <label>Password</label>
-        <input type="password" id="password" placeholder="Enter your password">
-        <i class="fa fa-eye" onclick="togglePassword()"></i>
-      </div>
-
-      <div class="actions">
-        <button class="btn-login">Login</button>
-        <button class="btn-create">Create Account</button>
-      </div>
-
-      <a href="#" class="forgot">Forgot your password?</a>
+<!-- HERO -->
+<div class="main-section">
+    <div>
+        <h1>DISCOVER SMART DENTISTRY</h1>
+        <p>Exceptional dental care with modern technology.</p>
+        <button id="open-about" class="book-now-button">Learn more</button>
     </div>
+    <img src="landing.png" width="300">
+</div>
 
-    <!-- RIGHT INFO -->
-    <div class="login-info">
-      <h2>Welcome Back!</h2>
-      <p>
-        Log in to manage your appointments, view treatment plans,
-        and access your dental records easily.
-      </p>
+<!-- LEARN MORE MODAL -->
+<div id="about-modal" class="modal" aria-hidden="true">
+    <div class="modal-dialog">
+
+        <button class="modal-close" aria-label="Close">&times;</button>
+
+        <div class="modal-left">
+            <h2>Learn More About Us</h2>
+            <p>
+                We are a trusted dental clinic committed to providing
+                high-quality, compassionate, and affordable dental care.
+            </p>
+
+            <h3>Why Choose Us?</h3>
+            <ul>
+                <li>✔ Experienced Dentists</li>
+                <li>✔ Modern Equipment</li>
+                <li>✔ Patient-Centered Care</li>
+                <li>✔ Affordable Services</li>
+            </ul>
+
+            <button class="book-now-button modal-close">Close</button>
+        </div>
+
+        <div class="modal-right">
+            <div>
+                <h3>Your Smile Matters</h3>
+                <p>Healthy smiles start with Smart Dentistry.</p>
+            </div>
+        </div>
+
     </div>
+</div>
 
-  </div>
+<script>
+/* ========= LEARN MORE MODAL ========= */
+document.addEventListener("DOMContentLoaded", () => {
 
-  <script>
-    function togglePassword() {
-      const pwd = document.getElementById("password");
-      pwd.type = pwd.type === "password" ? "text" : "password";
-    }
-  </script>
+    const aboutModal = document.getElementById("about-modal");
+    const openAboutBtn = document.getElementById("open-about");
+
+    // OPEN
+    openAboutBtn.addEventListener("click", () => {
+        aboutModal.classList.add("open");
+        document.body.style.overflow = "hidden";
+    });
+
+    // CLOSE BUTTONS
+    aboutModal.querySelectorAll(".modal-close").forEach(btn => {
+        btn.addEventListener("click", () => {
+            aboutModal.classList.remove("open");
+            document.body.style.overflow = "";
+        });
+    });
+
+    // CLOSE BACKGROUND
+    aboutModal.addEventListener("click", e => {
+        if (e.target === aboutModal) {
+            aboutModal.classList.remove("open");
+            document.body.style.overflow = "";
+        }
+    });
+
+    // ESC CLOSE
+    document.addEventListener("keydown", e => {
+        if (e.key === "Escape") {
+            aboutModal.classList.remove("open");
+            document.body.style.overflow = "";
+        }
+    });
+
+});
+</script>
 
 </body>
 </html>
