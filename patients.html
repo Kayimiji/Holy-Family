@@ -887,6 +887,320 @@
 .patients-table tr {
     height: 72px; /* Set a fixed height for table rows */
 }
+
+/* ============================================= */
+/* INTERACTIVE TUTORIAL STYLES */
+/* ============================================= */
+.tutorial-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 999999;
+    display: none;
+    backdrop-filter: blur(3px);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.tutorial-highlight {
+    position: fixed;
+    border: 3px solid #00bfff;
+    border-radius: 12px;
+    box-shadow: 
+        0 0 0 9999px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(0, 191, 255, 0.8),
+        inset 0 0 30px rgba(0, 191, 255, 0.4);
+    z-index: 999998;
+    pointer-events: none;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: pulse 2s infinite, glow 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        box-shadow: 
+            0 0 0 9999px rgba(0, 0, 0, 0.7),
+            0 0 20px rgba(0, 191, 255, 0.5),
+            inset 0 0 20px rgba(0, 191, 255, 0.3);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 
+            0 0 0 9999px rgba(0, 0, 0, 0.7),
+            0 0 40px rgba(0, 191, 255, 1),
+            inset 0 0 40px rgba(0, 191, 255, 0.6);
+        transform: scale(1.02);
+    }
+}
+
+@keyframes glow {
+    0%, 100% { 
+        border-color: #00bfff;
+        filter: drop-shadow(0 0 5px rgba(0, 191, 255, 0.5));
+    }
+    50% { 
+        border-color: #00d4ff;
+        filter: drop-shadow(0 0 15px rgba(0, 191, 255, 0.9));
+    }
+}
+
+@keyframes shimmer {
+    0% { 
+        box-shadow: inset -2000px 0 0 0 rgba(255, 255, 255, 0.3);
+    }
+    100% { 
+        box-shadow: inset 2000px 0 0 0 rgba(255, 255, 255, 0.3);
+    }
+}
+
+.tutorial-highlight.shimmer-effect {
+    animation: pulse 2s infinite, glow 2s infinite, shimmer 2s infinite;
+}
+
+.tutorial-highlight::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 20px solid #00bfff;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    opacity: 0;
+    animation: arrowBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes arrowBounce {
+    0%, 100% { 
+        opacity: 0;
+        top: -25px;
+    }
+    50% { 
+        opacity: 1;
+        top: -35px;
+    }
+}
+
+.tutorial-highlight::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 2px solid #00bfff;
+    border-radius: 12px;
+    opacity: 0.5;
+    animation: ripple 2s ease-out infinite;
+}
+
+@keyframes ripple {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 191, 255, 0.7);
+        opacity: 1;
+    }
+    100% {
+        box-shadow: 0 0 0 30px rgba(0, 191, 255, 0);
+        opacity: 0;
+    }
+}
+
+.tutorial-content {
+    position: fixed;
+    background: linear-gradient(135deg, var(--card-bg) 0%, var(--hover-bg) 100%);
+    border-radius: 20px;
+    padding: 30px;
+    width: 500px;
+    max-width: 90%;
+    z-index: 999999;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    border: 2px solid var(--sidebar-active);
+    animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+}
+
+@keyframes slideUp {
+    from { 
+        transform: translateY(50px) scale(0.95); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateY(0) scale(1); 
+        opacity: 1; 
+    }
+}
+
+.tutorial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.tutorial-title {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--sidebar-active), #00d4ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.tutorial-progress {
+    background: linear-gradient(135deg, var(--sidebar-active), #00d4ff);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+}
+
+.tutorial-body {
+    margin-bottom: 30px;
+}
+
+.tutorial-message {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0 0 25px 0;
+    min-height: 80px;
+    padding: 15px;
+    background: var(--hover-bg);
+    border-radius: 12px;
+    border-left: 4px solid var(--sidebar-active);
+}
+
+.tutorial-bullets {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.bullet-point {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border-color);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.bullet-point:hover {
+    transform: scale(1.3);
+}
+
+.bullet-point.active {
+    background: var(--sidebar-active);
+    transform: scale(1.3);
+    box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+}
+
+.tutorial-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.tutorial-btn {
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    justify-content: center;
+    min-width: 120px;
+    font-family: 'Inter', sans-serif;
+}
+
+.tutorial-skip {
+    background: transparent;
+    color: var(--text-muted);
+    border: 2px solid var(--border-color);
+}
+
+.tutorial-skip:hover {
+    background: var(--hover-bg);
+    color: var(--text-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tutorial-prev {
+    background: var(--hover-bg);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+}
+
+.tutorial-prev:hover {
+    background: var(--border-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tutorial-next, .tutorial-complete {
+    background: linear-gradient(135deg, var(--sidebar-active), #00d4ff);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+}
+
+.tutorial-next:hover, .tutorial-complete:hover {
+    background: linear-gradient(135deg, #0099cc, #00bfff);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 191, 255, 0.4);
+}
+
+.tutorial-interactive {
+    cursor: pointer !important;
+    position: relative;
+    z-index: 1000000 !important;
+    transition: all 0.3s ease !important;
+}
+
+.tutorial-interactive:hover {
+    transform: scale(1.03) !important;
+    filter: brightness(1.1) !important;
+}
+
+@media (max-width: 768px) {
+    .tutorial-content {
+        width: 90%;
+        padding: 20px;
+    }
+    
+    .tutorial-footer {
+        flex-direction: column;
+    }
+    
+    .tutorial-btn {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+}
     </style>
 </head>
 <body>
@@ -1102,6 +1416,48 @@
 
                 <button id="createGuestBtn" class="create-account-btn" style="width: 100%; margin-top: 20px;">
                     Create Account
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Tutorial Overlay -->
+    <div id="tutorialOverlay" class="tutorial-overlay">
+        <div class="tutorial-highlight"></div>
+        <div class="tutorial-content">
+            <button class="tutorial-btn" onclick="skipTutorial()" style="position: absolute; top: 15px; right: 15px; width: auto; padding: 8px; background: rgba(0,0,0,0.1); border: none; border-radius: 50%; height: 36px;">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="tutorial-header">
+                <h3 class="tutorial-title" id="tutorialStepTitle">Welcome</h3>
+                <div class="tutorial-progress">
+                    <span id="tutorialCurrentStep">1</span> / <span id="tutorialTotalSteps">4</span>
+                </div>
+            </div>
+            
+            <div class="tutorial-body">
+                <p class="tutorial-message" id="tutorialMessage">
+                    Welcome to the Patients List page!
+                </p>
+                
+                <div class="tutorial-bullets" id="tutorialBullets">
+                    <!-- Generated dynamically -->
+                </div>
+            </div>
+            
+            <div class="tutorial-footer">
+                <button class="tutorial-btn tutorial-skip" onclick="skipTutorial()">
+                    <i class="fas fa-times"></i> Skip
+                </button>
+                <button class="tutorial-btn tutorial-prev" onclick="prevTutorialStep()" id="tutorialPrevBtn" style="display: none;">
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                <button class="tutorial-btn tutorial-next" onclick="nextTutorialStep()" id="tutorialNextBtn">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+                <button class="tutorial-btn tutorial-complete" onclick="completeTutorial()" id="tutorialCompleteBtn" style="display: none;">
+                    <i class="fas fa-check"></i> Complete
                 </button>
             </div>
         </div>
@@ -1362,8 +1718,8 @@ function formatDate(date) {
 
         // Show modal when Create Guest Account is clicked
         createAccountBtn.onclick = () => {
-            createAccountModal.style.display = 'block';
-            document.querySelector('.generated-credentials').style.display = 'none';
+            // Navigate to addpatient.html instead of opening modal
+            window.location.href = 'addpatient.html';
         };
 
         // Generate random credentials
@@ -1423,79 +1779,279 @@ function formatDate(date) {
         };
 
         // Add click handlers for column headers
-document.querySelectorAll('.patients-table thead th').forEach(header => {
-    if (header.textContent !== '' && !header.querySelector('input')) { // Skip checkbox column
-        header.style.cursor = 'pointer';
-        header.addEventListener('click', () => {
-            const sortBy = getSortByFromHeader(header.textContent);
-            const currentOrder = header.getAttribute('data-order') || 'asc';
-            const newOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+        document.querySelectorAll('.patients-table thead th').forEach(header => {
+            if (header.textContent !== '' && !header.querySelector('input')) { // Skip checkbox column
+                header.style.cursor = 'pointer';
+                header.addEventListener('click', () => {
+                    const sortBy = getSortByFromHeader(header.textContent);
+                    const currentOrder = header.getAttribute('data-order') || 'asc';
+                    const newOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+                    
+                    // Update sort indicators
+                    document.querySelectorAll('.patients-table thead th').forEach(h => {
+                        h.removeAttribute('data-order');
+                        h.classList.remove('sort-asc', 'sort-desc');
+                    });
+                    
+                    header.setAttribute('data-order', newOrder);
+                    header.classList.add(`sort-${newOrder}`);
+                    
+                    populatePatientTable(sortBy, newOrder);
+                });
+            }
+        });
+
+        function getSortByFromHeader(headerText) {
+            const sortMap = {
+                'Patient Name': 'patientName',
+                'Contact Details': 'email',
+                'Date of Birth': 'dateOfBirth',
+                'Last Visit': 'lastVisit'
+            };
+            return sortMap[headerText.trim()] || 'patientName';
+        }
+
+        /* Filter dropdown functionality */
+        const filterBtn = document.querySelector('.filter');
+        const filterDropdown = document.querySelector('.filter-dropdown');
+        const filterOptions = document.querySelectorAll('.filter-dropdown li');
+
+        // Toggle filter dropdown
+        filterBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            filterDropdown.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            filterDropdown.classList.remove('show');
+        });
+
+        // Handle filter selection
+        filterOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const sortType = option.dataset.sort;
+                
+                // Remove active class from all options
+                filterOptions.forEach(opt => opt.classList.remove('active'));
+                // Add active class to selected option
+                option.classList.add('active');
+                
+                switch(sortType) {
+                    case 'asc':
+                        populatePatientTable('patientName', 'asc');
+                        break;
+                    case 'desc':
+                        populatePatientTable('patientName', 'desc');
+                        break;
+                    case 'recent':
+                        populatePatientTable('lastVisit', 'desc');
+                        break;
+                }
+                
+                filterDropdown.classList.remove('show');
+            });
+        });
+
+        /* Tutorial System */
+        let tutorialSteps = [
+            {
+                title: "Welcome to Patients List",
+                message: "This page displays all your patient records. Let's walk through the key features to help you manage patients efficiently.",
+                highlight: null,
+                position: "center"
+            },
+            {
+                title: "Search & Filter",
+                message: "Use the search bar to quickly find patients by name or ID. Use the filter dropdown to sort patients alphabetically or by recent visits.",
+                highlight: ".search-filter",
+                position: "top"
+            },
+            {
+                title: "Patient Table",
+                message: "View all patient information here including contact details, date of birth, and last visit date. Click on any patient row to view full details.",
+                highlight: ".patients-table-container",
+                position: "center"
+            },
+            {
+                title: "Create Guest Account",
+                message: "Click the 'Create Guest Account' button to add new temporary patient accounts with auto-generated credentials.",
+                highlight: ".create-account-btn",
+                position: "right"
+            },
+            {
+                title: "Tutorial Complete!",
+                message: "You're all set! You now understand how to manage and view patient information efficiently.",
+                highlight: null,
+                position: "center"
+            }
+        ];
+
+        let currentTutorialStep = 0;
+        let isTutorialActive = false;
+        let tutorialCompleted = localStorage.getItem('patientsPageTutorialCompleted') === 'true';
+
+        function initTutorial() {
+            const bulletsContainer = document.getElementById('tutorialBullets');
+            bulletsContainer.innerHTML = '';
             
-            // Update sort indicators
-            document.querySelectorAll('.patients-table thead th').forEach(h => {
-                h.removeAttribute('data-order');
-                h.classList.remove('sort-asc', 'sort-desc');
+            tutorialSteps.forEach((step, index) => {
+                const bullet = document.createElement('div');
+                bullet.className = 'bullet-point';
+                bullet.dataset.step = index;
+                bullet.addEventListener('click', () => goToTutorialStep(index));
+                bulletsContainer.appendChild(bullet);
             });
             
-            header.setAttribute('data-order', newOrder);
-            header.classList.add(`sort-${newOrder}`);
+            document.getElementById('tutorialTotalSteps').textContent = tutorialSteps.length;
             
-            populatePatientTable(sortBy, newOrder);
-        });
-    }
-});
-
-function getSortByFromHeader(headerText) {
-    const sortMap = {
-        'Patient Name': 'patientName',
-        'Contact Details': 'email',
-        'Date of Birth': 'dateOfBirth',
-        'Last Visit': 'lastVisit'
-    };
-    return sortMap[headerText.trim()] || 'patientName';
-}
-
-/* Filter dropdown functionality */
-const filterBtn = document.querySelector('.filter');
-const filterDropdown = document.querySelector('.filter-dropdown');
-const filterOptions = document.querySelectorAll('.filter-dropdown li');
-
-// Toggle filter dropdown
-filterBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    filterDropdown.classList.toggle('show');
-});
-
-// Close dropdown when clicking outside
-document.addEventListener('click', () => {
-    filterDropdown.classList.remove('show');
-});
-
-// Handle filter selection
-filterOptions.forEach(option => {
-    option.addEventListener('click', () => {
-        const sortType = option.dataset.sort;
-        
-        // Remove active class from all options
-        filterOptions.forEach(opt => opt.classList.remove('active'));
-        // Add active class to selected option
-        option.classList.add('active');
-        
-        switch(sortType) {
-            case 'asc':
-                populatePatientTable('patientName', 'asc');
-                break;
-            case 'desc':
-                populatePatientTable('patientName', 'desc');
-                break;
-            case 'recent':
-                populatePatientTable('lastVisit', 'desc');
-                break;
+            // Auto-start tutorial if not completed
+            if (!tutorialCompleted) {
+                setTimeout(() => {
+                    if (!isTutorialActive) {
+                        startTutorial();
+                    }
+                }, 1200);
+            }
         }
-        
-        filterDropdown.classList.remove('show');
-    });
-});
+
+        function startTutorial() {
+            isTutorialActive = true;
+            currentTutorialStep = 0;
+            showTutorialStep(0);
+            document.getElementById('tutorialOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function showTutorialStep(stepIndex) {
+            const step = tutorialSteps[stepIndex];
+            const overlay = document.getElementById('tutorialOverlay');
+            const highlight = overlay.querySelector('.tutorial-highlight');
+            
+            document.getElementById('tutorialStepTitle').textContent = step.title;
+            document.getElementById('tutorialMessage').innerHTML = step.message;
+            document.getElementById('tutorialCurrentStep').textContent = stepIndex + 1;
+            
+            document.getElementById('tutorialPrevBtn').style.display = stepIndex > 0 ? 'flex' : 'none';
+            document.getElementById('tutorialNextBtn').style.display = stepIndex < tutorialSteps.length - 1 ? 'flex' : 'none';
+            document.getElementById('tutorialCompleteBtn').style.display = stepIndex === tutorialSteps.length - 1 ? 'flex' : 'none';
+            
+            document.querySelectorAll('.bullet-point').forEach((bullet, index) => {
+                bullet.classList.toggle('active', index <= stepIndex);
+            });
+            
+            positionTutorialContent(step.position);
+            
+            if (step.highlight) {
+                const element = document.querySelector(step.highlight);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    highlight.style.opacity = '0';
+                    highlight.style.transition = 'opacity 0.2s ease';
+                    
+                    setTimeout(() => {
+                        highlight.style.width = `${rect.width + 20}px`;
+                        highlight.style.height = `${rect.height + 20}px`;
+                        highlight.style.left = `${rect.left - 10}px`;
+                        highlight.style.top = `${rect.top - 10}px`;
+                        highlight.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                        highlight.style.opacity = '1';
+                        
+                        setTimeout(() => {
+                            highlight.classList.add('shimmer-effect');
+                        }, 100);
+                        
+                        element.classList.add('tutorial-interactive');
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+                    }, 150);
+                    
+                    highlight.style.display = 'block';
+                } else {
+                    highlight.style.display = 'none';
+                }
+            } else {
+                highlight.style.opacity = '0';
+                highlight.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => {
+                    highlight.style.display = 'none';
+                }, 300);
+            }
+            
+            currentTutorialStep = stepIndex;
+        }
+
+        function positionTutorialContent(position) {
+            const content = document.querySelector('.tutorial-content');
+            content.style.position = 'fixed';
+            content.style.margin = '0';
+            content.style.transform = 'none';
+            
+            switch(position) {
+                case 'top':
+                    content.style.top = '20px';
+                    content.style.left = '50%';
+                    content.style.transform = 'translateX(-50%)';
+                    break;
+                case 'right':
+                    content.style.top = '50%';
+                    content.style.right = '20px';
+                    content.style.left = 'auto';
+                    content.style.transform = 'translateY(-50%)';
+                    break;
+                default:
+                    content.style.top = '50%';
+                    content.style.left = '50%';
+                    content.style.transform = 'translate(-50%, -50%)';
+            }
+        }
+
+        function nextTutorialStep() {
+            if (currentTutorialStep < tutorialSteps.length - 1) {
+                showTutorialStep(currentTutorialStep + 1);
+            }
+        }
+
+        function prevTutorialStep() {
+            if (currentTutorialStep > 0) {
+                showTutorialStep(currentTutorialStep - 1);
+            }
+        }
+
+        function goToTutorialStep(stepIndex) {
+            if (stepIndex >= 0 && stepIndex < tutorialSteps.length) {
+                showTutorialStep(stepIndex);
+            }
+        }
+
+        function skipTutorial() {
+            isTutorialActive = false;
+            document.getElementById('tutorialOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.querySelectorAll('.tutorial-interactive').forEach(el => {
+                el.classList.remove('tutorial-interactive');
+            });
+        }
+
+        function completeTutorial() {
+            isTutorialActive = false;
+            tutorialCompleted = true;
+            localStorage.setItem('patientsPageTutorialCompleted', 'true');
+            document.getElementById('tutorialOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.querySelectorAll('.tutorial-interactive').forEach(el => {
+                el.classList.remove('tutorial-interactive');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initTutorial();
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isTutorialActive) {
+                    skipTutorial();
+                }
+            });
+        });
     </script>
 </body>
 </html>
