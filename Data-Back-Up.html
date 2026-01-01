@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -7,9 +7,234 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{--accent:#00d4ff;--muted:#f8f9fb;--dark:#2c3e50;}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Poppins",sans-serif;background:var(--muted);color:#222}
+    :root {
+      --bg-color: #f5f7fa;
+      --sidebar-bg: #2c3e50;
+      --sidebar-text: rgba(255, 255, 255, 0.9);
+      --sidebar-active: #00bfff;
+      --card-bg: #ffffff;
+      --text-color: #2c3e50;
+      --text-muted: #7a8ba9;
+      --border-color: #e1e5eb;
+      --hover-bg: #f0f4f8;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    [data-theme="dark"] {
+      --bg-color: #1a1a1a;
+      --sidebar-bg: #151e25;
+      --sidebar-text: rgba(255, 255, 255, 0.85);
+      --sidebar-active: #00bfff;
+      --card-bg: #2d2d2d;
+      --text-color: #e0e0e0;
+      --text-muted: #aaa;
+      --border-color: #444;
+      --hover-bg: #333;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s ease;
+    }
+    .dashboard {
+      display: flex;
+      height: 100vh;
+      min-height: 100vh;
+      overflow: hidden;
+      color: var(--text-color);
+    }
+    .sidebar {
+      background-color: var(--sidebar-bg);
+      color: var(--sidebar-text);
+      padding: 20px 0;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+      width: 220px;
+      overflow-y: auto;
+      position: relative;
+      min-width: 220px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    .logo-container {
+      position: relative;
+    }
+    .sidebar-logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      margin-right: -5px;
+      margin-top: -45px;
+      margin-left: -20px;
+      object-fit: cover;
+    }
+    .sidebar-title h2 {
+      color: var(--sidebar-active);
+      margin: 0;
+      font-size: 18px;
+      line-height: 1;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
+    }
+    .sidebar-title p {
+      color: var(--sidebar-text);
+      font-size: 12px;
+      margin-top: 10px;
+      margin-left: -40px;
+      font-style: italic;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+      white-space: normal;
+    }
+    .holy-family {
+      color: #00bbff;
+      font-weight: bold;
+    }
+    .dental-clinic {
+      color: #00bbff;
+      font-weight: bold;
+    }
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .sidebar-menu li {
+      margin-bottom: 5px;
+    }
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: var(--sidebar-text);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .sidebar-menu a:hover, .sidebar-menu a.active {
+      background-color: rgba(0, 191, 255, 0.2);
+      color: white;
+      border-left: 3px solid var(--sidebar-active);
+      padding-left: 17px;
+    }
+    .sidebar-menu i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+    .return-home-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .return-home-menu li {
+      margin-bottom: 5px;
+    }
+    .return-home-menu a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: var(--sidebar-text);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .return-home-menu a:hover, .return-home-menu a.active {
+      background-color: rgba(0, 191, 255, 0.2);
+      color: white;
+      border-left: 3px solid var(--sidebar-active);
+      padding-left: 17px;
+    }
+    .return-home-menu i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+    .settings-menu a:hover, .return-home-menu a:hover {
+      background-color: rgba(0, 191, 255, 0.2);
+      color: white;
+      border-left: 3px solid var(--sidebar-active);
+      display: block;
+      width: 100%;
+      padding-right: 25px;
+    }
+    .main {
+      flex: 1;
+      margin-left: 220px;
+      padding: 24px;
+      background: var(--bg-color);
+      min-height: 100vh;
+      transition: background-color 0.3s ease;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .header h1 {
+      color: var(--sidebar-active);
+      margin: 0;
+    }
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .theme-toggle-label {
+      font-size: 14px;
+      color: var(--text-color);
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #00bfff;
+    }
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
     /* Sidebar Background */
 .sidebar {
     background-color: #2c3e50; /* same dark blue as second image */
@@ -81,55 +306,58 @@
     padding: 10px 0;
 
 }
-    .sidebar{position:fixed;top:0;left:0;width:200px;height:100%;background:var(--dark);color:#fff;padding:20px;display:flex;flex-direction:column;justify-content:space-between}
-    .logo{font-size:18px;font-weight:700;text-align:center;margin-bottom:30px;line-height:1.2}
-    .logo i{font-size:36px;margin-bottom:8px;color:var(--accent)}         
-    .main{margin-left:220px;padding:24px}
-    h1{color:var(--accent);margin-bottom:12px}
-    .controls{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
-    .btn{background:var(--accent);color:#000;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
-    .secondary{background:#fff;border:1px solid #ddd;padding:8px 12px;border-radius:8px;cursor:pointer}
-    .list{margin-top:16px;background:#fff;padding:12px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.06)}
-    .list h4{margin:0 0 8px 0;color:#666}
-    .backup-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px dashed #eee;font-size:13px}
-    input[type="file"]{display:none}
-    .note{font-size:13px;color:#666;margin-top:10px}
+    /* ...existing code for .btn, .controls, .list, etc... */
   </style>
 </head>
 <body>
-  <aside class="sidebar">
-    <div>
-      <div class="logo"><i class="fa-solid fa-tooth"></i><br/>SMART<br/>DENTISTRY</div>
-      <ul>
-        <ul class="sidebar-menu">
-                <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
-                <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
-                <li><a href="patients.html"><i class="fas fa-users"></i> <span>Patients</span></a></li>
-                <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-                <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> <span> Data BackUp</a></li>
-                <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-                <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
-                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            </ul>
-            <!-- Add Return to Home menu at the bottom -->
-            <div style="position: absolute; bottom: 20px; width: 13%;">
-                <div style="position: absolute; bottom: 20px; width: 100%;">
-                    <ul class="sidebar-menu settings-menu">
-                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-                    </ul>
-                    <ul class="sidebar-menu return-home-menu">
-                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
-                    </ul>
-                </div>
-            </div>
-    
+<div class="dashboard">
+  <!-- Sidebar Navigation (copied from admin.html) -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-container">
+        <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
+        <div class="logo-glow"></div>
+      </div>
+      <div class="sidebar-title">
+        <h2>
+          <span class="holy-family">SMART</span><br>
+          <span class="dental-clinic">DENTISTRY</span>
+        </h2>
+      </div>
     </div>
-
-  </aside>
+    <ul class="sidebar-menu">
+      <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+      <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
+      <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> Appointment History</a></li>
+      <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+      <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+      <li><a href="Data-Back-Up.html" class="active"><i class="fa solid fa-database"></i> Data BackUp</a></li>
+      <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+      <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
+      <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+    <!-- Add Return to Home menu at the bottom -->
+    <div style="position: absolute; bottom: 20px; width: 100%;">
+      <ul class="sidebar-menu settings-menu">
+        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+      <ul class="sidebar-menu return-home-menu">
+        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+      </ul>
+    </div>
+  </div>
 
   <main class="main">
-    <h1>Data Backup</h1>
+    <div class="header">
+      <h1>Data Backup</h1>
+      <div class="theme-toggle">
+        <span class="theme-toggle-label">Dark Mode</span>
+        <label class="switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
 
     <div class="controls">
       <button class="btn" id="downloadJsonBtn"><i class="fa-regular fa-file-export"></i> Download JSON Backup</button>
@@ -178,8 +406,18 @@
       </div>
     </div>
   </main>
-
-  <script>
+</div>
+<script>
+  // Theme toggle functionality
+  const themeToggle = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeToggle.checked = savedTheme === 'dark';
+  themeToggle.addEventListener('change', function() {
+    const theme = this.checked ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  });
     // Known application localStorage keys to include in backups
     const KNOWN_KEYS = ['activePatients','inactivePatients','todayAppointments','settings','appointments'];
 

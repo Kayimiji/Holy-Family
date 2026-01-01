@@ -8,293 +8,984 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{--accent:#00d4ff;--muted:#f8f9fb;--dark:#2c3e50;}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Poppins",sans-serif;background:var(--muted);color:#222}
-    .sidebar{position:fixed;top:0;left:0;width:220px;height:100vh;background:var(--dark);color:#fff;display:flex;flex-direction:column;justify-content:space-between}
-    .sidebar .logo{padding:20px;text-align:center;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.06)}
-    .sidebar-menu a 
-     /* Sidebar Container */
-.sidebar {
-    width: 260px;
-    background-color: #2d3e50;   /* Dark blue-gray */
-    min-height: 100vh;
-    padding: 20px 0;
-    color: #ffffff;
-    font-family: "Inter", sans-serif;
-}
-
-/* Logo / Title Section */
-.sidebar .logo-container {
-    text-align: left;
-    padding-left: 20px;
-    margin-bottom: 30px;
-}
-
-.sidebar .logo-container img {
-    width: 55px;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.sidebar .logo-container h1 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: .5px;
-    color: #37c2ff;
-}
-
-/* Menu Items */
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar ul li {
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 15px;
-    cursor: pointer;
-    transition: .2s ease;
-}
-
-.sidebar ul li i,
-.sidebar ul li svg {
-    color: #e6e6e6;   /* Light icon color */
-    font-size: 18px;
-}
-
-.sidebar ul li:hover {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-/* Bottom Items (Settings & Return Home) */
-.sidebar .bottom-links {
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.sidebar .bottom-links li {
-    padding: 12px 20px;
-}
-
-/* Active Link */
-.sidebar ul li.active {
-    background: rgba(255, 255, 255, 0.15);
-    border-left: 4px solid #37c2ff;
-    padding-left: 16px;
-}
-   
-    .sidebar ul{list-style:none;padding:0 0 20px 0}
-    .sidebar li{padding:12px 20px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:0.2s;color:#fff}
-    .sidebar li:hover,.sidebar li.active{background:var(--accent);color:#000;border-radius:0 30px 30px 0}
-    .sidebar .bottom{padding:18px;font-size:14px}
-    .main{margin-left:220px;padding:24px}
-    .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-    .header h1{color:var(--accent);font-size:20px}
-    .header .actions{display:flex;gap:12px;align-items:center}
-    .actions i{font-size:18px;color:var(--accent);cursor:pointer}
-    .filters{display:flex;gap:10px;align-items:center;margin-bottom:14px}
-    .filters input, .filters select{padding:8px;border-radius:6px;border:1px solid #ddd}
-    .summary{display:flex;gap:14px;margin-bottom:16px;flex-wrap:wrap}
-    .card{background:#fff;padding:14px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.06);min-width:180px}
-    .card h4{margin-bottom:6px;font-size:13px;color:#666}
-    .card .value{font-weight:700;font-size:18px}
-    .layout{display:grid;grid-template-columns:2fr 1fr;gap:16px}
-    .chart-box{background:#fff;padding:16px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.06)}
-    .table-box{background:#fff;padding:12px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.06);margin-top:16px}
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #eee;font-size:13px}
-    .controls{display:flex;gap:10px;align-items:center}
-    .btn{background:var(--accent);color:#000;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
-    @media(max-width:900px){.layout{grid-template-columns:1fr}}
+    :root{
+      --accent:#00d4ff;
+      --muted:#f8f9fb;
+      --dark:#2c3e50;
+      --sidebar-bg: #2c3e50;
+      --sidebar-text: rgba(255, 255, 255, 0.9);
+      --sidebar-active: #00bfff;
+    }
+    
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+    
+    body{
+      font-family:"Poppins",sans-serif;
+      background:var(--muted);
+      color:#222;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .dashboard {
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    /* Sidebar Styles */
+    .sidebar {
+      width: 260px;
+      min-width: 260px;
+      background-color: var(--sidebar-bg);
+      color: var(--sidebar-text);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 1000;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sidebar-logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 15px;
+    }
+    
+    .sidebar-title h2 {
+      color: var(--sidebar-active);
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.2;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .holy-family {
+      color: #00bbff;
+    }
+    
+    .dental-clinic {
+      color: #00bbff;
+    }
+    
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex: 1;
+    }
+    
+    .sidebar-menu li {
+      margin-bottom: 5px;
+    }
+    
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: var(--sidebar-text);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .sidebar-menu a:hover {
+      background-color: rgba(0, 191, 255, 0.1);
+      color: white;
+    }
+    
+    .sidebar-menu a.active {
+      background-color: rgba(0, 191, 255, 0.2);
+      color: white;
+      border-left: 3px solid var(--sidebar-active);
+    }
+    
+    .sidebar-menu i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+      font-size: 16px;
+    }
+    
+    .sidebar-bottom {
+      margin-top: auto;
+      padding: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .settings-menu,
+    .return-home-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .settings-menu li,
+    .return-home-menu li {
+      margin-bottom: 5px;
+    }
+    
+    .settings-menu a,
+    .return-home-menu a {
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+      color: var(--sidebar-text);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-radius: 5px;
+    }
+    
+    .settings-menu a:hover,
+    .return-home-menu a:hover {
+      background-color: rgba(0, 191, 255, 0.1);
+      color: white;
+    }
+    
+    /* Main Content Styles */
+    .main {
+      flex: 1;
+      margin-left: 260px;
+      padding: 24px;
+      min-height: 100vh;
+      background: var(--muted);
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .header h1 {
+      color: var(--accent);
+      font-size: 24px;
+      font-weight: 700;
+    }
+    
+    .header .actions {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    
+    .actions i {
+      font-size: 20px;
+      color: var(--accent);
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    
+    .actions i:hover {
+      color: #0099cc;
+    }
+    
+    .user-info {
+      text-align: right;
+    }
+    
+    .user-info .role {
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .user-info .name {
+      font-weight: 700;
+      color: #333;
+    }
+    
+    .filters {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      padding: 15px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    
+    .filters label {
+      font-weight: 600;
+      color: #555;
+    }
+    
+    .filters input,
+    .filters select {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      font-family: "Poppins", sans-serif;
+      font-size: 14px;
+    }
+    
+    .filters input:focus,
+    .filters select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.1);
+    }
+    
+    .controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-left: auto;
+    }
+    
+    .btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn:hover {
+      background: #0099cc;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
+    }
+    
+    .summary {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      min-width: 200px;
+      flex: 1;
+      transition: transform 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card h4 {
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #666;
+      font-weight: 500;
+    }
+    
+    .card .value {
+      font-weight: 700;
+      font-size: 24px;
+      color: #333;
+    }
+    
+    .layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+    
+    .chart-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    
+    .chart-box h4 {
+      margin: 0 0 16px 0;
+      color: #555;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    
+    .table-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      margin-top: 24px;
+      overflow-x: auto;
+    }
+    
+    .table-box h4 {
+      margin: 0 0 16px 0;
+      color: #555;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+    
+    th {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 2px solid #eee;
+      font-size: 13px;
+      color: #666;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+      color: #333;
+    }
+    
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 1200px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 900px) {
+      .sidebar {
+        width: 220px;
+        min-width: 220px;
+      }
+      
+      .main {
+        margin-left: 220px;
+        padding: 16px;
+      }
+      
+      .summary {
+        gap: 12px;
+      }
+      
+      .card {
+        min-width: 160px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .dashboard {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        min-height: auto;
+      }
+      
+      .main {
+        margin-left: 0;
+      }
+      
+      .sidebar-menu {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .sidebar-menu li {
+        margin: 5px;
+      }
+      
+      .sidebar-menu a {
+        padding: 10px 15px;
+        border-radius: 5px;
+      }
+      
+      .filters {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .controls {
+        margin-left: 0;
+        justify-content: flex-end;
+      }
+      
+      .summary {
+        flex-direction: column;
+      }
+      
+      .card {
+        min-width: 100%;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      
+      .header .actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .btn {
+        padding: 8px 16px;
+        font-size: 13px;
+      }
+      
+      .filters input,
+      .filters select {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
-  <aside class="sidebar">
-    <div>
-      <div class="logo"><i class="fa-solid fa-tooth"></i><br/>SMART<br/>DENTISTRY</div>
-      <ul>
+  <div class="dashboard">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <img src="logo.png" alt="SMART DENTISTRY Logo" class="sidebar-logo">
+        <div class="sidebar-title">
+          <h2>
+            <span class="holy-family">SMART</span><br>
+            <span class="dental-clinic">DENTISTRY</span>
+          </h2>
+        </div>
+      </div>
+      
+      <ul class="sidebar-menu">
         <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
         <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
-        <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
+        <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> Appointment History</a></li>
         <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
         <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-        <li><a href="Data-Back-Up.html"><i class="fas fa-database"></i> Data Backup</a></li>
-        <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-         <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
-        <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        <li><a href="Data-Back-Up.html"><i class="fas fa-database"></i> Data BackUp</a></li>
+        <li><a href="Reports.html" class="active"><i class="fas fa-chart-line"></i> Reports</a></li>
+        <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
       </ul>
-     <!-- Add Return to Home menu at the bottom -->
-            <div style="position: absolute; bottom: 20px; width: 13%;">
-                <div style="position: absolute; bottom: 20px; width: 100%;">
-                    <ul class="sidebar-menu settings-menu">
-                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-                    </ul>
-                    <ul class="sidebar-menu return-home-menu">
-                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
-                    </ul>
-                </div>
-            </div>
-  </aside>
+      
+      <div class="sidebar-bottom">
+        <ul class="settings-menu">
+          <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+        <ul class="return-home-menu">
+          <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+          <li><a href="landingpage.html"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+        </ul>
+      </div>
+    </div>
 
-  <main class="main">
-    <div class="header">
-      <h1>Reports</h1>
-      <div class="actions">
-        <div style="text-align:right">
-          <div style="font-size:12px;color:#666">Reports Center</div>
-          <div style="font-weight:700">Dr. Arvin</div>
+    <!-- Main Content -->
+    <main class="main">
+      <div class="header">
+        <h1>Reports</h1>
+        <div class="actions">
+          <div class="user-info">
+            <div class="role">Reports Center</div>
+            <div class="name">Dr. Arvin</div>
+          </div>
+          <i class="fa-regular fa-bell" title="Notifications"></i>
+          <i class="fa-regular fa-circle-user" title="Profile"></i>
         </div>
-        <i class="fa-regular fa-bell" title="Notifications"></i>
-        <i class="fa-regular fa-circle-user" title="Profile"></i>
       </div>
-    </div>
 
-    <div class="filters">
-      <label><strong>Date:</strong></label>
-      <input type="date" id="fromDate">
-      <input type="date" id="toDate">
-      <label><strong>Type:</strong></label>
-      <select id="reportType">
-        <option value="income">Income</option>
-        <option value="appointments">Appointments</option>
-        <option value="balance">Outstanding Balances</option>
-      </select>
-      <div style="margin-left:auto" class="controls">
-        <button class="btn" id="generateBtn">Generate</button>
-        <button class="btn" id="exportBtn">Export CSV</button>
+      <div class="filters">
+        <label><strong>Date:</strong></label>
+        <input type="date" id="fromDate">
+        <input type="date" id="toDate">
+        <label><strong>Type:</strong></label>
+        <select id="reportType">
+          <option value="income">Income</option>
+          <option value="appointments">Appointments</option>
+          <option value="balance">Outstanding Balances</option>
+        </select>
+        <div class="controls">
+          <button class="btn" id="generateBtn">
+            <i class="fas fa-play"></i> Generate
+          </button>
+          <button class="btn" id="exportBtn">
+            <i class="fas fa-download"></i> Export CSV
+          </button>
+        </div>
       </div>
-    </div>
 
-    <div class="summary">
-      <div class="card"><h4>Total Items</h4><div class="value" id="totalItems">0</div></div>
-      <div class="card"><h4>Total Amount</h4><div class="value" id="totalAmount">PHP 0.00</div></div>
-      <div class="card"><h4>Period</h4><div class="value" id="periodText">—</div></div>
-    </div>
+      <div class="summary">
+        <div class="card">
+          <h4>Total Items</h4>
+          <div class="value" id="totalItems">0</div>
+        </div>
+        <div class="card">
+          <h4>Total Amount</h4>
+          <div class="value" id="totalAmount">PHP 0.00</div>
+        </div>
+        <div class="card">
+          <h4>Period</h4>
+          <div class="value" id="periodText">—</div>
+        </div>
+      </div>
 
-    <div class="layout">
-      <div>
+      <div class="layout">
+        <div>
+          <div class="chart-box">
+            <h4>Monthly Summary</h4>
+            <canvas id="reportsChart" height="160"></canvas>
+          </div>
+
+          <div class="table-box" id="tableBox">
+            <h4>Report Entries</h4>
+            <table id="reportsTable">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Date</th>
+                  <th>Patient</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
         <div class="chart-box">
-          <h4 style="margin:0 0 8px 0;color:#666">Monthly Summary</h4>
-          <canvas id="reportsChart" height="160"></canvas>
-        </div>
-
-        <div class="table-box" id="tableBox">
-          <h4 style="margin:0 0 8px 0;color:#666">Report Entries</h4>
-          <table id="reportsTable">
-            <thead>
-              <tr><th>#</th><th>Date</th><th>Patient</th><th>Type</th><th>Amount</th></tr>
-            </thead>
-            <tbody></tbody>
-          </table>
+          <h4>Top 5 Procedures (by revenue)</h4>
+          <canvas id="topProcedures" height="200"></canvas>
         </div>
       </div>
-
-      <div class="chart-box">
-        <h4 style="margin:0 0 8px 0;color:#666">Top 5 Procedures (by revenue)</h4>
-        <canvas id="topProcedures" height="200"></canvas>
-      </div>
-    </div>
-  </main>
+    </main>
+  </div>
 
   <script>
-    // sample data
+    // Sample data
     const sample = [
       {date:'2025-10-01', patient:'John D.', type:'Income', amount:1500},
       {date:'2025-10-02', patient:'Maria S.', type:'Income', amount:2400},
       {date:'2025-10-03', patient:'Patient #324', type:'Balance', amount:320},
       {date:'2025-10-05', patient:'Anna L.', type:'Appointment', amount:0},
-      {date:'2025-10-12', patient:'Paul R.', type:'Income', amount:900}
+      {date:'2025-10-12', patient:'Paul R.', type:'Income', amount:900},
+      {date:'2025-10-15', patient:'Sarah M.', type:'Income', amount:1800},
+      {date:'2025-10-18', patient:'David L.', type:'Balance', amount:450},
+      {date:'2025-10-20', patient:'Lisa K.', type:'Income', amount:3200},
+      {date:'2025-10-22', patient:'Michael T.', type:'Appointment', amount:0},
+      {date:'2025-10-25', patient:'Robert P.', type:'Income', amount:1500}
     ];
 
+    // DOM Elements
     const reportsTableBody = document.querySelector('#reportsTable tbody');
     const totalItemsEl = document.getElementById('totalItems');
     const totalAmountEl = document.getElementById('totalAmount');
     const periodText = document.getElementById('periodText');
+    const fromDateInput = document.getElementById('fromDate');
+    const toDateInput = document.getElementById('toDate');
+    const reportTypeSelect = document.getElementById('reportType');
+    const generateBtn = document.getElementById('generateBtn');
+    const exportBtn = document.getElementById('exportBtn');
 
-    function renderTable(data){
-      reportsTableBody.innerHTML = '';
-      data.forEach((r,i)=>{
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${i+1}</td><td>${r.date}</td><td>${r.patient}</td><td>${r.type}</td><td>PHP ${r.amount.toFixed(2)}</td>`;
-        reportsTableBody.appendChild(tr);
-      });
-      totalItemsEl.textContent = data.length;
-      const total = data.reduce((s,o)=>s+o.amount,0);
-      totalAmountEl.textContent = 'PHP ' + total.toFixed(2);
+    // Initialize date inputs
+    const today = new Date();
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    
+    fromDateInput.value = formatDate(firstDayOfMonth);
+    toDateInput.value = formatDate(lastDayOfMonth);
+
+    // Format date as YYYY-MM-DD
+    function formatDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     }
 
-    // initial render
-    renderTable(sample);
-    periodText.textContent = 'Oct 1, 2025 – Oct 31, 2025';
+    // Format date for display
+    function formatDisplayDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
+    }
 
-    // simple charts
-    const reportsCtx = document.getElementById('reportsChart').getContext('2d');
-    const reportsChart = new Chart(reportsCtx, {
-      type: 'bar',
-      data: {
-        labels: ['Week 1','Week 2','Week 3','Week 4'],
-        datasets: [{label:'Revenue', data:[4500,7200,5300,6100], backgroundColor:'#00d4ff'}]
-      },
-      options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
-    });
+    // Render table with data
+    function renderTable(data) {
+      reportsTableBody.innerHTML = '';
+      
+      if (data.length === 0) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="5" style="text-align: center; padding: 40px; color: #999;">No data found for the selected filters</td>`;
+        reportsTableBody.appendChild(tr);
+      } else {
+        data.forEach((r, i) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${i + 1}</td>
+            <td>${formatDisplayDate(r.date)}</td>
+            <td>${r.patient}</td>
+            <td>
+              <span class="type-badge" style="
+                background: ${getTypeColor(r.type)};
+                color: white;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                font-weight: 500;
+              ">
+                ${r.type}
+              </span>
+            </td>
+            <td style="font-weight: 600; color: ${r.amount > 0 ? '#2ecc71' : '#e74c3c'}">
+              ${r.amount > 0 ? 'PHP ' + r.amount.toFixed(2) : '—'}
+            </td>
+          `;
+          reportsTableBody.appendChild(tr);
+        });
+      }
+      
+      // Update summary cards
+      totalItemsEl.textContent = data.length;
+      const total = data.reduce((sum, item) => sum + item.amount, 0);
+      totalAmountEl.textContent = 'PHP ' + total.toFixed(2);
+      
+      // Update period text
+      const fromDate = fromDateInput.value ? formatDisplayDate(fromDateInput.value) : '—';
+      const toDate = toDateInput.value ? formatDisplayDate(toDateInput.value) : '—';
+      periodText.textContent = `${fromDate} – ${toDate}`;
+    }
 
-    const topCtx = document.getElementById('topProcedures').getContext('2d');
-    new Chart(topCtx, {
-      type: 'doughnut',
-      data: {labels:['Filling','Cleaning','Extraction','Crown','Whitening'], datasets:[{data:[3200,2600,1800,1500,900], backgroundColor:['#00d4ff','#32cd32','#ffcd3c','#9b59b6','#ff7f50']}]},
-      options:{responsive:true,plugins:{legend:{position:'bottom'}}}
-    });
+    // Get color for type badge
+    function getTypeColor(type) {
+      const colors = {
+        'Income': '#2ecc71',
+        'Balance': '#3498db',
+        'Appointment': '#9b59b6'
+      };
+      return colors[type] || '#7f8c8d';
+    }
 
-    // Export visible table rows to CSV
-    function exportTableToCSV(filename = 'reports.csv'){
-      const rows = Array.from(document.querySelectorAll('#reportsTable tr'));
-      const csv = rows.map(r=>{
-        return Array.from(r.querySelectorAll('th,td')).map(cell => `"${(cell.textContent||'').replace(/"/g,'""')}"`).join(',');
-      }).join('\n');
+    // Filter data based on selected criteria
+    function filterData() {
+      const from = fromDateInput.value;
+      const to = toDateInput.value;
+      const type = reportTypeSelect.value;
+      
+      let filtered = [...sample];
+      
+      // Filter by type
+      if (type) {
+        if (type === 'income') {
+          filtered = filtered.filter(r => r.type === 'Income');
+        } else if (type === 'appointments') {
+          filtered = filtered.filter(r => r.type === 'Appointment');
+        } else if (type === 'balance') {
+          filtered = filtered.filter(r => r.type === 'Balance');
+        }
+      }
+      
+      // Filter by date range
+      if (from) {
+        filtered = filtered.filter(r => r.date >= from);
+      }
+      if (to) {
+        filtered = filtered.filter(r => r.date <= to);
+      }
+      
+      return filtered;
+    }
+
+    // Initialize charts
+    let reportsChart, topProceduresChart;
+
+    function initCharts() {
+      // Monthly Summary Chart
+      const reportsCtx = document.getElementById('reportsChart').getContext('2d');
+      reportsChart = new Chart(reportsCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+          datasets: [{
+            label: 'Revenue',
+            data: [4500, 7200, 5300, 6100],
+            backgroundColor: '#00d4ff',
+            borderRadius: 6,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `Revenue: PHP ${context.raw.toLocaleString()}`;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: 'rgba(0,0,0,0.05)'
+              },
+              ticks: {
+                callback: function(value) {
+                  return 'PHP ' + value.toLocaleString();
+                }
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              }
+            }
+          }
+        }
+      });
+
+      // Top Procedures Chart
+      const topCtx = document.getElementById('topProcedures').getContext('2d');
+      topProceduresChart = new Chart(topCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Filling', 'Cleaning', 'Extraction', 'Crown', 'Whitening'],
+          datasets: [{
+            data: [3200, 2600, 1800, 1500, 900],
+            backgroundColor: [
+              '#00d4ff', '#32cd32', '#ffcd3c', '#9b59b6', '#ff7f50'
+            ],
+            borderWidth: 2,
+            borderColor: '#fff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                padding: 20,
+                usePointStyle: true,
+                pointStyle: 'circle'
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const label = context.label || '';
+                  const value = context.raw || 0;
+                  const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                  const percentage = Math.round((value / total) * 100);
+                  return `${label}: PHP ${value.toLocaleString()} (${percentage}%)`;
+                }
+              }
+            }
+          },
+          cutout: '60%'
+        }
+      });
+    }
+
+    // Update charts with filtered data
+    function updateCharts(filteredData) {
+      // Calculate weekly totals for filtered data
+      const weeklyTotals = [0, 0, 0, 0];
+      filteredData.forEach(r => {
+        if (r.type === 'Income') {
+          const date = new Date(r.date);
+          const day = date.getDate();
+          const week = Math.min(3, Math.floor((day - 1) / 7));
+          weeklyTotals[week] += r.amount;
+        }
+      });
+      
+      // Update bar chart
+      reportsChart.data.datasets[0].data = weeklyTotals;
+      reportsChart.update();
+    }
+
+    // Export table to CSV
+    function exportTableToCSV(filename = 'reports.csv') {
+      const rows = [];
+      
+      // Add headers
+      const headers = [];
+      document.querySelectorAll('#reportsTable th').forEach(th => {
+        headers.push(`"${th.textContent}"`);
+      });
+      rows.push(headers.join(','));
+      
+      // Add data rows
+      document.querySelectorAll('#reportsTable tbody tr').forEach(tr => {
+        const row = [];
+        tr.querySelectorAll('td').forEach(td => {
+          // Extract text content without HTML
+          let text = td.textContent || td.innerText;
+          // Remove PHP prefix and format
+          if (text.includes('PHP')) {
+            text = text.replace('PHP', '').trim();
+          }
+          // Remove em dash
+          if (text === '—') text = '';
+          row.push(`"${text}"`);
+        });
+        rows.push(row.join(','));
+      });
+      
+      const csv = rows.join('\n');
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement('a');
       const url = URL.createObjectURL(blob);
+      
       link.setAttribute('href', url);
       link.setAttribute('download', filename);
       link.style.visibility = 'hidden';
+      
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      
+      // Show success message
+      showNotification('Report exported successfully as ' + filename, 'success');
     }
 
-    document.getElementById('exportBtn').addEventListener('click', ()=>exportTableToCSV());
-    document.getElementById('generateBtn').addEventListener('click', ()=>{
-      // minimal filter: filter by report type and date range
-      const from = document.getElementById('fromDate').value;
-      const to = document.getElementById('toDate').value;
-      const type = document.getElementById('reportType').value;
-      let filtered = sample.slice();
-      if(type){
-        if(type === 'income') filtered = filtered.filter(r => r.type.toLowerCase().includes('income'));
-        if(type === 'appointments') filtered = filtered.filter(r => r.type.toLowerCase().includes('appointment'));
-        if(type === 'balance') filtered = filtered.filter(r => r.type.toLowerCase().includes('balance'));
+    // Show notification
+    function showNotification(message, type = 'info') {
+      // Create notification element
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        background: ${type === 'success' ? '#2ecc71' : type === 'error' ? '#e74c3c' : '#3498db'};
+        color: white;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 1000;
+        animation: slideIn 0.3s ease;
+      `;
+      
+      notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+        <span style="margin-left: 8px;">${message}</span>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      // Remove after 3 seconds
+      setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 300);
+      }, 3000);
+    }
+
+    // Add CSS animations
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
       }
-      if(from) filtered = filtered.filter(r => r.date >= from);
-      if(to) filtered = filtered.filter(r => r.date <= to);
-      renderTable(filtered);
-      // update charts with simple totals based on filtered data (demo only)
-      const weeklyTotals = [0,0,0,0];
-      filtered.forEach(r=>{
-        const day = new Date(r.date).getDate();
-        const week = Math.min(3, Math.floor((day-1)/7));
-        weeklyTotals[week] += r.amount;
+      @keyframes slideOut {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Event Listeners
+    generateBtn.addEventListener('click', () => {
+      const filteredData = filterData();
+      renderTable(filteredData);
+      updateCharts(filteredData);
+      showNotification('Report generated successfully', 'success');
+    });
+
+    exportBtn.addEventListener('click', () => {
+      const filteredData = filterData();
+      if (filteredData.length === 0) {
+        showNotification('No data to export', 'error');
+        return;
+      }
+      exportTableToCSV();
+    });
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const filteredData = filterData();
+      renderTable(filteredData);
+      initCharts();
+      
+      // Set today's date as max for date inputs
+      const todayFormatted = formatDate(today);
+      fromDateInput.max = todayFormatted;
+      toDateInput.max = todayFormatted;
+      
+      // Update toDate min based on fromDate
+      fromDateInput.addEventListener('change', () => {
+        toDateInput.min = fromDateInput.value;
       });
-      reportsChart.data.datasets[0].data = weeklyTotals;
-      reportsChart.update();
-      periodText.textContent = (from||'—') + ' – ' + (to||'—');
     });
   </script>
 </body>
