@@ -1,435 +1,166 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Clinic - Smart Dentistry</title>
+<meta charset="UTF-8">
+<title>Smart Dentistry – Functional Odontogram</title>
 
-  <!-- Fonts & Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    /* ============================================= */
-    /* BASE STYLES */
-    /* ============================================= */
-    :root{
-      --sidebar-bg:#2c3e50;
-      --sidebar-active:#00bfff;
-      --bg:#eef8fc;
-      --card:#ffffff;
-      --shadow:0 4px 12px rgba(0,0,0,.08);
-      --text:#2c3e50;
-    }
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-    body{background:var(--bg);color:var(--text)}
-
-    /* ===== LAYOUT ===== */
-    .dashboard{display:flex;min-height:100vh}
-
-    /* ===== SIDEBAR ===== */
-    .sidebar{
-      width:250px;
-      background:var(--sidebar-bg);
-      color:#fff;
-      position:fixed;
-      top:0;left:0;bottom:0;
-    }
-    .sidebar-header{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding:20px;
-    }
-    .sidebar-logo{
-      width:50px;
-      height:50px;
-      border-radius:50%;
-    }
-    .sidebar-title h2{
-      font-size:16px;
-      color:var(--sidebar-active);
-      line-height:1.1;
-    }
-    .sidebar-menu{list-style:none}
-    .sidebar-menu a{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding:12px 20px;
-      color:#fff;
-      text-decoration:none;
-    }
-    .sidebar-menu a:hover,
-    .sidebar-menu a.active{
-      background:rgba(0,191,255,.2);
-      border-left:4px solid var(--sidebar-active);
-    }
-
-    /* Dropdown */
-    .dropdown .arrow{
-      margin-left:auto;
-      transition:.3s;
-    }
-    .dropdown.open .arrow{
-      transform:rotate(180deg);
-    }
-    .submenu{
-      list-style:none;
-      display:none;
-      background:#243444;
-    }
-    .dropdown.open .submenu{
-      display:block;
-    }
-    .submenu a{
-      padding:10px 40px;
-      font-size:14px;
-    }
-    /* ===== MAIN ===== */
-    .main{
-      margin-left:250px;
-      width:calc(100% - 250px);
-      display:flex;
-      flex-direction:column;
-    }
-
-    .topbar {
-      background: linear-gradient(90deg, #00e5ff, #00bcd4);
-      color: white;
-      height: 56px;               /* FIXED height */
-      display: flex;
-      align-items: center;        /* vertical center */
-      justify-content: space-between;
-      padding: 0 24px;
-      font-weight: 600;
-      font-size: 16px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-
-    .tutorial-btn {
-      background: #a7ff83;
-      color: #333;
-      padding: 6px 12px;
-      border-radius: 4px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .content {
-      flex: 1;
-      display: flex;
-      gap: 20px;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    /* ============================================= */
-    /* LEFT BUTTONS */
-    /* ============================================= */
-    .left-buttons {
-      width: 200px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      flex-shrink: 0;
-    }
-
-    .btn-box {
-      background: #fff;
-      border-radius: 6px;
-      padding: 15px;
-      text-align: center;
-      cursor: pointer;
-      transition: 0.2s;
-      box-shadow: var(--shadow);
-    }
-
-    .btn-box.active {
-      background: #00bcd4;
-      color: white;
-    }
-
-    /* ============================================= */
-    /* ODONTOGRAM */
-    /* ============================================= */
-    .odontogram-container {
-      flex: 1;
-      background: white;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      min-width: 0;
-    }
-
-    .odontogram-title {
-      text-align: center;
-      font-size: 20px;
-      margin-bottom: 20px;
-      font-weight: bold;
-    }
-
-    #toothConditionDropdown {
-      padding: 8px;
-      width: 250px;
-      align-self: center;
-      margin-bottom: 20px;
-    }
-
-    .teeth-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(25px, 1fr));
-      gap: 5px;
-      justify-items: center;
-      margin-bottom: 20px;
-      width: 100%;
-    }
-
-    .tooth {
-      width: 28px;
-      height: 28px;
-      background: #fafafa;
-      border: 1px solid #ccc;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 20px;
-      margin-bottom: 20px;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 14px;
-    }
-
-    .legend-color {
-      width: 15px;
-      height: 15px;
-    }
-
-    .conditions-list {
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .edit-btn {
-      width: 45px;
-      height: 45px;
-      background: #00cc7a;
-      border-radius: 50%;
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: white;
-      font-size: 18px;
-    }
-    .container {
-    display: flex;
-    width: 100%;
-    gap: 20px;
-    align-items: flex-start;
-    height: auto;
-    overflow: visible;
+<style>
+:root{
+  --sidebar-bg:#2c3e50;
+  --sidebar-active:#00bfff;
+  --bg:#eef8fc;
+  --card:#ffffff;
+  --shadow:0 4px 12px rgba(0,0,0,.08);
+  --text:#2c3e50;
 }
-  .left-panel {
-    flex: 1;
-    background: #fff;
-    padding: 20px;
-    border-right: 1px solid #dcdcdc;
-    border-radius: 8px;
-    overflow-y: auto;
-    max-height: 700px;
-    min-width: 0;
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+body{background:var(--bg);color:var(--text)}
+
+/* ===== LAYOUT ===== */
+.dashboard{display:flex;min-height:100vh}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:250px;
+  background:var(--sidebar-bg);
+  color:#fff;
+  position:fixed;
+  top:0;left:0;bottom:0;
+}
+.sidebar-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:20px;
+}
+.sidebar-logo{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+}
+.sidebar-title h2{
+  font-size:16px;
+  color:var(--sidebar-active);
+  line-height:1.1;
+}
+.sidebar-menu{list-style:none}
+.sidebar-menu a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 20px;
+  color:#fff;
+  text-decoration:none;
+}
+.sidebar-menu a:hover,
+.sidebar-menu a.active{
+  background:rgba(0,191,255,.2);
+  border-left:4px solid var(--sidebar-active);
 }
 
-.preview-panel {
-    flex: 1;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    overflow-y: auto;
-    max-height: 700px;
-    min-width: 0;
+/* Dropdown */
+.dropdown .arrow{
+  margin-left:auto;
+  transition:.3s;
+}
+.dropdown.open .arrow{
+  transform:rotate(180deg);
+}
+.submenu{
+  list-style:none;
+  display:none;
+  background:#243444;
+}
+.dropdown.open .submenu{
+  display:block;
+}
+.submenu a{
+  padding:10px 40px;
+  font-size:14px;
 }
 
-  .preview-box {
-    width: 100%;
-    min-height: 300px;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background: #fafafa;
-    overflow-y: auto;
+/* ===== MAIN ===== */
+.main{
+  margin-left:250px;
+  width:calc(100% - 250px);
+  display:flex;
+  flex-direction:column;
 }
-  .preview-section {
-      flex: 2.2;   /* keep moderate */
-      .prescription-container {
-      width: 100%;
-      padding: 20px;
-      background: #fff;
-      border-radius: 10px;
-      color: #2e3a43;
-      font-family: Arial, sans-serif;
-      }
+body{font-family:Arial;background:#eef2f7;margin:0;padding:20px}
+h2{text-align:center}
+
+.wrapper{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
 }
-    .prescription-container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 20px;
-    }
 
-    .prescription-form {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-    }
+.card{
+  background:#fff;
+  padding:20px;
+  border-radius:8px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
+/* ===== ODONTOGRAM ===== */
+#teeth{
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  gap:6px;
+  margin-top:10px;
+}
 
-    label {
-      font-weight: 600;
-      margin-top: 10px;
-      display: block;
-    }
+.tooth{
+  border:1px solid #ccc;
+  padding:8px;
+  text-align:center;
+  cursor:pointer;
+  border-radius:4px;
+  font-size:12px;
+}
 
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
+/* COLORS */
+.decay{background:#9b59b6;color:#fff}
+.periodontal{background:#3498db;color:#fff}
+.trauma{background:#e74c3c;color:#fff}
+.structural{background:#e67e22;color:#fff}
+.developmental{background:#2ecc71;color:#fff}
 
-    textarea {
-      resize: vertical;
-    }
+/* ===== FORM ===== */
+input,select,textarea{
+  width:100%;
+  padding:6px;
+  margin-bottom:8px;
+}
 
-    .action-buttons {
-      margin-top: 15px;
-      display: flex;
-      gap: 10px;
-    }
+button{
+  padding:8px 12px;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+}
 
-    .print-btn {
-      background: #28a745;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-    }
+.green{background:#2ecc71;color:#fff}
+.blue{background:#3498db;color:#fff}
+.gray{background:#7f8c8d;color:#fff}
 
-    .pdf-btn {
-      background: #0d6efd;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-    }
+.medicine{
+  display:flex;
+  gap:5px;
+  margin-bottom:5px;
+}
+.medicine input{flex:1}
 
-    /* PREVIEW */
-    .prescription-preview {
-      margin-top: 30px;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-    }
-
-    #previewBox {
-      min-height: 250px;
-      border: 1px dashed #bbb;
-      padding: 15px;
-      margin-top: 10px;
-
-    }
-    .sidebar-menu {
-    position: relative;
-    }
-    .dropdown > a {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    /* Dropdown base */
-  .submenu {
-    display: none;
-    list-style: none;
-    padding-left: 45px;
-    background: rgba(255,255,255,0.05);
-    }
-
-    /* Arrow animation */
-    .arrow {
-      transition: transform 0.3s ease;
-      font-size: 12px;
-    }
-
-    /* Active state */
-    .dropdown.active .submenu {
-      display: block;
-    }
-
-    .dropdown.active .arrow {
-      transform: rotate(180deg);
-    }
-
-
-    .submenu {
-      display: none;
-      list-style: none;
-      padding-left: 45px;
-      background: rgba(255,255,255,0.05);
-    }
-
-    .submenu li a {
-      padding: 10px 20px;
-      font-size: 14px;
-      color: white;
-      display: block;
-      text-decoration: none;
-    }
-
-    .submenu li a:hover {
-      background: rgba(0,191,255,0.2);
-    }
-
-    .arrow {
-      font-size: 12px;
-      transition: transform 0.3s ease;
-    }
-
-    .dropdown.active .arrow {
-      transform: rotate(180deg);
-    }
-</style>
-
-  <style>
-
-
-   /* ===== RESPONSIVE ===== */
-@media(max-width:900px){
-  .content{grid-template-columns:1fr}
-  .right-panel{flex-direction:row}
+/* PREVIEW */
+#preview{
+  border:1px solid #ccc;
+  padding:15px;
+  min-height:200px;
 }
 </style>
 </head>
 
+<body>
 <body>
 
 <div class="dashboard">
@@ -453,7 +184,7 @@
       </a>
       <ul class="submenu">
         <li><a href="clinic-profile.html">Clinic Profile</a></li>
-        <li><a href="Dental-Chart.html"class="active">Dental Chart</a></li>
+        <li><a href="odontogram-prescription.html"class="active">Dental Chart</a></li>
         <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
         <li><a href="MyRecords.html">Patient Records</a></li>
       </ul>
@@ -467,317 +198,167 @@
     <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
   </ul>
 </aside>
+<!-- MAIN -->
+<div class="main">
 
-  <div class="main">  
+<div class="wrapper">
 
-    <!-- MAIN CONTENT -->
-      <div class="content"> 
-        <!-- ODONTOGRAM -->
-        <div class="odontogram-container">
-          <div class="odontogram-title">Odontograma</div>
+<!-- LEFT -->
+<div class="card">
+<h3>Odontogram</h3>
 
-          <select id="toothConditionDropdown">
-            <optgroup label="Structural Damage" data-color="#FF8A65">
-              <option value="damage">Fracture / Damage</option>
-            </optgroup>
-            <optgroup label="Decay & Infection" data-color="#9C27B0">
-              <option value="decay">Decay / Cavity</option>
-            </optgroup>
-            <optgroup label="Tooth Loss / Trauma" data-color="#F44336">
-              <option value="missing">Missing / Trauma</option>
-            </optgroup>
-            <optgroup label="Periodontal Issues" data-color="#2196F3">
-              <option value="perio">Periodontal Issue</option>
-            </optgroup>
-            <optgroup label="Developmental Defects" data-color="#4CAF50">
-              <option value="developmental">Developmental Defect</option>
-            </optgroup>
-          </select>
+<select id="condition">
+  <option value="">Select Condition</option>
+  <option value="decay">Decay / Infection</option>
+  <option value="periodontal">Periodontal</option>
+  <option value="trauma">Loss / Trauma</option>
+  <option value="structural">Structural Damage</option>
+  <option value="developmental">Developmental</option>
+</select>
 
-          <div class="teeth-grid" id="teethGrid"></div>
+<div id="teeth"></div>
 
-          <div class="legend">
-            <div class="legend-item"><div class="legend-color" style="background:#FF8A65;"></div><span>Structural Damage</span></div>
-            <div class="legend-item"><div class="legend-color" style="background:#9C27B0;"></div><span>Decay & Infection</span></div>
-            <div class="legend-item"><div class="legend-color" style="background:#F44336;"></div><span>Loss / Trauma</span></div>
-            <div class="legend-item"><div class="legend-color" style="background:#2196F3;"></div><span>Periodontal Issues</span></div>
-            <div class="legend-item"><div class="legend-color" style="background:#4CAF50;"></div><span>Developmental Defects</span></div>
-          </div>
+<hr>
 
-          <div class="conditions-list">
-            <strong>Tooth Conditions:</strong><br>
-            Decay: <span id="decayTeeth">16, 25, 36</span><br>
-            Periodontitis: <span id="perioTeeth">11, 31</span><br>
-            Missing: <span id="missingTeeth">18, 28</span>
-          </div>
-        <div class="odontogram-container">
-        <div class="container">
-        <!-- LEFT PANEL -->
-        <div class="prescription-container">
+<h3>Prescription Details</h3>
+<input id="clinic" placeholder="Clinic Name">
+<input id="doctor" placeholder="Doctor Name">
+<input type="date" id="date">
 
-      <!-- PRESCRIPTION DETAILS -->
-       
-      <div class="prescription-form">
-        <h2>Prescription Details</h2>
+<input id="patient" placeholder="Patient Name">
+<input id="age" placeholder="Age">
 
-        <div class="form-grid">
-          <div>
-            <label>Clinic Name</label>
-            <input type="text">
-          </div>
+<select id="gender">
+  <option>Male</option>
+  <option>Female</option>
+</select>
 
-          <div>
-            <label>Doctor Name</label>
-            <input type="text">
-          </div>
+<textarea id="diagnosis" placeholder="Auto Diagnosis" rows="4"></textarea>
 
-          <div>
-            <label>Date</label>
-            <input type="date">
-          </div>
+<textarea id="notes" placeholder="Additional Notes"></textarea>
 
-          <div>
-            <label>Patient Name</label>
-            <input type="text">
-          </div>
+<h4>Medicines</h4>
+<div id="medList"></div>
 
-          <div>
-            <label>Age</label>
-            <input type="number">
-          </div>
-
-          <div>
-            <label>Gender</label>
-            <select>
-              <option>Male</option>
-              <option>Female</option>
-            </select>
-          </div>
-        </div>
-
-        <label>Diagnosis</label>
-        <textarea></textarea>
-
-        <label>Clinic Contact</label>
-        <input type="text">
-
-        <label>Additional Notes</label>
-        <textarea></textarea>
-
-
-      <!-- MEDICATIONS LIST -->
-      <button id="addMedicineBtn">+ Add Medicine</button>
-      <div id="medicationsList"></div>
-      
-      <button onclick="updatePreview()">Update Preview</button>
-
-    </div>
-
-<script>
-
-function toggleClinic() {
-  const dropdown = document.querySelector(".dropdown");
-  dropdown.classList.toggle("active");
-
-  const submenu = document.getElementById("clinicSubmenu");
-  submenu.style.display = submenu.style.display === "block" ? "none" : "block";
-}
-
-
-function updatePreview() {
-
-  let medsHTML = "";
-  document.querySelectorAll("#medicationsList div").forEach((row, i) => {
-    const inputs = row.querySelectorAll("input");
-    medsHTML += `<p>${i+1}. ${inputs[0].value} – ${inputs[1].value}, ${inputs[2].value}</p>`;
-  });
-
-  document.getElementById("preview-box").innerHTML = `
-    <h3>${clinicName.value}</h3>
-    <p><strong>Doctor:</strong> ${doctorName.value}</p>
-    <p><strong>Date:</strong> ${date.value}</p>
-    <hr>
-
-    <p><strong>Patient:</strong> ${patientName.value}</p>
-    <p><strong>Age / Gender:</strong> ${age.value} / ${gender.value}</p>
-
-    <p><strong>Diagnosis:</strong></p>
-    <p>${diagnosis.value}</p>
-
-    <p><strong>Medications:</strong></p>
-    ${medsHTML || "<em>No medicines added</em>"}
-
-    <p><strong>Notes:</strong></p>
-    <p>${additionalNotes.value}</p>
-
-    <hr>
-    <p><strong>Clinic Contact:</strong> ${clinicContact.value}</p>
-  `;
-}
-
-
-
-document.getElementById("addMedicineBtn").addEventListener("click", () => {
-  const list = document.getElementById("medicationsList");
-
-  const row = document.createElement("div");
-  row.style.display = "flex";
-  row.style.gap = "5px";
-  row.style.marginBottom = "5px";
-
-  row.innerHTML = `
-    <input placeholder="Medicine">
-    <input placeholder="Dosage">
-    <input placeholder="Frequency">
-    <button onclick="this.parentElement.remove()">✖</button>
-  `;
-
-  list.appendChild(row);
-});
-
-
-</script>
-    <div class="action-buttons">
-        <button class="print-btn" onclick="window.print()">Print</button>
-        <button class="pdf-btn">Export as PDF</button>
-    </div>
+<button id="addMed" class="gray">+ Add Medicine</button>
+<button id="update" class="blue">Update Preview</button>
 </div>
 
-        <!-- PREVIEW PANEL -->
-        <div class="preview-panel">
-            <h2>Prescription Preview</h2>
-            <div id="preview-box">
-                <!-- Preview content will be generated here -->
-            </div>
-        </div>
-    </div>
+<!-- RIGHT -->
+<div class="card">
+<h3>Prescription Preview</h3>
+<div id="preview">No data yet</div>
+<br>
+<button id="print" class="green">Print</button>
+<button id="pdf" class="blue">Export PDF</button>
+</div>
+
+</div>
+
 <script>
-/* --------------------
-   GENERATE TEETH 11–48
--------------------- */
-const toothGrid = document.getElementById("toothGrid");
-const toothNumbers = [
-    18,17,16,15,14,13,12,11,
-    21,22,23,24,25,26,27,28,
-    48,47,46,45,44,43,42,41,
-    31,32,33,34,35,36,37,38
+/* =======================
+   ODONTOGRAM
+======================= */
+const teethContainer = document.getElementById("teeth");
+const conditionSelect = document.getElementById("condition");
+const diagnosisBox = document.getElementById("diagnosis");
+
+const teethNums = [
+  18,17,16,15,14,13,12,11,
+  21,22,23,24,25,26,27,28,
+  48,47,46,45,44,43,42,41,
+  31,32,33,34,35,36,37,38
 ];
 
-toothNumbers.forEach(num => {
-    const div = document.createElement("div");
-    div.className = "tooth";
-    div.textContent = num;
-    div.onclick = () => toggleTooth(div, num);
-    toothGrid.appendChild(div);
-});
+let toothState = {};
 
-let selectedTeeth = [];
-
-/* --------------------
-   CLICK TO SELECT TOOTH
--------------------- */
-function toggleTooth(el, number) {
-    el.classList.toggle("selected");
-
-    if (selectedTeeth.includes(number)) {
-        selectedTeeth = selectedTeeth.filter(n => n !== number);
-    } else {
-        selectedTeeth.push(number);
+teethNums.forEach(n=>{
+  const d=document.createElement("div");
+  d.className="tooth";
+  d.textContent=n;
+  d.onclick=()=>{
+    if(!conditionSelect.value){
+      alert("Select condition first");
+      return;
     }
-
-    updateDiagnosisField();
-}
-
-/* Add teeth to diagnosis textarea automatically */
-function updateDiagnosisField() {
-    document.getElementById("diagnosis").value =
-        "Teeth involved: " + selectedTeeth.join(", ");
-}
-
-/* --------------------
-   ADD MEDICATION ROW
--------------------- */
-document.getElementById("addMedicineBtn").addEventListener("click", function () {
-
-    const container = document.getElementById("medications-list");
-
-    const row = document.createElement("div");
-    row.classList.add("medicine-row");
-
-    row.innerHTML = `
-        <input type="text" placeholder="Medicine Name" class="med-name">
-        <input type="text" placeholder="Dosage (e.g., 500mg)" class="med-dose">
-        <input type="text" placeholder="Frequency (e.g., 3x a day)" class="med-frequency">
-        <button class="remove-btn">Remove</button>
-    `;
-
-    row.querySelector(".remove-btn").addEventListener("click", () => row.remove());
-
-    container.appendChild(row);
+    d.className="tooth "+conditionSelect.value;
+    toothState[n]=conditionSelect.value;
+    autoDiagnosis();
+  };
+  teethContainer.appendChild(d);
 });
 
+/* =======================
+   AUTO DIAGNOSIS
+======================= */
+function autoDiagnosis(){
+  let map={};
+  for(let t in toothState){
+    map[toothState[t]]=map[toothState[t]]||[];
+    map[toothState[t]].push(t);
+  }
 
-/* --------------------
-   UPDATE PREVIEW PANEL
--------------------- */
-function updatePreview() {
-    const preview = document.getElementById("preview-box");
+  let text="";
+  if(map.decay) text+=`Decay/Infection: ${map.decay.join(", ")}\n`;
+  if(map.periodontal) text+=`Periodontal: ${map.periodontal.join(", ")}\n`;
+  if(map.trauma) text+=`Trauma/Loss: ${map.trauma.join(", ")}\n`;
+  if(map.structural) text+=`Structural Damage: ${map.structural.join(", ")}\n`;
+  if(map.developmental) text+=`Developmental: ${map.developmental.join(", ")}\n`;
 
-    let meds = "";
-
-    document.querySelectorAll("#medications-list .medicine-row").forEach(row => {
-        const name = row.querySelector(".med-name").value;
-        const dose = row.querySelector(".med-dose").value;
-        const freq = row.querySelector(".med-frequency").value;
-
-        meds += `• ${name} — ${dose}, ${freq}\n`;
-    });
-
-    preview.textContent =
-        `=== PRESCRIPTION ===\n
-Clinic: ${clinicName.value}
-Contact: ${clinicContact.value}
-
-Doctor: ${doctorName.value}
-License: ${licenseNumber.value}
-
-Date: ${date.value}
-
-Patient: ${patientName.value}
-Age: ${age.value}
-Gender: ${gender.value}
-Contact: ${contact.value}
-
-Diagnosis:
-${diagnosis.value}
-
-Medications:
-${meds}
-
-Additional Notes:
-${additionalNotes.value}
-`;
-}
-document.getElementById("updatePreviewBtn").addEventListener("click", updatePreview);
-</script>
-
-  <script>
-function toggleClinic(e) {
-  e.preventDefault();
-
-  const dropdown = e.currentTarget.parentElement;
-  dropdown.classList.toggle("active");
-
-  const submenu = dropdown.querySelector(".submenu");
-  submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+  diagnosisBox.value=text.trim();
 }
 
-  document.querySelector(".dropdown-toggle").addEventListener("click", function (e) {
-    e.preventDefault();
-    this.parentElement.classList.toggle("active");
+/* =======================
+   MEDICINE
+======================= */
+document.getElementById("addMed").onclick=()=>{
+  const div=document.createElement("div");
+  div.className="medicine";
+  div.innerHTML=`
+    <input placeholder="Medicine">
+    <input placeholder="Dose">
+    <input placeholder="Freq">
+    <button onclick="this.parentElement.remove()">✖</button>
+  `;
+  document.getElementById("medList").appendChild(div);
+};
+
+/* =======================
+   PREVIEW
+======================= */
+document.getElementById("update").onclick=()=>{
+  let meds="";
+  document.querySelectorAll(".medicine").forEach(m=>{
+    const i=m.querySelectorAll("input");
+    meds+=`<li>${i[0].value} – ${i[1].value} – ${i[2].value}</li>`;
   });
 
+  document.getElementById("preview").innerHTML=`
+    <h3>${clinic.value}</h3>
+    <p><b>Doctor:</b> ${doctor.value}</p>
+    <p><b>Date:</b> ${date.value}</p>
+    <hr>
+    <p><b>Patient:</b> ${patient.value} (${age.value}, ${gender.value})</p>
+    <p><b>Diagnosis:</b><br>${diagnosis.value.replace(/\n/g,"<br>")}</p>
+    <ul>${meds||"<li>No medicine</li>"}</ul>
+    <p><b>Notes:</b> ${notes.value}</p>
+  `;
+};
 
+/* =======================
+   PRINT & PDF
+======================= */
+document.getElementById("print").onclick=()=>{
+  document.getElementById("update").click();
+  const w=window.open();
+  w.document.write(preview.innerHTML);
+  w.print();
+};
+
+document.getElementById("pdf").onclick=()=>{
+  document.getElementById("update").click();
+  window.print();
+};
 </script>
 
 </body>

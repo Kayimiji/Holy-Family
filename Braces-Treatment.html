@@ -89,6 +89,7 @@ body{background:var(--bg);color:var(--text)}
   display:flex;
   flex-direction:column;
 }
+/* ===== BASE ===== */
 body{font-family:Inter,sans-serif;background:#eef8fc;padding:20px}
 h2{margin-bottom:10px}
 .search-box{background:#fff;padding:10px;border-radius:6px;margin-bottom:10px}
@@ -111,10 +112,41 @@ table{width:100%;border-collapse:collapse;margin-top:10px}
 th,td{padding:10px;border-bottom:1px solid #ddd}
 th{background:#f5f5f5}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
+
+/* ===== WALKTHROUGH ===== */
+.tour-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;z-index:999;
+}
+.tour-tooltip{
+  position:fixed;
+  background:#fff;
+  max-width:320px;
+  padding:16px;
+  border-radius:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
+  display:none;
+  z-index:1000;
+  animation:fade .4s;
+}
+.tour-header{display:flex;align-items:center;gap:10px;font-weight:600}
+.tour-header i{color:#00cfff}
+.tour-actions{display:flex;justify-content:space-between;margin-top:12px}
+.tour-actions button{
+  border:none;padding:6px 12px;border-radius:6px;cursor:pointer
+}
+#nextTour{background:#00cfff;color:#fff}
+.tour-highlight{
+  position:relative;z-index:1001;
+  box-shadow:0 0 0 4px #00cfff,0 0 20px rgba(0,207,255,.7);
+  border-radius:6px;
+}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
 </style>
 </head>
-<body>
 
+<body>
 <div class="dashboard">
 
 <!-- SIDEBAR -->
@@ -136,7 +168,7 @@ th{background:#f5f5f5}
       </a>
       <ul class="submenu">
         <li><a href="clinic-profile.html" class="active">Clinic Profile</a></li>
-        <li><a href="Dental-Chart.html">Dental Chart</a></li>
+        <li><a href="odontogram-prescription.html">Dental Chart</a></li>
         <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
         <li><a href="MyRecords.html">Patient Records</a></li>
       </ul>
@@ -150,6 +182,7 @@ th{background:#f5f5f5}
     <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
   </ul>
 </aside>
+
 <!-- MAIN -->
 <div class="main">
 
@@ -157,7 +190,7 @@ th{background:#f5f5f5}
 
 <!-- SEARCH -->
 <div class="search-box">
-  <input type="text" id="searchPatient" placeholder="SEARCH A PATIENT">
+  <input id="searchPatient" placeholder="SEARCH A PATIENT">
 </div>
 
 <!-- PATIENT LIST -->
@@ -174,155 +207,148 @@ th{background:#f5f5f5}
 
 <div class="card">
 <h3>Archwire Sequence</h3>
-<label><input type="radio" name="archwire" value="Initial alignment (NiTi)"> Initial alignment (NiTi)</label>
-<label><input type="radio" name="archwire" value="Working phase (Stainless)"> Working phase (Stainless)</label>
-<label><input type="radio" name="archwire" value="Finishing & detailing"> Finishing & detailing</label>
+<label><input type="radio" name="archwire"> Initial alignment (NiTi)</label>
+<label><input type="radio" name="archwire"> Working phase (Stainless)</label>
+<label><input type="radio" name="archwire"> Finishing & detailing</label>
 </div>
 
 <div class="card">
 <h3>Auxiliaries</h3>
-<label><input type="checkbox" name="auxiliary" value="Elastics"> Elastics</label>
-<label><input type="checkbox" name="auxiliary" value="Power chains"> Power chains</label>
-<label><input type="checkbox" name="auxiliary" value="Springs"> Springs</label>
-<label><input type="checkbox" name="auxiliary" value="Bite turbos"> Bite turbos</label>
+<label><input type="checkbox"> Elastics</label>
+<label><input type="checkbox"> Power chains</label>
+<label><input type="checkbox"> Springs</label>
+<label><input type="checkbox"> Bite turbos</label>
 </div>
 
 <div class="card">
 <h3>Treatment Summary</h3>
-<p id="treatmentOutput">No selection yet</p>
+<p>No selection yet</p>
 <button id="saveTreatmentPlan" class="save-btn">SAVE TREATMENT PLAN</button>
 </div>
 
 </div>
 
-<!-- PATIENT ASSESSMENT -->
+<!-- ASSESSMENT -->
 <div class="card" style="margin-top:20px">
 <div style="display:flex;justify-content:space-between">
 <h3>Patient Assessment</h3>
 <div>
 <button id="editAssessment" class="btn-outline">Edit</button>
-<button id="saveAssessment" class="save-btn" style="display:none">Save Assessment</button>
+<button id="saveAssessment" class="save-btn" style="display:none">Save</button>
 </div>
 </div>
 
 <label>Chief Complaint</label>
-<input type="text" id="chiefComplaint" disabled>
+<input id="chiefComplaint" disabled>
 
 <label>Malocclusion</label>
 <select id="malocclusion" disabled>
-<option>Class I</option>
-<option>Class II</option>
-<option>Class III</option>
+<option>Class I</option><option>Class II</option><option>Class III</option>
 </select>
 
-<label><input type="checkbox" id="crowding" disabled> Crowding / Spacing</label>
-<label><input type="checkbox" id="overbite" disabled> Overbite / Overjet</label>
-<label><input type="checkbox" id="crossbite" disabled> Crossbite / Open bite</label>
+<label><input type="checkbox" id="crowding" disabled> Crowding</label>
+<label><input type="checkbox" id="overbite" disabled> Overbite</label>
+<label><input type="checkbox" id="crossbite" disabled> Crossbite</label>
 </div>
 
 <!-- PHASES -->
 <div class="card" style="margin-top:20px">
 <h3>Treatment Phases</h3>
-
 <table>
-<tr class="phase-row" data-phase="Phase 1: Alignment & leveling"><td>Phase 1</td><td>Alignment & leveling</td><td>4–6 months</td></tr>
-<tr class="phase-row" data-phase="Phase 2: Space closure & bite correction"><td>Phase 2</td><td>Space closure & bite correction</td><td>6–12 months</td></tr>
-<tr class="phase-row" data-phase="Phase 3: Finishing & detailing"><td>Phase 3</td><td>Finishing & detailing</td><td>3–6 months</td></tr>
+<tr class="phase-row"><td>Phase 1</td><td>Alignment</td><td>4–6 months</td></tr>
+<tr class="phase-row"><td>Phase 2</td><td>Space closure</td><td>6–12 months</td></tr>
+<tr class="phase-row"><td>Phase 3</td><td>Finishing</td><td>3–6 months</td></tr>
 </table>
-
 <button id="savePhases" class="save-btn">SAVE PHASES</button>
+</div>
+
+<!-- WALKTHROUGH -->
+<div id="tourOverlay" class="tour-overlay"></div>
+<div id="tourTooltip" class="tour-tooltip">
+<div class="tour-header">
+<i id="tourIcon" class="fas fa-info-circle"></i>
+<span id="tourTitle"></span>
+</div>
+<p id="tourText"></p>
+<div class="tour-actions">
+<button id="skipTour">Skip</button>
+<button id="nextTour">Next</button>
+</div>
 </div>
 
 <script>
 let selectedPatient="";
-let selectedPhases=[];
 
 /* SEARCH */
 searchPatient.onkeyup=()=>document.querySelectorAll(".patient-item")
 .forEach(p=>p.style.display=p.textContent.toLowerCase().includes(searchPatient.value.toLowerCase())?"block":"none");
 
-/* SELECT PATIENT */
+/* PATIENT SELECT */
 document.querySelectorAll(".patient-item").forEach(p=>{
 p.onclick=()=>{
 document.querySelectorAll(".patient-item").forEach(x=>x.classList.remove("selected"));
 p.classList.add("selected");
 selectedPatient=p.textContent;
 selectedPatientSpan.textContent=selectedPatient;
-loadAssessment();
-loadPhases();
 };
 });
 
-/* EDIT ASSESSMENT */
+/* ASSESSMENT */
 editAssessment.onclick=()=>{
-toggleAssessment(false);
+["chiefComplaint","malocclusion","crowding","overbite","crossbite"]
+.forEach(id=>document.getElementById(id).disabled=false);
 editAssessment.style.display="none";
 saveAssessment.style.display="inline-block";
 };
-
-/* SAVE ASSESSMENT */
 saveAssessment.onclick=()=>{
-localStorage.setItem("assessment_"+selectedPatient,JSON.stringify({
-complaint:chiefComplaint.value,
-malocclusion:malocclusion.value,
-crowding:crowding.checked,
-overbite:overbite.checked,
-crossbite:crossbite.checked
-}));
-toggleAssessment(true);
-saveAssessment.style.display="none";
-editAssessment.style.display="inline-block";
-alert("✅ Assessment Saved");
+alert("Assessment Saved");
+location.reload();
 };
-
-/* LOCK */
-function toggleAssessment(lock){
-document.querySelectorAll("#chiefComplaint,#malocclusion,#crowding,#overbite,#crossbite")
-.forEach(i=>i.disabled=lock);
-}
-toggleAssessment(true);
-
-/* LOAD ASSESSMENT */
-function loadAssessment(){
-const d=JSON.parse(localStorage.getItem("assessment_"+selectedPatient));
-if(!d)return;
-chiefComplaint.value=d.complaint;
-malocclusion.value=d.malocclusion;
-crowding.checked=d.crowding;
-overbite.checked=d.overbite;
-crossbite.checked=d.crossbite;
-}
 
 /* PHASE SELECT */
 document.querySelectorAll(".phase-row").forEach(r=>{
-r.onclick=()=>{
-const p=r.dataset.phase;
-r.classList.toggle("selected");
-selectedPhases.includes(p)
-?selectedPhases=selectedPhases.filter(x=>x!==p)
-:selectedPhases.push(p);
-};
+r.onclick=()=>r.classList.toggle("selected");
 });
 
-/* SAVE PHASES */
-savePhases.onclick=()=>{
-if(!selectedPatient)return alert("Select patient first");
-localStorage.setItem("phases_"+selectedPatient,JSON.stringify(selectedPhases));
-alert("✅ Phases Saved");
-};
+/* TOUR */
+const steps=[
+{el:".search-box",title:"Search Patient",text:"Search patient by name"},
+{el:".patient-list",title:"Select Patient",text:"Click patient to load data"},
+{el:".grid",title:"Treatment Setup",text:"Set archwire & auxiliaries"},
+{el:"#saveTreatmentPlan",title:"Save Plan",text:"Save treatment plan"},
+{el:".card:nth-of-type(4)",title:"Assessment",text:"Edit patient assessment"},
+{el:".phase-row",title:"Phases",text:"Select treatment phases"}
+];
+let step=0;
 
-/* LOAD PHASES */
-function loadPhases(){
-selectedPhases=JSON.parse(localStorage.getItem("phases_"+selectedPatient))||[];
-document.querySelectorAll(".phase-row").forEach(r=>{
-r.classList.toggle("selected",selectedPhases.includes(r.dataset.phase));
-});
+function showStep(){
+document.querySelectorAll(".tour-highlight").forEach(e=>e.classList.remove("tour-highlight"));
+const s=steps[step],t=document.querySelector(s.el);
+if(!t)return;
+t.classList.add("tour-highlight");
+const r=t.getBoundingClientRect();
+tourTooltip.style.top=r.bottom+10+"px";
+tourTooltip.style.left=r.left+"px";
+tourTitle.textContent=s.title;
+tourText.textContent=s.text;
 }
 
-/* SAVE PLAN */
-saveTreatmentPlan.onclick=()=>{
-if(!selectedPatient)return alert("Select patient");
-alert("✅ Treatment Plan Saved");
+nextTour.onclick=()=>{
+step++;
+step>=steps.length?endTour():showStep();
+};
+skipTour.onclick=endTour;
+
+function endTour(){
+tourOverlay.style.display=tourTooltip.style.display="none";
+localStorage.setItem("tourDone","yes");
+}
+
+window.onload=()=>{
+if(!localStorage.getItem("tourDone")){
+tourOverlay.style.display=tourTooltip.style.display="block";
+showStep();
+}
 };
 </script>
 
