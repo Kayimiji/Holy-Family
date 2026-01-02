@@ -249,6 +249,22 @@ th{background:#f5f5f5}
 <!-- MAIN -->
 <div class="main">
 <div class="container">
+  <button id="restartTourBtn" style="
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  z-index:999;
+  background:#0ea5e9;
+  color:#fff;
+  border:none;
+  padding:10px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  box-shadow:0 6px 15px rgba(0,0,0,.25);
+">
+🔄 Restart Tutorial
+</button>
+
 
 <h2>Braces Treatment Plan</h2>
 
@@ -376,6 +392,24 @@ document.getElementById("saveAssessment").onclick=()=>{
 document.querySelectorAll(".phase-row").forEach(r=>{
   r.onclick=()=>r.classList.toggle("selected");
 });
+
+
+/* =========================
+   RESTART WALKTHROUGH
+========================= */
+document.getElementById("restartTourBtn").addEventListener("click", () => {
+  // reset step
+  stepIndex = 0;
+
+  // clear saved progress
+  localStorage.removeItem("bracesTourDone");
+
+  // small delay para smooth restart
+  setTimeout(() => {
+    showStep();
+  }, 300);
+});
+
 
 
 /* =========================

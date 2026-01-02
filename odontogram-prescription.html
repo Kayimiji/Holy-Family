@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Smart Dentistry – Odontogram & Prescription</title>
 
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
@@ -19,7 +18,6 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
 body{background:var(--bg);color:var(--text)}
- /* ===== LAYOUT ===== */
 .dashboard{display:flex;min-height:100vh}
 
 /* ===== SIDEBAR ===== */
@@ -60,8 +58,6 @@ body{background:var(--bg);color:var(--text)}
   background:rgba(0,191,255,.2);
   border-left:4px solid var(--sidebar-active);
 }
-
-/* Dropdown */
 .dropdown .arrow{
   margin-left:auto;
   transition:.3s;
@@ -173,8 +169,42 @@ button{
   border-radius:6px;
   transition: transform 0.3s;
 }
-
 @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+.tour-progress{
+  font-size:12px;
+  color:#64748b;
+  margin-bottom:6px;
+}
+.tour-arrow{
+  position:fixed;
+  width:0;height:0;
+  border-left:12px solid transparent;
+  border-right:12px solid transparent;
+  border-top:22px solid #00e5ff;
+  animation:bounce 1s infinite;
+  z-index:1001;
+  display:none;
+}
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+.tutorial-box{
+  animation:fade .4s ease;
+}
+.restart-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#0ea5e9;
+  color:#fff;
+  border:none;
+  padding:10px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  z-index:1000;
+  box-shadow:0 6px 15px rgba(0,0,0,.25);
+}
 </style>
 </head>
 
@@ -200,8 +230,8 @@ button{
     </a>
     <ul class="submenu">
       <li><a href="clinic-profile.html"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
-      <li><a href="odontogram-prescription.html"><i class="active"><i class= "fas fa-tooth"></i> Dental Chart</a></li>
-      <li><a href="Braces-Treatment.html" ><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
+      <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
+      <li><a href="Braces-Treatment.html"><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
       <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
     </ul>
   </li>
@@ -214,11 +244,17 @@ button{
   <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
 </ul>
 </aside>
+
 <!-- MAIN -->
 <div class="main">
 
-<button id="startTutorial" class="blue">❓ How to Use</button>
-<button id="playWalkthrough" class="green">▶ Play Walkthrough</button>
+<!-- WALKTHROUGH ARROW -->
+<div id="tourArrow" class="tour-arrow"></div>
+
+<!-- RESTART BUTTON -->
+<button class="restart-btn" id="restartTutorial">
+🔄 Restart Tutorial
+</button>
 
 <div class="wrapper">
 
@@ -377,72 +413,47 @@ const overlay=document.getElementById("tutorialOverlay");
 const box=document.getElementById("tutorialBox");
 const tTitle=document.getElementById("tTitle");
 const tText=document.getElementById("tText");
-const startTutorial=document.getElementById("startTutorial");
 const next=document.getElementById("next");
 const prev=document.getElementById("prev");
+const tourArrow=document.getElementById("tourArrow");
 
-function show(){
+function showStep(){
   document.querySelectorAll(".highlight").forEach(e=>e.classList.remove("highlight"));
-  const step=steps[s];
-  tTitle.innerText=step.t;
-  tText.innerText=step.d;
+  const step = steps[s];
+  tTitle.innerText = step.t;
+  tText.innerHTML = `<div class="tour-progress">Step ${s+1} of ${steps.length}</div>${step.d}`;
+
   if(step.el){
-    const el=document.querySelector(step.el);
+    const el = document.querySelector(step.el);
     el.classList.add("highlight");
-    const r=el.getBoundingClientRect();
-    box.style.top=r.bottom+10+"px";
-    box.style.left=r.left+"px";
-    box.style.transform="";
+    el.scrollIntoView({behavior:"smooth",block:"center"});
+    const r = el.getBoundingClientRect();
+    box.style.top = r.bottom + 15 + "px";
+    box.style.left = r.left + "px";
+    box.style.transform = "";
+    tourArrow.style.left = r.left + r.width/2 - 12 + "px";
+    tourArrow.style.top = r.top - 25 + "px";
+    tourArrow.style.display = "block";
   }else{
-    box.style.top="50%";box.style.left="50%";
-    box.style.transform="translate(-50%,-50%)";
+    box.style.top = "50%";
+    box.style.left = "50%";
+    box.style.transform = "translate(-50%,-50%)";
+    tourArrow.style.display = "none";
   }
 }
 
-startTutorial.onclick=()=>{overlay.style.display="block";s=0;show();}
-next.onclick=()=>{s<steps.length-1?(s++,show()):overlay.style.display="none";}
-prev.onclick=()=>{if(s>0){s--;show();}}
-
-/* ========= VIDEO-STYLE WALKTHROUGH ========= */
-const playBtn=document.getElementById("playWalkthrough");
-playBtn.onclick=async ()=>{
-  overlay.style.display="block";
+document.getElementById("restartTutorial").onclick = ()=>{
   s=0;
+  overlay.style.display="block";
+  showStep();
+};
 
-  async function stepForward(){
-    if(s>=steps.length){
-      overlay.style.display="none";
-      return;
-    }
-    show();
-    const step=steps[s];
+next.onclick = ()=>{
+  if(s<steps.length-1){s++; showStep();}
+};
 
-    if(step.el){
-      const el=document.querySelector(step.el);
-      el.style.transform="scale(1.1)";
-      setTimeout(()=>el.style.transform="scale(1)",300);
-      
-      if(step.el=="#condition"){ 
-        el.value="decay"; el.dispatchEvent(new Event("change"));
-      }
-      if(step.el=="#teeth"){ 
-        const tooth=document.querySelector(".tooth");
-        tooth.click();
-      }
-      if(step.el=="#addMed") {
-        addMed.click();
-        const lastMed=document.querySelector(".medicine input");
-        if(lastMed) lastMed.value="Paracetamol";
-      }
-      if(step.el=="#update") update.click();
-    }
-
-    s++;
-    await new Promise(r=>setTimeout(r, 2000));
-    stepForward();
-  }
-
-  stepForward();
+prev.onclick = ()=>{
+  if(s>0){s--; showStep();}
 };
 </script>
 </body>

@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Braces Treatment Plan</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Dentistry – Odontogram & Prescription</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
@@ -17,10 +16,9 @@
   --shadow:0 4px 12px rgba(0,0,0,.08);
   --text:#2c3e50;
 }
-
-/* ===== BASE ===== */
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text);margin:0;}
+body{background:var(--bg);color:var(--text)}
+.dashboard{display:flex;min-height:100vh}
 
 /* ===== SIDEBAR ===== */
 .sidebar{
@@ -60,8 +58,6 @@ body{background:var(--bg);color:var(--text);margin:0;}
   background:rgba(0,191,255,.2);
   border-left:4px solid var(--sidebar-active);
 }
-
-/* Dropdown */
 .dropdown .arrow{
   margin-left:auto;
   transition:.3s;
@@ -83,135 +79,136 @@ body{background:var(--bg);color:var(--text);margin:0;}
 }
 
 /* ===== MAIN ===== */
-.main {
-  margin-left: 250px;
-  padding: 20px;
-  min-height: 100vh;
-  background: var(--bg);
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  overflow-x: hidden;
+.main{
+  margin-left:250px;
+  width:calc(100% - 250px);
+  display:flex;
+  flex-direction:column;
 }
 
-/* ===== CONTAINER ===== */
-.container {
-  background: var(--card);
-  padding: 30px 25px;
-  border-radius: 12px;
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto 30px auto;
-  box-shadow: var(--shadow);
-  box-sizing: border-box;
+/* LAYOUT */
+.wrapper{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
 }
-
-/* ===== BASE ===== */
-h2{margin-bottom:10px}
-.search-box{background:#fff;padding:10px;border-radius:6px;margin-bottom:10px;position:relative}
-.search-box input{width:100%;border:none;outline:none}
-.patient-list{background:#fff;border-radius:6px;box-shadow:0 4px 10px rgba(0,0,0,.1);margin-bottom:20px}
-.patient-item{padding:10px;cursor:pointer;border-bottom:1px solid #eee}
-.patient-item:hover{background:#e9faff}
-.patient-item.selected{background:#c8f1ff;font-weight:600}
-
-/* GRID */
-.grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px,1fr));gap:20px}
-.card{background:#fff;border-radius:8px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
-.card h3{border-bottom:1px solid #ddd;padding-bottom:6px;margin-bottom:10px}
-label{display:block;margin:6px 0}
-input[type=text],select{width:100%;padding:6px}
-.phase-row{cursor:pointer}
-.phase-row:hover{background:#f1faff}
-.phase-row.selected{background:#c8f1ff;border-left:4px solid #00cfff}
-.save-btn{background:#32cd32;color:#fff;border:none;padding:10px;border-radius:4px;width:100%;cursor:pointer;margin-top:10px}
-.btn-outline{background:#fff;border:1px solid #ccc;padding:6px 10px;border-radius:4px;cursor:pointer}
-table{width:100%;border-collapse:collapse;margin-top:10px}
-th,td{padding:10px;border-bottom:1px solid #ddd}
-th{background:#f5f5f5}
-@media(max-width:900px){
-  .main{margin-left:0;width:100%}
-  .container{width:95%;padding:20px;margin:20px auto}
-  .grid{grid-template-columns:1fr}
-}
-
-/* ===== WALKTHROUGH ===== */
-.tour-overlay{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;z-index:999;
-  animation:fade .4s;
-}
-.tour-tooltip{
-  position:fixed;
-  background:#fff;
-  max-width:380px;
+.card{
+  background:var(--card);
   padding:20px;
-  border-radius:12px;
-  box-shadow:0 12px 30px rgba(0,0,0,.3);
-  display:none;
-  z-index:1001;
-  font-size:14px;line-height:1.5;color:#2c3e50;
-  animation:fade .4s;
-}
-.tour-tooltip::after{
-  content:"";
-  position:absolute;
-  width:0;height:0;
-  border:8px solid transparent;
-  border-bottom-color:#fff;
-  top:-16px;left:20px;
-}
-.tour-header{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16px}
-.tour-header i{font-size:20px;color:#00cfff}
-.tour-actions{display:flex;justify-content:space-between;margin-top:12px}
-.tour-actions button{border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:600;transition:0.2s;}
-#nextTour{background:#00cfff;color:#fff}
-#nextTour:hover{background:#0099cc;}
-#skipTour{background:#eee;color:#333}
-#skipTour:hover{background:#ccc;}
-.tour-highlight{
-  position:relative;z-index:1002;
-  box-shadow:0 0 0 4px #00cfff,0 0 30px rgba(0,207,255,.7);
   border-radius:8px;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-  transform: scale(1.03);
+  box-shadow:var(--shadow);
+}
+
+/* ODONTOGRAM */
+#teeth{
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  gap:6px;
+}
+.tooth{
+  padding:8px;
+  border:1px solid #ccc;
+  border-radius:4px;
+  text-align:center;
+  cursor:pointer;
+  font-size:12px;
+}
+.decay{background:#9b59b6;color:#fff;}
+.periodontal{background:#3498db;color:#fff;}
+.trauma{background:#e74c3c;color:#fff;}
+.structural{background:#e67e22;color:#fff;}
+.developmental{background:#2ecc71;color:#fff;}
+
+/* FORM */
+input,select,textarea{
+  width:100%;
+  padding:6px;
+  margin-bottom:8px;
+}
+button{
+  padding:8px 12px;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+}
+.blue{background:#56c1ff;color:#fff;}
+.green{background:#34ff88;color:#fff;}
+.gray{background:#3ee9ff;color:#fff;}
+
+.medicine{
+  display:flex;
+  gap:5px;
+  margin-bottom:5px;
+}
+.medicine input{flex:1}
+
+/* PREVIEW */
+#preview{
+  border:1px solid #ccc;
+  padding:15px;
+  min-height:200px;
+}
+
+/* ===== TUTORIAL ===== */
+#tutorialOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  z-index:999;
+}
+.tutorial-box{
+  position:absolute;
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+  width:320px;
+}
+.highlight{
+  box-shadow:0 0 0 4px #00e5ff;
+  border-radius:6px;
+  transition: transform 0.3s;
 }
 @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
-/* ===== ENHANCED WALKTHROUGH ===== */
-.tour-progress {
-  font-size: 12px;
-  color: #64748b;
-  margin-bottom: 6px;
+.tour-progress{
+  font-size:12px;
+  color:#64748b;
+  margin-bottom:6px;
 }
-
-.tour-arrow {
-  position: fixed;
-  width: 0;
-  height: 0;
-  border-left: 12px solid transparent;
-  border-right: 12px solid transparent;
-  border-top: 20px solid #00cfff;
-  animation: bounce 1s infinite;
-  z-index: 1003;
-  display: none;
+.tour-arrow{
+  position:fixed;
+  width:0;height:0;
+  border-left:12px solid transparent;
+  border-right:12px solid transparent;
+  border-top:22px solid #00e5ff;
+  animation:bounce 1s infinite;
+  z-index:1001;
+  display:none;
 }
-
-@keyframes bounce {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
 }
-
-.tour-tooltip strong {
-  color:#0ea5e9;
+.tutorial-box{
+  animation:fade .4s ease;
 }
-
+.restart-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#0ea5e9;
+  color:#fff;
+  border:none;
+  padding:10px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  z-index:1000;
+  box-shadow:0 6px 15px rgba(0,0,0,.25);
+}
 </style>
 </head>
-<body>
-<!-- ARROW -->
-<div id="tourArrow" class="tour-arrow"></div>
 
+<body>
 <div class="dashboard">
 
 <!-- SIDEBAR -->
@@ -223,270 +220,241 @@ th{background:#f5f5f5}
     </div>
   </div>
 
-  <ul class="sidebar-menu">
-    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-    <li class="dropdown open">
-      <a href="#" class="dropdown-toggle">
-        <i class="fas fa-tooth"></i> My Clinic
-        <i class="fas fa-chevron-down arrow"></i>
-      </a>
-      <ul class="submenu">
-        <li><a href="clinic-profile.html"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
-        <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
-        <li><a href="Braces-Treatment.html"><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
-        <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
-      </ul>
-    </li>
-    <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
-    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-    <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-    <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
-    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-  </ul>
+ <ul class="sidebar-menu">
+  <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+
+  <li class="dropdown open">
+    <a href="#" class="dropdown-toggle">
+      <i class="fas fa-tooth"></i> My Clinic
+      <i class="fas fa-chevron-down arrow"></i>
+    </a>
+    <ul class="submenu">
+      <li><a href="clinic-profile.html"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
+      <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
+      <li><a href="Braces-Treatment.html"><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
+      <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
+    </ul>
+  </li>
+
+  <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
+  <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+  <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+  <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+  <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
+  <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+</ul>
 </aside>
 
 <!-- MAIN -->
 <div class="main">
-<div class="container">
 
-<h2>Braces Treatment Plan</h2>
+<!-- WALKTHROUGH ARROW -->
+<div id="tourArrow" class="tour-arrow"></div>
 
-<!-- SEARCH -->
-<div class="search-box">
-  <input id="searchPatient" placeholder="SEARCH A PATIENT">
-</div>
+<!-- RESTART BUTTON -->
+<button class="restart-btn" id="restartTutorial">
+🔄 Restart Tutorial
+</button>
 
-<!-- PATIENT LIST -->
-<div class="patient-list">
-  <div class="patient-item">Samillano, Kristina Casandra</div>
-  <div class="patient-item">Reyes, Juan Miguel</div>
-  <div class="patient-item">Dela Cruz, Maria Angela</div>
-</div>
+<div class="wrapper">
 
-<p><b>Selected Patient:</b> <span id="selectedPatientSpan">None</span></p>
-
-<!-- GRID -->
-<div class="grid">
-
+<!-- LEFT -->
 <div class="card">
-<h3>Archwire Sequence</h3>
-<label><input type="radio" name="archwire"> Initial alignment (NiTi)</label>
-<label><input type="radio" name="archwire"> Working phase (Stainless)</label>
-<label><input type="radio" name="archwire"> Finishing & detailing</label>
-</div>
+<h3>Odontogram</h3>
 
-<div class="card">
-<h3>Auxiliaries</h3>
-<label><input type="checkbox"> Elastics</label>
-<label><input type="checkbox"> Power chains</label>
-<label><input type="checkbox"> Springs</label>
-<label><input type="checkbox"> Bite turbos</label>
-</div>
-
-<div class="card">
-<h3>Treatment Summary</h3>
-<p>No selection yet</p>
-<button id="saveTreatmentPlan" class="save-btn">SAVE TREATMENT PLAN</button>
-</div>
-
-</div>
-
-<!-- ASSESSMENT -->
-<div class="card" style="margin-top:20px">
-<div style="display:flex;justify-content:space-between">
-<h3>Patient Assessment</h3>
-<div>
-<button id="editAssessment" class="btn-outline">Edit</button>
-<button id="saveAssessment" class="save-btn" style="display:none">Save</button>
-</div>
-</div>
-
-<label>Chief Complaint</label>
-<input id="chiefComplaint" disabled>
-
-<label>Malocclusion</label>
-<select id="malocclusion" disabled>
-<option>Class I</option><option>Class II</option><option>Class III</option>
+<select id="condition">
+  <option value="">Select Condition</option>
+  <option value="decay">Decay / Infection</option>
+  <option value="periodontal">Periodontal</option>
+  <option value="trauma">Loss / Trauma</option>
+  <option value="structural">Structural Damage</option>
+  <option value="developmental">Developmental</option>
 </select>
 
-<label><input type="checkbox" id="crowding" disabled> Crowding</label>
-<label><input type="checkbox" id="overbite" disabled> Overbite</label>
-<label><input type="checkbox" id="crossbite" disabled> Crossbite</label>
+<div id="teeth"></div>
+
+<hr>
+
+<h3>Prescription</h3>
+<input id="clinic" placeholder="Clinic Name">
+<input id="doctor" placeholder="Doctor Name">
+<input type="date" id="date">
+
+<input id="patient" placeholder="Patient Name">
+<input id="age" placeholder="Age">
+
+<select id="gender">
+  <option>Male</option>
+  <option>Female</option>
+</select>
+
+<textarea id="diagnosis" rows="4" placeholder="Auto Diagnosis"></textarea>
+<textarea id="notes" placeholder="Notes"></textarea>
+
+<h4>Medicines</h4>
+<div id="medList"></div>
+<button id="addMed" class="gray">+ Add Medicine</button>
+<button id="update" class="blue">Update Preview</button>
 </div>
 
-<!-- PHASES -->
-<div class="card" style="margin-top:20px">
-<h3>Treatment Phases</h3>
-<table>
-<tr class="phase-row"><td>Phase 1</td><td>Alignment</td><td>4–6 months</td></tr>
-<tr class="phase-row"><td>Phase 2</td><td>Space closure</td><td>6–12 months</td></tr>
-<tr class="phase-row"><td>Phase 3</td><td>Finishing</td><td>3–6 months</td></tr>
-</table>
-<button id="savePhases" class="save-btn">SAVE PHASES</button>
+<!-- RIGHT -->
+<div class="card">
+<h3>Prescription Preview</h3>
+<div id="preview">No data yet</div><br>
+<button id="print" class="green">Print</button>
+<button id="pdf" class="blue">Export PDF</button>
 </div>
 
-<!-- VISUAL TUTORIAL -->
-<div id="tourOverlay" class="tour-overlay"></div>
-<div id="tourTooltip" class="tour-tooltip">
-  <div class="tour-header">
-    <i id="tourIcon" class="fas fa-info-circle"></i>
-    <span id="tourTitle"></span>
+</div>
+
+<!-- TUTORIAL -->
+<div id="tutorialOverlay">
+  <div class="tutorial-box" id="tutorialBox">
+    <h4 id="tTitle"></h4>
+    <p id="tText"></p>
+    <button id="prev">Back</button>
+    <button id="next">Next</button>
   </div>
-  <p id="tourText"></p>
-  <div class="tour-actions">
-    <button id="skipTour">Skip</button>
-    <button id="nextTour">Next</button>
-  </div>
-</div>
-
-</div>
 </div>
 
 <script>
-let selectedPatient="";
+/* ========= ODONTOGRAM ========= */
+const teethNums=[18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28,48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38];
+const teethDiv=document.getElementById("teeth");
+const condition=document.getElementById("condition");
+const diagnosis=document.getElementById("diagnosis");
+let state={};
 
-/* SEARCH */
-document.getElementById("searchPatient").onkeyup=()=>document.querySelectorAll(".patient-item")
-.forEach(p=>p.style.display=p.textContent.toLowerCase().includes(searchPatient.value.toLowerCase())?"block":"none");
-
-/* PATIENT SELECT */
-document.querySelectorAll(".patient-item").forEach(p=>{
-  p.onclick=()=>{
-    document.querySelectorAll(".patient-item").forEach(x=>x.classList.remove("selected"));
-    p.classList.add("selected");
-    selectedPatient=p.textContent;
-    document.getElementById("selectedPatientSpan").textContent=selectedPatient;
+teethNums.forEach(n=>{
+  const d=document.createElement("div");
+  d.className="tooth";
+  d.textContent=n;
+  d.onclick=()=>{ 
+    if(!condition.value){alert("Select condition first");return;}
+    d.className="tooth "+condition.value;
+    state[n]=condition.value;
+    autoDiagnosis();
   };
+  teethDiv.appendChild(d);
 });
 
-/* ASSESSMENT */
-document.getElementById("editAssessment").onclick=()=>{
-  ["chiefComplaint","malocclusion","crowding","overbite","crossbite"]
-  .forEach(id=>document.getElementById(id).disabled=false);
-  document.getElementById("editAssessment").style.display="none";
-  document.getElementById("saveAssessment").style.display="inline-block";
-};
-document.getElementById("saveAssessment").onclick=()=>{
-  alert("Assessment Saved");
-  location.reload();
-};
-
-/* PHASE SELECT */
-document.querySelectorAll(".phase-row").forEach(r=>{
-  r.onclick=()=>r.classList.toggle("selected");
-});
-
-
-/* =========================
-   ENHANCED WALKTHROUGH
-========================= */
-
-const steps = [
-  {
-    el: ".search-box",
-    title: "🔍 Step 1: Search Patient",
-    text: "Type the <strong>patient name</strong> here. The list will automatically filter while you type."
-  },
-  {
-    el: ".patient-list",
-    title: "👤 Step 2: Select Patient",
-    text: "Click a patient from the list to <strong>activate their treatment record</strong>."
-  },
-  {
-    el: ".grid",
-    title: "📝 Step 3: Treatment Setup",
-    text: "Choose the <strong>archwire phase</strong> and needed <strong>auxiliaries</strong>."
-  },
-  {
-    el: "#saveTreatmentPlan",
-    title: "💾 Step 4: Save Treatment Plan",
-    text: "Once done, click this button to <strong>save the plan</strong>."
-  },
-  {
-    el: ".card:nth-of-type(4)",
-    title: "🩺 Step 5: Patient Assessment",
-    text: "Click <strong>Edit</strong>, complete the assessment, then save."
-  },
-  {
-    el: ".phase-row",
-    title: "📅 Step 6: Treatment Phases",
-    text: "Select applicable phases and click <strong>Save Phases</strong>."
+function autoDiagnosis(){
+  let map={};
+  for(let t in state){
+    map[state[t]]=map[state[t]]||[];
+    map[state[t]].push(t);
   }
+  let text="";
+  if(map.decay) text+=`Decay: ${map.decay.join(", ")}\n`;
+  if(map.periodontal) text+=`Periodontal: ${map.periodontal.join(", ")}\n`;
+  if(map.trauma) text+=`Trauma: ${map.trauma.join(", ")}\n`;
+  if(map.structural) text+=`Structural: ${map.structural.join(", ")}\n`;
+  if(map.developmental) text+=`Developmental: ${map.developmental.join(", ")}\n`;
+  diagnosis.value=text.trim();
+}
+
+/* ========= MEDICINE ========= */
+const addMed=document.getElementById("addMed");
+const medList=document.getElementById("medList");
+
+addMed.onclick=()=>{
+  const d=document.createElement("div");
+  d.className="medicine";
+  d.innerHTML=`
+    <input placeholder="Medicine">
+    <input placeholder="Dose">
+    <input placeholder="Freq">
+    <button onclick="this.parentElement.remove()">✖</button>`;
+  medList.appendChild(d);
+};
+
+/* ========= PREVIEW ========= */
+const update=document.getElementById("update");
+const preview=document.getElementById("preview");
+
+update.onclick=()=>{
+  let meds="";
+  document.querySelectorAll(".medicine").forEach(m=>{
+    const i=m.querySelectorAll("input");
+    meds+=`<li>${i[0].value} – ${i[1].value} – ${i[2].value}</li>`;
+  });
+  preview.innerHTML=`
+    <h3>${document.getElementById("clinic").value}</h3>
+    <p><b>Doctor:</b> ${document.getElementById("doctor").value}</p>
+    <p><b>Date:</b> ${document.getElementById("date").value}</p>
+    <p><b>Patient:</b> ${document.getElementById("patient").value} (${document.getElementById("age").value}, ${document.getElementById("gender").value})</p>
+    <p><b>Diagnosis:</b><br>${diagnosis.value.replace(/\n/g,"<br>")}</p>
+    <ul>${meds||"<li>No medicine</li>"}</ul>
+    <p>${document.getElementById("notes").value}</p>`;
+};
+
+/* ========= PRINT / PDF ========= */
+document.getElementById("print").onclick=()=>{
+  update.click();
+  const w=window.open();
+  w.document.write(preview.innerHTML);
+  w.print();
+};
+document.getElementById("pdf").onclick=()=>{update.click();window.print();};
+
+/* ========= TUTORIAL ========= */
+const steps=[
+  {t:"Welcome",d:"This guide will show how to use the system",el:null},
+  {t:"Select Condition",d:"Choose tooth condition",el:"#condition"},
+  {t:"Click Teeth",d:"Click teeth to color & diagnose",el:"#teeth"},
+  {t:"Auto Diagnosis",d:"Diagnosis fills automatically",el:"#diagnosis"},
+  {t:"Add Medicine",d:"Add medicines here",el:"#addMed"},
+  {t:"Preview",d:"Generate prescription preview",el:"#update"},
+  {t:"Print / PDF",d:"Print or export prescription",el:"#print"}
 ];
 
-let stepIndex = 0;
-const overlay = document.getElementById("tourOverlay");
-const tooltip = document.getElementById("tourTooltip");
-const arrow = document.getElementById("tourArrow");
+let s=0;
+const overlay=document.getElementById("tutorialOverlay");
+const box=document.getElementById("tutorialBox");
+const tTitle=document.getElementById("tTitle");
+const tText=document.getElementById("tText");
+const next=document.getElementById("next");
+const prev=document.getElementById("prev");
+const tourArrow=document.getElementById("tourArrow");
 
-function showStep() {
-  document.querySelectorAll(".tour-highlight")
-    .forEach(e => e.classList.remove("tour-highlight"));
+function showStep(){
+  document.querySelectorAll(".highlight").forEach(e=>e.classList.remove("highlight"));
+  const step = steps[s];
+  tTitle.innerText = step.t;
+  tText.innerHTML = `<div class="tour-progress">Step ${s+1} of ${steps.length}</div>${step.d}`;
 
-  const step = steps[stepIndex];
-  const el = document.querySelector(step.el);
-  if (!el) return;
-
-  el.scrollIntoView({ behavior: "smooth", block: "center" });
-  el.classList.add("tour-highlight");
-
-  const rect = el.getBoundingClientRect();
-
-  // Tooltip
-  tooltip.innerHTML = `
-    <div class="tour-progress">Step ${stepIndex + 1} of ${steps.length}</div>
-    <div class="tour-header">
-      <i class="fas fa-lightbulb"></i>
-      <span>${step.title}</span>
-    </div>
-    <p>${step.text}</p>
-    <div class="tour-actions">
-      <button id="skipTour">Skip</button>
-      <button id="nextTour">${stepIndex === steps.length - 1 ? "Finish" : "Next"}</button>
-    </div>
-  `;
-
-  tooltip.style.display = "block";
-  tooltip.style.top = rect.bottom + 20 + "px";
-  tooltip.style.left = rect.left + "px";
-
-  // Arrow
-  arrow.style.left = rect.left + rect.width / 2 - 12 + "px";
-  arrow.style.top = rect.top - 25 + "px";
-  arrow.style.display = "block";
-
-  overlay.style.display = "block";
-
-  document.getElementById("nextTour").onclick = nextStep;
-  document.getElementById("skipTour").onclick = endTour;
-}
-
-function nextStep() {
-  stepIndex++;
-  if (stepIndex >= steps.length) {
-    endTour();
-  } else {
-    showStep();
+  if(step.el){
+    const el = document.querySelector(step.el);
+    el.classList.add("highlight");
+    el.scrollIntoView({behavior:"smooth",block:"center"});
+    const r = el.getBoundingClientRect();
+    box.style.top = r.bottom + 15 + "px";
+    box.style.left = r.left + "px";
+    box.style.transform = "";
+    tourArrow.style.left = r.left + r.width/2 - 12 + "px";
+    tourArrow.style.top = r.top - 25 + "px";
+    tourArrow.style.display = "block";
+  }else{
+    box.style.top = "50%";
+    box.style.left = "50%";
+    box.style.transform = "translate(-50%,-50%)";
+    tourArrow.style.display = "none";
   }
 }
 
-function endTour() {
-  overlay.style.display = "none";
-  tooltip.style.display = "none";
-  arrow.style.display = "none";
-  document.querySelectorAll(".tour-highlight")
-    .forEach(e => e.classList.remove("tour-highlight"));
-  localStorage.setItem("bracesTourDone", "yes");
-}
+document.getElementById("restartTutorial").onclick = ()=>{
+  s=0;
+  overlay.style.display="block";
+  showStep();
+};
 
-/* AUTO RUN (FIRST TIME ONLY) */
-window.onload = () => {
-  if (!localStorage.getItem("bracesTourDone")) {
-    showStep();
-  }
+next.onclick = ()=>{
+  if(s<steps.length-1){s++; showStep();}
+};
+
+prev.onclick = ()=>{
+  if(s>0){s--; showStep();}
 };
 </script>
-
 </body>
 </html>
