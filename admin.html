@@ -235,6 +235,33 @@
         width: 100%;
         padding-right: 25px;
     }
+    /* Dropdown */
+        .dropdown .arrow {
+        margin-left: auto;
+        transition: 0.3s;
+        }
+
+        .dropdown.open .arrow {
+        transform: rotate(180deg);
+        }
+
+        .submenu {
+        list-style: none;
+        display: none;
+        background: #243444;
+        }
+
+        .dropdown.open .submenu {
+        display: block;
+        }
+
+        .submenu a {
+        padding: 10px 40px;
+        font-size: 14px;
+        display: block;
+        color: #fff;
+        }
+
 
     .btn {
         padding: 8px 15px;
@@ -1927,7 +1954,21 @@
 </div>
 <ul class="sidebar-menu">
 <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-<li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
+<li class="dropdown">
+  <a href="javascript:void(0)" class="dropdown-toggle">
+    <i class="fas fa-tooth"></i>
+    <span>My Clinic</span>
+    <i class="fas fa-chevron-down arrow"></i>
+  </a>
+
+<ul class="submenu">
+    <li><a href="clinic-profile.html">Clinic Profile</a></li>
+    <li><a href="Dental-Chart.html">Dental Chart</a></li>
+    <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
+    <li><a href="MyRecords.html">Patient Record</a></li>
+  </ul>
+</li>
+
 <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i><span> Appointment History</a></li>
 <li><a href="patients.html"><i class="fas fa-users"></i><span>Patients</span></a></li>
 <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
@@ -1936,6 +1977,7 @@
 <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
 <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
 </ul>
+
 <!-- Add Return to Home menu at the bottom -->
 <div style="position: absolute; bottom: 20px; width: 13%;">
 <div style="position: absolute; bottom: 20px; width: 100%;">
@@ -2323,6 +2365,27 @@
 // =============================================
 // INTERACTIVE ONBOARDING TUTORIAL SYSTEM
 // =============================================
+
+document.querySelectorAll(".dropdown-toggle").forEach(item => {
+    item.addEventListener("click", function () {
+      this.parentElement.classList.toggle("active");
+    });
+});
+
+document.querySelectorAll(".dropdown-toggle").forEach(toggle => {
+  toggle.addEventListener("click", function () {
+    const dropdown = this.parentElement;
+
+    // close other open dropdowns
+    document.querySelectorAll(".dropdown.open").forEach(d => {
+      if (d !== dropdown) d.classList.remove("open");
+    });
+
+    // toggle current
+    dropdown.classList.toggle("open");
+  });
+});
+
 
 // Tutorial configuration
 let tutorialSteps = [

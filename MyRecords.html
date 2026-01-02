@@ -918,8 +918,8 @@ h2 {
             </div>
             <ul class="sidebar-menu">
                <ul class="sidebar-menu">
-                <li><a href="MyRecords.html"><i class="fas fa-home"></i> Patient</a></li>
-                <li><a href="View.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="MyRecords.html"><i class="fas fa-user"></i> Patient List</a></li>
+                <li><a href="View.html"><i class="fas fa-home"></i> Patient Dashboard</a></li>
                 <li><a href="forms.html"><i class="fas fa-file-medical"></i> Forms</a></li>
                 <li><a href="mygallery.html"><i class="fas fa-images"></i> My Gallery</a></li>
                 <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
@@ -1104,7 +1104,11 @@ h2 {
                     </div>
                 </div>
                 <button class="btn btn-primary" onclick="viewPatient()">View</button>
-                <li><a href="View.html"></i> View</a></li></ul>
+                <li>
+                <a href="View.html?id=101" class="view-btn">
+                <i class="fas fa-eye"></i> View
+                </a>
+    
                 <button class="btn btn-secondary" onclick="closeCreateAccountModal()">
                     Cancel  
 </button>
@@ -1116,7 +1120,7 @@ h2 {
         </div>
     </div>
     <script>
-        
+   
         function viewPatient(patientId) {
             window.location.href = "View.html?id=" + patientId;
         }

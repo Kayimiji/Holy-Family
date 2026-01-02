@@ -2,180 +2,211 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Smart Dentistry</title>
+<title>Braces Treatment Plan</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-/* ========== BASIC ========== */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-}
-
-/* ========== HERO ========== */
-.main-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 80px;
-    background: linear-gradient(135deg,#36d1dc,#5b86e5);
-    color: white;
-}
-
-.book-now-button {
-    padding: 14px 26px;
-    border: none;
-    border-radius: 30px;
-    background: #0b5ed7;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-/* ========== MODAL SYSTEM ========== */
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.6);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-}
-
-.modal.open {
-    display: flex;
-}
-
-.modal-dialog {
-    background: #fff;
-    width: 90%;
-    max-width: 800px;
-    border-radius: 12px;
-    display: flex;
-    position: relative;
-    overflow: hidden;
-}
-
-.modal-left,
-.modal-right {
-    padding: 30px;
-}
-
-.modal-left { width: 60%; }
-.modal-right {
-    width: 40%;
-    background: #0b5ed7;
-    color: white;
-    display: flex;
-    align-items: center;
-}
-
-.modal-close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    border: none;
-    background: none;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-@media(max-width:768px){
-    .modal-dialog {
-        flex-direction: column;
-    }
-    .modal-left,.modal-right { width:100%; }
-}
+body{font-family:Inter,sans-serif;background:#eef8fc;padding:20px}
+h2{margin-bottom:10px}
+.search-box{background:#fff;padding:10px;border-radius:6px;margin-bottom:10px}
+.search-box input{width:100%;border:none;outline:none}
+.patient-list{background:#fff;border-radius:6px;box-shadow:0 4px 10px rgba(0,0,0,.1);margin-bottom:20px}
+.patient-item{padding:10px;cursor:pointer;border-bottom:1px solid #eee}
+.patient-item:hover{background:#e9faff}
+.patient-item.selected{background:#c8f1ff;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:#fff;border-radius:8px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.card h3{border-bottom:1px solid #ddd;padding-bottom:6px;margin-bottom:10px}
+label{display:block;margin:6px 0}
+input[type=text],select{width:100%;padding:6px}
+.phase-row{cursor:pointer}
+.phase-row:hover{background:#f1faff}
+.phase-row.selected{background:#c8f1ff;border-left:4px solid #00cfff}
+.save-btn{background:#32cd32;color:#fff;border:none;padding:10px;border-radius:4px;width:100%;cursor:pointer;margin-top:10px}
+.btn-outline{background:#fff;border:1px solid #ccc;padding:6px 10px;border-radius:4px;cursor:pointer}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{padding:10px;border-bottom:1px solid #ddd}
+th{background:#f5f5f5}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 
 <body>
 
-<!-- HERO -->
-<div class="main-section">
-    <div>
-        <h1>DISCOVER SMART DENTISTRY</h1>
-        <p>Exceptional dental care with modern technology.</p>
-        <button id="open-about" class="book-now-button">Learn more</button>
-    </div>
-    <img src="landing.png" width="300">
+<h2>Braces Treatment Plan</h2>
+
+<!-- SEARCH -->
+<div class="search-box">
+  <input type="text" id="searchPatient" placeholder="SEARCH A PATIENT">
 </div>
 
-<!-- LEARN MORE MODAL -->
-<div id="about-modal" class="modal" aria-hidden="true">
-    <div class="modal-dialog">
+<!-- PATIENT LIST -->
+<div class="patient-list">
+  <div class="patient-item">Samillano, Kristina Casandra</div>
+  <div class="patient-item">Reyes, Juan Miguel</div>
+  <div class="patient-item">Dela Cruz, Maria Angela</div>
+</div>
 
-        <button class="modal-close" aria-label="Close">&times;</button>
+<p><b>Selected Patient:</b> <span id="selectedPatientSpan">None</span></p>
 
-        <div class="modal-left">
-            <h2>Learn More About Us</h2>
-            <p>
-                We are a trusted dental clinic committed to providing
-                high-quality, compassionate, and affordable dental care.
-            </p>
+<!-- GRID -->
+<div class="grid">
 
-            <h3>Why Choose Us?</h3>
-            <ul>
-                <li>✔ Experienced Dentists</li>
-                <li>✔ Modern Equipment</li>
-                <li>✔ Patient-Centered Care</li>
-                <li>✔ Affordable Services</li>
-            </ul>
+<div class="card">
+<h3>Archwire Sequence</h3>
+<label><input type="radio" name="archwire" value="Initial alignment (NiTi)"> Initial alignment (NiTi)</label>
+<label><input type="radio" name="archwire" value="Working phase (Stainless)"> Working phase (Stainless)</label>
+<label><input type="radio" name="archwire" value="Finishing & detailing"> Finishing & detailing</label>
+</div>
 
-            <button class="book-now-button modal-close">Close</button>
-        </div>
+<div class="card">
+<h3>Auxiliaries</h3>
+<label><input type="checkbox" name="auxiliary" value="Elastics"> Elastics</label>
+<label><input type="checkbox" name="auxiliary" value="Power chains"> Power chains</label>
+<label><input type="checkbox" name="auxiliary" value="Springs"> Springs</label>
+<label><input type="checkbox" name="auxiliary" value="Bite turbos"> Bite turbos</label>
+</div>
 
-        <div class="modal-right">
-            <div>
-                <h3>Your Smile Matters</h3>
-                <p>Healthy smiles start with Smart Dentistry.</p>
-            </div>
-        </div>
+<div class="card">
+<h3>Treatment Summary</h3>
+<p id="treatmentOutput">No selection yet</p>
+<button id="saveTreatmentPlan" class="save-btn">SAVE TREATMENT PLAN</button>
+</div>
 
-    </div>
+</div>
+
+<!-- PATIENT ASSESSMENT -->
+<div class="card" style="margin-top:20px">
+<div style="display:flex;justify-content:space-between">
+<h3>Patient Assessment</h3>
+<div>
+<button id="editAssessment" class="btn-outline">Edit</button>
+<button id="saveAssessment" class="save-btn" style="display:none">Save Assessment</button>
+</div>
+</div>
+
+<label>Chief Complaint</label>
+<input type="text" id="chiefComplaint" disabled>
+
+<label>Malocclusion</label>
+<select id="malocclusion" disabled>
+<option>Class I</option>
+<option>Class II</option>
+<option>Class III</option>
+</select>
+
+<label><input type="checkbox" id="crowding" disabled> Crowding / Spacing</label>
+<label><input type="checkbox" id="overbite" disabled> Overbite / Overjet</label>
+<label><input type="checkbox" id="crossbite" disabled> Crossbite / Open bite</label>
+</div>
+
+<!-- PHASES -->
+<div class="card" style="margin-top:20px">
+<h3>Treatment Phases</h3>
+
+<table>
+<tr class="phase-row" data-phase="Phase 1: Alignment & leveling"><td>Phase 1</td><td>Alignment & leveling</td><td>4–6 months</td></tr>
+<tr class="phase-row" data-phase="Phase 2: Space closure & bite correction"><td>Phase 2</td><td>Space closure & bite correction</td><td>6–12 months</td></tr>
+<tr class="phase-row" data-phase="Phase 3: Finishing & detailing"><td>Phase 3</td><td>Finishing & detailing</td><td>3–6 months</td></tr>
+</table>
+
+<button id="savePhases" class="save-btn">SAVE PHASES</button>
 </div>
 
 <script>
-/* ========= LEARN MORE MODAL ========= */
-document.addEventListener("DOMContentLoaded", () => {
+let selectedPatient="";
+let selectedPhases=[];
 
-    const aboutModal = document.getElementById("about-modal");
-    const openAboutBtn = document.getElementById("open-about");
+/* SEARCH */
+searchPatient.onkeyup=()=>document.querySelectorAll(".patient-item")
+.forEach(p=>p.style.display=p.textContent.toLowerCase().includes(searchPatient.value.toLowerCase())?"block":"none");
 
-    // OPEN
-    openAboutBtn.addEventListener("click", () => {
-        aboutModal.classList.add("open");
-        document.body.style.overflow = "hidden";
-    });
-
-    // CLOSE BUTTONS
-    aboutModal.querySelectorAll(".modal-close").forEach(btn => {
-        btn.addEventListener("click", () => {
-            aboutModal.classList.remove("open");
-            document.body.style.overflow = "";
-        });
-    });
-
-    // CLOSE BACKGROUND
-    aboutModal.addEventListener("click", e => {
-        if (e.target === aboutModal) {
-            aboutModal.classList.remove("open");
-            document.body.style.overflow = "";
-        }
-    });
-
-    // ESC CLOSE
-    document.addEventListener("keydown", e => {
-        if (e.key === "Escape") {
-            aboutModal.classList.remove("open");
-            document.body.style.overflow = "";
-        }
-    });
-
+/* SELECT PATIENT */
+document.querySelectorAll(".patient-item").forEach(p=>{
+p.onclick=()=>{
+document.querySelectorAll(".patient-item").forEach(x=>x.classList.remove("selected"));
+p.classList.add("selected");
+selectedPatient=p.textContent;
+selectedPatientSpan.textContent=selectedPatient;
+loadAssessment();
+loadPhases();
+};
 });
+
+/* EDIT ASSESSMENT */
+editAssessment.onclick=()=>{
+toggleAssessment(false);
+editAssessment.style.display="none";
+saveAssessment.style.display="inline-block";
+};
+
+/* SAVE ASSESSMENT */
+saveAssessment.onclick=()=>{
+localStorage.setItem("assessment_"+selectedPatient,JSON.stringify({
+complaint:chiefComplaint.value,
+malocclusion:malocclusion.value,
+crowding:crowding.checked,
+overbite:overbite.checked,
+crossbite:crossbite.checked
+}));
+toggleAssessment(true);
+saveAssessment.style.display="none";
+editAssessment.style.display="inline-block";
+alert("✅ Assessment Saved");
+};
+
+/* LOCK */
+function toggleAssessment(lock){
+document.querySelectorAll("#chiefComplaint,#malocclusion,#crowding,#overbite,#crossbite")
+.forEach(i=>i.disabled=lock);
+}
+toggleAssessment(true);
+
+/* LOAD ASSESSMENT */
+function loadAssessment(){
+const d=JSON.parse(localStorage.getItem("assessment_"+selectedPatient));
+if(!d)return;
+chiefComplaint.value=d.complaint;
+malocclusion.value=d.malocclusion;
+crowding.checked=d.crowding;
+overbite.checked=d.overbite;
+crossbite.checked=d.crossbite;
+}
+
+/* PHASE SELECT */
+document.querySelectorAll(".phase-row").forEach(r=>{
+r.onclick=()=>{
+const p=r.dataset.phase;
+r.classList.toggle("selected");
+selectedPhases.includes(p)
+?selectedPhases=selectedPhases.filter(x=>x!==p)
+:selectedPhases.push(p);
+};
+});
+
+/* SAVE PHASES */
+savePhases.onclick=()=>{
+if(!selectedPatient)return alert("Select patient first");
+localStorage.setItem("phases_"+selectedPatient,JSON.stringify(selectedPhases));
+alert("✅ Phases Saved");
+};
+
+/* LOAD PHASES */
+function loadPhases(){
+selectedPhases=JSON.parse(localStorage.getItem("phases_"+selectedPatient))||[];
+document.querySelectorAll(".phase-row").forEach(r=>{
+r.classList.toggle("selected",selectedPhases.includes(r.dataset.phase));
+});
+}
+
+/* SAVE PLAN */
+saveTreatmentPlan.onclick=()=>{
+if(!selectedPatient)return alert("Select patient");
+alert("✅ Treatment Plan Saved");
+};
 </script>
 
 </body>

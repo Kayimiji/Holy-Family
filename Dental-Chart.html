@@ -13,268 +13,85 @@
     /* ============================================= */
     /* BASE STYLES */
     /* ============================================= */
-    :root {
-      --sidebar-bg: #2c3e50;
-      --sidebar-active: #00bfff;
-      --sidebar-text: rgba(255, 255, 255, 0.9);
-      --bg-color: #f5f7fa;
-      --card-bg: #ffffff;
-      --text-color: #2c3e50;
-      --border-color: #e1e5eb;
-      --hover-bg: #f0f4f8;
-      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    :root{
+      --sidebar-bg:#2c3e50;
+      --sidebar-active:#00bfff;
+      --bg:#eef8fc;
+      --card:#ffffff;
+      --shadow:0 4px 12px rgba(0,0,0,.08);
+      --text:#2c3e50;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+    body{background:var(--bg);color:var(--text)}
+
+    /* ===== LAYOUT ===== */
+    .dashboard{display:flex;min-height:100vh}
+
+    /* ===== SIDEBAR ===== */
+    .sidebar{
+      width:250px;
+      background:var(--sidebar-bg);
+      color:#fff;
+      position:fixed;
+      top:0;left:0;bottom:0;
+    }
+    .sidebar-header{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:20px;
+    }
+    .sidebar-logo{
+      width:50px;
+      height:50px;
+      border-radius:50%;
+    }
+    .sidebar-title h2{
+      font-size:16px;
+      color:var(--sidebar-active);
+      line-height:1.1;
+    }
+    .sidebar-menu{list-style:none}
+    .sidebar-menu a{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 20px;
+      color:#fff;
+      text-decoration:none;
+    }
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active{
+      background:rgba(0,191,255,.2);
+      border-left:4px solid var(--sidebar-active);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', Arial, sans-serif;
+    /* Dropdown */
+    .dropdown .arrow{
+      margin-left:auto;
+      transition:.3s;
     }
-
-    html, body {
-      height: 100%;
-      width: 100%;
-      background: var(--bg-color);
-      color: var(--text-color);
-      overflow: hidden;
+    .dropdown.open .arrow{
+      transform:rotate(180deg);
     }
-
-    /* ============================================= */
-    /* LAYOUT */
-    /* ============================================= */
-     .dashboard {
-            display: flex;
-            height: 100vh;
-            min-height: 100vh;
-            overflow: hidden;
-            color: var(--text-color);
-        }
-        .sidebar {
-            background-color: var(--sidebar-bg);
-            color: var(--sidebar-text);
-            padding: 20px 0;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
-        }
-
-        .main-content {
-            flex-direction: column;
-            padding: 20px;
-            display: flex;
-            flex: 3;
-            transition: background-color 0.3s ease;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            margin-top: -20px;
-        }
-
-        .return-home-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .return-home-menu li {
-            margin-bottom: 5px;
-        }
-
-        .return-home-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .return-home-menu a:hover, .return-home-menu a.active {
-            background-color: rgba(0, 191, 255, 0.2);
-            color: white;
-            border-left: 3px solid var(--sidebar-active);
-        }
-
-        .return-home-menu i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-        .sidebar-header {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 20px;
-        }
-
-        .sidebar-logo {
-          width: 48px;
-          height: 48px;
-          border-radius: 50%;
-          object-fit: cover;
-          margin: 0;     /* REMOVE negative margins */
-        }
-
-        .sidebar-title h2 {
-          font-size: 20px;
-          line-height: 1.2;
-          margin: 0;
-          color: #00e5ff;
-        }
-
-
-        .sidebar-title p {
-            color: var(--sidebar-text);
-            font-size: 12px;
-            margin-top: 10px;
-            margin-left: -40px;
-            font-style: italic;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-            white-space: normal;
-        }
-
-        .holy-family {
-            color: #00bbff;
-            font-weight: bold;
-        }
-
-        .dental-clinic {
-            color: #00bbff;
-            font-weight: bold;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .sidebar-menu li {
-            margin-bottom: 5px;
-        }
-
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar-menu a:hover, .sidebar-menu a.active {
-            background-color: rgba(0, 191, 255, 0.2);
-            color: white;
-            border-left: 3px solid var(--sidebar-active);
-        }
-
-        .sidebar-menu i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-
-        .settings-menu a:hover, .return-home-menu a:hover {
-            background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
-            color: white; /* Change text color on hover */
-            border-left: 3px solid var(--sidebar-active); /* Add left border */
-            display: block; /* Ensure the hover effect spans the full width */
-            width: 100%; /* Extend hover effect across the full width */
-            padding-right: 25px; /* Maintain alignment */
-        }
-
-        .btn {
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            margin-top: -10px;
-            align-items: center;
-            gap: 5px;
-            font-size: 13px;
-            border: none;
-        }
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--sidebar-active);
-            color: var(--sidebar-active);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--sidebar-active);
-            color: white;
-            box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
-        }
-
-        .theme-toggle {
-            display: flex;
-            align-items: center;
-            margin-left: 20px;
-            gap: 10px;
-        }
-
-        .theme-toggle-label {
-            font-size: 14px;
-            color: var(--text-color);
-        }
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #00bfff;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-    /* ============================================= */
-    /* MAIN AREA */
-    /* ============================================= */
-    .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      background: #eef8fc;
-      overflow-y: auto;
+    .submenu{
+      list-style:none;
+      display:none;
+      background:#243444;
+    }
+    .dropdown.open .submenu{
+      display:block;
+    }
+    .submenu a{
+      padding:10px 40px;
+      font-size:14px;
+    }
+    /* ===== MAIN ===== */
+    .main{
+      margin-left:250px;
+      width:calc(100% - 250px);
+      display:flex;
+      flex-direction:column;
     }
 
     .topbar {
@@ -550,27 +367,27 @@
       justify-content: space-between;
     }
     /* Dropdown base */
-.submenu {
-  display: none;
-  list-style: none;
-  padding-left: 45px;
-  background: rgba(255,255,255,0.05);
-  }
+  .submenu {
+    display: none;
+    list-style: none;
+    padding-left: 45px;
+    background: rgba(255,255,255,0.05);
+    }
 
-  /* Arrow animation */
-  .arrow {
-    transition: transform 0.3s ease;
-    font-size: 12px;
-  }
+    /* Arrow animation */
+    .arrow {
+      transition: transform 0.3s ease;
+      font-size: 12px;
+    }
 
-  /* Active state */
-  .dropdown.active .submenu {
-    display: block;
-  }
+    /* Active state */
+    .dropdown.active .submenu {
+      display: block;
+    }
 
-  .dropdown.active .arrow {
-    transform: rotate(180deg);
-  }
+    .dropdown.active .arrow {
+      transform: rotate(180deg);
+    }
 
 
     .submenu {
@@ -635,10 +452,10 @@
         <i class="fas fa-chevron-down arrow"></i>
       </a>
       <ul class="submenu">
-        <li><a href="clinic-profile.html" class="active">Clinic Profile</a></li>
-        <li><a href="Dental-Chart.html">Dental Chart</a></li>
+        <li><a href="clinic-profile.html">Clinic Profile</a></li>
+        <li><a href="Dental-Chart.html"class="active">Dental Chart</a></li>
         <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
-        <li><a href="Data-Files.html">Data Files</a></li>
+        <li><a href="MyRecords.html">Patient Records</a></li>
       </ul>
     </li>
 
@@ -654,11 +471,6 @@
   <div class="main">  
 
     <!-- MAIN CONTENT -->
-    <div class="main-content">
-      <div class="topbar">
-        <div>Dental Chart</div>
-      </div>
-
       <div class="content"> 
         <!-- ODONTOGRAM -->
         <div class="odontogram-container">
