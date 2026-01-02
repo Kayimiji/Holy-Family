@@ -3,17 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Smart Dentistry – Odontogram & Prescription</title>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
 :root{
-  --bg:#eef8fc;
-  --card:#fff;
-  --shadow:0 4px 12px rgba(0,0,0,.08);
   --sidebar-bg:#2c3e50;
   --sidebar-active:#00bfff;
+  --bg:#eef8fc;
+  --card:#ffffff;
+  --shadow:0 4px 12px rgba(0,0,0,.08);
   --text:#2c3e50;
 }
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text);}
+body{background:var(--bg);color:var(--text)}
+ /* ===== LAYOUT ===== */
+.dashboard{display:flex;min-height:100vh}
 
 /* ===== SIDEBAR ===== */
 .sidebar{
@@ -39,7 +46,7 @@ body{background:var(--bg);color:var(--text);}
   color:var(--sidebar-active);
   line-height:1.1;
 }
-.sidebar-menu{list-style:none;}
+.sidebar-menu{list-style:none}
 .sidebar-menu a{
   display:flex;
   align-items:center;
@@ -81,7 +88,6 @@ body{background:var(--bg);color:var(--text);}
   width:calc(100% - 250px);
   display:flex;
   flex-direction:column;
-  padding:20px;
 }
 
 /* LAYOUT */
@@ -167,6 +173,8 @@ button{
   border-radius:6px;
   transition: transform 0.3s;
 }
+
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
 </style>
 </head>
 
@@ -182,31 +190,30 @@ button{
     </div>
   </div>
 
-  <ul class="sidebar-menu">
-    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+ <ul class="sidebar-menu">
+  <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
 
-    <li class="dropdown open">
-      <a href="#" class="dropdown-toggle">
-        <i class="fas fa-tooth"></i> My Clinic
-        <i class="fas fa-chevron-down arrow"></i>
-      </a>
-      <ul class="submenu">
-        <li><a href="clinic-profile.html">Clinic Profile</a></li>
-        <li><a href="odontogram-prescription.html" class="active">Dental Chart</a></li>
-        <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
-        <li><a href="MyRecords.html">Patient Records</a></li>
-      </ul>
-    </li>
+  <li class="dropdown open">
+    <a href="#" class="dropdown-toggle">
+      <i class="fas fa-tooth"></i> My Clinic
+      <i class="fas fa-chevron-down arrow"></i>
+    </a>
+    <ul class="submenu">
+      <li><a href="clinic-profile.html"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
+      <li><a href="odontogram-prescription.html"><i class="active"><i class= "fas fa-tooth"></i> Dental Chart</a></li>
+      <li><a href="Braces-Treatment.html" ><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
+      <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
+    </ul>
+  </li>
 
-    <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
-    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-    <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-    <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
-    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-  </ul>
+  <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
+  <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+  <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+  <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+  <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
+  <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+</ul>
 </aside>
-
 <!-- MAIN -->
 <div class="main">
 

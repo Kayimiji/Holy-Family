@@ -1,960 +1,442 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Clinic - Smart Dentistry</title>
-
-  <!-- Fonts & Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    /* ============================================= */
-    /* BASE STYLES */
-    /* ============================================= */
-    :root {
-      --sidebar-bg: #2c3e50;
-      --sidebar-active: #00bfff;
-      --sidebar-text: rgba(255, 255, 255, 0.9);
-      --bg-color: #f5f7fa;
-      --card-bg: #ffffff;
-      --text-color: #2c3e50;
-      --border-color: #e1e5eb;
-      --hover-bg: #f0f4f8;
-      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', Arial, sans-serif;
-    }
-
-    html, body {
-      height: 100%;
-      width: 100%;
-      background: var(--bg-color);
-      color: var(--text-color);
-      overflow: hidden;
-    }
-
-    /* ============================================= */
-    /* LAYOUT */
-    /* ============================================= */
-     .dashboard {
-            display: flex;
-            height: 100vh;
-            min-height: 100vh;
-            overflow: hidden;
-            color: var(--text-color);
-        }
-        .sidebar {
-            background-color: var(--sidebar-bg);
-            color: var(--sidebar-text);
-            padding: 20px 0;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
-        }
-
-        .main-content {
-            flex-direction: column;
-            padding: 20px;
-            display: flex;
-            flex: 3;
-            transition: background-color 0.3s ease;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            margin-top: -20px;
-        }
-
-        .return-home-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .return-home-menu li {
-            margin-bottom: 5px;
-        }
-
-        .return-home-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .return-home-menu a:hover, .return-home-menu a.active {
-            background-color: rgba(0, 191, 255, 0.2);
-            color: white;
-            border-left: 3px solid var(--sidebar-active);
-        }
-
-        .return-home-menu i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        .sidebar-logo {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            margin-right: -5px;
-            margin-top: -45px;
-            margin-left: -20px;
-            object-fit: cover;
-        }
-
-        .sidebar-title h2 {
-            color: var(--sidebar-active);
-            margin: 0;
-            font-size: 18px;
-            line-height: 1;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            white-space: nowrap;
-        }
-
-        .sidebar-title p {
-            color: var(--sidebar-text);
-            font-size: 12px;
-            margin-top: 10px;
-            margin-left: -40px;
-            font-style: italic;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-            white-space: normal;
-        }
-
-        .holy-family {
-            color: #00bbff;
-            font-weight: bold;
-        }
-
-        .dental-clinic {
-            color: #00bbff;
-            font-weight: bold;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .sidebar-menu li {
-            margin-bottom: 5px;
-        }
-
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar-menu a:hover, .sidebar-menu a.active {
-            background-color: rgba(0, 191, 255, 0.2);
-            color: white;
-            border-left: 3px solid var(--sidebar-active);
-        }
-
-        .sidebar-menu i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-
-        .settings-menu a:hover, .return-home-menu a:hover {
-            background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
-            color: white; /* Change text color on hover */
-            border-left: 3px solid var(--sidebar-active); /* Add left border */
-            display: block; /* Ensure the hover effect spans the full width */
-            width: 100%; /* Extend hover effect across the full width */
-            padding-right: 25px; /* Maintain alignment */
-        }
-
-        .btn {
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            margin-top: -10px;
-            align-items: center;
-            gap: 5px;
-            font-size: 13px;
-            border: none;
-        }
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--sidebar-active);
-            color: var(--sidebar-active);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--sidebar-active);
-            color: white;
-            box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
-        }
-
-        .theme-toggle {
-            display: flex;
-            align-items: center;
-            margin-left: 20px;
-            gap: 10px;
-        }
-
-        .theme-toggle-label {
-            font-size: 14px;
-            color: var(--text-color);
-        }
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #00bfff;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-    /* ============================================= */
-    /* MAIN AREA */
-    /* ============================================= */
-    .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      background: #eef8fc;
-      overflow-y: auto;
-    }
-
-    .topbar {
-      background: #3de8ff;
-      color: white;
-      height: 60px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-      font-weight: bold;
-      flex-shrink: 0;
-    }
-
-    .tutorial-btn {
-      background: #a7ff83;
-      color: #333;
-      padding: 6px 12px;
-      border-radius: 4px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .content {
-      flex: 1;
-      display: flex;
-      gap: 20px;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    /* ============================================= */
-    /* LEFT BUTTONS */
-    /* ============================================= */
-    .left-buttons {
-      width: 200px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      flex-shrink: 0;
-    }
-
-    .btn-box {
-      background: #fff;
-      border-radius: 6px;
-      padding: 15px;
-      text-align: center;
-      cursor: pointer;
-      transition: 0.2s;
-      box-shadow: var(--shadow);
-    }
-
-    .btn-box.active {
-      background: #00bcd4;
-      color: white;
-    }
-
-    /* ============================================= */
-    /* ODONTOGRAM */
-    /* ============================================= */
-    .odontogram-container {
-      flex: 1;
-      background: white;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      min-width: 0;
-    }
-
-    .odontogram-title {
-      text-align: center;
-      font-size: 20px;
-      margin-bottom: 20px;
-      font-weight: bold;
-    }
-
-    #toothConditionDropdown {
-      padding: 8px;
-      width: 250px;
-      align-self: center;
-      margin-bottom: 20px;
-    }
-
-    .teeth-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(25px, 1fr));
-      gap: 5px;
-      justify-items: center;
-      margin-bottom: 20px;
-      width: 100%;
-    }
-
-    .tooth {
-      width: 28px;
-      height: 28px;
-      background: #fafafa;
-      border: 1px solid #ccc;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 20px;
-      margin-bottom: 20px;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 14px;
-    }
-
-    .legend-color {
-      width: 15px;
-      height: 15px;
-    }
-
-    .conditions-list {
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .edit-btn {
-      width: 45px;
-      height: 45px;
-      background: #00cc7a;
-      border-radius: 50%;
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: white;
-      font-size: 18px;
-    }
-    .container {
-    display: flex;
-    width: 100%;
-    gap: 20px;
-    align-items: flex-start;
-    height: auto;
-    overflow: visible;
+<meta charset="UTF-8">
+<title>Smart Dentistry – Odontogram & Prescription</title>
+<style>
+:root{
+  --bg:#eef8fc;
+  --card:#fff;
+  --shadow:0 4px 12px rgba(0,0,0,.08);
+  --sidebar-bg:#2c3e50;
+  --sidebar-active:#00bfff;
+  --text:#2c3e50;
 }
-  .left-panel {
-    flex: 1;
-    background: #fff;
-    padding: 20px;
-    border-right: 1px solid #dcdcdc;
-    border-radius: 8px;
-    overflow-y: auto;
-    max-height: 700px;
-    min-width: 0;
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+body{background:var(--bg);color:var(--text);}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:250px;
+  background:var(--sidebar-bg);
+  color:#fff;
+  position:fixed;
+  top:0;left:0;bottom:0;
+}
+.sidebar-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:20px;
+}
+.sidebar-logo{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+}
+.sidebar-title h2{
+  font-size:16px;
+  color:var(--sidebar-active);
+  line-height:1.1;
+}
+.sidebar-menu{list-style:none;}
+.sidebar-menu a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 20px;
+  color:#fff;
+  text-decoration:none;
+}
+.sidebar-menu a:hover,
+.sidebar-menu a.active{
+  background:rgba(0,191,255,.2);
+  border-left:4px solid var(--sidebar-active);
 }
 
-.preview-panel {
-    flex: 1;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    overflow-y: auto;
-    max-height: 700px;
-    min-width: 0;
+/* Dropdown */
+.dropdown .arrow{
+  margin-left:auto;
+  transition:.3s;
+}
+.dropdown.open .arrow{
+  transform:rotate(180deg);
+}
+.submenu{
+  list-style:none;
+  display:none;
+  background:#243444;
+}
+.dropdown.open .submenu{
+  display:block;
+}
+.submenu a{
+  padding:10px 40px;
+  font-size:14px;
 }
 
-#preview-box {
-    width: 100%;
-    min-height: 300px;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background: #fafafa;
-    overflow-y: auto;
+/* ===== MAIN ===== */
+.main{
+  margin-left:250px;
+  width:calc(100% - 250px);
+  display:flex;
+  flex-direction:column;
+  padding:20px;
 }
-  .preview-section {
-      flex: 2.2;   /* keep moderate */
-      .prescription-container {
-    width: 100%;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    color: #2e3a43;
-    font-family: Arial, sans-serif;
-      }
+
+/* LAYOUT */
+.wrapper{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
 }
-    .prescription-container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 20px;
-    }
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:8px;
+  box-shadow:var(--shadow);
+}
 
-    .prescription-form {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-    }
+/* ODONTOGRAM */
+#teeth{
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  gap:6px;
+}
+.tooth{
+  padding:8px;
+  border:1px solid #ccc;
+  border-radius:4px;
+  text-align:center;
+  cursor:pointer;
+  font-size:12px;
+}
+.decay{background:#9b59b6;color:#fff;}
+.periodontal{background:#3498db;color:#fff;}
+.trauma{background:#e74c3c;color:#fff;}
+.structural{background:#e67e22;color:#fff;}
+.developmental{background:#2ecc71;color:#fff;}
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
+/* FORM */
+input,select,textarea{
+  width:100%;
+  padding:6px;
+  margin-bottom:8px;
+}
+button{
+  padding:8px 12px;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+}
+.blue{background:#56c1ff;color:#fff;}
+.green{background:#34ff88;color:#fff;}
+.gray{background:#3ee9ff;color:#fff;}
 
-    label {
-      font-weight: 600;
-      margin-top: 10px;
-      display: block;
-    }
+.medicine{
+  display:flex;
+  gap:5px;
+  margin-bottom:5px;
+}
+.medicine input{flex:1}
 
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
+/* PREVIEW */
+#preview{
+  border:1px solid #ccc;
+  padding:15px;
+  min-height:200px;
+}
 
-    textarea {
-      resize: vertical;
-    }
-
-    .action-buttons {
-      margin-top: 15px;
-      display: flex;
-      gap: 10px;
-    }
-
-    .print-btn {
-      background: #28a745;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-    }
-
-    .pdf-btn {
-      background: #0d6efd;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-    }
-
-    /* PREVIEW */
-    .prescription-preview {
-      margin-top: 30px;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-    }
-
-    #previewBox {
-      min-height: 250px;
-      border: 1px dashed #bbb;
-      padding: 15px;
-      margin-top: 10px;
-
-    }
-    .sidebar-menu {
-    position: relative;
-    }
-    .dropdown > a {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    /* Dropdown base */
-.submenu {
-  display: none;
-  list-style: none;
-  padding-left: 45px;
-  background: rgba(255,255,255,0.05);
-  }
-
-  /* Arrow animation */
-  .arrow {
-    transition: transform 0.3s ease;
-    font-size: 12px;
-  }
-
-  /* Active state */
-  .dropdown.active .submenu {
-    display: block;
-  }
-
-  .dropdown.active .arrow {
-    transform: rotate(180deg);
-  }
-
-
-    .submenu {
-      display: none;
-      list-style: none;
-      padding-left: 45px;
-      background: rgba(255,255,255,0.05);
-    }
-
-    .submenu li a {
-      padding: 10px 20px;
-      font-size: 14px;
-      color: white;
-      display: block;
-      text-decoration: none;
-    }
-
-    .submenu li a:hover {
-      background: rgba(0,191,255,0.2);
-    }
-
-    .arrow {
-      font-size: 12px;
-      transition: transform 0.3s ease;
-    }
-
-    .dropdown.active .arrow {
-      transform: rotate(180deg);
-    }
+/* ===== TUTORIAL ===== */
+#tutorialOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  z-index:999;
+}
+.tutorial-box{
+  position:absolute;
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+  width:320px;
+}
+.highlight{
+  box-shadow:0 0 0 4px #00e5ff;
+  border-radius:6px;
+  transition: transform 0.3s;
+}
 </style>
-
-  <style>
-
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
 </head>
 
 <body>
-  <div class="dashboard">
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <div class="logo-container">
-          <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
-          <div class="logo-glow"></div>
-        </div>
-        <div class="sidebar-title">
-          <h2>
-            <span class="holy-family">SMART</span><br>
-            <span class="dental-clinic">DENTISTRY</span>
-          </h2>
-        </div>
-      </div>
-      <ul class="sidebar-menu">
-        <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
-        <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i><span> Appointment History</a></li>
-        <li><a href="patients.html"><i class="fas fa-users"></i><span>Patients</span></a></li>
-        <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-        <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i><span> Data BackUp</a></li>
-        <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-        <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
-        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <img src="logo.png" class="sidebar-logo">
+    <div class="sidebar-title">
+      <h2>SMART<br>DENTISTRY</h2>
+    </div>
+  </div>
+
+  <ul class="sidebar-menu">
+    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+
+    <li class="dropdown open">
+      <a href="#" class="dropdown-toggle">
+        <i class="fas fa-tooth"></i> My Clinic
+        <i class="fas fa-chevron-down arrow"></i>
+      </a>
+      <ul class="submenu">
+        <li><a href="clinic-profile.html">Clinic Profile</a></li>
+        <li><a href="odontogram-prescription.html" class="active">Dental Chart</a></li>
+        <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
+        <li><a href="MyRecords.html">Patient Records</a></li>
       </ul>
-      <!-- Add Return to Home menu at the bottom -->
-      <div style="position: absolute; bottom: 20px; width: 13%;">
-        <div style="position: absolute; bottom: 20px; width: 100%;">
-          <ul class="sidebar-menu settings-menu">
-            <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-          </ul>
-          <ul class="sidebar-menu return-home-menu">
-            <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    
+    </li>
 
-      <div class="content"> 
-        <!-- ODONTOGRAM -->
-        <div class="odontogram-container">
-          <div class="odontogram-title">Odontograma</div>
+    <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
+    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+    <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+    <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
+    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+  </ul>
+</aside>
 
-          <select id="toothConditionDropdown">
-            <optgroup label="Structural Damage" data-color="#FF8A65">
-              <option value="damage">Fracture / Damage</option>
-            </optgroup>
-            <optgroup label="Decay & Infection" data-color="#9C27B0">
-              <option value="decay">Decay / Cavity</option>
-            </optgroup>
-            <optgroup label="Tooth Loss / Trauma" data-color="#F44336">
-              <option value="missing">Missing / Trauma</option>
-            </optgroup>
-            <optgroup label="Periodontal Issues" data-color="#2196F3">
-              <option value="perio">Periodontal Issue</option>
-            </optgroup>
-            <optgroup label="Developmental Defects" data-color="#4CAF50">
-              <option value="developmental">Developmental Defect</option>
-            </optgroup>
-          </select>
+<!-- MAIN -->
+<div class="main">
 
-          <div class="teeth-grid" id="teethGrid"></div>
+<button id="startTutorial" class="blue">❓ How to Use</button>
+<button id="playWalkthrough" class="green">▶ Play Walkthrough</button>
 
-          <div class="legend">
-            <div class="legend-item"><div class="legend-color" style="background:#FF8A65;"></div><span>Structural Damage</span></div>
-            <div class="legend-item"><div class="legend-color" style="background:#9C27B0;"></div><span>Decay & Infection</span></div>
-            <div class="legend-item"><div class="legend-color" style="background:#F44336;"></div><span>Loss / Trauma</span></div>
-            <div class="legend-item"><div class="legend-color" style="background:#2196F3;"></div><span>Periodontal Issues</span></div>
-            <div class="legend-item"><div class="legend-color" style="background:#4CAF50;"></div><span>Developmental Defects</span></div>
-          </div>
+<div class="wrapper">
 
-          <div class="conditions-list">
-            <strong>Tooth Conditions:</strong><br>
-            Decay: <span id="decayTeeth">16, 25, 36</span><br>
-            Periodontitis: <span id="perioTeeth">11, 31</span><br>
-            Missing: <span id="missingTeeth">18, 28</span>
-          </div>
-        <div class="odontogram-container">
-        <div class="container">
-        <!-- LEFT PANEL -->
-        <div class="prescription-container">
+<!-- LEFT -->
+<div class="card">
+<h3>Odontogram</h3>
 
-      <!-- PRESCRIPTION DETAILS -->
-      <div class="prescription-form">
-        <h2>Prescription Details</h2>
+<select id="condition">
+  <option value="">Select Condition</option>
+  <option value="decay">Decay / Infection</option>
+  <option value="periodontal">Periodontal</option>
+  <option value="trauma">Loss / Trauma</option>
+  <option value="structural">Structural Damage</option>
+  <option value="developmental">Developmental</option>
+</select>
 
-        <div class="form-grid">
-          <div>
-            <label>Clinic Name</label>
-            <input type="text">
-          </div>
+<div id="teeth"></div>
 
-          <div>
-            <label>Doctor Name</label>
-            <input type="text">
-          </div>
+<hr>
 
-          <div>
-            <label>Date</label>
-            <input type="date">
-          </div>
+<h3>Prescription</h3>
+<input id="clinic" placeholder="Clinic Name">
+<input id="doctor" placeholder="Doctor Name">
+<input type="date" id="date">
 
-          <div>
-            <label>Patient Name</label>
-            <input type="text">
-          </div>
+<input id="patient" placeholder="Patient Name">
+<input id="age" placeholder="Age">
 
-          <div>
-            <label>Age</label>
-            <input type="number">
-          </div>
+<select id="gender">
+  <option>Male</option>
+  <option>Female</option>
+</select>
 
-          <div>
-            <label>Gender</label>
-            <select>
-              <option>Male</option>
-              <option>Female</option>
-            </select>
-          </div>
-        </div>
+<textarea id="diagnosis" rows="4" placeholder="Auto Diagnosis"></textarea>
+<textarea id="notes" placeholder="Notes"></textarea>
 
-        <label>Diagnosis</label>
-        <textarea></textarea>
-
-        <label>Clinic Contact</label>
-        <input type="text">
-
-        <h4>Medications</h4>
-        <button>+ Add Medicine</button>
-
-        <label>Additional Notes</label>
-        <textarea></textarea>
-
-        <button onclick="updatePreview()">Update Preview</button>
-
-      </div>
-
-      <!-- MEDICATIONS LIST -->
-      <div id="medicationsList">  
-
-    </div>
-
-<script>
-
-function toggleClinic() {
-  const dropdown = document.querySelector(".dropdown");
-  dropdown.classList.toggle("active");
-
-  const submenu = document.getElementById("clinicSubmenu");
-  submenu.style.display = submenu.style.display === "block" ? "none" : "block";
-}
-
-function updatePreview() {
-
-  const clinic = document.getElementById("clinicName").value;
-  const doctor = document.getElementById("doctorName").value;
-  const date = document.getElementById("date").value;
-  const patient = document.getElementById("patientName").value;
-  const age = document.getElementById("age").value;
-  const gender = document.getElementById("gender").value;
-  const diagnosis = document.getElementById("diagnosis").value;
-  const contact = document.getElementById("clinicContact").value;
-  const notes = document.getElementById("additionalNotes").value;
-
-  let meds = "";
-  const medsInputs = document.querySelectorAll("#medicationsList div");
-
-  medsInputs.forEach((med, index) => {
-    const inputs = med.querySelectorAll("input");
-    meds += `${index + 1}. ${inputs[0].value} - ${inputs[1].value}, ${inputs[2].value}<br>`;
-  });
-
-  document.getElementById("previewBox").innerHTML = `
-    <h3>${clinic}</h3>
-    <p><strong>Doctor:</strong> ${doctor}</p>
-    <p><strong>Date:</strong> ${date}</p>
-    <hr>
-
-    <p><strong>Patient:</strong> ${patient}</p>
-    <p><strong>Age:</strong> ${age}</p>
-    <p><strong>Gender:</strong> ${gender}</p>
-
-    <p><strong>Diagnosis:</strong><br>${diagnosis}</p>
-
-    <h4>Medications</h4>
-    ${meds || "No medicines added"}
-
-    <p><strong>Additional Notes:</strong><br>${notes}</p>
-
-    <hr>
-    <p><strong>Clinic Contact:</strong> ${contact}</p>
-  `;
-}
-</script>
-    <div class="action-buttons">
-        <button class="print-btn" onclick="window.print()">Print</button>
-        <button class="pdf-btn">Export as PDF</button>
-    </div>
+<h4>Medicines</h4>
+<div id="medList"></div>
+<button id="addMed" class="gray">+ Add Medicine</button>
+<button id="update" class="blue">Update Preview</button>
 </div>
 
-        <!-- PREVIEW PANEL -->
-        <div class="preview-panel">
-            <h2>Prescription Preview</h2>
-            <div id="preview-box">
-                <!-- Preview content will be generated here -->
-            </div>
-        </div>
-    </div>
+<!-- RIGHT -->
+<div class="card">
+<h3>Prescription Preview</h3>
+<div id="preview">No data yet</div><br>
+<button id="print" class="green">Print</button>
+<button id="pdf" class="blue">Export PDF</button>
+</div>
+
+</div>
+
+<!-- TUTORIAL -->
+<div id="tutorialOverlay">
+  <div class="tutorial-box" id="tutorialBox">
+    <h4 id="tTitle"></h4>
+    <p id="tText"></p>
+    <button id="prev">Back</button>
+    <button id="next">Next</button>
+  </div>
+</div>
+
 <script>
-/* --------------------
-   GENERATE TEETH 11–48
--------------------- */
-const toothGrid = document.getElementById("toothGrid");
-const toothNumbers = [
-    18,17,16,15,14,13,12,11,
-    21,22,23,24,25,26,27,28,
-    48,47,46,45,44,43,42,41,
-    31,32,33,34,35,36,37,38
+/* ========= ODONTOGRAM ========= */
+const teethNums=[18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28,48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38];
+const teethDiv=document.getElementById("teeth");
+const condition=document.getElementById("condition");
+const diagnosis=document.getElementById("diagnosis");
+let state={};
+
+teethNums.forEach(n=>{
+  const d=document.createElement("div");
+  d.className="tooth";
+  d.textContent=n;
+  d.onclick=()=>{ 
+    if(!condition.value){alert("Select condition first");return;}
+    d.className="tooth "+condition.value;
+    state[n]=condition.value;
+    autoDiagnosis();
+  };
+  teethDiv.appendChild(d);
+});
+
+function autoDiagnosis(){
+  let map={};
+  for(let t in state){
+    map[state[t]]=map[state[t]]||[];
+    map[state[t]].push(t);
+  }
+  let text="";
+  if(map.decay) text+=`Decay: ${map.decay.join(", ")}\n`;
+  if(map.periodontal) text+=`Periodontal: ${map.periodontal.join(", ")}\n`;
+  if(map.trauma) text+=`Trauma: ${map.trauma.join(", ")}\n`;
+  if(map.structural) text+=`Structural: ${map.structural.join(", ")}\n`;
+  if(map.developmental) text+=`Developmental: ${map.developmental.join(", ")}\n`;
+  diagnosis.value=text.trim();
+}
+
+/* ========= MEDICINE ========= */
+const addMed=document.getElementById("addMed");
+const medList=document.getElementById("medList");
+
+addMed.onclick=()=>{
+  const d=document.createElement("div");
+  d.className="medicine";
+  d.innerHTML=`
+    <input placeholder="Medicine">
+    <input placeholder="Dose">
+    <input placeholder="Freq">
+    <button onclick="this.parentElement.remove()">✖</button>`;
+  medList.appendChild(d);
+};
+
+/* ========= PREVIEW ========= */
+const update=document.getElementById("update");
+const preview=document.getElementById("preview");
+
+update.onclick=()=>{
+  let meds="";
+  document.querySelectorAll(".medicine").forEach(m=>{
+    const i=m.querySelectorAll("input");
+    meds+=`<li>${i[0].value} – ${i[1].value} – ${i[2].value}</li>`;
+  });
+  preview.innerHTML=`
+    <h3>${document.getElementById("clinic").value}</h3>
+    <p><b>Doctor:</b> ${document.getElementById("doctor").value}</p>
+    <p><b>Date:</b> ${document.getElementById("date").value}</p>
+    <p><b>Patient:</b> ${document.getElementById("patient").value} (${document.getElementById("age").value}, ${document.getElementById("gender").value})</p>
+    <p><b>Diagnosis:</b><br>${diagnosis.value.replace(/\n/g,"<br>")}</p>
+    <ul>${meds||"<li>No medicine</li>"}</ul>
+    <p>${document.getElementById("notes").value}</p>`;
+};
+
+/* ========= PRINT / PDF ========= */
+document.getElementById("print").onclick=()=>{
+  update.click();
+  const w=window.open();
+  w.document.write(preview.innerHTML);
+  w.print();
+};
+document.getElementById("pdf").onclick=()=>{update.click();window.print();};
+
+/* ========= TUTORIAL ========= */
+const steps=[
+  {t:"Welcome",d:"This guide will show how to use the system",el:null},
+  {t:"Select Condition",d:"Choose tooth condition",el:"#condition"},
+  {t:"Click Teeth",d:"Click teeth to color & diagnose",el:"#teeth"},
+  {t:"Auto Diagnosis",d:"Diagnosis fills automatically",el:"#diagnosis"},
+  {t:"Add Medicine",d:"Add medicines here",el:"#addMed"},
+  {t:"Preview",d:"Generate prescription preview",el:"#update"},
+  {t:"Print / PDF",d:"Print or export prescription",el:"#print"}
 ];
 
-toothNumbers.forEach(num => {
-    const div = document.createElement("div");
-    div.className = "tooth";
-    div.textContent = num;
-    div.onclick = () => toggleTooth(div, num);
-    toothGrid.appendChild(div);
-});
+let s=0;
+const overlay=document.getElementById("tutorialOverlay");
+const box=document.getElementById("tutorialBox");
+const tTitle=document.getElementById("tTitle");
+const tText=document.getElementById("tText");
+const startTutorial=document.getElementById("startTutorial");
+const next=document.getElementById("next");
+const prev=document.getElementById("prev");
 
-let selectedTeeth = [];
+function show(){
+  document.querySelectorAll(".highlight").forEach(e=>e.classList.remove("highlight"));
+  const step=steps[s];
+  tTitle.innerText=step.t;
+  tText.innerText=step.d;
+  if(step.el){
+    const el=document.querySelector(step.el);
+    el.classList.add("highlight");
+    const r=el.getBoundingClientRect();
+    box.style.top=r.bottom+10+"px";
+    box.style.left=r.left+"px";
+    box.style.transform="";
+  }else{
+    box.style.top="50%";box.style.left="50%";
+    box.style.transform="translate(-50%,-50%)";
+  }
+}
 
-/* --------------------
-   CLICK TO SELECT TOOTH
--------------------- */
-function toggleTooth(el, number) {
-    el.classList.toggle("selected");
+startTutorial.onclick=()=>{overlay.style.display="block";s=0;show();}
+next.onclick=()=>{s<steps.length-1?(s++,show()):overlay.style.display="none";}
+prev.onclick=()=>{if(s>0){s--;show();}}
 
-    if (selectedTeeth.includes(number)) {
-        selectedTeeth = selectedTeeth.filter(n => n !== number);
-    } else {
-        selectedTeeth.push(number);
+/* ========= VIDEO-STYLE WALKTHROUGH ========= */
+const playBtn=document.getElementById("playWalkthrough");
+playBtn.onclick=async ()=>{
+  overlay.style.display="block";
+  s=0;
+
+  async function stepForward(){
+    if(s>=steps.length){
+      overlay.style.display="none";
+      return;
+    }
+    show();
+    const step=steps[s];
+
+    if(step.el){
+      const el=document.querySelector(step.el);
+      el.style.transform="scale(1.1)";
+      setTimeout(()=>el.style.transform="scale(1)",300);
+      
+      if(step.el=="#condition"){ 
+        el.value="decay"; el.dispatchEvent(new Event("change"));
+      }
+      if(step.el=="#teeth"){ 
+        const tooth=document.querySelector(".tooth");
+        tooth.click();
+      }
+      if(step.el=="#addMed") {
+        addMed.click();
+        const lastMed=document.querySelector(".medicine input");
+        if(lastMed) lastMed.value="Paracetamol";
+      }
+      if(step.el=="#update") update.click();
     }
 
-    updateDiagnosisField();
-}
+    s++;
+    await new Promise(r=>setTimeout(r, 2000));
+    stepForward();
+  }
 
-/* Add teeth to diagnosis textarea automatically */
-function updateDiagnosisField() {
-    document.getElementById("diagnosis").value =
-        "Teeth involved: " + selectedTeeth.join(", ");
-}
-
-/* --------------------
-   ADD MEDICATION ROW
--------------------- */
-document.getElementById("addMedicineBtn").addEventListener("click", function () {
-
-    const container = document.getElementById("medications-list");
-
-    const row = document.createElement("div");
-    row.classList.add("medicine-row");
-
-    row.innerHTML = `
-        <input type="text" placeholder="Medicine Name" class="med-name">
-        <input type="text" placeholder="Dosage (e.g., 500mg)" class="med-dose">
-        <input type="text" placeholder="Frequency (e.g., 3x a day)" class="med-frequency">
-        <button class="remove-btn">Remove</button>
-    `;
-
-    row.querySelector(".remove-btn").addEventListener("click", () => row.remove());
-
-    container.appendChild(row);
-});
-
-
-/* --------------------
-   UPDATE PREVIEW PANEL
--------------------- */
-function updatePreview() {
-    const preview = document.getElementById("preview-box");
-
-    let meds = "";
-
-    document.querySelectorAll("#medications-list .medicine-row").forEach(row => {
-        const name = row.querySelector(".med-name").value;
-        const dose = row.querySelector(".med-dose").value;
-        const freq = row.querySelector(".med-frequency").value;
-
-        meds += `• ${name} — ${dose}, ${freq}\n`;
-    });
-
-    preview.textContent =
-        `=== PRESCRIPTION ===\n
-Clinic: ${clinicName.value}
-Contact: ${clinicContact.value}
-
-Doctor: ${doctorName.value}
-License: ${licenseNumber.value}
-
-Date: ${date.value}
-
-Patient: ${patientName.value}
-Age: ${age.value}
-Gender: ${gender.value}
-Contact: ${contact.value}
-
-Diagnosis:
-${diagnosis.value}
-
-Medications:
-${meds}
-
-Additional Notes:
-${additionalNotes.value}
-`;
-}
-document.getElementById("updatePreviewBtn").addEventListener("click", updatePreview);
+  stepForward();
+};
 </script>
-
-  <script>
-function toggleClinic(e) {
-  e.preventDefault();
-
-  const dropdown = e.currentTarget.parentElement;
-  dropdown.classList.toggle("active");
-
-  const submenu = dropdown.querySelector(".submenu");
-  submenu.style.display = submenu.style.display === "block" ? "none" : "block";
-}
-
-  document.querySelector(".dropdown-toggle").addEventListener("click", function (e) {
-    e.preventDefault();
-    this.parentElement.classList.toggle("active");
-  });
-
-
-</script>
-
 </body>
 </html>

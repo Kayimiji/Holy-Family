@@ -2,18 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Smart Dentistry – Odontogram & Prescription</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Clinic - Smart Dentistry</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 :root{
-  --bg:#eef8fc;
-  --card:#fff;
-  --shadow:0 4px 12px rgba(0,0,0,.08);
   --sidebar-bg:#2c3e50;
   --sidebar-active:#00bfff;
+  --bg:#eef8fc;
+  --card:#ffffff;
+  --shadow:0 4px 12px rgba(0,0,0,.08);
   --text:#2c3e50;
 }
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text);}
+body{background:var(--bg);color:var(--text)}
+
+/* ===== LAYOUT ===== */
+.dashboard{display:flex;min-height:100vh}
 
 /* ===== SIDEBAR ===== */
 .sidebar{
@@ -39,7 +47,7 @@ body{background:var(--bg);color:var(--text);}
   color:var(--sidebar-active);
   line-height:1.1;
 }
-.sidebar-menu{list-style:none;}
+.sidebar-menu{list-style:none}
 .sidebar-menu a{
   display:flex;
   align-items:center;
@@ -81,96 +89,102 @@ body{background:var(--bg);color:var(--text);}
   width:calc(100% - 250px);
   display:flex;
   flex-direction:column;
-  padding:20px;
 }
 
-/* LAYOUT */
-.wrapper{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
+/* ===== HEADER ===== */
+.header{
+  background:#3de8ff;
+  padding:15px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:700;
 }
-.card{
+
+
+/* ===== CONTENT ===== */
+.content{
+  padding:24px;
+  display:grid;
+  grid-template-columns:1fr 180px;
+  gap:24px;
+}
+
+/* ===== PROFILE CARD ===== */
+.profile-card{
   background:var(--card);
-  padding:20px;
-  border-radius:8px;
+  border-radius:12px;
+  padding:24px;
   box-shadow:var(--shadow);
 }
-
-/* ODONTOGRAM */
-#teeth{
-  display:grid;
-  grid-template-columns:repeat(8,1fr);
-  gap:6px;
-}
-.tooth{
-  padding:8px;
-  border:1px solid #ccc;
-  border-radius:4px;
-  text-align:center;
-  cursor:pointer;
-  font-size:12px;
-}
-.decay{background:#9b59b6;color:#fff;}
-.periodontal{background:#3498db;color:#fff;}
-.trauma{background:#e74c3c;color:#fff;}
-.structural{background:#e67e22;color:#fff;}
-.developmental{background:#2ecc71;color:#fff;}
-
-/* FORM */
-input,select,textarea{
-  width:100%;
-  padding:6px;
-  margin-bottom:8px;
-}
-button{
-  padding:8px 12px;
-  border:none;
-  border-radius:4px;
-  cursor:pointer;
-}
-.blue{background:#56c1ff;color:#fff;}
-.green{background:#34ff88;color:#fff;}
-.gray{background:#3ee9ff;color:#fff;}
-
-.medicine{
+.form-head{font-weight:700;margin:14px 0}
+.form-row{
   display:flex;
-  gap:5px;
-  margin-bottom:5px;
+  gap:12px;
+  align-items:center;
+  margin-bottom:10px;
 }
-.medicine input{flex:1}
-
-/* PREVIEW */
-#preview{
-  border:1px solid #ccc;
-  padding:15px;
-  min-height:200px;
-}
-
-/* ===== TUTORIAL ===== */
-#tutorialOverlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  display:none;
-  z-index:999;
-}
-.tutorial-box{
-  position:absolute;
-  background:#fff;
-  padding:20px;
-  border-radius:10px;
-  width:320px;
-}
-.highlight{
-  box-shadow:0 0 0 4px #00e5ff;
+.form-row .label{width:150px;font-size:13px}
+input{
+  flex:1;
+  padding:8px 10px;
+  border:1px solid #ddd;
   border-radius:6px;
-  transition: transform 0.3s;
+}
+.section{
+  border-top:1px dashed #eee;
+  padding-top:14px;
+  margin-top:14px;
+}
+.signature-box{
+  height:70px;
+  border:1px solid #ddd;
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:cursive;
+}
+
+/* ===== RIGHT PANEL ===== */
+.right-panel{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  align-items:center;
+}
+.clinic-logo{
+  background:#fff;
+  padding:14px;
+  border-radius:10px;
+  box-shadow:var(--shadow);
+}
+.change{
+  background:#e6fbff;
+  padding:10px;
+  border-radius:8px;
+  font-weight:600;
+}
+.fab button{
+  width:44px;
+  height:44px;
+  border:none;
+  border-radius:50%;
+  background:#00bfff;
+  color:#fff;
+  cursor:pointer;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .content{grid-template-columns:1fr}
+  .right-panel{flex-direction:row}
 }
 </style>
 </head>
 
 <body>
+
 <div class="dashboard">
 
 <!-- SIDEBAR -->
@@ -191,8 +205,8 @@ button{
         <i class="fas fa-chevron-down arrow"></i>
       </a>
       <ul class="submenu">
-        <li><a href="clinic-profile.html">Clinic Profile</a></li>
-        <li><a href="odontogram-prescription.html" class="active">Dental Chart</a></li>
+        <li><a href="clinic-profile.html" class="active">Clinic Profile</a></li>
+        <li><a href="odontogram-prescription.html">Dental Chart</a></li>
         <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
         <li><a href="MyRecords.html">Patient Records</a></li>
       </ul>
@@ -209,234 +223,168 @@ button{
 
 <!-- MAIN -->
 <div class="main">
+<div class="content">
 
-<button id="startTutorial" class="blue">❓ How to Use</button>
-<button id="playWalkthrough" class="green">▶ Play Walkthrough</button>
+<div class="profile-card">
+  <div class="form-head">Clinic Information</div>
+  <div class="form-row"><div class="label">Clinic Name</div><input></div>
+  <div class="form-row"><div class="label">Contact Number</div><input></div>
+  <div class="form-row"><div class="label">Address</div><input></div>
 
-<div class="wrapper">
-
-<!-- LEFT -->
-<div class="card">
-<h3>Odontogram</h3>
-
-<select id="condition">
-  <option value="">Select Condition</option>
-  <option value="decay">Decay / Infection</option>
-  <option value="periodontal">Periodontal</option>
-  <option value="trauma">Loss / Trauma</option>
-  <option value="structural">Structural Damage</option>
-  <option value="developmental">Developmental</option>
-</select>
-
-<div id="teeth"></div>
-
-<hr>
-
-<h3>Prescription</h3>
-<input id="clinic" placeholder="Clinic Name">
-<input id="doctor" placeholder="Doctor Name">
-<input type="date" id="date">
-
-<input id="patient" placeholder="Patient Name">
-<input id="age" placeholder="Age">
-
-<select id="gender">
-  <option>Male</option>
-  <option>Female</option>
-</select>
-
-<textarea id="diagnosis" rows="4" placeholder="Auto Diagnosis"></textarea>
-<textarea id="notes" placeholder="Notes"></textarea>
-
-<h4>Medicines</h4>
-<div id="medList"></div>
-<button id="addMed" class="gray">+ Add Medicine</button>
-<button id="update" class="blue">Update Preview</button>
-</div>
-
-<!-- RIGHT -->
-<div class="card">
-<h3>Prescription Preview</h3>
-<div id="preview">No data yet</div><br>
-<button id="print" class="green">Print</button>
-<button id="pdf" class="blue">Export PDF</button>
-</div>
-
-</div>
-
-<!-- TUTORIAL -->
-<div id="tutorialOverlay">
-  <div class="tutorial-box" id="tutorialBox">
-    <h4 id="tTitle"></h4>
-    <p id="tText"></p>
-    <button id="prev">Back</button>
-    <button id="next">Next</button>
+  <div class="section">
+    <div class="form-head">Dentist Information</div>
+    <div class="form-row"><div class="label">Dentist Name</div><input></div>
+    <div class="form-row"><div class="label">Contact Number</div><input></div>
+    <div class="form-row"><div class="label">Email</div><input></div>
   </div>
+
+  <div class="form-row">
+  <div class="label">Signature</div>
+  <div>
+    <canvas id="signaturePad" width="220" height="70"
+      style="border:1px dashed #ccc;border-radius:6px"></canvas>
+    <div style="margin-top:5px">
+      <button type="button" onclick="clearSignature()">Clear</button>
+    </div>
+  </div>
+</div>
+  <button id="saveProfile"
+    style="margin-top:20px;padding:10px 18px;border:none;
+    border-radius:8px;background:#00bfff;color:white;cursor:pointer">
+    💾 Save Profile
+</button>
+</div>
+
+<div class="clinic-logo">
+  <img id="logoPreview" src="logo.png" style="max-width:100%">
+</div>
+
+<input type="file" id="logoInput" accept="image/*" hidden>
+
+<div class="change" onclick="document.getElementById('logoInput').click()">
+  Change Logo
+</div>
+
+
+</div>
+</div>
 </div>
 
 <script>
-/* ========= ODONTOGRAM ========= */
-const teethNums=[18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28,48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38];
-const teethDiv=document.getElementById("teeth");
-const condition=document.getElementById("condition");
-const diagnosis=document.getElementById("diagnosis");
-let state={};
+// ===== SIGNATURE =====
+const canvas = document.getElementById('signaturePad');
+const ctx = canvas.getContext('2d');
+let drawing = false;
 
-teethNums.forEach(n=>{
-  const d=document.createElement("div");
-  d.className="tooth";
-  d.textContent=n;
-  d.onclick=()=>{ 
-    if(!condition.value){alert("Select condition first");return;}
-    d.className="tooth "+condition.value;
-    state[n]=condition.value;
-    autoDiagnosis();
+canvas.onmousedown = () => drawing = true;
+canvas.onmouseup = () => {
+  drawing = false;
+  ctx.beginPath();
+};
+canvas.onmousemove = e => {
+  if (!drawing) return;
+  ctx.lineWidth = 2;
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = '#000';
+  ctx.lineTo(e.offsetX, e.offsetY);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(e.offsetX, e.offsetY);
+};
+
+function clearSignature(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+}
+
+// ===== LOGO PREVIEW =====
+document.getElementById('logoInput').addEventListener('change', e=>{
+  const file = e.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    document.getElementById('logoPreview').src = reader.result;
   };
-  teethDiv.appendChild(d);
+  reader.readAsDataURL(file);
 });
 
-function autoDiagnosis(){
-  let map={};
-  for(let t in state){
-    map[state[t]]=map[state[t]]||[];
-    map[state[t]].push(t);
-  }
-  let text="";
-  if(map.decay) text+=`Decay: ${map.decay.join(", ")}\n`;
-  if(map.periodontal) text+=`Periodontal: ${map.periodontal.join(", ")}\n`;
-  if(map.trauma) text+=`Trauma: ${map.trauma.join(", ")}\n`;
-  if(map.structural) text+=`Structural: ${map.structural.join(", ")}\n`;
-  if(map.developmental) text+=`Developmental: ${map.developmental.join(", ")}\n`;
-  diagnosis.value=text.trim();
-}
+// ===== SAVE PROFILE =====
+document.getElementById('saveProfile').onclick = () => {
 
-/* ========= MEDICINE ========= */
-const addMed=document.getElementById("addMed");
-const medList=document.getElementById("medList");
+  const data = new FormData();
 
-addMed.onclick=()=>{
-  const d=document.createElement("div");
-  d.className="medicine";
-  d.innerHTML=`
-    <input placeholder="Medicine">
-    <input placeholder="Dose">
-    <input placeholder="Freq">
-    <button onclick="this.parentElement.remove()">✖</button>`;
-  medList.appendChild(d);
-};
+  data.append('clinicName', document.querySelectorAll('input')[0].value);
+  data.append('clinicContact', document.querySelectorAll('input')[1].value);
+  data.append('clinicAddress', document.querySelectorAll('input')[2].value);
 
-/* ========= PREVIEW ========= */
-const update=document.getElementById("update");
-const preview=document.getElementById("preview");
+  data.append('dentistName', document.querySelectorAll('input')[3].value);
+  data.append('dentistContact', document.querySelectorAll('input')[4].value);
+  data.append('dentistEmail', document.querySelectorAll('input')[5].value);
 
-update.onclick=()=>{
-  let meds="";
-  document.querySelectorAll(".medicine").forEach(m=>{
-    const i=m.querySelectorAll("input");
-    meds+=`<li>${i[0].value} – ${i[1].value} – ${i[2].value}</li>`;
+  data.append('licenseNo', document.querySelectorAll('input')[6].value);
+  data.append('degree', document.querySelectorAll('input')[7].value);
+
+  data.append('signature', canvas.toDataURL());
+  data.append('logo', document.getElementById('logoInput').files[0]);
+
+  fetch('save_clinic.php',{
+    method:'POST',
+    body:data
+  })
+  .then(res=>res.text())
+  .then(()=>{
+    alert('Clinic Profile Saved Successfully!');
   });
-  preview.innerHTML=`
-    <h3>${document.getElementById("clinic").value}</h3>
-    <p><b>Doctor:</b> ${document.getElementById("doctor").value}</p>
-    <p><b>Date:</b> ${document.getElementById("date").value}</p>
-    <p><b>Patient:</b> ${document.getElementById("patient").value} (${document.getElementById("age").value}, ${document.getElementById("gender").value})</p>
-    <p><b>Diagnosis:</b><br>${diagnosis.value.replace(/\n/g,"<br>")}</p>
-    <ul>${meds||"<li>No medicine</li>"}</ul>
-    <p>${document.getElementById("notes").value}</p>`;
 };
-
-/* ========= PRINT / PDF ========= */
-document.getElementById("print").onclick=()=>{
-  update.click();
-  const w=window.open();
-  w.document.write(preview.innerHTML);
-  w.print();
-};
-document.getElementById("pdf").onclick=()=>{update.click();window.print();};
-
-/* ========= TUTORIAL ========= */
-const steps=[
-  {t:"Welcome",d:"This guide will show how to use the system",el:null},
-  {t:"Select Condition",d:"Choose tooth condition",el:"#condition"},
-  {t:"Click Teeth",d:"Click teeth to color & diagnose",el:"#teeth"},
-  {t:"Auto Diagnosis",d:"Diagnosis fills automatically",el:"#diagnosis"},
-  {t:"Add Medicine",d:"Add medicines here",el:"#addMed"},
-  {t:"Preview",d:"Generate prescription preview",el:"#update"},
-  {t:"Print / PDF",d:"Print or export prescription",el:"#print"}
-];
-
-let s=0;
-const overlay=document.getElementById("tutorialOverlay");
-const box=document.getElementById("tutorialBox");
-const tTitle=document.getElementById("tTitle");
-const tText=document.getElementById("tText");
-const startTutorial=document.getElementById("startTutorial");
-const next=document.getElementById("next");
-const prev=document.getElementById("prev");
-
-function show(){
-  document.querySelectorAll(".highlight").forEach(e=>e.classList.remove("highlight"));
-  const step=steps[s];
-  tTitle.innerText=step.t;
-  tText.innerText=step.d;
-  if(step.el){
-    const el=document.querySelector(step.el);
-    el.classList.add("highlight");
-    const r=el.getBoundingClientRect();
-    box.style.top=r.bottom+10+"px";
-    box.style.left=r.left+"px";
-    box.style.transform="";
-  }else{
-    box.style.top="50%";box.style.left="50%";
-    box.style.transform="translate(-50%,-50%)";
-  }
+<?php
+// LOGO
+$logoPath = '';
+if(isset($_FILES['logo'])){
+  $logoName = time().'_logo.png';
+  move_uploaded_file($_FILES['logo']['tmp_name'], "uploads/$logoName");
+  $logoPath = "uploads/$logoName";
 }
 
-startTutorial.onclick=()=>{overlay.style.display="block";s=0;show();}
-next.onclick=()=>{s<steps.length-1?(s++,show()):overlay.style.display="none";}
-prev.onclick=()=>{if(s>0){s--;show();}}
+// SIGNATURE
+$signature = $_POST['signature'];
+$signature = str_replace('data:image/png;base64,','',$signature);
+$signature = base64_decode($signature);
 
-/* ========= VIDEO-STYLE WALKTHROUGH ========= */
-const playBtn=document.getElementById("playWalkthrough");
-playBtn.onclick=async ()=>{
-  overlay.style.display="block";
-  s=0;
+$sigName = time().'_signature.png';
+file_put_contents("uploads/$sigName",$signature);
 
-  async function stepForward(){
-    if(s>=steps.length){
-      overlay.style.display="none";
-      return;
-    }
-    show();
-    const step=steps[s];
+// 👉 save paths to DB if needed
+echo "saved";
+<?php
+require_once('tcpdf/tcpdf.php');
 
-    if(step.el){
-      const el=document.querySelector(step.el);
-      el.style.transform="scale(1.1)";
-      setTimeout(()=>el.style.transform="scale(1)",300);
-      
-      if(step.el=="#condition"){ 
-        el.value="decay"; el.dispatchEvent(new Event("change"));
-      }
-      if(step.el=="#teeth"){ 
-        const tooth=document.querySelector(".tooth");
-        tooth.click();
-      }
-      if(step.el=="#addMed") {
-        addMed.click();
-        const lastMed=document.querySelector(".medicine input");
-        if(lastMed) lastMed.value="Paracetamol";
-      }
-      if(step.el=="#update") update.click();
-    }
+$pdf = new TCPDF();
+$pdf->AddPage();
 
-    s++;
-    await new Promise(r=>setTimeout(r, 2000));
-    stepForward();
-  }
+// FETCH FROM DB (example)
+$logo = "uploads/latest_logo.png";
+$signature = "uploads/latest_signature.png";
 
-  stepForward();
-};
+// LOGO
+$pdf->Image($logo,10,10,30);
+
+// TITLE
+$pdf->SetFont('helvetica','B',14);
+$pdf->Cell(0,20,'Dental Prescription',0,1,'C');
+
+$pdf->Ln(10);
+
+// BODY
+$pdf->SetFont('helvetica','',11);
+$pdf->MultiCell(0,8,"Rx:\nAmoxicillin 500mg\n3x daily after meals");
+
+// SIGNATURE
+$pdf->Ln(20);
+$pdf->Image($signature,130,$pdf->GetY(),40);
+$pdf->Ln(15);
+$pdf->Cell(0,5,"Dentist Signature",0,1,'R');
+
+$pdf->Output('prescription.pdf','I');
 </script>
 </body>
 </html>

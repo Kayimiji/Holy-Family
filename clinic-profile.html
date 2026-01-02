@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Clinic Profile Walkthrough</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Clinic - Smart Dentistry</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -19,9 +19,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
 body{background:var(--bg);color:var(--text)}
-
-/* ===== LAYOUT ===== */
-.dashboard{display:flex;min-height:100vh}
+ 
 
 /* ===== SIDEBAR ===== */
 .sidebar{
@@ -91,100 +89,70 @@ body{background:var(--bg);color:var(--text)}
   flex-direction:column;
 }
 
-/* ===== HEADER ===== */
-.header{
-  background:#3de8ff;
-  padding:15px 24px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-weight:700;
+/* ===== CONTAINER ===== */
+
+.container {
+  background: #fff;
+  padding: 30px 25px;      /* more padding for comfort */
+  border-radius: 14px;
+  max-width: 500px;        /* wider container */
+  width: 90%;              /* responsive on smaller screens */
+  margin: 50px auto;       /* center vertically and horizontally */
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.805);
 }
 
 
-/* ===== CONTENT ===== */
-.content{
-  padding:24px;
-  display:grid;
-  grid-template-columns:1fr 180px;
-  gap:24px;
-}
+/* ===== PROGRESS BAR ===== */
+.progress{display:flex;gap:10px;margin-bottom:25px;}
+.progress div{flex:1;padding:10px;text-align:center;border-radius:20px;background:#e5e7eb;font-weight:bold;}
+.progress .active{background:#0ea5e9;color:#fff;}
 
-/* ===== PROFILE CARD ===== */
-.profile-card{
-  background:var(--card);
-  border-radius:12px;
-  padding:24px;
-  box-shadow:var(--shadow);
-}
-.form-head{font-weight:700;margin:14px 0}
-.form-row{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  margin-bottom:10px;
-}
-.form-row .label{width:150px;font-size:13px}
-input{
-  flex:1;
-  padding:8px 10px;
-  border:1px solid #ddd;
-  border-radius:6px;
-}
-.section{
-  border-top:1px dashed #eee;
-  padding-top:14px;
-  margin-top:14px;
-}
-.signature-box{
-  height:70px;
-  border:1px solid #ddd;
-  border-radius:6px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:cursive;
-}
+/* ===== FORM ===== */
+label{display:block;margin-top:15px;font-weight:bold;}
+input{width:100%;padding:10px;margin-top:6px;border-radius:8px;border:1px solid #ccc;}
+canvas{border:2px dashed #cbd5e1;border-radius:10px;margin-top:10px;}
 
-/* ===== RIGHT PANEL ===== */
-.right-panel{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  align-items:center;
-}
-.clinic-logo{
-  background:#fff;
-  padding:14px;
-  border-radius:10px;
-  box-shadow:var(--shadow);
-}
-.change{
-  background:#e6fbff;
-  padding:10px;
-  border-radius:8px;
-  font-weight:600;
-}
-.fab button{
-  width:44px;
-  height:44px;
-  border:none;
-  border-radius:50%;
-  background:#00bfff;
-  color:#fff;
-  cursor:pointer;
-}
+/* ===== LOGO PREVIEW ===== */
+#logoPreview{max-width:140px;margin-top:10px;display:block;}
 
-/* ===== RESPONSIVE ===== */
-@media(max-width:900px){
-  .content{grid-template-columns:1fr}
-  .right-panel{flex-direction:row}
+/* ===== BUTTONS ===== */
+.btn{margin-top:15px;padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:bold;}
+.btn-primary{background:#0ea5e9;color:#fff;}
+.btn-secondary{background:#e5e7eb;color:#000;}
+
+/* ===== WALKTHROUGH ===== */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);display:none;z-index:9998;}
+.spotlight{box-shadow:0 0 0 9999px rgba(255, 255, 255, 0);border-radius:12px;position:relative;z-index:9999;}
+.walkthrough-box{
+  position:fixed;bottom:30px;right:30px;width:320px;background:#fff;padding:18px;border-radius:16px;
+  box-shadow:0 15px 40px rgba(255, 255, 255, 0.912);z-index:10000;
+}
+.walkthrough-box h4{margin:0 0 10px;color:#0ea5e9;}
+.walkthrough-box .hint{font-size:13px;color:#0ea5e9;margin-top:8px;}
+.controls{display:flex;justify-content:space-between;margin-top:15px;}
+.controls button{border:none;border-radius:8px;padding:8px 12px;cursor:pointer;font-weight:bold;}
+
+/* ===== ARROW ===== */
+.arrow{
+  position:absolute;width:0;height:0;
+  border-left:14px solid transparent;border-right:14px solid transparent;
+  border-bottom:22px solid #0ea5e9;animation:bounce 1s infinite;
+  z-index:10001;display:none;
+}
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+    max-width: 95%;
+  }
+}
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
 }
 </style>
 </head>
 
 <body>
-
 <div class="dashboard">
 
 <!-- SIDEBAR -->
@@ -196,195 +164,166 @@ input{
     </div>
   </div>
 
-  <ul class="sidebar-menu">
-    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+ <ul class="sidebar-menu">
+  <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
 
-    <li class="dropdown open">
-      <a href="#" class="dropdown-toggle">
-        <i class="fas fa-tooth"></i> My Clinic
-        <i class="fas fa-chevron-down arrow"></i>
-      </a>
-      <ul class="submenu">
-        <li><a href="clinic-profile.html" class="active">Clinic Profile</a></li>
-        <li><a href="odontogram-prescription.html">Dental Chart</a></li>
-        <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
-        <li><a href="MyRecords.html">Patient Records</a></li>
-      </ul>
-    </li>
+  <li class="dropdown open">
+    <a href="#" class="dropdown-toggle">
+      <i class="fas fa-tooth"></i> My Clinic
+      <i class="fas fa-chevron-down arrow"></i>
+    </a>
+    <ul class="submenu">
+      <li><a href="clinic-profile.html" class="active"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
+      <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
+      <li><a href="Braces-Treatment.html" ><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
+      <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
+    </ul>
+  </li>
 
-    <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
-    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-    <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-    <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
-    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-  </ul>
+  <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
+  <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+  <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+  <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+  <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
+  <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+</ul>
 </aside>
 
-<!-- MAIN -->
-<div class="main">
-<div class="content">
+  <!-- Main -->
+  <div class="main">
+    <div class="container">
+      <!-- Progress -->
+      <div class="progress">
+        <div id="p1" class="active">Clinic</div>
+        <div id="p2">Dentist</div>
+        <div id="p3">Finish</div>
+      </div>
 
-<div class="profile-card">
-  <div class="form-head">Clinic Information</div>
-  <div class="form-row"><div class="label">Clinic Name</div><input></div>
-  <div class="form-row"><div class="label">Contact Number</div><input></div>
-  <div class="form-row"><div class="label">Address</div><input></div>
+      <label>Clinic Name</label>
+      <input id="clinicName">
 
-  <div class="section">
-    <div class="form-head">Dentist Information</div>
-    <div class="form-row"><div class="label">Dentist Name</div><input></div>
-    <div class="form-row"><div class="label">Contact Number</div><input></div>
-    <div class="form-row"><div class="label">Email</div><input></div>
-  </div>
+      <label>Contact Number</label>
+      <input type="text">
 
-  <div class="form-row">
-  <div class="label">Signature</div>
-  <div>
-    <canvas id="signaturePad" width="220" height="70"
-      style="border:1px dashed #ccc;border-radius:6px"></canvas>
-    <div style="margin-top:5px">
-      <button type="button" onclick="clearSignature()">Clear</button>
+      <label>Address</label>
+      <input type="text">
+
+      <label>Dentist Name</label>
+      <input id="dentistName">
+
+      <label>Email</label>
+      <input type="email">
+
+      <label>Signature</label>
+      <canvas id="signatureCanvas" width="300" height="120"></canvas><br>
+      <button class="btn btn-secondary" id="clearSignatureBtn">Clear</button>
+
+      <label>Clinic Logo</label>
+      <input type="file" id="logoUpload">
+      <img id="logoPreview">
+
+      <br>
+      <button class="btn btn-primary" id="saveProfileBtn">Save Profile</button>
     </div>
   </div>
 </div>
-  <button id="saveProfile"
-    style="margin-top:20px;padding:10px 18px;border:none;
-    border-radius:8px;background:#00bfff;color:white;cursor:pointer">
-    💾 Save Profile
-</button>
-</div>
 
-<div class="clinic-logo">
-  <img id="logoPreview" src="logo.png" style="max-width:100%">
-</div>
-
-<input type="file" id="logoInput" accept="image/*" hidden>
-
-<div class="change" onclick="document.getElementById('logoInput').click()">
-  Change Logo
-</div>
-
-
-</div>
-</div>
+<!-- WALKTHROUGH ELEMENTS -->
+<div class="overlay" id="overlay"></div>
+<div id="arrow" class="arrow"></div>
+<div class="walkthrough-box" id="walkBox">
+  <h4 id="walkTitle"></h4>
+  <p id="walkText"></p>
+  <div class="hint">👆 Follow the arrow and complete this step</div>
+  <div class="controls">
+    <button onclick="skipTour()">Skip</button>
+    <button onclick="nextTour()">Next</button>
+  </div>
 </div>
 
 <script>
-// ===== SIGNATURE =====
-const canvas = document.getElementById('signaturePad');
-const ctx = canvas.getContext('2d');
-let drawing = false;
+/* WALKTHROUGH */
+const steps = [
+  { el:"#clinicName", title:"🏥 Clinic Name", text:"Enter your clinic’s official name.", progress:"p1" },
+  { el:"#dentistName", title:"🦷 Dentist Name", text:"Type the main dentist or clinic owner.", progress:"p2" },
+  { el:"#signatureCanvas", title:"✍️ Signature", text:"Draw your digital signature.", progress:"p2" },
+  { el:"#logoUpload", title:"🖼️ Clinic Logo", text:"Upload your clinic logo.", progress:"p3" },
+  { el:"#saveProfileBtn", title:"💾 Save Profile", text:"Click to save all information.", progress:"p3" }
+];
 
-canvas.onmousedown = () => drawing = true;
-canvas.onmouseup = () => {
-  drawing = false;
-  ctx.beginPath();
-};
-canvas.onmousemove = e => {
-  if (!drawing) return;
-  ctx.lineWidth = 2;
-  ctx.lineCap = 'round';
-  ctx.strokeStyle = '#000';
-  ctx.lineTo(e.offsetX, e.offsetY);
+let current = 0;
+
+function showStep(i){
+  document.querySelectorAll(".spotlight").forEach(e=>e.classList.remove("spotlight"));
+  document.querySelectorAll(".progress div").forEach(p=>p.classList.remove("active"));
+
+  const step = steps[i];
+  const el = document.querySelector(step.el);
+  const rect = el.getBoundingClientRect();
+
+  el.classList.add("spotlight");
+  document.getElementById(step.progress).classList.add("active");
+
+  document.getElementById("walkTitle").innerText = step.title;
+  document.getElementById("walkText").innerText = step.text;
+
+  const arrow = document.getElementById("arrow");
+  arrow.style.left = rect.left + rect.width/2 - 14 + "px";
+  arrow.style.top = rect.top - 35 + "px";
+  arrow.style.display = "block";
+
+  document.getElementById("overlay").style.display = "block";
+}
+
+function nextTour(){
+  current++;
+  if(current >= steps.length){ endTour(); return; }
+  showStep(current);
+}
+
+function skipTour(){
+  Swal.fire("Tutorial skipped","You can edit anytime later 😊","info");
+  endTour();
+}
+
+function endTour(){
+  document.getElementById("arrow").style.display="none";
+  document.querySelectorAll(".spotlight").forEach(e=>e.classList.remove("spotlight"));
+  document.getElementById("overlay").style.display="none";
+  document.getElementById("walkBox").style.display="none";
+}
+
+showStep(0);
+
+/* SIGNATURE */
+const canvas=document.getElementById("signatureCanvas");
+const ctx=canvas.getContext("2d");
+let drawing=false;
+
+canvas.onmousedown=()=>drawing=true;
+canvas.onmouseup=()=>{drawing=false;ctx.beginPath();}
+canvas.onmousemove=e=>{
+  if(!drawing) return;
+  ctx.lineWidth=2;
+  ctx.lineCap="round";
+  ctx.lineTo(e.offsetX,e.offsetY);
   ctx.stroke();
   ctx.beginPath();
-  ctx.moveTo(e.offsetX, e.offsetY);
+  ctx.moveTo(e.offsetX,e.offsetY);
 };
 
-function clearSignature(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-}
+document.getElementById("clearSignatureBtn").onclick=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);Swal.fire("Cleared","Signature removed","info");};
 
-// ===== LOGO PREVIEW =====
-document.getElementById('logoInput').addEventListener('change', e=>{
-  const file = e.target.files[0];
-  if(!file) return;
-
-  const reader = new FileReader();
-  reader.onload = () => {
-    document.getElementById('logoPreview').src = reader.result;
-  };
-  reader.readAsDataURL(file);
-});
-
-// ===== SAVE PROFILE =====
-document.getElementById('saveProfile').onclick = () => {
-
-  const data = new FormData();
-
-  data.append('clinicName', document.querySelectorAll('input')[0].value);
-  data.append('clinicContact', document.querySelectorAll('input')[1].value);
-  data.append('clinicAddress', document.querySelectorAll('input')[2].value);
-
-  data.append('dentistName', document.querySelectorAll('input')[3].value);
-  data.append('dentistContact', document.querySelectorAll('input')[4].value);
-  data.append('dentistEmail', document.querySelectorAll('input')[5].value);
-
-  data.append('licenseNo', document.querySelectorAll('input')[6].value);
-  data.append('degree', document.querySelectorAll('input')[7].value);
-
-  data.append('signature', canvas.toDataURL());
-  data.append('logo', document.getElementById('logoInput').files[0]);
-
-  fetch('save_clinic.php',{
-    method:'POST',
-    body:data
-  })
-  .then(res=>res.text())
-  .then(()=>{
-    alert('Clinic Profile Saved Successfully!');
-  });
+/* LOGO PREVIEW */
+document.getElementById("logoUpload").onchange=e=>{
+  const r=new FileReader();
+  r.onload=()=>document.getElementById("logoPreview").src=r.result;
+  r.readAsDataURL(e.target.files[0]);
 };
-<?php
-// LOGO
-$logoPath = '';
-if(isset($_FILES['logo'])){
-  $logoName = time().'_logo.png';
-  move_uploaded_file($_FILES['logo']['tmp_name'], "uploads/$logoName");
-  $logoPath = "uploads/$logoName";
-}
 
-// SIGNATURE
-$signature = $_POST['signature'];
-$signature = str_replace('data:image/png;base64,','',$signature);
-$signature = base64_decode($signature);
-
-$sigName = time().'_signature.png';
-file_put_contents("uploads/$sigName",$signature);
-
-// 👉 save paths to DB if needed
-echo "saved";
-<?php
-require_once('tcpdf/tcpdf.php');
-
-$pdf = new TCPDF();
-$pdf->AddPage();
-
-// FETCH FROM DB (example)
-$logo = "uploads/latest_logo.png";
-$signature = "uploads/latest_signature.png";
-
-// LOGO
-$pdf->Image($logo,10,10,30);
-
-// TITLE
-$pdf->SetFont('helvetica','B',14);
-$pdf->Cell(0,20,'Dental Prescription',0,1,'C');
-
-$pdf->Ln(10);
-
-// BODY
-$pdf->SetFont('helvetica','',11);
-$pdf->MultiCell(0,8,"Rx:\nAmoxicillin 500mg\n3x daily after meals");
-
-// SIGNATURE
-$pdf->Ln(20);
-$pdf->Image($signature,130,$pdf->GetY(),40);
-$pdf->Ln(15);
-$pdf->Cell(0,5,"Dentist Signature",0,1,'R');
-
-$pdf->Output('prescription.pdf','I');
+/* SAVE PROFILE */
+document.getElementById("saveProfileBtn").onclick=()=>{Swal.fire("Success 🎉","Clinic profile saved successfully!","success");};
 </script>
+
 </body>
 </html>
