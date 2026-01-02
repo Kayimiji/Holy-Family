@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Braces Treatment Plan</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Clinic - Smart Dentistry</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -17,11 +17,10 @@
   --shadow:0 4px 12px rgba(0,0,0,.08);
   --text:#2c3e50;
 }
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text)}
 
-/* ===== LAYOUT ===== */
-.dashboard{display:flex;min-height:100vh}
+/* ===== BASE ===== */
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+body{background:var(--bg);color:var(--text);margin:0;}
 
 /* ===== SIDEBAR ===== */
 .sidebar{
@@ -84,106 +83,134 @@ body{background:var(--bg);color:var(--text)}
 }
 
 /* ===== MAIN ===== */
-.main{
-  margin-left:250px;
-  width:calc(100% - 250px);
-  display:flex;
-  flex-direction:column;
+.main {
+  margin-left: 250px;
+  padding: 20px;
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
-/* ===== HEADER ===== */
-.header{
-  background:#3de8ff;
-  padding:15px 24px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-weight:700;
+/* ===== CONTAINER ===== */
+.container {
+  background: var(--card);
+  padding: 30px 25px;
+  border-radius: 12px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto 30px auto;
+  box-shadow: var(--shadow);
+  box-sizing: border-box;
 }
 
+/* ===== BASE ===== */
+h2{margin-bottom:10px}
+.search-box{background:#fff;padding:10px;border-radius:6px;margin-bottom:10px;position:relative}
+.search-box input{width:100%;border:none;outline:none}
+.patient-list{background:#fff;border-radius:6px;box-shadow:0 4px 10px rgba(0,0,0,.1);margin-bottom:20px}
+.patient-item{padding:10px;cursor:pointer;border-bottom:1px solid #eee}
+.patient-item:hover{background:#e9faff}
+.patient-item.selected{background:#c8f1ff;font-weight:600}
 
-/* ===== CONTENT ===== */
-.content{
-  padding:24px;
-  display:grid;
-  grid-template-columns:1fr 180px;
-  gap:24px;
-}
-
-/* ===== PROFILE CARD ===== */
-.profile-card{
-  background:var(--card);
-  border-radius:12px;
-  padding:24px;
-  box-shadow:var(--shadow);
-}
-.form-head{font-weight:700;margin:14px 0}
-.form-row{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  margin-bottom:10px;
-}
-.form-row .label{width:150px;font-size:13px}
-input{
-  flex:1;
-  padding:8px 10px;
-  border:1px solid #ddd;
-  border-radius:6px;
-}
-.section{
-  border-top:1px dashed #eee;
-  padding-top:14px;
-  margin-top:14px;
-}
-.signature-box{
-  height:70px;
-  border:1px solid #ddd;
-  border-radius:6px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:cursive;
-}
-
-/* ===== RIGHT PANEL ===== */
-.right-panel{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  align-items:center;
-}
-.clinic-logo{
-  background:#fff;
-  padding:14px;
-  border-radius:10px;
-  box-shadow:var(--shadow);
-}
-.change{
-  background:#e6fbff;
-  padding:10px;
-  border-radius:8px;
-  font-weight:600;
-}
-.fab button{
-  width:44px;
-  height:44px;
-  border:none;
-  border-radius:50%;
-  background:#00bfff;
-  color:#fff;
-  cursor:pointer;
-}
-
-/* ===== RESPONSIVE ===== */
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px,1fr));gap:20px}
+.card{background:#fff;border-radius:8px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.card h3{border-bottom:1px solid #ddd;padding-bottom:6px;margin-bottom:10px}
+label{display:block;margin:6px 0}
+input[type=text],select{width:100%;padding:6px}
+.phase-row{cursor:pointer}
+.phase-row:hover{background:#f1faff}
+.phase-row.selected{background:#c8f1ff;border-left:4px solid #00cfff}
+.save-btn{background:#32cd32;color:#fff;border:none;padding:10px;border-radius:4px;width:100%;cursor:pointer;margin-top:10px}
+.btn-outline{background:#fff;border:1px solid #ccc;padding:6px 10px;border-radius:4px;cursor:pointer}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{padding:10px;border-bottom:1px solid #ddd}
+th{background:#f5f5f5}
 @media(max-width:900px){
-  .content{grid-template-columns:1fr}
-  .right-panel{flex-direction:row}
+  .main{margin-left:0;width:100%}
+  .container{width:95%;padding:20px;margin:20px auto}
+  .grid{grid-template-columns:1fr}
 }
+
+/* ===== WALKTHROUGH ===== */
+.tour-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;z-index:999;
+  animation:fade .4s;
+}
+.tour-tooltip{
+  position:fixed;
+  background:#fff;
+  max-width:380px;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 12px 30px rgba(0,0,0,.3);
+  display:none;
+  z-index:1001;
+  font-size:14px;line-height:1.5;color:#2c3e50;
+  animation:fade .4s;
+}
+.tour-tooltip::after{
+  content:"";
+  position:absolute;
+  width:0;height:0;
+  border:8px solid transparent;
+  border-bottom-color:#fff;
+  top:-16px;left:20px;
+}
+.tour-header{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16px}
+.tour-header i{font-size:20px;color:#00cfff}
+.tour-actions{display:flex;justify-content:space-between;margin-top:12px}
+.tour-actions button{border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:600;transition:0.2s;}
+#nextTour{background:#00cfff;color:#fff}
+#nextTour:hover{background:#0099cc;}
+#skipTour{background:#eee;color:#333}
+#skipTour:hover{background:#ccc;}
+.tour-highlight{
+  position:relative;z-index:1002;
+  box-shadow:0 0 0 4px #00cfff,0 0 30px rgba(0,207,255,.7);
+  border-radius:8px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transform: scale(1.03);
+}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+/* ===== ENHANCED WALKTHROUGH ===== */
+.tour-progress {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.tour-arrow {
+  position: fixed;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 20px solid #00cfff;
+  animation: bounce 1s infinite;
+  z-index: 1003;
+  display: none;
+}
+
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.tour-tooltip strong {
+  color:#0ea5e9;
+}
+
 </style>
 </head>
-
 <body>
+<!-- ARROW -->
+<div id="tourArrow" class="tour-arrow"></div>
 
 <div class="dashboard">
 
@@ -198,20 +225,18 @@ input{
 
   <ul class="sidebar-menu">
     <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-
     <li class="dropdown open">
       <a href="#" class="dropdown-toggle">
         <i class="fas fa-tooth"></i> My Clinic
         <i class="fas fa-chevron-down arrow"></i>
       </a>
       <ul class="submenu">
-        <li><a href="clinic-profile.html" class="active">Clinic Profile</a></li>
-        <li><a href="odontogram-prescription.html">Dental Chart</a></li>
-        <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
-        <li><a href="MyRecords.html">Patient Records</a></li>
+        <li><a href="clinic-profile.html"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
+        <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
+        <li><a href="Braces-Treatment.html"><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
+        <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
       </ul>
     </li>
-
     <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
     <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
     <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
@@ -223,168 +248,245 @@ input{
 
 <!-- MAIN -->
 <div class="main">
-<div class="content">
+<div class="container">
 
-<div class="profile-card">
-  <div class="form-head">Clinic Information</div>
-  <div class="form-row"><div class="label">Clinic Name</div><input></div>
-  <div class="form-row"><div class="label">Contact Number</div><input></div>
-  <div class="form-row"><div class="label">Address</div><input></div>
+<h2>Braces Treatment Plan</h2>
 
-  <div class="section">
-    <div class="form-head">Dentist Information</div>
-    <div class="form-row"><div class="label">Dentist Name</div><input></div>
-    <div class="form-row"><div class="label">Contact Number</div><input></div>
-    <div class="form-row"><div class="label">Email</div><input></div>
+<!-- SEARCH -->
+<div class="search-box">
+  <input id="searchPatient" placeholder="SEARCH A PATIENT">
+</div>
+
+<!-- PATIENT LIST -->
+<div class="patient-list">
+  <div class="patient-item">Samillano, Kristina Casandra</div>
+  <div class="patient-item">Reyes, Juan Miguel</div>
+  <div class="patient-item">Dela Cruz, Maria Angela</div>
+</div>
+
+<p><b>Selected Patient:</b> <span id="selectedPatientSpan">None</span></p>
+
+<!-- GRID -->
+<div class="grid">
+
+<div class="card">
+<h3>Archwire Sequence</h3>
+<label><input type="radio" name="archwire"> Initial alignment (NiTi)</label>
+<label><input type="radio" name="archwire"> Working phase (Stainless)</label>
+<label><input type="radio" name="archwire"> Finishing & detailing</label>
+</div>
+
+<div class="card">
+<h3>Auxiliaries</h3>
+<label><input type="checkbox"> Elastics</label>
+<label><input type="checkbox"> Power chains</label>
+<label><input type="checkbox"> Springs</label>
+<label><input type="checkbox"> Bite turbos</label>
+</div>
+
+<div class="card">
+<h3>Treatment Summary</h3>
+<p>No selection yet</p>
+<button id="saveTreatmentPlan" class="save-btn">SAVE TREATMENT PLAN</button>
+</div>
+
+</div>
+
+<!-- ASSESSMENT -->
+<div class="card" style="margin-top:20px">
+<div style="display:flex;justify-content:space-between">
+<h3>Patient Assessment</h3>
+<div>
+<button id="editAssessment" class="btn-outline">Edit</button>
+<button id="saveAssessment" class="save-btn" style="display:none">Save</button>
+</div>
+</div>
+
+<label>Chief Complaint</label>
+<input id="chiefComplaint" disabled>
+
+<label>Malocclusion</label>
+<select id="malocclusion" disabled>
+<option>Class I</option><option>Class II</option><option>Class III</option>
+</select>
+
+<label><input type="checkbox" id="crowding" disabled> Crowding</label>
+<label><input type="checkbox" id="overbite" disabled> Overbite</label>
+<label><input type="checkbox" id="crossbite" disabled> Crossbite</label>
+</div>
+
+<!-- PHASES -->
+<div class="card" style="margin-top:20px">
+<h3>Treatment Phases</h3>
+<table>
+<tr class="phase-row"><td>Phase 1</td><td>Alignment</td><td>4–6 months</td></tr>
+<tr class="phase-row"><td>Phase 2</td><td>Space closure</td><td>6–12 months</td></tr>
+<tr class="phase-row"><td>Phase 3</td><td>Finishing</td><td>3–6 months</td></tr>
+</table>
+<button id="savePhases" class="save-btn">SAVE PHASES</button>
+</div>
+
+<!-- VISUAL TUTORIAL -->
+<div id="tourOverlay" class="tour-overlay"></div>
+<div id="tourTooltip" class="tour-tooltip">
+  <div class="tour-header">
+    <i id="tourIcon" class="fas fa-info-circle"></i>
+    <span id="tourTitle"></span>
   </div>
-
-  <div class="form-row">
-  <div class="label">Signature</div>
-  <div>
-    <canvas id="signaturePad" width="220" height="70"
-      style="border:1px dashed #ccc;border-radius:6px"></canvas>
-    <div style="margin-top:5px">
-      <button type="button" onclick="clearSignature()">Clear</button>
-    </div>
+  <p id="tourText"></p>
+  <div class="tour-actions">
+    <button id="skipTour">Skip</button>
+    <button id="nextTour">Next</button>
   </div>
 </div>
-  <button id="saveProfile"
-    style="margin-top:20px;padding:10px 18px;border:none;
-    border-radius:8px;background:#00bfff;color:white;cursor:pointer">
-    💾 Save Profile
-</button>
-</div>
 
-<div class="clinic-logo">
-  <img id="logoPreview" src="logo.png" style="max-width:100%">
-</div>
-
-<input type="file" id="logoInput" accept="image/*" hidden>
-
-<div class="change" onclick="document.getElementById('logoInput').click()">
-  Change Logo
-</div>
-
-
-</div>
 </div>
 </div>
 
 <script>
-// ===== SIGNATURE =====
-const canvas = document.getElementById('signaturePad');
-const ctx = canvas.getContext('2d');
-let drawing = false;
+let selectedPatient="";
 
-canvas.onmousedown = () => drawing = true;
-canvas.onmouseup = () => {
-  drawing = false;
-  ctx.beginPath();
-};
-canvas.onmousemove = e => {
-  if (!drawing) return;
-  ctx.lineWidth = 2;
-  ctx.lineCap = 'round';
-  ctx.strokeStyle = '#000';
-  ctx.lineTo(e.offsetX, e.offsetY);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(e.offsetX, e.offsetY);
-};
+/* SEARCH */
+document.getElementById("searchPatient").onkeyup=()=>document.querySelectorAll(".patient-item")
+.forEach(p=>p.style.display=p.textContent.toLowerCase().includes(searchPatient.value.toLowerCase())?"block":"none");
 
-function clearSignature(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-}
-
-// ===== LOGO PREVIEW =====
-document.getElementById('logoInput').addEventListener('change', e=>{
-  const file = e.target.files[0];
-  if(!file) return;
-
-  const reader = new FileReader();
-  reader.onload = () => {
-    document.getElementById('logoPreview').src = reader.result;
+/* PATIENT SELECT */
+document.querySelectorAll(".patient-item").forEach(p=>{
+  p.onclick=()=>{
+    document.querySelectorAll(".patient-item").forEach(x=>x.classList.remove("selected"));
+    p.classList.add("selected");
+    selectedPatient=p.textContent;
+    document.getElementById("selectedPatientSpan").textContent=selectedPatient;
   };
-  reader.readAsDataURL(file);
 });
 
-// ===== SAVE PROFILE =====
-document.getElementById('saveProfile').onclick = () => {
-
-  const data = new FormData();
-
-  data.append('clinicName', document.querySelectorAll('input')[0].value);
-  data.append('clinicContact', document.querySelectorAll('input')[1].value);
-  data.append('clinicAddress', document.querySelectorAll('input')[2].value);
-
-  data.append('dentistName', document.querySelectorAll('input')[3].value);
-  data.append('dentistContact', document.querySelectorAll('input')[4].value);
-  data.append('dentistEmail', document.querySelectorAll('input')[5].value);
-
-  data.append('licenseNo', document.querySelectorAll('input')[6].value);
-  data.append('degree', document.querySelectorAll('input')[7].value);
-
-  data.append('signature', canvas.toDataURL());
-  data.append('logo', document.getElementById('logoInput').files[0]);
-
-  fetch('save_clinic.php',{
-    method:'POST',
-    body:data
-  })
-  .then(res=>res.text())
-  .then(()=>{
-    alert('Clinic Profile Saved Successfully!');
-  });
+/* ASSESSMENT */
+document.getElementById("editAssessment").onclick=()=>{
+  ["chiefComplaint","malocclusion","crowding","overbite","crossbite"]
+  .forEach(id=>document.getElementById(id).disabled=false);
+  document.getElementById("editAssessment").style.display="none";
+  document.getElementById("saveAssessment").style.display="inline-block";
 };
-<?php
-// LOGO
-$logoPath = '';
-if(isset($_FILES['logo'])){
-  $logoName = time().'_logo.png';
-  move_uploaded_file($_FILES['logo']['tmp_name'], "uploads/$logoName");
-  $logoPath = "uploads/$logoName";
+document.getElementById("saveAssessment").onclick=()=>{
+  alert("Assessment Saved");
+  location.reload();
+};
+
+/* PHASE SELECT */
+document.querySelectorAll(".phase-row").forEach(r=>{
+  r.onclick=()=>r.classList.toggle("selected");
+});
+
+
+/* =========================
+   ENHANCED WALKTHROUGH
+========================= */
+
+const steps = [
+  {
+    el: ".search-box",
+    title: "🔍 Step 1: Search Patient",
+    text: "Type the <strong>patient name</strong> here. The list will automatically filter while you type."
+  },
+  {
+    el: ".patient-list",
+    title: "👤 Step 2: Select Patient",
+    text: "Click a patient from the list to <strong>activate their treatment record</strong>."
+  },
+  {
+    el: ".grid",
+    title: "📝 Step 3: Treatment Setup",
+    text: "Choose the <strong>archwire phase</strong> and needed <strong>auxiliaries</strong>."
+  },
+  {
+    el: "#saveTreatmentPlan",
+    title: "💾 Step 4: Save Treatment Plan",
+    text: "Once done, click this button to <strong>save the plan</strong>."
+  },
+  {
+    el: ".card:nth-of-type(4)",
+    title: "🩺 Step 5: Patient Assessment",
+    text: "Click <strong>Edit</strong>, complete the assessment, then save."
+  },
+  {
+    el: ".phase-row",
+    title: "📅 Step 6: Treatment Phases",
+    text: "Select applicable phases and click <strong>Save Phases</strong>."
+  }
+];
+
+let stepIndex = 0;
+const overlay = document.getElementById("tourOverlay");
+const tooltip = document.getElementById("tourTooltip");
+const arrow = document.getElementById("tourArrow");
+
+function showStep() {
+  document.querySelectorAll(".tour-highlight")
+    .forEach(e => e.classList.remove("tour-highlight"));
+
+  const step = steps[stepIndex];
+  const el = document.querySelector(step.el);
+  if (!el) return;
+
+  el.scrollIntoView({ behavior: "smooth", block: "center" });
+  el.classList.add("tour-highlight");
+
+  const rect = el.getBoundingClientRect();
+
+  // Tooltip
+  tooltip.innerHTML = `
+    <div class="tour-progress">Step ${stepIndex + 1} of ${steps.length}</div>
+    <div class="tour-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>${step.title}</span>
+    </div>
+    <p>${step.text}</p>
+    <div class="tour-actions">
+      <button id="skipTour">Skip</button>
+      <button id="nextTour">${stepIndex === steps.length - 1 ? "Finish" : "Next"}</button>
+    </div>
+  `;
+
+  tooltip.style.display = "block";
+  tooltip.style.top = rect.bottom + 20 + "px";
+  tooltip.style.left = rect.left + "px";
+
+  // Arrow
+  arrow.style.left = rect.left + rect.width / 2 - 12 + "px";
+  arrow.style.top = rect.top - 25 + "px";
+  arrow.style.display = "block";
+
+  overlay.style.display = "block";
+
+  document.getElementById("nextTour").onclick = nextStep;
+  document.getElementById("skipTour").onclick = endTour;
 }
 
-// SIGNATURE
-$signature = $_POST['signature'];
-$signature = str_replace('data:image/png;base64,','',$signature);
-$signature = base64_decode($signature);
+function nextStep() {
+  stepIndex++;
+  if (stepIndex >= steps.length) {
+    endTour();
+  } else {
+    showStep();
+  }
+}
 
-$sigName = time().'_signature.png';
-file_put_contents("uploads/$sigName",$signature);
+function endTour() {
+  overlay.style.display = "none";
+  tooltip.style.display = "none";
+  arrow.style.display = "none";
+  document.querySelectorAll(".tour-highlight")
+    .forEach(e => e.classList.remove("tour-highlight"));
+  localStorage.setItem("bracesTourDone", "yes");
+}
 
-// 👉 save paths to DB if needed
-echo "saved";
-<?php
-require_once('tcpdf/tcpdf.php');
-
-$pdf = new TCPDF();
-$pdf->AddPage();
-
-// FETCH FROM DB (example)
-$logo = "uploads/latest_logo.png";
-$signature = "uploads/latest_signature.png";
-
-// LOGO
-$pdf->Image($logo,10,10,30);
-
-// TITLE
-$pdf->SetFont('helvetica','B',14);
-$pdf->Cell(0,20,'Dental Prescription',0,1,'C');
-
-$pdf->Ln(10);
-
-// BODY
-$pdf->SetFont('helvetica','',11);
-$pdf->MultiCell(0,8,"Rx:\nAmoxicillin 500mg\n3x daily after meals");
-
-// SIGNATURE
-$pdf->Ln(20);
-$pdf->Image($signature,130,$pdf->GetY(),40);
-$pdf->Ln(15);
-$pdf->Cell(0,5,"Dentist Signature",0,1,'R');
-
-$pdf->Output('prescription.pdf','I');
+/* AUTO RUN (FIRST TIME ONLY) */
+window.onload = () => {
+  if (!localStorage.getItem("bracesTourDone")) {
+    showStep();
+  }
+};
 </script>
+
 </body>
 </html>
