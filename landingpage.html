@@ -1001,19 +1001,19 @@
 
         .btn {
             padding: 10px 18px;
-            border-radius: 6px;
+            border-radius: 20px;
             border: none;
             cursor: pointer;
             font-weight: 600;
         }
 
         .btn-primary {
-            background: #0d6efd;
+            background: #004c7f;
             color: #fff;
         }
 
         .btn-primary:hover {
-            background: #0b5ed7;
+            background: #27d7ff;
         }
 
         /* Animation */
@@ -1450,10 +1450,60 @@
         <div class="main-left">
             <h1>DISCOVER <span class="nowrap">SMART DENTISTRY</span></h1>
             <p>Our mission is to provide exceptional oral health and wellness to ensure that patients can continue to live a healthy and happy life inside and outside of their bodies.</p>
-            <button id="open-book" class="book-now-button" type="button">Learn more</button>
+            <button class="btn btn-primary open-about">
+            Learn More About Us
+            </button>
         </div>
         <div class="main-right">
             <img src="landing.png" alt="Modern dental care illustration">
+        </div>
+    </div>
+    <!-- About Modal -->
+    <!-- Learn More About Us Modal -->
+    <div id="about-modal" class="modal" role="dialog" aria-labelledby="about-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <button class="modal-close" aria-label="Close about modal" type="button">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+
+            <div class="modal-left">
+                <h2 id="about-title">Learn More About Us</h2>
+
+                <p>
+                    We are a trusted dental clinic committed to providing high-quality,
+                    compassionate, and affordable dental care for patients of all ages.
+                </p>
+
+                <h3>Why Choose Us?</h3>
+                <ul>
+                    <li>✔ Experienced and friendly dental professionals</li>
+                    <li>✔ Modern equipment and safe procedures</li>
+                    <li>✔ Comfortable and patient-focused care</li>
+                    <li>✔ Affordable and transparent pricing</li>
+                </ul>
+
+                <h3>Our Services</h3>
+                <p>
+                    Teeth Cleaning, Whitening, Dental Checkups, Tooth Fillings,
+                    and Dental Implants.
+                </p>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-primary modal-close">
+                        Close
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal-right">
+                <div>
+                    <h3>Your Smile Matters</h3>
+                    <p>
+                        Our mission is to help you achieve a healthy, confident smile
+                        through professional and personalized dental care.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1748,58 +1798,7 @@
             </div>
         </div>
     </div>
-
-    <!-- Learn More About Us Modal -->
-     <button class="btn btn-primary open-about">
-        Learn More About Us
-     </button>
-
-    <div id="about-modal" class="modal" role="dialog" aria-labelledby="about-title" aria-hidden="true">
-        <div class="modal-dialog">
-            <button class="modal-close" aria-label="Close about modal" type="button">
-                <i class="fas fa-times" aria-hidden="true"></i>
-            </button>
-
-            <div class="modal-left">
-                <h2 id="about-title">Learn More About Us</h2>
-
-                <p>
-                    We are a trusted dental clinic committed to providing high-quality,
-                    compassionate, and affordable dental care for patients of all ages.
-                </p>
-
-                <h3>Why Choose Us?</h3>
-                <ul>
-                    <li>✔ Experienced and friendly dental professionals</li>
-                    <li>✔ Modern equipment and safe procedures</li>
-                    <li>✔ Comfortable and patient-focused care</li>
-                    <li>✔ Affordable and transparent pricing</li>
-                </ul>
-
-                <h3>Our Services</h3>
-                <p>
-                    Teeth Cleaning, Whitening, Dental Checkups, Tooth Fillings,
-                    and Dental Implants.
-                </p>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-primary modal-close">
-                        Close
-                    </button>
-                </div>
-            </div>
-
-            <div class="modal-right">
-                <div>
-                    <h3>Your Smile Matters</h3>
-                    <p>
-                        Our mission is to help you achieve a healthy, confident smile
-                        through professional and personalized dental care.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
 
         <!-- In the footer section of landingpage.html -->
                 <div class="footer-bottom">
