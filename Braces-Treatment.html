@@ -17,7 +17,10 @@
   --shadow:0 4px 12px rgba(0,0,0,.08);
   --text:#2c3e50;
 }
+
+/* ===== BASE ===== */
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+body{background:var(--bg);color:var(--text);margin:0;}
 
 /* ===== SIDEBAR ===== */
 .sidebar{
@@ -79,18 +82,16 @@
   font-size:14px;
 }
 
-
 /* ===== MAIN ===== */
-
 .main {
-  margin-left: 250px;      /* sidebar space */
+  margin-left: 250px;
   padding: 20px;
   min-height: 100vh;
   background: var(--bg);
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  overflow-x: hidden;       /* prevent horizontal scroll */
+  overflow-x: hidden;
 }
 
 /* ===== CONTAINER ===== */
@@ -98,36 +99,24 @@
   background: var(--card);
   padding: 30px 25px;
   border-radius: 12px;
-  max-width: 1200px;      /* wider container */
+  max-width: 1200px;
   width: 100%;
   margin: 0 auto 30px auto;
   box-shadow: var(--shadow);
   box-sizing: border-box;
 }
 
-@media (max-width: 900px) {
-  .main {
-    margin-left: 0;            /* remove sidebar spacing */
-    width: 100%;
-  }
-  .container {
-    width: 95%;                /* responsive width */
-    padding: 20px;
-    margin: 20px auto;
-  }
-}
-
-
 /* ===== BASE ===== */
-
 h2{margin-bottom:10px}
-.search-box{background:#fff;padding:10px;border-radius:6px;margin-bottom:10px}
+.search-box{background:#fff;padding:10px;border-radius:6px;margin-bottom:10px;position:relative}
 .search-box input{width:100%;border:none;outline:none}
 .patient-list{background:#fff;border-radius:6px;box-shadow:0 4px 10px rgba(0,0,0,.1);margin-bottom:20px}
 .patient-item{padding:10px;cursor:pointer;border-bottom:1px solid #eee}
 .patient-item:hover{background:#e9faff}
 .patient-item.selected{background:#c8f1ff;font-weight:600}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px,1fr));gap:20px}
 .card{background:#fff;border-radius:8px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
 .card h3{border-bottom:1px solid #ddd;padding-bottom:6px;margin-bottom:10px}
 label{display:block;margin:6px 0}
@@ -140,43 +129,89 @@ input[type=text],select{width:100%;padding:6px}
 table{width:100%;border-collapse:collapse;margin-top:10px}
 th,td{padding:10px;border-bottom:1px solid #ddd}
 th{background:#f5f5f5}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-
+@media(max-width:900px){
+  .main{margin-left:0;width:100%}
+  .container{width:95%;padding:20px;margin:20px auto}
+  .grid{grid-template-columns:1fr}
+}
 
 /* ===== WALKTHROUGH ===== */
 .tour-overlay{
   position:fixed;inset:0;
   background:rgba(0,0,0,.6);
   display:none;z-index:999;
+  animation:fade .4s;
 }
 .tour-tooltip{
   position:fixed;
   background:#fff;
-  max-width:320px;
-  padding:16px;
-  border-radius:10px;
-  box-shadow:0 10px 30px rgba(0,0,0,.3);
+  max-width:380px;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 12px 30px rgba(0,0,0,.3);
   display:none;
-  z-index:1000;
+  z-index:1001;
+  font-size:14px;line-height:1.5;color:#2c3e50;
   animation:fade .4s;
 }
-.tour-header{display:flex;align-items:center;gap:10px;font-weight:600}
-.tour-header i{color:#00cfff}
-.tour-actions{display:flex;justify-content:space-between;margin-top:12px}
-.tour-actions button{
-  border:none;padding:6px 12px;border-radius:6px;cursor:pointer
+.tour-tooltip::after{
+  content:"";
+  position:absolute;
+  width:0;height:0;
+  border:8px solid transparent;
+  border-bottom-color:#fff;
+  top:-16px;left:20px;
 }
+.tour-header{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16px}
+.tour-header i{font-size:20px;color:#00cfff}
+.tour-actions{display:flex;justify-content:space-between;margin-top:12px}
+.tour-actions button{border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:600;transition:0.2s;}
 #nextTour{background:#00cfff;color:#fff}
+#nextTour:hover{background:#0099cc;}
+#skipTour{background:#eee;color:#333}
+#skipTour:hover{background:#ccc;}
 .tour-highlight{
-  position:relative;z-index:1001;
-  box-shadow:0 0 0 4px #00cfff,0 0 20px rgba(0,207,255,.7);
-  border-radius:6px;
+  position:relative;z-index:1002;
+  box-shadow:0 0 0 4px #00cfff,0 0 30px rgba(0,207,255,.7);
+  border-radius:8px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transform: scale(1.03);
 }
 @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+/* ===== ENHANCED WALKTHROUGH ===== */
+.tour-progress {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.tour-arrow {
+  position: fixed;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 20px solid #00cfff;
+  animation: bounce 1s infinite;
+  z-index: 1003;
+  display: none;
+}
+
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.tour-tooltip strong {
+  color:#0ea5e9;
+}
+
 </style>
 </head>
-
 <body>
+<!-- ARROW -->
+<div id="tourArrow" class="tour-arrow"></div>
+
 <div class="dashboard">
 
 <!-- SIDEBAR -->
@@ -190,7 +225,6 @@ th{background:#f5f5f5}
 
   <ul class="sidebar-menu">
     <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-
     <li class="dropdown open">
       <a href="#" class="dropdown-toggle">
         <i class="fas fa-tooth"></i> My Clinic
@@ -198,12 +232,11 @@ th{background:#f5f5f5}
       </a>
       <ul class="submenu">
         <li><a href="clinic-profile.html"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
-      <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
-      <li><a href="Braces-Treatment.html" ><i class="active"><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
-      <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
+        <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
+        <li><a href="Braces-Treatment.html"><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
+        <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
       </ul>
     </li>
-
     <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
     <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
     <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
@@ -216,6 +249,22 @@ th{background:#f5f5f5}
 <!-- MAIN -->
 <div class="main">
 <div class="container">
+  <button id="restartTourBtn" style="
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  z-index:999;
+  background:#0ea5e9;
+  color:#fff;
+  border:none;
+  padding:10px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  box-shadow:0 6px 15px rgba(0,0,0,.25);
+">
+🔄 Restart Tutorial
+</button>
+
 
 <h2>Braces Treatment Plan</h2>
 
@@ -293,17 +342,20 @@ th{background:#f5f5f5}
 <button id="savePhases" class="save-btn">SAVE PHASES</button>
 </div>
 
-<!-- WALKTHROUGH -->
+<!-- VISUAL TUTORIAL -->
 <div id="tourOverlay" class="tour-overlay"></div>
 <div id="tourTooltip" class="tour-tooltip">
-<div class="tour-header">
-<i id="tourIcon" class="fas fa-info-circle"></i>
-<span id="tourTitle"></span>
+  <div class="tour-header">
+    <i id="tourIcon" class="fas fa-info-circle"></i>
+    <span id="tourTitle"></span>
+  </div>
+  <p id="tourText"></p>
+  <div class="tour-actions">
+    <button id="skipTour">Skip</button>
+    <button id="nextTour">Next</button>
+  </div>
 </div>
-<p id="tourText"></p>
-<div class="tour-actions">
-<button id="skipTour">Skip</button>
-<button id="nextTour">Next</button>
+
 </div>
 </div>
 
@@ -311,75 +363,162 @@ th{background:#f5f5f5}
 let selectedPatient="";
 
 /* SEARCH */
-searchPatient.onkeyup=()=>document.querySelectorAll(".patient-item")
+document.getElementById("searchPatient").onkeyup=()=>document.querySelectorAll(".patient-item")
 .forEach(p=>p.style.display=p.textContent.toLowerCase().includes(searchPatient.value.toLowerCase())?"block":"none");
 
 /* PATIENT SELECT */
 document.querySelectorAll(".patient-item").forEach(p=>{
-p.onclick=()=>{
-document.querySelectorAll(".patient-item").forEach(x=>x.classList.remove("selected"));
-p.classList.add("selected");
-selectedPatient=p.textContent;
-selectedPatientSpan.textContent=selectedPatient;
-};
+  p.onclick=()=>{
+    document.querySelectorAll(".patient-item").forEach(x=>x.classList.remove("selected"));
+    p.classList.add("selected");
+    selectedPatient=p.textContent;
+    document.getElementById("selectedPatientSpan").textContent=selectedPatient;
+  };
 });
 
 /* ASSESSMENT */
-editAssessment.onclick=()=>{
-["chiefComplaint","malocclusion","crowding","overbite","crossbite"]
-.forEach(id=>document.getElementById(id).disabled=false);
-editAssessment.style.display="none";
-saveAssessment.style.display="inline-block";
+document.getElementById("editAssessment").onclick=()=>{
+  ["chiefComplaint","malocclusion","crowding","overbite","crossbite"]
+  .forEach(id=>document.getElementById(id).disabled=false);
+  document.getElementById("editAssessment").style.display="none";
+  document.getElementById("saveAssessment").style.display="inline-block";
 };
-saveAssessment.onclick=()=>{
-alert("Assessment Saved");
-location.reload();
+document.getElementById("saveAssessment").onclick=()=>{
+  alert("Assessment Saved");
+  location.reload();
 };
 
 /* PHASE SELECT */
 document.querySelectorAll(".phase-row").forEach(r=>{
-r.onclick=()=>r.classList.toggle("selected");
+  r.onclick=()=>r.classList.toggle("selected");
 });
 
-/* TOUR */
-const steps=[
-{el:".search-box",title:"Search Patient",text:"Search patient by name"},
-{el:".patient-list",title:"Select Patient",text:"Click patient to load data"},
-{el:".grid",title:"Treatment Setup",text:"Set archwire & auxiliaries"},
-{el:"#saveTreatmentPlan",title:"Save Plan",text:"Save treatment plan"},
-{el:".card:nth-of-type(4)",title:"Assessment",text:"Edit patient assessment"},
-{el:".phase-row",title:"Phases",text:"Select treatment phases"}
+
+/* =========================
+   RESTART WALKTHROUGH
+========================= */
+document.getElementById("restartTourBtn").addEventListener("click", () => {
+  // reset step
+  stepIndex = 0;
+
+  // clear saved progress
+  localStorage.removeItem("bracesTourDone");
+
+  // small delay para smooth restart
+  setTimeout(() => {
+    showStep();
+  }, 300);
+});
+
+
+
+/* =========================
+   ENHANCED WALKTHROUGH
+========================= */
+
+const steps = [
+  {
+    el: ".search-box",
+    title: "🔍 Step 1: Search Patient",
+    text: "Type the <strong>patient name</strong> here. The list will automatically filter while you type."
+  },
+  {
+    el: ".patient-list",
+    title: "👤 Step 2: Select Patient",
+    text: "Click a patient from the list to <strong>activate their treatment record</strong>."
+  },
+  {
+    el: ".grid",
+    title: "📝 Step 3: Treatment Setup",
+    text: "Choose the <strong>archwire phase</strong> and needed <strong>auxiliaries</strong>."
+  },
+  {
+    el: "#saveTreatmentPlan",
+    title: "💾 Step 4: Save Treatment Plan",
+    text: "Once done, click this button to <strong>save the plan</strong>."
+  },
+  {
+    el: ".card:nth-of-type(4)",
+    title: "🩺 Step 5: Patient Assessment",
+    text: "Click <strong>Edit</strong>, complete the assessment, then save."
+  },
+  {
+    el: ".phase-row",
+    title: "📅 Step 6: Treatment Phases",
+    text: "Select applicable phases and click <strong>Save Phases</strong>."
+  }
 ];
-let step=0;
 
-function showStep(){
-document.querySelectorAll(".tour-highlight").forEach(e=>e.classList.remove("tour-highlight"));
-const s=steps[step],t=document.querySelector(s.el);
-if(!t)return;
-t.classList.add("tour-highlight");
-const r=t.getBoundingClientRect();
-tourTooltip.style.top=r.bottom+10+"px";
-tourTooltip.style.left=r.left+"px";
-tourTitle.textContent=s.title;
-tourText.textContent=s.text;
+let stepIndex = 0;
+const overlay = document.getElementById("tourOverlay");
+const tooltip = document.getElementById("tourTooltip");
+const arrow = document.getElementById("tourArrow");
+
+function showStep() {
+  document.querySelectorAll(".tour-highlight")
+    .forEach(e => e.classList.remove("tour-highlight"));
+
+  const step = steps[stepIndex];
+  const el = document.querySelector(step.el);
+  if (!el) return;
+
+  el.scrollIntoView({ behavior: "smooth", block: "center" });
+  el.classList.add("tour-highlight");
+
+  const rect = el.getBoundingClientRect();
+
+  // Tooltip
+  tooltip.innerHTML = `
+    <div class="tour-progress">Step ${stepIndex + 1} of ${steps.length}</div>
+    <div class="tour-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>${step.title}</span>
+    </div>
+    <p>${step.text}</p>
+    <div class="tour-actions">
+      <button id="skipTour">Skip</button>
+      <button id="nextTour">${stepIndex === steps.length - 1 ? "Finish" : "Next"}</button>
+    </div>
+  `;
+
+  tooltip.style.display = "block";
+  tooltip.style.top = rect.bottom + 20 + "px";
+  tooltip.style.left = rect.left + "px";
+
+  // Arrow
+  arrow.style.left = rect.left + rect.width / 2 - 12 + "px";
+  arrow.style.top = rect.top - 25 + "px";
+  arrow.style.display = "block";
+
+  overlay.style.display = "block";
+
+  document.getElementById("nextTour").onclick = nextStep;
+  document.getElementById("skipTour").onclick = endTour;
 }
 
-nextTour.onclick=()=>{
-step++;
-step>=steps.length?endTour():showStep();
-};
-skipTour.onclick=endTour;
-
-function endTour(){
-tourOverlay.style.display=tourTooltip.style.display="none";
-localStorage.setItem("tourDone","yes");
+function nextStep() {
+  stepIndex++;
+  if (stepIndex >= steps.length) {
+    endTour();
+  } else {
+    showStep();
+  }
 }
 
-window.onload=()=>{
-if(!localStorage.getItem("tourDone")){
-tourOverlay.style.display=tourTooltip.style.display="block";
-showStep();
+function endTour() {
+  overlay.style.display = "none";
+  tooltip.style.display = "none";
+  arrow.style.display = "none";
+  document.querySelectorAll(".tour-highlight")
+    .forEach(e => e.classList.remove("tour-highlight"));
+  localStorage.setItem("bracesTourDone", "yes");
 }
+
+/* AUTO RUN (FIRST TIME ONLY) */
+window.onload = () => {
+  if (!localStorage.getItem("bracesTourDone")) {
+    showStep();
+  }
 };
 </script>
 
