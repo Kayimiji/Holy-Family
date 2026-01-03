@@ -1,209 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Smart Dentistry – Odontogram & Prescription</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SMART DENTISTRY - Reports</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --sidebar-bg:#2c3e50;
-  --sidebar-active:#00bfff;
-  --bg:#eef8fc;
-  --card:#ffffff;
-  --shadow:0 4px 12px rgba(0,0,0,.08);
-  --text:#2c3e50;
+  --accent:#00d4ff;
+  --muted:#f8f9fb;
+  --dark:#2c3e50;
 }
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Poppins,sans-serif;background:var(--muted)}
 .dashboard{display:flex;min-height:100vh}
 
-/* ===== SIDEBAR ===== */
+/* SIDEBAR */
 .sidebar{
-  width:250px;
-  background:var(--sidebar-bg);
-  color:#fff;
-  position:fixed;
-  top:0;left:0;bottom:0;
+  width:260px;background:#2c3e50;color:#fff;
+  position:fixed;height:100vh;overflow-y:auto
 }
-.sidebar-header{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:20px;
-}
-.sidebar-logo{
-  width:50px;
-  height:50px;
-  border-radius:50%;
-}
-.sidebar-title h2{
-  font-size:16px;
-  color:var(--sidebar-active);
-  line-height:1.1;
-}
-.sidebar-menu{list-style:none}
+.sidebar-header{padding:20px;display:flex;gap:15px;align-items:center}
+.sidebar-logo{width:70px;height:70px;border-radius:50%}
+.sidebar-menu{list-style:none;padding:0}
 .sidebar-menu a{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px 20px;
-  color:#fff;
-  text-decoration:none;
+  display:flex;gap:10px;align-items:center;
+  padding:12px 20px;color:#fff;text-decoration:none
 }
-.sidebar-menu a:hover,
-.sidebar-menu a.active{
-  background:rgba(0,191,255,.2);
-  border-left:4px solid var(--sidebar-active);
-}
-.dropdown .arrow{
-  margin-left:auto;
-  transition:.3s;
-}
-.dropdown.open .arrow{
-  transform:rotate(180deg);
-}
-.submenu{
-  list-style:none;
-  display:none;
-  background:#243444;
-}
-.dropdown.open .submenu{
-  display:block;
-}
-.submenu a{
-  padding:10px 40px;
-  font-size:14px;
+.sidebar-menu a.active,
+.sidebar-menu a:hover{
+  background:rgba(0,212,255,.2);
+  border-left:4px solid var(--accent)
 }
 
-/* ===== MAIN ===== */
-.main{
-  margin-left:250px;
-  width:calc(100% - 250px);
-  display:flex;
-  flex-direction:column;
-}
+/* MAIN */
+.main{margin-left:260px;padding:24px;width:100%}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.header h1{color:var(--accent)}
 
-/* LAYOUT */
-.wrapper{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
+.filters{
+  background:#fff;padding:15px;border-radius:10px;
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap
 }
+.filters input,.filters select{
+  padding:8px;border-radius:6px;border:1px solid #ccc
+}
+.btn{
+  background:var(--accent);border:none;color:#fff;
+  padding:10px 18px;border-radius:8px;cursor:pointer
+}
+.btn:hover{background:#0099cc}
+
+.summary{display:flex;gap:15px;margin:20px 0}
 .card{
-  background:var(--card);
-  padding:20px;
-  border-radius:8px;
-  box-shadow:var(--shadow);
+  background:#fff;padding:20px;border-radius:10px;
+  flex:1;box-shadow:0 2px 6px rgba(0,0,0,.08)
+}
+.card .value{font-size:22px;font-weight:700}
+
+.layout{display:grid;grid-template-columns:2fr 1fr;gap:20px}
+
+.chart-box,.table-box{
+  background:#fff;padding:20px;border-radius:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,.08)
 }
 
-/* ODONTOGRAM */
-#teeth{
-  display:grid;
-  grid-template-columns:repeat(8,1fr);
-  gap:6px;
-}
-.tooth{
-  padding:8px;
-  border:1px solid #ccc;
-  border-radius:4px;
-  text-align:center;
-  cursor:pointer;
-  font-size:12px;
-}
-.decay{background:#9b59b6;color:#fff;}
-.periodontal{background:#3498db;color:#fff;}
-.trauma{background:#e74c3c;color:#fff;}
-.structural{background:#e67e22;color:#fff;}
-.developmental{background:#2ecc71;color:#fff;}
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px;border-bottom:1px solid #eee}
+th{text-transform:uppercase;font-size:12px;color:#666}
 
-/* FORM */
-input,select,textarea{
-  width:100%;
-  padding:6px;
-  margin-bottom:8px;
-}
-button{
-  padding:8px 12px;
-  border:none;
-  border-radius:4px;
-  cursor:pointer;
-}
-.blue{background:#56c1ff;color:#fff;}
-.green{background:#34ff88;color:#fff;}
-.gray{background:#3ee9ff;color:#fff;}
-
-.medicine{
-  display:flex;
-  gap:5px;
-  margin-bottom:5px;
-}
-.medicine input{flex:1}
-
-/* PREVIEW */
-#preview{
-  border:1px solid #ccc;
-  padding:15px;
-  min-height:200px;
-}
-
-/* ===== TUTORIAL ===== */
-#tutorialOverlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  display:none;
-  z-index:999;
-}
-.tutorial-box{
-  position:absolute;
-  background:#fff;
-  padding:20px;
-  border-radius:10px;
-  width:320px;
-}
-.highlight{
-  box-shadow:0 0 0 4px #00e5ff;
-  border-radius:6px;
-  transition: transform 0.3s;
-}
-@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
-.tour-progress{
-  font-size:12px;
-  color:#64748b;
-  margin-bottom:6px;
-}
-.tour-arrow{
-  position:fixed;
-  width:0;height:0;
-  border-left:12px solid transparent;
-  border-right:12px solid transparent;
-  border-top:22px solid #00e5ff;
-  animation:bounce 1s infinite;
-  z-index:1001;
-  display:none;
-}
-@keyframes bounce{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-10px)}
-}
-.tutorial-box{
-  animation:fade .4s ease;
-}
-.restart-btn{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#0ea5e9;
-  color:#fff;
-  border:none;
-  padding:10px 14px;
-  border-radius:20px;
-  cursor:pointer;
-  z-index:1000;
-  box-shadow:0 6px 15px rgba(0,0,0,.25);
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -212,249 +83,177 @@ button{
 <div class="dashboard">
 
 <!-- SIDEBAR -->
-<aside class="sidebar">
+<div class="sidebar">
   <div class="sidebar-header">
     <img src="logo.png" class="sidebar-logo">
-    <div class="sidebar-title">
-      <h2>SMART<br>DENTISTRY</h2>
-    </div>
+    <strong>SMART<br>DENTISTRY</strong>
   </div>
-
- <ul class="sidebar-menu">
-  <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-
-  <li class="dropdown open">
-    <a href="#" class="dropdown-toggle">
-      <i class="fas fa-tooth"></i> My Clinic
-      <i class="fas fa-chevron-down arrow"></i>
-    </a>
-    <ul class="submenu">
-      <li><a href="clinic-profile.html"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
-      <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
-      <li><a href="Braces-Treatment.html"><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
-      <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
-    </ul>
-  </li>
-
-  <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
-  <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-  <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-  <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-  <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
-  <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-</ul>
-</aside>
+  <ul class="sidebar-menu">
+    <li><a href="admin.html"><i class="fa fa-home"></i>Dashboard</a></li>
+    <li><a href="Finance.html"><i class="fa fa-dollar-sign"></i>Finance</a></li>
+    <li><a href="Reports.html" class="active"><i class="fa fa-chart-line"></i>Reports</a></li>
+  </ul>
+</div>
 
 <!-- MAIN -->
-<div class="main">
-
-<!-- WALKTHROUGH ARROW -->
-<div id="tourArrow" class="tour-arrow"></div>
-
-<!-- RESTART BUTTON -->
-<button class="restart-btn" id="restartTutorial">
-🔄 Restart Tutorial
-</button>
-
-<div class="wrapper">
-
-<!-- LEFT -->
-<div class="card">
-<h3>Odontogram</h3>
-
-<select id="condition">
-  <option value="">Select Condition</option>
-  <option value="decay">Decay / Infection</option>
-  <option value="periodontal">Periodontal</option>
-  <option value="trauma">Loss / Trauma</option>
-  <option value="structural">Structural Damage</option>
-  <option value="developmental">Developmental</option>
-</select>
-
-<div id="teeth"></div>
-
-<hr>
-
-<h3>Prescription</h3>
-<input id="clinic" placeholder="Clinic Name">
-<input id="doctor" placeholder="Doctor Name">
-<input type="date" id="date">
-
-<input id="patient" placeholder="Patient Name">
-<input id="age" placeholder="Age">
-
-<select id="gender">
-  <option>Male</option>
-  <option>Female</option>
-</select>
-
-<textarea id="diagnosis" rows="4" placeholder="Auto Diagnosis"></textarea>
-<textarea id="notes" placeholder="Notes"></textarea>
-
-<h4>Medicines</h4>
-<div id="medList"></div>
-<button id="addMed" class="gray">+ Add Medicine</button>
-<button id="update" class="blue">Update Preview</button>
+<main class="main">
+<div class="header">
+  <h1>Reports</h1>
+  <div>Dr. Arvin</div>
 </div>
 
-<!-- RIGHT -->
-<div class="card">
-<h3>Prescription Preview</h3>
-<div id="preview">No data yet</div><br>
-<button id="print" class="green">Print</button>
-<button id="pdf" class="blue">Export PDF</button>
+<!-- FILTERS -->
+<div class="filters">
+  <label>Date:</label>
+  <input type="date" id="fromDate">
+  <input type="date" id="toDate">
+
+  <label>Type:</label>
+  <select id="reportType">
+    <option value="all">All</option>
+    <option value="Income">Income</option>
+    <option value="Appointment">Appointment</option>
+    <option value="Balance">Balance</option>
+  </select>
+
+  <button class="btn" id="generateBtn">
+    <i class="fa fa-play"></i> Generate
+  </button>
+  <button class="btn" id="exportBtn">
+    <i class="fa fa-download"></i> Export CSV
+  </button>
 </div>
 
-</div>
-
-<!-- TUTORIAL -->
-<div id="tutorialOverlay">
-  <div class="tutorial-box" id="tutorialBox">
-    <h4 id="tTitle"></h4>
-    <p id="tText"></p>
-    <button id="prev">Back</button>
-    <button id="next">Next</button>
+<!-- SUMMARY -->
+<div class="summary">
+  <div class="card">
+    <h4>Total Records</h4>
+    <div class="value" id="totalItems">0</div>
   </div>
+  <div class="card">
+    <h4>Total Amount</h4>
+    <div class="value" id="totalAmount">PHP 0.00</div>
+  </div>
+  <div class="card">
+    <h4>Period</h4>
+    <div class="value" id="periodText">—</div>
+  </div>
+</div>
+
+<div class="layout">
+<div>
+
+<!-- CHART -->
+<div class="chart-box">
+  <h4>Monthly Income</h4>
+  <canvas id="reportsChart"></canvas>
+</div>
+
+<!-- TABLE -->
+<div class="table-box">
+  <h4>Report Entries</h4>
+  <table id="reportsTable">
+    <thead>
+      <tr>
+        <th>#</th><th>Date</th><th>Patient</th><th>Type</th><th>Amount</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+</div>
+
+<div class="chart-box">
+  <h4>Top Procedures</h4>
+  <canvas id="topProcedures"></canvas>
+</div>
+</div>
+</main>
 </div>
 
 <script>
-/* ========= ODONTOGRAM ========= */
-const teethNums=[18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28,48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38];
-const teethDiv=document.getElementById("teeth");
-const condition=document.getElementById("condition");
-const diagnosis=document.getElementById("diagnosis");
-let state={};
-
-teethNums.forEach(n=>{
-  const d=document.createElement("div");
-  d.className="tooth";
-  d.textContent=n;
-  d.onclick=()=>{ 
-    if(!condition.value){alert("Select condition first");return;}
-    d.className="tooth "+condition.value;
-    state[n]=condition.value;
-    autoDiagnosis();
-  };
-  teethDiv.appendChild(d);
-});
-
-function autoDiagnosis(){
-  let map={};
-  for(let t in state){
-    map[state[t]]=map[state[t]]||[];
-    map[state[t]].push(t);
-  }
-  let text="";
-  if(map.decay) text+=`Decay: ${map.decay.join(", ")}\n`;
-  if(map.periodontal) text+=`Periodontal: ${map.periodontal.join(", ")}\n`;
-  if(map.trauma) text+=`Trauma: ${map.trauma.join(", ")}\n`;
-  if(map.structural) text+=`Structural: ${map.structural.join(", ")}\n`;
-  if(map.developmental) text+=`Developmental: ${map.developmental.join(", ")}\n`;
-  diagnosis.value=text.trim();
-}
-
-/* ========= MEDICINE ========= */
-const addMed=document.getElementById("addMed");
-const medList=document.getElementById("medList");
-
-addMed.onclick=()=>{
-  const d=document.createElement("div");
-  d.className="medicine";
-  d.innerHTML=`
-    <input placeholder="Medicine">
-    <input placeholder="Dose">
-    <input placeholder="Freq">
-    <button onclick="this.parentElement.remove()">✖</button>`;
-  medList.appendChild(d);
-};
-
-/* ========= PREVIEW ========= */
-const update=document.getElementById("update");
-const preview=document.getElementById("preview");
-
-update.onclick=()=>{
-  let meds="";
-  document.querySelectorAll(".medicine").forEach(m=>{
-    const i=m.querySelectorAll("input");
-    meds+=`<li>${i[0].value} – ${i[1].value} – ${i[2].value}</li>`;
-  });
-  preview.innerHTML=`
-    <h3>${document.getElementById("clinic").value}</h3>
-    <p><b>Doctor:</b> ${document.getElementById("doctor").value}</p>
-    <p><b>Date:</b> ${document.getElementById("date").value}</p>
-    <p><b>Patient:</b> ${document.getElementById("patient").value} (${document.getElementById("age").value}, ${document.getElementById("gender").value})</p>
-    <p><b>Diagnosis:</b><br>${diagnosis.value.replace(/\n/g,"<br>")}</p>
-    <ul>${meds||"<li>No medicine</li>"}</ul>
-    <p>${document.getElementById("notes").value}</p>`;
-};
-
-/* ========= PRINT / PDF ========= */
-document.getElementById("print").onclick=()=>{
-  update.click();
-  const w=window.open();
-  w.document.write(preview.innerHTML);
-  w.print();
-};
-document.getElementById("pdf").onclick=()=>{update.click();window.print();};
-
-/* ========= TUTORIAL ========= */
-const steps=[
-  {t:"Welcome",d:"This guide will show how to use the system",el:null},
-  {t:"Select Condition",d:"Choose tooth condition",el:"#condition"},
-  {t:"Click Teeth",d:"Click teeth to color & diagnose",el:"#teeth"},
-  {t:"Auto Diagnosis",d:"Diagnosis fills automatically",el:"#diagnosis"},
-  {t:"Add Medicine",d:"Add medicines here",el:"#addMed"},
-  {t:"Preview",d:"Generate prescription preview",el:"#update"},
-  {t:"Print / PDF",d:"Print or export prescription",el:"#print"}
+/* SAMPLE DATA */
+const data = [
+ {date:'2025-10-01',patient:'John D.',type:'Income',amount:1500},
+ {date:'2025-10-03',patient:'Maria S.',type:'Income',amount:2400},
+ {date:'2025-10-05',patient:'Paul R.',type:'Balance',amount:500},
+ {date:'2025-10-08',patient:'Anna L.',type:'Appointment',amount:0},
+ {date:'2025-10-12',patient:'Lisa K.',type:'Income',amount:3200}
 ];
 
-let s=0;
-const overlay=document.getElementById("tutorialOverlay");
-const box=document.getElementById("tutorialBox");
-const tTitle=document.getElementById("tTitle");
-const tText=document.getElementById("tText");
-const next=document.getElementById("next");
-const prev=document.getElementById("prev");
-const tourArrow=document.getElementById("tourArrow");
+const tbody=document.querySelector('#reportsTable tbody');
+const totalItems=document.getElementById('totalItems');
+const totalAmount=document.getElementById('totalAmount');
+const periodText=document.getElementById('periodText');
 
-function showStep(){
-  document.querySelectorAll(".highlight").forEach(e=>e.classList.remove("highlight"));
-  const step = steps[s];
-  tTitle.innerText = step.t;
-  tText.innerHTML = `<div class="tour-progress">Step ${s+1} of ${steps.length}</div>${step.d}`;
-
-  if(step.el){
-    const el = document.querySelector(step.el);
-    el.classList.add("highlight");
-    el.scrollIntoView({behavior:"smooth",block:"center"});
-    const r = el.getBoundingClientRect();
-    box.style.top = r.bottom + 15 + "px";
-    box.style.left = r.left + "px";
-    box.style.transform = "";
-    tourArrow.style.left = r.left + r.width/2 - 12 + "px";
-    tourArrow.style.top = r.top - 25 + "px";
-    tourArrow.style.display = "block";
-  }else{
-    box.style.top = "50%";
-    box.style.left = "50%";
-    box.style.transform = "translate(-50%,-50%)";
-    tourArrow.style.display = "none";
-  }
+/* RENDER */
+function render(rows){
+ tbody.innerHTML='';
+ if(!rows.length){
+  tbody.innerHTML=`<tr><td colspan="5" style="text-align:center;color:#999">No data</td></tr>`;
+ }
+ let sum=0;
+ rows.forEach((r,i)=>{
+  sum+=r.amount;
+  tbody.innerHTML+=`
+   <tr>
+    <td>${i+1}</td>
+    <td>${r.date}</td>
+    <td>${r.patient}</td>
+    <td>${r.type}</td>
+    <td>${r.amount?`PHP ${r.amount.toFixed(2)}`:'—'}</td>
+   </tr>`;
+ });
+ totalItems.textContent=rows.length;
+ totalAmount.textContent='PHP '+sum.toFixed(2);
 }
 
-document.getElementById("restartTutorial").onclick = ()=>{
-  s=0;
-  overlay.style.display="block";
-  showStep();
+/* FILTER */
+function getFiltered(){
+ const from=fromDate.value,to=toDate.value,type=reportType.value;
+ return data.filter(r=>{
+  if(type!=='all' && r.type!==type) return false;
+  if(from && r.date<from) return false;
+  if(to && r.date>to) return false;
+  return true;
+ });
+}
+
+/* CHARTS */
+const barChart=new Chart(reportsChart,{
+ type:'bar',
+ data:{labels:['Week1','Week2','Week3','Week4'],
+ datasets:[{data:[0,0,0,0],backgroundColor:'#00d4ff'}]},
+ options:{plugins:{legend:{display:false}}}
+});
+
+const donut=new Chart(topProcedures,{
+ type:'doughnut',
+ data:{
+  labels:['Cleaning','Filling','Extraction'],
+  datasets:[{data:[2600,3200,1800],backgroundColor:['#00d4ff','#2ecc71','#f1c40f']}]
+ }
+});
+
+/* EVENTS */
+generateBtn.onclick=()=>{
+ const rows=getFiltered();
+ render(rows);
+ const weeks=[0,0,0,0];
+ rows.forEach(r=>{
+  if(r.type==='Income'){
+   const w=Math.min(3,Math.floor((new Date(r.date).getDate()-1)/7));
+   weeks[w]+=r.amount;
+  }
+ });
+ barChart.data.datasets[0].data=weeks;
+ barChart.update();
 };
 
-next.onclick = ()=>{
-  if(s<steps.length-1){s++; showStep();}
-};
+exportBtn.onclick=()=>alert('CSV export ready for backend');
 
-prev.onclick = ()=>{
-  if(s>0){s--; showStep();}
-};
+/* INIT */
+render(data);
 </script>
 </body>
 </html>
