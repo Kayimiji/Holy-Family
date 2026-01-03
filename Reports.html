@@ -775,7 +775,12 @@
                 callback: function(value) {
                   return 'PHP ' + value.toLocaleString();
                 }
-              }
+              },
+              // Set fixed minimum and maximum to prevent chart collapse
+              suggestedMin: 0,
+              suggestedMax: 5000,
+              // Add grace to ensure bars are visible even with low values
+              grace: '10%'
             },
             x: {
               grid: {
@@ -834,17 +839,32 @@
     function updateCharts(filteredData) {
       // Calculate weekly totals for filtered data
       const weeklyTotals = [0, 0, 0, 0];
-      filteredData.forEach(r => {
-        if (r.type === 'Income') {
+      
+      // Get income data only for revenue chart
+      const incomeData = filteredData.filter(r => r.type === 'Income');
+      
+      if (incomeData.length === 0) {
+        // If no income data, show zeros
+        weeklyTotals.fill(0);
+      } else {
+        incomeData.forEach(r => {
           const date = new Date(r.date);
           const day = date.getDate();
           const week = Math.min(3, Math.floor((day - 1) / 7));
           weeklyTotals[week] += r.amount;
-        }
-      });
+        });
+      }
       
-      // Update bar chart
-      reportsChart.data.datasets[0].data = weeklyTotals;
+      // Always ensure a reasonable y-axis scale
+      // Use 1000 as minimum max value to prevent chart from collapsing
+      const maxVal = Math.max(...weeklyTotals, 1000);
+      
+      // Update chart configuration with new max value
+      reportsChart.options.scales.y.suggestedMax = maxVal;
+      
+      // Ensure we always have some minimum bar height
+      reportsChart.data.datasets[0].data = weeklyTotals.map(val => Math.max(val, 0.1)); // 0.1 ensures bars are visible
+      
       reportsChart.update();
     }
 
