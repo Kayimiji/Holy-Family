@@ -2119,10 +2119,108 @@
     .step-completed {
         animation: stepCompleted 0.5s ease;
     }
+    /* MODAL OVERLAY */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        }
 
-        /* ============================================= */
-        /*  End of Styles */
-        /* ============================================= */
+    .modal-overlay.hidden {
+        display: none;
+        }
+
+    /* MODAL CARD */
+    .modal-card {
+        background: #fff;
+        width: 420px;
+        border-radius: 16px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        padding: 20px;
+        animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+        from { transform: translateY(30px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+        }
+
+    /* HEADER */
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+
+        .modal-header h3 {
+        margin: 0;
+        color: #1f2937;
+        }
+
+    /* CLOSE BUTTON */
+    .close-btn {
+        background: none;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        }
+
+    /* FORM */
+    .form-grid {
+        margin-top: 15px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        }
+
+    .form-grid input,
+    .form-grid select {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        font-size: 14px;
+        }
+
+    .form-grid input:focus,
+    .form-grid select:focus {
+        outline: none;
+        border-color: #0d6efd;
+        }
+
+    /* ACTION BUTTONS */
+    .modal-actions {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        }
+
+    .btn-cancel {
+        background: #e5e7eb;
+        border: none;
+        padding: 10px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        }
+
+    .btn-save {
+        background: #0d6efd;
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+    }   
+
+
+    /* ============================================= */
+    /*  End of Styles */
+    /* ============================================= */
 </style>
 
 
@@ -2232,7 +2330,6 @@
 <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
 <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i><span> Data BackUp</a></li>
 <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-<li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
 <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
 </ul>
 <!-- Add Return to Home menu at the bottom -->
@@ -2447,6 +2544,36 @@
   <button class="fab patient" onclick="addPatient()" title="Add Patient">
     <i class="fas fa-user-plus"></i>
   </button>
+<!-- ADD PATIENT MODAL -->
+<div class="modal-overlay hidden" id="addPatientModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>Add New Patient</h3>
+      <button class="close-btn" onclick="closeAddPatient()">✕</button>
+    </div>
+
+    <form id="addPatientForm">
+      <div class="form-grid">
+        <input type="text" placeholder="Full Name" required>
+        <input type="number" placeholder="Age" required>
+        <select required>
+          <option value="">Gender</option>
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+        <input type="tel" placeholder="Contact Number" required>
+        <input type="email" placeholder="Email (optional)">
+        <input type="text" placeholder="Address">
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeAddPatient()">Cancel</button>
+        <button type="submit" class="btn-save">Save Patient</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 
   <button class="fab appointment" onclick="addAppointment()" title="Add Appointment">
     <i class="fas fa-calendar-plus"></i>
@@ -4597,6 +4724,24 @@ document.addEventListener('DOMContentLoaded', function() {
             console.warn('Loading timeout - forcing hide');
         }
     }, 10000);
+    function addPatient() {
+    document.getElementById("addPatientModal").classList.remove("hidden");
+  }
+
+  function closeAddPatient() {
+    document.getElementById("addPatientModal").classList.add("hidden");
+  }
+
+  document.getElementById("addPatientForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    alert("Patient successfully added!");
+    closeAddPatient();
+
+    // DITO ka pwede maglagay ng:
+    // fetch() → save to database
+    // or update patient table
+  });
 });
 </script>
 

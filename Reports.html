@@ -475,6 +475,39 @@
         width: 100%;
       }
     }
+    /* ===== WALKTHROUGH ===== */
+        .overlay{
+        position:fixed;inset:0;
+        background:rgba(0,0,0,.6);
+        display:none;
+        z-index:900;
+        pointer-events:none;
+        }
+        .highlight{
+        position:relative;
+        z-index:1001;
+        pointer-events:auto;
+        box-shadow:0 0 0 4px var(--accent);
+        border-radius:6px;
+        }
+        .tooltip{
+        position:absolute;
+        background:#fff;
+        padding:15px;
+        width:320px;
+        border-radius:10px;
+        box-shadow:0 5px 20px rgba(0,0,0,.25);
+        z-index:1002;
+        }
+        .tooltip h4{margin:0 0 8px}
+        .tooltip-actions{
+        display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:5px;
+        }
+        .tooltip-actions button{
+        border:none;padding:5px 10px;border-radius:5px;cursor:pointer;
+        }
+        .tooltip-actions .next{background:var(--accent);color:#fff}
+        .tooltip-actions .cancel{background:#31e7ff;color:#fff}
   </style>
 </head>
 <body>
@@ -499,7 +532,6 @@
         <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
         <li><a href="Data-Back-Up.html"><i class="fas fa-database"></i> Data BackUp</a></li>
         <li><a href="Reports.html" class="active"><i class="fas fa-chart-line"></i> Reports</a></li>
-        <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
       </ul>
       
       <div class="sidebar-bottom">
@@ -513,500 +545,203 @@
       </div>
     </div>
 
-    <!-- Main Content -->
-    <main class="main">
-      <div class="header">
-        <h1>Reports</h1>
-        <div class="actions">
-          <div class="user-info">
-            <div class="role">Reports Center</div>
-            <div class="name">Dr. Arvin</div>
-          </div>
-          <i class="fa-regular fa-bell" title="Notifications"></i>
-          <i class="fa-regular fa-circle-user" title="Profile"></i>
-        </div>
-      </div>
+<!-- MAIN -->
+<main class="main">
 
-      <div class="filters">
-        <label><strong>Date:</strong></label>
-        <input type="date" id="fromDate">
-        <input type="date" id="toDate">
-        <label><strong>Type:</strong></label>
-        <select id="reportType">
-          <option value="income">Income</option>
-          <option value="appointments">Appointments</option>
-          <option value="balance">Outstanding Balances</option>
-        </select>
-        <div class="controls">
-          <button class="btn" id="generateBtn">
-            <i class="fas fa-play"></i> Generate
-          </button>
-          <button class="btn" id="exportBtn">
-            <i class="fas fa-download"></i> Export CSV
-          </button>
-        </div>
-      </div>
+<div class="header">
+ <h2>Reports Center</h2>
+ <button class="btn secondary" onclick="startTutorial()">
+  <i class="fas fa-book"></i> Tutorial
+ </button>
+</div>
 
-      <div class="summary">
-        <div class="card">
-          <h4>Total Items</h4>
-          <div class="value" id="totalItems">0</div>
-        </div>
-        <div class="card">
-          <h4>Total Amount</h4>
-          <div class="value" id="totalAmount">PHP 0.00</div>
-        </div>
-        <div class="card">
-          <h4>Period</h4>
-          <div class="value" id="periodText">—</div>
-        </div>
-      </div>
+<!-- FILTERS -->
+<div class="box" id="filters">
+ <input type="date" id="fromDate">
+ <input type="date" id="toDate">
+ <select id="reportType">
+  <option value="all">All</option>
+  <option value="Income">Income</option>
+  <option value="Appointment">Appointment</option>
+  <option value="Balance">Balance</option>
+ </select>
+ <button class="btn" id="generateBtn">Generate</button>
+ <button class="btn" id="exportBtn">Export CSV</button>
+</div>
 
-      <div class="layout">
-        <div>
-          <div class="chart-box">
-            <h4>Monthly Summary</h4>
-            <canvas id="reportsChart" height="160"></canvas>
-          </div>
+<!-- SUMMARY -->
+<div class="summary" id="summary">
+ <div class="box card">
+  <h4>Total Records</h4>
+  <div class="value" id="totalItems">0</div>
+ </div>
+ <div class="box card">
+  <h4>Total Amount</h4>
+  <div class="value" id="totalAmount">PHP 0.00</div>
+ </div>
+</div>
 
-          <div class="table-box" id="tableBox">
-            <h4>Report Entries</h4>
-            <table id="reportsTable">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Date</th>
-                  <th>Patient</th>
-                  <th>Type</th>
-                  <th>Amount</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
+<!-- CHART -->
+<div class="box" id="chartBox">
+ <canvas id="reportsChart" height="120"></canvas>
+</div>
 
-        <div class="chart-box">
-          <h4>Top 5 Procedures (by revenue)</h4>
-          <canvas id="topProcedures" height="200"></canvas>
-        </div>
-      </div>
-    </main>
-  </div>
+<!-- TABLE -->
+<div class="box" id="tableBox">
+<table>
+<thead>
+<tr>
+ <th>#</th><th>Date</th><th>Patient</th><th>Type</th><th>Amount</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
 
-  <script>
-    // Sample data
-    const sample = [
-      {date:'2025-10-01', patient:'John D.', type:'Income', amount:1500},
-      {date:'2025-10-02', patient:'Maria S.', type:'Income', amount:2400},
-      {date:'2025-10-03', patient:'Patient #324', type:'Balance', amount:320},
-      {date:'2025-10-05', patient:'Anna L.', type:'Appointment', amount:0},
-      {date:'2025-10-12', patient:'Paul R.', type:'Income', amount:900},
-      {date:'2025-10-15', patient:'Sarah M.', type:'Income', amount:1800},
-      {date:'2025-10-18', patient:'David L.', type:'Balance', amount:450},
-      {date:'2025-10-20', patient:'Lisa K.', type:'Income', amount:3200},
-      {date:'2025-10-22', patient:'Michael T.', type:'Appointment', amount:0},
-      {date:'2025-10-25', patient:'Robert P.', type:'Income', amount:1500}
-    ];
+</main>
+</div>
 
-    // DOM Elements
-    const reportsTableBody = document.querySelector('#reportsTable tbody');
-    const totalItemsEl = document.getElementById('totalItems');
-    const totalAmountEl = document.getElementById('totalAmount');
-    const periodText = document.getElementById('periodText');
-    const fromDateInput = document.getElementById('fromDate');
-    const toDateInput = document.getElementById('toDate');
-    const reportTypeSelect = document.getElementById('reportType');
-    const generateBtn = document.getElementById('generateBtn');
-    const exportBtn = document.getElementById('exportBtn');
+<!-- WALKTHROUGH ELEMENTS -->
+<div class="overlay" id="overlay"></div>
+<div class="tooltip" id="tooltip"></div>
 
-    // Initialize date inputs
-    const today = new Date();
-    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    
-    fromDateInput.value = formatDate(firstDayOfMonth);
-    toDateInput.value = formatDate(lastDayOfMonth);
+<script>
+/* ================= DATA ================= */
+const records=[
+ {date:'2025-10-01',patient:'John D.',type:'Income',amount:1500},
+ {date:'2025-10-05',patient:'Anna L.',type:'Income',amount:1800},
+ {date:'2025-10-10',patient:'Paul R.',type:'Appointment',amount:0},
+ {date:'2025-10-12',patient:'Maria S.',type:'Balance',amount:500},
+ {date:'2025-10-20',patient:'Lisa K.',type:'Income',amount:3200}
+];
 
-    // Format date as YYYY-MM-DD
-    function formatDate(date) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    }
+const tbody=document.getElementById("tbody");
+const money=v=>`PHP ${v.toFixed(2)}`;
 
-    // Format date for display
-    function formatDisplayDate(dateString) {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-      });
-    }
+/* ================= REPORT FUNCTIONS ================= */
+function getFilteredData(){
+ const from=fromDate.value,to=toDate.value,type=reportType.value;
+ return records.filter(r=>{
+  const d=new Date(r.date);
+  if(from && d<new Date(from)) return false;
+  if(to && d>new Date(to)) return false;
+  if(type!=="all" && r.type!==type) return false;
+  return true;
+ });
+}
 
-    // Render table with data
-    function renderTable(data) {
-      reportsTableBody.innerHTML = '';
-      
-      if (data.length === 0) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td colspan="5" style="text-align: center; padding: 40px; color: #999;">No data found for the selected filters</td>`;
-        reportsTableBody.appendChild(tr);
-      } else {
-        data.forEach((r, i) => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${i + 1}</td>
-            <td>${formatDisplayDate(r.date)}</td>
-            <td>${r.patient}</td>
-            <td>
-              <span class="type-badge" style="
-                background: ${getTypeColor(r.type)};
-                color: white;
-                padding: 4px 8px;
-                border-radius: 4px;
-                font-size: 12px;
-                font-weight: 500;
-              ">
-                ${r.type}
-              </span>
-            </td>
-            <td style="font-weight: 600; color: ${r.amount > 0 ? '#2ecc71' : '#e74c3c'}">
-              ${r.amount > 0 ? 'PHP ' + r.amount.toFixed(2) : '—'}
-            </td>
-          `;
-          reportsTableBody.appendChild(tr);
-        });
-      }
-      
-      // Update summary cards
-      totalItemsEl.textContent = data.length;
-      const total = data.reduce((sum, item) => sum + item.amount, 0);
-      totalAmountEl.textContent = 'PHP ' + total.toFixed(2);
-      
-      // Update period text
-      const fromDate = fromDateInput.value ? formatDisplayDate(fromDateInput.value) : '—';
-      const toDate = toDateInput.value ? formatDisplayDate(toDateInput.value) : '—';
-      periodText.textContent = `${fromDate} – ${toDate}`;
-    }
+function renderTable(data){
+ tbody.innerHTML="";
+ if(!data.length){
+  tbody.innerHTML=`<tr><td colspan="5" align="center">No records found</td></tr>`;
+ }
+ data.forEach((r,i)=>{
+  tbody.innerHTML+=`
+   <tr>
+    <td>${i+1}</td>
+    <td>${r.date}</td>
+    <td>${r.patient}</td>
+    <td>${r.type}</td>
+    <td>${r.amount?money(r.amount):"—"}</td>
+   </tr>`;
+ });
+ totalItems.textContent=data.length;
+ totalAmount.textContent=money(data.reduce((s,r)=>s+r.amount,0));
+}
 
-    // Get color for type badge
-    function getTypeColor(type) {
-      const colors = {
-        'Income': '#2ecc71',
-        'Balance': '#3498db',
-        'Appointment': '#9b59b6'
-      };
-      return colors[type] || '#7f8c8d';
-    }
+/* ================= CHART ================= */
+let chart;
+function renderChart(data){
+ const weeks=[0,0,0,0];
+ data.filter(r=>r.type==="Income").forEach(r=>{
+  const w=Math.min(3,Math.floor((new Date(r.date).getDate()-1)/7));
+  weeks[w]+=r.amount;
+ });
+ if(chart) chart.destroy();
+ chart=new Chart(reportsChart,{
+  type:"bar",
+  data:{labels:["Week 1","Week 2","Week 3","Week 4"],
+  datasets:[{data:weeks,backgroundColor:"#00d4ff"}]},
+  options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
+ });
+}
 
-    // Filter data based on selected criteria
-    function filterData() {
-      const from = fromDateInput.value;
-      const to = toDateInput.value;
-      const type = reportTypeSelect.value;
-      
-      let filtered = [...sample];
-      
-      // Filter by type
-      if (type) {
-        if (type === 'income') {
-          filtered = filtered.filter(r => r.type === 'Income');
-        } else if (type === 'appointments') {
-          filtered = filtered.filter(r => r.type === 'Appointment');
-        } else if (type === 'balance') {
-          filtered = filtered.filter(r => r.type === 'Balance');
-        }
-      }
-      
-      // Filter by date range
-      if (from) {
-        filtered = filtered.filter(r => r.date >= from);
-      }
-      if (to) {
-        filtered = filtered.filter(r => r.date <= to);
-      }
-      
-      return filtered;
-    }
+/* ================= CSV EXPORT ================= */
+exportBtn.onclick=()=>{
+ const data=getFilteredData();
+ if(!data.length){alert("No data to export");return;}
+ let csv="Date,Patient,Type,Amount\n";
+ data.forEach(r=>csv+=`${r.date},${r.patient},${r.type},${r.amount}\n`);
+ const blob=new Blob([csv],{type:"text/csv"});
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);
+ a.download="reports.csv";
+ a.click();
+};
 
-    // Initialize charts
-    let reportsChart, topProceduresChart;
+/* ================= EVENTS ================= */
+generateBtn.onclick=()=>{
+ const data=getFilteredData();
+ renderTable(data);
+ renderChart(data);
+};
 
-    function initCharts() {
-      // Monthly Summary Chart
-      const reportsCtx = document.getElementById('reportsChart').getContext('2d');
-      reportsChart = new Chart(reportsCtx, {
-        type: 'bar',
-        data: {
-          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-          datasets: [{
-            label: 'Revenue',
-            data: [4500, 7200, 5300, 6100],
-            backgroundColor: '#00d4ff',
-            borderRadius: 6,
-            borderSkipped: false
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false
-            },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return `Revenue: PHP ${context.raw.toLocaleString()}`;
-                }
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              grid: {
-                color: 'rgba(0,0,0,0.05)'
-              },
-              ticks: {
-                callback: function(value) {
-                  return 'PHP ' + value.toLocaleString();
-                }
-              },
-              // Set fixed minimum and maximum to prevent chart collapse
-              suggestedMin: 0,
-              suggestedMax: 5000,
-              // Add grace to ensure bars are visible even with low values
-              grace: '10%'
-            },
-            x: {
-              grid: {
-                display: false
-              }
-            }
-          }
-        }
-      });
+/* ================= INIT ================= */
+document.addEventListener("DOMContentLoaded",()=>{
+ const d=getFilteredData();
+ renderTable(d);
+ renderChart(d);
+});
 
-      // Top Procedures Chart
-      const topCtx = document.getElementById('topProcedures').getContext('2d');
-      topProceduresChart = new Chart(topCtx, {
-        type: 'doughnut',
-        data: {
-          labels: ['Filling', 'Cleaning', 'Extraction', 'Crown', 'Whitening'],
-          datasets: [{
-            data: [3200, 2600, 1800, 1500, 900],
-            backgroundColor: [
-              '#00d4ff', '#32cd32', '#ffcd3c', '#9b59b6', '#ff7f50'
-            ],
-            borderWidth: 2,
-            borderColor: '#fff'
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: {
-                padding: 20,
-                usePointStyle: true,
-                pointStyle: 'circle'
-              }
-            },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  const label = context.label || '';
-                  const value = context.raw || 0;
-                  const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                  const percentage = Math.round((value / total) * 100);
-                  return `${label}: PHP ${value.toLocaleString()} (${percentage}%)`;
-                }
-              }
-            }
-          },
-          cutout: '60%'
-        }
-      });
-    }
+/* ================= WALKTHROUGH ================= */
+const steps=[
+ {el:"filters",title:"Step 1: Filters",text:"Select date range and report type."},
+ {el:"generateBtn",title:"Step 2: Generate",text:"Click to load the report."},
+ {el:"summary",title:"Step 3: Summary",text:"View total records and income."},
+ {el:"chartBox",title:"Step 4: Chart",text:"Weekly income visualization."},
+ {el:"exportBtn",title:"Step 5: Export CSV",text:"Download the report file."}
+];
+let stepIndex=0;
 
-    // Update charts with filtered data
-    function updateCharts(filteredData) {
-      // Calculate weekly totals for filtered data
-      const weeklyTotals = [0, 0, 0, 0];
-      
-      // Get income data only for revenue chart
-      const incomeData = filteredData.filter(r => r.type === 'Income');
-      
-      if (incomeData.length === 0) {
-        // If no income data, show zeros
-        weeklyTotals.fill(0);
-      } else {
-        incomeData.forEach(r => {
-          const date = new Date(r.date);
-          const day = date.getDate();
-          const week = Math.min(3, Math.floor((day - 1) / 7));
-          weeklyTotals[week] += r.amount;
-        });
-      }
-      
-      // Always ensure a reasonable y-axis scale
-      // Use 1000 as minimum max value to prevent chart from collapsing
-      const maxVal = Math.max(...weeklyTotals, 1000);
-      
-      // Update chart configuration with new max value
-      reportsChart.options.scales.y.suggestedMax = maxVal;
-      
-      // Ensure we always have some minimum bar height
-      reportsChart.data.datasets[0].data = weeklyTotals.map(val => Math.max(val, 0.1)); // 0.1 ensures bars are visible
-      
-      reportsChart.update();
-    }
+function startTutorial(){
+ overlay.style.display="block";
+ showStep(0);
+}
+function showStep(i){
+ clearHighlight();
+ stepIndex=i;
+ const s=steps[i];
+ const el=document.getElementById(s.el);
+ el.classList.add("highlight");
+ const r=el.getBoundingClientRect();
+ tooltip.innerHTML=`
+  <h4>${s.title}</h4>
+  <p>${s.text}</p>
+  <div class="tooltip-actions">
+    <button onclick="prevStep()">Back</button>
+    <button class="cancel" onclick="endTutorial()">Cancel</button>
+    <span>${i+1}/${steps.length}</span>
+    <button class="next" onclick="nextStep()">Next</button>
+  </div>`;
+ tooltip.style.top=(r.bottom+10)+"px";
+ tooltip.style.left=r.left+"px";
+}
+function clearHighlight(){
+ document.querySelectorAll(".highlight").forEach(e=>e.classList.remove("highlight"));
+}
+function nextStep(){
+ if(stepIndex<steps.length-1) showStep(stepIndex+1);
+ else endTutorial();
+}
+function prevStep(){
+ if(stepIndex>0) showStep(stepIndex-1);
+}
+function endTutorial(){
+ clearHighlight();
+ overlay.style.display="none";
+ tooltip.innerHTML="";
+}
+</script>
 
-    // Export table to CSV
-    function exportTableToCSV(filename = 'reports.csv') {
-      const rows = [];
-      
-      // Add headers
-      const headers = [];
-      document.querySelectorAll('#reportsTable th').forEach(th => {
-        headers.push(`"${th.textContent}"`);
-      });
-      rows.push(headers.join(','));
-      
-      // Add data rows
-      document.querySelectorAll('#reportsTable tbody tr').forEach(tr => {
-        const row = [];
-        tr.querySelectorAll('td').forEach(td => {
-          // Extract text content without HTML
-          let text = td.textContent || td.innerText;
-          // Remove PHP prefix and format
-          if (text.includes('PHP')) {
-            text = text.replace('PHP', '').trim();
-          }
-          // Remove em dash
-          if (text === '—') text = '';
-          row.push(`"${text}"`);
-        });
-        rows.push(row.join(','));
-      });
-      
-      const csv = rows.join('\n');
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      const url = URL.createObjectURL(blob);
-      
-      link.setAttribute('href', url);
-      link.setAttribute('download', filename);
-      link.style.visibility = 'hidden';
-      
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      // Show success message
-      showNotification('Report exported successfully as ' + filename, 'success');
-    }
-
-    // Show notification
-    function showNotification(message, type = 'info') {
-      // Create notification element
-      const notification = document.createElement('div');
-      notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 12px 20px;
-        background: ${type === 'success' ? '#2ecc71' : type === 'error' ? '#e74c3c' : '#3498db'};
-        color: white;
-        border-radius: 6px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        z-index: 1000;
-        animation: slideIn 0.3s ease;
-      `;
-      
-      notification.innerHTML = `
-        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
-        <span style="margin-left: 8px;">${message}</span>
-      `;
-      
-      document.body.appendChild(notification);
-      
-      // Remove after 3 seconds
-      setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => {
-          if (notification.parentNode) {
-            notification.parentNode.removeChild(notification);
-          }
-        }, 300);
-      }, 3000);
-    }
-
-    // Add CSS animations
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes slideIn {
-        from {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-      @keyframes slideOut {
-        from {
-          transform: translateX(0);
-          opacity: 1;
-        }
-        to {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-
-    // Event Listeners
-    generateBtn.addEventListener('click', () => {
-      const filteredData = filterData();
-      renderTable(filteredData);
-      updateCharts(filteredData);
-      showNotification('Report generated successfully', 'success');
-    });
-
-    exportBtn.addEventListener('click', () => {
-      const filteredData = filterData();
-      if (filteredData.length === 0) {
-        showNotification('No data to export', 'error');
-        return;
-      }
-      exportTableToCSV();
-    });
-
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', () => {
-      const filteredData = filterData();
-      renderTable(filteredData);
-      initCharts();
-      
-      // Set today's date as max for date inputs
-      const todayFormatted = formatDate(today);
-      fromDateInput.max = todayFormatted;
-      toDateInput.max = todayFormatted;
-      
-      // Update toDate min based on fromDate
-      fromDateInput.addEventListener('change', () => {
-        toDateInput.min = fromDateInput.value;
-      });
-    });
-  </script>
 </body>
 </html>
