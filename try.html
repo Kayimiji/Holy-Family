@@ -38,6 +38,7 @@ button {
   background:#2575fc;
   color:#fff;
   cursor:pointer;
+  font-size:16px;
 }
 
 button:hover {
@@ -46,16 +47,17 @@ button:hover {
 </style>
 </head>
 <body>
+
 <div class="container">
   <h2>Reset Password</h2>
   <p>Enter your email to receive OTP</p>
   <input type="email" id="emailInput" placeholder="Your Email">
   <div id="error" style="color:red; min-height:18px;"></div>
-  <button onclick="sendOTP()">Send OTP</button>
+  <button onclick="resetPassword()">Reset Password</button>
 </div>
 
 <script>
-function sendOTP() {
+function resetPassword() {
   const email = document.getElementById("emailInput").value;
   const error = document.getElementById("error");
 
@@ -66,15 +68,19 @@ function sendOTP() {
     return;
   }
 
-  // Simulate OTP generation and storing
+  // Generate 6-digit OTP
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  localStorage.setItem("resetOTP", otp);
+
+  // Store email and OTP
   localStorage.setItem("resetEmail", email);
+  localStorage.setItem("resetOTP", otp);
+
   alert(`OTP sent to ${email} (for demo: ${otp})`);
 
   // Redirect to Verify OTP page
   window.location.href = "verify-otp.html";
 }
 </script>
+
 </body>
 </html>
