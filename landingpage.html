@@ -1723,9 +1723,8 @@
             <div class="modal-actions"> <button type="submit" class="btn btn-primary">Login</button> 
                 <button type="button" class="btn btn-outline" id="switch-to-signup">Create Account</button> </div> 
                 <div class="modal-note"> <a href="reset-password.html" id="Forgot your password">Forgot your password?</a>
-                 </div> </form> </div> 
-                <div class="modal-right"> <div> <h3>Welcome Back!</h3> <p>Log in to manage your appointments, view treatment plans, and access your dental records easily.
-                </p> </p> </div> </div> </div> </div>
+                 </div> </form> </div>
+                
 
             <div class="modal-right">
                 <div>
@@ -1757,10 +1756,18 @@
                     
                     <label for="signup-phone">Clinic Name</label>
                     <input type="tel" id="signup-phone" placeholder="Enter your phone number" required>
+
                     
                     <label for="signup-password">Password</label>
                     <div style="position:relative;">
                         <input type="password" id="signup-password" placeholder="Create a password" required>
+                        <button type="button" class="toggle-pass" aria-label="Toggle password visibility">
+                            <i class="fas fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <label for="signup-password">Confirm Password</label>
+                    <div style="position:relative;">
+                        <input type="password" id="signup-password" placeholder="Confirm your password" required>
                         <button type="button" class="toggle-pass" aria-label="Toggle password visibility">
                             <i class="fas fa-eye" aria-hidden="true"></i>
                         </button>
@@ -1785,12 +1792,7 @@
     </div>
 </div>
 
-        <!-- In the footer section of landingpage.html -->
-                <div class="footer-bottom">
-                    <button id="changeRoleBtn" class="change-role-btn">
-                        <i class="fas fa-sync-alt"></i> Change Role
-                    </button>
-                </div>
+    <!-- JavaScript -->
 
      <script>
         
@@ -1936,6 +1938,45 @@
             document.body.style.overflow = "";
         }
         });
+         // SWITCH BETWEEN MODALS
+        document.getElementById("switch-to-signup").addEventListener("click", () => {
+            closeModal(loginModal);
+            openModal(signupModal);
+        });
+
+        document.getElementById("switch-to-login").addEventListener("click", () => {
+            closeModal(signupModal);
+            openModal(loginModal);
+        });
+
+        // MODAL CLOSE BUTTONS
+        document.querySelectorAll(".modal-close").forEach(btn => {
+            btn.addEventListener("click", () => closeModal(btn.closest(".modal")));
+        });
+
+        // CLICK OUTSIDE TO CLOSE
+        document.querySelectorAll(".modal").forEach(modal => {
+            modal.addEventListener("click", e => {
+            if (e.target === modal) closeModal(modal);
+            });
+        });
+
+        // ESC KEY TO CLOSE
+        document.addEventListener("keydown", e => {
+            if (e.key === "Escape") {
+            document.querySelectorAll(".modal.open").forEach(modal => closeModal(modal));
+            }
+        });
+
+        // MODAL OPEN/CLOSE FUNCTIONS
+        function openModal(modal) {
+            modal.classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+        function closeModal(modal) {
+            modal.classList.remove("open");
+            document.body.style.overflow = "";
+        }
 
 
         // Modal event listeners
@@ -2320,6 +2361,24 @@
             // Patient login
             localStorage.setItem("isLoggedIn", "true");
             localStorage.setItem("role", "patient");
+        // Modal functionality
+            const modal = document.getElementById("loginModal");
+            const btn = document.getElementById("switch-to-login");
+            const span = document.getElementById("closeModal");
+            btn.onclick = function() {
+            modal.style.display = "block";
+            }
+
+            span.onclick = function() {
+            modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+            if(event.target == modal) {
+                modal.style.display = "none";
+            }
+            }
+            
 
     </script>
 </body>
