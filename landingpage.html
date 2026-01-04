@@ -1424,7 +1424,7 @@
                 </button>
             </div>
             <a href="DataSecurity.html">Data Security</a>
-            <a href="FAQ.html">FAQ's</a> <!-- Changed to link to FAQ section -->
+            <a href="FAQ.html">FAQs</a> <!-- Changed to link to FAQ section -->
             </div>
         </div>
 
@@ -1438,10 +1438,11 @@
         <i class="fas fa-bookmark" aria-hidden="true"></i>
         <span class="br-label">My Records</span>
     </a>
-    <a id="adminDashBtn" class="records-bookmark" href="admin.html" role="button" aria-label="My Records" title="My Records">
-        <i class="fas fa-bookmark" aria-hidden="true"></i>
+    <a id="adminDashBtn" class="records-bookmark" href="admin.html" role="button">
+        <i class="fas fa-bookmark"></i>
         <span class="br-label">Admin Dashboard</span>
     </a>
+
 
 
      <!-- Hero Section -->
@@ -1708,49 +1709,33 @@
     </footer>
 
     <!-- Modals -->
-    <!-- Login Modal -->
+    <!-- Login Modal --> 
     <div id="login-modal" class="modal" role="dialog" aria-labelledby="login-title" aria-hidden="true">
-        <div class="modal-dialog">
-            <button class="modal-close" aria-label="Close login modal" type="button">
-                <i class="fas fa-times" aria-hidden="true"></i>
-            </button>
-            <div class="modal-left">
-                <h2 id="login-title">Login to Your Account</h2>
-                <button id="adminDashboardBtn" style="display: none;">
-                Admin Dashboard
-                </button>
+     <div class="modal-dialog"> <button class="modal-close" aria-label="Close login modal" type="button"> 
+        <i class="fas fa-times" aria-hidden="true"></i> </button> 
+        <div class="modal-left"> <h2 id="login-title">Login to Your Account</h2> 
+            <button id="adminDashboardBtn" style="display: none;"> Admin Dashboard </button> 
+            <form class="modal-form"> <label for="login-email">Email</label>
+            <input type="email" id="login-email" placeholder="Enter your email" required>
+            <label for="login-password">Password</label> <div class="password-wrapper"> <input type="password" id="password" placeholder="Enter your password"> <button type="button" class="toggle-pass"> <i class="fa fa-eye"></i> </button> </div> 
+            <div class="error" id="login-error">Invalid email or password. Please try again.</div> 
+            <div class="success" id="login-success">Login successful! Redirecting...</div> 
+            <div class="modal-actions"> <button type="submit" class="btn btn-primary">Login</button> 
+                <button type="button" class="btn btn-outline" id="switch-to-signup">Create Account</button> </div> 
+                <div class="modal-note"> <a href="reset-password.html" id="Forgot your password">Forgot your password?</a>
+                 </div> </form> </div> 
+                <div class="modal-right"> <div> <h3>Welcome Back!</h3> <p>Log in to manage your appointments, view treatment plans, and access your dental records easily.
+                </p> </p> </div> </div> </div> </div>
 
-                <form class="modal-form">
-                    <label for="login-email">Email</label>
-                    <input type="email" id="login-email" placeholder="Enter your email" required>
-                    
-                    <label for="login-password">Password</label>
-                   <div class="password-wrapper">
-                        <input type="password" id="password" placeholder="Enter your password">
-                        <button type="button" class="toggle-pass">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="error" id="login-error">Invalid email or password. Please try again.</div>
-                    <div class="success" id="login-success">Login successful! Redirecting...</div>
-                    
-                    <div class="modal-actions">
-                        <button type="submit" class="btn btn-primary">Login</button>
-                        <button type="button" class="btn btn-outline" id="switch-to-signup">Create Account</button>
-                    </div>
-                    
-                    <div class="modal-note">
-                        <a href="#">Forgot your password?</a>
-                    </div>
-                </form>
-            </div>
             <div class="modal-right">
                 <div>
                     <h3>Welcome Back!</h3>
                     <p>Log in to manage your appointments, view treatment plans, and access your dental records easily.</p>
                 </p>
-                </div>
+                <button class="modal-close" aria-label="Close login modal" type="button">
+                    <i class="fas fa-times"></i>
+                </button>
+
             </div>
         </div>
     </div>
@@ -1922,6 +1907,36 @@
             closeModal(signupModal);
             closeModal(bookModal);
         }
+        
+        document.addEventListener("DOMContentLoaded", () => {
+        const loginModal = document.getElementById("login-modal");
+        const closeBtn = loginModal.querySelector(".modal-close");
+
+        /* CLOSE BUTTON (X) */
+        closeBtn.addEventListener("click", () => {
+            closeLoginModal();
+        });
+
+        /* CLICK SA LABAS NG MODAL */
+        loginModal.addEventListener("click", (e) => {
+            if (e.target === loginModal) {
+            closeLoginModal();
+            }
+        });
+
+        /* ESC KEY */
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && loginModal.classList.contains("open")) {
+            closeLoginModal();
+            }
+        });
+
+        function closeLoginModal() {
+            loginModal.classList.remove("open");
+            document.body.style.overflow = "";
+        }
+        });
+
 
         // Modal event listeners
         openLoginBtn.addEventListener('click', () => openModal(loginModal));
@@ -2016,6 +2031,48 @@
 
 
         errorMsg.textContent = "";
+        document.getElementById("forgotPasswordLink").addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("login-email").value;
+
+        if (!email) {
+            alert("Please enter your email first.");
+            return;
+        }
+
+        /* DEMO ONLY */
+        alert("Password reset link has been sent to:\n" + email);
+
+        /* REAL API SAMPLE (OPTIONAL)
+        fetch("http://localhost:5000/forgot-password", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email })
+        });
+        */
+        });
+        document.getElementById("forgotPasswordLink").addEventListener("click", e => {
+        e.preventDefault();
+
+        const email = document.getElementById("login-email").value;
+
+        if (!email) {
+            alert("Please enter your email first.");
+            return;
+        }
+
+        // Generate 6-digit OTP
+        const otp = Math.floor(100000 + Math.random() * 900000);
+        localStorage.setItem("resetEmail", email);
+        localStorage.setItem("resetOTP", otp);
+
+        alert(
+            "OTP has been sent to your email (DEMO):\n\n" + otp
+        );
+
+        window.location.href = "verify-otp.html";
+        });
 
         // Basic validation
         if (!email || !password) {
@@ -2239,6 +2296,31 @@
         		}
         	});
         })();
+        
+         // Show Admin Dashboard button based on role
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            const adminDashBtn = document.getElementById("adminDashBtn");
+
+            const isLoggedIn = localStorage.getItem("isLoggedIn");
+            const role = localStorage.getItem("role");
+
+            // Default: hidden
+            adminDashBtn.style.display = "none";
+
+            // Show only if ADMIN
+            if (isLoggedIn === "true" && role === "admin") {
+                adminDashBtn.style.display = "flex"; // or "block"
+            }
+        });
+        // Admin login
+            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("role", "admin");
+
+            // Patient login
+            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("role", "patient");
+
     </script>
 </body>
 </html>
