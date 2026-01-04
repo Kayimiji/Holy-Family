@@ -327,12 +327,12 @@
         }
 
 
-        // Fully booked dates (sample data - in a real app this would come from your database)
-        const fullyBookedDates = [
+        /* sample data - in a real app this would come from your database */
+        /* const fullyBookedDates = [
             "2024-03-15", // YYYY-MM-DD format
             "2024-03-20",
             "2024-03-25"
-        ];
+        ]; */
 
         input:checked + .slider {
             background-color: #00bfff;
@@ -896,6 +896,32 @@ h2 {
     height: 72px; /* Set a fixed height for table rows */
 }
 
+/* Dropdown */
+.dropdown .arrow {
+    margin-left: auto;
+    transition: 0.3s;
+}
+
+.dropdown.open .arrow {
+    transform: rotate(180deg);
+}
+
+.submenu {
+    list-style: none;
+    display: none;
+    background: #243444;
+}
+
+.dropdown.open .submenu {
+    display: block;
+}
+
+.submenu a {
+    padding: 10px 40px;
+    font-size: 14px;
+    display: block;
+    color: #fff;
+}
 
     </style>
 </head>
@@ -910,18 +936,33 @@ h2 {
                 </div>
                 <div class="sidebar-title">
                     <h2>
-                        <span class="holy-family">Smart</span><br>
-                        <span class="dental-clinic">Dentistry</span>
+                        <span class="holy-family">SMART</span><br>
+                        <span class="dental-clinic">DENTISTRY</span>
                     </h2>
                     <p>Creating beautiful smiles for every family</p>
                 </div>
             </div>
             <ul class="sidebar-menu">
-               <ul class="sidebar-menu">
-                <li><a href="MyRecords.html"><i class="fas fa-user"></i> Patient List</a></li>
-                <li><a href="View.html"><i class="fas fa-home"></i> Patient Dashboard</a></li>
-                <li><a href="forms.html"><i class="fas fa-file-medical"></i> Forms</a></li>
-                <li><a href="mygallery.html"><i class="fas fa-images"></i> My Gallery</a></li>
+                <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li class="dropdown open">
+                    <a href="javascript:void(0)" class="dropdown-toggle">
+                        <i class="fas fa-tooth"></i>
+                        <span>My Clinic</span>
+                        <i class="fas fa-chevron-down arrow"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="clinic-profile.html"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
+                        <li><a href="Dental-Chart.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
+                        <li><a href="Braces-Treatment.html"><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
+                        <li><a href="MyRecords.html" class="active"><i class="fas fa-file-medical"></i> Patient Record</a></li>
+                    </ul>
+                </li>
+                <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> Appointment History</a></li>
+                <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+                <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+                <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> Data BackUp</a></li>
+                <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+                <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
                 <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
             <!-- Add Return to Home menu at the bottom -->
@@ -934,7 +975,7 @@ h2 {
                         <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
                     </ul>
                 </div>
-                </div>
+            </div>
         </div>
 
          <div class="main-content">
@@ -1511,6 +1552,20 @@ filterOptions.forEach(option => {
         filterDropdown.classList.remove('show');
     });
 });
+
+    // Dropdown menu functionality for sidebar
+    document.querySelectorAll(".dropdown-toggle").forEach(toggle => {
+        toggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            const dropdown = this.parentElement;
+            // close other open dropdowns
+            document.querySelectorAll(".dropdown.open").forEach(d => {
+                if (d !== dropdown) d.classList.remove("open");
+            });
+            // toggle current
+            dropdown.classList.toggle("open");
+        });
+    });
     </script>
 </body>
 </html>

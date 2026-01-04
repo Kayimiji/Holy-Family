@@ -60,25 +60,51 @@ body{background:var(--bg);color:var(--text)}
   border-left:4px solid var(--sidebar-active);
 }
 
-/* Dropdown */
-.dropdown .arrow{
-  margin-left:auto;
-  transition:.3s;
+/* ===== DROPDOWN ===== */
+.sidebar-menu .dropdown {
+  position: relative;
 }
-.dropdown.open .arrow{
-  transform:rotate(180deg);
+.sidebar-menu .dropdown-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  color: #fff;
+  text-decoration: none;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
 }
-.submenu{
-  list-style:none;
-  display:none;
-  background:#243444;
+.sidebar-menu .dropdown.open > .dropdown-toggle .fa-caret-down {
+  transform: rotate(-180deg);
+  transition: transform 0.2s;
 }
-.dropdown.open .submenu{
-  display:block;
+.sidebar-menu .dropdown-menu {
+  display: none;
+  flex-direction: column;
+  background: #34495e;
+  margin-left: 0;
+  padding-left: 0;
+  list-style: none;
 }
-.submenu a{
-  padding:10px 40px;
-  font-size:14px;
+.sidebar-menu .dropdown.open > .dropdown-menu {
+  display: flex;
+}
+.sidebar-menu .dropdown-menu li a {
+  padding: 10px 40px;
+  color: #fff;
+  background: none;
+  border-left: 4px solid transparent;
+  font-size: 15px;
+  display: block;
+}
+.sidebar-menu .dropdown-menu li a:hover,
+.sidebar-menu .dropdown-menu li a.active {
+  background: rgba(0,191,255,.15);
+  border-left: 4px solid var(--sidebar-active);
 }
 
 /* ===== MAIN ===== */
@@ -164,29 +190,39 @@ canvas{border:2px dashed #cbd5e1;border-radius:10px;margin-top:10px;}
     </div>
   </div>
 
- <ul class="sidebar-menu">
-  <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+  <ul class="sidebar-menu">
+    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" onclick="toggleDropdown(event)">
+        <i class="fas fa-tooth"></i> My Clinic
+        <i class="fas fa-caret-down" style="margin-left:auto"></i>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="clinic-profile.html"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
+        <li><a href="clinic-services.html"><i class="fas fa-stethoscope"></i> Clinic Services</a></li>
+        <li><a href="clinic-staff.html"><i class="fas fa-user-md"></i> Clinic Staff</a></li>
+      </ul>
+    </li>
+    <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> Appointment History</a></li>
+    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+    <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> Data BackUp</a></li>
+    <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+    <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
+    <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+  </ul>
 
-  <li class="dropdown open">
-    <a href="#" class="dropdown-toggle">
-      <i class="fas fa-tooth"></i> My Clinic
-      <i class="fas fa-chevron-down arrow"></i>
-    </a>
-    <ul class="submenu">
-      <li><a href="clinic-profile.html" class="active"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
-      <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
-      <li><a href="Braces-Treatment.html" ><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
-      <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
-    </ul>
-  </li>
-
-  <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
-  <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-  <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-  <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-  <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
-  <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-</ul>
+  <!-- Add Return to Home menu at the bottom -->
+  <div style="position: absolute; bottom: 20px; width: 13%;">
+    <div style="position: absolute; bottom: 20px; width: 100%;">
+      <ul class="sidebar-menu settings-menu">
+        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+      <ul class="sidebar-menu return-home-menu">
+        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+      </ul>
+    </div>
+  </div>
 </aside>
 
   <!-- Main -->
@@ -242,6 +278,35 @@ canvas{border:2px dashed #cbd5e1;border-radius:10px;margin-top:10px;}
 </div>
 
 <script>
+/* DROPDOWN FOR MY CLINIC */
+function toggleDropdown(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const li = e.currentTarget.closest('.dropdown');
+  const isOpen = li.classList.contains('open');
+  // Close all dropdowns
+  document.querySelectorAll('.sidebar-menu .dropdown').forEach(d => d.classList.remove('open'));
+  // Open if not already open
+  if (!isOpen) li.classList.add('open');
+}
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(e) {
+  document.querySelectorAll('.sidebar-menu .dropdown').forEach(d => d.classList.remove('open'));
+});
+
+// Keep dropdown open if current page is in submenu
+(function() {
+  const path = window.location.pathname.split('/').pop();
+  document.querySelectorAll('.sidebar-menu .dropdown').forEach(drop => {
+    drop.querySelectorAll('.dropdown-menu a').forEach(a => {
+      if (a.getAttribute('href') === path) {
+        a.classList.add('active');
+        drop.classList.add('open');
+      }
+    });
+  });
+})();
+
 /* WALKTHROUGH */
 const steps = [
   { el:"#clinicName", title:"🏥 Clinic Name", text:"Enter your clinic’s official name.", progress:"p1" },
