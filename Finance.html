@@ -536,157 +536,160 @@
     </style>
     </head>
     <body>
-    <div class="dashboard">
-        <!-- Sidebar Navigation -->
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo-container">
-                    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
-                    <div class="logo-glow"></div>
-                </div>
-                <div class="sidebar-title">
-                    <h2>
-                        <span class="holy-family">SMART</span><br>
-                        <span class="dental-clinic">DENTISTRY</span>
-                    </h2>
-                </div>
-            </div>
-            <ul class="sidebar-menu">
-                <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
-                <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> Appointment History</a></li>
-                <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-                <li><a href="Finance.html" class="active"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-                <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> Data BackUp</a></li>
-                <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-                <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
-                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            </ul>
-            <!-- Add Return to Home menu at the bottom -->
-            <div style="position: absolute; bottom: 20px; width: 100%;">
-                <ul class="sidebar-menu settings-menu">
-                    <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-                </ul>
-                <ul class="sidebar-menu return-home-menu">
-                    <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Main Content Area -->
-        <div class="main-content">
-            <div class="header">
-                <h1>Finance</h1>
-                <div style="display: flex; gap: 20px; align-items: center;">
-                    <div class="header-icons">
-                        <i class="fa-regular fa-bell"></i>
-                        <i class="fa-regular fa-circle-user"></i>
+        <div class="dashboard">
+            <!-- Sidebar Navigation -->
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <div class="logo-container">
+                        <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
+                        <div class="logo-glow"></div>
                     </div>
-                    <div class="theme-toggle">
-                        <span class="theme-toggle-label">Dark Mode</span>
-                        <label class="switch">
-                            <input type="checkbox" id="themeToggle">
-                            <span class="slider"></span>
-                        </label>
+                    <div class="sidebar-title">
+                        <h2>
+                            <span class="holy-family">SMART</span><br>
+                            <span class="dental-clinic">DENTISTRY</span>
+                        </h2>
                     </div>
                 </div>
+                <ul class="sidebar-menu">
+                    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
+                    <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> Appointment History</a></li>
+                    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+                    <li><a href="Finance.html" class="active"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+                    <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> Data BackUp</a></li>
+                    <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+                    <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
+                    <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+                <!-- Add Return to Home menu at the bottom -->
+                <div style="position: absolute; bottom: 20px; width: 100%;">
+                    <ul class="sidebar-menu settings-menu">
+                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                    <ul class="sidebar-menu return-home-menu">
+                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="chart-container"><canvas id="financeChart"></canvas></div>
-            <div class="date-range"><strong>Oct 1, 2025 – Oct 31, 2025</strong></div>
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <div class="header">
+                    <h1>Finance</h1>
+                    <div style="display: flex; gap: 20px; align-items: center;">
+                        <div class="header-icons">
+                            <i class="fa-regular fa-bell"></i>
+                            <i class="fa-regular fa-circle-user"></i>
+                        </div>
+                        <div class="theme-toggle">
+                            <span class="theme-toggle-label">Dark Mode</span>
+                            <label class="switch">
+                                <input type="checkbox" id="themeToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="stats">
-                <div class="card">Total Revenue<br>PHP 1,000.00</div>
-                <button class="green-btn" onclick="openPayments()">View Payments</button>
-                <div class="card">Total Balance<br>PHP 150.00</div>
+                <div class="chart-container"><canvas id="financeChart"></canvas></div>
+                <div class="date-range"><strong>Oct 1, 2025 – Oct 31, 2025</strong></div>
+
+                <div class="stats">
+                    <div class="card">Total Revenue<br>PHP 1,000.00</div>
+                    <button class="green-btn" onclick="openPayments()">View Payments</button>
+                    <div class="card">Total Balance<br>PHP 150.00</div>
+                </div>
+
+                <div class="report-grid">
+                <div class="report-card" onclick="openReport('dentist')">📈 Income Report Per Dentist</div>
+                <div class="report-card" onclick="openReport('installment')">💳 Installment Plan Report</div>
+                <div class="report-card" onclick="openReport('insurance')">🩺 Income Report Per Insurance</div>
+                <div class="report-card" onclick="openReport('income')">📊 Income Report</div>
+                <div class="report-card" onclick="openReport('balance')">💰 Patients with Balance</div>
             </div>
 
-            <div class="report-grid">
-            <div class="report-card" onclick="openReport('dentist')">📈 Income Report Per Dentist</div>
-            <div class="report-card" onclick="openReport('installment')">💳 Installment Plan Report</div>
-            <div class="report-card" onclick="openReport('insurance')">🩺 Income Report Per Insurance</div>
-            <div class="report-card" onclick="openReport('income')">📊 Income Report</div>
-            <div class="report-card" onclick="openReport('balance')">💰 Patients with Balance</div>
-        </div>
 
+                
+                <button class="plus-btn" onclick="openAddPayment()">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
 
-            
-            <button class="plus-btn" onclick="openAddPayment()">
-                <i class="fa-solid fa-plus"></i>
-            </button>
-        </div>
+            <div id="addPaymentModal" class="modal">
+                <div class="modal-box">
+                    <h3>Add Payment</h3>
+                    <select id="patientSelect">
+                        <option value="">Select Patient</option>
+                    </select>
+                    <input id="patientContact" type="text" placeholder="Contact Number">
+                    <input id="payAmount" type="number" placeholder="Amount (PHP)">
+                    <select id="payMode">
+                        <option value="">Mode of Payment</option>
+                        <option>Cash</option>
+                        <option>GCash</option>
+                        <option>Bank Transfer</option>
+                    </select>
+                    <input id="payRemarks" type="text" placeholder="Remarks">
+                    <div class="modal-actions">
+                        <button onclick="closeAddPayment()">Cancel</button>
+                        <button class="green-btn" onclick="savePayment()">Save</button>
+                    </div>
+                </div>
+            </div>
 
-        <div id="addPaymentModal" class="modal">
-            <div class="modal-box">
-                <h3>Add Payment</h3>
-                <input id="patientName" type="text" placeholder="Patient Name">
-                <input id="patientContact" type="text" placeholder="Contact Number">
-                <input id="payAmount" type="number" placeholder="Amount (PHP)">
-                <select id="payMode">
-                    <option value="">Mode of Payment</option>
-                    <option>Cash</option>
-                    <option>GCash</option>
-                    <option>Bank Transfer</option>
-                </select>
-                <input id="payRemarks" type="text" placeholder="Remarks">
-                <div class="modal-actions">
-                    <button onclick="closeAddPayment()">Cancel</button>
-                    <button class="green-btn" onclick="savePayment()">Save</button>
+            <div id="paymentsModal" class="modal">
+                <div class="modal-box" style="width:700px;">
+                    <h3>Payments</h3>
+                    <table width="100%" border="1" cellpadding="8">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Patient</th>
+                                <th>Amount</th>
+                                <th>Mode</th>
+                                <!-- <th>Receipt</th> -->
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentsTable"></tbody>
+                    </table>
+                    <div class="modal-actions">
+                        <button onclick="closePayments()">Close</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="receiptModal" class="modal">
+                <div class="modal-box" id="receiptContent">
+                    <h2 style="text-align:center;">Payment Receipt</h2>
+                    <hr>
+                    <p><strong>Patient:</strong> <span id="rName"></span></p>
+                    <p><strong>Contact:</strong> <span id="rContact"></span></p>
+                    <p><strong>Date:</strong> <span id="rDate"></span></p>
+                    <p><strong>Mode:</strong> <span id="rMode"></span></p>
+                    <p><strong>Remarks:</strong> <span id="rRemarks"></span></p>
+                    <h3>Total: ₱<span id="rAmount"></span></h3>
+                    <div class="modal-actions">
+                        <button onclick="printReceipt()">🖨 Print</button>
+                        <button onclick="closeReceipt()">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div id="paymentsModal" class="modal">
+        <div id="reportModal" class="modal">
             <div class="modal-box" style="width:700px;">
-                <h3>Payments</h3>
-                <table width="100%" border="1" cellpadding="8">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Patient</th>
-                            <th>Amount</th>
-                            <th>Mode</th>
-                            <th>Receipt</th>
-                        </tr>
-                    </thead>
-                    <tbody id="paymentsTable"></tbody>
-                </table>
+                <h3 id="reportTitle"></h3>
+                <div id="reportContent"></div>
                 <div class="modal-actions">
-                    <button onclick="closePayments()">Close</button>
+                    <button onclick="closeReport()">Close</button>
                 </div>
             </div>
         </div>
 
-        <div id="receiptModal" class="modal">
-            <div class="modal-box" id="receiptContent">
-                <h2 style="text-align:center;">Payment Receipt</h2>
-                <hr>
-                <p><strong>Patient:</strong> <span id="rName"></span></p>
-                <p><strong>Contact:</strong> <span id="rContact"></span></p>
-                <p><strong>Date:</strong> <span id="rDate"></span></p>
-                <p><strong>Mode:</strong> <span id="rMode"></span></p>
-                <p><strong>Remarks:</strong> <span id="rRemarks"></span></p>
-                <h3>Total: ₱<span id="rAmount"></span></h3>
-                <div class="modal-actions">
-                    <button onclick="printReceipt()">🖨 Print</button>
-                    <button onclick="closeReceipt()">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="reportModal" class="modal">
-        <div class="modal-box" style="width:700px;">
-            <h3 id="reportTitle"></h3>
-            <div id="reportContent"></div>
-            <div class="modal-actions">
-                <button onclick="closeReport()">Close</button>
-            </div>
-        </div>
-    </div>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
             function openReport(type) {
                 const modal = document.getElementById("reportModal");
                 const title = document.getElementById("reportTitle");
@@ -809,30 +812,105 @@
             document.getElementById("addPaymentModal").style.display = "none";
         }
 
-        function savePayment() {
+        const patients = JSON.parse(localStorage.getItem("patients")) || [
+            { id: 1, name: "Maria Santos", contact: "09123456789" },
+            { id: 2, name: "Pedro Reyes", contact: "09987654321" }
+        ];
+
+        async function populatePatientDropdown() {
+            const select = document.getElementById("patientSelect");
+            if (!select) return;
+
+            select.innerHTML = '<option value="">Loading patients...</option>';
+
+            try {
+                const res = await fetch("http://localhost:3000/patients");
+                if (!res.ok) throw new Error("Failed to fetch patients");
+
+                const patients = await res.json();
+                console.log(patients)
+
+                select.innerHTML = '<option value="">Select Patient</option>';
+
+                patients.forEach(p => {
+                    const option = document.createElement("option");
+                    option.value = p.id;
+                    option.textContent = `${p.patientName}`;
+                    option.dataset.contact = p.phoneNumber;
+                    select.appendChild(option);
+                });
+
+            } catch (err) {
+                console.error(err);
+                select.innerHTML = '<option value="">Unable to load patients</option>';
+            }
+        }
+
+        populatePatientDropdown();
+
+        document.getElementById("patientSelect").addEventListener("change", function () {
+            const selected = this.options[this.selectedIndex];
+            document.getElementById("patientContact").value = selected.dataset.contact || "";
+        });
+
+        async function savePayment() {
+            const patientSelect = document.getElementById("patientSelect");
+            const patientName = patientSelect.options[patientSelect.selectedIndex]?.text;
+            const phoneNumber = document.getElementById("patientContact").value;
+
             const amount = parseFloat(document.getElementById("payAmount").value);
             const mode = document.getElementById("payMode").value;
             const remarks = document.getElementById("payRemarks").value;
 
-            if (!amount || !mode) {
-                alert("Please enter amount and payment mode");
+            if (!patientName || !amount || !mode) {
+                alert("Please select patient, amount, and payment mode");
                 return;
             }
 
             const payment = {
-                date: new Date().toLocaleDateString(),
+                date: new Date().toISOString(),
+                patientName,
+                phoneNumber,
                 amount,
                 mode,
                 remarks
             };
 
-            payments.push(payment);
-            localStorage.setItem("payments", JSON.stringify(payments));
+            try {
+                const res = await fetch("http://localhost:3000/finance/addPayment", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payment)
+                });
 
-            updateTotals();
-            closeAddPayment();
-            clearPaymentForm();
+                if (!res.ok) throw new Error("Failed to save payment");
+
+                const data = await res.json();
+                console.log("Payment saved:", data.user);
+
+                clearPaymentForm();
+                closeAddPayment();
+                fetchPayments(); // refresh table
+            } catch (err) {
+                console.error(err);
+                alert("Unable to save payment. Check server connection.");
+            }
         }
+
+        async function fetchPayments() {
+            try {
+                const res = await fetch("http://localhost:3000/finance/payments");
+                if (!res.ok) throw new Error("Failed to fetch payments");
+
+                payments = await res.json();
+                renderPayments();
+            } catch (err) {
+                console.error(err);
+                alert("Unable to load payments.");
+            }
+        }
+
+        fetchPayments();
 
         function renderPayments() {
             const tbody = document.getElementById("paymentsTable");
@@ -841,7 +919,8 @@
             payments.forEach(p => {
                 tbody.innerHTML += `
                     <tr>
-                        <td>${p.date}</td>
+                        <td>${new Date(p.date).toLocaleString()}</td>
+                        <td>${p.patientName}</td>
                         <td>PHP ${p.amount.toFixed(2)}</td>
                         <td>${p.mode}</td>
                         <td>${p.remarks || "-"}</td>
@@ -856,7 +935,7 @@
         }
 
         function clearPaymentForm() {
-            document.getElementById("patientName").value = '';
+            document.getElementById("patientSelect").value = '';
             document.getElementById("patientContact").value = '';
             document.getElementById("payAmount").value = '';
             document.getElementById("payMode").value = '';
@@ -864,4 +943,4 @@
         }
     </script>
     </body>
-    </html>
+</html>
