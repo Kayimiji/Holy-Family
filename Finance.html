@@ -559,13 +559,23 @@
         </div>
         <ul class="sidebar-menu">
             <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-            <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
-            <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> Appointment History</a></li>
-            <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropdown-toggle" onclick="toggleDropdown(event)">
+                    <i class="fas fa-tooth"></i>
+                    <span>My Clinic</span>
+                    <i class="fas fa-chevron-down arrow"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="clinic-profile.html">Clinic Profile</a></li>
+                    <li><a href="Dental-Chart.html">Dental Chart</a></li>
+                    <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
+                    <li><a href="patients.html"><i class="fas fa-users"></i><span>Patients</span></a></li>
+                </ul>
+            </li>
+            <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i><span> Appointment History</span></a></li>
             <li><a href="Finance.html" class="active"><i class="fas fa-dollar-sign"></i> Finance</a></li>
             <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> Data BackUp</a></li>
             <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-            <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
             <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
         <!-- Add Return to Home menu at the bottom -->

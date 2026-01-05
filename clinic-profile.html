@@ -35,10 +35,31 @@ body{background:var(--bg);color:var(--text)}
   gap:10px;
   padding:20px;
 }
+.logo-container{
+  position:relative;
+  width:50px;
+  height:50px;
+}
 .sidebar-logo{
   width:50px;
   height:50px;
   border-radius:50%;
+  position:relative;
+  z-index:2;
+}
+.logo-glow{
+  position:absolute;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(0,191,255,0.3) 0%, transparent 70%);
+  top:0;
+  left:0;
+  animation:glow 2s ease-in-out infinite;
+}
+@keyframes glow{
+  0%,100%{transform:scale(1);opacity:0.8;}
+  50%{transform:scale(1.1);opacity:1;}
 }
 .sidebar-title h2{
   font-size:16px;
@@ -78,11 +99,14 @@ body{background:var(--bg);color:var(--text)}
   cursor: pointer;
   font: inherit;
 }
-.sidebar-menu .dropdown.open > .dropdown-toggle .fa-caret-down {
-  transform: rotate(-180deg);
-  transition: transform 0.2s;
+.sidebar-menu .dropdown-toggle .arrow{
+  margin-left:auto;
+  transition:transform 0.3s ease;
 }
-.sidebar-menu .dropdown-menu {
+.sidebar-menu .dropdown.open > .dropdown-toggle .arrow {
+  transform: rotate(-180deg);
+}
+.sidebar-menu .submenu {
   display: none;
   flex-direction: column;
   background: #34495e;
@@ -90,10 +114,10 @@ body{background:var(--bg);color:var(--text)}
   padding-left: 0;
   list-style: none;
 }
-.sidebar-menu .dropdown.open > .dropdown-menu {
+.sidebar-menu .dropdown.open > .submenu {
   display: flex;
 }
-.sidebar-menu .dropdown-menu li a {
+.sidebar-menu .submenu li a {
   padding: 10px 40px;
   color: #fff;
   background: none;
@@ -101,8 +125,8 @@ body{background:var(--bg);color:var(--text)}
   font-size: 15px;
   display: block;
 }
-.sidebar-menu .dropdown-menu li a:hover,
-.sidebar-menu .dropdown-menu li a.active {
+.sidebar-menu .submenu li a:hover,
+.sidebar-menu .submenu li a.active {
   background: rgba(0,191,255,.15);
   border-left: 4px solid var(--sidebar-active);
 }
@@ -219,31 +243,37 @@ canvas{border:2px dashed #cbd5e1;border-radius:10px;margin-top:10px;}
 <!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="sidebar-header">
-    <img src="logo.png" class="sidebar-logo">
+    <div class="logo-container">
+      <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
+      <div class="logo-glow"></div>
+    </div>
     <div class="sidebar-title">
-      <h2>SMART<br>DENTISTRY</h2>
+      <h2>
+        <span class="holy-family">SMART</span><br>
+        <span class="dental-clinic">DENTISTRY</span>
+      </h2>
     </div>
   </div>
 
   <ul class="sidebar-menu">
     <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" onclick="toggleDropdown(event)">
-        <i class="fas fa-tooth"></i> My Clinic
-        <i class="fas fa-caret-down" style="margin-left:auto"></i>
+      <a href="javascript:void(0)" class="dropdown-toggle" onclick="toggleDropdown(event)">
+        <i class="fas fa-tooth"></i>
+        <span>My Clinic</span>
+        <i class="fas fa-chevron-down arrow"></i>
       </a>
-      <ul class="dropdown-menu">
-        <li><a href="clinic-profile.html"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
-        <li><a href="clinic-services.html"><i class="fas fa-stethoscope"></i> Clinic Services</a></li>
-        <li><a href="clinic-staff.html"><i class="fas fa-user-md"></i> Clinic Staff</a></li>
+      <ul class="submenu">
+        <li><a href="clinic-profile.html">Clinic Profile</a></li>
+        <li><a href="Dental-Chart.html">Dental Chart</a></li>
+        <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
+        <li><a href="MyRecords.html">Patient Record</a></li>
       </ul>
     </li>
-    <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> Appointment History</a></li>
-    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+    <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i><span> Appointment History</span></a></li>
     <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
     <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> Data BackUp</a></li>
     <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-    <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
     <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
   </ul>
 
@@ -323,7 +353,6 @@ canvas{border:2px dashed #cbd5e1;border-radius:10px;margin-top:10px;}
 /* DROPDOWN FOR MY CLINIC */
 function toggleDropdown(e) {
   e.preventDefault();
-  e.stopPropagation();
   const li = e.currentTarget.closest('.dropdown');
   const isOpen = li.classList.contains('open');
   // Close all dropdowns
@@ -331,16 +360,12 @@ function toggleDropdown(e) {
   // Open if not already open
   if (!isOpen) li.classList.add('open');
 }
-// Close dropdowns when clicking outside
-document.addEventListener('click', function(e) {
-  document.querySelectorAll('.sidebar-menu .dropdown').forEach(d => d.classList.remove('open'));
-});
 
 // Keep dropdown open if current page is in submenu
 (function() {
   const path = window.location.pathname.split('/').pop();
   document.querySelectorAll('.sidebar-menu .dropdown').forEach(drop => {
-    drop.querySelectorAll('.dropdown-menu a').forEach(a => {
+    drop.querySelectorAll('.submenu a').forEach(a => {
       if (a.getAttribute('href') === path) {
         a.classList.add('active');
         drop.classList.add('open');
