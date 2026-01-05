@@ -1,655 +1,367 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Smart Dentistry - Clinic Profile</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard - Holy Family Dental Clinic</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
- /* ============================================= */
- /* BASE STYLES & VARIABLES */
- /* ============================================= */
-
-
-:root {
-  --statcards-bg: #00bfff98;
-  --calendarmodal-bg: #00bfff98;
-  --bg-color: #f5f7fa;
-  --sidebar-bg: #2c3e50;
-  --sidebar-text: rgba(255, 255, 255, 0.9);
-  --sidebar-active: #00bfff;
-  --card-bg: #ffffff;
-  --text-color: #2c3e50;
-  --text-muted: #7a8ba9;
-  --border-color: #e1e5eb;
-  --hover-bg: #f0f4f8;
-  --today-bg: #e6f7ff;
-  --selected-bg: #00bfff;
-  --selected-text: white;
-  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  --modal-bg: #ffffff;
-  --modal-text: #2c3e50;
-  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --calendar-day-bg: var(--card-bg);
-  --calendar-today-bg: var(--sidebar-active);
-  --calendar-today-color: white;
-  --calendar-selected-bg: rgba(0, 191, 255, 0.2);
-  }
-
-
-  [data-theme="dark"] {
-  --statcards-bg: #004f6998;
-  --calendarmodal-bg: #004f6998;
-  --bg-color: #1a1a1a;
-  --sidebar-bg: #151e25;
-  --sidebar-text: rgba(255, 255, 255, 0.85);
-  --sidebar-active: #00bfff;
-  --card-bg: #2d2d2d;
-  --text-color: #e0e0e0;
-  --text-muted: #aaa;
-  --border-color: #444;
-  --hover-bg: #333;
-  --today-bg: #003366;
-  --selected-bg: #006699;
-  --selected-text: white;
-  --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  --modal-bg: #2d2d2d;
-  --modal-text: #e0e0e0;
-  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  --calendar-day-bg: var(--card-bg);
-  --calendar-today-bg: var(--sidebar-active);
-  --calendar-today-color: white;
-  --calendar-selected-bg: rgba(0, 191, 255, 0.2);
+:root{
+  --sidebar-bg:#2c3e50;
+  --sidebar-active:#00bfff;
+  --bg:#eef8fc;
+  --card:#ffffff;
+  --shadow:0 4px 12px rgba(0,0,0,.08);
+  --text:#2c3e50;
+  --btn-primary:#0ea5e9;
+  --btn-hover:#0284c7;
+  --btn-secondary:#e5e7eb;
+  --btn-secondary-hover:#cbd5e1;
 }
 
+/* ===== BASE ===== */
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+body{background:var(--bg);color:var(--text);}
 
-  [data-theme="dark"] .left-container {
-    background: linear-gradient(135deg, #1a4a6e 0%, #0d2c4d 100%);
-  }
-
-
-.html, body {
-   height: 100%;
-   overflow: auto;
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:250px;
+  background:var(--sidebar-bg);
+  color:#fff;
+  position:fixed;
+  top:0;left:0;bottom:0;
+  display:flex;
+  flex-direction:column;
+}
+.sidebar-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:20px;
+}
+.sidebar-logo{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+}
+.sidebar-title h2{
+  font-size:16px;
+  color:var(--sidebar-active);
+  line-height:1.1;
+}
+.sidebar-menu{list-style:none;flex-grow:1;}
+.sidebar-menu a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 20px;
+  color:#fff;
+  text-decoration:none;
+}
+.sidebar-menu a:hover,
+.sidebar-menu a.active{
+  background:rgba(0,191,255,.2);
+  border-left:4px solid var(--sidebar-active);
+}
+.dropdown .arrow{
+  margin-left:auto;
+  transition:.3s;
+}
+.dropdown.open .arrow{
+  transform:rotate(180deg);
+}
+.submenu{
+  list-style:none;
+  display:none;
+  background:#243444;
+}
+.dropdown.open .submenu{
+  display:block;
+}
+.submenu a{
+  padding:10px 40px;
+  font-size:14px;
 }
 
-
-.body {
-    font-family: 'Inter', Arial, sans-serif;
-    margin: 0;
-    transition: background-color 0.3s ease;
-    background-size: cover;
-    background-attachment: fixed;
-    background-color: var(--bg-color);
-    color: var(--sidebar-text);
+/* ===== MAIN ===== */
+.main{
+  margin-left:250px;
+  width:calc(100% - 250px);
+  display:flex;
+  flex-direction:row;
+  gap:20px;
+  padding:20px;
 }
-/* ============================================= */
- /* LAYOUT & STRUCTURE */
- /* ============================================= */
 
+/* LEFT & RIGHT COLUMNS */
+.left-column, .right-column{
+  background:var(--card);
+  padding:25px;
+  border-radius:16px;
+  box-shadow:var(--shadow);
+}
+.left-column{flex:2;}
+.right-column{flex:1; max-height:90vh; overflow-y:auto; position:relative;}
 
-        .dashboard {
-            display: flex;
-            height: 100vh;
-            min-height: 100vh;
-            overflow: hidden;
-            color: var(--text-color);
-        }
-        .sidebar {
-            background-color: var(--sidebar-bg);
-            color: var(--sidebar-text);
-            padding: 20px 0;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
-        }
+/* FORM & STEP */
+.stepper{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+.step{
+  flex:1;
+  margin:0 5px;
+  padding:8px;
+  border-radius:20px;
+  background:#e5e7eb;
+  text-align:center;
+  font-weight:600;
+  color:#555;
+}
+.step.active{background:var(--btn-primary);color:#fff;}
+label{display:block;margin-top:12px;font-weight:600;}
+input{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;margin-top:6px;}
+.signature-box{border:2px dashed #cbd5e1;border-radius:12px;height:120px;display:flex;align-items:center;justify-content:center;color:#94a3b8;margin-top:6px;}
+.btn{margin-top:15px;padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:bold;}
+.btn-primary{background:var(--btn-primary);color:#fff;}
+.btn-primary:hover{background:var(--btn-hover);}
+.btn-secondary{background:var(--btn-secondary);color:#000;width:auto;padding:6px 16px;}
+.btn-secondary:hover{background:var(--btn-secondary-hover);}
 
+/* PROFILE GRID */
+.profile-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+}
+.profile-card{
+  border:1px solid #ddd;
+  padding:16px;
+  border-radius:8px;
+  background-color:#fafafa;
+  position:relative;
+}
+.profile-card button{
+  margin-top:10px;
+  background:var(--btn-primary);
+  border:none;
+  color:#fff;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:13px;
+}
 
-        .main-content {
-            flex-direction: column;
-            padding: 20px;
-            display: flex;
-            flex: 3;
-            transition: background-color 0.3s ease;
-        }
+/* TUTORIAL BUTTON */
+#tutorialBtn{
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:var(--btn-primary);
+  color:#fff;
+  border:none;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  z-index:1001;
+}
 
+/* WALKTHROUGH */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  display:none;
+  z-index:9998;
+}
+.spotlight{
+  box-shadow:0 0 0 9999px rgba(255, 255, 255, 0);
+  border-radius:12px;
+  position:relative;
+  z-index:9999;
+}
+.walkthrough-box{
+  position:fixed;bottom:30px;right:30px;width:320px;background:#fff;padding:18px;border-radius:16px;
+  box-shadow:0 15px 40px rgba(255,255,255,.912);z-index:10000;
+}
+.walkthrough-box h4{margin:0 0 10px;color:var(--btn-primary);}
+.walkthrough-box .hint{font-size:13px;color:var(--btn-primary);margin-top:8px;}
+.controls{display:flex;justify-content:space-between;margin-top:15px;}
+.controls button{border:none;border-radius:8px;padding:8px 12px;cursor:pointer;font-weight:bold;}
+.arrow{
+  position:absolute;width:0;height:0;
+  border-left:14px solid transparent;border-right:14px solid transparent;
+  border-bottom:22px solid var(--btn-primary);animation:bounce 1s infinite;
+  z-index:10001;display:none;
+}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+</style>
+</head>
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            margin-top: -20px;
-        }
+<body>
 
-
-        .return-home-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-
-        .return-home-menu li {
-            margin-bottom: 5px;
-        }
-
-
-        .return-home-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-
-        .return-home-menu a:hover, .return-home-menu a.active {
-            background-color: rgba(0, 191, 255, 0.2);
-            color: white;
-            border-left: 3px solid var(--sidebar-active);
-        }
-
-
-        .return-home-menu i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-
-        .sidebar-logo {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            margin-right: -5px;
-            margin-top: -45px;
-            margin-left: -20px;
-            object-fit: cover;
-        }
-
-
-        .sidebar-title h2 {
-            color: var(--sidebar-active);
-            margin: 0;
-            font-size: 18px;
-            line-height: 1;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            white-space: nowrap;
-        }
-
-
-        .sidebar-title p {
-            color: var(--sidebar-text);
-            font-size: 12px;
-            margin-top: 10px;
-            margin-left: -40px;
-            font-style: italic;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-            white-space: normal;
-        }
-
-
-        .holy-family {
-            color: #00bbff;
-            font-weight: bold;
-        }
-
-
-        .dental-clinic {
-            color: #00bbff;
-            font-weight: bold;
-        }
-
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-
-        .sidebar-menu li {
-            margin-bottom: 5px;
-        }
-
-
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-
-        .sidebar-menu a:hover, .sidebar-menu a.active {
-            background-color: rgba(0, 191, 255, 0.2);
-            color: white;
-            border-left: 3px solid var(--sidebar-active);
-        }
-
-
-        .sidebar-menu i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-
-
-        .settings-menu a:hover, .return-home-menu a:hover {
-            background-color: rgba(0, 191, 255, 0.2);
-            color: white;
-            border-left: 3px solid var(--sidebar-active);
-            display: block;
-            width: 100%;
-            padding-right: 25px;
-        }
-
-
-        .btn {
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            margin-top: -10px;
-            align-items: center;
-            gap: 5px;
-            font-size: 13px;
-            border: none;
-        }
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--sidebar-active);
-            color: var(--sidebar-active);
-        }
-
-
-        .btn-outline:hover {
-            background-color: var(--sidebar-active);
-            color: white;
-            box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
-        }
-
-
-        .theme-toggle {
-            display: flex;
-            align-items: center;
-            margin-left: 20px;
-            gap: 10px;
-        }
-
-
-        .theme-toggle-label {
-            font-size: 14px;
-            color: var(--text-color);
-        }
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-
-        input:checked + .slider {
-            background-color: #00bfff;
-        }
-
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-
-
-        /* MAIN */
-        .main{margin-left:250px;padding:24px;width:100%}
-        .header{
-        display:flex;justify-content:space-between;align-items:center;margin-bottom:20px
-        }
-        .box{
-        background:#fff;padding:15px;border-radius:10px;
-        margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.08)
-        }
-        .summary{display:flex;gap:15px;flex-wrap:wrap}
-        .card{flex:1;min-width:200px}
-        .card h4{font-size:14px;color:#777}
-        .card .value{font-size:22px;font-weight:700}
-
-        table{width:100%;border-collapse:collapse}
-        th,td{padding:10px;border-bottom:1px solid #eee;text-align:left}
-
-        .btn{
-        background:var(--accent);color:#fff;border:none;
-        padding:10px 18px;border-radius:6px;cursor:pointer
-        }
-        .btn.secondary{background:#555}
-        .btn.cancel{background:#e74c3c} /* Red cancel button */
-        .btn:hover{opacity:.9}
-
-        /* ===== WALKTHROUGH ===== */
-        .overlay{
-        position:fixed;inset:0;
-        background:rgba(0,0,0,.6);
-        display:none;
-        z-index:900;
-        pointer-events:none;
-        }
-        .highlight{
-        position:relative;
-        z-index:1001;
-        pointer-events:auto;
-        box-shadow:0 0 0 4px var(--accent);
-        border-radius:6px;
-        }
-        .tooltip{
-        position:absolute;
-        background:#fff;
-        padding:15px;
-        width:320px;
-        border-radius:10px;
-        box-shadow:0 5px 20px rgba(0,0,0,.25);
-        z-index:1002;
-        }
-        .tooltip h4{margin:0 0 8px}
-        .tooltip-actions{
-        display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:5px;
-        }
-        .tooltip-actions button{
-        border:none;padding:5px 10px;border-radius:5px;cursor:pointer;
-        }
-        .tooltip-actions .next{background:var(--accent);color:#fff}
-        .tooltip-actions .cancel{background:#e74c3c;color:#fff}
-        </style>
-        </head>
-    
-      <body>
-<div class="dashboard">
-
-<div class="dashboard">
-<!-- Sidebar Navigation -->
-<div class="sidebar">
-<div class="sidebar-header">
-<div class="logo-container">
-<img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
-<div class="logo-glow"></div>
-</div>
-<div class="sidebar-title">
-<h2>
-<span class="holy-family">SMART</span><br>
-<span class="dental-clinic">DENTISTRY</span>
-</h2>
-</div>
-</div>
-<ul class="sidebar-menu">
-<li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-<li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
-<li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i><span> Appointment History</a></li>
-<li><a href="patients.html"><i class="fas fa-users"></i><span>Patients</span></a></li>
-<li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-<li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i><span> Data BackUp</a></li>
-<li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-<li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
-<li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-</ul>
-<!-- Add Return to Home menu at the bottom -->
-<div style="position: absolute; bottom: 20px; width: 13%;">
-<div style="position: absolute; bottom: 20px; width: 100%;">
-<ul class="sidebar-menu settings-menu">
-<li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-</ul>
-<ul class="sidebar-menu return-home-menu">
-<li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
-</ul>
-</div>
-</div>
-</div>
-
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <img src="logo.png" class="sidebar-logo">
+    <div class="sidebar-title"><h2>SMART<br>DENTISTRY</h2></div>
+  </div>
+  <ul class="sidebar-menu">
+    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+    <li class="dropdown open">
+      <a href="#" class="dropdown-toggle"><i class="fas fa-tooth"></i> My Clinic <i class="fas fa-chevron-down arrow"></i></a>
+      <ul class="submenu">
+        <li><a href="clinic-profile.html" class="active"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
+        <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
+        <li><a href="Braces-Treatment.html" ><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
+        <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
+      </ul>
+    </li>
+    <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
+    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+    <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+    <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
+    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+  </ul>
+</aside>
 
 <!-- MAIN -->
-<main class="main">
+<div class="main">
+  <!-- LEFT COLUMN: Clinic Form -->
+  <div class="left-column">
+    <div class="stepper">
+      <div class="step active" id="step1">Clinic</div>
+      <div class="step" id="step2">Dentist</div>
+      <div class="step" id="step3">Finish</div>
+    </div>
+    <label>Clinic Name</label>
+    <input id="clinicName">
+    <label>Contact Number</label>
+    <input id="clinicContact">
+    <label>Address</label>
+    <input id="clinicAddress">
+    <label>Dentist Name</label>
+    <input id="dentistName">
+    <label>Email</label>
+    <input id="dentistEmail">
+    <label>Signature</label>
+    <div class="signature-box" id="signatureBox">Draw here</div>
+    <button class="btn-secondary" onclick="clearForm()">Clear</button>
+    <label>Clinic Logo</label>
+    <input type="file" id="clinicLogo">
+    <button class="btn-primary" id="saveProfileBtn" onclick="saveProfile()">Save Profile</button>
+  </div>
 
-<div class="header">
- <h2>Reports Center</h2>
- <button class="btn secondary" onclick="startTutorial()">
-  <i class="fas fa-book"></i> Tutorial
- </button>
+  <!-- RIGHT COLUMN: Staff Profiles -->
+  <div class="right-column">
+    <h2>Dentist / Staff Profiles</h2>
+    <div class="setup-card">
+      <label>Name</label>
+      <input id="staffName">
+      <label>Position</label>
+      <input id="staffPosition">
+      <label>Email</label>
+      <input id="staffEmail">
+      <label>Phone</label>
+      <input id="staffPhone">
+      <button class="btn-primary" onclick="addStaff()">Add Staff</button>
+    </div>
+    <div class="profile-grid" id="profileGrid"></div>
+  </div>
 </div>
 
-<!-- FILTERS -->
-<div class="box" id="filters">
- <input type="date" id="fromDate">
- <input type="date" id="toDate">
- <select id="reportType">
-  <option value="all">All</option>
-  <option value="Income">Income</option>
-  <option value="Appointment">Appointment</option>
-  <option value="Balance">Balance</option>
- </select>
- <button class="btn" id="generateBtn">Generate</button>
- <button class="btn" id="exportBtn">Export CSV</button>
-</div>
+<!-- Tutorial Button -->
+<button id="tutorialBtn" onclick="startTutorial()">Tutorial</button>
 
-<!-- SUMMARY -->
-<div class="summary" id="summary">
- <div class="box card">
-  <h4>Total Records</h4>
-  <div class="value" id="totalItems">0</div>
- </div>
- <div class="box card">
-  <h4>Total Amount</h4>
-  <div class="value" id="totalAmount">PHP 0.00</div>
- </div>
-</div>
-
-<!-- CHART -->
-<div class="box" id="chartBox">
- <canvas id="reportsChart" height="120"></canvas>
-</div>
-
-<!-- TABLE -->
-<div class="box" id="tableBox">
-<table>
-<thead>
-<tr>
- <th>#</th><th>Date</th><th>Patient</th><th>Type</th><th>Amount</th>
-</tr>
-</thead>
-<tbody id="tbody"></tbody>
-</table>
-</div>
-
-</main>
-</div>
-
-<!-- WALKTHROUGH ELEMENTS -->
+<!-- WALKTHROUGH -->
 <div class="overlay" id="overlay"></div>
-<div class="tooltip" id="tooltip"></div>
+<div id="arrow" class="arrow"></div>
+<div class="walkthrough-box" id="walkBox">
+  <h4 id="walkTitle"></h4>
+  <p id="walkText"></p>
+  <div class="hint">👆 Follow the arrow and complete this step</div>
+  <div class="controls">
+    <button onclick="skipTour()">Skip</button>
+    <button onclick="nextTour()">Next</button>
+  </div>
+</div>
 
 <script>
-/* ================= DATA ================= */
-const records=[
- {date:'2025-10-01',patient:'John D.',type:'Income',amount:1500},
- {date:'2025-10-05',patient:'Anna L.',type:'Income',amount:1800},
- {date:'2025-10-10',patient:'Paul R.',type:'Appointment',amount:0},
- {date:'2025-10-12',patient:'Maria S.',type:'Balance',amount:500},
- {date:'2025-10-20',patient:'Lisa K.',type:'Income',amount:3200}
+// ===== STAFF MANAGEMENT =====
+let staffList=[];
+function renderProfiles(){
+  const grid=document.getElementById("profileGrid");
+  grid.innerHTML="";
+  staffList.forEach((staff,index)=>{
+    const card=document.createElement("div");
+    card.className="profile-card";
+    card.innerHTML=`
+      <p><strong>Name:</strong> ${staff.name}</p>
+      <p><strong>Position:</strong> ${staff.position}</p>
+      <p><strong>Email:</strong> ${staff.email}</p>
+      <p><strong>Phone:</strong> ${staff.phone}</p>
+      <button onclick="editStaff(${index})">Edit</button>
+    `;
+    grid.appendChild(card);
+  });
+}
+function addStaff(){
+  const name=document.getElementById("staffName").value.trim();
+  const position=document.getElementById("staffPosition").value.trim();
+  const email=document.getElementById("staffEmail").value.trim();
+  const phone=document.getElementById("staffPhone").value.trim();
+  if(!name || !position) return alert("Enter name & position.");
+  staffList.push({name,position,email,phone});
+  renderProfiles();
+  ["staffName","staffPosition","staffEmail","staffPhone"].forEach(id=>document.getElementById(id).value="");
+}
+function editStaff(index){
+  const staff=staffList[index];
+  staffList[index]={...staff};
+  alert("Staff info saved!");
+  renderProfiles();
+}
+
+// ===== CLINIC FORM =====
+function clearForm(){
+  ["clinicName","clinicContact","clinicAddress","dentistName","dentistEmail"].forEach(id=>document.getElementById(id).value="");
+}
+function saveProfile(){ alert("Clinic profile saved!"); }
+
+// ===== TUTORIAL =====
+const steps = [
+  { el:"#clinicName", title:"Clinic Name", text:"Enter clinic name." },
+  { el:"#dentistName", title:"Dentist Name", text:"Enter main dentist." },
+  { el:"#signatureBox", title:"Signature", text:"Draw digital signature." },
+  { el:"#clinicLogo", title:"Clinic Logo", text:"Upload your clinic logo." },
+  { el:"#saveProfileBtn", title:"Save Profile", text:"Click to save clinic profile." }
 ];
 
-const tbody=document.getElementById("tbody");
-const money=v=>`PHP ${v.toFixed(2)}`;
-
-/* ================= REPORT FUNCTIONS ================= */
-function getFilteredData(){
- const from=fromDate.value,to=toDate.value,type=reportType.value;
- return records.filter(r=>{
-  const d=new Date(r.date);
-  if(from && d<new Date(from)) return false;
-  if(to && d>new Date(to)) return false;
-  if(type!=="all" && r.type!==type) return false;
-  return true;
- });
-}
-
-function renderTable(data){
- tbody.innerHTML="";
- if(!data.length){
-  tbody.innerHTML=`<tr><td colspan="5" align="center">No records found</td></tr>`;
- }
- data.forEach((r,i)=>{
-  tbody.innerHTML+=`
-   <tr>
-    <td>${i+1}</td>
-    <td>${r.date}</td>
-    <td>${r.patient}</td>
-    <td>${r.type}</td>
-    <td>${r.amount?money(r.amount):"—"}</td>
-   </tr>`;
- });
- totalItems.textContent=data.length;
- totalAmount.textContent=money(data.reduce((s,r)=>s+r.amount,0));
-}
-
-/* ================= CHART ================= */
-let chart;
-function renderChart(data){
- const weeks=[0,0,0,0];
- data.filter(r=>r.type==="Income").forEach(r=>{
-  const w=Math.min(3,Math.floor((new Date(r.date).getDate()-1)/7));
-  weeks[w]+=r.amount;
- });
- if(chart) chart.destroy();
- chart=new Chart(reportsChart,{
-  type:"bar",
-  data:{labels:["Week 1","Week 2","Week 3","Week 4"],
-  datasets:[{data:weeks,backgroundColor:"#00d4ff"}]},
-  options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
- });
-}
-
-/* ================= CSV EXPORT ================= */
-exportBtn.onclick=()=>{
- const data=getFilteredData();
- if(!data.length){alert("No data to export");return;}
- let csv="Date,Patient,Type,Amount\n";
- data.forEach(r=>csv+=`${r.date},${r.patient},${r.type},${r.amount}\n`);
- const blob=new Blob([csv],{type:"text/csv"});
- const a=document.createElement("a");
- a.href=URL.createObjectURL(blob);
- a.download="reports.csv";
- a.click();
-};
-
-/* ================= EVENTS ================= */
-generateBtn.onclick=()=>{
- const data=getFilteredData();
- renderTable(data);
- renderChart(data);
-};
-
-/* ================= INIT ================= */
-document.addEventListener("DOMContentLoaded",()=>{
- const d=getFilteredData();
- renderTable(d);
- renderChart(d);
-});
-
-/* ================= WALKTHROUGH ================= */
-const steps=[
- {el:"filters",title:"Step 1: Filters",text:"Select date range and report type."},
- {el:"generateBtn",title:"Step 2: Generate",text:"Click to load the report."},
- {el:"summary",title:"Step 3: Summary",text:"View total records and income."},
- {el:"chartBox",title:"Step 4: Chart",text:"Weekly income visualization."},
- {el:"exportBtn",title:"Step 5: Export CSV",text:"Download the report file."}
-];
-let stepIndex=0;
-
-function startTutorial(){
- overlay.style.display="block";
- showStep(0);
-}
+let current = 0;
 function showStep(i){
- clearHighlight();
- stepIndex=i;
- const s=steps[i];
- const el=document.getElementById(s.el);
- el.classList.add("highlight");
- const r=el.getBoundingClientRect();
- tooltip.innerHTML=`
-  <h4>${s.title}</h4>
-  <p>${s.text}</p>
-  <div class="tooltip-actions">
-    <button onclick="prevStep()">Back</button>
-    <button class="cancel" onclick="endTutorial()">Cancel</button>
-    <span>${i+1}/${steps.length}</span>
-    <button class="next" onclick="nextStep()">Next</button>
-  </div>`;
- tooltip.style.top=(r.bottom+10)+"px";
- tooltip.style.left=r.left+"px";
+  document.querySelectorAll(".spotlight").forEach(e=>e.classList.remove("spotlight"));
+  const step = steps[i];
+  const el = document.querySelector(step.el);
+  const rect = el.getBoundingClientRect();
+  el.classList.add("spotlight");
+  document.getElementById("walkTitle").innerText = step.title;
+  document.getElementById("walkText").innerText = step.text;
+  const arrow = document.getElementById("arrow");
+  arrow.style.left = rect.left + rect.width/2 - 14 + "px";
+  arrow.style.top = rect.top - 35 + "px";
+  arrow.style.display = "block";
+  document.getElementById("overlay").style.display="block";
+  document.getElementById("walkBox").style.display="block";
 }
-function clearHighlight(){
- document.querySelectorAll(".highlight").forEach(e=>e.classList.remove("highlight"));
-}
-function nextStep(){
- if(stepIndex<steps.length-1) showStep(stepIndex+1);
- else endTutorial();
-}
-function prevStep(){
- if(stepIndex>0) showStep(stepIndex-1);
-}
-function endTutorial(){
- clearHighlight();
- overlay.style.display="none";
- tooltip.innerHTML="";
-}
+function nextTour(){ current++; if(current>=steps.length){ endTour(); return; } showStep(current); }
+function skipTour(){ endTour(); }
+function endTour(){ document.getElementById("arrow").style.display="none"; document.querySelectorAll(".spotlight").forEach(e=>e.classList.remove("spotlight")); document.getElementById("overlay").style.display="none"; document.getElementById("walkBox").style.display="none"; }
+function startTutorial(){ current=0; showStep(current); }
 </script>
 
 </body>

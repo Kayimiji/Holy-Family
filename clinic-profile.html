@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Clinic Profile Walkthrough</title>
+<title>Smart Dentistry - Clinic Profile</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
@@ -16,10 +16,15 @@
   --card:#ffffff;
   --shadow:0 4px 12px rgba(0,0,0,.08);
   --text:#2c3e50;
+  --btn-primary:#0ea5e9;
+  --btn-hover:#0284c7;
+  --btn-secondary:#e5e7eb;
+  --btn-secondary-hover:#cbd5e1;
 }
+
+/* ===== BASE ===== */
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text)}
- 
+body{background:var(--bg);color:var(--text);}
 
 /* ===== SIDEBAR ===== */
 .sidebar{
@@ -28,6 +33,8 @@ body{background:var(--bg);color:var(--text)}
   color:#fff;
   position:fixed;
   top:0;left:0;bottom:0;
+  display:flex;
+  flex-direction:column;
 }
 .sidebar-header{
   display:flex;
@@ -45,7 +52,7 @@ body{background:var(--bg);color:var(--text)}
   color:var(--sidebar-active);
   line-height:1.1;
 }
-.sidebar-menu{list-style:none}
+.sidebar-menu{list-style:none;flex-grow:1;}
 .sidebar-menu a{
   display:flex;
   align-items:center;
@@ -59,8 +66,6 @@ body{background:var(--bg);color:var(--text)}
   background:rgba(0,191,255,.2);
   border-left:4px solid var(--sidebar-active);
 }
-
-/* Dropdown */
 .dropdown .arrow{
   margin-left:auto;
   transition:.3s;
@@ -86,149 +91,194 @@ body{background:var(--bg);color:var(--text)}
   margin-left:250px;
   width:calc(100% - 250px);
   display:flex;
-  flex-direction:column;
+  flex-direction:row;
+  gap:20px;
+  padding:20px;
 }
 
-/* ===== CONTAINER ===== */
-
-.container {
-  background: #fff;
-  padding: 30px 25px;      /* more padding for comfort */
-  border-radius: 14px;
-  max-width: 500px;        /* wider container */
-  width: 90%;              /* responsive on smaller screens */
-  margin: 50px auto;       /* center vertically and horizontally */
-  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.805);
+/* LEFT & RIGHT COLUMNS */
+.left-column, .right-column{
+  background:var(--card);
+  padding:25px;
+  border-radius:16px;
+  box-shadow:var(--shadow);
 }
+.left-column{flex:2;}
+.right-column{flex:1; max-height:90vh; overflow-y:auto; position:relative;}
 
-
-/* ===== PROGRESS BAR ===== */
-.progress{display:flex;gap:10px;margin-bottom:25px;}
-.progress div{flex:1;padding:10px;text-align:center;border-radius:20px;background:#e5e7eb;font-weight:bold;}
-.progress .active{background:#0ea5e9;color:#fff;}
-
-/* ===== FORM ===== */
-label{display:block;margin-top:15px;font-weight:bold;}
-input{width:100%;padding:10px;margin-top:6px;border-radius:8px;border:1px solid #ccc;}
-canvas{border:2px dashed #cbd5e1;border-radius:10px;margin-top:10px;}
-
-/* ===== LOGO PREVIEW ===== */
-#logoPreview{max-width:140px;margin-top:10px;display:block;}
-
-/* ===== BUTTONS ===== */
+/* FORM & STEP */
+.stepper{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+.step{
+  flex:1;
+  margin:0 5px;
+  padding:8px;
+  border-radius:20px;
+  background:#e5e7eb;
+  text-align:center;
+  font-weight:600;
+  color:#555;
+}
+.step.active{background:var(--btn-primary);color:#fff;}
+label{display:block;margin-top:12px;font-weight:600;}
+input{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;margin-top:6px;}
+.signature-box{border:2px dashed #cbd5e1;border-radius:12px;height:120px;display:flex;align-items:center;justify-content:center;color:#94a3b8;margin-top:6px;}
 .btn{margin-top:15px;padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:bold;}
-.btn-primary{background:#0ea5e9;color:#fff;}
-.btn-secondary{background:#e5e7eb;color:#000;}
+.btn-primary{background:var(--btn-primary);color:#fff;}
+.btn-primary:hover{background:var(--btn-hover);}
+.btn-secondary{background:var(--btn-secondary);color:#000;width:auto;padding:6px 16px;}
+.btn-secondary:hover{background:var(--btn-secondary-hover);}
 
-/* ===== WALKTHROUGH ===== */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);display:none;z-index:9998;}
-.spotlight{box-shadow:0 0 0 9999px rgba(255, 255, 255, 0);border-radius:12px;position:relative;z-index:9999;}
+/* PROFILE GRID */
+.profile-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+}
+.profile-card{
+  border:1px solid #ddd;
+  padding:16px;
+  border-radius:8px;
+  background-color:#fafafa;
+  position:relative;
+}
+.profile-card button{
+  margin-top:10px;
+  background:var(--btn-primary);
+  border:none;
+  color:#fff;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:13px;
+}
+
+/* TUTORIAL BUTTON */
+#tutorialBtn{
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:var(--btn-primary);
+  color:#fff;
+  border:none;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  z-index:1001;
+}
+
+/* WALKTHROUGH */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  display:none;
+  z-index:9998;
+}
+.spotlight{
+  box-shadow:0 0 0 9999px rgba(255, 255, 255, 0);
+  border-radius:12px;
+  position:relative;
+  z-index:9999;
+}
 .walkthrough-box{
   position:fixed;bottom:30px;right:30px;width:320px;background:#fff;padding:18px;border-radius:16px;
-  box-shadow:0 15px 40px rgba(255, 255, 255, 0.912);z-index:10000;
+  box-shadow:0 15px 40px rgba(255,255,255,.912);z-index:10000;
 }
-.walkthrough-box h4{margin:0 0 10px;color:#0ea5e9;}
-.walkthrough-box .hint{font-size:13px;color:#0ea5e9;margin-top:8px;}
+.walkthrough-box h4{margin:0 0 10px;color:var(--btn-primary);}
+.walkthrough-box .hint{font-size:13px;color:var(--btn-primary);margin-top:8px;}
 .controls{display:flex;justify-content:space-between;margin-top:15px;}
 .controls button{border:none;border-radius:8px;padding:8px 12px;cursor:pointer;font-weight:bold;}
-
-/* ===== ARROW ===== */
 .arrow{
   position:absolute;width:0;height:0;
   border-left:14px solid transparent;border-right:14px solid transparent;
-  border-bottom:22px solid #0ea5e9;animation:bounce 1s infinite;
+  border-bottom:22px solid var(--btn-primary);animation:bounce 1s infinite;
   z-index:10001;display:none;
 }
-@media (max-width: 600px) {
-  .container {
-    padding: 20px;
-    max-width: 95%;
-  }
-}
-@keyframes bounce{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-10px)}
-}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 </style>
 </head>
 
 <body>
-<div class="dashboard">
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="sidebar-header">
     <img src="logo.png" class="sidebar-logo">
-    <div class="sidebar-title">
-      <h2>SMART<br>DENTISTRY</h2>
-    </div>
+    <div class="sidebar-title"><h2>SMART<br>DENTISTRY</h2></div>
   </div>
-
- <ul class="sidebar-menu">
-  <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-
-  <li class="dropdown open">
-    <a href="#" class="dropdown-toggle">
-      <i class="fas fa-tooth"></i> My Clinic
-      <i class="fas fa-chevron-down arrow"></i>
-    </a>
-    <ul class="submenu">
-      <li><a href="clinic-profile.html" class="active"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
-      <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
-      <li><a href="Braces-Treatment.html" ><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
-      <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
-    </ul>
-  </li>
-
-  <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
-  <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-  <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-  <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-  <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
-  <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-</ul>
+  <ul class="sidebar-menu">
+    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+    <li class="dropdown open">
+      <a href="#" class="dropdown-toggle"><i class="fas fa-tooth"></i> My Clinic <i class="fas fa-chevron-down arrow"></i></a>
+      <ul class="submenu">
+        <li><a href="clinic-profile.html" class="active"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
+        <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
+        <li><a href="Braces-Treatment.html" ><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
+        <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
+      </ul>
+    </li>
+    <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
+    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+    <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+    <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
+    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+  </ul>
 </aside>
 
-  <!-- Main -->
-  <div class="main">
-    <div class="container">
-      <!-- Progress -->
-      <div class="progress">
-        <div id="p1" class="active">Clinic</div>
-        <div id="p2">Dentist</div>
-        <div id="p3">Finish</div>
-      </div>
-
-      <label>Clinic Name</label>
-      <input id="clinicName">
-
-      <label>Contact Number</label>
-      <input type="text">
-
-      <label>Address</label>
-      <input type="text">
-
-      <label>Dentist Name</label>
-      <input id="dentistName">
-
-      <label>Email</label>
-      <input type="email">
-
-      <label>Signature</label>
-      <canvas id="signatureCanvas" width="300" height="120"></canvas><br>
-      <button class="btn btn-secondary" id="clearSignatureBtn">Clear</button>
-
-      <label>Clinic Logo</label>
-      <input type="file" id="logoUpload">
-      <img id="logoPreview">
-
-      <br>
-      <button class="btn btn-primary" id="saveProfileBtn">Save Profile</button>
+<!-- MAIN -->
+<div class="main">
+  <!-- LEFT COLUMN: Clinic Form -->
+  <div class="left-column">
+    <div class="stepper">
+      <div class="step active" id="step1">Clinic</div>
+      <div class="step" id="step2">Dentist</div>
+      <div class="step" id="step3">Finish</div>
     </div>
+    <label>Clinic Name</label>
+    <input id="clinicName">
+    <label>Contact Number</label>
+    <input id="clinicContact">
+    <label>Address</label>
+    <input id="clinicAddress">
+    <label>Dentist Name</label>
+    <input id="dentistName">
+    <label>Email</label>
+    <input id="dentistEmail">
+    <label>Signature</label>
+    <div class="signature-box" id="signatureBox">Draw here</div>
+    <button class="btn-secondary" onclick="clearForm()">Clear</button>
+    <label>Clinic Logo</label>
+    <input type="file" id="clinicLogo">
+    <button class="btn-primary" id="saveProfileBtn" onclick="saveProfile()">Save Profile</button>
+  </div>
+
+  <!-- RIGHT COLUMN: Staff Profiles -->
+  <div class="right-column">
+    <h2>Dentist / Staff Profiles</h2>
+    <div class="setup-card">
+      <label>Name</label>
+      <input id="staffName">
+      <label>Position</label>
+      <input id="staffPosition">
+      <label>Email</label>
+      <input id="staffEmail">
+      <label>Phone</label>
+      <input id="staffPhone">
+      <button class="btn-primary" onclick="addStaff()">Add Staff</button>
+    </div>
+    <div class="profile-grid" id="profileGrid"></div>
   </div>
 </div>
 
-<!-- WALKTHROUGH ELEMENTS -->
+<!-- Tutorial Button -->
+<button id="tutorialBtn" onclick="startTutorial()">Tutorial</button>
+
+<!-- WALKTHROUGH -->
 <div class="overlay" id="overlay"></div>
 <div id="arrow" class="arrow"></div>
 <div class="walkthrough-box" id="walkBox">
@@ -242,87 +292,76 @@ canvas{border:2px dashed #cbd5e1;border-radius:10px;margin-top:10px;}
 </div>
 
 <script>
-/* WALKTHROUGH */
+// ===== STAFF MANAGEMENT =====
+let staffList=[];
+function renderProfiles(){
+  const grid=document.getElementById("profileGrid");
+  grid.innerHTML="";
+  staffList.forEach((staff,index)=>{
+    const card=document.createElement("div");
+    card.className="profile-card";
+    card.innerHTML=`
+      <p><strong>Name:</strong> ${staff.name}</p>
+      <p><strong>Position:</strong> ${staff.position}</p>
+      <p><strong>Email:</strong> ${staff.email}</p>
+      <p><strong>Phone:</strong> ${staff.phone}</p>
+      <button onclick="editStaff(${index})">Edit</button>
+    `;
+    grid.appendChild(card);
+  });
+}
+function addStaff(){
+  const name=document.getElementById("staffName").value.trim();
+  const position=document.getElementById("staffPosition").value.trim();
+  const email=document.getElementById("staffEmail").value.trim();
+  const phone=document.getElementById("staffPhone").value.trim();
+  if(!name || !position) return alert("Enter name & position.");
+  staffList.push({name,position,email,phone});
+  renderProfiles();
+  ["staffName","staffPosition","staffEmail","staffPhone"].forEach(id=>document.getElementById(id).value="");
+}
+function editStaff(index){
+  const staff=staffList[index];
+  staffList[index]={...staff};
+  alert("Staff info saved!");
+  renderProfiles();
+}
+
+// ===== CLINIC FORM =====
+function clearForm(){
+  ["clinicName","clinicContact","clinicAddress","dentistName","dentistEmail"].forEach(id=>document.getElementById(id).value="");
+}
+function saveProfile(){ alert("Clinic profile saved!"); }
+
+// ===== TUTORIAL =====
 const steps = [
-  { el:"#clinicName", title:"🏥 Clinic Name", text:"Enter your clinic’s official name.", progress:"p1" },
-  { el:"#dentistName", title:"🦷 Dentist Name", text:"Type the main dentist or clinic owner.", progress:"p2" },
-  { el:"#signatureCanvas", title:"✍️ Signature", text:"Draw your digital signature.", progress:"p2" },
-  { el:"#logoUpload", title:"🖼️ Clinic Logo", text:"Upload your clinic logo.", progress:"p3" },
-  { el:"#saveProfileBtn", title:"💾 Save Profile", text:"Click to save all information.", progress:"p3" }
+  { el:"#clinicName", title:"Clinic Name", text:"Enter clinic name." },
+  { el:"#dentistName", title:"Dentist Name", text:"Enter main dentist." },
+  { el:"#signatureBox", title:"Signature", text:"Draw digital signature." },
+  { el:"#clinicLogo", title:"Clinic Logo", text:"Upload your clinic logo." },
+  { el:"#saveProfileBtn", title:"Save Profile", text:"Click to save clinic profile." }
 ];
 
 let current = 0;
-
 function showStep(i){
   document.querySelectorAll(".spotlight").forEach(e=>e.classList.remove("spotlight"));
-  document.querySelectorAll(".progress div").forEach(p=>p.classList.remove("active"));
-
   const step = steps[i];
   const el = document.querySelector(step.el);
   const rect = el.getBoundingClientRect();
-
   el.classList.add("spotlight");
-  document.getElementById(step.progress).classList.add("active");
-
   document.getElementById("walkTitle").innerText = step.title;
   document.getElementById("walkText").innerText = step.text;
-
   const arrow = document.getElementById("arrow");
   arrow.style.left = rect.left + rect.width/2 - 14 + "px";
   arrow.style.top = rect.top - 35 + "px";
   arrow.style.display = "block";
-
-  document.getElementById("overlay").style.display = "block";
+  document.getElementById("overlay").style.display="block";
+  document.getElementById("walkBox").style.display="block";
 }
-
-function nextTour(){
-  current++;
-  if(current >= steps.length){ endTour(); return; }
-  showStep(current);
-}
-
-function skipTour(){
-  Swal.fire("Tutorial skipped","You can edit anytime later 😊","info");
-  endTour();
-}
-
-function endTour(){
-  document.getElementById("arrow").style.display="none";
-  document.querySelectorAll(".spotlight").forEach(e=>e.classList.remove("spotlight"));
-  document.getElementById("overlay").style.display="none";
-  document.getElementById("walkBox").style.display="none";
-}
-
-showStep(0);
-
-/* SIGNATURE */
-const canvas=document.getElementById("signatureCanvas");
-const ctx=canvas.getContext("2d");
-let drawing=false;
-
-canvas.onmousedown=()=>drawing=true;
-canvas.onmouseup=()=>{drawing=false;ctx.beginPath();}
-canvas.onmousemove=e=>{
-  if(!drawing) return;
-  ctx.lineWidth=2;
-  ctx.lineCap="round";
-  ctx.lineTo(e.offsetX,e.offsetY);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(e.offsetX,e.offsetY);
-};
-
-document.getElementById("clearSignatureBtn").onclick=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);Swal.fire("Cleared","Signature removed","info");};
-
-/* LOGO PREVIEW */
-document.getElementById("logoUpload").onchange=e=>{
-  const r=new FileReader();
-  r.onload=()=>document.getElementById("logoPreview").src=r.result;
-  r.readAsDataURL(e.target.files[0]);
-};
-
-/* SAVE PROFILE */
-document.getElementById("saveProfileBtn").onclick=()=>{Swal.fire("Success 🎉","Clinic profile saved successfully!","success");};
+function nextTour(){ current++; if(current>=steps.length){ endTour(); return; } showStep(current); }
+function skipTour(){ endTour(); }
+function endTour(){ document.getElementById("arrow").style.display="none"; document.querySelectorAll(".spotlight").forEach(e=>e.classList.remove("spotlight")); document.getElementById("overlay").style.display="none"; document.getElementById("walkBox").style.display="none"; }
+function startTutorial(){ current=0; showStep(current); }
 </script>
 
 </body>
