@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>SMART DENTISTRY - Data Backup</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-color: #f5f7fa;
@@ -18,6 +18,9 @@
       --border-color: #e1e5eb;
       --hover-bg: #f0f4f8;
       --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --success-color: #27ae60;
+      --danger-color: #e74c3c;
+      --warning-color: #f39c12;
     }
     [data-theme="dark"] {
       --bg-color: #1a1a1a;
@@ -31,45 +34,53 @@
       --hover-bg: #333;
       --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
-    html, body {
-      height: 100%;
+    
+    * {
       margin: 0;
       padding: 0;
-      font-family: 'Poppins', Arial, sans-serif;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', Arial, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
       transition: background-color 0.3s ease;
     }
+
     .dashboard {
       display: flex;
       height: 100vh;
-      min-height: 100vh;
       overflow: hidden;
-      color: var(--text-color);
     }
+
+    /* ...existing sidebar styles... */
     .sidebar {
       background-color: var(--sidebar-bg);
       color: var(--sidebar-text);
       padding: 20px 0;
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s ease;
-      width: 220px;
-      overflow-y: auto;
-      position: relative;
-      min-width: 220px;
+      width: 260px;
       height: 100vh;
       display: flex;
       flex-direction: column;
+      position: fixed;
+      left: 0;
+      top: 0;
     }
+
     .sidebar-header {
       display: flex;
       align-items: center;
       padding: 20px;
       margin-bottom: 30px;
     }
+
     .logo-container {
       position: relative;
     }
+
     .sidebar-logo {
       width: 90px;
       height: 90px;
@@ -79,6 +90,7 @@
       margin-left: -20px;
       object-fit: cover;
     }
+
     .sidebar-title h2 {
       color: var(--sidebar-active);
       margin: 0;
@@ -88,8 +100,8 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-      white-space: nowrap;
     }
+
     .sidebar-title p {
       color: var(--sidebar-text);
       font-size: 12px;
@@ -97,24 +109,24 @@
       margin-left: -40px;
       font-style: italic;
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-      white-space: normal;
     }
-    .holy-family {
-      color: #00bbff;
+
+    .holy-family, .dental-clinic {
+      color: #00bfff;
       font-weight: bold;
     }
-    .dental-clinic {
-      color: #00bbff;
-      font-weight: bold;
-    }
+
     .sidebar-menu {
       list-style: none;
       padding: 0;
       margin: 0;
+      flex: 1;
     }
+
     .sidebar-menu li {
       margin-bottom: 5px;
     }
+
     .sidebar-menu a {
       display: flex;
       align-items: center;
@@ -123,90 +135,101 @@
       text-decoration: none;
       transition: all 0.3s ease;
     }
+
     .sidebar-menu a:hover, .sidebar-menu a.active {
       background-color: rgba(0, 191, 255, 0.2);
       color: white;
       border-left: 3px solid var(--sidebar-active);
       padding-left: 17px;
     }
+
     .sidebar-menu i {
       margin-right: 10px;
       width: 20px;
       text-align: center;
     }
-    .return-home-menu {
+
+    .return-home-menu, .settings-menu {
       list-style: none;
       padding: 0;
       margin: 0;
     }
-    .return-home-menu li {
-      margin-bottom: 5px;
-    }
-    .return-home-menu a {
+
+    .return-home-menu a, .settings-menu a {
       display: flex;
       align-items: center;
       padding: 12px 20px;
       color: var(--sidebar-text);
       text-decoration: none;
       transition: all 0.3s ease;
+      font-size: 0.95rem;
+      border-left: 3px solid transparent;
     }
-    .return-home-menu a:hover, .return-home-menu a.active {
+
+    .return-home-menu a:hover, .settings-menu a:hover {
       background-color: rgba(0, 191, 255, 0.2);
       color: white;
-      border-left: 3px solid var(--sidebar-active);
+      border-left-color: var(--sidebar-active);
       padding-left: 17px;
     }
-    .return-home-menu i {
+
+    .return-home-menu i, .settings-menu i {
       margin-right: 10px;
       width: 20px;
       text-align: center;
     }
-    .settings-menu a:hover, .return-home-menu a:hover {
-      background-color: rgba(0, 191, 255, 0.2);
-      color: white;
-      border-left: 3px solid var(--sidebar-active);
-      display: block;
-      width: 100%;
-      padding-right: 25px;
-    }
+
     .main {
       flex: 1;
-      margin-left: 220px;
-      padding: 24px;
+      margin-left: 260px;
+      padding: 30px;
       background: var(--bg-color);
       min-height: 100vh;
-      transition: background-color 0.3s ease;
+      overflow-y: auto;
     }
+
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
     }
+
     .header h1 {
       color: var(--sidebar-active);
       margin: 0;
+      font-size: 28px;
+      font-weight: 700;
     }
+
     .theme-toggle {
       display: flex;
       align-items: center;
       gap: 10px;
     }
+
     .theme-toggle-label {
       font-size: 14px;
       color: var(--text-color);
     }
+
     .switch {
       position: relative;
       display: inline-block;
       width: 50px;
       height: 24px;
     }
+
     .switch input {
       opacity: 0;
       width: 0;
       height: 0;
     }
+
     .slider {
       position: absolute;
       cursor: pointer;
@@ -218,6 +241,7 @@
       transition: .4s;
       border-radius: 24px;
     }
+
     .slider:before {
       position: absolute;
       content: "";
@@ -229,89 +253,472 @@
       transition: .4s;
       border-radius: 50%;
     }
+
     input:checked + .slider {
       background-color: #00bfff;
     }
+
     input:checked + .slider:before {
       transform: translateX(26px);
     }
-    /* Sidebar Background */
-.sidebar {
-    background-color: #2c3e50; /* same dark blue as second image */
-    width: 260px;
-    height: 100vh;
-    padding: 20px 15px;
-    position: fixed;
-}
 
-/* Logo area fix */
-.sidebar .logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px;
-}
- .sidebar-logo {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  margin-right: -5px;
-  margin-top: -45px;
-  margin-left: -20px;
-  Object-fit: cover;
-  }
+    /* Enhanced Button Styles */
+    .btn, .secondary {
+      padding: 11px 20px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-.sidebar .logo-text {
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 18px;
-    text-align: center;
-}
+    .btn {
+      background: linear-gradient(135deg, var(--sidebar-active), #0099cc);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 191, 255, 0.2);
+    }
 
-/* Remove blue link style */
-.sidebar a {
-    text-decoration: none !important;
-    color: #ffffff;            /* light gray text */
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 0;
-}
+    .btn:hover {
+      background: linear-gradient(135deg, #0099cc, var(--sidebar-active));
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 191, 255, 0.3);
+    }
 
-/* Fix icons color */
-.sidebar a i,
-.sidebar a svg {
-    color: #ffffff !important;
-}
+    .btn:active {
+      transform: translateY(0);
+    }
 
-/* Hover effect */
-.sidebar a:hover {
-    color: #ffffff;            /* mint green like second image */
-}
+    .secondary {
+      background-color: var(--hover-bg);
+      color: var(--text-color);
+      border: 2px solid var(--border-color);
+    }
 
-.sidebar a:hover i,
-.sidebar a:hover svg {
-    color: #ffffff !important;
-}
+    .secondary:hover {
+      background-color: var(--border-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
 
-/* "Settings" and bottom section fix */
-.sidebar-bottom {
-    margin-top: auto;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.2);
-}
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
 
-.sidebar-bottom a {
-    padding: 10px 0;
+    #uploadLabel {
+      cursor: pointer;
+      text-decoration: none !important;
+    }
 
-}
-    /* ...existing code for .btn, .controls, .list, etc... */
+    #uploadLabel input[type="file"] {
+      display: none;
+    }
+
+    /* Enhanced Card Styles */
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+      margin-bottom: 25px;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h3 {
+      color: var(--text-color);
+      margin: 0 0 15px 0;
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card h3 i {
+      color: var(--sidebar-active);
+      font-size: 20px;
+    }
+
+    .card-description {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-color);
+      font-size: 14px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      background: var(--hover-bg);
+      color: var(--text-color);
+      font-size: 13px;
+      resize: vertical;
+      transition: all 0.3s ease;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--sidebar-active);
+      box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.1);
+    }
+
+    textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Backup Item Styles */
+    .backup-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background: var(--hover-bg);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .backup-item:hover {
+      background: var(--bg-color);
+      border-color: var(--sidebar-active);
+    }
+
+    .backup-item strong {
+      color: var(--text-color);
+      font-size: 15px;
+    }
+
+    .backup-item div:first-child {
+      flex: 1;
+    }
+
+    .backup-item-id {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 5px;
+      font-family: monospace;
+    }
+
+    .backup-item > div:last-child {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .backup-item button {
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+
+    .note {
+      background: linear-gradient(135deg, rgba(0, 191, 255, 0.1), rgba(0, 212, 255, 0.05));
+      border-left: 4px solid var(--sidebar-active);
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* FAB Container */
+    .fab-container {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 1000;
+    }
+
+    .tutorial-fab {
+      background: linear-gradient(135deg, #00bfff 0%, #00d4ff 100%);
+      color: #fff;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tutorial-fab:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(135deg, #0099cc 0%, #0099ff 100%);
+    }
+
+    /* Tutorial Overlay Styles */
+    .tutorial-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 999999;
+      display: none;
+      backdrop-filter: blur(3px);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .tutorial-highlight {
+      position: fixed;
+      border: 3px solid #00bfff;
+      border-radius: 12px;
+      box-shadow: 
+          0 0 0 9999px rgba(0, 0, 0, 0.7),
+          0 0 30px rgba(0, 191, 255, 0.8),
+          inset 0 0 30px rgba(0, 191, 255, 0.4);
+      z-index: 999998;
+      pointer-events: none;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: pulse 2s infinite, glow 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { 
+          box-shadow: 
+              0 0 0 9999px rgba(0, 0, 0, 0.7),
+              0 0 20px rgba(0, 191, 255, 0.5),
+              inset 0 0 20px rgba(0, 191, 255, 0.3);
+          transform: scale(1);
+      }
+      50% { 
+          box-shadow: 
+              0 0 0 9999px rgba(0, 0, 0, 0.7),
+              0 0 40px rgba(0, 191, 255, 1),
+              inset 0 0 40px rgba(0, 191, 255, 0.6);
+          transform: scale(1.02);
+      }
+    }
+
+    @keyframes glow {
+      0%, 100% { 
+          border-color: #00bfff;
+          filter: drop-shadow(0 0 5px rgba(0, 191, 255, 0.5));
+      }
+      50% { 
+          border-color: #00d4ff;
+          filter: drop-shadow(0 0 15px rgba(0, 191, 255, 0.9));
+      }
+    }
+
+    .tutorial-content {
+      position: fixed;
+      background: linear-gradient(135deg, var(--card-bg) 0%, var(--hover-bg) 100%);
+      border-radius: 16px;
+      padding: 30px;
+      width: 500px;
+      max-width: 90%;
+      z-index: 999999;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      border: 2px solid var(--sidebar-active);
+      animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: 'Inter', sans-serif;
+    }
+
+    @keyframes slideUp {
+      from { 
+          transform: translateY(50px) scale(0.95); 
+          opacity: 0; 
+      }
+      to { 
+          transform: translateY(0) scale(1); 
+          opacity: 1; 
+      }
+    }
+
+    .tutorial-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .tutorial-title {
+      margin: 0;
+      color: var(--text-color);
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--sidebar-active), #00d4ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tutorial-progress {
+      background: linear-gradient(135deg, var(--sidebar-active), #00d4ff);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+    }
+
+    .tutorial-message {
+      color: var(--text-color);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 20px 0;
+      padding: 15px;
+      background: var(--hover-bg);
+      border-radius: 8px;
+      border-left: 4px solid var(--sidebar-active);
+    }
+
+    .tutorial-bullets {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .bullet-point {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--border-color);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .bullet-point.active {
+      background: var(--sidebar-active);
+      transform: scale(1.3);
+      box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+    }
+
+    .tutorial-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .tutorial-btn {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .tutorial-skip {
+      background: transparent;
+      color: var(--text-muted);
+      border: 2px solid var(--border-color);
+    }
+
+    .tutorial-skip:hover {
+      background: var(--hover-bg);
+      color: var(--text-color);
+      transform: translateY(-2px);
+    }
+
+    .tutorial-prev {
+      background: var(--hover-bg);
+      color: var(--text-color);
+      border: 2px solid var(--border-color);
+    }
+
+    .tutorial-prev:hover {
+      background: var(--border-color);
+      transform: translateY(-2px);
+    }
+
+    .tutorial-next, .tutorial-complete {
+      background: linear-gradient(135deg, var(--sidebar-active), #00d4ff);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+    }
+
+    .tutorial-next:hover, .tutorial-complete:hover {
+      background: linear-gradient(135deg, #0099cc, #00bfff);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 191, 255, 0.4);
+    }
+
+    .tutorial-interactive {
+      cursor: pointer !important;
+      position: relative;
+      z-index: 1000000 !important;
+    }
+
+    @media (max-width: 768px) {
+      .main {
+        margin-left: 0;
+        padding: 15px;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .controls {
+        grid-template-columns: 1fr;
+      }
+
+      .tutorial-content {
+        width: 90%;
+      }
+    }
   </style>
 </head>
 <body>
 <div class="dashboard">
-  <!-- Sidebar Navigation (copied from admin.html) -->
+  <!-- Sidebar Navigation -->
   <div class="sidebar">
     <div class="sidebar-header">
       <div class="logo-container">
@@ -336,8 +743,7 @@
       <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
       <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
-    <!-- Add Return to Home menu at the bottom -->
-    <div style="position: absolute; bottom: 20px; width: 100%;">
+    <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
       <ul class="sidebar-menu settings-menu">
         <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
       </ul>
@@ -349,7 +755,9 @@
 
   <main class="main">
     <div class="header">
-      <h1>Data Backup</h1>
+      <div>
+        <h1><i class="fas fa-database" style="margin-right: 12px;"></i>Data Backup & Management</h1>
+      </div>
       <div class="theme-toggle">
         <span class="theme-toggle-label">Dark Mode</span>
         <label class="switch">
@@ -359,54 +767,121 @@
       </div>
     </div>
 
+    <!-- Quick Actions -->
     <div class="controls">
-      <button class="btn" id="downloadJsonBtn"><i class="fa-regular fa-file-export"></i> Download JSON Backup</button>
-      <button class="btn" id="downloadCsvBtn"><i class="fa-regular fa-file-csv"></i> Export Patients CSV</button>
-
-      <label class="secondary" id="uploadLabel" title="Upload backup JSON">
+      <button class="btn" id="downloadJsonBtn" title="Download complete backup">
+        <i class="fas fa-download"></i> Download JSON Backup
+      </button>
+      <button class="btn" id="downloadCsvBtn" title="Export patients as CSV">
+        <i class="fas fa-file-csv"></i> Export Patients CSV
+      </button>
+      <label class="btn" id="uploadLabel" title="Upload backup JSON">
         <input type="file" id="fileInput" accept="application/json">
-        <i class="fa-regular fa-file-import"></i> Upload & Restore
+        <i class="fas fa-upload"></i> Upload & Restore
       </label>
-
-      <button class="btn" id="saveSnapshotBtn">Save Snapshot</button>
-      <button class="secondary" id="clearDataBtn">Clear App Data</button>
+      <button class="btn" id="saveSnapshotBtn" title="Save current state">
+        <i class="fas fa-camera"></i> Save Snapshot
+      </button>
+      <button class="secondary" id="clearDataBtn" title="Clear all application data">
+        <i class="fas fa-exclamation-circle"></i> Clear App Data
+      </button>
     </div>
 
-    <!-- Data Transfer UI -->
-    <div id="transfer" style="margin-top:18px">
-      <h3 style="margin:6px 0 8px 0;color:#666">Data Transfer</h3>
-      <div style="background:#fff;padding:12px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.06)">
-        <div style="margin-bottom:8px">
-          <strong>Generate transfer code</strong>
-          <div style="font-size:13px;color:#666">Create a compact code you can copy/paste to another device to restore data.</div>
+    <!-- Data Transfer Section -->
+    <div class="card">
+      <h3><i class="fas fa-exchange-alt"></i> Data Transfer</h3>
+      <p class="card-description">Create a compact transfer code to share your data across devices or systems.</p>
+      
+      <div class="form-group">
+        <label class="form-label">Generate Transfer Code</label>
+        <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+          <button class="btn" id="generateTransferBtn">
+            <i class="fas fa-key"></i> Generate Code
+          </button>
+          <button class="secondary" id="copyTransferBtn">
+            <i class="fas fa-copy"></i> Copy
+          </button>
         </div>
-        <div style="display:flex;gap:8px;margin-bottom:8px">
-          <button class="btn" id="generateTransferBtn">Generate Transfer Code</button>
-          <button class="secondary" id="copyTransferBtn">Copy</button>
-        </div>
-        <textarea id="transferCode" rows="4" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;font-family:monospace" placeholder="Transfer code will appear here" readonly></textarea>
+        <textarea id="transferCode" rows="4" placeholder="Transfer code will appear here..." readonly></textarea>
+      </div>
 
-        <div style="height:12px"></div>
+      <div style="height: 20px;"></div>
 
-        <div style="margin-top:10px;margin-bottom:6px"><strong>Restore from transfer code</strong></div>
-        <textarea id="pasteTransfer" rows="4" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;font-family:monospace" placeholder="Paste transfer code here to restore"></textarea>
-        <div style="display:flex;gap:8px;margin-top:8px">
-          <button class="btn" id="restoreTransferBtn">Restore from Code</button>
-          <button class="secondary" id="clearTransferBtn">Clear</button>
+      <div class="form-group">
+        <label class="form-label">Restore from Transfer Code</label>
+        <textarea id="pasteTransfer" rows="4" placeholder="Paste your transfer code here..."></textarea>
+        <div style="display: flex; gap: 10px; margin-top: 12px;">
+          <button class="btn" id="restoreTransferBtn">
+            <i class="fas fa-redo"></i> Restore from Code
+          </button>
+          <button class="secondary" id="clearTransferBtn">
+            <i class="fas fa-trash"></i> Clear
+          </button>
         </div>
       </div>
     </div>
 
-    <div class="note">Backups saved here are stored in your browser's localStorage under key "backups". Use Download to get a file you can keep externally.</div>
+    <!-- Info Note -->
+    <div class="note">
+      <i class="fas fa-info-circle" style="margin-right: 8px; color: var(--sidebar-active);"></i>
+      Backups are stored in your browser's localStorage. Use Download to keep external copies for safety.
+    </div>
 
-    <div class="list" id="backupsList">
-      <h4>Saved Snapshots</h4>
+    <!-- Saved Snapshots Section -->
+    <div class="card">
+      <h3><i class="fas fa-history"></i> Saved Snapshots</h3>
+      <p class="card-description">View and manage your saved backup snapshots.</p>
       <div id="snapshotsContainer">
-        <!-- snapshots listed here -->
+        <div style="padding: 20px; text-align: center; color: var(--text-muted);">
+          <i class="fas fa-inbox" style="font-size: 32px; margin-bottom: 10px; opacity: 0.5;"></i>
+          <p>No snapshots saved yet</p>
+        </div>
       </div>
     </div>
   </main>
 </div>
+
+<!-- Tutorial FAB Button -->
+<div class="fab-container">
+  <button class="tutorial-fab" id="tutorialFabBtn" onclick="startTutorial()" title="Start Tutorial">
+    <i class="fas fa-book"></i>
+  </button>
+</div>
+
+<!-- Tutorial Overlay -->
+<div id="tutorialOverlay" class="tutorial-overlay">
+  <div class="tutorial-highlight"></div>
+  <div class="tutorial-content">
+    <div class="tutorial-header">
+      <h3 class="tutorial-title" id="tutorialStepTitle">Welcome</h3>
+      <div class="tutorial-progress">
+        <span id="tutorialCurrentStep">1</span> / <span id="tutorialTotalSteps">5</span>
+      </div>
+    </div>
+    
+    <div class="tutorial-message" id="tutorialMessage">
+      Welcome to Data Backup!
+    </div>
+    
+    <div class="tutorial-bullets" id="tutorialBullets"></div>
+    
+    <div class="tutorial-footer">
+      <button class="tutorial-btn tutorial-skip" onclick="skipTutorial()">
+        <i class="fas fa-times"></i> Skip
+      </button>
+      <button class="tutorial-btn tutorial-prev" onclick="prevTutorialStep()" id="tutorialPrevBtn" style="display: none;">
+        <i class="fas fa-chevron-left"></i> Previous
+      </button>
+      <button class="tutorial-btn tutorial-next" onclick="nextTutorialStep()" id="tutorialNextBtn">
+        Next <i class="fas fa-chevron-right"></i>
+      </button>
+      <button class="tutorial-btn tutorial-complete" onclick="completeTutorial()" id="tutorialCompleteBtn" style="display: none;">
+        <i class="fas fa-check"></i> Complete
+      </button>
+    </div>
+  </div>
+</div>
+
 <script>
   // Theme toggle functionality
   const themeToggle = document.getElementById('themeToggle');
@@ -418,202 +893,402 @@
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   });
-    // Known application localStorage keys to include in backups
-    const KNOWN_KEYS = ['activePatients','inactivePatients','todayAppointments','settings','appointments'];
 
-    // helpers
-    function getBackupData(){
-      const data = {};
-      // include known keys; include any other localStorage entries if desired
-      KNOWN_KEYS.forEach(k=>{
-        try{ data[k] = JSON.parse(localStorage.getItem(k)); }catch(e){ data[k] = localStorage.getItem(k); }
-      });
-      // also include everything else under their raw string form
-      const other = {};
-      for(let i=0;i<localStorage.length;i++){
-        const key = localStorage.key(i);
-        if(!KNOWN_KEYS.includes(key) && key !== 'backups') other[key] = localStorage.getItem(key);
-      }
-      data._others = other;
-      data._meta = { exportedAt: new Date().toISOString(), origin: location.hostname };
-      return data;
+  const KNOWN_KEYS = ['activePatients','inactivePatients','todayAppointments','settings','appointments'];
+
+  function getBackupData(){
+    const data = {};
+    KNOWN_KEYS.forEach(k=>{
+      try{ data[k] = JSON.parse(localStorage.getItem(k)); }catch(e){ data[k] = localStorage.getItem(k); }
+    });
+    const other = {};
+    for(let i=0;i<localStorage.length;i++){
+      const key = localStorage.key(i);
+      if(!KNOWN_KEYS.includes(key) && key !== 'backups') other[key] = localStorage.getItem(key);
     }
+    data._others = other;
+    data._meta = { exportedAt: new Date().toISOString(), origin: location.hostname };
+    return data;
+  }
 
-    function downloadJSON(filename='smartdentistry-backup.json'){
-      const data = getBackupData();
-      const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(a.href);
-    }
+  function downloadJSON(filename='smartdentistry-backup.json'){
+    const data = getBackupData();
+    const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(a.href);
+  }
 
-    function downloadPatientsCSV(filename='patients.csv'){
-      // combine active + inactive patients if present
-      const act = JSON.parse(localStorage.getItem('activePatients')||'[]');
-      const inact = JSON.parse(localStorage.getItem('inactivePatients')||'[]');
-      const rows = [['source','name','phone','email','address','registered','lastVisit','lastTreatment']];
-      function pushRows(list,src){
-        list.forEach(p=>{
-          rows.push([src, (p.name||''), (p.phone||''), (p.email||''), (p.address||''), (p.registered||''), (p.lastVisit||''), (p.lastTreatment||'')]);
-        });
-      }
-      pushRows(act,'active');
-      pushRows(inact,'inactive');
-      const csv = rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
-      const blob = new Blob([csv], {type:'text/csv'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(a.href);
-    }
-
-    function saveSnapshot(){
-      const backups = JSON.parse(localStorage.getItem('backups')||'[]');
-      const snapshot = { id: Date.now(), meta:{ts:new Date().toISOString()}, data: getBackupData() };
-      backups.unshift(snapshot); // newest first
-      // limit kept snapshots to 20
-      localStorage.setItem('backups', JSON.stringify(backups.slice(0,20)));
-      renderSnapshots();
-      alert('Snapshot saved to localStorage (backups).');
-    }
-
-    function renderSnapshots(){
-      const container = document.getElementById('snapshotsContainer');
-      const backups = JSON.parse(localStorage.getItem('backups')||'[]');
-      container.innerHTML = '';
-      if(backups.length === 0){ container.innerHTML = '<div style="padding:8px;color:#666">No snapshots saved.</div>'; return; }
-      backups.forEach(b=>{
-        const div = document.createElement('div');
-        div.className = 'backup-item';
-        const left = document.createElement('div');
-        left.innerHTML = `<strong>${new Date(b.meta.ts).toLocaleString()}</strong><div style="font-size:12px;color:#666">id: ${b.id}</div>`;
-        const right = document.createElement('div');
-        right.style.display='flex'; right.style.gap='8px';
-        const restoreBtn = document.createElement('button');
-        restoreBtn.className='secondary'; restoreBtn.textContent='Restore';
-        restoreBtn.onclick = ()=>{ if(confirm('Restore this snapshot? This will overwrite current app data in localStorage.')) restoreBackupObject(b.data); };
-
-        const downloadBtn = document.createElement('button');
-        downloadBtn.className='btn'; downloadBtn.textContent='Download';
-        downloadBtn.onclick = ()=> {
-          const blob = new Blob([JSON.stringify(b.data,null,2)], {type:'application/json'});
-          const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-          a.download = `snapshot-${b.id}.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
-        };
-
-        const delBtn = document.createElement('button');
-        delBtn.className='secondary'; delBtn.textContent='Delete';
-        delBtn.onclick = ()=> { if(confirm('Delete this snapshot?')) { deleteSnapshot(b.id); } };
-
-        right.appendChild(restoreBtn); right.appendChild(downloadBtn); right.appendChild(delBtn);
-        div.appendChild(left); div.appendChild(right);
-        container.appendChild(div);
+  function downloadPatientsCSV(filename='patients.csv'){
+    const act = JSON.parse(localStorage.getItem('activePatients')||'[]');
+    const inact = JSON.parse(localStorage.getItem('inactivePatients')||'[]');
+    const rows = [['source','name','phone','email','address','registered','lastVisit','lastTreatment']];
+    function pushRows(list,src){
+      list.forEach(p=>{
+        rows.push([src, (p.name||''), (p.phone||''), (p.email||''), (p.address||''), (p.registered||''), (p.lastVisit||''), (p.lastTreatment||'')]);
       });
     }
+    pushRows(act,'active');
+    pushRows(inact,'inactive');
+    const csv = rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+    const blob = new Blob([csv], {type:'text/csv'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(a.href);
+  }
 
-    function deleteSnapshot(id){
-      const backups = JSON.parse(localStorage.getItem('backups')||'[]').filter(b=>b.id!==id);
-      localStorage.setItem('backups', JSON.stringify(backups));
-      renderSnapshots();
+  function saveSnapshot(){
+    const backups = JSON.parse(localStorage.getItem('backups')||'[]');
+    const snapshot = { id: Date.now(), meta:{ts:new Date().toISOString()}, data: getBackupData() };
+    backups.unshift(snapshot);
+    localStorage.setItem('backups', JSON.stringify(backups.slice(0,20)));
+    renderSnapshots();
+    alert('✓ Snapshot saved successfully!');
+  }
+
+  function renderSnapshots(){
+    const container = document.getElementById('snapshotsContainer');
+    const backups = JSON.parse(localStorage.getItem('backups')||'[]');
+    container.innerHTML = '';
+    if(backups.length === 0){ 
+      container.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-muted);"><i class="fas fa-inbox" style="font-size: 32px; margin-bottom: 10px; opacity: 0.5;"></i><p>No snapshots saved yet</p></div>'; 
+      return; 
     }
+    backups.forEach(b=>{
+      const div = document.createElement('div');
+      div.className = 'backup-item';
+      const left = document.createElement('div');
+      const ts = new Date(b.meta.ts);
+      left.innerHTML = `<strong>${ts.toLocaleString()}</strong><div class="backup-item-id">ID: ${b.id}</div>`;
+      const right = document.createElement('div');
+      
+      const restoreBtn = document.createElement('button');
+      restoreBtn.className='btn'; 
+      restoreBtn.innerHTML = '<i class="fas fa-redo"></i> Restore';
+      restoreBtn.onclick = ()=>{ if(confirm('Restore this snapshot? This will overwrite current data.')) restoreBackupObject(b.data); };
 
-    function restoreBackupObject(data){
-      // write known keys back
-      Object.keys(data).forEach(k=>{
-        if(k === '_meta') return;
-        try{
-          localStorage.setItem(k, JSON.stringify(data[k]));
-        }catch(e){
-          // fallback if already string
-          localStorage.setItem(k, String(data[k]));
-        }
-      });
-      alert('Backup restored into localStorage. Reloading page...');
-      location.reload();
-    }
-
-    // file import
-    document.getElementById('fileInput').addEventListener('change', function(e){
-      const file = e.target.files[0];
-      if(!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        try{
-          const parsed = JSON.parse(reader.result);
-          if(!confirm('Restore data from uploaded backup? This will overwrite current app data.')) return;
-          restoreBackupObject(parsed);
-        }catch(err){
-          alert('Invalid JSON file.');
-        }
+      const downloadBtn = document.createElement('button');
+      downloadBtn.className='secondary'; 
+      downloadBtn.innerHTML = '<i class="fas fa-download"></i> Download';
+      downloadBtn.onclick = ()=> {
+        const blob = new Blob([JSON.stringify(b.data,null,2)], {type:'application/json'});
+        const a = document.createElement('a'); 
+        a.href = URL.createObjectURL(blob);
+        a.download = `snapshot-${b.id}.json`; 
+        document.body.appendChild(a); 
+        a.click(); 
+        a.remove(); 
+        URL.revokeObjectURL(a.href);
       };
-      reader.readAsText(file);
-      // reset input so same file can be selected again later
-      e.target.value = '';
+
+      const delBtn = document.createElement('button');
+      delBtn.className='secondary'; 
+      delBtn.innerHTML = '<i class="fas fa-trash"></i> Delete';
+      delBtn.onclick = ()=> { if(confirm('Delete this snapshot?')) { deleteSnapshot(b.id); } };
+
+      right.appendChild(restoreBtn); 
+      right.appendChild(downloadBtn); 
+      right.appendChild(delBtn);
+      div.appendChild(left); 
+      div.appendChild(right);
+      container.appendChild(div);
     });
+  }
 
-    // clear app data (dangerous)
-    function clearAppData(){
-      if(!confirm('Clear application data from localStorage? This cannot be undone (except via backup).')) return;
-      // keep backups array (snapshots) unless user chooses to remove
-      const preserved = localStorage.getItem('backups');
-      localStorage.clear();
-      if(preserved) localStorage.setItem('backups', preserved);
-      alert('Application data cleared. Reloading page...');
-      location.reload();
-    }
+  function deleteSnapshot(id){
+    const backups = JSON.parse(localStorage.getItem('backups')||'[]').filter(b=>b.id!==id);
+    localStorage.setItem('backups', JSON.stringify(backups));
+    renderSnapshots();
+  }
 
-    // Transfer code helpers (Base64-safe for UTF-8)
-    function encodeForTransfer(obj){
-      const json = JSON.stringify(obj);
-      // encode utf-8 safely
-      return btoa(unescape(encodeURIComponent(json)));
-    }
-    function decodeFromTransfer(code){
+  function restoreBackupObject(data){
+    Object.keys(data).forEach(k=>{
+      if(k === '_meta') return;
       try{
-        const json = decodeURIComponent(escape(atob(code)));
-        return JSON.parse(json);
+        localStorage.setItem(k, JSON.stringify(data[k]));
       }catch(e){
-        return null;
+        localStorage.setItem(k, String(data[k]));
       }
+    });
+    alert('✓ Backup restored! Reloading page...');
+    location.reload();
+  }
+
+  document.getElementById('fileInput').addEventListener('change', function(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try{
+        const parsed = JSON.parse(reader.result);
+        if(!confirm('Restore from this backup? Current data will be overwritten.')) return;
+        restoreBackupObject(parsed);
+      }catch(err){
+        alert('✗ Invalid JSON file.');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  function clearAppData(){
+    if(!confirm('Clear all application data? This cannot be undone.')) return;
+    const preserved = localStorage.getItem('backups');
+    localStorage.clear();
+    if(preserved) localStorage.setItem('backups', preserved);
+    alert('✓ Data cleared! Reloading page...');
+    location.reload();
+  }
+
+  function encodeForTransfer(obj){
+    const json = JSON.stringify(obj);
+    return btoa(unescape(encodeURIComponent(json)));
+  }
+  
+  function decodeFromTransfer(code){
+    try{
+      const json = decodeURIComponent(escape(atob(code)));
+      return JSON.parse(json);
+    }catch(e){
+      return null;
     }
+  }
 
-    document.getElementById('generateTransferBtn').addEventListener('click', ()=>{
-      const data = getBackupData();
-      const code = encodeForTransfer(data);
-      document.getElementById('transferCode').value = code;
+  document.getElementById('generateTransferBtn').addEventListener('click', ()=>{
+    const data = getBackupData();
+    const code = encodeForTransfer(data);
+    document.getElementById('transferCode').value = code;
+  });
+
+  document.getElementById('copyTransferBtn').addEventListener('click', ()=>{
+    const val = document.getElementById('transferCode').value;
+    if(!val) return alert('Generate a transfer code first.');
+    navigator.clipboard?.writeText(val).then(()=>alert('✓ Copied to clipboard!'), ()=>alert('Copy failed. Select and copy manually.'));
+  });
+
+  document.getElementById('restoreTransferBtn').addEventListener('click', ()=>{
+    const code = document.getElementById('pasteTransfer').value.trim();
+    if(!code) return alert('Paste a transfer code first.');
+    const parsed = decodeFromTransfer(code);
+    if(!parsed) return alert('✗ Invalid transfer code.');
+    if(!confirm('Restore data from transfer code? Current data will be overwritten.')) return;
+    restoreBackupObject(parsed);
+  });
+
+  document.getElementById('clearTransferBtn').addEventListener('click', ()=>{ 
+    document.getElementById('pasteTransfer').value=''; 
+    document.getElementById('transferCode').value=''; 
+  });
+
+  document.getElementById('downloadJsonBtn').addEventListener('click', ()=>downloadJSON());
+  document.getElementById('downloadCsvBtn').addEventListener('click', ()=>downloadPatientsCSV());
+  document.getElementById('saveSnapshotBtn').addEventListener('click', saveSnapshot);
+  document.getElementById('clearDataBtn').addEventListener('click', clearAppData);
+
+  /* TUTORIAL SYSTEM */
+  let tutorialSteps = [
+    {
+      title: "Welcome to Data Backup",
+      message: "This page helps you backup, restore, and manage all your clinic data safely. Let's explore the key features.",
+      highlight: null,
+      position: "center"
+    },
+    {
+      title: "Quick Actions",
+      message: "Use these buttons to download backups as JSON or CSV, upload previous backups, or create snapshots of your current data.",
+      highlight: ".controls",
+      position: "top"
+    },
+    {
+      title: "Data Transfer",
+      message: "Generate compact transfer codes to move data between devices. Perfect for cross-platform synchronization without files.",
+      highlight: ".card:nth-of-type(1)",
+      position: "center"
+    },
+    {
+      title: "Saved Snapshots",
+      message: "View all your saved snapshots here. You can restore, download, or delete previous backups anytime.",
+      highlight: ".card:nth-of-type(2)",
+      position: "center"
+    },
+    {
+      title: "You're All Set!",
+      message: "You now understand how to safely backup and restore your clinic data. Regular backups are recommended!",
+      highlight: null,
+      position: "center"
+    }
+  ];
+
+  let currentTutorialStep = 0;
+  let isTutorialActive = false;
+  let tutorialCompleted = localStorage.getItem('dataBackupTutorialCompleted') === 'true';
+  let tutorialAutoStarted = false;
+
+  function initTutorial() {
+    const bulletsContainer = document.getElementById('tutorialBullets');
+    bulletsContainer.innerHTML = '';
+    
+    tutorialSteps.forEach((step, index) => {
+      const bullet = document.createElement('div');
+      bullet.className = 'bullet-point';
+      bullet.dataset.step = index;
+      bullet.addEventListener('click', () => goToTutorialStep(index));
+      bulletsContainer.appendChild(bullet);
     });
+    
+    document.getElementById('tutorialTotalSteps').textContent = tutorialSteps.length;
+    
+    if (!tutorialCompleted && !tutorialAutoStarted) {
+      tutorialAutoStarted = true;
+      setTimeout(() => {
+        if (!isTutorialActive) {
+          startTutorial();
+        }
+      }, 1200);
+    }
+  }
 
-    document.getElementById('copyTransferBtn').addEventListener('click', ()=>{
-      const val = document.getElementById('transferCode').value;
-      if(!val) return alert('No transfer code to copy. Generate one first.');
-      navigator.clipboard?.writeText(val).then(()=>alert('Transfer code copied to clipboard.'), ()=>alert('Copy failed. Select and copy manually.'));
+  function startTutorial() {
+    isTutorialActive = true;
+    currentTutorialStep = 0;
+    showTutorialStep(0);
+    document.getElementById('tutorialOverlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function showTutorialStep(stepIndex) {
+    const step = tutorialSteps[stepIndex];
+    const overlay = document.getElementById('tutorialOverlay');
+    const highlight = overlay.querySelector('.tutorial-highlight');
+    
+    document.getElementById('tutorialStepTitle').textContent = step.title;
+    document.getElementById('tutorialMessage').textContent = step.message;
+    document.getElementById('tutorialCurrentStep').textContent = stepIndex + 1;
+    
+    document.getElementById('tutorialPrevBtn').style.display = stepIndex > 0 ? 'flex' : 'none';
+    document.getElementById('tutorialNextBtn').style.display = stepIndex < tutorialSteps.length - 1 ? 'flex' : 'none';
+    document.getElementById('tutorialCompleteBtn').style.display = stepIndex === tutorialSteps.length - 1 ? 'flex' : 'none';
+    
+    document.querySelectorAll('.bullet-point').forEach((bullet, index) => {
+      bullet.classList.toggle('active', index <= stepIndex);
     });
+    
+    positionTutorialContent(step.position);
+    
+    if (step.highlight) {
+      const element = document.querySelector(step.highlight);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        highlight.style.width = `${rect.width + 20}px`;
+        highlight.style.height = `${rect.height + 20}px`;
+        highlight.style.left = `${rect.left - 10}px`;
+        highlight.style.top = `${rect.top - 10}px`;
+        highlight.style.display = 'block';
+        element.classList.add('tutorial-interactive');
+        element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+      } else {
+        highlight.style.display = 'none';
+      }
+    } else {
+      highlight.style.display = 'none';
+    }
+    
+    currentTutorialStep = stepIndex;
+  }
 
-    document.getElementById('restoreTransferBtn').addEventListener('click', ()=>{
-      const code = document.getElementById('pasteTransfer').value.trim();
-      if(!code) return alert('Paste a transfer code first.');
-      const parsed = decodeFromTransfer(code);
-      if(!parsed) return alert('Invalid transfer code.');
-      if(!confirm('Restore data from transfer code? This will overwrite current app data in localStorage.')) return;
-      restoreBackupObject(parsed);
+  function positionTutorialContent(position) {
+    const content = document.querySelector('.tutorial-content');
+    content.style.position = 'fixed';
+    content.style.margin = '0';
+    content.style.transform = 'none';
+    
+    switch(position) {
+      case 'top':
+        content.style.top = '20px';
+        content.style.left = '50%';
+        content.style.transform = 'translateX(-50%)';
+        break;
+      case 'right':
+        content.style.top = '50%';
+        content.style.right = '20px';
+        content.style.left = 'auto';
+        content.style.transform = 'translateY(-50%)';
+        break;
+      default:
+        content.style.top = '50%';
+        content.style.left = '50%';
+        content.style.transform = 'translate(-50%, -50%)';
+    }
+  }
+
+  function nextTutorialStep() {
+    if (currentTutorialStep < tutorialSteps.length - 1) {
+      showTutorialStep(currentTutorialStep + 1);
+    }
+  }
+
+  function prevTutorialStep() {
+    if (currentTutorialStep > 0) {
+      showTutorialStep(currentTutorialStep - 1);
+    }
+  }
+
+  function goToTutorialStep(stepIndex) {
+    if (stepIndex >= 0 && stepIndex < tutorialSteps.length) {
+      showTutorialStep(stepIndex);
+    }
+  }
+
+  function skipTutorial() {
+    isTutorialActive = false;
+    tutorialCompleted = true;
+    localStorage.setItem('dataBackupTutorialCompleted', 'true');
+    document.getElementById('tutorialOverlay').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    document.querySelectorAll('.tutorial-interactive').forEach(el => {
+      el.classList.remove('tutorial-interactive');
     });
+  }
 
-    document.getElementById('clearTransferBtn').addEventListener('click', ()=>{ document.getElementById('pasteTransfer').value=''; document.getElementById('transferCode').value=''; });
+  function completeTutorial() {
+    isTutorialActive = false;
+    tutorialCompleted = true;
+    localStorage.setItem('dataBackupTutorialCompleted', 'true');
+    document.getElementById('tutorialOverlay').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    document.querySelectorAll('.tutorial-interactive').forEach(el => {
+      el.classList.remove('tutorial-interactive');
+    });
+  }
 
-    // wire buttons
-    document.getElementById('downloadJsonBtn').addEventListener('click', ()=>downloadJSON());
-    document.getElementById('downloadCsvBtn').addEventListener('click', ()=>downloadPatientsCSV());
-    document.getElementById('saveSnapshotBtn').addEventListener('click', saveSnapshot);
-    document.getElementById('clearDataBtn').addEventListener('click', clearAppData);
-    // generate a preview transfer code if user lands on #transfer
-    if(location.hash === '#transfer') setTimeout(()=>document.getElementById('generateTransferBtn').click(), 300);
-  </script>
+  document.addEventListener('DOMContentLoaded', function() {
+    renderSnapshots();
+    initTutorial();
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && isTutorialActive) {
+        skipTutorial();
+      }
+    });
+  });
+
+  const logoutButtons = document.querySelectorAll('.logout-btn');
+  logoutButtons.forEach(button => {
+    button.addEventListener('click', async (e) => {
+      e.preventDefault();
+      sessionStorage.removeItem('user');
+      localStorage.removeItem('user');
+      window.location.href = 'landingpage.html';
+    });
+  });
+</script>
 </body>
 </html>

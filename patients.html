@@ -827,7 +827,7 @@
 .action-btn:hover {
     background: linear-gradient(to bottom right, #0099cc, var(--sidebar-active));
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,191,255,0.3);
+    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
 }
 
 /* Sorting styles */
@@ -850,47 +850,102 @@
 }
 
 
-/* Fix bottom menu styling */
-.bottom-menu {
-    margin-top: auto;
-    padding-top: 10px;
-    padding-bottom: 60px;
+/* DROPDOWN MENU STYLES */
+.sidebar-menu .dropdown {
+    position: relative;
 }
 
-.settings-menu, .return-home-menu {
-    margin: 0;
-    padding: 0;
+.dropdown-toggle {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px !important;
+}
+
+.dropdown-toggle .arrow {
+    margin-left: auto;
+    font-size: 12px;
+    transition: transform 0.3s ease;
+    width: auto;
+    text-align: right;
+}
+
+.sidebar-menu .dropdown.open .dropdown-toggle .arrow {
+    transform: rotate(180deg);
+}
+
+.submenu {
     list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: rgba(0, 191, 255, 0.05);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
 }
 
-/* Remove the absolute positioning */
-.bottom-menu > div {
-    position: static;
+.sidebar-menu .dropdown.open .submenu {
+    max-height: 500px;
 }
 
-/* Add highlight style */
-.highlight {
-    background-color: rgba(0, 191, 255, 0.2);
-    padding: 2px;
-    border-radius: 2px;
+.submenu li {
+    margin: 0;
 }
 
-/* Add this to the CSS section */
-.search-hidden {
-    visibility: hidden;
-    height: 0;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: none !important;
+.submenu li a {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px 10px 50px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    border-left: 3px solid transparent;
 }
 
-.patients-table tr {
-    height: 72px; /* Set a fixed height for table rows */
+.submenu li a:hover,
+.submenu li a.active {
+    background-color: rgba(0, 191, 255, 0.1);
+    border-left-color: var(--sidebar-active);
+    color: white;
 }
 
-/* ============================================= */
-/* INTERACTIVE TUTORIAL STYLES */
-/* ============================================= */
+/* FAB Container positioning */
+.fab-container {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 1000 !important;
+}
+
+.fab-container .tutorial-fab {
+    background: linear-gradient(135deg, #00bfff 0%, #00d4ff 100%);
+    color: #fff;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fab-container .tutorial-fab:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #0099cc 0%, #0099ff 100%);
+}
+
+        /* ============================================= */
+        /* INTERACTIVE TUTORIAL STYLES */
+        /* ============================================= */
 .tutorial-overlay {
     position: fixed;
     top: 0;
@@ -1222,34 +1277,33 @@
             <ul class="sidebar-menu">
                 <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
                 <li class="dropdown">
-    <a href="#" class="dropdown-toggle" onclick="toggleDropdown(event)">
-      <i class="fas fa-tooth"></i> My Clinic
-      <i class="fas fa-caret-down" style="margin-left:auto"></i>
-    </a>
-    <ul class="dropdown-menu">
-      <li><a href="clinic-profile.html"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
-      <li><a href="clinic-services.html"><i class="fas fa-stethoscope"></i> Clinic Services</a></li>
-      <li><a href="clinic-staff.html"><i class="fas fa-user-md"></i> Clinic Staff</a></li>
-    </ul>
-  </li>
-                <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> Appointment History</a></li>
-                <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-                <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-                <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> Data BackUp</a></li>
-                <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-                <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
-                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    <a href="javascript:void(0)" class="dropdown-toggle">
+                        <i class="fas fa-tooth"></i>
+                        <span>My Clinic</span>
+                        <i class="fas fa-chevron-down arrow"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="clinic-profile.html">Clinic Profile</a></li>
+                        <li><a href="Dental-Chart.html">Dental Chart</a></li>
+                        <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
+                        <li><a href="MyRecords.html">Patient Record</a></li>
+                    </ul>
+                </li>
+                <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i><span> Appointment History</span></a></li>
+                <li><a href="patients.html"><i class="fas fa-users"></i><span>Patients</span></a></li>
+                <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i><span> Finance</span></a></li>
+                <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i><span> Data BackUp</span></a></li>
+                <li><a href="Reports.html"><i class="fas fa-chart-line"></i><span> Reports</span></a></li>
+                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i><span> Logout</span></a></li>
             </ul>
             <!-- Add Return to Home menu at the bottom -->
-            <div style="position: absolute; bottom: 20px; width: 13%;">
-                <div style="position: absolute; bottom: 20px; width: 100%;">
-                    <ul class="sidebar-menu settings-menu">
-                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-                    </ul>
-                    <ul class="sidebar-menu return-home-menu">
-                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
-                    </ul>
-                </div>
+            <div class="bottom-menu">
+                <ul class="sidebar-menu settings-menu">
+                    <li><a href="Admin settings.html"><i class="fas fa-cog"></i><span> Settings</span></a></li>
+                </ul>
+                <ul class="sidebar-menu return-home-menu">
+                    <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i><span> Return to Home</span></a></li>
+                </ul>
             </div>
         </div>
 
@@ -1341,6 +1395,21 @@
                 </header>
             </div>
         </div>
+
+        <!-- Add this inside the dashboard div, before closing </div> -->
+<div class="fab-container" style="position: fixed; bottom: 25px; right: 25px; display: flex; flex-direction: column; gap: 12px; z-index: 1000;">
+  <button class="fab tutorial-fab" id="tutorialFabBtn" onclick="startTutorial()" title="Start Tutorial" style="background: linear-gradient(135deg, #00bfff 0%, #00d4ff 100%); color: #fff; width: 55px; height: 55px; border-radius: 50%; border: none; font-size: 20px; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.2); transition: transform 0.2s ease, box-shadow 0.2s ease; display: flex; align-items: center; justify-content: center;">
+    <i class="fas fa-book"></i>
+  </button>
+</div>
+
+<style>
+.fab-container .tutorial-fab:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #0099cc 0%, #0099ff 100%);
+}
+</style>
     </div>
 
     <!-- Add this HTML right before the closing body tag -->
@@ -1896,6 +1965,7 @@ function formatDate(date) {
         let currentTutorialStep = 0;
         let isTutorialActive = false;
         let tutorialCompleted = localStorage.getItem('patientsPageTutorialCompleted') === 'true';
+        let tutorialAutoStarted = false;
 
         function initTutorial() {
             const bulletsContainer = document.getElementById('tutorialBullets');
@@ -1911,8 +1981,9 @@ function formatDate(date) {
             
             document.getElementById('tutorialTotalSteps').textContent = tutorialSteps.length;
             
-            // Auto-start tutorial if not completed
-            if (!tutorialCompleted) {
+            // Auto-start tutorial only if not completed AND not already started
+            if (!tutorialCompleted && !tutorialAutoStarted) {
+                tutorialAutoStarted = true;
                 setTimeout(() => {
                     if (!isTutorialActive) {
                         startTutorial();
@@ -2031,6 +2102,8 @@ function formatDate(date) {
 
         function skipTutorial() {
             isTutorialActive = false;
+            tutorialCompleted = true;
+            localStorage.setItem('patientsPageTutorialCompleted', 'true');
             document.getElementById('tutorialOverlay').style.display = 'none';
             document.body.style.overflow = 'auto';
             document.querySelectorAll('.tutorial-interactive').forEach(el => {

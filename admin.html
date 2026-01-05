@@ -2335,7 +2335,6 @@
     <li><a href="clinic-profile.html">Clinic Profile</a></li>
     <li><a href="Dental-Chart.html">Dental Chart</a></li>
     <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
-    <li><a href="MyRecords.html">Patient Record</a></li>
   </ul>
 </li>
 
@@ -2558,7 +2557,7 @@
   <button class="fab patient" onclick="addPatient()" title="Add Patient">
     <i class="fas fa-user-plus"></i>
   </button>
-<!-- ADD PATIENT MODAL -->
+  <!-- ADD PATIENT MODAL -->
 <div class="modal-overlay hidden" id="addPatientModal">
   <div class="modal-card">
     <div class="modal-header">
@@ -2592,7 +2591,10 @@
   <button class="fab appointment" onclick="addAppointment()" title="Add Appointment">
     <i class="fas fa-calendar-plus"></i>
   </button>
-
+  <!-- Add floating tutorial button -->
+  <button class="fab tutorial-fab" id="tutorialFabBtn" title="Show Tutorial" style="background: #00bfff;">
+    <i class="fas fa-question"></i>
+  </button>
 </div>
 
 <!-- Bottom Right Container -->
@@ -3044,7 +3046,7 @@
 <script>
 
 // =============================================
-// INTERACTIVE ONBOARDING TUTORIAL SYSTEM
+// INTERACTIVE ONBOARDING TUTORIAL
 // =============================================
 
 document.querySelectorAll(".dropdown-toggle").forEach(item => {
@@ -3219,9 +3221,9 @@ function initTutorial() {
     // Set total steps
     document.getElementById('tutorialTotalSteps').textContent = tutorialSteps.length;
     
-    // Auto-start tutorial on every page open (no sidebar trigger required)
+    // Only auto-start tutorial if not completed before
     setTimeout(() => {
-        if (!isTutorialActive) {
+        if (!isTutorialActive && !tutorialCompleted) {
             startTutorial();
         }
     }, 1200);
@@ -3642,12 +3644,13 @@ function skipTutorial() {
     isTutorialActive = false;
     document.getElementById('tutorialOverlay').style.display = 'none';
     document.body.style.overflow = 'auto';
-    
+    // Mark as completed so it won't show again
+    tutorialCompleted = true;
+    localStorage.setItem('tutorialCompleted', 'true');
     // Remove interactive classes
     document.querySelectorAll('.tutorial-interactive').forEach(el => {
         el.classList.remove('tutorial-interactive');
     });
-    
     showToast('Tutorial skipped. You can restart it anytime from the sidebar.', 'info');
 }
 
@@ -3657,12 +3660,10 @@ function completeTutorial() {
     localStorage.setItem('tutorialCompleted', 'true');
     document.getElementById('tutorialOverlay').style.display = 'none';
     document.body.style.overflow = 'auto';
-    
     // Remove interactive classes
     document.querySelectorAll('.tutorial-interactive').forEach(el => {
         el.classList.remove('tutorial-interactive');
     });
-    
     // Show completion celebration
     showToast('🎉 Tutorial completed! You\'re ready to manage your clinic efficiently.', 'success');
     
@@ -3703,7 +3704,6 @@ function completeTutorial() {
 // Initialize tutorial when page loads
 document.addEventListener('DOMContentLoaded', function() {
     initTutorial();
-    
     // Handle ESC key to exit tutorial
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && isTutorialActive) {
@@ -4063,7 +4063,6 @@ function closeRescheduleModal() {
 }
 
 
-// Open calendar picker from reschedule modal
 function openCalendarPicker() {
     closeRescheduleModal();
     initializeRescheduleCalendar();
@@ -4071,7 +4070,6 @@ function openCalendarPicker() {
 }
 
 
-// Initialize reschedule calendar
 function initializeRescheduleCalendar() {
     const monthYearElement = document.getElementById('rescheduleMonthYear');
     const calendarGrid = document.getElementById('rescheduleCalendarGrid');
@@ -4143,7 +4141,6 @@ function initializeRescheduleCalendar() {
 }
 
 
-// Calendar navigation functions for reschedule modal
 function reschedulePrevMonth() {
     rescheduleCurrentMonth--;
     if (rescheduleCurrentMonth < 0) {
@@ -4203,7 +4200,6 @@ function selectCalendarDate() {
 }
 
 
-// Submit reschedule
 function submitReschedule() {
     const newDate = document.getElementById('rescheduleDate').value;
     const newTime = document.getElementById('rescheduleTime').value;
@@ -4336,7 +4332,7 @@ function submitReschedule() {
                 }
             });
             
-            // Update UI
+            // // Update UI
             updateRequestTable();
             updateStats();
             
@@ -4370,20 +4366,43 @@ function showReminderModal(appointmentData) {
     document.getElementById('reminderNewDate').textContent = formatDate(appointmentData.newDate);
     document.getElementById('reminderNewTime').textContent = formatTime(appointmentData.newTime);
     document.getElementById('reminderProcedure').textContent = appointmentData.procedure;
+    document.getElementById('reminderDoctor').textContent = appointmentData.doctor || 'Dr. Admin';
     document.getElementById('smsPhoneNumber').innerHTML = `<i class="fas fa-phone"></i> ${appointmentData.contact || '+63 XXX XXX XXXX'}`;
     document.getElementById('emailAddress').innerHTML = `<i class="fas fa-at"></i> ${appointmentData.email || 'patient@example.com'}`;
     
     // Update previews
-    document.getElementById('previewPatientName').textContent = appointmentData.patientName;
-    document.getElementById('previewNewDate').textContent = formatDate(appointmentData.newDate);
-    document.getElementById('previewNewTime').textContent = formatTime(appointmentData.newTime);
-    document.getElementById('previewProcedure').textContent = appointmentData.procedure;
+    document.getElementById('smsPreview').innerHTML = `
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <div style="width: 20px; height: 20px; background: #34c759; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-sms" style="color: white; font-size: 10px;"></i>
+            </div>
+            <span style="font-weight: 600; color: var(--text-color);">SMS Preview:</span>
+        </div>
+        <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; font-size: 13px; color: #495057; border-left: 3px solid #34c759;">
+            Dear ${appointmentData.patientName}, your appointment has been rescheduled to ${formatDate(appointmentData.newDate)} at ${formatTime(appointmentData.newTime)}. Procedure: ${appointmentData.procedure}. Please arrive 15 minutes early.
+        </div>
+    `;
     
-    document.getElementById('emailPreviewPatientName').textContent = appointmentData.patientName;
-    document.getElementById('emailPreviewNewDate').textContent = formatDate(appointmentData.newDate);
-    document.getElementById('emailPreviewNewTime').textContent = formatTime(appointmentData.newTime);
-    document.getElementById('emailPreviewProcedure').textContent = appointmentData.procedure;
-    document.getElementById('emailPreviewDoctor').textContent = appointmentData.doctor || 'Dr. Admin';
+    document.getElementById('emailPreview').innerHTML = `
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <div style="width: 20px; height: 20px; background: #007aff; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-envelope" style="color: white; font-size: 10px;"></i>
+            </div>
+            <span style="font-weight: 600; color: var(--text-color);">Email Preview:</span>
+        </div>
+        <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; font-size: 13px; color: #495057; border-left: 3px solid #007aff;">
+            <div style="margin-bottom: 8px;"><strong>Subject:</strong> Appointment Rescheduled - Holy Family Dental Clinic</div>
+            <div>Dear ${appointmentData.patientName},</div>
+            <div style="margin: 10px 0;">Your appointment has been rescheduled with the following details:</div>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+                <li><strong>New Date:</strong> ${formatDate(appointmentData.newDate)}</li>
+                <li><strong>New Time:</strong> ${formatTime(appointmentData.newTime)}</li>
+                <li><strong>Procedure:</strong> ${appointmentData.procedure}</li>
+                <li><strong>Doctor:</strong> ${appointmentData.doctor || 'Dr. Admin'}</li>
+            </ul>
+            <div>Please contact us at (02) 123-4567 if you have any questions.</div>
+        </div>
+    `;
     
     // Reset progress
     document.getElementById('reminderProgress').style.display = 'none';
@@ -4597,6 +4616,23 @@ function loadReminderTemplate() {
 }
 
 
+// Close add patient modal
+function closeAddPatient() {
+    document.getElementById("addPatientModal").classList.add("hidden");
+}
+
+document.getElementById("addPatientForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    alert("Patient successfully added!");
+    closeAddPatient();
+
+    // DITO ka pwede maglagay ng:
+    // fetch() → save to database
+    // or update patient table
+  });
+
+
 // Update bulk actions
 function updateBulkActions() {
     const selectedCheckboxes = document.querySelectorAll('.request-checkbox:checked');
@@ -4738,24 +4774,13 @@ document.addEventListener('DOMContentLoaded', function() {
             console.warn('Loading timeout - forcing hide');
         }
     }, 10000);
-    function addPatient() {
-    document.getElementById("addPatientModal").classList.remove("hidden");
+    // Add event listener for tutorial fab button
+  var tutorialFabBtn = document.getElementById('tutorialFabBtn');
+  if (tutorialFabBtn) {
+    tutorialFabBtn.addEventListener('click', function() {
+      startTutorial();
+    });
   }
-
-  function closeAddPatient() {
-    document.getElementById("addPatientModal").classList.add("hidden");
-  }
-
-  document.getElementById("addPatientForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-
-    alert("Patient successfully added!");
-    closeAddPatient();
-
-    // DITO ka pwede maglagay ng:
-    // fetch() → save to database
-    // or update patient table
-  });
 });
 </script>
 
