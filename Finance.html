@@ -706,15 +706,10 @@
   </button>
 </div>
 
-<style>
-.fab-container .tutorial-fab:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-  background: linear-gradient(135deg, #0099cc 0%, #00bfff 100%);
-}
-</style>
+<!-- WALKTHROUGH ELEMENTS -->
+<div class="overlay" id="overlay"></div>
+<div class="tooltip" id="tooltip"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
         function openReport(type) {
             const modal = document.getElementById("reportModal");
@@ -891,6 +886,151 @@
         document.getElementById("payMode").value = '';
         document.getElementById("payRemarks").value = '';
     }
+
+    /* ================= WALKTHROUGH ================= */
+const steps = [
+  { el: ".chart-container", title: "📊 Finance Chart", text: "This chart shows your revenue and net income over time." },
+  { el: ".stats", title: "💰 Financial Summary", text: "View your total revenue and outstanding balance here." },
+  { el: ".report-grid", title: "📈 Reports", text: "Click on any report card to view detailed financial reports." },
+  { el: ".plus-btn", title: "➕ Add Payment", text: "Use this button to add a new payment record." }
+];
+
+let currentStep = 0;
+
+function startTutorial() {
+  currentStep = 0;
+  showStep(currentStep);
+  document.getElementById("overlay").style.display = "block";
+}
+
+function showStep(stepIndex) {
+  clearHighlights();
+  const step = steps[stepIndex];
+  const element = document.querySelector(step.el);
+  const tooltip = document.getElementById("tooltip");
+
+  if (!element) return;
+
+  // Highlight the element
+  element.classList.add("highlight");
+  const rect = element.getBoundingClientRect();
+
+  // Position the tooltip
+  tooltip.innerHTML = `
+    <h4>${step.title}</h4>
+    <p>${step.text}</p>
+    <div class="tooltip-actions">
+      <button onclick="prevStep()" ${stepIndex === 0 ? "disabled" : ""}>Back</button>
+      <button onclick="endTutorial()">Skip</button>
+      <button onclick="nextStep()" ${stepIndex === steps.length - 1 ? "disabled" : ""}>Next</button>
+    </div>
+  `;
+  tooltip.style.top = `${rect.bottom + 10}px`;
+  tooltip.style.left = `${rect.left}px`;
+  tooltip.style.display = "block";
+}
+
+function nextStep() {
+  if (currentStep < steps.length - 1) {
+    currentStep++;
+    showStep(currentStep);
+  }
+}
+
+function prevStep() {
+  if (currentStep > 0) {
+    currentStep--;
+    showStep(currentStep);
+  }
+}
+
+function endTutorial() {
+  clearHighlights();
+  document.getElementById("overlay").style.display = "none";
+  document.getElementById("tooltip").style.display = "none";
+}
+
+function clearHighlights() {
+  document.querySelectorAll(".highlight").forEach(el => el.classList.remove("highlight"));
+}
+
+// Auto-start tutorial if not completed
+document.addEventListener("DOMContentLoaded", () => {
+  const tutorialCompleted = localStorage.getItem("financeTutorialCompleted") === "true";
+  if (!tutorialCompleted) {
+    setTimeout(() => {
+      startTutorial();
+      localStorage.setItem("financeTutorialCompleted", "true");
+    }, 1000);
+  }
+});
 </script>
+
+<style>
+/* ...existing code... */
+
+/* WALKTHROUGH STYLES */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  z-index: 1000;
+}
+
+.tooltip {
+  position: absolute;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  display: none;
+}
+
+.tooltip h4 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  color: var(--sidebar-active);
+}
+
+.tooltip p {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.tooltip-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tooltip-actions button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.tooltip-actions button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.tooltip-actions button:not(:disabled) {
+  background: var(--sidebar-active);
+  color: #fff;
+}
+
+.highlight {
+  box-shadow: 0 0 0 4px var(--sidebar-active);
+  border-radius: 8px;
+  position: relative;
+  z-index: 1002;
+}
+</style>
 </body>
 </html>
