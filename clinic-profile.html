@@ -119,11 +119,11 @@ body{background:var(--bg);color:var(--text)}
 
 .container {
   background: #fff;
-  padding: 30px 25px;      /* more padding for comfort */
+  padding: 30px 25px;
   border-radius: 14px;
-  max-width: 500px;        /* wider container */
-  width: 90%;              /* responsive on smaller screens */
-  margin: 50px auto;       /* center vertically and horizontally */
+  max-width: 500px;
+  width: 90%;
+  margin: 50px auto;
   box-shadow: 0 10px 30px rgba(255, 255, 255, 0.805);
 }
 
@@ -151,7 +151,7 @@ canvas{border:2px dashed #cbd5e1;border-radius:10px;margin-top:10px;}
 .spotlight{box-shadow:0 0 0 9999px rgba(255, 255, 255, 0);border-radius:12px;position:relative;z-index:9999;}
 .walkthrough-box{
   position:fixed;bottom:30px;right:30px;width:320px;background:#fff;padding:18px;border-radius:16px;
-  box-shadow:0 15px 40px rgba(255, 255, 255, 0.912);z-index:10000;
+  box-shadow:0 15px 40px rgba(255, 255, 255, 0.912);z-index:10000;display:none;
 }
 .walkthrough-box h4{margin:0 0 10px;color:#0ea5e9;}
 .walkthrough-box .hint{font-size:13px;color:#0ea5e9;margin-top:8px;}
@@ -165,21 +165,50 @@ canvas{border:2px dashed #cbd5e1;border-radius:10px;margin-top:10px;}
   border-bottom:22px solid #0ea5e9;animation:bounce 1s infinite;
   z-index:10001;display:none;
 }
-@media (max-width: 600px) {
-  .container {
-    padding: 20px;
-    max-width: 95%;
-  }
-}
+
 @keyframes bounce{
   0%,100%{transform:translateY(0)}
   50%{transform:translateY(-10px)}
 }
 
-.fab-container .tutorial-fab:hover {
+/* ===== FAB BUTTON ===== */
+.fab-container {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 1000;
+}
+
+.tutorial-fab {
+  background: linear-gradient(135deg, #00bfff 0%, #00d4ff 100%);
+  color: #fff;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tutorial-fab:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-  background: linear-gradient(135deg, #0099cc 0%, #00bfff 100%);
+  background: linear-gradient(135deg, #0099cc 0%, #0099ff 100%);
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+    max-width: 95%;
+  }
 }
 </style>
 </head>
@@ -283,19 +312,12 @@ canvas{border:2px dashed #cbd5e1;border-radius:10px;margin-top:10px;}
   </div>
 </div>
 
-<div class="fab-container" style="position: fixed; bottom: 25px; right: 25px; display: flex; flex-direction: column; gap: 12px; z-index: 1000;">
-  <button class="fab tutorial-fab" id="tutorialFabBtn" onclick="startTutorial()" title="Start Tutorial" style="background: linear-gradient(135deg, #00bfff 0%, #00d4ff 100%); color: #fff; width: 55px; height: 55px; border-radius: 50%; border: none; font-size: 20px; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.2); transition: transform 0.2s ease, box-shadow 0.2s ease; display: flex; align-items: center; justify-content: center;">
+<!-- FAB BUTTON -->
+<div class="fab-container">
+  <button class="tutorial-fab" id="tutorialFabBtn" onclick="startTutorial()" title="Start Tutorial">
     <i class="fas fa-book"></i>
   </button>
 </div>
-
-<style>
-.fab-container .tutorial-fab:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-  background: linear-gradient(135deg, #0099cc 0%, #00bfff 100%);
-}
-</style>
 
 <script>
 /* DROPDOWN FOR MY CLINIC */
@@ -329,7 +351,7 @@ document.addEventListener('click', function(e) {
 
 /* WALKTHROUGH */
 const steps = [
-  { el:"#clinicName", title:"🏥 Clinic Name", text:"Enter your clinic’s official name.", progress:"p1" },
+  { el:"#clinicName", title:"🏥 Clinic Name", text:"Enter your clinic's official name.", progress:"p1" },
   { el:"#dentistName", title:"🦷 Dentist Name", text:"Type the main dentist or clinic owner.", progress:"p2" },
   { el:"#signatureCanvas", title:"✍️ Signature", text:"Draw your digital signature.", progress:"p2" },
   { el:"#logoUpload", title:"🖼️ Clinic Logo", text:"Upload your clinic logo.", progress:"p3" },
@@ -337,6 +359,8 @@ const steps = [
 ];
 
 let current = 0;
+let tutorialCompleted = localStorage.getItem('clinicProfileTutorialCompleted') === 'true';
+let tutorialAutoStarted = false;
 
 function showStep(i){
   document.querySelectorAll(".spotlight").forEach(e=>e.classList.remove("spotlight"));
@@ -358,16 +382,23 @@ function showStep(i){
   arrow.style.display = "block";
 
   document.getElementById("overlay").style.display = "block";
+  document.getElementById("walkBox").style.display = "block";
 }
 
 function nextTour(){
   current++;
-  if(current >= steps.length){ endTour(); return; }
+  if(current >= steps.length){ 
+    endTour();
+    tutorialCompleted = true;
+    localStorage.setItem('clinicProfileTutorialCompleted', 'true');
+    return; 
+  }
   showStep(current);
 }
 
 function skipTour(){
-  Swal.fire("Tutorial skipped","You can edit anytime later 😊","info");
+  tutorialCompleted = true;
+  localStorage.setItem('clinicProfileTutorialCompleted', 'true');
   endTour();
 }
 
@@ -378,7 +409,21 @@ function endTour(){
   document.getElementById("walkBox").style.display="none";
 }
 
-showStep(0);
+function startTutorial(){
+  current = 0;
+  tutorialCompleted = false;
+  showStep(0);
+}
+
+// Auto-start tutorial only if not completed
+window.addEventListener('load', function(){
+  if (!tutorialCompleted && !tutorialAutoStarted) {
+    tutorialAutoStarted = true;
+    setTimeout(() => {
+      startTutorial();
+    }, 800);
+  }
+});
 
 /* SIGNATURE */
 const canvas=document.getElementById("signatureCanvas");
@@ -397,17 +442,28 @@ canvas.onmousemove=e=>{
   ctx.moveTo(e.offsetX,e.offsetY);
 };
 
-document.getElementById("clearSignatureBtn").onclick=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);Swal.fire("Cleared","Signature removed","info");};
+document.getElementById("clearSignatureBtn").onclick=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);};
 
-/* LOGO PREVIEW */
 document.getElementById("logoUpload").onchange=e=>{
   const r=new FileReader();
   r.onload=()=>document.getElementById("logoPreview").src=r.result;
   r.readAsDataURL(e.target.files[0]);
 };
 
-/* SAVE PROFILE */
-document.getElementById("saveProfileBtn").onclick=()=>{Swal.fire("Success 🎉","Clinic profile saved successfully!","success");};
+document.getElementById("saveProfileBtn").onclick=()=>{
+  tutorialCompleted = true;
+  localStorage.setItem('clinicProfileTutorialCompleted', 'true');
+};
+
+const logoutButtons = document.querySelectorAll('.logout-btn');
+logoutButtons.forEach(button => {
+  button.addEventListener('click', async (e) => {
+    e.preventDefault();
+    sessionStorage.removeItem('user');
+    localStorage.removeItem('user');
+    window.location.href = 'landingpage.html';
+  });
+});
 </script>
 
 </body>
