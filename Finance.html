@@ -1,867 +1,867 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="light">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SMART DENTISTRY - Finance</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!DOCTYPE html>
+    <html lang="en" data-theme="light">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMART DENTISTRY - Finance</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <style>
-    /* ============================================= */
-    /* CSS VARIABLES & THEME */
-    /* ============================================= */
-    :root {
-        --bg-color: #f5f7fa;
-        --sidebar-bg: #2c3e50;
-        --sidebar-text: rgba(255, 255, 255, 0.9);
-        --sidebar-active: #00bfff;
-        --card-bg: #ffffff;
-        --text-color: #2c3e50;
-        --text-muted: #7a8ba9;
-        --border-color: #e1e5eb;
-        --hover-bg: #f0f4f8;
-        --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
+    <style>
+        /* ============================================= */
+        /* CSS VARIABLES & THEME */
+        /* ============================================= */
+        :root {
+            --bg-color: #f5f7fa;
+            --sidebar-bg: #2c3e50;
+            --sidebar-text: rgba(255, 255, 255, 0.9);
+            --sidebar-active: #00bfff;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --text-muted: #7a8ba9;
+            --border-color: #e1e5eb;
+            --hover-bg: #f0f4f8;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
 
-    [data-theme="dark"] {
-        --bg-color: #1a1a1a;
-        --sidebar-bg: #151e25;
-        --sidebar-text: rgba(255, 255, 255, 0.85);
-        --sidebar-active: #00bfff;
-        --card-bg: #2d2d2d;
-        --text-color: #e0e0e0;
-        --text-muted: #aaa;
-        --border-color: #444;
-        --hover-bg: #333;
-        --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --sidebar-bg: #151e25;
+            --sidebar-text: rgba(255, 255, 255, 0.85);
+            --sidebar-active: #00bfff;
+            --card-bg: #2d2d2d;
+            --text-color: #e0e0e0;
+            --text-muted: #aaa;
+            --border-color: #444;
+            --hover-bg: #333;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
 
-    html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        font-family: 'Inter', Arial, sans-serif;
-    }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', Arial, sans-serif;
+        }
 
-    body {
-        background-color: var(--bg-color);
-        color: var(--text-color);
-        transition: background-color 0.3s ease;
-    }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease;
+        }
 
-    /* ============================================= */
-    /* DASHBOARD LAYOUT */
-    /* ============================================= */
-    .dashboard {
-        display: flex;
-        height: 100vh;
-        min-height: 100vh;
-        overflow: hidden;
-        color: var(--text-color);
-    }
-
-    .sidebar {
-        background-color: var(--sidebar-bg);
-        color: var(--sidebar-text);
-        padding: 20px 0;
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.3s ease;
-        width: 220px;
-        overflow-y: auto;
-        position: relative;
-    }
-
-    .main-content {
-        flex: 1;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        overflow-y: auto;
-        transition: background-color 0.3s ease;
-    }
-
-    /* ============================================= */
-    /* SIDEBAR HEADER & BRANDING */
-    /* ============================================= */
-    .sidebar-header {
-        display: flex;
-        align-items: center;
-        padding: 20px;
-        margin-bottom: 30px;
-    }
-
-    .logo-container {
-        position: relative;
-    }
-
-    .sidebar-logo {
-        width: 90px;
-        height: 90px;
-        border-radius: 50%;
-        margin-right: -5px;
-        margin-top: -45px;
-        margin-left: -20px;
-        object-fit: cover;
-    }
-
-    .sidebar-title h2 {
-        color: var(--sidebar-active);
-        margin: 0;
-        font-size: 18px;
-        line-height: 1;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-        white-space: nowrap;
-    }
-
-    .sidebar-title p {
-        color: var(--sidebar-text);
-        font-size: 12px;
-        margin-top: 10px;
-        margin-left: -40px;
-        font-style: italic;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-        white-space: normal;
-    }
-
-    .holy-family {
-        color: #00bbff;
-        font-weight: bold;
-    }
-
-    .dental-clinic {
-        color: #00bbff;
-        font-weight: bold;
-    }
-
-    /* ============================================= */
-    /* SIDEBAR MENU */
-    /* ============================================= */
-    .sidebar-menu {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .sidebar-menu li {
-        margin-bottom: 5px;
-    }
-
-    .sidebar-menu a {
-        display: flex;
-        align-items: center;
-        padding: 12px 20px;
-        color: var(--sidebar-text);
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-
-    .sidebar-menu a:hover, .sidebar-menu a.active {
-        background-color: rgba(0, 191, 255, 0.2);
-        color: white;
-        border-left: 3px solid var(--sidebar-active);
-        padding-left: 17px;
-    }
-
-    .sidebar-menu i {
-        margin-right: 10px;
-        width: 20px;
-        text-align: center;
-    }
-
-    /* ============================================= */
-    /* SIDEBAR BOTTOM SECTIONS */
-    /* ============================================= */
-    .return-home-menu {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .return-home-menu li {
-        margin-bottom: 5px;
-    }
-
-    .return-home-menu a {
-        display: flex;
-        align-items: center;
-        padding: 12px 20px;
-        color: var(--sidebar-text);
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-
-    .return-home-menu a:hover, .return-home-menu a.active {
-        background-color: rgba(0, 191, 255, 0.2);
-        color: white;
-        border-left: 3px solid var(--sidebar-active);
-        padding-left: 17px;
-    }
-
-    .return-home-menu i {
-        margin-right: 10px;
-        width: 20px;
-        text-align: center;
-    }
-
-    .settings-menu a:hover, .return-home-menu a:hover {
-        background-color: rgba(0, 191, 255, 0.2);
-        color: white;
-        border-left: 3px solid var(--sidebar-active);
-        display: block;
-        width: 100%;
-        padding-right: 25px;
-    }
-
-    /* ============================================= */
-    /* HEADER & CONTROLS */
-    /* ============================================= */
-    .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-        margin-top: -20px;
-    }
-
-    .header h1 {
-        color: var(--text-color);
-        margin: 0;
-    }
-
-    .header-icons {
-        display: flex;
-        gap: 15px;
-        font-size: 20px;
-        color: var(--sidebar-active);
-    }
-
-    /* ============================================= */
-    /* THEME TOGGLE */
-    /* ============================================= */
-    .theme-toggle {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .theme-toggle-label {
-        font-size: 14px;
-        color: var(--text-color);
-    }
-
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 50px;
-        height: 24px;
-    }
-
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        transition: .4s;
-        border-radius: 24px;
-    }
-
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 16px;
-        width: 16px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: .4s;
-        border-radius: 50%;
-    }
-
-    input:checked + .slider {
-        background-color: #00bfff;
-    }
-
-    input:checked + .slider:before {
-        transform: translateX(26px);
-    }
-
-    /* ============================================= */
-    /* EXISTING FINANCE PAGE STYLES */
-    /* ============================================= */
-    .chart-container {
-        background: var(--card-bg);
-        border-radius: 10px;
-        box-shadow: var(--shadow);
-        padding: 20px;
-        max-width: 700px;
-        margin: 0 auto;
-    }
-
-    .date-range {
-        text-align: center;
-        margin: 15px 0;
-        color: var(--text-muted);
-    }
-
-    .stats {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 40px;
-        margin: 20px 0;
-        flex-wrap: wrap;
-    }
-
-    .card {
-        background-color: var(--sidebar-active);
-        color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        width: 200px;
-        text-align: center;
-        font-weight: bold;
-    }
-
-    .green-btn {
-        background-color: #32cd32;
-        border: none;
-        color: #fff;
-        padding: 12px 25px;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .green-btn:hover {
-        background-color: #28a428;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(50, 205, 50, 0.3);
-    }
-
-    .report-grid {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        flex-wrap: wrap;
-        margin-top: 30px;
-    }
-
-    .report-card {
-        background: var(--card-bg);
-        border-radius: 10px;
-        box-shadow: var(--shadow);
-        padding: 15px;
-        width: 180px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .report-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgba(0, 191, 255, 0.2);
-    }
-
-    .plus-btn {
-        background-color: #32cd32;
-        color: #fff;
-        border: none;
-        border-radius: 50%;
-        font-size: 30px;
-        width: 55px;
-        height: 55px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 30px auto;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    .plus-btn:hover {
-        background-color: #28a428;
-        transform: scale(1.1);
-        box-shadow: 0 4px 12px rgba(50, 205, 50, 0.3);
-    }
-
-    /* ============================================= */
-    /* MODALS */
-    /* ============================================= */
-    .modal {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-    }
-
-    .modal-box {
-        background: var(--card-bg);
-        width: 400px;
-        margin: 10% auto;
-        padding: 20px;
-        border-radius: 12px;
-        color: var(--text-color);
-        box-shadow: var(--shadow);
-    }
-
-    .modal-box h3 {
-        color: var(--text-color);
-        margin-top: 0;
-    }
-
-    .modal-box input,
-    .modal-box select {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        background: var(--hover-bg);
-        color: var(--text-color);
-        border: 1px solid var(--border-color);
-        border-radius: 6px;
-        box-sizing: border-box;
-    }
-
-    .modal-box input:focus,
-    .modal-box select:focus {
-        outline: none;
-        border-color: var(--sidebar-active);
-    }
-
-    .modal-actions {
-        text-align: right;
-        margin-top: 10px;
-    }
-
-    .modal-actions button {
-        padding: 8px 15px;
-        border-radius: 6px;
-        cursor: pointer;
-        border: none;
-        margin-left: 10px;
-        transition: all 0.3s ease;
-    }
-
-    .modal-actions button:first-child {
-        background: var(--border-color);
-        color: var(--text-color);
-    }
-
-    .modal-actions button:last-child {
-        background: #32cd32;
-        color: white;
-    }
-
-    .modal-actions button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    /* ============================================= */
-    /* TABLES */
-    /* ============================================= */
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        color: var(--text-color);
-    }
-
-    table thead {
-        background: var(--hover-bg);
-    }
-
-    table th {
-        padding: 12px;
-        text-align: left;
-        font-weight: 600;
-        color: var(--text-color);
-        border-bottom: 2px solid var(--border-color);
-    }
-
-    table td {
-        padding: 12px;
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    table tbody tr:hover {
-        background: var(--hover-bg);
-    }
-
-    /* ============================================= */
-    /* RESPONSIVE */
-    /* ============================================= */
-    @media (max-width: 768px) {
+        /* ============================================= */
+        /* DASHBOARD LAYOUT */
+        /* ============================================= */
         .dashboard {
-            flex-direction: column;
+            display: flex;
+            height: 100vh;
+            min-height: 100vh;
+            overflow: hidden;
+            color: var(--text-color);
         }
 
         .sidebar {
-            width: 100%;
-            padding: 10px 0;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+            width: 220px;
+            overflow-y: auto;
+            position: relative;
         }
 
         .main-content {
-            padding: 10px;
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            transition: background-color 0.3s ease;
         }
 
-        .stats {
-            gap: 20px;
+        /* ============================================= */
+        /* SIDEBAR HEADER & BRANDING */
+        /* ============================================= */
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 30px;
         }
 
-        .card {
-            width: 150px;
+        .logo-container {
+            position: relative;
         }
 
-        .report-grid {
+        .sidebar-logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin-right: -5px;
+            margin-top: -45px;
+            margin-left: -20px;
+            object-fit: cover;
+        }
+
+        .sidebar-title h2 {
+            color: var(--sidebar-active);
+            margin: 0;
+            font-size: 18px;
+            line-height: 1;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .sidebar-title p {
+            color: var(--sidebar-text);
+            font-size: 12px;
+            margin-top: 10px;
+            margin-left: -40px;
+            font-style: italic;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            white-space: normal;
+        }
+
+        .holy-family {
+            color: #00bbff;
+            font-weight: bold;
+        }
+
+        .dental-clinic {
+            color: #00bbff;
+            font-weight: bold;
+        }
+
+        /* ============================================= */
+        /* SIDEBAR MENU */
+        /* ============================================= */
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+            padding-left: 17px;
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* ============================================= */
+        /* SIDEBAR BOTTOM SECTIONS */
+        /* ============================================= */
+        .return-home-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .return-home-menu li {
+            margin-bottom: 5px;
+        }
+
+        .return-home-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .return-home-menu a:hover, .return-home-menu a.active {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+            padding-left: 17px;
+        }
+
+        .return-home-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .settings-menu a:hover, .return-home-menu a:hover {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+            display: block;
+            width: 100%;
+            padding-right: 25px;
+        }
+
+        /* ============================================= */
+        /* HEADER & CONTROLS */
+        /* ============================================= */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            margin-top: -20px;
+        }
+
+        .header h1 {
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 15px;
+            font-size: 20px;
+            color: var(--sidebar-active);
+        }
+
+        /* ============================================= */
+        /* THEME TOGGLE */
+        /* ============================================= */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
             gap: 10px;
         }
 
+        .theme-toggle-label {
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #00bfff;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* ============================================= */
+        /* EXISTING FINANCE PAGE STYLES */
+        /* ============================================= */
+        .chart-container {
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .date-range {
+            text-align: center;
+            margin: 15px 0;
+            color: var(--text-muted);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background-color: var(--sidebar-active);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 200px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .green-btn {
+            background-color: #32cd32;
+            border: none;
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .green-btn:hover {
+            background-color: #28a428;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(50, 205, 50, 0.3);
+        }
+
+        .report-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
         .report-card {
-            width: 140px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 15px;
+            width: 180px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-    }
-  </style>
-</head>
-<body>
- <div class="dashboard">
-    <!-- Sidebar Navigation -->
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo-container">
-                <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
-                <div class="logo-glow"></div>
-            </div>
-            <div class="sidebar-title">
-                <h2>
-                    <span class="holy-family">SMART</span><br>
-                    <span class="dental-clinic">DENTISTRY</span>
-                </h2>
-            </div>
-        </div>
-        <ul class="sidebar-menu">
-            <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-            <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
-            <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> Appointment History</a></li>
-            <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-            <li><a href="Finance.html" class="active"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-            <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> Data BackUp</a></li>
-            <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-            <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
-            <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-        </ul>
-        <!-- Add Return to Home menu at the bottom -->
-        <div style="position: absolute; bottom: 20px; width: 100%;">
-            <ul class="sidebar-menu settings-menu">
-                <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-            </ul>
-            <ul class="sidebar-menu return-home-menu">
-                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
-            </ul>
-        </div>
-    </div>
 
-    <!-- Main Content Area -->
-    <div class="main-content">
-        <div class="header">
-            <h1>Finance</h1>
-            <div style="display: flex; gap: 20px; align-items: center;">
-                <div class="header-icons">
-                    <i class="fa-regular fa-bell"></i>
-                    <i class="fa-regular fa-circle-user"></i>
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 191, 255, 0.2);
+        }
+
+        .plus-btn {
+            background-color: #32cd32;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 30px;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px auto;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .plus-btn:hover {
+            background-color: #28a428;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(50, 205, 50, 0.3);
+        }
+
+        /* ============================================= */
+        /* MODALS */
+        /* ============================================= */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            width: 400px;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 12px;
+            color: var(--text-color);
+            box-shadow: var(--shadow);
+        }
+
+        .modal-box h3 {
+            color: var(--text-color);
+            margin-top: 0;
+        }
+
+        .modal-box input,
+        .modal-box select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: var(--hover-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .modal-box input:focus,
+        .modal-box select:focus {
+            outline: none;
+            border-color: var(--sidebar-active);
+        }
+
+        .modal-actions {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .modal-actions button {
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-actions button:first-child {
+            background: var(--border-color);
+            color: var(--text-color);
+        }
+
+        .modal-actions button:last-child {
+            background: #32cd32;
+            color: white;
+        }
+
+        .modal-actions button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ============================================= */
+        /* TABLES */
+        /* ============================================= */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: var(--text-color);
+        }
+
+        table thead {
+            background: var(--hover-bg);
+        }
+
+        table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        table tbody tr:hover {
+            background: var(--hover-bg);
+        }
+
+        /* ============================================= */
+        /* RESPONSIVE */
+        /* ============================================= */
+        @media (max-width: 768px) {
+            .dashboard {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 10px 0;
+            }
+
+            .main-content {
+                padding: 10px;
+            }
+
+            .stats {
+                gap: 20px;
+            }
+
+            .card {
+                width: 150px;
+            }
+
+            .report-grid {
+                gap: 10px;
+            }
+
+            .report-card {
+                width: 140px;
+            }
+        }
+    </style>
+    </head>
+    <body>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
+                    <div class="logo-glow"></div>
                 </div>
-                <div class="theme-toggle">
-                    <span class="theme-toggle-label">Dark Mode</span>
-                    <label class="switch">
-                        <input type="checkbox" id="themeToggle">
-                        <span class="slider"></span>
-                    </label>
+                <div class="sidebar-title">
+                    <h2>
+                        <span class="holy-family">SMART</span><br>
+                        <span class="dental-clinic">DENTISTRY</span>
+                    </h2>
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
+                <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> Appointment History</a></li>
+                <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+                <li><a href="Finance.html" class="active"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+                <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> Data BackUp</a></li>
+                <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+                <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
+                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+            <!-- Add Return to Home menu at the bottom -->
+            <div style="position: absolute; bottom: 20px; width: 100%;">
+                <ul class="sidebar-menu settings-menu">
+                    <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+                <ul class="sidebar-menu return-home-menu">
+                    <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <div class="header">
+                <h1>Finance</h1>
+                <div style="display: flex; gap: 20px; align-items: center;">
+                    <div class="header-icons">
+                        <i class="fa-regular fa-bell"></i>
+                        <i class="fa-regular fa-circle-user"></i>
+                    </div>
+                    <div class="theme-toggle">
+                        <span class="theme-toggle-label">Dark Mode</span>
+                        <label class="switch">
+                            <input type="checkbox" id="themeToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container"><canvas id="financeChart"></canvas></div>
+            <div class="date-range"><strong>Oct 1, 2025 – Oct 31, 2025</strong></div>
+
+            <div class="stats">
+                <div class="card">Total Revenue<br>PHP 1,000.00</div>
+                <button class="green-btn" onclick="openPayments()">View Payments</button>
+                <div class="card">Total Balance<br>PHP 150.00</div>
+            </div>
+
+            <div class="report-grid">
+            <div class="report-card" onclick="openReport('dentist')">📈 Income Report Per Dentist</div>
+            <div class="report-card" onclick="openReport('installment')">💳 Installment Plan Report</div>
+            <div class="report-card" onclick="openReport('insurance')">🩺 Income Report Per Insurance</div>
+            <div class="report-card" onclick="openReport('income')">📊 Income Report</div>
+            <div class="report-card" onclick="openReport('balance')">💰 Patients with Balance</div>
+        </div>
+
+
+            
+            <button class="plus-btn" onclick="openAddPayment()">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+
+        <div id="addPaymentModal" class="modal">
+            <div class="modal-box">
+                <h3>Add Payment</h3>
+                <input id="patientName" type="text" placeholder="Patient Name">
+                <input id="patientContact" type="text" placeholder="Contact Number">
+                <input id="payAmount" type="number" placeholder="Amount (PHP)">
+                <select id="payMode">
+                    <option value="">Mode of Payment</option>
+                    <option>Cash</option>
+                    <option>GCash</option>
+                    <option>Bank Transfer</option>
+                </select>
+                <input id="payRemarks" type="text" placeholder="Remarks">
+                <div class="modal-actions">
+                    <button onclick="closeAddPayment()">Cancel</button>
+                    <button class="green-btn" onclick="savePayment()">Save</button>
                 </div>
             </div>
         </div>
 
-        <div class="chart-container"><canvas id="financeChart"></canvas></div>
-        <div class="date-range"><strong>Oct 1, 2025 – Oct 31, 2025</strong></div>
-
-        <div class="stats">
-            <div class="card">Total Revenue<br>PHP 1,000.00</div>
-            <button class="green-btn" onclick="openPayments()">View Payments</button>
-            <div class="card">Total Balance<br>PHP 150.00</div>
+        <div id="paymentsModal" class="modal">
+            <div class="modal-box" style="width:700px;">
+                <h3>Payments</h3>
+                <table width="100%" border="1" cellpadding="8">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Patient</th>
+                            <th>Amount</th>
+                            <th>Mode</th>
+                            <th>Receipt</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentsTable"></tbody>
+                </table>
+                <div class="modal-actions">
+                    <button onclick="closePayments()">Close</button>
+                </div>
+            </div>
         </div>
 
-        <div class="report-grid">
-        <div class="report-card" onclick="openReport('dentist')">📈 Income Report Per Dentist</div>
-        <div class="report-card" onclick="openReport('installment')">💳 Installment Plan Report</div>
-        <div class="report-card" onclick="openReport('insurance')">🩺 Income Report Per Insurance</div>
-        <div class="report-card" onclick="openReport('income')">📊 Income Report</div>
-        <div class="report-card" onclick="openReport('balance')">💰 Patients with Balance</div>
-    </div>
-
-
-        
-        <button class="plus-btn" onclick="openAddPayment()">
-            <i class="fa-solid fa-plus"></i>
-        </button>
-    </div>
-
-    <div id="addPaymentModal" class="modal">
-        <div class="modal-box">
-            <h3>Add Payment</h3>
-            <input id="patientName" type="text" placeholder="Patient Name">
-            <input id="patientContact" type="text" placeholder="Contact Number">
-            <input id="payAmount" type="number" placeholder="Amount (PHP)">
-            <select id="payMode">
-                <option value="">Mode of Payment</option>
-                <option>Cash</option>
-                <option>GCash</option>
-                <option>Bank Transfer</option>
-            </select>
-            <input id="payRemarks" type="text" placeholder="Remarks">
-            <div class="modal-actions">
-                <button onclick="closeAddPayment()">Cancel</button>
-                <button class="green-btn" onclick="savePayment()">Save</button>
+        <div id="receiptModal" class="modal">
+            <div class="modal-box" id="receiptContent">
+                <h2 style="text-align:center;">Payment Receipt</h2>
+                <hr>
+                <p><strong>Patient:</strong> <span id="rName"></span></p>
+                <p><strong>Contact:</strong> <span id="rContact"></span></p>
+                <p><strong>Date:</strong> <span id="rDate"></span></p>
+                <p><strong>Mode:</strong> <span id="rMode"></span></p>
+                <p><strong>Remarks:</strong> <span id="rRemarks"></span></p>
+                <h3>Total: ₱<span id="rAmount"></span></h3>
+                <div class="modal-actions">
+                    <button onclick="printReceipt()">🖨 Print</button>
+                    <button onclick="closeReceipt()">Close</button>
+                </div>
             </div>
         </div>
     </div>
-
-    <div id="paymentsModal" class="modal">
+    <div id="reportModal" class="modal">
         <div class="modal-box" style="width:700px;">
-            <h3>Payments</h3>
-            <table width="100%" border="1" cellpadding="8">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Patient</th>
-                        <th>Amount</th>
-                        <th>Mode</th>
-                        <th>Receipt</th>
-                    </tr>
-                </thead>
-                <tbody id="paymentsTable"></tbody>
-            </table>
+            <h3 id="reportTitle"></h3>
+            <div id="reportContent"></div>
             <div class="modal-actions">
-                <button onclick="closePayments()">Close</button>
+                <button onclick="closeReport()">Close</button>
             </div>
         </div>
     </div>
 
-    <div id="receiptModal" class="modal">
-        <div class="modal-box" id="receiptContent">
-            <h2 style="text-align:center;">Payment Receipt</h2>
-            <hr>
-            <p><strong>Patient:</strong> <span id="rName"></span></p>
-            <p><strong>Contact:</strong> <span id="rContact"></span></p>
-            <p><strong>Date:</strong> <span id="rDate"></span></p>
-            <p><strong>Mode:</strong> <span id="rMode"></span></p>
-            <p><strong>Remarks:</strong> <span id="rRemarks"></span></p>
-            <h3>Total: ₱<span id="rAmount"></span></h3>
-            <div class="modal-actions">
-                <button onclick="printReceipt()">🖨 Print</button>
-                <button onclick="closeReceipt()">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="reportModal" class="modal">
-    <div class="modal-box" style="width:700px;">
-        <h3 id="reportTitle"></h3>
-        <div id="reportContent"></div>
-        <div class="modal-actions">
-            <button onclick="closeReport()">Close</button>
-        </div>
-    </div>
-</div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+            function openReport(type) {
+                const modal = document.getElementById("reportModal");
+                const title = document.getElementById("reportTitle");
+                const content = document.getElementById("reportContent");
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-        function openReport(type) {
-            const modal = document.getElementById("reportModal");
-            const title = document.getElementById("reportTitle");
-            const content = document.getElementById("reportContent");
+                if (type === "dentist") {
+                    title.innerText = "📈 Income Report Per Dentist";
+                    content.innerHTML = `
+                    <table>
+                        <thead>
+                            <tr><th>Dentist</th><th>Total Income</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Dr. Juan Dela Cruz</td><td>PHP 25,000</td></tr>
+                            <tr><td>Dr. Ana Reyes</td><td>PHP 18,500</td></tr>
+                        </tbody>
+                    </table>`;
+                }
 
-            if (type === "dentist") {
-                title.innerText = "📈 Income Report Per Dentist";
-                content.innerHTML = `
-                <table>
-                    <thead>
-                        <tr><th>Dentist</th><th>Total Income</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Dr. Juan Dela Cruz</td><td>PHP 25,000</td></tr>
-                        <tr><td>Dr. Ana Reyes</td><td>PHP 18,500</td></tr>
-                    </tbody>
-                </table>`;
+                if (type === "installment") {
+                    title.innerText = "💳 Installment Plan Report";
+                    content.innerHTML = `
+                    <table>
+                        <thead>
+                            <tr><th>Patient</th><th>Total</th><th>Paid</th><th>Balance</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Maria Santos</td><td>10,000</td><td>7,000</td><td>3,000</td></tr>
+                            <tr><td>Pedro Reyes</td><td>8,000</td><td>5,000</td><td>3,000</td></tr>
+                        </tbody>
+                    </table>`;
+                }
+
+                if (type === "insurance") {
+                    title.innerText = "🩺 Income Report Per Insurance";
+                    content.innerHTML = `
+                    <table>
+                        <thead>
+                            <tr><th>Insurance</th><th>Total Income</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>PhilHealth</td><td>PHP 20,000</td></tr>
+                            <tr><td>Maxicare</td><td>PHP 15,000</td></tr>
+                        </tbody>
+                    </table>`;
+                }
+
+                if (type === "income") {
+                    title.innerText = "📊 Income Report";
+                    content.innerHTML = `
+                    <p><strong>Total Revenue:</strong> PHP 100,000</p>
+                    <p><strong>Net Income:</strong> PHP 75,000</p>
+                    <p class="text-muted">Oct 1 – Oct 31, 2025</p>`;
+                }
+
+                if (type === "balance") {
+                    title.innerText = "💰 Patients with Balance";
+                    content.innerHTML = `
+                    <table>
+                        <thead>
+                            <tr><th>Patient</th><th>Balance</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Pedro Reyes</td><td>PHP 1,500</td></tr>
+                            <tr><td>Angela Cruz</td><td>PHP 2,000</td></tr>
+                        </tbody>
+                    </table>`;
+                }
+
+                modal.style.display = "block";
             }
 
-            if (type === "installment") {
-                title.innerText = "💳 Installment Plan Report";
-                content.innerHTML = `
-                <table>
-                    <thead>
-                        <tr><th>Patient</th><th>Total</th><th>Paid</th><th>Balance</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Maria Santos</td><td>10,000</td><td>7,000</td><td>3,000</td></tr>
-                        <tr><td>Pedro Reyes</td><td>8,000</td><td>5,000</td><td>3,000</td></tr>
-                    </tbody>
-                </table>`;
+            function closeReport() {
+                document.getElementById("reportModal").style.display = "none";
             }
 
-            if (type === "insurance") {
-                title.innerText = "🩺 Income Report Per Insurance";
-                content.innerHTML = `
-                <table>
-                    <thead>
-                        <tr><th>Insurance</th><th>Total Income</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>PhilHealth</td><td>PHP 20,000</td></tr>
-                        <tr><td>Maxicare</td><td>PHP 15,000</td></tr>
-                    </tbody>
-                </table>`;
-            }
 
-            if (type === "income") {
-                title.innerText = "📊 Income Report";
-                content.innerHTML = `
-                <p><strong>Total Revenue:</strong> PHP 100,000</p>
-                <p><strong>Net Income:</strong> PHP 75,000</p>
-                <p class="text-muted">Oct 1 – Oct 31, 2025</p>`;
-            }
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        themeToggle.checked = savedTheme === 'dark';
 
-            if (type === "balance") {
-                title.innerText = "💰 Patients with Balance";
-                content.innerHTML = `
-                <table>
-                    <thead>
-                        <tr><th>Patient</th><th>Balance</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Pedro Reyes</td><td>PHP 1,500</td></tr>
-                        <tr><td>Angela Cruz</td><td>PHP 2,000</td></tr>
-                    </tbody>
-                </table>`;
-            }
-
-            modal.style.display = "block";
-        }
-
-        function closeReport() {
-            document.getElementById("reportModal").style.display = "none";
-        }
-
-
-    // Theme toggle functionality
-    const themeToggle = document.getElementById('themeToggle');
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    themeToggle.checked = savedTheme === 'dark';
-
-    themeToggle.addEventListener('change', function() {
-        const theme = this.checked ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-    });
-
-    const ctx = document.getElementById("financeChart");
-    new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels: ["JAN","FEB","MAR","APR","MAY","JUN"],
-            datasets: [
-                { label: "Total Revenue", data: [12000,9000,11000,4000,20000,15000], backgroundColor: "#00d4ff" },
-                { label: "Net Income", data: [8000,7000,5000,2000,14000,12000], backgroundColor: "#32cd32" }
-            ]
-        },
-        options: { responsive: true, scales: { y: { beginAtZero: true } } }
-    });
-
-    let payments = JSON.parse(localStorage.getItem("payments")) || [];
-    let totalBalance = 150;
-
-    function openPayments() {
-        document.getElementById("paymentsModal").style.display = "block";
-        renderPayments();
-    }
-
-    function closePayments() {
-        document.getElementById("paymentsModal").style.display = "none";
-    }
-
-    function openAddPayment() {
-        document.getElementById("addPaymentModal").style.display = "block";
-    }
-
-    function closeAddPayment() {
-        document.getElementById("addPaymentModal").style.display = "none";
-    }
-
-    function savePayment() {
-        const amount = parseFloat(document.getElementById("payAmount").value);
-        const mode = document.getElementById("payMode").value;
-        const remarks = document.getElementById("payRemarks").value;
-
-        if (!amount || !mode) {
-            alert("Please enter amount and payment mode");
-            return;
-        }
-
-        const payment = {
-            date: new Date().toLocaleDateString(),
-            amount,
-            mode,
-            remarks
-        };
-
-        payments.push(payment);
-        localStorage.setItem("payments", JSON.stringify(payments));
-
-        updateTotals();
-        closeAddPayment();
-        clearPaymentForm();
-    }
-
-    function renderPayments() {
-        const tbody = document.getElementById("paymentsTable");
-        tbody.innerHTML = "";
-
-        payments.forEach(p => {
-            tbody.innerHTML += `
-                <tr>
-                    <td>${p.date}</td>
-                    <td>PHP ${p.amount.toFixed(2)}</td>
-                    <td>${p.mode}</td>
-                    <td>${p.remarks || "-"}</td>
-                </tr>
-            `;
+        themeToggle.addEventListener('change', function() {
+            const theme = this.checked ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
         });
-    }
 
-    function updateTotals() {
-        const totalPaid = payments.reduce((sum, p) => sum + p.amount, 0);
-        totalBalance = Math.max(0, 150 - totalPaid);
-    }
+        const ctx = document.getElementById("financeChart");
+        new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: ["JAN","FEB","MAR","APR","MAY","JUN"],
+                datasets: [
+                    { label: "Total Revenue", data: [12000,9000,11000,4000,20000,15000], backgroundColor: "#00d4ff" },
+                    { label: "Net Income", data: [8000,7000,5000,2000,14000,12000], backgroundColor: "#32cd32" }
+                ]
+            },
+            options: { responsive: true, scales: { y: { beginAtZero: true } } }
+        });
 
-    function clearPaymentForm() {
-        document.getElementById("patientName").value = '';
-        document.getElementById("patientContact").value = '';
-        document.getElementById("payAmount").value = '';
-        document.getElementById("payMode").value = '';
-        document.getElementById("payRemarks").value = '';
-    }
-</script>
-</body>
-</html>
+        let payments = JSON.parse(localStorage.getItem("payments")) || [];
+        let totalBalance = 150;
+
+        function openPayments() {
+            document.getElementById("paymentsModal").style.display = "block";
+            renderPayments();
+        }
+
+        function closePayments() {
+            document.getElementById("paymentsModal").style.display = "none";
+        }
+
+        function openAddPayment() {
+            document.getElementById("addPaymentModal").style.display = "block";
+        }
+
+        function closeAddPayment() {
+            document.getElementById("addPaymentModal").style.display = "none";
+        }
+
+        function savePayment() {
+            const amount = parseFloat(document.getElementById("payAmount").value);
+            const mode = document.getElementById("payMode").value;
+            const remarks = document.getElementById("payRemarks").value;
+
+            if (!amount || !mode) {
+                alert("Please enter amount and payment mode");
+                return;
+            }
+
+            const payment = {
+                date: new Date().toLocaleDateString(),
+                amount,
+                mode,
+                remarks
+            };
+
+            payments.push(payment);
+            localStorage.setItem("payments", JSON.stringify(payments));
+
+            updateTotals();
+            closeAddPayment();
+            clearPaymentForm();
+        }
+
+        function renderPayments() {
+            const tbody = document.getElementById("paymentsTable");
+            tbody.innerHTML = "";
+
+            payments.forEach(p => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${p.date}</td>
+                        <td>PHP ${p.amount.toFixed(2)}</td>
+                        <td>${p.mode}</td>
+                        <td>${p.remarks || "-"}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function updateTotals() {
+            const totalPaid = payments.reduce((sum, p) => sum + p.amount, 0);
+            totalBalance = Math.max(0, 150 - totalPaid);
+        }
+
+        function clearPaymentForm() {
+            document.getElementById("patientName").value = '';
+            document.getElementById("patientContact").value = '';
+            document.getElementById("payAmount").value = '';
+            document.getElementById("payMode").value = '';
+            document.getElementById("payRemarks").value = '';
+        }
+    </script>
+    </body>
+    </html>

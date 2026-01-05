@@ -3,305 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Gallery - Holy Family Dental Clinic</title>
+    <title>Admin Dashboard - Holy Family Dental Clinic</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         /* ============================================= */
-/* BASE STYLES & VARIABLES */
-/* ============================================= */
-
-:root {
-    --bg-color: #f5f7fa;
-    --sidebar-bg: #2c3e50;
-    --sidebar-text: rgba(255, 255, 255, 0.9);
-    --sidebar-active: #00bfff;
-    --card-bg: #ffffff; /* Light theme card background */
-    --text-color: #2c3e50;
-    --text-muted: #7a8ba9;
-    --border-color: #e1e5eb;
-    --hover-bg: #f0f4f8;
-    --today-bg: #e6f7ff;
-    --selected-bg: #00bfff;
-    --selected-text: white;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    --modal-bg: #ffffff;
-    --modal-text: #2c3e50;
-    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="dark"] {
-    --bg-color: #1a1a1a;
-    --sidebar-bg: #151e25;
-    --sidebar-text: rgba(255, 255, 255, 0.85);
-    --sidebar-active: #00bfff;
-    --card-bg: #2d2d2d;
-    --text-color: #e0e0e0;
-    --text-muted: #aaa;
-    --border-color: #444;
-    --hover-bg: #333;
-    --today-bg: #003366;
-    --selected-bg: #006699;
-    --selected-text: white;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    --modal-bg: #2d2d2d;
-    --modal-text: #e0e0e0;
-    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-html, body {
-    height: 100%;
-    overflow: hidden;
-}
-
-body {
-    font-family: 'Inter', Arial, sans-serif;
-    margin: 0;
-    transition: background-color 0.3s ease;
-    background-size: cover;
-    background-attachment: fixed;
-    background-color: var(--bg-color);
-    color: var(--sidebar-text);
-}
-
-/* ============================================= */
-/* LAYOUT & STRUCTURE */
-/* ============================================= */
-
-.dashboard {
-    display: flex;
-    height: 100vh;
-    min-height: 100vh;
-    overflow: hidden;
-    color: var(--text-color);
-}
-.sidebar {
-    background-color: var(--sidebar-bg);
-    color: var(--sidebar-text);
-    padding: 20px 0;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
-}
-
-.main-content {
-    flex-direction: column;
-    padding: 30px;
-    display: flex;
-    flex: 3;
-    transition: background-color 0.3s ease;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    margin-top: -20px;
-}
-
-.return-home-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.return-home-menu li {
-    margin-bottom: 5px;
-}
-
-.return-home-menu a {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    color: var(--sidebar-text);
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.return-home-menu a:hover, .return-home-menu a.active {
-    background-color: rgba(0, 191, 255, 0.2);
-    color: white;
-    border-left: 3px solid var(--sidebar-active);
-}
-
-.return-home-menu i {
-    margin-right: 10px;
-    width: 20px;
-    text-align: center;
-}
-/* ============================================= */
-/* SIDEBAR COMPONENTS */
-/* ============================================= */
-
-.sidebar-header {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    margin-bottom: 30px;
-}
-
-.sidebar-logo {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    margin-right: -5px;
-    margin-top: -45px;
-    margin-left: -20px;
-    object-fit: cover;
-}
-
-.sidebar-title h2 {
-    color: var(--sidebar-active);
-    margin: 0;
-    font-size: 18px;
-    line-height: 1;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    white-space: nowrap;
-}
-
-.sidebar-title p {
-    color: var(--sidebar-text);
-    font-size: 12px;
-    margin-top: 10px;
-    margin-left: -40px;
-    font-style: italic;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    white-space: normal;
-}
-
-.holy-family {
-    color: #1380d3;
-    font-weight: bold;
-}
-
-.dental-clinic {
-    color: #00c4cc;
-    font-weight: bold;
-}
-
-.sidebar-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar-menu li {
-    margin-bottom: 5px;
-}
-
-.sidebar-menu a {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    color: var(--sidebar-text);
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.sidebar-menu a:hover, .sidebar-menu a.active {
-    background-color: rgba(0, 191, 255, 0.2);
-    color: white;
-    border-left: 3px solid var(--sidebar-active);
-}
-
-.sidebar-menu i {
-    margin-right: 10px;
-    width: 20px;
-    text-align: center;
-}
-
-.settings-menu a:hover, .return-home-menu a:hover {
-    background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
-    color: white; /* Change text color on hover */
-    border-left: 3px solid var(--sidebar-active); /* Add left border */
-    display: block; /* Ensure the hover effect spans the full width */
-    width: 100%; /* Extend hover effect across the full width */
-    padding-right: 25px; /* Maintain alignment */
-}
-
-.btn {
-    padding: 8px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    margin-top: -10px;
-    align-items: center;
-    gap: 5px;
-    font-size: 13px;
-    border: none;
-}
-.btn-outline {
-    background-color: transparent;
-    border: 2px solid var(--sidebar-active);
-    color: var(--sidebar-active);
-}
-
-.btn-outline:hover {
-    background-color: var(--sidebar-active);
-    color: white;
-    box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
-}
-
-/* ============================================= */
-        /* FORM ELEMENTS */
+        /* BASE STYLES & VARIABLES */
         /* ============================================= */
 
-        .form-group {
-            margin-bottom: 20px;
+        :root {
+            --statcards-bg: #00bfff98;
+            --calendarmodal-bg: #00bfff98;
+            --bg-color: #f5f7fa;
+            --sidebar-bg: #2c3e50;
+            --sidebar-text: rgba(255, 255, 255, 0.9);
+            --sidebar-active: #00bfff;
+            --card-bg: #ffffff; /* Light theme card background */
+            --text-color: #2c3e50;
+            --text-muted: #7a8ba9;
+            --border-color: #e1e5eb;
+            --hover-bg: #f0f4f8;
+            --today-bg: #e6f7ff;
+            --selected-bg: #00bfff;
+            --selected-text: white;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --modal-bg: #ffffff;
+            --modal-text: #2c3e50;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --calendar-day-bg: var(--card-bg);
+            --calendar-today-bg: var(--sidebar-active);
+            --calendar-today-color: white;
+            --calendar-selected-bg: rgba(0, 191, 255, 0.2);
         }
 
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
+        [data-theme="dark"] {
+            --statcards-bg: #004f6998;
+            --calendarmodal-bg: #004f6998;
+            --bg-color: #1a1a1a;
+            --sidebar-bg: #151e25;
+            --sidebar-text: rgba(255, 255, 255, 0.85);
+            --sidebar-active: #00bfff;
+            --card-bg: #2d2d2d;
+            --text-color: #e0e0e0;
+            --text-muted: #aaa;
+            --border-color: #444;
+            --hover-bg: #333;
+            --today-bg: #003366;
+            --selected-bg: #006699;
+            --selected-text: white;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            --modal-bg: #2d2d2d;
+            --modal-text: #e0e0e0;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            --calendar-day-bg: var(--card-bg);
+            --calendar-today-bg: var(--sidebar-active);
+            --calendar-today-color: white;
+            --calendar-selected-bg: rgba(0, 191, 255, 0.2);
+        }
+
+        [data-theme="dark"] .left-container {
+            background: linear-gradient(135deg, #1a4a6e 0%, #0d2c4d 100%);
+        }
+
+        html, body {
+            height: 100%;
+            overflow: auto;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            margin: 0;
+            transition: background-color 0.3s ease;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: var(--bg-color);
+            color: var(--sidebar-text);
+        }
+
+        /* ============================================= */
+        /* LAYOUT & STRUCTURE */
+        /* ============================================= */
+
+        .dashboard {
+            display: flex;
+            height: 100vh;
+            min-height: 100vh;
+            overflow: hidden;
             color: var(--text-color);
         }
-
-        .form-control {
-            width: 100%;
-            padding: 10px 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            font-family: 'Inter', sans-serif;
-            transition: var(--transition);
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
         }
 
-        .form-control:focus {
-            outline: none;
-            border-color: var(--sidebar-active);
-            box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.2);
+        .main-content {
+            flex-direction: column;
+            padding: 20px;
+            display: flex;
+            flex: 3;
+            transition: background-color 0.3s ease;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            margin-top: -20px;
+        }
+
+        .return-home-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .return-home-menu li {
+            margin-bottom: 5px;
+        }
+
+        .return-home-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .return-home-menu a:hover, .return-home-menu a.active {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+        }
+
+        .return-home-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin-right: -5px;
+            margin-top: -45px;
+            margin-left: -20px;
+            object-fit: cover;
+        }
+
+        .sidebar-title h2 {
+            color: var(--sidebar-active);
+            margin: 0;
+            font-size: 18px;
+            line-height: 1;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .sidebar-title p {
+            color: var(--sidebar-text);
+            font-size: 12px;
+            margin-top: 10px;
+            margin-left: -40px;
+            font-style: italic;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            white-space: normal;
+        }
+
+        .holy-family {
+            color: #00bbff;
+            font-weight: bold;
+        }
+
+        .dental-clinic {
+            color: #00bbff;
+            font-weight: bold;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .settings-menu a:hover, .return-home-menu a:hover {
+            background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
+            color: white; /* Change text color on hover */
+            border-left: 3px solid var(--sidebar-active); /* Add left border */
+            display: block; /* Ensure the hover effect spans the full width */
+            width: 100%; /* Extend hover effect across the full width */
+            padding-right: 25px; /* Maintain alignment */
         }
 
         .btn {
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
+            font-weight: bold;
+            transition: all 0.3s ease;
             display: inline-flex;
+            margin-top: -10px;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
+            font-size: 13px;
             border: none;
         }
-
-        .btn-primary {
-            background-color: var(--sidebar-active);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #009acd;
-            box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
-        }
-
         .btn-outline {
             background-color: transparent;
             border: 2px solid var(--sidebar-active);
@@ -311,37 +258,324 @@ body {
         .btn-outline:hover {
             background-color: var(--sidebar-active);
             color: white;
+            box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
+        }
+        
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;   /* ✅ scrolling dito */
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            box-sizing: border-box;
+            background-color: var(--bg-color);
+            transition: background-color 0.3s ease; 
         }
 
-/* ============================================= */
-/* THEME TOGGLE */
-/* ============================================= */
+    	
+ 
+    	/* Custom scrollbar for main content */
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+    	}
+ 
+        .main-content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+	    }
+ 
+        .main-content::-webkit-scrollbar-thumb {
+            background: var(--section-blue);
+            border-radius: 4px;
+    	}
+ 
+        .main-content::-webkit-scrollbar-thumb:hover {
+            background: var(--header-blue);
+    	}
+ 
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 30px;
+    	}
+ 
+        .sidebar-logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin-right: -5px;
+            margin-top: -45px;
+            margin-left: -20px;
+            object-fit: cover;
+    	}
+ 
+        .sidebar-title h2 {
+            color: var(--sidebar-active);
+            margin: 0;
+            font-size: 18px;
+            line-height: 1;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+    	}
+ 
+        .sidebar-title p {
+            color: var(--sidebar-text);
+            font-size: 12px;
+            margin-top: 10px;
+            margin-left: -40px;
+            font-style: italic;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            white-space: normal;
+    	}
+ 
+        .holy-family {
+            color: #1380d3;
+            font-weight: bold;
+    	}
+ 
+        .dental-clinic {
+            color: #00c4cc;
+     	   font-weight: bold;
+    	}
+ 
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+    	}
+ 
+        .sidebar-menu li {
+            margin-bottom: 5px;
+    	}
+ 
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+    	}
+ 
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+    	}
+ 
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+    	}
+ 
+    	/* ============================================= */
+    	/* BOTTOM MENU STYLES - FIXED HIGHLIGHT */
+    	/* ============================================= */
+    	.sidebar-bottom-menu {
+            margin-top: auto;
+            padding-bottom: 20px;
+    	}
+ 
+        .sidebar-bottom-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+    	}
+ 
+        .sidebar-bottom-menu li {
+            margin-bottom: 5px;
+    	}
+ 
+        .sidebar-bottom-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            margin: 0 15px;
+            border-radius: 4px;
+    	}
+ 
+        .sidebar-bottom-menu a:hover,
+        .sidebar-bottom-menu a.active {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+    	}
+ 
+        .sidebar-bottom-menu a.active {
+            background-color: rgba(0, 191, 255, 0.3) !important;
+    	}
+ 
+        .sidebar-bottom-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+    	}
+ 
+    	/* ============================================= */
+    	/* SETTINGS STYLES */
+    	/* ============================================= */
+       .settings-container {
+            width: 100%;
+            max-width: 2000px;
+            margin: 0 auto 40px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
 
-        .theme-toggle {
+        .settings-container {
+            height: fit-content;
+        }
+
+        .settings-section {
+            flex-shrink: 0;
+        }
+
+ 
+        .settings-header {
+            background: linear-gradient(135deg, #1a3e72, #2c5282);
+            padding: 18px 24px;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: white;
+
+    	}
+ 
+        .settings-section {
+            border-bottom: 1px solid var(--border-gray);
+            padding: 0;
+    	}
+ 
+        
+        .section-title {
+            background: #f8fafc;
+            padding: 16px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .section-title i {
+            color: #2c5282;
+
+
+    	}
+ 
+        .section-title:hover {
+            background-color: var(--hover-bg);
+    	}
+ 
+       .section-title::after {
+            content: "▾";
+            font-size: 16px;
+            transition: transform 0.25s ease;
+        }
+
+        .section-title.collapsed::after {
+            transform: rotate(-90deg);
+        }
+
+ 
+        .section-content {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            max-height: 500px;
+            opacity: 1;
+            overflow: hidden;
+    	}
+ 
+        .section-title.collapsed + .section-content {
+            max-height: 0;
+            padding: 0 20px;
+ 	       opacity: 0;
+    	}
+ 
+        .setting-item {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+        }
+
+ 
+        .setting-label {
+            font-weight: 500;
+            color: #4a5568;
+            font-size: 14px;
+        }
+
+ 
+        .setting-value {
+            flex: 1;
+            color: var(--text-dark);
+    	}
+ 
+        input, select, textarea {
+            padding: 8px 12px;
+            border: 1px solid var(--border-gray);
+  	      border-radius: 4px;
+            flex-grow: 1;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-family: 'Inter', Arial, sans-serif;
+    	}
+ 
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+    	}
+ 
+        .edit-icon {
+            margin-left: 10px;
+            color: var(--section-blue);
+            cursor: pointer;
+            user-select: none;
+            padding: 5px;
+    	}
+ 
+        .checkbox-container {
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .theme-toggle-label {
-            font-size: 14px;
-            color: var(--text-color);
-        }
-
-        .switch {
+    	}
+ 
+        .checkbox {
+            margin: 0;
+    	}
+ 
+        .toggle-switch {
             position: relative;
             display: inline-block;
             width: 50px;
             height: 24px;
-        }
-
-        .switch input {
+    	}
+ 
+        .toggle-switch input {
             opacity: 0;
             width: 0;
             height: 0;
-        }
-
-        .slider {
+    	}
+ 
+        .toggle-slider {
             position: absolute;
             cursor: pointer;
             top: 0;
@@ -351,9 +585,9 @@ body {
             background-color: #ccc;
             transition: .4s;
             border-radius: 24px;
-        }
-
-        .slider:before {
+    	}
+ 
+        .toggle-slider:before {
             position: absolute;
             content: "";
             height: 16px;
@@ -363,108 +597,179 @@ body {
             background-color: white;
             transition: .4s;
             border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #00bfff;
-        }
-
-        input:checked + .slider:before {
+    	}
+ 
+        input:checked + .toggle-slider {
+            background-color: var(--success-green);
+    	}
+ 
+        input:checked + .toggle-slider:before {
             transform: translateX(26px);
+    	}
+ 
+        .password-strength {
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            margin-top: 5px;
+            overflow: hidden;
+    	}
+ 
+        .strength-meter {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease, background-color 0.3s ease;
+    	}
+ 
+        .strength-weak { width: 33%; background-color: #e53e3e; }
+        .strength-medium { width: 66%; background-color: #ed8936; }
+        .strength-strong { width: 100%; background-color: #38a169; }
+ 
+       .auth-method {
+            padding: 14px 16px;
+            border-radius: 8px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
         }
 
-        /* ============================================= */
-        /* RESPONSIVE STYLES */
-        /* ============================================= */
-
-        @media (max-width: 992px) {
-            .dashboard {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-                padding: 10px 0;
-                display: none;
-            }
-            
-            .sidebar-header {
-                padding: 10px;
-                margin-bottom: 15px;
-            }
-            
-            .sidebar-logo {
-                width: 60px;
-                height: 60px;
-                margin-top: 0;
-                margin-left: 0;
-            }
-            
-            .sidebar-title h2 {
-                font-size: 16px;
-            }
-            
-            .sidebar-title p {
-                font-size: 11px;
-                margin-left: 0;
-            }
-            
-            .sidebar-menu {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .sidebar-menu li {
-                margin: 5px;
-            }
-            
-            .sidebar-menu a {
-                padding: 8px 12px;
-                border-radius: 5px;
-                border-left: none !important;
-            }
-            
-            .main-content {
-                padding: 15px;
-            }
-            
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .card {
-                padding: 15px;
-            }
-            
-            .mobile-menu-toggle {
-                display: block !important;
-                position: fixed;
-                top: 10px;
-                left: 10px;
-                z-index: 1000;
-                background: var(--sidebar-active);
-                color: white;
-                border: none;
-                border-radius: 50%;
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
-                cursor: pointer;
-            }
+        .auth-method-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+    	}
+ 
+        .auth-method-title {
+            font-weight: 600;
+            color: var(--text-dark);
+    	}
+ 
+        .auth-method-desc {
+            font-size: 12px;
+            color: var(--text-light);
+    	}
+ 
+        .btn {
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
         }
 
-        /* Mobile menu toggle button */
-        .mobile-menu-toggle {
-            display: none;
+        .btn-primary {
+            background: #2e7d32;
+            color: #fff;
+            border: none;
         }
-        </style>
+
+        .btn-primary:hover {
+            background: #256628;
+        }
+
+        .btn-outline {
+            background: #ffffff;
+            color: #2563eb;
+            border: 2px solid #2563eb;
+        }
+
+        .btn-outline:hover {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+ 
+        .btn-danger {
+            background-color: var(--button-red);
+            color: white;
+    	}
+ 
+        .btn-danger:hover {
+            background-color: var(--hover-red);
+    	}
+ 
+        .logout-btn {
+            background-color: var(--button-red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+     	   margin: 20px;
+            float: right;
+            transition: background-color 0.2s;
+    	}
+ 
+        .logout-btn:hover {
+            background-color: var(--hover-red);
+    	}
+ 
+        .save-btn {
+            background-color: var(--success-green);
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+    	}
+ 
+        .save-btn:hover {
+            background-color: #00ff80;
+    	}
+ 
+        .settings-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 20px;
+  	      border-top: 1px solid var(--border-gray);
+            margin-top: auto;
+    	}
+        .settings-footer {
+            position: sticky;
+            bottom: 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+
+            padding: 16px 24px;
+            background: #ffffff;
+
+            border-top: 1px solid #e5e7eb;
+            box-shadow: 0 -6px 16px rgba(0,0,0,0.06);
+
+            z-index: 10;
+        }
+
+ 
+        .privacy-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            background: var(--light-bg);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-light);
+    	}
+ 
+        .terms-content {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+            background: var(--light-bg);
+            border-radius: 6px;
+            border: 1px solid var(--border-gray);
+    	}
+    </style>
 </head>
 <body>
-    <div class="dashboard">
+	<!-- The rest of your HTML remains exactly the same -->
+	 <div class="dashboard">
         <!-- Sidebar Navigation -->
         <div class="sidebar">
             <div class="sidebar-header">
@@ -474,214 +779,390 @@ body {
                 </div>
                 <div class="sidebar-title">
                     <h2>
-                        <span class="holy-family">HOLY FAMILY</span><br>
-                        <span class="dental-clinic">DENTAL CLINIC</span>
+                        <span class="holy-family">SMART</span><br>
+                        <span class="dental-clinic">DENTISTRY</span>
                     </h2>
-                    <p>Creating beautiful smiles for every family</p>
                 </div>
             </div>
             <ul class="sidebar-menu">
-                <li><a href="MyRecords.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="forms.html"><i class="fas fa-file-medical"></i> Forms</a></li>
-                <li><a href="mygallery.html"><i class="fas fa-images"></i> My Gallery</a></li>
-                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
+                <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
+                <li><a href="patients.html"><i class="fas fa-users"></i> <span>Patients</span></a></li>
+                <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+                <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> <span> Data BackUp</a></li>
+                <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+                <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
             </ul>
             <!-- Add Return to Home menu at the bottom -->
             <div style="position: absolute; bottom: 20px; width: 13%;">
                 <div style="position: absolute; bottom: 20px; width: 100%;">
                     <ul class="sidebar-menu settings-menu">
-                        <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
                     </ul>
                     <ul class="sidebar-menu return-home-menu">
-                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Return to Home</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-
-        <!-- Main Content Area -->
+ 
+        <!-- Main Content -->
         <div class="main-content">
-            <div class="header">
-                <h1>Account Settings</h1>
-                <div class="theme-toggle">
-                    <span class="theme-toggle-label">Dark Mode</span>
-                    <label class="switch">
-                        <input type="checkbox" id="themeToggle">
-                        <span class="slider round"></span>
-                    </label>
+            <div class="settings-container">
+                <div class="settings-header">
+                	<i class="fas fa-cog"></i> ADMIN SETTINGS
                 </div>
-            </div>
-
-            <!-- Account Settings Card -->
-            <div class="card">
-                <div class="card-header">
-                    <h2><i class="fas fa-user-cog"></i> Account Information</h2>
+               
+                <!-- Authentication & Security Section -->
+                <div class="settings-section">
+                	<div class="section-title">
+                    	<i class="fas fa-shield-alt"></i> Authentication & Security
+                	</div>
+                	<div class="section-content">
+                    	<div class="setting-item">
+                        	<div class="setting-label">Password Policy:</div>
+                        	<select>
+                                <option>Standard (8+ characters)</option>
+                            	<option selected>Strong (12+ characters with mix)</option>
+                	            <option>Very Strong (16+ characters)</option>
+                        	</select>
+                    	</div>
+                    	
+                    	<div class="setting-item">
+                        	<div class="setting-label">Session Timeout:</div>
+                        	<select>
+                                <option>15 minutes</option>
+                            	<option selected>30 minutes</option>
+                                <option>60 minutes</option>
+ 	                           <option>Never (not recommended)</option>
+                        	</select>
+                    	</div>
+                    	
+                    	<div class="auth-method">
+                        	<div class="auth-method-info">
+                            	<div class="auth-method-title">Two-Factor Authentication</div>
+                            	<div class="auth-method-desc">Add an extra layer of security to your account</div>
+                        	</div>
+                        	<label class="toggle-switch">
+                            	<input type="checkbox" checked>
+                            	<span class="toggle-slider"></span>
+                        	</label>
+                    	</div>
+                    	
+                    	<div class="auth-method">
+                        	<div class="auth-method-info">
+                            	<div class="auth-method-title">IP Whitelisting</div>
+                            	<div class="auth-method-desc">Restrict access to specific IP addresses</div>
+                        	</div>
+                        	<label class="toggle-switch">
+                            	<input type="checkbox">
+                            	<span class="toggle-slider"></span>
+                        	</label>
+                    	</div>
+                    	
+                    	<div class="setting-item">
+                        	<div class="setting-label">Failed Login Attempts:</div>
+                        	<select>
+                            	<option>3 attempts</option>
+                            	<option selected>5 attempts</option>
+                                <option>10 attempts</option>
+                        	</select>
+                    	</div>
+                	</div>
                 </div>
-                <form id="accountForm">
-                    <div class="form-group">
-                        <label for="email" class="form-label">Clinic name</label>
-                        <input type="email" id="email" class="form-control" value="sammycabisheesh@example.com" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="currentPassword" class="form-label">Current Password</label>
-                        <input type="password" id="currentPassword" class="form-control" placeholder="Enter current password">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="newPassword" class="form-label">New Password</label>
-                        <input type="password" id="newPassword" class="form-control" placeholder="Enter new password">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="confirmPassword" class="form-label">Confirm New Password</label>
-                        <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm new password">
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Save Changes
-                    </button>
-                </form>
-            </div>
-
-            <!-- Notification Settings Card -->
-            <div class="card">
-                <div class="card-header">
-                    <h2><i class="fas fa-bell"></i> Notification Preferences</h2>
-                </div>
-                <form id="notificationForm">
-                    <div class="form-group">
-                        <label class="form-label">Email Notifications</label>
-                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                            <label style="display: flex; align-items: center; gap: 10px;">
-                                <input type="checkbox" checked>
-                                Appointment reminders
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 10px;">
-                                <input type="checkbox" checked>
-                                Treatment updates
-                    
-                            </label>
+               
+                <!-- Privacy Settings Section -->
+                <div class="settings-section">
+                	<div class="section-title">
+                    	<i class="fas fa-user-secret"></i> Privacy Settings
+                	</div>
+                	<div class="section-content">
+                    	<div class="setting-item">
+	                        <div class="setting-label">Data Retention:</div>
+                        	<select>
+                                <option>30 days</option>
+                                <option>90 days</option>
+                            	<option selected>1 year</option>
+                            	<option>3 years</option>
+                                <option>Indefinitely</option>
+                        	</select>
+                    	</div>
+                    	
+      	              <div class="setting-item">
+                        	<div class="checkbox-container">
+                            	<input type="checkbox" id="anonymize-data" class="checkbox" checked>
+                            	<label for="anonymize-data">Anonymize patient data for analytics</label>
+                        	</div>
+                    	</div>
+                    	
+                    	<div class="setting-item">
+                        	<div class="checkbox-container">
+                            	<input type="checkbox" id="consent-required" class="checkbox" checked>
+                            	<label for="consent-required">Require explicit consent for data collection</label>
+                        	</div>
+                    	</div>
+                    	
+                    	<div class="setting-item">
+                        	<div class="checkbox-container">
+                            	<input type="checkbox" id="gdpr-compliance" class="checkbox">
+                            	<label for="gdpr-compliance">GDPR Compliance Mode</label>
+                            	<span class="privacy-badge"><i class="fas fa-info-circle"></i> EU Data Protection</span>
+                        	</div>
+	                    </div>
+                    	
+                    	<div class="setting-item">
+                        	<div class="setting-label">Data Export Format:</div>
+                        	<select>
+                            	<option selected>PDF</option>
+                                <option>CSV</option>
+                                <option>JSON</option>
+                                <option>XML</option>
+                        	</select>
+                        <div class="settings-footer">
+                            <button class="btn btn-primary">Save All Changes</button>
+                            <button class="btn btn-outline">Reset to Defaults</button>
                         </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">SMS Notifications</label>
-                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                            <label style="display: flex; align-items: center; gap: 10px;">
-                                <input type="checkbox" checked>
-                                Appointment reminders
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 10px;">
-                                <input type="checkbox">
-                                Treatment updates
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Save Preferences
-                    </button>
-                </form>
-            </div>
 
-            <!-- Danger Zone Card -->
-            <div class="card" style="border-left: 4px solid #ff5555;">
-                <div class="card-header">
-                    <h2 style="color: #ff5555;"><i class="fas fa-exclamation-triangle"></i> Danger Zone</h2>
+                    	
+                	</div>
                 </div>
-                <div class="form-group">
-                    <p style="color: var(--text-muted); margin-bottom: 20px;">
-                        These actions are irreversible. Please proceed with caution.
-                    </p>
-                    
-                    <div style="display: flex; flex-direction: column; gap: 15px;">
-                        <button class="btn btn-outline" style="border-color: #ff5555; color: #ff5555;">
-                            <i class="fas fa-file-export"></i> Export All Data
-                        </button>
-                        
-                        <button class="btn btn-outline" style="border-color: #ff5555; color: #ff5555;">
-                            <i class="fas fa-trash-alt"></i> Delete Account
-                        </button>
+               
+                <!-- Terms & Conditions Section -->
+                <div class="settings-section">
+                	<div class="section-title">
+                    	<i class="fas fa-file-contract"></i> Terms & Conditions
+                	</div>
+                	<div class="section-content">
+                    	<div class="setting-item">
+                        	<div class="setting-label">Version:</div>
+                        	<div class="setting-value">v2.1</div>
+                        	<span class="edit-icon" title="Edit"><i class="fas fa-edit"></i></span>
+                    	</div>
+                    	
+                    	<div class="setting-item">
+                        	<div class="setting-label">Last Updated:</div>
+                        	<div class="setting-value">March 15, 2024</div>
+                    	</div>
+                    	
+                    	<div class="setting-item" style="align-items: flex-start;">
+                        	<div class="setting-label">Terms Content:</div>
+                        	<div class="terms-content">
+                            	<h4>Holy Family Dental Clinic - Terms of Service</h4>
+                            	<p>1. <strong>Appointment Policy:</strong> Patients must arrive 15 minutes before scheduled appointments.</p>
+                            	<p>2. <strong>Cancellation:</strong> 24-hour notice required for cancellations.</p>
+                            	<p>3. <strong>Data Usage:</strong> Patient data is used solely for treatment purposes.</p>
+                            	<p>4. <strong>Confidentiality:</strong> All medical records are kept confidential.</p>
+                            	<p>5. <strong>Payment Terms:</strong> Payment due at time of service.</p>
+                            	<p>6. <strong>Liability:</strong> Clinic not responsible for...</p>
+                        	</div>
+                            <span class="edit-icon" title="Edit Full Terms"><i class="fas fa-edit"></i></span>
+                    	</div>
+                    	
+                    	<div class="setting-item">
+                        	<div class="setting-label">Require Acceptance:</div>
+                        	<label class="toggle-switch">
+                            	<input type="checkbox" checked>
+                            	<span class="toggle-slider"></span>
+                        	</label>
+                    	</div>
+                    	
+                    	<div class="setting-item">
+                        	<div class="setting-label">Display Language:</div>
+                        	<select>
+                            	<option selected>English</option>
+                                <option>Filipino</option>
+                                <option>Spanish</option>
+                        	</select>
+                    	</div>
                     </div>
+                </div>
+               
+                <!-- User Access & Permissions -->
+                <div class="settings-section">
+                	<div class="section-title">
+                    	<i class="fas fa-user-lock"></i> User Access & Permissions
+                	</div>
+                	<div class="section-content">
+                    	<div class="auth-method">
+                        	<div class="auth-method-info">
+                            	<div class="auth-method-title">Role-Based Access Control</div>
+                            	<div class="auth-method-desc">Define permissions by user role</div>
+                        	</div>
+                        	<button class="btn btn-primary">Configure Roles</button>
+                    	</div>
+                    	
+                    	<div class="setting-item">
+                        	<div class="setting-label">Default User Role:</div>
+                        	<select>
+                                <option>Staff</option>
+                            	<option selected>Limited Admin</option>
+                                <option>Full Admin</option>
+                        	</select>
+                    	</div>
+                    	
+                    	<div class="setting-item">
+                        	<div class="setting-label">Audit Log Retention:</div>
+                        	<select>
+                                <option>30 days</option>
+	                            <option selected>90 days</option>
+                            	<option>1 year</option>
+                        	</select>
+                    	</div>
+                    	
+                    	<div class="setting-item">
+                        	<div class="checkbox-container">
+                            	<input type="checkbox" id="audit-logging" class="checkbox" checked>
+                            	<label for="audit-logging">Enable Audit Logging</label>
+                        	</div>
+                    	</div>
+                	</div>
+                </div>
+               
+                <!-- Data Backup & Recovery -->
+                <div class="settings-section">
+                	<div class="section-title">
+                    	<i class="fas fa-database"></i> Data Backup & Recovery
+                	</div>
+                	<div class="section-content">
+                    	<div class="setting-item">
+                        	<div class="setting-label">Auto Backup Frequency:</div>
+                        	<select>
+                                <option>Daily</option>
+                            	<option selected>Weekly</option>
+                                <option>Monthly</option>
+                        	</select>
+                    	</div>
+                    	
+                    	<div class="setting-item">
+                        	<div class="setting-label">Backup Location:</div>
+                        	<select>
+                            	<option selected>Local Server</option>
+                                <option>Cloud Storage</option>
+                                <option>External Drive</option>
+                            </select>
+                    	</div>
+                    	
+                    	<div class="setting-item">
+                        	<div class="setting-label">Encrypt Backups:</div>
+                        	<label class="toggle-switch">
+                            	<input type="checkbox" checked>
+                            	<span class="toggle-slider"></span>
+                        	</label>
+                    	</div>
+                    	
+                    	<div class="setting-item">
+                        	<button class="btn btn-outline"><i class="fas fa-download"></i> Manual Backup Now</button>
+                        	<button class="btn btn-danger"><i class="fas fa-redo"></i> Test Recovery</button>
+                    	</div>
+                	</div>
+                </div>
+               
+                <!-- Settings Actions -->
+                <div class="settings-actions">
+                	<button class="btn btn-primary save-btn">
+                    	<i class="fas fa-save"></i> Save All Changes
+                	</button>
+                	<button class="btn btn-outline">
+                    	<i class="fas fa-undo"></i> Reset to Defaults
+                    </button>
+                	<button class="logout-btn">
+                    	<i class="fas fa-sign-out-alt"></i> Logout
+                	</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Mobile Menu Toggle Button -->
-    <button class="mobile-menu-toggle" id="mobileMenuToggle">
-        <i class="fas fa-bars"></i>
-    </button>
-
+ 
     <script>
-        // Theme toggle functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const themeToggle = document.getElementById('themeToggle');
-            const rootElement = document.documentElement;
-            const savedTheme = localStorage.getItem('theme');
-            
-            if (savedTheme) {
-                rootElement.setAttribute('data-theme', savedTheme);
-                themeToggle.checked = savedTheme === 'dark';
-            }
-
-            themeToggle.addEventListener('change', function() {
-                const theme = this.checked ? 'dark' : 'light';
-                rootElement.setAttribute('data-theme', theme);
-                localStorage.setItem('theme', theme);
+    	// Toggle section collapse with smooth animation
+        document.querySelectorAll('.section-title').forEach(title => {
+            title.addEventListener('click', () => {
+                title.classList.toggle('collapsed');
             });
-
-            const logoutButtons = document.querySelectorAll('.logout-btn');
-            logoutButtons.forEach(button => {
-                button.addEventListener('click', async (e) => {
-                    e.preventDefault();
+    	});
+ 
+    	// Password strength indicator
+        const passwordInput = document.querySelector('input[type="password"]');
+    	if (passwordInput) {
+            passwordInput.addEventListener('input', function(e) {
+                const password = e.target.value;
+                const strengthMeter = document.querySelector('.strength-meter');
+                let strength = 'strength-weak';
+               
+                if (password.length >= 12 && /[A-Z]/.test(password) && /[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password)) {
+                	strength = 'strength-strong';
+                } else if (password.length >= 8 && /[A-Z]/.test(password) && /[0-9]/.test(password)) {
+                	strength = 'strength-medium';
+                }
+    	        
+                strengthMeter.className = 'strength-meter ' + strength;
+            });
+    	}
+ 
+    	// Edit functionality
+        document.querySelectorAll('.edit-icon').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const settingItem = this.closest('.setting-item');
+                const input = settingItem.querySelector('input, select, textarea');
+                if (input) {
+                	input.focus();
+                	if (input.hasAttribute('readonly')) {
+                        input.removeAttribute('readonly');
+                        input.style.backgroundColor = 'var(--light-bg)';
+                    	input.style.borderColor = 'var(--section-blue)';
+                	}
+                }
+            });
+    	});
+ 
+    	// Save button functionality
+        document.querySelector('.save-btn').addEventListener('click', function() {
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+    	    this.disabled = true;
+           
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-check"></i> Saved!';
+                this.style.backgroundColor = 'var(--success-green)';
+               
+                setTimeout(() => {
+                	this.innerHTML = '<i class="fas fa-save"></i> Save All Changes';
+                	this.disabled = false;
+                	this.style.backgroundColor = '';
+                }, 2000);
+            }, 1000);
+    	});
+ 
+   	 // Theme toggle functionality
+        const themeToggle = document.querySelector('[data-theme-toggle]');
+    	if (themeToggle) {
+            themeToggle.addEventListener('change', function() {
+                document.documentElement.setAttribute('data-theme',
+                	this.checked ? 'dark' : 'light'
+                );
+                localStorage.setItem('theme', this.checked ? 'dark' : 'light');
+            });
+    	}
+ 
+    	// Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    	if (themeToggle) {
+            themeToggle.checked = savedTheme === 'dark';
+    	}
+ 
+    	// Logout functionality
+        document.querySelectorAll('.logout-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
                     sessionStorage.removeItem('user');
                     localStorage.removeItem('user');
-                    window.location.href = 'landingpage.html';
-                });
-            });
-
-
-            // Mobile menu toggle
-            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-            const sidebar = document.querySelector('.sidebar');
-
-            mobileMenuToggle.addEventListener('click', function() {
-                if (sidebar.style.display === 'none' || !sidebar.style.display) {
-                    sidebar.style.display = 'block';
-                } else {
-                    sidebar.style.display = 'none';
+                	window.location.href = 'landingpage.html';
                 }
             });
-
-            // Check screen size on load and resize
-            function checkScreenSize() {
-                if (window.innerWidth <= 992) {
-                    sidebar.style.display = 'none';
-                    mobileMenuToggle.style.display = 'block';
-                } else {
-                    sidebar.style.display = 'block';
-                    mobileMenuToggle.style.display = 'none';
-                }
-            }
-
-            window.addEventListener('resize', checkScreenSize);
-            checkScreenSize();
-
-            // Form submission handlers
-            document.getElementById('accountForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Account settings saved successfully!');
-                // In a real app, you would send this data to your backend
-            });
-
-            document.getElementById('notificationForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Notification preferences saved successfully!');
-                // In a real app, you would send this data to your backend
-            });
-        });
+    	});
     </script>
 </body>
 </html>
+
