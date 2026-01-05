@@ -261,6 +261,53 @@
             width: 100%;
             padding-right: 25px;
         }
+        .clinic-dropdown {
+            position: relative;
+            width: 100%;
+        }
+
+        .clinic-btn {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            }
+
+            .clinic-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            display: none;
+            flex-direction: column;
+            z-index: 999999; /* VERY IMPORTANT */
+        }
+
+        .clinic-menu a {
+            padding: 12px 16px;
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            gap: 10px;
+            }
+
+        .clinic-menu a:hover {
+            background: #f1f5f9;
+        }
+
+        /* Active state */
+            .clinic-dropdown.open .clinic-menu {
+            display: flex;
+        }
+
 
 
         .btn {
@@ -1930,6 +1977,14 @@
         gap: 12px;
         flex-wrap: wrap;
     }
+    #tutorialOverlay {
+    pointer-events: auto;
+    }
+
+    .tutorial-highlight {
+    pointer-events: none;
+    }
+
 
     .tutorial-btn {
         padding: 12px 24px;
@@ -2335,8 +2390,8 @@
     <li><a href="clinic-profile.html">Clinic Profile</a></li>
     <li><a href="Dental-Chart.html">Dental Chart</a></li>
     <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
-<li><a href="patients.html"><i class="fas fa-users"></i><span>Patients</span></a></li>
-
+    <li><a href="patients.html"></i><span>Patients</span></a></li>
+</li>
 </ul>
 </li>
 
@@ -4783,6 +4838,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+document.addEventListener('DOMContentLoaded', () => {
+  const clinicBtn = document.getElementById('clinicBtn');
+  const clinicDropdown = document.getElementById('clinicDropdown');
+
+  if (!clinicBtn || !clinicDropdown) return;
+
+  // Toggle dropdown
+  clinicBtn.addEventListener('click', function (e) {
+    e.stopPropagation(); // PREVENT IMMEDIATE CLOSE
+    clinicDropdown.classList.toggle('open');
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', function () {
+    clinicDropdown.classList.remove('open');
+  });
+
+  // Prevent closing when clicking inside menu
+  clinicDropdown.querySelector('.clinic-menu')
+    .addEventListener('click', e => e.stopPropagation());
+});
+
 </script>
 
 
