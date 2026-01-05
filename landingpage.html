@@ -856,6 +856,24 @@
             font-size: 1rem;
             box-sizing: border-box;
         }
+
+        .signup-form label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 700;
+            color: #222;
+        }
+
+         .signup-form input, .signup-form textarea, .signup-form select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.08);
+            margin-bottom: 12px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        
         .password-wrapper {
             position: relative;
             width: 100%;
@@ -1747,27 +1765,30 @@
             </button>
             <div class="modal-left">
                 <h2 id="signup-title">Create Your Account</h2>
-                <form class="modal-form">
-                    <label for="signup-name">Full Name</label>
-                    <input type="text" id="signup-name" placeholder="Enter your full name" required>
+                <form id="signupForm" class="signup-form">
+                    <label for="signup-first-name">First Name</label>
+                    <input type="text" id="signup-first-name" name="firstName" placeholder="Enter your first name" required>
                     
-                    <label for="signup-email">Email</label>
-                    <input type="email" id="signup-email" placeholder="Enter your email" required>
-                    
-                    <label for="signup-phone">Clinic Name</label>
-                    <input type="tel" id="signup-phone" placeholder="Enter your phone number" required>
+                    <label for="signup-last-name">Last Name</label>
+                    <input type="text" id="signup-last-name" name="lastName" placeholder="Enter your last name" required>
 
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" name="email" placeholder="Enter your email" required>
                     
+                    <label for="signup-clinicName">Clinic Name</label>
+                    <input type="text" id="signup-clinicName" name="clinicName" placeholder="Enter your clinic name" required>
+
                     <label for="signup-password">Password</label>
                     <div style="position:relative;">
-                        <input type="password" id="signup-password" placeholder="Create a password" required>
+                        <input type="password" id="signup-password" name="password" placeholder="Create a password" required>
                         <button type="button" class="toggle-pass" aria-label="Toggle password visibility">
                             <i class="fas fa-eye" aria-hidden="true"></i>
                         </button>
                     </div>
-                    <label for="signup-password">Confirm Password</label>
+
+                    <label for="signup-confirm-password">Confirm Password</label>
                     <div style="position:relative;">
-                        <input type="password" id="signup-password" placeholder="Confirm your password" required>
+                        <input type="password" id="signup-confirm-password" name="confirmPassword" placeholder="Confirm your password" required>
                         <button type="button" class="toggle-pass" aria-label="Toggle password visibility">
                             <i class="fas fa-eye" aria-hidden="true"></i>
                         </button>
@@ -2013,8 +2034,6 @@
         const errorMsg = document.getElementById("errorMsg");
 
         const express = require("express");
-        const mongoose = require("mongoose");
-        const bcrypt = require("bcryptjs");
         const bodyParser = require("body-parser");
         const cors = require("cors");
 
@@ -2022,62 +2041,13 @@
         app.use(bodyParser.json());
         app.use(cors());
 
-        // Connect to MongoDB
-        mongoose.connect("mongodb://localhost:27017/dentalApp", {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        })
-        .then(() => console.log("MongoDB connected"))
-        .catch(err => console.log(err));
-
-        // User Schema
-        const userSchema = new mongoose.Schema({
-        email: { type: String, required: true, unique: true },
-        password: { type: String, required: true }
-        });
-
-        const User = mongoose.model("User", userSchema);
-
-        // Register Endpoint
-        app.post("/register", async (req, res) => {
-        const { email, password } = req.body;
-        try {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            const newUser = new User({ email, password: hashedPassword });
-            await newUser.save();
-            res.status(201).json({ message: "User created successfully" });
-        } catch (err) {
-            res.status(400).json({ error: "Email already exists" });
-        }
-        });
-
-        // Login Endpoint
-        app.post("/login", async (req, res) => {
-        const { email, password } = req.body;
-        try {
-            const user = await User.findOne({ email });
-            if (!user) return res.status(400).json({ error: "User not found" });
-
-            const isMatch = await bcrypt.compare(password, user.password);
-            if (!isMatch) return res.status(400).json({ error: "Invalid password" });
-
-            res.json({ message: "Login successful" });
-        } catch (err) {
-            res.status(500).json({ error: "Server error" });
-        }
-        });
-
-        const PORT = 5000;
-        app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
         errorMsg.textContent = "";
         document.getElementById("forgotPasswordLink").addEventListener("click", (e) => {
         e.preventDefault();
 
         const email = document.getElementById("login-email").value;
 
-        if (!email) {
+        if (!email) {S
             alert("Please enter your email first.");
             return;
         }
@@ -2249,6 +2219,39 @@
                 }, 2000);
             });
         });
+
+        // Sign Up Form
+        document.querySelector("#signupForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const firstName = document.querySelector('input[name="firstName"]').value;
+            const lastName = document.querySelector('input[name="lastName"]').value;
+            const email = document.querySelector('input[name="email"]').value;
+            const clinicName = document.querySelector('input[name="clinicName"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+            const confirmPassword = document.querySelector('input[name="confirmPassword"]').value;
+
+            if (password !== confirmPassword) {
+                document.getElementById("signup-error").textContent = "Passwords do not match!";
+                return;
+            }
+
+            const response = await fetch("http://localhost:3000/auth/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ firstName, lastName, email, clinicName, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                document.getElementById("signup-success").textContent = data.message || "Account created successfully!";
+            } else {
+                document.getElementById("signup-error").textContent = data.error || "Something went wrong.";
+            }
+        });
+
+
         document.querySelector("#loginForm").addEventListener("submit", async (e) => {
         e.preventDefault();
 
