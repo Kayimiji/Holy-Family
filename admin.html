@@ -2065,6 +2065,45 @@
         transform: scale(1.02) !important;
         box-shadow: 0 0 20px rgba(0, 191, 255, 0.5) !important;
     }
+    /* FAB CONTAINER */
+    .fab-container{
+        position:fixed;
+        bottom:30px;
+        right:30px;
+        display:flex;
+        flex-direction:column;
+        gap:14px;
+        z-index:1500;
+    }
+
+    .fab{
+        width:56px;
+        height:56px;
+        border-radius:50%;
+        border:none;
+        cursor:pointer;
+        color:#fff;
+        font-size:20px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        box-shadow:0 10px 25px rgba(0,0,0,.25);
+        transition:.3s;
+    }
+
+    .fab:hover{
+        transform:translateY(-3px);
+        box-shadow:0 14px 30px rgba(0,0,0,.3);
+    }
+
+    .fab.patient{
+        background:linear-gradient(135deg,#22c55e,#16a34a);
+    }
+
+    .fab.tutorial{
+        background:linear-gradient(135deg,#0ea5e9,#0284c7);
+    }
+
 
     /* Dark mode adjustments */
     [data-theme="dark"] .tutorial-content {
@@ -2548,7 +2587,7 @@
         <div class="modal-header">
         <h3>Add New Patient</h3>
         <button class="close-btn" onclick="closeAddPatient()">✕</button>
-        </div>
+        </div>\
 
         <form id="addPatientForm">
         <div class="form-grid">
@@ -2569,8 +2608,14 @@
             <button type="submit" class="btn-save">Save Patient</button>
         </div>
         </form>
+
     </div>
     </div>
+    <!-- Restart Tutorial FAB -->
+    <button class="fab tutorial" onclick="restartTutorial()" title="Restart Tutorial">
+     <i class="fas fa-play-circle"></i>
+    </button>
+
 
 
     <button class="fab appointment" onclick="addAppointment()" title="Add Appointment">
@@ -4819,6 +4864,29 @@
         // or update patient table
     });
     });
+    function restartTutorial(){
+    // Clean any existing tutorial state
+    document.querySelectorAll(".spotlight").forEach(el=>{
+        el.classList.remove("spotlight");
+    });
+
+    const arrow = document.getElementById("arrow");
+    const overlay = document.getElementById("overlay");
+    const walkBox = document.getElementById("walkBox");
+
+    if(arrow) arrow.style.display="none";
+    if(overlay) overlay.style.display="none";
+    if(walkBox) walkBox.style.display="none";
+
+    // Restart walkthrough
+    if(typeof startTutorial === "function"){
+        startTutorial();
+    }else{
+        alert("Tutorial function not found.");
+    }
+    }
+
+
     </script>
 
 
