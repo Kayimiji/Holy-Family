@@ -1452,10 +1452,10 @@
         </div>
     </nav>
 
-     <a id="myRecordsBtn" class="records-bookmark" href="MyRecords.html" role="button" aria-label="My Records" title="My Records">
+     <!-- <a id="myRecordsBtn" class="records-bookmark" href="MyRecords.html" role="button" aria-label="My Records" title="My Records">
         <i class="fas fa-bookmark" aria-hidden="true"></i>
         <span class="br-label">My Records</span>
-    </a>
+    </a> -->
     <a id="adminDashBtn" class="records-bookmark" href="admin.html" role="button">
         <i class="fas fa-bookmark"></i>
         <span class="br-label">Admin Dashboard</span>
@@ -1828,11 +1828,9 @@
     document.addEventListener("DOMContentLoaded", () => {
         const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
         const user = JSON.parse(localStorage.getItem("user") || "{}");
-        const role = localStorage.getItem("role") || "user";
 
         // Show/hide buttons
         let adminDashBtn = document.getElementById("adminDashBtn");
-        const myRecordsBtn = document.getElementById("myRecordsBtn");
         const loginBtn = document.getElementById("open-login");
         const signupBtn = document.getElementById("open-signup");
 
@@ -1842,13 +1840,12 @@
             if (signupBtn) signupBtn.style.display = "none";
 
             // Show buttons based on role
-            if (role === "admin" && adminDashBtn) adminDashBtn.style.display = "flex";
-            if (role === "user" && myRecordsBtn) myRecordsBtn.style.display = "flex";
+            if (adminDashBtn) adminDashBtn.style.display = "flex";
+
 
         } else {
             // User not logged in, hide private buttons
             if (adminDashBtn) adminDashBtn.style.display = "none";
-            if (myRecordsBtn) myRecordsBtn.style.display = "none";
         }
 
         /*** ===== MODALS ===== ***/
@@ -1990,6 +1987,10 @@
                 const loginData = await loginRes.json();
 
                 if (!loginRes.ok) throw new Error(loginData.message || "Login failed");
+
+                // ✅ Save user info
+                localStorage.setItem("isLoggedIn", "true"); 
+                sessionStorage.setItem("user", JSON.stringify(loginData.user));
 
                 closeModal(document.getElementById("login-modal"));
                 window.location.href = "admin.html";

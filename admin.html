@@ -3996,9 +3996,9 @@
                         onchange="updateBulkActions()"
                     >
                 </td>
-                <td>${apt.patientName}</td>
-                <td>${formatDate(apt.date)}</td>
-                <td>${formatTime(apt.time)}</td>
+                <td>${apt.patient_name}</td>
+                <td>${apt.date}</td>
+                <td>${apt.time}</td>
                 <td>${apt.procedure}</td>
                 <td>${apt.status}</td>
                 <td>
@@ -4047,21 +4047,33 @@
 
 
     // Update request table with reschedule buttons
+        // Update request table with reschedule buttons
     function updateRequestTable() {
+        console.log("PASOK BAA?", appointmentRequests);
+
         const searchTerm = document.getElementById('searchRequests').value.toLowerCase();
         const procedureFilter = document.getElementById('procedureFilter').value;
-        
+
         const filteredRequests = appointmentRequests.filter(request => {
-            const matchesSearch = request.patientName.toLowerCase().includes(searchTerm) ||
-                                request.procedure.toLowerCase().includes(searchTerm) ||
-                                request.doctor.toLowerCase().includes(searchTerm);
+            // If searchTerm is empty, matchesSearch is automatically true
+            const matchesSearch = !searchTerm || 
+                request.patient_name.toLowerCase().includes(searchTerm) ||
+                request.procedure.toLowerCase().includes(searchTerm) ||
+                (request.doctor && request.doctor.toLowerCase().includes(searchTerm));
+
             const matchesProcedure = !procedureFilter || request.procedure === procedureFilter;
-            return matchesSearch && matchesProcedure && request.status === 'Pending';
+
+            // Only show Pending appointments (status_id = 1)
+            const isPending = request.status_id === 1;
+
+            return matchesSearch && matchesProcedure && isPending;
         });
-        
+
+        console.log("HELLO:", filteredRequests); // Will always log filtered (or all pending if search empty)
+
         const tbody = document.getElementById('requestTableBody');
         tbody.innerHTML = '';
-        
+
         if (filteredRequests.length === 0) {
             const row = tbody.insertRow();
             row.innerHTML = `
@@ -4073,22 +4085,24 @@
             `;
             return;
         }
-        
+
+        console.log(filteredRequests)
+
         filteredRequests.forEach(request => {
             const row = tbody.insertRow();
             row.innerHTML = `
                 <td><input type="checkbox" class="request-checkbox" value="${request.id}" onchange="updateBulkActions()"></td>
                 <td>
                     <i class="fas fa-user-circle" style="margin-right: 8px; color: var(--sidebar-active);"></i>
-                    ${request.patientName}
+                    ${request.patient_name}
                 </td>
-                <td><i class="fas fa-calendar" style="margin-right: 8px;"></i>${formatDate(request.requestedDate)}</td>
-                <td><i class="fas fa-clock" style="margin-right: 8px;"></i>${request.requestedTime}</td>
+                <td><i class="fas fa-calendar" style="margin-right: 8px;"></i>${formatDate(request.requested_date)}</td>
+                <td><i class="fas fa-clock" style="margin-right: 8px;"></i>${request.requested_time}</td>
                 <td><span class="procedure-tag">${request.procedure}</span></td>
-                <td><i class="fas fa-user-md" style="margin-right: 8px;"></i>${request.doctor}</td>
+                <td><i class="fas fa-user-md" style="margin-right: 8px;"></i>${request.doctor || ''}</td>
                 <td>
                     <div class="action-buttons-container">
-                        <button class="action-btn accept-btn" onclick="showAcceptModal('${request.id}')" title="Accept Appointment">
+                        <button class="action-btn accept-btn" onclick="showAcceptModal(${request.id})" title="Accept Appointment">
                             <i class="fas fa-check"></i> Accept
                         </button>
                         <button class="action-btn reschedule-btn" onclick="showRescheduleModal('${request.id}')" title="Reschedule Appointment">
@@ -4098,14 +4112,15 @@
                 </td>
             `;
         });
-        
+
         document.getElementById('selectAll').checked = false;
         updateBulkActions();
-        
-        // Update the request count badge
+
+        // Update request count badge
         const requestCount = filteredRequests.length;
-        document.getElementById('requestCount').textContent = requestCount;
-        document.getElementById('requestCount').classList.toggle('show', requestCount > 0);
+        const badge = document.getElementById('requestCount');
+        badge.textContent = requestCount;
+        badge.classList.toggle('show', requestCount > 0);
     }
 
 
@@ -4730,9 +4745,10 @@
         currentRescheduleId = appointmentId;
         
         // Update modal content
-        document.getElementById('acceptModalTitle').textContent = `Accept ${appointment.patientName}'s Appointment`;
+        document.getElementById('acceptModalTitle').textContent = `Accept ${appointment.patient_name}'s Appointment`;
         document.getElementById('acceptModalMessage').textContent = 
-            `Accept appointment for ${appointment.patientName} on ${formatDate(appointment.requestedDate)} at ${appointment.requestedTime}?`;
+            `Accept appointment for ${appointment.patient_name} on ${formatDate(appointment.requested_date)} at ${appointment.requested_time}?`;
+
         
         // Show the modal
         document.getElementById('acceptConfirmationModal').classList.add('active');
@@ -4741,6 +4757,7 @@
 
     function closeAcceptModal() {
         document.getElementById('acceptConfirmationModal').classList.remove('active');
+        fetchAppointmentsFromBackend();
         currentRescheduleId = null;
     }
 
@@ -4798,6 +4815,7 @@
         });
         
         // Update tables and stats
+        fetchAppointmentsFromBackend();
         renderPatientActivityChart();
         updateRequestTable();
         updateTodayAppointmentsTable();
@@ -4851,6 +4869,40 @@
     function closeAddPatient() {
         document.getElementById("addPatientModal").classList.add("hidden");
     }
+
+    async function fetchAppointmentsFromBackend() {
+    try {
+        showLoading(true);
+
+        const response = await fetch('http://localhost:3000/appointments/');
+        if (!response.ok) throw new Error('Failed to fetch appointments');
+
+        const data = await response.json();
+        console.log("HII:", data)
+
+        // Replace mock data with backend data
+        appointmentRequests = data || [];
+
+        const today = new Date().toISOString().split('T')[0]; // "YYYY-MM-DD"
+        const responseToday = await fetch(`http://localhost:3000/appointments/${today}`);
+        const dataToday = await responseToday.json();
+
+        todaysAppointments = dataToday || [];
+
+        console.log("Today's Appointments:", todaysAppointments);
+
+        // Update UI
+        updateRequestTable();
+        updateTodayAppointmentsTable();
+        updateStats();
+
+    } catch (err) {
+        console.error(err);
+        showToast('Error fetching appointments from server', 'error');
+    } finally {
+        showLoading(false);
+    }
+}
 
     document.getElementById("addPatientForm").addEventListener("submit", function(e) {
         e.preventDefault();
