@@ -2089,8 +2089,7 @@
         /*** ===== ADMIN DASHBOARD BUTTON ===== ***/
         if (adminDashBtn) {
             const isLoggedIn = localStorage.getItem("isLoggedIn");
-            const role = localStorage.getItem("role");
-            adminDashBtn.style.display = (isLoggedIn === "true" && role === "admin") ? "flex" : "none";
+            adminDashBtn.style.display = (isLoggedIn === "true") ? "flex" : "none";
         }
 
     });

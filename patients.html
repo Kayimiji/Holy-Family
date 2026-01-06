@@ -1697,16 +1697,17 @@ function formatDate(date) {
             if (e.target === modal) modal.style.display = 'none';
         };
 
+        // logout functionality
         const logoutButtons = document.querySelectorAll('.logout-btn');
         logoutButtons.forEach(button => {
             button.addEventListener('click', async (e) => {
                 e.preventDefault();
+                localStorage.removeItem("isLoggedIn");
                 sessionStorage.removeItem('user');
                 localStorage.removeItem('user');
                 window.location.href = 'landingpage.html';
             });
         });
-
 
         const createAccountBtn = document.querySelector('.create-account-btn');
         const createAccountModal = document.getElementById('createAccountModal');
