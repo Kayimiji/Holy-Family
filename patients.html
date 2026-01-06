@@ -827,7 +827,7 @@
 .action-btn:hover {
     background: linear-gradient(to bottom right, #0099cc, var(--sidebar-active));
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,191,255,0.3);
+    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
 }
 
 /* Sorting styles */
@@ -1421,10 +1421,6 @@
     <div id="tutorialOverlay" class="tutorial-overlay">
         <div class="tutorial-highlight"></div>
         <div class="tutorial-content">
-            <button class="tutorial-btn" onclick="skipTutorial()" style="position: absolute; top: 15px; right: 15px; width: auto; padding: 8px; background: rgba(0,0,0,0.1); border: none; border-radius: 50%; height: 36px;">
-                <i class="fas fa-times"></i>
-            </button>
-            
             <div class="tutorial-header">
                 <h3 class="tutorial-title" id="tutorialStepTitle">Welcome</h3>
                 <div class="tutorial-progress">
@@ -1443,6 +1439,10 @@
             </div>
             
             <div class="tutorial-footer">
+                <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
+                    <input type="checkbox" id="tutorialDontShowAgain" style="width: 18px; height: 18px; cursor: pointer;">
+                    <label for="tutorialDontShowAgain" style="cursor: pointer; font-size: 0.9rem; color: var(--text-muted);">Don't show again</label>
+                </div>
                 <button class="tutorial-btn tutorial-skip" onclick="skipTutorial()">
                     <i class="fas fa-times"></i> Skip
                 </button>
@@ -2020,6 +2020,10 @@ function formatDate(date) {
         }
 
         function skipTutorial() {
+            const dontShowAgain = document.getElementById('tutorialDontShowAgain').checked;
+            if (dontShowAgain) {
+                localStorage.setItem('patientsPageTutorialCompleted', 'true');
+            }
             isTutorialActive = false;
             document.getElementById('tutorialOverlay').style.display = 'none';
             document.body.style.overflow = 'auto';
