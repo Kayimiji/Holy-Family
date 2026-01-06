@@ -808,89 +808,155 @@
 }
 
 /* Action button enhancements */
-.action-btn {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 8px;
-    background: linear-gradient(to bottom right, var(--sidebar-active), #0099cc);
-    color: white;
-    font-size: 0.85rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(to bottom right, var(--sidebar-active), #0099cc);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
 
-.action-btn:hover {
-    background: linear-gradient(to bottom right, #0099cc, var(--sidebar-active));
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
-}
+        .action-btn:hover {
+            background: linear-gradient(to bottom right, #0099cc, var(--sidebar-active));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+        }
 
-/* Sorting styles */
-.patients-table th.sort-asc::after {
-    content: ' ↑';
-    color: var(--sidebar-active);
-}
+        /* Enhanced Create Guest Account Button */
+        .create-account-btn {
+            padding: 11px 20px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--sidebar-active) 0%, #00d4ff 100%);
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+            white-space: nowrap;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.3px;
+        }
 
-.patients-table th.sort-desc::after {
-    content: ' ↓';
-    color: var(--sidebar-active);
-}
+        .create-account-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
 
-.patients-table th:not(:first-child) {
-    cursor: pointer;
-}
+        .create-account-btn:hover::before {
+            left: 100%;
+        }
 
-.patients-table th:not(:first-child):hover {
-    background: linear-gradient(to bottom, var(--sidebar-bg) 0%, #2a3f54 100%);
-}
+        .create-account-btn:hover {
+            background: linear-gradient(135deg, #00d4ff 0%, var(--sidebar-active) 100%);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 191, 255, 0.4);
+        }
+
+        .create-account-btn:active {
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+        }
+
+        .create-account-btn i {
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        .create-account-btn:hover i {
+            transform: rotate(10deg) scale(1.15);
+        }
+
+        /* Dark theme adjustments */
+        [data-theme="dark"] .create-account-btn {
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.25);
+        }
+
+        [data-theme="dark"] .create-account-btn:hover {
+            box-shadow: 0 8px 25px rgba(0, 191, 255, 0.35);
+        }
+
+        /* Sorting styles */
+        .patients-table th.sort-asc::after {
+            content: ' ↑';
+            color: var(--sidebar-active);
+        }
+
+        .patients-table th.sort-desc::after {
+            content: ' ↓';
+            color: var(--sidebar-active);
+        }
+
+        .patients-table th:not(:first-child) {
+            cursor: pointer;
+        }
+
+        .patients-table th:not(:first-child):hover {
+            background: linear-gradient(to bottom, var(--sidebar-bg) 0%, #2a3f54 100%);
+        }
 
 
-/* Fix bottom menu styling */
-.bottom-menu {
-    margin-top: auto;
-    padding-top: 10px;
-    padding-bottom: 60px;
-}
+        /* Fix bottom menu styling */
+        .bottom-menu {
+            margin-top: auto;
+            padding-top: 10px;
+            padding-bottom: 60px;
+        }
 
-.settings-menu, .return-home-menu {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
+        .settings-menu, .return-home-menu {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
 
-/* Remove the absolute positioning */
-.bottom-menu > div {
-    position: static;
-}
+        /* Remove the absolute positioning */
+        .bottom-menu > div {
+            position: static;
+        }
 
-/* Add highlight style */
-.highlight {
-    background-color: rgba(0, 191, 255, 0.2);
-    padding: 2px;
-    border-radius: 2px;
-}
+        /* Add highlight style */
+        .highlight {
+            background-color: rgba(0, 191, 255, 0.2);
+            padding: 2px;
+            border-radius: 2px;
+        }
 
-/* Add this to the CSS section */
-.search-hidden {
-    visibility: hidden;
-    height: 0;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: none !important;
-}
+        /* Add this to the CSS section */
+        .search-hidden {
+            visibility: hidden;
+            height: 0;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: none !important;
+        }
 
-.patients-table tr {
-    height: 72px; /* Set a fixed height for table rows */
-}
+        .patients-table tr {
+            height: 72px; /* Set a fixed height for table rows */
+        }
 
-/* ============================================= */
-/* INTERACTIVE TUTORIAL STYLES */
-/* ============================================= */
+        /* ============================================= */
+        /* INTERACTIVE TUTORIAL STYLES */
+        /* ============================================= */
 .tutorial-overlay {
     position: fixed;
     top: 0;
