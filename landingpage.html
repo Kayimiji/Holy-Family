@@ -1961,7 +1961,8 @@
 
                 alert("Signup successful! You are now logged in.");
                 closeModal(document.getElementById("signup-modal")); // close modal
-
+                window.location.href = "admin.html";
+                
             } catch (err) {
                 console.error(err);
                 alert(err.message);
