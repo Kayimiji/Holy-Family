@@ -4784,61 +4784,78 @@ function saveNewAppointment() {
     }, 1000);
 }
 
-function saveNewPatient() {
-    const firstName = document.getElementById('patientFirstName').value.trim();
-    const lastName = document.getElementById('patientLastName').value.trim();
-    const dob = document.getElementById('patientDOB').value;
-    const gender = document.getElementById('patientGender').value;
-    const contact = document.getElementById('patientContact').value.trim();
-    const email = document.getElementById('patientEmail').value.trim();
-    const address = document.getElementById('patientAddress').value.trim();
-    const medicalHistory = document.getElementById('patientMedicalHistory').value.trim();
+async function saveNewPatient() {
+console.log("patient")
+
+    const patient = {
+        firstName: document.getElementById('patientFirstName').value.trim(),
+        lastName: document.getElementById('patientLastName').value.trim(),
+        dob: document.getElementById('patientDOB').value,
+        gender: document.getElementById('patientGender').value,
+        contact: document.getElementById('patientContact').value.trim(),
+        email: document.getElementById('patientEmail').value.trim(),
+        address: document.getElementById('patientAddress').value.trim(),
+        medicalHistory: document.getElementById('patientMedicalHistory').value.trim(),
+        adminId: JSON.parse(sessionStorage.getItem('user')).id
+    };
+
+console.log(patient)
+    if (!patient.adminId) {
+        showToast('Admin ID not found. Please Login again', 'error');
+        window.location.href = "admin.html";
+        return;
+    }
     
     // Validation
-    if (!firstName || !lastName) {
+    if (!patient.firstName || !patient.lastName) {
         showToast('Please enter patient name', 'warning');
         return;
     }
     
-    if (!dob) {
+    if (!patient.dob) {
         showToast('Please enter date of birth', 'warning');
         return;
     }
     
-    if (!gender) {
+    if (!patient.gender) {
         showToast('Please select gender', 'warning');
         return;
     }
     
-    if (!contact) {
+    if (!patient.contact) {
         showToast('Please enter contact number', 'warning');
         return;
     }
     
     showLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-        showLoading(false);
-        
-        // Generate patient ID
-        const patientId = 'P' + (Math.floor(Math.random() * 900) + 100);
-        const fullName = `${firstName} ${lastName}`;
-        
-        // In a real app, you would save this to a database
-        // For now, we'll just show a success message
-        showToast(`Patient ${fullName} added successfully!`, 'success');
-        
-        // Add to patient select dropdown in appointment modal
-        const select = document.getElementById('addPatientSelect');
-        const option = document.createElement('option');
-        option.value = patientId;
-        option.textContent = `${fullName} (${patientId})`;
-        select.appendChild(option);
-        
-        closeAddPatientModal();
-        
-    }, 1000);
+    // API call
+    try {
+        const addPatientRes = await fetch("http://localhost:3000/patients", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ patient })
+        });
+
+        const patientRes = await addPatientRes.json();
+
+        if (!patientRes.ok) throw new Error(patientRes.message || "Add Patient failed");
+
+        showToast('Patient added successfully', 'success');
+        // closeAddPatientModal();
+        // updatePatientTable();
+        // updateStats();
+
+        // ✅ Save user info
+        // localStorage.setItem("isLoggedIn", "true"); 
+        // sessionStorage.setItem("user", JSON.stringify(loginData.user));
+
+        // closeModal(document.getElementById("login-modal"));
+        // window.location.href = "admin.html";
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
 }
 
 
