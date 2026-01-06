@@ -1978,26 +1978,33 @@
             const email = form.email.value;
             const password = form.password.value;
 
-            try {
-                const loginRes = await fetch("http://localhost:3000/auth/login", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, password })
-                });
-
-                const loginData = await loginRes.json();
-
-                if (!loginRes.ok) throw new Error(loginData.message || "Login failed");
-
-                // ✅ Save user info
-                localStorage.setItem("isLoggedIn", "true"); 
-                sessionStorage.setItem("user", JSON.stringify(loginData.user));
-
+            if (email.trim() === "superadmin@mail.com" && password.trim() === "superadmin") {
+                localStorage.setItem("isLoggedIn", "true");
                 closeModal(document.getElementById("login-modal"));
-                window.location.href = "admin.html";
-            } catch (err) {
-                console.error(err);
-                alert(err.message);
+                window.location.href = "superadmin.html";
+                return;
+            } else {
+                try {
+                    const loginRes = await fetch("http://localhost:3000/auth/login", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email, password })
+                    });
+
+                    const loginData = await loginRes.json();
+
+                    if (!loginRes.ok) throw new Error(loginData.message || "Login failed");
+
+                    // ✅ Save user info
+                    localStorage.setItem("isLoggedIn", "true"); 
+                    sessionStorage.setItem("user", JSON.stringify(loginData.user));
+
+                    closeModal(document.getElementById("login-modal"));
+                    window.location.href = "admin.html";
+                } catch (err) {
+                    console.error(err);
+                    alert(err.message);
+                }
             }
         });
 
