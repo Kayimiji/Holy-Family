@@ -18,187 +18,127 @@
   --text:#2c3e50;
   --btn-primary:#0ea5e9;
   --btn-hover:#0284c7;
-  --btn-secondary:#e5e7eb;
-  --btn-secondary-hover:#cbd5e1;
 }
 
-/* ===== BASE ===== */
+/* BASE */
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
 body{background:var(--bg);color:var(--text);}
 
-/* ===== SIDEBAR ===== */
+/* SIDEBAR */
 .sidebar{
-  width:250px;
-  background:var(--sidebar-bg);
-  color:#fff;
-  position:fixed;
-  top:0;left:0;bottom:0;
-  display:flex;
-  flex-direction:column;
+  width:250px;position:fixed;top:0;left:0;bottom:0;
+  background:var(--sidebar-bg);color:#fff;
 }
-.sidebar-header{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:20px;
-}
-.sidebar-logo{
-  width:50px;
-  height:50px;
-  border-radius:50%;
-}
-.sidebar-title h2{
-  font-size:16px;
-  color:var(--sidebar-active);
-  line-height:1.1;
-}
-.sidebar-menu{list-style:none;flex-grow:1;}
 .sidebar-menu a{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px 20px;
-  color:#fff;
-  text-decoration:none;
+  display:flex;gap:10px;padding:12px 20px;
+  color:#fff;text-decoration:none;
 }
-.sidebar-menu a:hover,
-.sidebar-menu a.active{
+.sidebar-menu a.active,
+.sidebar-menu a:hover{
   background:rgba(0,191,255,.2);
   border-left:4px solid var(--sidebar-active);
 }
-.dropdown .arrow{
-  margin-left:auto;
-  transition:.3s;
+
+/* TOP HEADER */
+.top-header{
+  position:fixed;left:250px;right:0;top:0;
+  height:64px;background:#fff;
+  display:flex;align-items:center;
+  padding:0 28px;box-shadow:0 2px 10px rgba(0,0,0,.08);
+  z-index:900;
 }
-.dropdown.open .arrow{
-  transform:rotate(180deg);
-}
-.submenu{
-  list-style:none;
-  display:none;
-  background:#243444;
-}
-.dropdown.open .submenu{
-  display:block;
-}
-.submenu a{
-  padding:10px 40px;
-  font-size:14px;
+.top-header h1{
+  font-size:20px;color:var(--btn-primary);
+  display:flex;gap:10px;align-items:center;
 }
 
-/* ===== MAIN ===== */
+/* MAIN */
 .main{
-  margin-left:250px;
-  width:calc(100% - 250px);
-  display:flex;
-  flex-direction:row;
-  gap:20px;
-  padding:20px;
+  margin-left:250px;margin-top:90px;
+  padding:20px;display:flex;gap:20px;
 }
-
-/* LEFT & RIGHT COLUMNS */
-.left-column, .right-column{
-  background:var(--card);
-  padding:25px;
-  border-radius:16px;
+.left-column,.right-column{
+  background:#fff;padding:25px;border-radius:16px;
   box-shadow:var(--shadow);
 }
-.left-column{flex:2;}
-.right-column{flex:1; max-height:90vh; overflow-y:auto; position:relative;}
+.left-column{flex:2}
+.right-column{flex:1}
 
-/* FORM & STEP */
-.stepper{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:20px;
+/* FORM */
+label{display:block;margin-top:12px;font-weight:600}
+input{
+  width:100%;padding:10px;margin-top:6px;
+  border-radius:8px;border:1px solid #ccc;
 }
-.step{
-  flex:1;
-  margin:0 5px;
-  padding:8px;
-  border-radius:20px;
-  background:#e5e7eb;
-  text-align:center;
-  font-weight:600;
-  color:#555;
+.signature-box{
+  border:2px dashed #cbd5e1;
+  height:120px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin-top:6px;
 }
-.step.active{background:var(--btn-primary);color:#fff;}
-label{display:block;margin-top:12px;font-weight:600;}
-input{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;margin-top:6px;}
-.signature-box{border:2px dashed #cbd5e1;border-radius:12px;height:120px;display:flex;align-items:center;justify-content:center;color:#94a3b8;margin-top:6px;}
-.btn{margin-top:15px;padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:bold;}
-.btn-primary{background:var(--btn-primary);color:#fff;}
-.btn-primary:hover{background:var(--btn-hover);}
-.btn-secondary{background:var(--btn-secondary);color:#000;width:auto;padding:6px 16px;}
-.btn-secondary:hover{background:var(--btn-secondary-hover);}
-
-/* PROFILE GRID */
-.profile-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:16px;
-}
-.profile-card{
-  border:1px solid #ddd;
-  padding:16px;
-  border-radius:8px;
-  background-color:#fafafa;
-  position:relative;
-}
-.profile-card button{
-  margin-top:10px;
-  background:var(--btn-primary);
-  border:none;
-  color:#fff;
-  padding:6px 10px;
-  border-radius:6px;
-  cursor:pointer;
-  font-size:13px;
+.signature-box:focus{
+  outline:3px solid #38bdf8;
 }
 
-/* TUTORIAL BUTTON */
+/* BUTTONS */
+.btn-primary{
+  margin-top:15px;
+  padding:10px 16px;border-radius:10px;
+  border:none;background:var(--btn-primary);
+  color:#fff;font-weight:bold;cursor:pointer;
+}
+
+/* TUTORIAL */
 #tutorialBtn{
-  position:fixed;
-  top:20px;
-  right:20px;
-  background:var(--btn-primary);
-  color:#fff;
-  border:none;
-  padding:10px 14px;
-  border-radius:8px;
-  cursor:pointer;
-  z-index:1001;
+  position:fixed;bottom:30px;right:30px;
+  background:var(--btn-primary);color:#fff;
+  border:none;padding:12px 18px;
+  border-radius:999px;font-weight:bold;
+  z-index:10001;
 }
 
-/* WALKTHROUGH */
 .overlay{
-  position:fixed;
-  inset:0;
+  position:fixed;inset:0;
   background:rgba(0,0,0,.65);
-  display:none;
-  z-index:9998;
+  display:none;z-index:9998;
 }
 .spotlight{
-  box-shadow:0 0 0 9999px rgba(255, 255, 255, 0);
+  position:relative;z-index:9999;
+  box-shadow:0 0 0 9999px rgba(0,0,0,.65);
   border-radius:12px;
-  position:relative;
-  z-index:9999;
 }
+
 .walkthrough-box{
-  position:fixed;bottom:30px;right:30px;width:320px;background:#fff;padding:18px;border-radius:16px;
-  box-shadow:0 15px 40px rgba(255,255,255,.912);z-index:10000;
+  position:fixed;bottom:30px;right:30px;
+  width:340px;background:#fff;
+  border-radius:16px;padding:18px;
+  z-index:10000;
 }
-.walkthrough-box h4{margin:0 0 10px;color:var(--btn-primary);}
-.walkthrough-box .hint{font-size:13px;color:var(--btn-primary);margin-top:8px;}
-.controls{display:flex;justify-content:space-between;margin-top:15px;}
-.controls button{border:none;border-radius:8px;padding:8px 12px;cursor:pointer;font-weight:bold;}
+.walkthrough-box h4{color:var(--btn-primary)}
+.progress{
+  height:6px;background:#e5e7eb;
+  border-radius:999px;overflow:hidden;
+  margin:10px 0;
+}
+.progress-bar{
+  height:100%;width:0%;
+  background:var(--btn-primary);
+  transition:width .3s;
+}
+
 .arrow{
-  position:absolute;width:0;height:0;
-  border-left:14px solid transparent;border-right:14px solid transparent;
-  border-bottom:22px solid var(--btn-primary);animation:bounce 1s infinite;
-  z-index:10001;display:none;
+  position:fixed;
+  width:0;height:0;
+  border-left:14px solid transparent;
+  border-right:14px solid transparent;
+  border-bottom:22px solid var(--btn-primary);
+  animation:bounce 1s infinite;
+  display:none;z-index:10001;
 }
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
 </style>
 </head>
 
@@ -206,162 +146,124 @@ input{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;margin-top
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
-  <div class="sidebar-header">
-    <img src="logo.png" class="sidebar-logo">
-    <div class="sidebar-title"><h2>SMART<br>DENTISTRY</h2></div>
-  </div>
   <ul class="sidebar-menu">
-    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-    <li class="dropdown open">
-      <a href="#" class="dropdown-toggle"><i class="fas fa-tooth"></i> My Clinic <i class="fas fa-chevron-down arrow"></i></a>
-      <ul class="submenu">
-        <li><a href="clinic-profile.html" class="active"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
-        <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
-        <li><a href="Braces-Treatment.html" ><i class="fas fa-brackets-curly"></i> Braces Treatment</a></li>
-        <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
-      </ul>
-    </li>
-    <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
-    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-    <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-    <li><a href="Tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
-    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    <li><a class="active"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
   </ul>
 </aside>
 
+<!-- HEADER -->
+<header class="top-header">
+  <h1><i class="fas fa-clinic-medical"></i> Clinic Profile</h1>
+</header>
+
 <!-- MAIN -->
 <div class="main">
-  <!-- LEFT COLUMN: Clinic Form -->
   <div class="left-column">
-    <div class="stepper">
-      <div class="step active" id="step1">Clinic</div>
-      <div class="step" id="step2">Dentist</div>
-      <div class="step" id="step3">Finish</div>
-    </div>
     <label>Clinic Name</label>
     <input id="clinicName">
-    <label>Contact Number</label>
-    <input id="clinicContact">
-    <label>Address</label>
-    <input id="clinicAddress">
+
     <label>Dentist Name</label>
     <input id="dentistName">
-    <label>Email</label>
-    <input id="dentistEmail">
+
     <label>Signature</label>
-    <div class="signature-box" id="signatureBox">Draw here</div>
-    <button class="btn-secondary" onclick="clearForm()">Clear</button>
+    <div id="signatureBox" class="signature-box" tabindex="0">
+      Draw here
+    </div>
+
     <label>Clinic Logo</label>
     <input type="file" id="clinicLogo">
-    <button class="btn-primary" id="saveProfileBtn" onclick="saveProfile()">Save Profile</button>
+
+    <button class="btn-primary" id="saveProfileBtn">
+      Save Profile
+    </button>
   </div>
 
-  <!-- RIGHT COLUMN: Staff Profiles -->
   <div class="right-column">
-    <h2>Dentist / Staff Profiles</h2>
-    <div class="setup-card">
-      <label>Name</label>
-      <input id="staffName">
-      <label>Position</label>
-      <input id="staffPosition">
-      <label>Email</label>
-      <input id="staffEmail">
-      <label>Phone</label>
-      <input id="staffPhone">
-      <button class="btn-primary" onclick="addStaff()">Add Staff</button>
-    </div>
-    <div class="profile-grid" id="profileGrid"></div>
+    <h3>Staff Profiles</h3>
   </div>
 </div>
 
-<!-- Tutorial Button -->
+<!-- TUTORIAL UI -->
 <button id="tutorialBtn" onclick="startTutorial()">Tutorial</button>
-
-<!-- WALKTHROUGH -->
 <div class="overlay" id="overlay"></div>
 <div id="arrow" class="arrow"></div>
-<div class="walkthrough-box" id="walkBox">
+
+<div class="walkthrough-box" id="walkBox" style="display:none">
   <h4 id="walkTitle"></h4>
+  <div class="progress">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
   <p id="walkText"></p>
-  <div class="hint">👆 Follow the arrow and complete this step</div>
-  <div class="controls">
-    <button onclick="skipTour()">Skip</button>
+  <div style="display:flex;justify-content:space-between;margin-top:15px">
+    <button onclick="endTour()">Skip</button>
     <button onclick="nextTour()">Next</button>
   </div>
 </div>
 
 <script>
-// ===== STAFF MANAGEMENT =====
-let staffList=[];
-function renderProfiles(){
-  const grid=document.getElementById("profileGrid");
-  grid.innerHTML="";
-  staffList.forEach((staff,index)=>{
-    const card=document.createElement("div");
-    card.className="profile-card";
-    card.innerHTML=`
-      <p><strong>Name:</strong> ${staff.name}</p>
-      <p><strong>Position:</strong> ${staff.position}</p>
-      <p><strong>Email:</strong> ${staff.email}</p>
-      <p><strong>Phone:</strong> ${staff.phone}</p>
-      <button onclick="editStaff(${index})">Edit</button>
-    `;
-    grid.appendChild(card);
-  });
-}
-function addStaff(){
-  const name=document.getElementById("staffName").value.trim();
-  const position=document.getElementById("staffPosition").value.trim();
-  const email=document.getElementById("staffEmail").value.trim();
-  const phone=document.getElementById("staffPhone").value.trim();
-  if(!name || !position) return alert("Enter name & position.");
-  staffList.push({name,position,email,phone});
-  renderProfiles();
-  ["staffName","staffPosition","staffEmail","staffPhone"].forEach(id=>document.getElementById(id).value="");
-}
-function editStaff(index){
-  const staff=staffList[index];
-  staffList[index]={...staff};
-  alert("Staff info saved!");
-  renderProfiles();
-}
-
-// ===== CLINIC FORM =====
-function clearForm(){
-  ["clinicName","clinicContact","clinicAddress","dentistName","dentistEmail"].forEach(id=>document.getElementById(id).value="");
-}
-function saveProfile(){ alert("Clinic profile saved!"); }
-
-// ===== TUTORIAL =====
-const steps = [
-  { el:"#clinicName", title:"Clinic Name", text:"Enter clinic name." },
-  { el:"#dentistName", title:"Dentist Name", text:"Enter main dentist." },
-  { el:"#signatureBox", title:"Signature", text:"Draw digital signature." },
-  { el:"#clinicLogo", title:"Clinic Logo", text:"Upload your clinic logo." },
-  { el:"#saveProfileBtn", title:"Save Profile", text:"Click to save clinic profile." }
+const steps=[
+ {el:"#clinicName",title:"Clinic Name",text:"Enter your clinic name"},
+ {el:"#dentistName",title:"Dentist",text:"Enter main dentist"},
+ {el:"#signatureBox",title:"Signature",text:"Provide digital signature"},
+ {el:"#clinicLogo",title:"Logo",text:"Upload clinic logo"},
+ {el:"#saveProfileBtn",title:"Save",text:"Save clinic profile"}
 ];
 
-let current = 0;
+let current=0;
+
 function showStep(i){
-  document.querySelectorAll(".spotlight").forEach(e=>e.classList.remove("spotlight"));
-  const step = steps[i];
-  const el = document.querySelector(step.el);
-  const rect = el.getBoundingClientRect();
-  el.classList.add("spotlight");
-  document.getElementById("walkTitle").innerText = step.title;
-  document.getElementById("walkText").innerText = step.text;
-  const arrow = document.getElementById("arrow");
-  arrow.style.left = rect.left + rect.width/2 - 14 + "px";
-  arrow.style.top = rect.top - 35 + "px";
-  arrow.style.display = "block";
-  document.getElementById("overlay").style.display="block";
-  document.getElementById("walkBox").style.display="block";
+ document.querySelectorAll(".spotlight").forEach(e=>e.classList.remove("spotlight"));
+ const step=steps[i];
+ const el=document.querySelector(step.el);
+ if(!el) return;
+
+ el.scrollIntoView({behavior:"smooth",block:"center"});
+
+ setTimeout(()=>{
+   el.classList.add("spotlight");
+   el.focus?.({preventScroll:true});
+
+   const r=el.getBoundingClientRect();
+   const arrow=document.getElementById("arrow");
+   arrow.style.left=r.left+r.width/2-14+"px";
+   arrow.style.top=r.top-30+"px";
+   arrow.style.display="block";
+
+   document.getElementById("walkTitle").innerText=step.title;
+   document.getElementById("walkText").innerText=step.text;
+   document.getElementById("progressBar").style.width=
+     ((i+1)/steps.length*100)+"%";
+
+   overlay.style.display="block";
+   walkBox.style.display="block";
+ },400);
 }
-function nextTour(){ current++; if(current>=steps.length){ endTour(); return; } showStep(current); }
-function skipTour(){ endTour(); }
-function endTour(){ document.getElementById("arrow").style.display="none"; document.querySelectorAll(".spotlight").forEach(e=>e.classList.remove("spotlight")); document.getElementById("overlay").style.display="none"; document.getElementById("walkBox").style.display="none"; }
-function startTutorial(){ current=0; showStep(current); }
+
+function nextTour(){
+ current++;
+ if(current>=steps.length){endTour();return;}
+ showStep(current);
+}
+
+function startTutorial(){
+ current=0;
+ showStep(0);
+}
+
+function endTour(){
+ document.querySelectorAll(".spotlight").forEach(e=>e.classList.remove("spotlight"));
+ overlay.style.display="none";
+ arrow.style.display="none";
+ walkBox.style.display="none";
+ localStorage.setItem("tutorialDone","1");
+}
+
+/* AUTO PLAY ON FIRST LOAD */
+window.onload=()=>{
+ if(!localStorage.getItem("tutorialDone")){
+   startTutorial();
+ }
+}
 </script>
 
 </body>
