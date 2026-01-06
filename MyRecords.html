@@ -1011,11 +1011,117 @@ h2 {
         padding: 20px;
     }
 }
+/* ================= MODAL OVERLAY ================= */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(4px);
+}
 
+.modal-overlay.hidden {
+    display: none;
+}
 
+/* ================= MODAL BOX ================= */
+.modal-box {
+    background: var(--modal-bg);
+    color: var(--modal-text);
+    width: 100%;
+    max-width: 520px;
+    border-radius: 16px;
+    box-shadow: var(--box-shadow);
+    animation: modalPop 0.35s ease;
+    overflow: hidden;
+}
 
+/* ================= HEADER ================= */
+.create-patient-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border-color);
+}
 
-    </style>
+.create-patient-header i {
+    font-size: 22px;
+    color: var(--sidebar-active);
+}
+
+.create-patient-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    flex: 1;
+    margin: 0;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+/* ================= BODY ================= */
+.modal-body {
+    padding: 22px;
+}
+
+.detail-group {
+    margin-bottom: 14px;
+}
+
+.detail-label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    color: var(--text-color);
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-color);
+    transition: all 0.25s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--sidebar-active);
+    box-shadow: 0 0 0 3px rgba(0,191,255,0.2);
+}
+
+/* ================= FOOTER ================= */
+.create-patient-actions {
+    padding: 18px 22px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* ================= ANIMATION ================= */
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+</style>
 </head>
 <body>
     <div class="dashboard">
@@ -1102,45 +1208,62 @@ h2 {
                         </button>
                     </div>
                     <!-- CREATE PATIENT MODAL -->
-                <div id="createPatientModal" class="modal">
-                    <div class="create-patient-header">
-                    <i class="fas fa-user-plus"></i>
-                    <h2>Create New Patient</h2>
+                <<!-- CREATE PATIENT MODAL -->
+                <div id="createPatientModal" class="modal-overlay hidden">
+
+                    <div class="modal-box">
+
+                        <!-- HEADER -->
+                        <div class="create-patient-header">
+                            <i class="fas fa-user-plus"></i>
+                            <h2>Create New Patient</h2>
+                            <button class="modal-close" onclick="closeCreatePatientModal()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+
+                        <!-- BODY -->
+                        <div class="modal-body">
+
+                            <div class="detail-group">
+                                <label class="detail-label">Full Name *</label>
+                                <input type="text" id="newPatientName" class="form-input" placeholder="Juan Dela Cruz">
+                            </div>
+
+                            <div class="detail-group">
+                                <label class="detail-label">Contact Number *</label>
+                                <input type="tel" id="newPatientPhone" class="form-input" placeholder="09XXXXXXXXX">
+                            </div>
+
+                            <div class="detail-group">
+                                <label class="detail-label">Email</label>
+                                <input type="email" id="newPatientEmail" class="form-input" placeholder="example@email.com">
+                            </div>
+
+                            <div class="detail-group">
+                                <label class="detail-label">Date of Birth *</label>
+                                <input type="date" id="newPatientDob" class="form-input">
+                            </div>
+
+                            <div class="detail-group">
+                                <label class="detail-label">Status</label>
+                                <select id="newPatientStatus" class="form-input">
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <!-- FOOTER -->
+                        <div class="create-patient-actions">
+                            <button class="btn btn-outline" onclick="closeCreatePatientModal()">Cancel</button>
+                            <button class="btn btn-primary" onclick="createPatient()">Save Patient</button>
+                        </div>
+
+                    </div>
                 </div>
-                    <div class="detail-group">
-                    <div class="detail-label">Full Name *</div>
-                    <input type="text" id="newPatientName" class="form-input" required>
-                    </div>
 
-                    <div class="detail-group">
-                    <div class="detail-label">Contact Number *</div>
-                    <input type="tel" id="newPatientPhone" class="form-input" required>
-                    </div>
-
-                    <div class="detail-group">
-                    <div class="detail-label">Email</div>
-                    <input type="email" id="newPatientEmail" class="form-input">
-                    </div>
-
-                    <div class="detail-group">
-                    <div class="detail-label">Date of Birth *</div>
-                    <input type="date" id="newPatientDob" class="form-input" required>
-                    </div>
-
-                    <div class="detail-group">
-                    <div class="detail-label">Status</div>
-                    <select id="newPatientStatus" class="form-input">
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
-                    </select>
-                    </div>
-
-                    <div class="create-patient-actions">
-                    <button class="btn btn-outline" onclick="closeCreatePatientModal()">Cancel</button>
-                    <button class="btn btn-primary" onclick="createPatient()">Save Patient</button>
-                    </div>
-                </div>
-                </div>
 
                     
                     <div class="divider"></div>
@@ -1670,6 +1793,58 @@ filterOptions.forEach(option => {
         filterDropdown.classList.remove('show');
     });
 });
+/* OPEN MODAL */
+function openCreatePatientModal() {
+    document.getElementById('createPatientModal').classList.remove('hidden');
+}
+
+/* CLOSE MODAL */
+function closeCreatePatientModal() {
+    document.getElementById('createPatientModal').classList.add('hidden');
+    clearCreatePatientForm();
+}
+
+/* CLEAR FORM */
+function clearCreatePatientForm() {
+    document.getElementById('newPatientName').value = '';
+    document.getElementById('newPatientPhone').value = '';
+    document.getElementById('newPatientEmail').value = '';
+    document.getElementById('newPatientDob').value = '';
+    document.getElementById('newPatientStatus').value = 'Active';
+}
+
+/* CREATE PATIENT (FRONTEND LOGIC) */
+function createPatient() {
+    const name = document.getElementById('newPatientName').value.trim();
+    const phone = document.getElementById('newPatientPhone').value.trim();
+    const email = document.getElementById('newPatientEmail').value.trim();
+    const dob = document.getElementById('newPatientDob').value;
+    const status = document.getElementById('newPatientStatus').value;
+
+    if (!name || !phone || !dob) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+
+    const patient = {
+        id: Date.now(),
+        name,
+        phone,
+        email,
+        dob,
+        status
+    };
+
+    console.log('New Patient:', patient);
+
+    // TEMP STORAGE (ready for backend later)
+    const patients = JSON.parse(localStorage.getItem('patients')) || [];
+    patients.push(patient);
+    localStorage.setItem('patients', JSON.stringify(patients));
+
+    alert('Patient successfully created!');
+    closeCreatePatientModal();
+}
     </script>
 </body>
 </html>
