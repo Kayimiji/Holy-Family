@@ -1944,6 +1944,17 @@ function formatDate(date) {
             if (e.target === createAccountModal) createAccountModal.style.display = 'none';
         };
 
+        // Close terms modal
+        const termsModalClose = termsModal.querySelector('.modal-close');
+        termsModalClose.onclick = () => termsModal.style.display = 'none';
+        
+        // Update window click handler to include terms modal
+        window.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+            if (e.target === createAccountModal) createAccountModal.style.display = 'none';
+            if (e.target === termsModal) termsModal.style.display = 'none';
+        };
+
         // Add click handlers for column headers
         document.querySelectorAll('.patients-table thead th').forEach(header => {
             if (header.textContent !== '' && !header.querySelector('input')) { // Skip checkbox column
