@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Superadmin Dashboard</title>
+<style>
+    /* Fonts & colors */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #e6f0fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Header */
+    header {
+        background: #4da6ff;
+        color: white;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 22px;
+    }
+
+    header button {
+        background-color: #ff6666;
+        border: none;
+        color: white;
+        padding: 8px 18px;
+        font-size: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    header button:hover {
+        background-color: #ff4d4d;
+    }
+
+    /* Main content */
+    main {
+        padding: 25px 30px;
+    }
+
+    h2 {
+        color: #1a75ff;
+        margin-bottom: 15px;
+    }
+
+    /* Table styles */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+
+    th, td {
+        padding: 14px 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #cce0ff;
+        color: #003366;
+        font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f8ff;
+    }
+
+    tr:hover {
+        background-color: #d0e4ff;
+    }
+
+    /* Buttons in table */
+    button.action-btn {
+        padding: 7px 15px;
+        margin-right: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button.action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+
+    button.approve {
+        background-color: #4da6ff;
+        color: white;
+    }
+
+    button.approve:hover {
+        background-color: #1a75ff;
+    }
+
+    button.reject {
+        background-color: #ff6666;
+        color: white;
+    }
+
+    button.reject:hover {
+        background-color: #e60000;
+    }
+
+    /* Empty state */
+    .empty-state {
+        text-align: center;
+        color: #555;
+        padding: 20px 0;
+    }
+
+    @media (max-width: 600px) {
+        header, main {
+            padding: 15px;
+        }
+
+        th, td {
+            padding: 10px 8px;
+        }
+
+        header h1 {
+            font-size: 18px;
+        }
+    }
+</style>
+</head>
+<body>
+<header>
+    <h1>Superadmin Dashboard</h1>
+    <button id="logoutBtn">Logout</button>
+</header>
+<main>
+    <h2>Pending Admin Signups</h2>
+    <table id="requestsTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Clinic Name</th>
+                <th>Email</th>
+                <th>Date & Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Requests will be rendered here -->
+        </tbody>
+    </table>
+</main>
+
+<script>
+    const requestsTableBody = document.querySelector('#requestsTable tbody');
+
+    // Fetch pending admin requests from backend
+    async function fetchPendingRequests() {
+        try {
+            // Replace the URL with your actual backend endpoint
+            const response = await fetch('http://localhost:3000/auth/state/inactive'); 
+            if (!response.ok) throw new Error('Failed to fetch pending requests');
+
+            const data = await response.json();
+            // Assume backend returns an array of requests: [{id, name, clinicName, email, dateAndTime}]
+            renderRequests(data.requests || []);
+        } catch (err) {
+            console.error(err);
+            requestsTableBody.innerHTML = `<tr><td colspan="5" class="empty-state">Error fetching requests</td></tr>`;
+        }
+    }
+
+    function renderRequests(pendingRequests) {
+        requestsTableBody.innerHTML = '';
+
+        if (!pendingRequests.length) {
+            requestsTableBody.innerHTML = '<tr><td colspan="5" class="empty-state">No pending requests</td></tr>';
+            return;
+        }
+
+        pendingRequests.forEach(request => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${request.name}</td>
+                <td>${request.clinicName}</td>
+                <td>${request.email}</td>
+                <td>${request.dateAndTime}</td>
+                <td>
+                    <button class="action-btn approve" onclick="handleAction(${request.id}, 'approve')">Approve</button>
+                    <button class="action-btn reject" onclick="handleAction(${request.id}, 'reject')">Reject</button>
+                </td>
+            `;
+            requestsTableBody.appendChild(row);
+        });
+    }
+
+    function handleAction(id, action) {
+        console.log(`${action.toUpperCase()} request id:`, id);
+
+        // Call backend API to approve/reject
+        fetch(`http://localhost:3000/admin/pending-signups/${id}/${action}`, {
+            method: 'POST'
+        })
+        .then(res => {
+            if (!res.ok) throw new Error('Action failed');
+            // Reload the table after action
+            fetchPendingRequests();
+        })
+        .catch(err => console.error(err));
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+        console.log('Superadmin logged out');
+        localStorage.removeItem("isLoggedIn");
+        alert('Logged out!');
+        window.location.href = '/landingpage.html';
+    });
+
+    // Initial load
+    fetchPendingRequests();
+</script>
+</body>
+</html>
