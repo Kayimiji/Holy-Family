@@ -1648,7 +1648,457 @@
             }
         }
 
-        /* ...existing code... */
+        /* Enhanced Modal Styles */
+#createAccountModal .modal-content {
+    max-width: 600px;
+    border-radius: 16px;
+    overflow: hidden;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+#createAccountModal .modal-header {
+    background: linear-gradient(135deg, var(--sidebar-active) 0%, #00d4ff 100%);
+    color: white;
+    padding: 25px 30px;
+    position: relative;
+}
+
+#createAccountModal .modal-header h2 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#createAccountModal .modal-subtitle {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 14px;
+}
+
+#createAccountModal .modal-close {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#createAccountModal .modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+#createAccountModal .modal-body {
+    padding: 30px;
+    background: var(--card-bg);
+}
+
+/* Progress Steps */
+.form-progress {
+    margin-bottom: 30px;
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+}
+
+.step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--border-color);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border: 2px solid var(--border-color);
+}
+
+.step.active .step-number {
+    background: var(--sidebar-active);
+    color: white;
+    border-color: var(--sidebar-active);
+}
+
+.step.completed .step-number {
+    background: #4CAF50;
+    color: white;
+    border-color: #4CAF50;
+}
+
+.step-label {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.step.active .step-label {
+    color: var(--sidebar-active);
+    font-weight: 600;
+}
+
+.progress-bar {
+    height: 4px;
+    background: var(--border-color);
+    border-radius: 2px;
+    position: relative;
+    margin-top: -18px;
+    z-index: 1;
+}
+
+.progress-fill {
+    position: absolute;
+    height: 100%;
+    background: var(--sidebar-active);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+/* Form Sections */
+.form-sections {
+    position: relative;
+    min-height: 300px;
+}
+
+.form-section {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.form-section.active {
+    display: block;
+}
+
+.section-header {
+    margin-bottom: 25px;
+}
+
+.section-header h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-header p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 150px; /* Increased gap */
+    margin-bottom: 20px;
+}
+
+
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.required {
+    color: #e74c3c;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+.input-with-icon .form-input {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.input-with-icon .form-input:focus {
+    outline: none;
+    border-color: var(--sidebar-active);
+    box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.1);
+}
+
+.form-hint {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* Credentials Section */
+.credentials-container {
+    background: var(--hover-bg);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.credentials-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.credential-item {
+    margin-bottom: 20px;
+}
+
+.credential-item:last-child {
+    margin-bottom: 0;
+}
+
+.credential-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.credential-value {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.credential-value code {
+    flex: 1;
+    padding: 8px 12px;
+    background: var(--hover-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: 'Consolas', monospace;
+    font-size: 13px;
+    color: var(--text-color);
+    min-width: 200px;
+}
+
+.copy-btn, .reveal-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.copy-btn {
+    background: var(--sidebar-active);
+    color: white;
+}
+
+.copy-btn:hover {
+    background: #0099cc;
+    transform: translateY(-1px);
+}
+
+.reveal-btn {
+    background: var(--border-color);
+    color: var(--text-color);
+}
+
+.reveal-btn:hover {
+    background: var(--text-muted);
+    color: white;
+}
+
+.credential-hint {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.credentials-note {
+    margin-top: 20px;
+    padding: 12px;
+    background: linear-gradient(135deg, rgba(0, 191, 255, 0.1) 0%, rgba(0, 212, 255, 0.05) 100%);
+    border-radius: 6px;
+    border-left: 3px solid var(--sidebar-active);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-color);
+}
+
+/* Modal Footer */
+#createAccountModal .modal-footer {
+    padding: 20px 30px;
+    background: var(--header-bg);
+    border-top: 1px solid var(--border-color);
+}
+
+.form-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.nav-btn {
+    padding: 10px 20px;
+    border: 2px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-btn:hover:not(:disabled) {
+    background: var(--hover-bg);
+    transform: translateY(-1px);
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.section-indicator {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.create-btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--sidebar-active) 0%, #00d4ff 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+}
+
+.create-btn:hover {
+    background: linear-gradient(135deg, #00d4ff 0%, var(--sidebar-active) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 191, 255, 0.4);
+}
+
+/* Form Validation Styles */
+.form-input:invalid:not(:placeholder-shown) {
+    border-color: #e74c3c;
+}
+
+.form-input:valid:not(:placeholder-shown) {
+    border-color: #2ecc71;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    #createAccountModal .modal-content {
+        margin: 20px;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    #createAccountModal .modal-body {
+        flex: 1;
+        overflow-y: auto;
+    }
+    
+    .form-navigation {
+        flex-wrap: wrap;
+    }
+    
+    .nav-btn, .create-btn {
+        flex: 1;
+        justify-content: center;
+    }
+}
     </style>
 </head>
 <body>
@@ -1820,50 +2270,192 @@
     </div>
 
     <div id="createAccountModal" class="modal">
-        <div class="modal-content">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>
+                <i class="fas fa-user-plus"></i>
+                Create Guest Account
+            </h2>
+            <p class="modal-subtitle">Fill in patient details to create a temporary account</p>
             <span class="modal-close">&times;</span>
-            <h2>Create Guest Account</h2>
+        </div>
+        
+        <div class="modal-body">
             <div class="form-container">
-                <div class="detail-group">
-                    <div class="detail-label">Full Name *</div>
-                    <input type="text" id="guestName" class="form-input" required>
-                </div>
-                <div class="detail-group">
-                    <div class="detail-label">Contact Number *</div>
-                    <input type="tel" id="guestPhone" class="form-input" required>
-                </div>
-                <div class="detail-group">
-                    <div class="detail-label">Email</div>
-                    <input type="email" id="guestEmail" class="form-input">
-                </div>
-                <div class="detail-group">
-                    <div class="detail-label">Date of Birth *</div>
-                    <input type="date" id="guestDob" class="form-input" required>
+                <!-- Progress Steps -->
+                <div class="form-progress">
+                    <div class="progress-steps">
+                        <div class="step active" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Basic Info</div>
+                        </div>
+                        <div class="step" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-label">Contact</div>
+                        </div>
+                        <div class="step" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Credentials</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
                 </div>
                 
-                <div class="generated-credentials" style="display: none;">
-                    <div class="detail-group">
-                        <div class="detail-label">Generated Username</div>
-                        <div class="detail-value">
-                            <span id="generatedUsername"></span>
-                            <button onclick="copyText('generatedUsername')" class="copy-btn">Copy</button>
+                <!-- Form Sections -->
+                <div class="form-sections">
+                    <!-- Section 1: Basic Information -->
+                    <div class="form-section active" data-section="1">
+                        <div class="section-header">
+                            <h3><i class="fas fa-id-card"></i> Basic Information</h3>
+                            <p>Enter the patient's personal details</p>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="guestName" class="form-label">
+                                    Full Name <span class="required">*</span>
+                                </label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" 
+                                           id="guestName" 
+                                           class="form-input" 
+                                           placeholder="Enter full name"
+                                           required>
+                                </div>
+                                <div class="form-hint">Enter first and last name</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="guestDob" class="form-label">
+                                    Date of Birth <span class="required">*</span>
+                                </label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <input type="date" 
+                                           id="guestDob" 
+                                           class="form-input" 
+                                           required>
+                                </div>
+                                <div class="form-hint">Patient's date of birth</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="detail-group">
-                        <div class="detail-label">Generated Password</div>
-                        <div class="detail-value">
-                            <span id="generatedPassword"></span>
-                            <button onclick="copyText('generatedPassword')" class="copy-btn">Copy</button>
+                    
+                    <!-- Section 2: Contact Information -->
+                    <div class="form-section" data-section="2">
+                        <div class="section-header">
+                            <h3><i class="fas fa-address-book"></i> Contact Information</h3>
+                            <p>How to reach the patient</p>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="guestPhone" class="form-label">
+                                    Phone Number <span class="required">*</span>
+                                </label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-phone"></i>
+                                    <input type="tel" 
+                                           id="guestPhone" 
+                                           class="form-input" 
+                                           placeholder="+1 (555) 123-4567"
+                                           pattern="[0-9+\-\s()]{10,}"
+                                           required>
+                                </div>
+                                <div class="form-hint">Include area code</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="guestEmail" class="form-label">
+                                    Email Address
+                                </label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" 
+                                           id="guestEmail" 
+                                           class="form-input" 
+                                           placeholder="patient@example.com">
+                                </div>
+                                <div class="form-hint">Optional, for appointment reminders</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 3: Generated Credentials -->
+                    <div class="form-section" data-section="3">
+                        <div class="section-header">
+                            <h3><i class="fas fa-key"></i> Account Credentials</h3>
+                            <p>Auto-generated login details</p>
+                        </div>
+                        
+                        <div class="credentials-container">
+                            <div class="credentials-card">
+                                <div class="credential-item">
+                                    <div class="credential-label">
+                                        <i class="fas fa-user-tag"></i>
+                                        Username
+                                    </div>
+                                    <div class="credential-value">
+                                        <code id="generatedUsername">guest_20250115_abc123</code>
+                                        <button class="copy-btn" onclick="copyText('generatedUsername')">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <div class="credential-hint">Auto-generated unique identifier</div>
+                                </div>
+                                
+                                <div class="credential-item">
+                                    <div class="credential-label">
+                                        <i class="fas fa-lock"></i>
+                                        Password
+                                    </div>
+                                    <div class="credential-value">
+                                        <code id="generatedPassword">••••••••••</code>
+                                        <button class="copy-btn" onclick="copyText('generatedPassword')">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                        <button class="reveal-btn" onclick="togglePasswordVisibility()">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="credential-hint">Temporary password, can be changed later</div>
+                                </div>
+                                
+                                <div class="credentials-note">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>These credentials will be emailed to the patient upon creation.</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <button id="createGuestBtn" class="create-account-btn" style="width: 100%; margin-top: 20px;">
-                    Create Account
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <div class="form-navigation">
+                <button class="nav-btn nav-prev" onclick="previousFormSection()">
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                
+                <div class="section-indicator">
+                    <span id="currentSection">1</span> of <span>3</span>
+                </div>
+                
+                <button class="nav-btn nav-next" onclick="nextFormSection()">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+                
+                <button class="create-btn" id="createGuestBtn" onclick="createGuestAccount()" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Create Account
                 </button>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Terms of Service Modal -->
     <div id="termsModal" class="modal">
@@ -2152,6 +2744,286 @@ function formatDate(date) {
             const visibleRows = document.querySelectorAll('#patientTableBody tr:not([style*="display: none"])').length;
             document.getElementById('patientCount').textContent = visibleRows;
         });
+
+
+        // Form Navigation Logic
+let currentFormSection = 1;
+const totalSections = 3;
+
+function updateFormProgress() {
+    // Update progress bar
+    const progressPercentage = ((currentFormSection - 1) / (totalSections - 1)) * 100;
+    document.querySelector('.progress-fill').style.width = `${progressPercentage}%`;
+    
+    // Update steps
+    document.querySelectorAll('.step').forEach((step, index) => {
+        step.classList.remove('active', 'completed');
+        if (index + 1 < currentFormSection) {
+            step.classList.add('completed');
+        } else if (index + 1 === currentFormSection) {
+            step.classList.add('active');
+        }
+    });
+    
+    // Update visible section
+    document.querySelectorAll('.form-section').forEach(section => {
+        section.classList.remove('active');
+        if (parseInt(section.dataset.section) === currentFormSection) {
+            section.classList.add('active');
+        }
+    });
+    
+    // Update navigation buttons
+    document.getElementById('currentSection').textContent = currentFormSection;
+    
+    // Show/hide buttons
+    const prevBtn = document.querySelector('.nav-prev');
+    const nextBtn = document.querySelector('.nav-next');
+    const createBtn = document.getElementById('createGuestBtn');
+    
+    prevBtn.style.display = currentFormSection > 1 ? 'flex' : 'none';
+    nextBtn.style.display = currentFormSection < totalSections ? 'flex' : 'none';
+    createBtn.style.display = currentFormSection === totalSections ? 'flex' : 'none';
+    
+    // Validate current section
+    validateCurrentSection();
+}
+
+function nextFormSection() {
+    if (validateCurrentSection()) {
+        if (currentFormSection < totalSections) {
+            currentFormSection++;
+            updateFormProgress();
+            
+            // Generate credentials when reaching section 3
+            if (currentFormSection === 3) {
+                generateCredentials();
+            }
+        }
+    }
+}
+
+function previousFormSection() {
+    if (currentFormSection > 1) {
+        currentFormSection--;
+        updateFormProgress();
+    }
+}
+
+function validateCurrentSection() {
+    const section = document.querySelector(`.form-section[data-section="${currentFormSection}"]`);
+    const requiredInputs = section.querySelectorAll('input[required]');
+    let isValid = true;
+    
+    requiredInputs.forEach(input => {
+        if (!input.value.trim()) {
+            input.classList.add('invalid');
+            isValid = false;
+        } else {
+            input.classList.remove('invalid');
+        }
+    });
+    
+    // Specific validation for phone number
+    if (currentFormSection === 2) {
+        const phoneInput = document.getElementById('guestPhone');
+        if (phoneInput.value && !/^[\d+\-\s()]{10,}$/.test(phoneInput.value)) {
+            phoneInput.classList.add('invalid');
+            isValid = false;
+        }
+    }
+    
+    if (!isValid) {
+        showValidationError();
+    }
+    
+    return isValid;
+}
+
+function showValidationError() {
+    const errorEl = document.createElement('div');
+    errorEl.className = 'validation-error';
+    errorEl.innerHTML = `
+        <i class="fas fa-exclamation-circle"></i>
+        Please fill in all required fields correctly
+    `;
+    errorEl.style.cssText = `
+        background: #fdeaea;
+        color: #e74c3c;
+        padding: 10px 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        animation: shake 0.5s ease;
+    `;
+    
+    const existingError = document.querySelector('.validation-error');
+    if (existingError) existingError.remove();
+    
+    document.querySelector('.form-section.active').prepend(errorEl);
+    
+    setTimeout(() => {
+        errorEl.style.opacity = '0';
+        setTimeout(() => errorEl.remove(), 300);
+    }, 3000);
+}
+
+// Credentials Generation
+function generateCredentials() {
+    const name = document.getElementById('guestName').value.trim();
+    const timestamp = Date.now().toString().slice(-6);
+    const random = Math.random().toString(36).substring(2, 6);
+    
+    // Generate username from name + timestamp
+    const username = name.toLowerCase().replace(/\s+/g, '_') + '_' + timestamp + random;
+    document.getElementById('generatedUsername').textContent = username;
+    
+    // Generate secure password
+    const password = generateSecurePassword();
+    document.getElementById('generatedPassword').textContent = password;
+    
+    // Store credentials for later use
+    window.guestCredentials = {
+        username: username,
+        password: password
+    };
+}
+
+function generateSecurePassword() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    let password = '';
+    for (let i = 0; i < 12; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return password;
+}
+
+function togglePasswordVisibility() {
+    const passwordEl = document.getElementById('generatedPassword');
+    const btn = document.querySelector('.reveal-btn i');
+    
+    if (passwordEl.textContent === window.guestCredentials.password) {
+        passwordEl.textContent = '••••••••••';
+        btn.className = 'fas fa-eye';
+    } else {
+        passwordEl.textContent = window.guestCredentials.password;
+        btn.className = 'fas fa-eye-slash';
+    }
+}
+
+// Form Submission
+function createGuestAccount() {
+    if (!validateCurrentSection()) return;
+    
+    const guestData = {
+        name: document.getElementById('guestName').value.trim(),
+        dob: document.getElementById('guestDob').value,
+        phone: document.getElementById('guestPhone').value.trim(),
+        email: document.getElementById('guestEmail').value.trim(),
+        username: window.guestCredentials.username,
+        password: window.guestCredentials.password,
+        created: new Date().toISOString(),
+        status: 'active'
+    };
+    
+    // Show loading state
+    const createBtn = document.getElementById('createGuestBtn');
+    const originalText = createBtn.innerHTML;
+    createBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+    createBtn.disabled = true;
+    
+    // Simulate API call
+    setTimeout(() => {
+        // In real implementation, send to backend
+        console.log('Guest account created:', guestData);
+        
+        // Show success message
+        showSuccessMessage();
+        
+        // Reset button
+        createBtn.innerHTML = originalText;
+        createBtn.disabled = false;
+        
+        // Close modal after 2 seconds
+        setTimeout(() => {
+            document.getElementById('createAccountModal').style.display = 'none';
+            resetForm();
+        }, 2000);
+    }, 1500);
+}
+
+function showSuccessMessage() {
+    const successEl = document.createElement('div');
+    successEl.className = 'success-message';
+    successEl.innerHTML = `
+        <i class="fas fa-check-circle"></i>
+        <div>
+            <strong>Account Created Successfully!</strong>
+            <p>Credentials have been generated and saved.</p>
+        </div>
+    `;
+    successEl.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #2ecc71;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        z-index: 9999;
+        animation: slideInRight 0.3s ease;
+    `;
+    
+    document.body.appendChild(successEl);
+    
+    setTimeout(() => {
+        successEl.style.animation = 'slideOutRight 0.3s ease';
+        setTimeout(() => successEl.remove(), 300);
+    }, 3000);
+}
+
+function resetForm() {
+    // Reset form values
+    document.getElementById('guestName').value = '';
+    document.getElementById('guestDob').value = '';
+    document.getElementById('guestPhone').value = '';
+    document.getElementById('guestEmail').value = '';
+    document.getElementById('generatedUsername').textContent = 'guest_20250115_abc123';
+    document.getElementById('generatedPassword').textContent = '••••••••••';
+    
+    // Reset form state
+    currentFormSection = 1;
+    updateFormProgress();
+    
+    // Remove any generated credentials
+    delete window.guestCredentials;
+}
+
+// Initialize form on modal open
+document.querySelector('.create-account-btn').onclick = () => {
+    document.getElementById('createAccountModal').style.display = 'block';
+    resetForm();
+};
+
+// Close modal handlers
+document.querySelectorAll('.modal-close').forEach(closeBtn => {
+    closeBtn.onclick = function() {
+        this.closest('.modal').style.display = 'none';
+    };
+});
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+    updateFormProgress();
+});
+
 
         // Update the clear search handler
         searchInput.addEventListener('search', function() {
