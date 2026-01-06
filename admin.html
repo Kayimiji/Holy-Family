@@ -2514,7 +2514,7 @@
     </div>
     </div>
     <div class="requests-table-container">
-    <table class="requests-table">
+       <table class="requests-table">
     <thead>
     <tr>
     <th><input type="checkbox" id="selectAll"></th>
@@ -2612,7 +2612,7 @@
     </div>
     <!-- Restart Tutorial FAB -->
     <button class="fab tutorial" onclick="restartTutorial()" title="Restart Tutorial">
-     <i class="fas fa-play-circle"></i>
+     <i class="fas fa-question-circle"></i>
     </button>
 
 
@@ -3229,6 +3229,7 @@
     let currentTutorialStep = 0;
     let isTutorialActive = false;
     let tutorialCompleted = localStorage.getItem('tutorialCompleted') === 'true';
+    let tutorialShownInSession = sessionStorage.getItem('tutorialShownInSession') === 'true';
 
     // Initialize tutorial
     function initTutorial() {
@@ -3247,9 +3248,9 @@
         // Set total steps
         document.getElementById('tutorialTotalSteps').textContent = tutorialSteps.length;
         
-        // Auto-start tutorial on every page open (no sidebar trigger required)
+        // Only auto-start if not shown in this session AND not previously completed
         setTimeout(() => {
-            if (!isTutorialActive) {
+            if (!isTutorialActive && !tutorialShownInSession && !tutorialCompleted) {
                 startTutorial();
             }
         }, 1200);
@@ -3259,6 +3260,8 @@
     function startTutorial() {
         isTutorialActive = true;
         currentTutorialStep = 0;
+        tutorialShownInSession = true;
+        sessionStorage.setItem('tutorialShownInSession', 'true');
         showTutorialStep(0);
         document.getElementById('tutorialOverlay').style.display = 'flex';
         
@@ -3711,6 +3714,8 @@
     // Tutorial completion functions
     function skipTutorial() {
         isTutorialActive = false;
+        tutorialShownInSession = true;
+        sessionStorage.setItem('tutorialShownInSession', 'true');
         document.getElementById('tutorialOverlay').style.display = 'none';
         document.body.style.overflow = 'auto';
         
@@ -3719,13 +3724,15 @@
             el.classList.remove('tutorial-interactive');
         });
         
-        showToast('Tutorial skipped. You can restart it anytime from the sidebar.', 'info');
+        showToast('Tutorial skipped. You can restart it anytime from the FAB button.', 'info');
     }
 
     function completeTutorial() {
         isTutorialActive = false;
         tutorialCompleted = true;
+        tutorialShownInSession = true;
         localStorage.setItem('tutorialCompleted', 'true');
+        sessionStorage.setItem('tutorialShownInSession', 'true');
         document.getElementById('tutorialOverlay').style.display = 'none';
         document.body.style.overflow = 'auto';
         
@@ -4472,20 +4479,30 @@
         document.getElementById('reminderNewDate').textContent = formatDate(appointmentData.newDate);
         document.getElementById('reminderNewTime').textContent = formatTime(appointmentData.newTime);
         document.getElementById('reminderProcedure').textContent = appointmentData.procedure;
+        document.getElementById('reminderDoctor').textContent = appointmentData.doctor || 'Dr. Admin';
         document.getElementById('smsPhoneNumber').innerHTML = `<i class="fas fa-phone"></i> ${appointmentData.contact || '+63 XXX XXX XXXX'}`;
         document.getElementById('emailAddress').innerHTML = `<i class="fas fa-at"></i> ${appointmentData.email || 'patient@example.com'}`;
         
         // Update previews
-        document.getElementById('previewPatientName').textContent = appointmentData.patientName;
-        document.getElementById('previewNewDate').textContent = formatDate(appointmentData.newDate);
-        document.getElementById('previewNewTime').textContent = formatTime(appointmentData.newTime);
-        document.getElementById('previewProcedure').textContent = appointmentData.procedure;
+        document.getElementById('smsPreview').innerHTML = `
+            Dear <strong id="previewPatientName">${appointmentData.patientName}</strong>,<br>
+            Your appointment has been rescheduled to <strong id="previewNewDate">${formatDate(appointmentData.newDate)}</strong> at <strong id="previewNewTime">${formatTime(appointmentData.newTime)}</strong>.<br>
+            Procedure: <strong id="previewProcedure">${appointmentData.procedure}</strong>.<br>
+            Please arrive 15 minutes early.
+        `;
         
-        document.getElementById('emailPreviewPatientName').textContent = appointmentData.patientName;
-        document.getElementById('emailPreviewNewDate').textContent = formatDate(appointmentData.newDate);
-        document.getElementById('emailPreviewNewTime').textContent = formatTime(appointmentData.newTime);
-        document.getElementById('emailPreviewProcedure').textContent = appointmentData.procedure;
-        document.getElementById('emailPreviewDoctor').textContent = appointmentData.doctor || 'Dr. Admin';
+        document.getElementById('emailPreview').innerHTML = `
+            <strong>Subject:</strong> Appointment Rescheduled - Holy Family Dental Clinic<br>
+            <strong>Dear <span id="emailPreviewPatientName">${appointmentData.patientName}</span>,</strong><br>
+            Your appointment has been rescheduled with the following details:<br>
+            <ul>
+                <li><strong>New Date:</strong> <span id="emailPreviewNewDate">${formatDate(appointmentData.newDate)}</span></li>
+                <li><strong>New Time:</strong> <span id="emailPreviewNewTime">${formatTime(appointmentData.newTime)}</span></li>
+                <li><strong>Procedure:</strong> <span id="emailPreviewProcedure">${appointmentData.procedure}</span></li>
+                <li><strong>Doctor:</strong> <span id="emailPreviewDoctor">${appointmentData.doctor || 'Dr. Admin'}</span></li>
+            </ul>
+            Please contact us at (02) 123-4567 if you have any questions.
+        `;
         
         // Reset progress
         document.getElementById('reminderProgress').style.display = 'none';
@@ -4864,25 +4881,25 @@
     });
     });
     function restartTutorial(){
-    // Clean any existing tutorial state
-    document.querySelectorAll(".spotlight").forEach(el=>{
-        el.classList.remove("spotlight");
-    });
+        // Reset session flag to allow tutorial to show again
+        sessionStorage.removeItem('tutorialShownInSession');
+        tutorialShownInSession = false;
+        
+        // Clean any existing tutorial state
+        document.querySelectorAll(".spotlight").forEach(el=>{
+            el.classList.remove("spotlight");
+        });
 
-    const arrow = document.getElementById("arrow");
-    const overlay = document.getElementById("overlay");
-    const walkBox = document.getElementById("walkBox");
+        const arrow = document.getElementById("arrow");
+        const overlay = document.getElementById("overlay");
+        const walkBox = document.getElementById("walkBox");
 
-    if(arrow) arrow.style.display="none";
-    if(overlay) overlay.style.display="none";
-    if(walkBox) walkBox.style.display="none";
+        if(arrow) arrow.style.display="none";
+        if(overlay) overlay.style.display="none";
+        if(walkBox) walkBox.style.display="none";
 
-    // Restart walkthrough
-    if(typeof startTutorial === "function"){
+        // Restart walkthrough
         startTutorial();
-    }else{
-        alert("Tutorial function not found.");
-    }
     }
 
 
