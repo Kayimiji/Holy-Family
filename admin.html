@@ -2577,47 +2577,16 @@
     </div>
     <!-- Floating Action Buttons -->
     <div class="fab-container">
-    <button class="fab patient" onclick="addPatient()" title="Add Patient">
+    <button class="fab patient" onclick="showAddPatientModal()" title="Add Patient">
         <i class="fas fa-user-plus"></i>
     </button>
-    <!-- ADD PATIENT MODAL -->
-    <div class="modal-overlay hidden" id="addPatientModal">
-    <div class="modal-card">
-        <div class="modal-header">
-        <h3>Add New Patient</h3>
-        <button class="close-btn" onclick="closeAddPatient()">✕</button>
-        </div>\
 
-        <form id="addPatientForm">
-        <div class="form-grid">
-            <input type="text" placeholder="Full Name" required>
-            <input type="number" placeholder="Age" required>
-            <select required>
-            <option value="">Gender</option>
-            <option>Male</option>
-            <option>Female</option>
-            </select>
-            <input type="tel" placeholder="Contact Number" required>
-            <input type="email" placeholder="Email (optional)">
-            <input type="text" placeholder="Address">
-        </div>
-
-        <div class="modal-actions">
-            <button type="button" class="btn-cancel" onclick="closeAddPatient()">Cancel</button>
-            <button type="submit" class="btn-save">Save Patient</button>
-        </div>
-        </form>
-
-    </div>
-    </div>
     <!-- Restart Tutorial FAB -->
     <button class="fab tutorial" onclick="restartTutorial()" title="Restart Tutorial">
      <i class="fas fa-play-circle"></i>
     </button>
 
-
-
-    <button class="fab appointment" onclick="addAppointment()" title="Add Appointment">
+    <button class="fab appointment" onclick="showAddAppointmentModal()" title="Add Appointment">
         <i class="fas fa-calendar-plus"></i>
     </button>
 
@@ -2670,6 +2639,169 @@
         
     </div>
     </div>
+
+    <!-- Add Appointment Modal -->
+<div id="addAppointmentModal" class="confirmation-modal">
+    <div class="confirmation-content" style="max-width: 600px;">
+        <div class="modal-decoration modal-decoration-1"></div>
+        <div class="modal-decoration modal-decoration-2"></div>
+
+
+        <div class="confirmation-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center;">
+                <div class="confirmation-icon" style="background-color: rgba(255, 215, 0, 0.2); color: #FFD700;">
+                    <i class="fas fa-calendar-plus"></i>
+                </div>
+                <h3 class="confirmation-title">Add New Appointment</h3>
+            </div>
+            <button onclick="closeAddAppointmentModal()" style="background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1.2rem;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+         <div style="margin: 20px 0;">
+            <!-- Patient Selection -->
+            <div class="form-group">
+                <label><i class="fas fa-user"></i> Select Patient</label>
+                <select id="addPatientSelect" class="form-control">
+                    <option value="">Select Patient</option>
+                    <option value="new">+ Add New Patient</option>
+                    <option value="P001">John Doe (P001)</option>
+                    <option value="P002">Jane Smith (P002)</option>
+                    <option value="P003">Michael Johnson (P003)</option>
+                    <option value="P004">Sarah Williams (P004)</option>
+                    <option value="P005">Robert Brown (P005)</option>
+                </select>
+            </div> 
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-calendar-day"></i> Appointment Date</label>
+                    <input type="date" id="addAppointmentDate" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-clock"></i> Appointment Time</label>
+                    <input type="time" id="addAppointmentTime" class="form-control">
+                </div>
+            </div>
+
+             <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-stethoscope"></i> Procedure</label>
+                    <select id="addAppointmentProcedure" class="form-control">
+                        <option value="">Select Procedure</option>
+                        <option value="Dental Cleaning">Dental Cleaning</option>
+                        <option value="Root Canal">Root Canal</option>
+                        <option value="Tooth Extraction">Tooth Extraction</option>
+                        <option value="Dental Filling">Dental Filling</option>
+                        <option value="Dental Crown">Dental Crown</option>
+                        <option value="Dental Bridge">Dental Bridge</option>
+                        <option value="Dental Implant">Dental Implant</option>
+                        <option value="Teeth Whitening">Teeth Whitening</option>
+                        <option value="Consultation">Consultation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-user-md"></i> Doctor</label>
+                    <select id="addAppointmentDoctor" class="form-control">
+                        <option value="Dr. Admin">Dr. Admin</option>
+                        <option value="Dr. Smith">Dr. Smith</option>
+                        <option value="Dr. Johnson">Dr. Johnson</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-notes-medical"></i> Notes (Optional)</label>
+                <textarea id="addAppointmentNotes" class="form-control" rows="3" placeholder="Add any notes or special instructions..."></textarea>
+            </div>
+        </div>
+
+        <div class="confirmation-buttons">
+            <button class="cancel-btn" onclick="closeAddAppointmentModal()">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="confirm-btn" onclick="saveNewAppointment()" style="background-color: #FFD700; color: #000;">
+                <i class="fas fa-save"></i> Save Appointment
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Add Patient Modal -->
+<div id="addPatientModal" class="confirmation-modal">
+    <div class="confirmation-content" style="max-width: 600px;">
+        <div class="modal-decoration modal-decoration-1"></div>
+        <div class="modal-decoration modal-decoration-2"></div>
+
+         <div class="confirmation-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center;">
+                <div class="confirmation-icon" style="background-color: rgba(50, 205, 50, 0.2); color: #32CD32;">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h3 class="confirmation-title">Add New Patient</h3>
+            </div>
+            <button onclick="closeAddPatientModal()" style="background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1.2rem;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div style="margin: 20px 0;">
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> First Name</label>
+                    <input type="text" id="patientFirstName" class="form-control" placeholder="Enter first name">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Last Name</label>
+                    <input type="text" id="patientLastName" class="form-control" placeholder="Enter last name">
+                </div>
+
+                </div>
+                  <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-birthday-cake"></i> Date of Birth</label>
+                    <input type="date" id="patientDOB" class="form-control">
+                </div>
+                 <div class="form-group">
+                    <label><i class="fas fa-venus-mars"></i> Gender</label>
+                    <select id="patientGender" class="form-control">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+              <div class="form-group">
+                <label><i class="fas fa-phone"></i> Contact Number</label>
+                <input type="tel" id="patientContact" class="form-control" placeholder="+63 912 345 6789">
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Email Address</label>
+                <input type="email" id="patientEmail" class="form-control" placeholder="patient@example.com">
+            </div>
+
+             <div class="form-group">
+                <label><i class="fas fa-map-marker-alt"></i> Address</label>
+                <textarea id="patientAddress" class="form-control" rows="2" placeholder="Enter complete address"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-notes-medical"></i> Medical History (Optional)</label>
+                <textarea id="patientMedicalHistory" class="form-control" rows="3" placeholder="Any known allergies, medical conditions, or previous dental treatments..."></textarea>
+            </div>
+        </div>
+
+        <div class="confirmation-buttons">
+            <button class="cancel-btn" onclick="closeAddPatientModal()">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="confirm-btn" onclick="saveNewPatient()" style="background-color: #32CD32;">
+                <i class="fas fa-save"></i> Save Patient
+            </button>
+        </div>
+    </div>
+</div>
 
     <!-- Accept Confirmation Modal -->
     <div id="acceptConfirmationModal" class="confirmation-modal">
@@ -4488,16 +4620,193 @@
         }, 1000);
     }
 
+    function showAddAppointmentModal() {
+    // Set default date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('addAppointmentDate').value = today;
+    
+    // Set default time to next hour
+    const nextHour = new Date();
+    nextHour.setHours(nextHour.getHours() + 1);
+    const timeString = nextHour.getHours().toString().padStart(2, '0') + ':00';
+    document.getElementById('addAppointmentTime').value = timeString;
+    
+    // Clear other fields
+    document.getElementById('addPatientSelect').value = '';
+    document.getElementById('addAppointmentProcedure').value = '';
+    document.getElementById('addAppointmentDoctor').value = 'Dr. Admin';
+    document.getElementById('addAppointmentNotes').value = '';
+    
+    document.getElementById('addAppointmentModal').classList.add('active');
+}
 
-    function addPatient() {
-        alert("Add Patient");
-        // open add patient modal
-    }
 
-    function addAppointment() {
-        alert("Add Appointment");
-        // open appointment modal
+function closeAddAppointmentModal() {
+    document.getElementById('addAppointmentModal').classList.remove('active');
+}
+
+function showAddPatientModal() {
+    console.log("HELLLOOO")
+    // Clear all fields
+    document.getElementById('patientFirstName').value = '';
+    document.getElementById('patientLastName').value = '';
+    document.getElementById('patientDOB').value = '';
+    document.getElementById('patientGender').value = '';
+    document.getElementById('patientContact').value = '';
+    document.getElementById('patientEmail').value = '';
+    document.getElementById('patientAddress').value = '';
+    document.getElementById('patientMedicalHistory').value = '';
+    
+    document.getElementById('addPatientModal').classList.add('active');
+}
+
+
+function closeAddPatientModal() {
+    document.getElementById('addPatientModal').classList.remove('active');
+}
+
+function saveNewAppointment() {
+    const patientSelect = document.getElementById('addPatientSelect').value;
+    const date = document.getElementById('addAppointmentDate').value;
+    const time = document.getElementById('addAppointmentTime').value;
+    const procedure = document.getElementById('addAppointmentProcedure').value;
+    const doctor = document.getElementById('addAppointmentDoctor').value;
+    const notes = document.getElementById('addAppointmentNotes').value;
+    
+    // Validation
+    if (!patientSelect) {
+        showToast('Please select a patient', 'warning');
+        return;
     }
+    
+    if (!date || !time) {
+        showToast('Please select date and time', 'warning');
+        return;
+    }
+    
+    if (!procedure) {
+        showToast('Please select a procedure', 'warning');
+        return;
+    }
+    
+    // Get patient name based on selection
+    let patientName = '';
+    if (patientSelect === 'new') {
+        // If new patient, open patient modal first
+        showToast('Please add patient details first', 'warning');
+        closeAddAppointmentModal();
+        setTimeout(() => showAddPatientModal(), 300);
+        return;
+    } else {
+        // Get patient name from existing data
+        const patientData = getPatientData(patientSelect);
+        patientName = patientData ? patientData.name : 'New Patient';
+    }
+    
+    showLoading(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+        showLoading(false);
+        
+        // Check if appointment is for today
+        const today = new Date().toISOString().split('T')[0];
+        const isToday = date === today;
+        
+        // Create new appointment
+        const newAppointment = {
+            id: 'apt_' + Date.now(),
+            patientName: patientName,
+            date: date,
+            time: time,
+            procedure: procedure,
+            doctor: doctor,
+            status: 'Scheduled',
+            notes: notes,
+            contact: '09123456789', // Default contact
+            email: 'patient@example.com', // Default email
+            patientId: patientSelect,
+            createdAt: new Date().toISOString()
+        };
+
+        if (isToday) {
+            // Add to today's appointments
+            todaysAppointments.push(newAppointment);
+            showToast(`Appointment added for today at ${formatTime(time)}`, 'success');
+        } else {
+            // Add to appointment requests (for future dates)
+            appointmentRequests.push({
+                ...newAppointment,
+                requestedDate: date,
+                requestedTime: time,
+                status: 'Pending'
+            });
+            showToast(`Appointment scheduled for ${formatDate(date)}`, 'success');
+        }
+
+         updateTodayTable();
+        updateStats();
+        closeAddAppointmentModal();
+        
+    }, 1000);
+}
+
+function saveNewPatient() {
+    const firstName = document.getElementById('patientFirstName').value.trim();
+    const lastName = document.getElementById('patientLastName').value.trim();
+    const dob = document.getElementById('patientDOB').value;
+    const gender = document.getElementById('patientGender').value;
+    const contact = document.getElementById('patientContact').value.trim();
+    const email = document.getElementById('patientEmail').value.trim();
+    const address = document.getElementById('patientAddress').value.trim();
+    const medicalHistory = document.getElementById('patientMedicalHistory').value.trim();
+    
+    // Validation
+    if (!firstName || !lastName) {
+        showToast('Please enter patient name', 'warning');
+        return;
+    }
+    
+    if (!dob) {
+        showToast('Please enter date of birth', 'warning');
+        return;
+    }
+    
+    if (!gender) {
+        showToast('Please select gender', 'warning');
+        return;
+    }
+    
+    if (!contact) {
+        showToast('Please enter contact number', 'warning');
+        return;
+    }
+    
+    showLoading(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+        showLoading(false);
+        
+        // Generate patient ID
+        const patientId = 'P' + (Math.floor(Math.random() * 900) + 100);
+        const fullName = `${firstName} ${lastName}`;
+        
+        // In a real app, you would save this to a database
+        // For now, we'll just show a success message
+        showToast(`Patient ${fullName} added successfully!`, 'success');
+        
+        // Add to patient select dropdown in appointment modal
+        const select = document.getElementById('addPatientSelect');
+        const option = document.createElement('option');
+        option.value = patientId;
+        option.textContent = `${fullName} (${patientId})`;
+        select.appendChild(option);
+        
+        closeAddPatientModal();
+        
+    }, 1000);
+}
 
 
     // Show reminder modal
@@ -4896,13 +5205,6 @@
                 console.warn('Loading timeout - forcing hide');
             }
         }, 10000);
-        function addPatient() {
-        document.getElementById("addPatientModal").classList.remove("hidden");
-    }
-
-    function closeAddPatient() {
-        document.getElementById("addPatientModal").classList.add("hidden");
-    }
 
     document.getElementById("addPatientForm").addEventListener("submit", function(e) {
         e.preventDefault();

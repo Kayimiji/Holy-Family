@@ -1961,7 +1961,8 @@
 
                 alert("Signup successful! You are now logged in.");
                 closeModal(document.getElementById("signup-modal")); // close modal
-
+                window.location.href = "admin.html";
+                
             } catch (err) {
                 console.error(err);
                 alert(err.message);
@@ -2089,8 +2090,7 @@
         /*** ===== ADMIN DASHBOARD BUTTON ===== ***/
         if (adminDashBtn) {
             const isLoggedIn = localStorage.getItem("isLoggedIn");
-            const role = localStorage.getItem("role");
-            adminDashBtn.style.display = (isLoggedIn === "true" && role === "admin") ? "flex" : "none";
+            adminDashBtn.style.display = (isLoggedIn === "true") ? "flex" : "none";
         }
 
     });
