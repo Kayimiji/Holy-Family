@@ -94,202 +94,256 @@
         }
         
         .sidebar {
-    background-color: var(--sidebar-bg);
-    color: var(--sidebar-text);
-    padding: 20px 0;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
-    flex-shrink: 0;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+            flex-shrink: 0;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-.main-content {
-    flex-direction: column;
-    padding: 30px;
-    display: flex;
-    flex: 1;
-    width: calc(100% - 280px);
-    margin-left: auto;
-    background: linear-gradient(to bottom right, var(--bg-color) 0%, rgba(255, 255, 255, 0.05) 100%);
-    min-height: 100vh;
-    transition: all 0.3s ease;
-}
+        .main-content {
+            flex-direction: column;
+            padding: 30px;
+            display: flex;
+            flex: 1;
+            width: calc(100% - 280px);
+            margin-left: auto;
+            background: linear-gradient(to bottom right, var(--bg-color) 0%, rgba(255, 255, 255, 0.05) 100%);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding: 15px 25px;
-    background: var(--card-bg);
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px 25px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
 
-.return-home-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
+        .return-home-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-.return-home-menu li {
-    margin: 5px 0;
-}
+        .return-home-menu li {
+            margin: 5px 0;
+        }
 
-.return-home-menu a {
-    display: flex;
-    align-items: center;
-    padding: 12px 25px;
-    color: var(--sidebar-text);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-size: 0.95rem;
-    border-left: 3px solid transparent;
-}
+        .return-home-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 25px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            border-left: 3px solid transparent;
+        }
 
-.return-home-menu a:hover {
-    background: rgba(0, 191, 255, 0.1);
-    border-left-color: var(--sidebar-active);
-    padding-left: 28px;
-}
+        .return-home-menu a:hover {
+            background: rgba(0, 191, 255, 0.1);
+            border-left-color: var(--sidebar-active);
+            padding-left: 28px;
+        }
 
         /* ============================================= */
         /* SIDEBAR COMPONENTS */
         /* ============================================= */
-       
 
-.sidebar-header {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    margin-bottom: 30px;
-}
-
-.sidebar-logo {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    margin-right: -5px;
-    margin-top: -45px;
-    margin-left: -20px;
-    object-fit: cover;
-}
-
-.sidebar-title h2 {
-    color: var(--sidebar-active);
-    margin: 0;
-    font-size: 18px;
-    line-height: 1;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    white-space: nowrap;
-}
-
-.sidebar-title p {
-    color: var(--sidebar-text);
-    font-size: 12px;
-    margin-top: 10px;
-    margin-left: -40px;
-    font-style: italic;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    white-space: normal;
-}
-
-.holy-family {
-    color: #1380d3;
-    font-weight: bold;
-}
-
-.dental-clinic {
-    color: #00c4cc;
-    font-weight: bold;
-}
-
-.sidebar-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar-menu li {
-    margin-bottom: 5px;
-}
-
-       .sidebar-menu a {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    color: var(--sidebar-text);
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.sidebar-menu a:hover, .sidebar-menu a.active {
-    background-color: rgba(0, 191, 255, 0.2);
-    color: white;
-    border-left: 3px solid var(--sidebar-active);
-}
-
-.sidebar-menu i {
-    margin-right: 10px;
-    width: 20px;
-    text-align: center;
-}
-
-.settings-menu a:hover, .return-home-menu a:hover {
-    background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
-    color: white; /* Change text color on hover */
-    border-left: 3px solid var(--sidebar-active); /* Add left border */
-    display: block; /* Ensure the hover effect spans the full width */
-    width: 100%; /* Extend hover effect across the full width */
-    padding-right: 25px; /* Maintain alignment */
-}
-
-        .btn {
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            margin-top: -10px;
-            align-items: center;
-            gap: 5px;
-            font-size: 13px;
-            border: none;
-        }
-        
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--sidebar-active);
-            color: var(--sidebar-active);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--sidebar-active);
-            color: white;
-            box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
-        }
-
-         .theme-toggle {
+        .sidebar-header {
             display: flex;
             align-items: center;
-            margin-left: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+        }
+
+        .sidebar-title {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sidebar-title h2 {
+            color: var(--sidebar-active);
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.2;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar-title p {
+            color: var(--sidebar-text);
+            font-size: 11px;
+            margin-top: 6px;
+            margin-left: 0;
+            font-style: italic;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            white-space: normal;
+            opacity: 0.9;
+        }
+
+        .holy-family {
+            color: #1380d3;
+            font-weight: 700;
+        }
+
+        .dental-clinic {
+            color: #00c4cc;
+            font-weight: 700;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 0;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .sidebar-menu a:hover, 
+        .sidebar-menu a.active {
+            background-color: rgba(0, 191, 255, 0.15);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+            padding-left: 23px;
+        }
+
+        .sidebar-menu i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .sidebar-footer {
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .settings-menu {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .settings-menu, 
+        .return-home-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .settings-menu li, 
+        .return-home-menu li {
+            margin: 0;
+        }
+
+        .settings-menu a, 
+        .return-home-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            border-left: 3px solid transparent;
+        }
+
+        .settings-menu a:hover, 
+        .return-home-menu a:hover {
+            background-color: rgba(0, 191, 255, 0.15);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+            padding-left: 23px;
+        }
+
+        .settings-menu i, 
+        .return-home-menu i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .logout-btn {
+            color: rgba(255, 159, 159, 0.9) !important;
+        }
+
+        .logout-btn:hover {
+            background-color: rgba(231, 76, 60, 0.15) !important;
+            border-left-color: #e74c3c !important;
+            color: #ff9f9f !important;
+        }
+
+        /* ============================================= */
+        /* THEME TOGGLE STYLES */
+        /* ============================================= */
+
+        .theme-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
             gap: 10px;
         }
 
-        .theme-toggle-label {
+         .theme-switcher-label {
             font-size: 14px;
             color: var(--text-color);
         }
 
-       .switch {
+         .switch {
             position: relative;
             display: inline-block;
             width: 50px;
@@ -325,14 +379,6 @@
             transition: .4s;
             border-radius: 50%;
         }
-
-
-        // Fully booked dates (sample data - in a real app this would come from your database)
-        const fullyBookedDates = [
-            "2024-03-15", // YYYY-MM-DD format
-            "2024-03-20",
-            "2024-03-25"
-        ];
 
         input:checked + .slider {
             background-color: #00bfff;
@@ -704,17 +750,23 @@ h2 {
 .patients-table-container {
     max-height: calc(100vh - 250px);
     overflow-y: auto;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+    border-radius: 14px;
     margin-top: 20px;
-    background: linear-gradient(to bottom, var(--card-bg) 0%, var(--bg-color) 100%);
-    box-shadow: 0 12px 24px -6px rgba(0,0,0,0.1);
-    transition: none; /* Remove transition */
+    background: linear-gradient(135deg, var(--card-bg) 0%, var(--bg-color) 100%);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    animation: slideInUp 0.5s ease;
 }
 
-.patients-table-container:hover {
-    /* Remove transform and shadow change */
-    box-shadow: 0 12px 24px -6px rgba(0,0,0,0.1);
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .patients-table {
@@ -727,438 +779,354 @@ h2 {
 .patients-table thead {
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 10;
 }
 
 .patients-table th {
-    background: linear-gradient(to bottom, var(--sidebar-bg) 0%, #1e2a3a 100%);
+    background: linear-gradient(135deg, var(--sidebar-bg) 0%, #1e2a3a 100%);
     color: var(--sidebar-text);
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
     font-size: 0.75rem;
-    letter-spacing: 1px;
-    padding: 16px 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: background-color 0.3s ease;
+    letter-spacing: 1.2px;
+    padding: 18px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    border-bottom: 2px solid var(--sidebar-active);
+}
+
+.patients-table th:hover {
+    background: linear-gradient(135deg, #1e2a3a 0%, var(--sidebar-bg) 100%);
+    cursor: pointer;
 }
 
 .patients-table td {
-    padding: 16px 20px;
+    padding: 18px 20px;
     border-bottom: 1px solid var(--border-color);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     vertical-align: middle;
+    transition: all 0.2s ease;
 }
 
 .patients-table tbody tr {
-    transition: none; /* Remove transition */
-    border-left: 3px solid transparent;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-left: 4px solid transparent;
 }
 
 .patients-table tbody tr:hover {
     background-color: var(--hover-bg);
-    border-left: 3px solid var(--sidebar-active);
-    /* Remove transform scale effect */
+    border-left-color: var(--sidebar-active);
+    box-shadow: inset 4px 0 0 var(--sidebar-active);
+    transform: scale(1.01);
 }
 
-/* Enhanced the contact info styling */
+.patient-name {
+    font-weight: 700;
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+.patient-id {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-top: 4px;
+}
+
+/* Enhanced contact info styling */
 .contact-info {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    padding: 4px 0;
+    gap: 6px;
 }
 
 .contact-info .email {
     color: var(--sidebar-active);
-    font-weight: 500;
+    font-weight: 600;
     display: flex;
     align-items: center;
     gap: 6px;
+    transition: all 0.3s ease;
+    text-decoration: none;
 }
 
 .contact-info .email:hover {
     color: #0099cc;
+    text-decoration: underline;
+    transform: translateX(2px);
 }
 
 .contact-info .phone {
     display: flex;
     align-items: center;
     gap: 6px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Enhanced action button */
+.action-btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--sidebar-active), #0099cc);
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.2);
+    border: 1px solid rgba(0, 191, 255, 0.3);
+}
+
+.action-btn:hover {
+    background: linear-gradient(135deg, #0099cc, var(--sidebar-active));
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 191, 255, 0.4);
+}
+
+.action-btn:active {
+    transform: translateY(-1px);
 }
 
 /* Enhanced checkbox styling */
 .patients-table input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border: 2px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: 5px;
     background: var(--card-bg);
     cursor: pointer;
-    position: relative;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .patients-table input[type="checkbox"]:checked {
-    background: var(--sidebar-active);
+    background: linear-gradient(135deg, var(--sidebar-active), #0099cc);
     border-color: var(--sidebar-active);
+    box-shadow: 0 0 8px rgba(0, 191, 255, 0.4);
 }
 
 .patients-table input[type="checkbox"]:checked::after {
     content: '✓';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     color: white;
-    font-size: 12px;
+    font-size: 14px;
+    font-weight: bold;
 }
 
-/* Action button enhancements */
-.action-btn {
-    padding: 8px 16px;
+/* Enhanced search styling */
+.search input {
+    transition: all 0.3s ease;
+    border: 2px solid var(--border-color);
+}
+
+.search input:focus {
+    outline: none;
+    border-color: var(--sidebar-active);
+    box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Enhanced create button */
+.create-account-btn {
+    background: linear-gradient(135deg, var(--sidebar-active), #00c4cc);
+    color: white;
+    padding: 12px 20px;
     border: none;
     border-radius: 8px;
-    background: linear-gradient(to bottom right, var(--sidebar-active), #0099cc);
-    color: white;
-    font-size: 0.85rem;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.action-btn:hover {
-    background: linear-gradient(to bottom right, #0099cc, var(--sidebar-active));
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,191,255,0.3);
-}
-
-/* Sorting styles */
-.patients-table th.sort-asc::after {
-    content: ' ↑';
-    color: var(--sidebar-active);
-}
-
-.patients-table th.sort-desc::after {
-    content: ' ↓';
-    color: var(--sidebar-active);
-}
-
-.patients-table th:not(:first-child) {
-    cursor: pointer;
-}
-
-.patients-table th:not(:first-child):hover {
-    background: linear-gradient(to bottom, var(--sidebar-bg) 0%, #2a3f54 100%);
-}
-
-
-/* Fix bottom menu styling */
-.bottom-menu {
-    margin-top: auto;
-    padding-top: 10px;
-    padding-bottom: 60px;
-}
-
-.settings-menu, .return-home-menu {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-/* Remove the absolute positioning */
-.bottom-menu > div {
-    position: static;
-}
-
-/* Add highlight style */
-.highlight {
-    background-color: rgba(0, 191, 255, 0.2);
-    padding: 2px;
-    border-radius: 2px;
-}
-
-/* Add this to the CSS section */
-.search-hidden {
-    visibility: hidden;
-    height: 0;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: none !important;
-}
-
-.patients-table tr {
-    height: 72px; /* Set a fixed height for table rows */
-}
-/* ============================================= */
-/* ENHANCED CREATE PATIENT MODAL UI */
-/* ============================================= */
-
-#createPatientModal {
-    backdrop-filter: blur(4px);
-}
-
-#createPatientModal .modal-content {
-    max-width: 520px;
-    border-radius: 16px;
-    padding: 28px;
-    animation: modalFadeIn 0.35s ease;
-    background: linear-gradient(
-        to bottom right,
-        var(--card-bg),
-        var(--bg-color)
-    );
-}
-
-/* Modal header */
-.create-patient-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+    font-size: 0.9rem;
 }
 
-.create-patient-header i {
-    font-size: 26px;
-    color: var(--sidebar-active);
+.create-account-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 191, 255, 0.4);
 }
 
-.create-patient-header h2 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 600;
+.create-account-btn:active {
+    transform: translateY(-1px);
 }
 
-/* Input groups */
-.createPatientModal .detail-group {
-    margin-bottom: 14px;
+/* Enhanced modal styling */
+#createPatientModal .modal-content {
+    max-width: 540px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    animation: modalBounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
+
+@keyframes modalBounce {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Enhanced form inputs in modal */
 .createPatientModal .form-input {
-    height: 42px;
-    border-radius: 8px;
-    transition: all 0.25s ease;
+    height: 44px;
+    padding: 12px 14px;
+    border-radius: 9px;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
 }
 
 .createPatientModal .form-input:focus {
-    outline: none;
-    border-color: var(--sidebar-active);
-    box-shadow: 0 0 0 3px rgba(0,191,255,0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 191, 255, 0.2);
 }
 
-/* Footer buttons */
-.create-patient-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-top: 25px;
-}
-
-/* Primary button */
+/* Enhanced button hover effects in modal */
 .btn-primary {
-    background: linear-gradient(
-        to right,
-        var(--sidebar-active),
-        #0099cc
-    );
-    color: #fff;
-    padding: 10px 18px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    background: linear-gradient(135deg, var(--sidebar-active), #00c4cc);
+    box-shadow: 0 6px 16px rgba(0, 191, 255, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0,191,255,0.35);
+    box-shadow: 0 10px 24px rgba(0, 191, 255, 0.4);
 }
 
-/* Outline button enhancement */
-.btn-outline {
-    padding: 10px 18px;
+/* Enhanced filter dropdown */
+.filter-dropdown {
+    border: 1px solid var(--border-color);
     border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    animation: dropdownSlide 0.2s ease;
 }
 
-/* Close button */
-#createPatientModal .modal-close {
-    top: 18px;
-    right: 18px;
-    font-size: 22px;
-}
-
-/* Animation */
-@keyframes modalFadeIn {
+@keyframes dropdownSlide {
     from {
         opacity: 0;
-        transform: translateY(15px) scale(0.96);
+        transform: translateY(-8px);
     }
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
     }
 }
 
-/* Mobile */
-@media (max-width: 480px) {
-    #createPatientModal .modal-content {
-        padding: 20px;
-    }
-}
-/* ================= MODAL OVERLAY ================= */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.45);
+.filter-dropdown li {
+    padding: 12px 16px;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    backdrop-filter: blur(4px);
+    gap: 10px;
 }
 
-.modal-overlay.hidden {
-    display: none;
+.filter-dropdown li:hover {
+    background: var(--hover-bg);
+    padding-left: 20px;
 }
 
-/* ================= MODAL BOX ================= */
-.modal-box {
-    background: var(--modal-bg);
-    color: var(--modal-text);
-    width: 100%;
-    max-width: 520px;
-    border-radius: 16px;
-    box-shadow: var(--box-shadow);
-    animation: modalPop 0.35s ease;
-    overflow: hidden;
-}
-
-/* ================= HEADER ================= */
-.create-patient-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 18px 22px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.create-patient-header i {
-    font-size: 22px;
+.filter-dropdown li.active {
+    background: rgba(0, 191, 255, 0.1);
     color: var(--sidebar-active);
-}
-
-.create-patient-header h2 {
-    font-size: 18px;
     font-weight: 600;
-    flex: 1;
-    margin: 0;
 }
 
-.modal-close {
-    background: transparent;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
+/* Status badge enhancements */
+.status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.status.active {
+    background: linear-gradient(135deg, var(--active-status-bg), rgba(46, 204, 113, 0.1));
+    color: var(--active-status-text);
+}
+
+.status.inactive {
+    background: linear-gradient(135deg, var(--inactive-status-bg), rgba(231, 76, 60, 0.1));
+    color: var(--inactive-status-text);
+}
+
+.status:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Empty state styling */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px !important;
     color: var(--text-muted);
 }
 
-/* ================= BODY ================= */
-.modal-body {
-    padding: 22px;
+.empty-state i {
+    font-size: 48px;
+    margin-bottom: 15px;
+    opacity: 0.3;
 }
 
-.detail-group {
-    margin-bottom: 14px;
+.empty-state p {
+    font-size: 16px;
+    font-weight: 500;
 }
 
-.detail-label {
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    display: block;
-    color: var(--text-color);
+/* Enhanced total patients counter */
+.total-patients {
+    transition: all 0.3s ease;
 }
 
-.form-input {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    background: var(--card-bg);
-    color: var(--text-color);
-    transition: all 0.25s ease;
+.total-patients:hover {
+    transform: scale(1.05);
 }
-
-.form-input:focus {
-    outline: none;
-    border-color: var(--sidebar-active);
-    box-shadow: 0 0 0 3px rgba(0,191,255,0.2);
-}
-
-/* ================= FOOTER ================= */
-.create-patient-actions {
-    padding: 18px 22px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    border-top: 1px solid var(--border-color);
-}
-
-/* ================= ANIMATION ================= */
-@keyframes modalPop {
-    from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-</style>
+    </style>
 </head>
 <body>
     <div class="dashboard">
         <!-- Sidebar Navigation -->
         <div class="sidebar">
             <div class="sidebar-header">
-                <div class="logo-container">
-                    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
-                    <div class="logo-glow"></div>
-                </div>
+                <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
                 <div class="sidebar-title">
                     <h2>
-                        <span class="holy-family">Smart</span><br>
+                        <span class="holy-family">Smart</span>
                         <span class="dental-clinic">Dentistry</span>
                     </h2>
-                    <p>Creating beautiful smiles for every family</p>
+                    <p>Creating beautiful smiles</p>
                 </div>
             </div>
+
             <ul class="sidebar-menu">
-               <ul class="sidebar-menu">
-                <li><a href="MyRecords.html"><i class="fas fa-user"></i> Patient List</a></li>
+                <li><a href="MyRecords.html" class="active"><i class="fas fa-user"></i> Patient List</a></li>
                 <li><a href="View.html"><i class="fas fa-home"></i> Patient Dashboard</a></li>
                 <li><a href="forms.html"><i class="fas fa-file-medical"></i> Forms</a></li>
                 <li><a href="mygallery.html"><i class="fas fa-images"></i> My Gallery</a></li>
-                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
-            <!-- Add Return to Home menu at the bottom -->
-            <div style="position: absolute; bottom: 20px; width: 13%;">
-                <div style="position: absolute; bottom: 20px; width: 100%;">
-                    <ul class="sidebar-menu settings-menu">
-                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-                    </ul>
-                    <ul class="sidebar-menu return-home-menu">
-                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
-                    </ul>
-                </div>
-                </div>
+
+            <div class="sidebar-footer">
+                <ul class="settings-menu">
+                    <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+                <ul class="return-home-menu">
+                    <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
         </div>
 
          <div class="main-content">
