@@ -895,6 +895,124 @@ h2 {
 .patients-table tr {
     height: 72px; /* Set a fixed height for table rows */
 }
+/* ============================================= */
+/* ENHANCED CREATE PATIENT MODAL UI */
+/* ============================================= */
+
+#createPatientModal {
+    backdrop-filter: blur(4px);
+}
+
+#createPatientModal .modal-content {
+    max-width: 520px;
+    border-radius: 16px;
+    padding: 28px;
+    animation: modalFadeIn 0.35s ease;
+    background: linear-gradient(
+        to bottom right,
+        var(--card-bg),
+        var(--bg-color)
+    );
+}
+
+/* Modal header */
+.create-patient-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.create-patient-header i {
+    font-size: 26px;
+    color: var(--sidebar-active);
+}
+
+.create-patient-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Input groups */
+.createPatientModal .detail-group {
+    margin-bottom: 14px;
+}
+.createPatientModal .form-input {
+    height: 42px;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+}
+
+.createPatientModal .form-input:focus {
+    outline: none;
+    border-color: var(--sidebar-active);
+    box-shadow: 0 0 0 3px rgba(0,191,255,0.15);
+}
+
+/* Footer buttons */
+.create-patient-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+/* Primary button */
+.btn-primary {
+    background: linear-gradient(
+        to right,
+        var(--sidebar-active),
+        #0099cc
+    );
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,191,255,0.35);
+}
+
+/* Outline button enhancement */
+.btn-outline {
+    padding: 10px 18px;
+    border-radius: 10px;
+}
+
+/* Close button */
+#createPatientModal .modal-close {
+    top: 18px;
+    right: 18px;
+    font-size: 22px;
+}
+
+/* Animation */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    #createPatientModal .modal-content {
+        padding: 20px;
+    }
+}
+
+
 
 
     </style>
@@ -978,11 +1096,52 @@ h2 {
                                 </ul>
                             </div>
                         </div>
-                        <button class="create-account-btn">
+                        <button class="create-account-btn" onclick="openCreatePatientModal()">
                             <i class="fas fa-user-plus"></i>
-                            Create Account
+                            Create New Patient
                         </button>
                     </div>
+                    <!-- CREATE PATIENT MODAL -->
+                <div id="createPatientModal" class="modal">
+                    <div class="create-patient-header">
+                    <i class="fas fa-user-plus"></i>
+                    <h2>Create New Patient</h2>
+                </div>
+                    <div class="detail-group">
+                    <div class="detail-label">Full Name *</div>
+                    <input type="text" id="newPatientName" class="form-input" required>
+                    </div>
+
+                    <div class="detail-group">
+                    <div class="detail-label">Contact Number *</div>
+                    <input type="tel" id="newPatientPhone" class="form-input" required>
+                    </div>
+
+                    <div class="detail-group">
+                    <div class="detail-label">Email</div>
+                    <input type="email" id="newPatientEmail" class="form-input">
+                    </div>
+
+                    <div class="detail-group">
+                    <div class="detail-label">Date of Birth *</div>
+                    <input type="date" id="newPatientDob" class="form-input" required>
+                    </div>
+
+                    <div class="detail-group">
+                    <div class="detail-label">Status</div>
+                    <select id="newPatientStatus" class="form-input">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                    </div>
+
+                    <div class="create-patient-actions">
+                    <button class="btn btn-outline" onclick="closeCreatePatientModal()">Cancel</button>
+                    <button class="btn btn-primary" onclick="createPatient()">Save Patient</button>
+                    </div>
+                </div>
+                </div>
+
                     
                     <div class="divider"></div>
                     
@@ -1103,7 +1262,7 @@ h2 {
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-primary" onclick="viewPatient()">View</button>
+    
                 <li>
                 <a href="View.html?id=101" class="view-btn">
                 <i class="fas fa-eye"></i> View
