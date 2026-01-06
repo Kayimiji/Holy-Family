@@ -85,6 +85,10 @@ body {
     padding: 20px 0;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .main-content {
@@ -148,52 +152,62 @@ body {
     width: 90px;
     height: 90px;
     border-radius: 50%;
-    margin-right: -5px;
-    margin-top: -45px;
-    margin-left: -20px;
+    margin-right: 15px;
     object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+}
+
+.sidebar-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .sidebar-title h2 {
     color: var(--sidebar-active);
     margin: 0;
-    font-size: 18px;
-    line-height: 1;
-    font-weight: bold;
+    font-size: 16px;
+    line-height: 1.2;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.8px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    white-space: nowrap;
 }
 
 .sidebar-title p {
     color: var(--sidebar-text);
-    font-size: 12px;
-    margin-top: 10px;
-    margin-left: -40px;
+    font-size: 11px;
+    margin-top: 6px;
+    margin-left: 0;
     font-style: italic;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     white-space: normal;
+    opacity: 0.9;
 }
 
 .holy-family {
     color: #1380d3;
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .dental-clinic {
     color: #00c4cc;
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .sidebar-menu {
     list-style: none;
     padding: 0;
     margin: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
 }
 
 .sidebar-menu li {
-    margin-bottom: 5px;
+    margin-bottom: 0;
 }
 
 .sidebar-menu a {
@@ -203,27 +217,91 @@ body {
     color: var(--sidebar-text);
     text-decoration: none;
     transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    font-weight: 500;
+    font-size: 14px;
 }
 
-.sidebar-menu a:hover, .sidebar-menu a.active {
-    background-color: rgba(0, 191, 255, 0.2);
+.sidebar-menu a:hover, 
+.sidebar-menu a.active {
+    background-color: rgba(0, 191, 255, 0.15);
     color: white;
     border-left: 3px solid var(--sidebar-active);
+    padding-left: 23px;
 }
 
 .sidebar-menu i {
-    margin-right: 10px;
+    margin-right: 12px;
     width: 20px;
     text-align: center;
+    font-size: 16px;
 }
 
-.settings-menu a:hover, .return-home-menu a:hover {
-    background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
-    color: white; /* Change text color on hover */
-    border-left: 3px solid var(--sidebar-active); /* Add left border */
-    display: block; /* Ensure the hover effect spans the full width */
-    width: 100%; /* Extend hover effect across the full width */
-    padding-right: 25px; /* Maintain alignment */
+.sidebar-footer {
+    padding: 20px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.settings-menu {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.settings-menu, 
+.return-home-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.settings-menu li, 
+.return-home-menu li {
+    margin: 0;
+}
+
+.settings-menu a, 
+.return-home-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+}
+
+.settings-menu a:hover, 
+.return-home-menu a:hover {
+    background-color: rgba(0, 191, 255, 0.15);
+    color: white;
+    border-left: 3px solid var(--sidebar-active);
+    padding-left: 23px;
+}
+
+.settings-menu i, 
+.return-home-menu i {
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.logout-btn {
+    color: rgba(255, 159, 159, 0.9) !important;
+}
+
+.logout-btn:hover {
+    background-color: rgba(231, 76, 60, 0.15) !important;
+    border-left-color: #e74c3c !important;
+    color: #ff9f9f !important;
 }
 
 .btn {
@@ -314,38 +392,112 @@ input:checked + .slider:before {
 
 .forms-container {
     padding: 20px;
-    max-width: 1500px;  /* Increased from 800px to 1200px */
+    max-width: 1200px;
     margin: 0 auto;
-    width: 100%;  /* Added to ensure some margin on very wide screens */
+    width: 100%;
+    animation: slideInUp 0.5s ease;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-name {
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 3px solid var(--border-color);
+    animation: slideInLeft 0.5s ease 0.1s both;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.form-name h2 {
+    background: linear-gradient(135deg, #1380d3, #00c4cc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
 }
 
 .form-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
 }
 
 .form-item {
     display: flex;
     align-items: center;
-    padding: 20px;
-    background: var(--card-bg);
-    border-radius: 10px;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s ease;
-    cursor: pointer;  /* Add cursor pointer */
+    padding: 22px;
+    background: linear-gradient(135deg, var(--card-bg), rgba(19, 128, 211, 0.03));
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.form-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.form-item:hover::before {
+    transform: scaleX(1);
 }
 
 .form-item:hover {
-    transform: translateY(-3px);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+    border-color: var(--sidebar-active);
 }
 
 .form-icon {
-    font-size: 24px;
+    font-size: 28px;
     color: var(--sidebar-active);
     margin-right: 20px;
-    width: 40px;
+    width: 50px;
     text-align: center;
+    transition: all 0.3s ease;
+    background: rgba(0, 191, 255, 0.1);
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-item:hover .form-icon {
+    transform: scale(1.15) rotate(10deg);
+    background: rgba(0, 191, 255, 0.2);
 }
 
 .form-details {
@@ -356,61 +508,60 @@ input:checked + .slider:before {
     margin: 0;
     color: var(--text-color);
     font-size: 18px;
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+
+.form-item:hover .form-details h3 {
+    color: var(--primary);
 }
 
 .form-details p {
-    margin: 5px 0 0;
+    margin: 8px 0 0;
     color: var(--text-muted);
     font-size: 14px;
+    font-weight: 500;
 }
 
-.form-btn {
-    padding: 8px 16px;
-    background-color: var(--sidebar-active);
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-}
-
-.form-btn:hover {
-    background-color: #0099cc;
-}
-
-.form-name {
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.label-item {
-    background: none;
-    box-shadow: none;
-    padding: 10px 0;
+.form-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
 }
 
 .form-link {
     color: var(--text-color);
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, var(--sidebar-active), #00c4cc);
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
 }
 
 .form-link:hover {
-    color: var(--sidebar-active);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 191, 255, 0.35);
+    background: linear-gradient(135deg, #00c4cc, #1380d3);
 }
 
-.modal-content {
-    background-color: var(--modal-bg);
-    color: var(--modal-text);
+/* Download button styling */
+#download-btn {
+    background: linear-gradient(135deg, var(--sidebar-active), #00c4cc);
+    box-shadow: 0 6px 16px rgba(0, 191, 255, 0.3);
 }
 
-.read-only-field {
-    background-color: var(--card-bg) !important;
-    border-color: var(--border-color) !important;
-    color: var(--text-color) !important;
+#download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 191, 255, 0.4);
 }
-
     </style>
 </head>
 <body>
@@ -418,36 +569,31 @@ input:checked + .slider:before {
         <!-- Sidebar Navigation -->
         <div class="sidebar">
             <div class="sidebar-header">
-                <div class="logo-container">
-                    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
-                    <div class="logo-glow"></div>
-                </div>
+                <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
                 <div class="sidebar-title">
                     <h2>
-                        <span class="holy-family">SMART</span><br>
+                        <span class="holy-family">Smart</span>
                         <span class="dental-clinic">Dentistry</span>
                     </h2>
+                    <p>Creating beautiful smiles</p>
                 </div>
             </div>
-              <ul class="sidebar-menu">
-               <ul class="sidebar-menu">
+
+            <ul class="sidebar-menu">
                 <li><a href="MyRecords.html"><i class="fas fa-user"></i> Patient List</a></li>
                 <li><a href="View.html"><i class="fas fa-home"></i> Patient Dashboard</a></li>
-                <li><a href="forms.html"><i class="fas fa-file-medical"></i> Forms</a></li>
+                <li><a href="forms.html" class="active"><i class="fas fa-file-medical"></i> Forms</a></li>
                 <li><a href="mygallery.html"><i class="fas fa-images"></i> My Gallery</a></li>
-                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
-            <!-- Add Return to Home menu at the bottom -->
-            <div style="position: absolute; bottom: 20px; width: 13%;">
-                <div style="position: absolute; bottom: 20px; width: 100%;">
-                    <ul class="sidebar-menu settings-menu">
-                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-                    </ul>
-                    <ul class="sidebar-menu return-home-menu">
-                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
-                    </ul>
-                </div>
-                </div>
+
+            <div class="sidebar-footer">
+                <ul class="settings-menu">
+                    <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+                <ul class="return-home-menu">
+                    <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
         </div>
 
         <!-- Main Content Area -->
