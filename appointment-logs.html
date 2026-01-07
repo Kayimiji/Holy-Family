@@ -605,7 +605,7 @@
             <div style="position: absolute; bottom: 20px; width: 13%;">
             <div style="position: absolute; bottom: 20px; width: 100%;">
             <ul class="sidebar-menu settings-menu">
-            <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+            <li><a href="adminsettings.html"><i class="fas fa-cog"></i> Settings</a></li>
             </ul>
             <ul class="sidebar-menu return-home-menu">
             <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
@@ -846,6 +846,35 @@
             // Initial display
             //filterAndDisplayLogs();
         });
+         // Theme toggle functionality
+  const themeToggle = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeToggle.checked = savedTheme === 'dark';
+  themeToggle.addEventListener('change', function() {
+    const theme = this.checked ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  });
+
+  // Dropdown functionality
+  function toggleDropdown(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const dropdown = event.currentTarget.closest('.dropdown');
+    const isActive = dropdown.classList.contains('active');
+    
+    // Close all other dropdowns
+    document.querySelectorAll('.dropdown.active').forEach(item => {
+      if (item !== dropdown) {
+        item.classList.remove('active');
+      }
+    });
+    
+    // Toggle current dropdown
+    dropdown.classList.toggle('active', !isActive);
+  }
     </script>
 </body>
 </html>
