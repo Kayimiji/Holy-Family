@@ -718,50 +718,39 @@
 </head>
 <body>
 <div class="dashboard">
-  <!-- Sidebar Navigation -->
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <div class="logo-container">
-        <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
-        <div class="logo-glow"></div>
-      </div>
-      <div class="sidebar-title">
-        <h2>
-          <span class="holy-family">SMART</span><br>
-          <span class="dental-clinic">DENTISTRY</span>
-        </h2>
-      </div>
-    </div>
-    <ul class="sidebar-menu">
-      <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-      <li class="dropdown">
-        <a href="javascript:void(0)" class="dropdown-toggle" onclick="toggleDropdown(event)">
-          <i class="fas fa-tooth"></i>
-          <span>My Clinic</span>
-          <i class="fas fa-chevron-down arrow"></i>
-        </a>
-        <ul class="submenu">
-          <li><a href="clinic-profile.html">Clinic Profile</a></li>
-          <li><a href="Dental-Chart.html">Dental Chart</a></li>
-          <li><a href="Braces-Treatment.html">Braces Treatment</a></li>
-          <li><a href="patients.html"><i class="fas fa-users"></i><span>Patients</span></a></li>
-        </ul>
-      </li>
-      <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i><span> Appointment History</span></a></li>
-      <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-      <li><a href="Data-Back-Up.html" class="active"><i class="fa solid fa-database"></i> Data BackUp</a></li>
-      <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-      <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-    </ul>
-    <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-      <ul class="sidebar-menu settings-menu">
-        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-      </ul>
-      <ul class="sidebar-menu return-home-menu">
-        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
-      </ul>
-    </div>
+  <!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <img src="logo.png" class="sidebar-logo">
+    <div class="sidebar-title"><h2>SMART<br>DENTISTRY</h2></div>
   </div>
+  <ul class="sidebar-menu">
+    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+    <li class="dropdown open">
+      <a href="#" class="dropdown-toggle"><i class="fas fa-tooth"></i> My Clinic <i class="fas fa-chevron-down arrow"></i></a>
+      <ul class="submenu">
+        <li><a href="clinic-profile.html" class="active"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
+        <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
+        <li><a href="Braces-Treatment.html" ><i class="fas fa-chain"></i> Braces Treatment</a></li>
+        <li><a href="View.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
+      </ul>
+    </li>
+    <li><a href="appointment-history.html"><i class="fas fa-clipboard-list"></i> Appointment History</a></li>
+    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+  </ul>
+  <!-- Add Return to Home menu at the bottom -->
+    <div style="position: absolute; bottom: 20px; width: 13%;">
+    <div style="position: absolute; bottom: 20px; width: 100%;">
+    <ul class="sidebar-menu settings-menu">
+    <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+    </ul>
+    <ul class="sidebar-menu return-home-menu">
+    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+    </div>
+    </div>
+</aside>
 
   <main class="main">
     <div class="header">
