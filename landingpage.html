@@ -1418,6 +1418,13 @@
         }
 
 
+        #toastContainer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
 
 </style>
 </head>
@@ -1823,6 +1830,8 @@
         </div>
     </div>
 
+    <div id="toastContainer"></div>
+
     <!-- JAVASCRIPT -->
     <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -1935,39 +1944,65 @@
             }
 
             try {
-                // ✅ Sign Up
-                const signupRes = await fetch("http://localhost:3000/auth/signup", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ firstName, lastName, email, clinicName, password })
+        // ✅ Sign Up
+        const signupRes = await fetch("http://localhost:3000/auth/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstName, lastName, email, clinicName, password })
+    });
+
+        const signupData = await signupRes.json();
+        if (!signupRes.ok) throw new Error(signupData.message || "Signup failed");
+
+        // ✅ Show success toast
+        showToast("Sign up successful. Please wait for admin approval");
+
+        closeModal(document.getElementById("signup-modal"));
+
+        // ⏳ Small delay so user sees the toast
+        setTimeout(() => {
+            window.location.href = "admin.html";
+        }, 2000);
+
+        } catch (err) {
+            console.error(err);
+            showToast(err.message, "error");
+        }
                 });
-                const signupData = await signupRes.json();
 
-                if (!signupRes.ok) throw new Error(signupData.message || "Signup failed");
 
-                // ✅ Auto-login after signup
-                const loginRes = await fetch("http://localhost:3000/auth/login", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, password })
-                });
-                const loginData = await loginRes.json();
+                function showToast(message, type = "success") {
+    const container = document.getElementById("toastContainer");
 
-                if (!loginRes.ok) throw new Error(loginData.message || "Login failed");
+    const toast = document.createElement("div");
+    toast.textContent = message;
 
-                // ✅ Save user info
-                localStorage.setItem("isLoggedIn", "true"); 
-                sessionStorage.setItem("user", JSON.stringify(loginData.user));
+    toast.style.backgroundColor = type === "error" ? "#ff6666" : "#4da6ff";
+    toast.style.color = "#fff";
+    toast.style.padding = "12px 20px";
+    toast.style.marginTop = "10px";
+    toast.style.borderRadius = "6px";
+    toast.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
+    toast.style.fontSize = "14px";
+    toast.style.opacity = "0";
+    toast.style.transform = "translateX(100%)";
+    toast.style.transition = "all 0.4s ease";
 
-                alert("Signup successful! You are now logged in.");
-                closeModal(document.getElementById("signup-modal")); // close modal
-                window.location.href = "admin.html";
-                
-            } catch (err) {
-                console.error(err);
-                alert(err.message);
-            }
-        });
+    container.appendChild(toast);
+
+    // animate in
+    requestAnimationFrame(() => {
+        toast.style.opacity = "1";
+        toast.style.transform = "translateX(0)";
+    });
+
+    // auto remove
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(100%)";
+        setTimeout(() => toast.remove(), 400);
+    }, 3000);
+}
 
 
         // LOG IN 
