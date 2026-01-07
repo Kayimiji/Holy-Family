@@ -2662,10 +2662,10 @@ function formatDate(date) {
     return isNaN(d) ? 'Invalid date' : d.toLocaleDateString('en-CA');
 }
 
-        function viewPatient(id) {
-            alert("Viewing patient: " + id);
-            // You can enhance this to show a modal with full details
-        }
+function viewPatient(id) {
+        // Redirect to view.html with patient ID as query parameter
+        window.location.href = `view.html?id=${id}`;
+}
 
         // Call this when the page loads
         window.onload = () => {

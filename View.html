@@ -1354,6 +1354,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Elements
+            const patientId = localStorage.getItem('selectedPatientId');
+// Or from URL parameter: const patientId = new URLSearchParams(window.location.search).get('id');
             const tabs = document.querySelectorAll('.tab');
             const tabContents = document.querySelectorAll('.tab-content');
             const editProfileBtn = document.getElementById('edit-profile-btn');
