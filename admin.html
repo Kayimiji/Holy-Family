@@ -4222,7 +4222,7 @@
     try {
         showLoading(true);
 
-        const response = await fetch('http://localhost:3000/appointments/');
+        const response = await fetch(`${window.CONFIG.API_BASE_URL}/appointments/`);
         if (!response.ok) throw new Error('Failed to fetch appointments');
 
         const data = await response.json();

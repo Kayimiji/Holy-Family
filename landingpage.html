@@ -1945,7 +1945,7 @@
 
             try {
         // ✅ Sign Up
-        const signupRes = await fetch("http://localhost:3000/auth/signup", {
+        const signupRes = await fetch(`${window.CONFIG.API_BASE_URL}/auth/signup`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ firstName, lastName, email, clinicName, password })
@@ -2020,7 +2020,7 @@
                 return;
             } else {
                 try {
-                    const loginRes = await fetch("http://localhost:3000/auth/login", {
+                    const loginRes = await fetch(`${window.CONFIG.API_BASE_URL}/auth/login`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ email, password })
