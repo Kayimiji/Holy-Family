@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Superadmin Dashboard</title>
 <style>
-    /* Fonts & colors */
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background-color: #e6f0fa;
@@ -13,7 +12,6 @@
         padding: 0;
     }
 
-    /* Header */
     header {
         background: #4da6ff;
         color: white;
@@ -24,10 +22,7 @@
         box-shadow: 0 3px 6px rgba(0,0,0,0.1);
     }
 
-    header h1 {
-        margin: 0;
-        font-size: 22px;
-    }
+    header h1 { margin: 0; font-size: 22px; }
 
     header button {
         background-color: #ff6666;
@@ -40,21 +35,12 @@
         transition: background-color 0.3s;
     }
 
-    header button:hover {
-        background-color: #ff4d4d;
-    }
+    header button:hover { background-color: #ff4d4d; }
 
-    /* Main content */
-    main {
-        padding: 25px 30px;
-    }
+    main { padding: 25px 30px; }
 
-    h2 {
-        color: #1a75ff;
-        margin-bottom: 15px;
-    }
+    h2 { color: #1a75ff; margin-bottom: 15px; }
 
-    /* Table styles */
     table {
         width: 100%;
         border-collapse: collapse;
@@ -65,26 +51,14 @@
         margin-bottom: 30px;
     }
 
-    th, td {
-        padding: 14px 12px;
-        text-align: left;
-    }
+    th, td { padding: 14px 12px; text-align: left; }
 
-    th {
-        background-color: #cce0ff;
-        color: #003366;
-        font-weight: 600;
-    }
+    th { background-color: #cce0ff; color: #003366; font-weight: 600; }
 
-    tr:nth-child(even) {
-        background-color: #f2f8ff;
-    }
+    tr:nth-child(even) { background-color: #f2f8ff; }
 
-    tr:hover {
-        background-color: #d0e4ff;
-    }
+    tr:hover { background-color: #d0e4ff; }
 
-    /* Buttons in table */
     button.action-btn {
         padding: 7px 15px;
         margin-right: 5px;
@@ -100,43 +74,40 @@
         box-shadow: 0 3px 6px rgba(0,0,0,0.15);
     }
 
-    button.approve {
-        background-color: #4da6ff;
+    button.approve { background-color: #4da6ff; color: white; }
+    button.approve:hover { background-color: #1a75ff; }
+    button.reject { background-color: #ff6666; color: white; }
+    button.reject:hover { background-color: #e60000; }
+
+    .empty-state { text-align: center; color: #555; padding: 20px 0; }
+
+    /* Loading overlay */
+    #loadingOverlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.4);
         color: white;
+        font-size: 2em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
     }
 
-    button.approve:hover {
-        background-color: #1a75ff;
-    }
-
-    button.reject {
-        background-color: #ff6666;
-        color: white;
-    }
-
-    button.reject:hover {
-        background-color: #e60000;
-    }
-
-    /* Empty state */
-    .empty-state {
-        text-align: center;
-        color: #555;
-        padding: 20px 0;
+    /* Toast container */
+    #toastContainer {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
     }
 
     @media (max-width: 600px) {
-        header, main {
-            padding: 15px;
-        }
-
-        th, td {
-            padding: 10px 8px;
-        }
-
-        header h1 {
-            font-size: 18px;
-        }
+        header, main { padding: 15px; }
+        th, td { padding: 10px 8px; }
+        header h1 { font-size: 18px; }
     }
 </style>
 </head>
@@ -157,74 +128,133 @@
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- Requests will be rendered here -->
-        </tbody>
+        <tbody></tbody>
     </table>
 </main>
 
+<!-- Loading Overlay -->
+<div id="loadingOverlay">Loading...</div>
+
+<!-- Toast Container -->
+<div id="toastContainer"></div>
+
 <script>
     const requestsTableBody = document.querySelector('#requestsTable tbody');
+    const loadingOverlay = document.getElementById('loadingOverlay');
 
-    // Fetch pending admin requests from backend
+    function showLoading() { loadingOverlay.style.display = 'flex'; }
+    function hideLoading() { loadingOverlay.style.display = 'none'; }
+
+    // Toast function
+    function showToast(message, type = 'success') {
+        const toastContainer = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.textContent = message;
+        toast.style.background = type === 'success' ? '#4da6ff' : '#ff6666';
+        toast.style.color = 'white';
+        toast.style.padding = '10px 20px';
+        toast.style.marginTop = '10px';
+        toast.style.borderRadius = '5px';
+        toast.style.boxShadow = '0 3px 6px rgba(0,0,0,0.2)';
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        toast.style.transform = 'translateX(100%)';
+        toastContainer.appendChild(toast);
+
+        // Animate in
+        requestAnimationFrame(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(0)';
+        });
+
+        // Auto-hide after 3s
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(100%)';
+            setTimeout(() => toast.remove(), 500);
+        }, 3000);
+    }
+
     async function fetchPendingRequests() {
+        showLoading();
         try {
-            // Replace the URL with your actual backend endpoint
             const response = await fetch('http://localhost:3000/auth/state/inactive'); 
             if (!response.ok) throw new Error('Failed to fetch pending requests');
-
             const data = await response.json();
-            // Assume backend returns an array of requests: [{id, name, clinicName, email, dateAndTime}]
-            renderRequests(data.requests || []);
+            renderRequests(data.admin || []);
         } catch (err) {
             console.error(err);
             requestsTableBody.innerHTML = `<tr><td colspan="5" class="empty-state">Error fetching requests</td></tr>`;
+        } finally {
+            hideLoading();
         }
     }
 
     function renderRequests(pendingRequests) {
         requestsTableBody.innerHTML = '';
-
         if (!pendingRequests.length) {
             requestsTableBody.innerHTML = '<tr><td colspan="5" class="empty-state">No pending requests</td></tr>';
             return;
         }
-
         pendingRequests.forEach(request => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${request.name}</td>
-                <td>${request.clinicName}</td>
+                <td>${request.first_name} ${request.last_name}</td>
+                <td>${request.clinic_name}</td>
                 <td>${request.email}</td>
                 <td>${request.dateAndTime}</td>
                 <td>
-                    <button class="action-btn approve" onclick="handleAction(${request.id}, 'approve')">Approve</button>
-                    <button class="action-btn reject" onclick="handleAction(${request.id}, 'reject')">Reject</button>
+                    <button class="action-btn approve" onclick="handleApprove(${request.id}, 'active')">Approve</button>
+                    <button class="action-btn reject" onclick="handleReject(${request.id}, 'abandoned')">Reject</button>
                 </td>
             `;
             requestsTableBody.appendChild(row);
         });
     }
 
-    function handleAction(id, action) {
-        console.log(`${action.toUpperCase()} request id:`, id);
-
-        // Call backend API to approve/reject
-        fetch(`http://localhost:3000/admin/pending-signups/${id}/${action}`, {
-            method: 'POST'
-        })
-        .then(res => {
+    async function handleApprove(id, action) {
+        showLoading();
+        try {
+            const res = await fetch(`http://localhost:3000/auth/state/active`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ patientId: id })
+            });
             if (!res.ok) throw new Error('Action failed');
-            // Reload the table after action
+            await res.json();
+            showToast('Request approved successfully!');
             fetchPendingRequests();
-        })
-        .catch(err => console.error(err));
+        } catch (err) {
+            console.error(err);
+            showToast('Failed to approve request.', 'error');
+        } finally {
+            hideLoading();
+        }
+    }
+
+    async function handleReject(id, action) {
+        showLoading();
+        try {
+            const res = await fetch(`http://localhost:3000/auth/state/abandoned`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ patientId: id })
+            });
+            if (!res.ok) throw new Error('Action failed');
+            await res.json();
+            showToast('Request rejected successfully!');
+            fetchPendingRequests();
+        } catch (err) {
+            console.error(err);
+            showToast('Failed to reject request.', 'error');
+        } finally {
+            hideLoading();
+        }
     }
 
     document.getElementById('logoutBtn').addEventListener('click', () => {
         console.log('Superadmin logged out');
         localStorage.removeItem("isLoggedIn");
-        alert('Logged out!');
         window.location.href = '/landingpage.html';
     });
 
