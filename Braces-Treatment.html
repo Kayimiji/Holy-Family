@@ -5,226 +5,885 @@
 <title>Braces Treatment Plan</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 
 <style>
 :root{
   --sidebar-bg:#2c3e50;
   --sidebar-active:#00bfff;
+  --sidebar-hover:rgba(0,191,255,0.1);
   --bg:#eef8fc;
   --card:#ffffff;
-  --shadow:0 4px 12px rgba(0,0,0,.08);
+  --shadow:0 4px 20px rgba(0,0,0,0.08);
+  --shadow-lg:0 10px 40px rgba(0,0,0,0.12);
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.05);
   --text:#2c3e50;
+  --text-light:#64748b;
+  --border:#e5e7eb;
+  --border-light:#f1f5f9;
+  --success:#32cd32;
+  --success-light:rgba(50,205,50,0.1);
+  --primary:#00bfff;
+  --primary-light:rgba(0,191,255,0.08);
+  --radius:12px;
+  --radius-lg:16px;
+  --radius-sm:8px;
 }
 
-/* ===== BASE ===== */
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text);margin:0;}
 
-/* ===== SIDEBAR ===== */
+/* ===== BASE ENHANCEMENTS ===== */
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+body{
+  background:linear-gradient(135deg, #f0f9ff 0%, #eef8fc 100%);
+  color:var(--text);
+  margin:0;
+  min-height:100vh;
+}
+
+
+/* ===== ENHANCED SIDEBAR ===== */
 .sidebar{
-  width:250px;
+  width:280px;
   background:var(--sidebar-bg);
   color:#fff;
   position:fixed;
   top:0;left:0;bottom:0;
+  box-shadow:4px 0 20px rgba(0,0,0,0.15);
+  z-index:1000;
+  transition:transform 0.3s ease;
 }
+
+
 .sidebar-header{
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:20px;
+  gap:16px;
+  padding:24px 20px;
+  background:rgba(0,0,0,0.15);
+  border-bottom:1px solid rgba(255,255,255,0.1);
 }
+
+
 .sidebar-logo{
-  width:50px;
-  height:50px;
-  border-radius:50%;
+  width:56px;
+  height:56px;
+  border-radius:16px;
+  background:linear-gradient(135deg, var(--sidebar-active), #0099cc);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:24px;
+  font-weight:700;
+  box-shadow:0 4px 12px rgba(0,191,255,0.3);
 }
+
+
 .sidebar-title h2{
-  font-size:16px;
+  font-size:20px;
+  font-weight:700;
   color:var(--sidebar-active);
-  line-height:1.1;
+  line-height:1.2;
+  letter-spacing:0.5px;
 }
-.sidebar-menu{list-style:none}
+
+
+/* Sidebar Menu Enhancement */
+.sidebar-menu{
+  list-style:none;
+  padding:20px 0;
+}
+
+
+.sidebar-menu > li {
+  margin-bottom:4px;
+}
+
+
 .sidebar-menu a{
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:12px 20px;
-  color:#fff;
+  gap:14px;
+  padding:16px 24px;
+  color:rgba(255,255,255,0.85);
   text-decoration:none;
-}
-.sidebar-menu a:hover,
-.sidebar-menu a.active{
-  background:rgba(0,191,255,.2);
-  border-left:4px solid var(--sidebar-active);
+  font-weight:500;
+  font-size:15px;
+  transition:all 0.25s ease;
+  position:relative;
+  border-left:4px solid transparent;
 }
 
-/* Dropdown */
+
+.sidebar-menu a:hover{
+  background:var(--sidebar-hover);
+  color:#fff;
+  padding-left:28px;
+}
+
+
+.sidebar-menu a.active{
+  background:var(--sidebar-hover);
+  border-left:4px solid var(--sidebar-active);
+  color:#fff;
+  font-weight:600;
+}
+
+
+.sidebar-menu a i{
+  width:20px;
+  text-align:center;
+  font-size:16px;
+  color:var(--sidebar-active);
+  opacity:0.9;
+}
+
+
+/* Enhanced Dropdown */
 .dropdown .arrow{
   margin-left:auto;
-  transition:.3s;
+  transition:.3s ease;
+  font-size:12px;
+  opacity:0.7;
 }
+
+
 .dropdown.open .arrow{
   transform:rotate(180deg);
+  opacity:1;
 }
+
+
 .submenu{
   list-style:none;
   display:none;
-  background:#243444;
+  background:rgba(36,52,68,0.8);
+  border-left:3px solid var(--sidebar-active);
+  margin:4px 0 4px 24px;
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  overflow:hidden;
 }
+
+
 .dropdown.open .submenu{
   display:block;
+  animation:fadeIn 0.3s ease;
 }
+
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(-10px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+
 .submenu a{
-  padding:10px 40px;
+  padding:14px 24px 14px 44px;
   font-size:14px;
+  color:rgba(255,255,255,0.75);
+  border-left:none;
 }
 
-/* ===== MAIN ===== */
+
+.submenu a:hover{
+  background:rgba(0,191,255,0.15);
+  color:#fff;
+}
+
+
+.submenu a.active{
+  background:rgba(0,191,255,0.2);
+  color:var(--sidebar-active);
+  font-weight:600;
+}
+
+
+/* Bottom Menu Enhancement */
+.settings-menu,
+.return-home-menu {
+  list-style:none;
+  width:100%;
+}
+
+
+.return-home-menu {
+  margin-top:8px;
+}
+
+
+/* ===== ENHANCED MAIN CONTENT ===== */
 .main {
-  margin-left: 250px;
-  padding: 20px;
-  min-height: 100vh;
-  background: var(--bg);
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  overflow-x: hidden;
+  margin-left:280px;
+  padding:30px;
+  min-height:100vh;
+  background:var(--bg);
+  display:flex;
+  flex-direction:column;
+  box-sizing:border-box;
+  position:relative;
 }
 
-/* ===== CONTAINER ===== */
+
+/* Container Enhancement */
 .container {
-  background: var(--card);
-  padding: 30px 25px;
-  border-radius: 12px;
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto 30px auto;
-  box-shadow: var(--shadow);
-  box-sizing: border-box;
+  background:var(--card);
+  padding:40px;
+  border-radius:var(--radius-lg);
+  max-width:1200px;
+  width:100%;
+  margin:0 auto 40px auto;
+  box-shadow:var(--shadow);
+  box-sizing:border-box;
+  border:1px solid rgba(255,255,255,0.9);
+  position:relative;
+  overflow:hidden;
 }
 
-/* ===== BASE ===== */
-h2{margin-bottom:10px}
-.search-box{background:#fff;padding:10px;border-radius:6px;margin-bottom:10px;position:relative}
-.search-box input{width:100%;border:none;outline:none}
-.patient-list{background:#fff;border-radius:6px;box-shadow:0 4px 10px rgba(0,0,0,.1);margin-bottom:20px}
-.patient-item{padding:10px;cursor:pointer;border-bottom:1px solid #eee}
-.patient-item:hover{background:#e9faff}
-.patient-item.selected{background:#c8f1ff;font-weight:600}
 
-/* GRID */
-.grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px,1fr));gap:20px}
-.card{background:#fff;border-radius:8px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
-.card h3{border-bottom:1px solid #ddd;padding-bottom:6px;margin-bottom:10px}
-label{display:block;margin:6px 0}
-input[type=text],select{width:100%;padding:6px}
-.phase-row{cursor:pointer}
-.phase-row:hover{background:#f1faff}
-.phase-row.selected{background:#c8f1ff;border-left:4px solid #00cfff}
-.save-btn{background:#32cd32;color:#fff;border:none;padding:10px;border-radius:4px;width:100%;cursor:pointer;margin-top:10px}
-.btn-outline{background:#fff;border:1px solid #ccc;padding:6px 10px;border-radius:4px;cursor:pointer}
-table{width:100%;border-collapse:collapse;margin-top:10px}
-th,td{padding:10px;border-bottom:1px solid #ddd}
-th{background:#f5f5f5}
-@media(max-width:900px){
-  .main{margin-left:0;width:100%}
-  .container{width:95%;padding:20px;margin:20px auto}
-  .grid{grid-template-columns:1fr}
+.container::before {
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:4px;
+  background:linear-gradient(90deg, var(--sidebar-active), #0099cc);
 }
 
-/* ===== WALKTHROUGH ===== */
+
+/* Header Enhancement */
+.container h2 {
+  font-size:32px;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:24px;
+  padding-bottom:16px;
+  border-bottom:2px solid var(--border-light);
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+
+.container h2::before {
+  content:'';
+  width:4px;
+  height:28px;
+  background:var(--sidebar-active);
+  border-radius:2px;
+}
+
+
+/* Search Box Enhancement */
+.search-box{
+  background:#fff;
+  padding:16px 20px;
+  border-radius:var(--radius);
+  margin-bottom:24px;
+  position:relative;
+  box-shadow:var(--shadow-sm);
+  border:1px solid var(--border);
+  transition:all 0.3s ease;
+}
+
+
+.search-box:focus-within {
+  border-color:var(--sidebar-active);
+  box-shadow:0 0 0 3px rgba(0,191,255,0.15);
+  transform:translateY(-2px);
+}
+
+
+.search-box input{
+  width:100%;
+  border:none;
+  outline:none;
+  font-size:16px;
+  color:var(--text);
+  padding-left:36px;
+  background:transparent;
+}
+
+
+.search-box::before {
+  content:'\f002';
+  font-family:'Font Awesome 6 Free';
+  font-weight:900;
+  position:absolute;
+  left:20px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--sidebar-active);
+  font-size:16px;
+}
+
+
+/* Patient List Enhancement */
+.patient-list{
+  background:#fff;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);
+  margin-bottom:28px;
+  border:1px solid var(--border);
+  overflow:hidden;
+}
+
+
+.patient-item{
+  padding:18px 20px;
+  cursor:pointer;
+  border-bottom:1px solid var(--border-light);
+  transition:all 0.25s ease;
+  font-size:15px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+
+.patient-item:hover{
+  background:linear-gradient(90deg, var(--primary-light), transparent);
+  padding-left:24px;
+}
+
+
+.patient-item.selected{
+  background:linear-gradient(90deg, rgba(0,191,255,0.15), transparent);
+  font-weight:600;
+  color:var(--sidebar-active);
+  border-left:4px solid var(--sidebar-active);
+}
+
+
+.patient-item::before {
+  content:'👤';
+  font-size:14px;
+  opacity:0.7;
+}
+
+
+.selected-patient {
+  font-size:16px;
+  margin-bottom:32px;
+  padding:16px;
+  background:var(--primary-light);
+  border-radius:var(--radius);
+  border-left:4px solid var(--sidebar-active);
+}
+
+
+.selected-patient b {
+  color:var(--sidebar-active);
+  margin-right:8px;
+}
+
+
+/* Grid Enhancement */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(320px,1fr));
+  gap:28px;
+  margin:32px 0;
+}
+
+
+.card{
+  background:#fff;
+  border-radius:var(--radius-lg);
+  padding:24px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+  transition:all 0.3s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+
+.card:hover {
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-lg);
+}
+
+
+.card::before {
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:3px;
+  background:linear-gradient(90deg, var(--sidebar-active), transparent);
+}
+
+
+.card h3{
+  border-bottom:2px solid var(--border-light);
+  padding-bottom:14px;
+  margin-bottom:20px;
+  font-size:18px;
+  font-weight:600;
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+
+.card h3::before {
+  content:'';
+  width:4px;
+  height:20px;
+  background:var(--sidebar-active);
+  border-radius:2px;
+}
+
+
+/* Form Elements Enhancement */
+.form-group {
+  margin-bottom:18px;
+}
+
+
+label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:12px 0;
+  cursor:pointer;
+  padding:10px;
+  border-radius:var(--radius-sm);
+  transition:background 0.2s ease;
+}
+
+
+label:hover {
+  background:var(--primary-light);
+}
+
+
+input[type="radio"],
+input[type="checkbox"] {
+  width:18px;
+  height:18px;
+  accent-color:var(--sidebar-active);
+}
+
+
+input[type="text"], select {
+  width:100%;
+  padding:14px 16px;
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  font-size:15px;
+  transition:all 0.3s ease;
+  background:#fff;
+}
+
+
+input[type="text"]:focus, select:focus {
+  outline:none;
+  border-color:var(--sidebar-active);
+  box-shadow:0 0 0 3px rgba(0,191,255,0.15);
+}
+
+
+/* Button Enhancement */
+.btn-outline{
+  background:#fff;
+  border:2px solid var(--border);
+  padding:10px 20px;
+  border-radius:var(--radius-sm);
+  cursor:pointer;
+  font-weight:600;
+  font-size:14px;
+  color:var(--text);
+  transition:all 0.3s ease;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+
+
+.btn-outline:hover{
+  background:var(--border-light);
+  border-color:var(--sidebar-active);
+  color:var(--sidebar-active);
+  transform:translateY(-2px);
+}
+
+
+.save-btn{
+  background:linear-gradient(135deg, var(--success), #2aa52a);
+  color:#fff;
+  border:none;
+  padding:16px 24px;
+  border-radius:var(--radius);
+  cursor:pointer;
+  font-weight:600;
+  font-size:16px;
+  width:100%;
+  margin-top:16px;
+  transition:all 0.3s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  box-shadow:0 4px 15px rgba(50,205,50,0.3);
+}
+
+
+.save-btn:hover{
+  background:linear-gradient(135deg, #2aa52a, #228b22);
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(50,205,50,0.4);
+}
+
+
+/* Table Enhancement */
+table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  margin-top:16px;
+  border-radius:var(--radius);
+  overflow:hidden;
+  border:1px solid var(--border);
+}
+
+
+th{
+  background:linear-gradient(135deg, var(--sidebar-active), #0099cc);
+  color:#fff;
+  font-weight:600;
+  padding:18px 16px;
+  text-align:left;
+  border:none;
+}
+
+
+td{
+  padding:18px 16px;
+  border-bottom:1px solid var(--border-light);
+  transition:background 0.2s ease;
+}
+
+
+tr:last-child td {
+  border-bottom:none;
+}
+
+
+.phase-row{
+  cursor:pointer;
+  transition:all 0.3s ease;
+}
+
+
+.phase-row:hover{
+  background:var(--primary-light);
+  transform:translateX(4px);
+}
+
+
+.phase-row.selected{
+  background:rgba(0,191,255,0.15);
+  border-left:4px solid var(--sidebar-active);
+  font-weight:600;
+}
+
+
+/* Assessment Section */
+.assessment-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+}
+
+
+.assessment-controls {
+  display:flex;
+  gap:12px;
+}
+
+
+/* ===== ENHANCED WALKTHROUGH ===== */
 .tour-overlay{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;z-index:999;
-  animation:fade .4s;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  z-index:9998;
+  backdrop-filter:blur(4px);
+  animation:fadeIn 0.3s ease;
 }
+
+
 .tour-tooltip{
   position:fixed;
   background:#fff;
-  max-width:380px;
-  padding:20px;
-  border-radius:12px;
-  box-shadow:0 12px 30px rgba(0,0,0,.3);
+  max-width:420px;
+  padding:28px;
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg);
   display:none;
-  z-index:1001;
-  font-size:14px;line-height:1.5;color:#2c3e50;
-  animation:fade .4s;
+  z-index:9999;
+  font-size:15px;
+  line-height:1.6;
+  color:var(--text);
+  animation:slideUp 0.4s ease;
+  border:1px solid var(--border);
 }
+
+
+@keyframes slideUp {
+  from { transform:translateY(20px); opacity:0; }
+  to { transform:translateY(0); opacity:1; }
+}
+
+
 .tour-tooltip::after{
   content:"";
   position:absolute;
-  width:0;height:0;
-  border:8px solid transparent;
+  width:0;
+  height:0;
+  border:12px solid transparent;
   border-bottom-color:#fff;
-  top:-16px;left:20px;
+  top:-24px;
+  left:30px;
 }
-.tour-header{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16px}
-.tour-header i{font-size:20px;color:#00cfff}
-.tour-actions{display:flex;justify-content:space-between;margin-top:12px}
-.tour-actions button{border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:600;transition:0.2s;}
-#nextTour{background:#00cfff;color:#fff}
-#nextTour:hover{background:#0099cc;}
-#skipTour{background:#eee;color:#333}
-#skipTour:hover{background:#ccc;}
+
+
+.tour-header{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  font-weight:600;
+  font-size:18px;
+  margin-bottom:12px;
+  color:var(--text);
+}
+
+
+.tour-header i{
+  font-size:24px;
+  color:var(--sidebar-active);
+}
+
+
+.tour-actions{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:20px;
+}
+
+
+.tour-actions button{
+  border:none;
+  padding:12px 24px;
+  border-radius:var(--radius-sm);
+  cursor:pointer;
+  font-weight:600;
+  transition:0.3s ease;
+  font-size:14px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+
+#nextTour{
+  background:linear-gradient(135deg, var(--sidebar-active), #0099cc);
+  color:#fff;
+}
+
+
+#nextTour:hover{
+  background:linear-gradient(135deg, #0099cc, #0077aa);
+  transform:translateY(-2px);
+}
+
+
+#skipTour{
+  background:var(--border-light);
+  color:var(--text-light);
+}
+
+
+#skipTour:hover{
+  background:var(--border);
+  transform:translateY(-2px);
+}
+
+
 .tour-highlight{
-  position:relative;z-index:1002;
-  box-shadow:0 0 0 4px #00cfff,0 0 30px rgba(0,207,255,.7);
-  border-radius:8px;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-  transform: scale(1.03);
+  position:relative;
+  z-index:10000;
+  box-shadow:0 0 0 4px var(--sidebar-active),
+             0 20px 40px rgba(0,191,255,0.25);
+  border-radius:var(--radius);
+  transition:all 0.3s ease;
+  transform:scale(1.02);
+  animation:pulse 2s infinite;
 }
-@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
-/* ===== ENHANCED WALKTHROUGH ===== */
+
+
+@keyframes pulse {
+  0%, 100% { box-shadow:0 0 0 4px var(--sidebar-active),
+              0 20px 40px rgba(0,191,255,0.25); }
+  50% { box-shadow:0 0 0 6px var(--sidebar-active),
+        0 20px 50px rgba(0,191,255,0.35); }
+}
+
+
 .tour-progress {
-  font-size: 12px;
-  color: #64748b;
-  margin-bottom: 6px;
+  font-size:13px;
+  color:var(--sidebar-active);
+  font-weight:600;
+  margin-bottom:8px;
+  display:flex;
+  align-items:center;
+  gap:6px;
 }
+
+
+.tour-progress::before {
+  content:'📋';
+  font-size:12px;
+}
+
 
 .tour-arrow {
-  position: fixed;
-  width: 0;
-  height: 0;
-  border-left: 12px solid transparent;
-  border-right: 12px solid transparent;
-  border-top: 20px solid #00cfff;
-  animation: bounce 1s infinite;
-  z-index: 1003;
-  display: none;
+  position:fixed;
+  width:0;
+  height:0;
+  border-left:16px solid transparent;
+  border-right:16px solid transparent;
+  border-top:24px solid var(--sidebar-active);
+  animation:bounce 1s infinite;
+  z-index:10001;
+  display:none;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));
 }
+
 
 @keyframes bounce {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,100% { transform:translateY(0) scale(1); }
+  50% { transform:translateY(-12px) scale(1.1); }
 }
 
-.tour-tooltip strong {
-  color:#0ea5e9;
+
+/* Restart Tour Button Enhancement */
+#restartTourBtn {
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  z-index:999;
+  background:linear-gradient(135deg, var(--sidebar-active), #0099cc);
+  color:#fff;
+  border:none;
+  padding:14px 24px;
+  border-radius:50px;
+  cursor:pointer;
+  box-shadow:0 8px 25px rgba(0,191,255,0.4);
+  font-weight:600;
+  font-size:15px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:all 0.3s ease;
 }
 
+
+#restartTourBtn:hover {
+  transform:translateY(-4px) scale(1.05);
+  box-shadow:0 12px 30px rgba(0,191,255,0.5);
+}
+
+
+/* Responsive Design */
+@media(max-width:1100px){
+  .grid{
+    grid-template-columns:repeat(auto-fit, minmax(300px,1fr));
+  }
+}
+
+
+@media(max-width:900px){
+  .sidebar{
+    transform:translateX(-280px);
+  }
+ 
+  .main{
+    margin-left:0;
+    padding:20px;
+  }
+ 
+  .container{
+    width:100%;
+    padding:28px;
+    margin:20px auto;
+  }
+ 
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+
+
+@media(max-width:600px){
+  .main{
+    padding:16px;
+  }
+ 
+  .container{
+    padding:24px 20px;
+  }
+ 
+  .container h2{
+    font-size:26px;
+  }
+ 
+  .assessment-header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:16px;
+  }
+ 
+  .tour-tooltip{
+    width:90%;
+    margin:0 5%;
+    left:0 !important;
+  }
+}
 </style>
 </head>
 <body>
 <!-- ARROW -->
 <div id="tourArrow" class="tour-arrow"></div>
 
+
 <div class="dashboard">
 
-<!-- SIDEBAR -->
+
+<!-- ENHANCED SIDEBAR -->
 <aside class="sidebar">
   <div class="sidebar-header">
-    <img src="logo.png" class="sidebar-logo">
+    <div class="sidebar-logo">
+      SD
+    </div>
     <div class="sidebar-title">
       <h2>SMART<br>DENTISTRY</h2>
     </div>
   </div>
 
+
   <ul class="sidebar-menu">
-    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+    <li><a href="admin.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
     <li class="dropdown open">
       <a href="#" class="dropdown-toggle">
         <i class="fas fa-tooth"></i> My Clinic
@@ -233,251 +892,395 @@ th{background:#f5f5f5}
       <ul class="submenu">
         <li><a href="clinic-profile.html"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
         <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
-        <li><a href="Braces-Treatment.html"><i class="fas fa-chain"></i> Braces Treatment</a></li>
+        <li><a href="Braces-Treatment.html" class="active"><i class="fas fa-chain"></i> Braces Treatment</a></li>
         <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
       </ul>
     </li>
-    <li><a href="appointment-history.html"><i class="fas fa-clipboard-list"></i> Appointment History</a></li>
+    <li><a href="appointment-History.html"><i class="fas fa-clipboard-list"></i> Appointment History</a></li>
     <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-    
-    
+    <li><a href="Finance.html"><i class="fas fa-chart-line"></i> Finance</a></li>
+    <li><a href="Data-Back-Up.html"><i class="fas fa-file-chart-line"></i> Data Back-Up</a></li>
+   
+    <!-- Settings and Logout -->
+    <div style="position:absolute;bottom:30px;width:100%;padding:0 20px;">
+      <ul class="sidebar-menu settings-menu">
+        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+      <ul class="sidebar-menu return-home-menu">
+        <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </div>
   </ul>
-  <!-- Add Return to Home menu at the bottom -->
-    <div style="position: absolute; bottom: 20px; width: 13%;">
-    <div style="position: absolute; bottom: 20px; width: 100%;">
-    <ul class="sidebar-menu settings-menu">
-    <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-    </ul>
-    <ul class="sidebar-menu return-home-menu">
-    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-    </ul>
-    </div>
-    </div>
 </aside>
 
-<!-- MAIN -->
+
+<!-- ENHANCED MAIN -->
 <div class="main">
 <div class="container">
-<button id="restartTourBtn" style="
-  position: absolute;
-  top: 20px;  
-  right: 20px;
-  z-index: 999;
-  background:#0ea5e9;
-  color:#fff;
-  border:none;
-  padding:10px 14px;
-  border-radius:20px;
-  cursor:pointer;
-  box-shadow:0 6px 15px rgba(0,0,0,.25);
-">
-🔄 Restart Tutorial
-</button>
+  <button id="restartTourBtn">
+    <i class="fas fa-redo"></i> Restart Tutorial
+  </button>
 
 
-<h2>Braces Treatment Plan</h2>
+  <h2><i class="fas fa-chain"></i> Braces Treatment Plan</h2>
 
-<!-- SEARCH -->
-<div class="search-box">
-  <input id="searchPatient" placeholder="SEARCH A PATIENT">
-</div>
 
-<!-- PATIENT LIST -->
-<div class="patient-list">
-  <div class="patient-item">Samillano, Kristina Casandra</div>
-  <div class="patient-item">Reyes, Juan Miguel</div>
-  <div class="patient-item">Dela Cruz, Maria Angela</div>
-</div>
-
-<p><b>Selected Patient:</b> <span id="selectedPatientSpan">None</span></p>
-
-<!-- GRID -->
-<div class="grid">
-
-<div class="card">
-<h3>Archwire Sequence</h3>
-<label><input type="radio" name="archwire"> Initial alignment (NiTi)</label>
-<label><input type="radio" name="archwire"> Working phase (Stainless)</label>
-<label><input type="radio" name="archwire"> Finishing & detailing</label>
-</div>
-
-<div class="card">
-<h3>Auxiliaries</h3>
-<label><input type="checkbox"> Elastics</label>
-<label><input type="checkbox"> Power chains</label>
-<label><input type="checkbox"> Springs</label>
-<label><input type="checkbox"> Bite turbos</label>
-</div>
-
-<div class="card">
-<h3>Treatment Summary</h3>
-<p>No selection yet</p>
-<button id="saveTreatmentPlan" class="save-btn">SAVE TREATMENT PLAN</button>
-</div>
-
-</div>
-
-<!-- ASSESSMENT -->
-<div class="card" style="margin-top:20px">
-<div style="display:flex;justify-content:space-between">
-<h3>Patient Assessment</h3>
-<div>
-<button id="editAssessment" class="btn-outline">Edit</button>
-<button id="saveAssessment" class="save-btn" style="display:none">Save</button>
-</div>
-</div>
-
-<label>Chief Complaint</label>
-<input id="chiefComplaint" disabled>
-
-<label>Malocclusion</label>
-<select id="malocclusion" disabled>
-<option>Class I</option><option>Class II</option><option>Class III</option>
-</select>
-
-<label><input type="checkbox" id="crowding" disabled> Crowding</label>
-<label><input type="checkbox" id="overbite" disabled> Overbite</label>
-<label><input type="checkbox" id="crossbite" disabled> Crossbite</label>
-</div>
-
-<!-- PHASES -->
-<div class="card" style="margin-top:20px">
-<h3>Treatment Phases</h3>
-<table>
-<tr class="phase-row"><td>Phase 1</td><td>Alignment</td><td>4–6 months</td></tr>
-<tr class="phase-row"><td>Phase 2</td><td>Space closure</td><td>6–12 months</td></tr>
-<tr class="phase-row"><td>Phase 3</td><td>Finishing</td><td>3–6 months</td></tr>
-</table>
-<button id="savePhases" class="save-btn">SAVE PHASES</button>
-</div>
-
-<!-- VISUAL TUTORIAL -->
-<div id="tourOverlay" class="tour-overlay"></div>
-<div id="tourTooltip" class="tour-tooltip">
-  <div class="tour-header">
-    <i id="tourIcon" class="fas fa-info-circle"></i>
-    <span id="tourTitle"></span>
+  <!-- ENHANCED SEARCH -->
+  <div class="search-box">
+    <input id="searchPatient" placeholder="Search patient by name...">
   </div>
-  <p id="tourText"></p>
-  <div class="tour-actions">
-    <button id="skipTour">Skip</button>
-    <button id="nextTour">Next</button>
+
+
+  <!-- ENHANCED PATIENT LIST -->
+  <div class="patient-list">
+    <div class="patient-item">Samillano, Kristina Casandra</div>
+    <div class="patient-item">Reyes, Juan Miguel</div>
+    <div class="patient-item">Dela Cruz, Maria Angela</div>
   </div>
-</div>
+
+
+  <div class="selected-patient">
+    <b>Selected Patient:</b> <span id="selectedPatientSpan">None selected</span>
+  </div>
+
+
+  <!-- ENHANCED GRID -->
+  <div class="grid">
+
+
+    <div class="card">
+      <h3><i class="fas fa-ruler-combined"></i> Archwire Sequence</h3>
+      <div class="form-group">
+        <label><input type="radio" name="archwire"> Initial alignment (NiTi)</label>
+        <label><input type="radio" name="archwire"> Working phase (Stainless Steel)</label>
+        <label><input type="radio" name="archwire"> Finishing & detailing</label>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <h3><i class="fas fa-tools"></i> Auxiliaries</h3>
+      <div class="form-group">
+        <label><input type="checkbox"> Elastics (Interarch)</label>
+        <label><input type="checkbox"> Power chains</label>
+        <label><input type="checkbox"> Coil springs</label>
+        <label><input type="checkbox"> Bite turbos</label>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <h3><i class="fas fa-clipboard-check"></i> Treatment Summary</h3>
+      <p style="color:var(--text-light);font-size:14px;margin-bottom:20px;padding:12px;background:var(--border-light);border-radius:var(--radius-sm);">
+        No selection yet. Please configure the treatment plan.
+      </p>
+      <button id="saveTreatmentPlan" class="save-btn">
+        <i class="fas fa-save"></i> SAVE TREATMENT PLAN
+      </button>
+    </div>
+
+
+  </div>
+
+
+  <!-- ENHANCED ASSESSMENT -->
+  <div class="card" style="margin-top:32px">
+    <div class="assessment-header">
+      <h3><i class="fas fa-stethoscope"></i> Patient Assessment</h3>
+      <div class="assessment-controls">
+        <button id="editAssessment" class="btn-outline">
+          <i class="fas fa-edit"></i> Edit Assessment
+        </button>
+        <button id="saveAssessment" class="save-btn" style="display:none;width:auto;padding:10px 24px;">
+          <i class="fas fa-check"></i> Save
+        </button>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label style="display:block;margin-bottom:8px;font-weight:600;color:var(--text);">Chief Complaint</label>
+      <input id="chiefComplaint" disabled placeholder="Enter patient's main concern...">
+    </div>
+
+
+    <div class="form-group">
+      <label style="display:block;margin-bottom:8px;font-weight:600;color:var(--text);">Malocclusion Classification</label>
+      <select id="malocclusion" disabled>
+        <option value="">Select classification</option>
+        <option>Class I (Neutroclusion)</option>
+        <option>Class II Division 1</option>
+        <option>Class II Division 2</option>
+        <option>Class III</option>
+      </select>
+    </div>
+
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:16px;margin-top:20px;">
+      <label><input type="checkbox" id="crowding" disabled> Crowding</label>
+      <label><input type="checkbox" id="overbite" disabled> Overbite</label>
+      <label><input type="checkbox" id="crossbite" disabled> Crossbite</label>
+      <label><input type="checkbox" id="spacing" disabled> Spacing</label>
+    </div>
+  </div>
+
+
+  <!-- ENHANCED PHASES -->
+  <div class="card" style="margin-top:32px">
+    <h3><i class="fas fa-calendar-alt"></i> Treatment Phases</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>Description</th>
+          <th>Duration</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="phase-row">
+          <td><strong>Phase 1</strong></td>
+          <td>Initial alignment and leveling</td>
+          <td>4–6 months</td>
+        </tr>
+        <tr class="phase-row">
+          <td><strong>Phase 2</strong></td>
+          <td>Space closure and canine retraction</td>
+          <td>6–12 months</td>
+        </tr>
+        <tr class="phase-row">
+          <td><strong>Phase 3</strong></td>
+          <td>Finishing and detailing</td>
+          <td>3–6 months</td>
+        </tr>
+      </tbody>
+    </table>
+    <button id="savePhases" class="save-btn" style="margin-top:24px;">
+      <i class="fas fa-calendar-check"></i> SAVE PHASES
+    </button>
+  </div>
+
+
+  <!-- TUTORIAL OVERLAYS -->
+  <div id="tourOverlay" class="tour-overlay"></div>
+  <div id="tourTooltip" class="tour-tooltip"></div>
+
 
 </div>
 </div>
+
 
 <script>
-let selectedPatient="";
+let selectedPatient = "";
 
-/* SEARCH */
-document.getElementById("searchPatient").onkeyup=()=>document.querySelectorAll(".patient-item")
-.forEach(p=>p.style.display=p.textContent.toLowerCase().includes(searchPatient.value.toLowerCase())?"block":"none");
 
-/* PATIENT SELECT */
-document.querySelectorAll(".patient-item").forEach(p=>{
-  p.onclick=()=>{
-    document.querySelectorAll(".patient-item").forEach(x=>x.classList.remove("selected"));
+/* ENHANCED SEARCH */
+const searchInput = document.getElementById("searchPatient");
+const patientItems = document.querySelectorAll(".patient-item");
+
+
+searchInput.addEventListener("input", () => {
+  const searchTerm = searchInput.value.toLowerCase();
+  patientItems.forEach(p => {
+    const text = p.textContent.toLowerCase();
+    p.style.display = text.includes(searchTerm) ? "flex" : "none";
+  });
+});
+
+
+/* ENHANCED PATIENT SELECTION */
+patientItems.forEach(p => {
+  p.addEventListener("click", () => {
+    patientItems.forEach(x => x.classList.remove("selected"));
     p.classList.add("selected");
-    selectedPatient=p.textContent;
-    document.getElementById("selectedPatientSpan").textContent=selectedPatient;
-  };
-});
-
-/* ASSESSMENT */
-document.getElementById("editAssessment").onclick=()=>{
-  ["chiefComplaint","malocclusion","crowding","overbite","crossbite"]
-  .forEach(id=>document.getElementById(id).disabled=false);
-  document.getElementById("editAssessment").style.display="none";
-  document.getElementById("saveAssessment").style.display="inline-block";
-};
-document.getElementById("saveAssessment").onclick=()=>{
-  alert("Assessment Saved");
-  location.reload();
-};
-
-/* PHASE SELECT */
-document.querySelectorAll(".phase-row").forEach(r=>{
-  r.onclick=()=>r.classList.toggle("selected");
+    selectedPatient = p.textContent;
+   
+    // Add animation effect
+    const patientSpan = document.getElementById("selectedPatientSpan");
+    patientSpan.textContent = selectedPatient;
+    patientSpan.style.animation = "none";
+    setTimeout(() => {
+      patientSpan.style.animation = "pulse 0.5s ease";
+    }, 10);
+   
+    // Update summary
+    const summaryCard = document.querySelector(".card:nth-child(3) p");
+    summaryCard.innerHTML = `<strong>${selectedPatient}</strong><br>Treatment plan ready for configuration.`;
+    summaryCard.style.color = "var(--text)";
+  });
 });
 
 
-/* =========================
-   RESTART WALKTHROUGH
-========================= */
-document.getElementById("restartTourBtn").addEventListener("click", () => {
-  // reset step
-  stepIndex = 0;
+/* ENHANCED ASSESSMENT */
+document.getElementById("editAssessment").addEventListener("click", () => {
+  const fields = ["chiefComplaint", "malocclusion", "crowding", "overbite", "crossbite", "spacing"];
+  fields.forEach(id => {
+    const field = document.getElementById(id);
+    field.disabled = false;
+    field.style.backgroundColor = "#fff";
+  });
+ 
+  document.getElementById("editAssessment").style.display = "none";
+  document.getElementById("saveAssessment").style.display = "flex";
+});
 
-  // clear saved progress
-  localStorage.removeItem("bracesTourDone");
 
-  // small delay para smooth restart
+document.getElementById("saveAssessment").addEventListener("click", () => {
+  showNotification("Assessment saved successfully!");
   setTimeout(() => {
-    showStep();
-  }, 300);
+    location.reload();
+  }, 1500);
 });
 
+
+/* ENHANCED PHASE SELECTION */
+document.querySelectorAll(".phase-row").forEach(r => {
+  r.addEventListener("click", () => {
+    r.classList.toggle("selected");
+  });
+});
+
+
+/* ENHANCED SAVE BUTTONS */
+document.getElementById("saveTreatmentPlan").addEventListener("click", () => {
+  if (!selectedPatient) {
+    showNotification("Please select a patient first!");
+    return;
+  }
+  showNotification(`Treatment plan saved for ${selectedPatient}`);
+});
+
+
+document.getElementById("savePhases").addEventListener("click", () => {
+  const selectedPhases = document.querySelectorAll(".phase-row.selected");
+  if (selectedPhases.length === 0) {
+    showNotification("Please select at least one treatment phase");
+    return;
+  }
+  showNotification(`${selectedPhases.length} treatment phases saved`);
+});
+
+
+/* NOTIFICATION FUNCTION */
+function showNotification(message) {
+  // Create notification element
+  const notification = document.createElement("div");
+  notification.style.cssText = `
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, var(--success), #2aa52a);
+    color: white;
+    padding: 16px 24px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    z-index: 10000;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: slideInRight 0.3s ease;
+  `;
+ 
+  notification.innerHTML = `
+    <i class="fas fa-check-circle"></i>
+    <span>${message}</span>
+  `;
+ 
+  document.body.appendChild(notification);
+ 
+  setTimeout(() => {
+    notification.style.animation = "slideOutRight 0.3s ease";
+    setTimeout(() => {
+      document.body.removeChild(notification);
+    }, 300);
+  }, 3000);
+}
+
+
+// Add animation keyframes
+const style = document.createElement("style");
+style.textContent = `
+  @keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes slideOutRight {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+`;
+document.head.appendChild(style);
 
 
 /* =========================
    ENHANCED WALKTHROUGH
 ========================= */
 
+
 const steps = [
   {
     el: ".search-box",
-    title: "🔍 Step 1: Search Patient",
-    text: "Type the <strong>patient name</strong> here. The list will automatically filter while you type."
+    title: "🔍 Search Patient",
+    text: "Type the <strong>patient name</strong> here to quickly find their records. The list will filter automatically as you type."
   },
   {
     el: ".patient-list",
-    title: "👤 Step 2: Select Patient",
-    text: "Click a patient from the list to <strong>activate their treatment record</strong>."
+    title: "👤 Select Patient",
+    text: "Click on a patient's name to <strong>activate their treatment record</strong>. Selected patients are highlighted in blue."
   },
   {
     el: ".grid",
-    title: "📝 Step 3: Treatment Setup",
-    text: "Choose the <strong>archwire phase</strong> and needed <strong>auxiliaries</strong>."
+    title: "📝 Configure Treatment",
+    text: "Set up the treatment by choosing the <strong>archwire sequence</strong> and required <strong>auxiliaries</strong>."
   },
   {
     el: "#saveTreatmentPlan",
-    title: "💾 Step 4: Save Treatment Plan",
-    text: "Once done, click this button to <strong>save the plan</strong>."
+    title: "💾 Save Treatment Plan",
+    text: "Once configured, click this button to <strong>save the complete treatment plan</strong> to the patient's record."
   },
   {
     el: ".card:nth-of-type(4)",
-    title: "🩺 Step 5: Patient Assessment",
-    text: "Click <strong>Edit</strong>, complete the assessment, then save."
+    title: "🩺 Patient Assessment",
+    text: "Click <strong>Edit Assessment</strong> to update the patient's condition, then save your changes."
   },
   {
     el: ".phase-row",
-    title: "📅 Step 6: Treatment Phases",
-    text: "Select applicable phases and click <strong>Save Phases</strong>."
+    title: "📅 Treatment Timeline",
+    text: "Select applicable treatment phases and click <strong>Save Phases</strong> to establish the treatment timeline."
   }
 ];
+
 
 let stepIndex = 0;
 const overlay = document.getElementById("tourOverlay");
 const tooltip = document.getElementById("tourTooltip");
 const arrow = document.getElementById("tourArrow");
 
+
 function showStep() {
   document.querySelectorAll(".tour-highlight")
     .forEach(e => e.classList.remove("tour-highlight"));
 
+
   const step = steps[stepIndex];
   const el = document.querySelector(step.el);
-  if (!el) return;
+  if (!el) return nextStep();
+
 
   el.scrollIntoView({ behavior: "smooth", block: "center" });
   el.classList.add("tour-highlight");
 
-  const rect = el.getBoundingClientRect();
 
-  // Tooltip
+  const rect = el.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+  const windowWidth = window.innerWidth;
+
+
+  // Position tooltip
   tooltip.innerHTML = `
     <div class="tour-progress">Step ${stepIndex + 1} of ${steps.length}</div>
     <div class="tour-header">
@@ -486,25 +1289,44 @@ function showStep() {
     </div>
     <p>${step.text}</p>
     <div class="tour-actions">
-      <button id="skipTour">Skip</button>
-      <button id="nextTour">${stepIndex === steps.length - 1 ? "Finish" : "Next"}</button>
+      <button id="skipTour">
+        <i class="fas fa-times"></i> Skip
+      </button>
+      <button id="nextTour">
+        ${stepIndex === steps.length - 1 ? '<i class="fas fa-check"></i> Finish' : 'Next <i class="fas fa-arrow-right"></i>'}
+      </button>
     </div>
   `;
 
+
   tooltip.style.display = "block";
-  tooltip.style.top = rect.bottom + 20 + "px";
-  tooltip.style.left = rect.left + "px";
-
-  // Arrow
-  arrow.style.left = rect.left + rect.width / 2 - 12 + "px";
-  arrow.style.top = rect.top - 25 + "px";
+ 
+  // Position tooltip intelligently
+  if (rect.bottom + tooltip.offsetHeight + 20 > windowHeight) {
+    tooltip.style.top = rect.top - tooltip.offsetHeight - 20 + "px";
+    tooltip.style.transform = "translateY(0)";
+    arrow.style.top = rect.top - 20 + "px";
+    arrow.style.transform = "rotate(180deg)";
+  } else {
+    tooltip.style.top = rect.bottom + 20 + "px";
+    tooltip.style.transform = "translateY(0)";
+    arrow.style.top = rect.top - 25 + "px";
+    arrow.style.transform = "rotate(0deg)";
+  }
+ 
+  tooltip.style.left = Math.max(20, Math.min(rect.left, windowWidth - tooltip.offsetWidth - 20)) + "px";
+  arrow.style.left = rect.left + rect.width / 2 - 16 + "px";
   arrow.style.display = "block";
-
   overlay.style.display = "block";
 
-  document.getElementById("nextTour").onclick = nextStep;
-  document.getElementById("skipTour").onclick = endTour;
+
+  // Rebind events
+  setTimeout(() => {
+    document.getElementById("nextTour").onclick = nextStep;
+    document.getElementById("skipTour").onclick = endTour;
+  }, 10);
 }
+
 
 function nextStep() {
   stepIndex++;
@@ -515,6 +1337,7 @@ function nextStep() {
   }
 }
 
+
 function endTour() {
   overlay.style.display = "none";
   tooltip.style.display = "none";
@@ -522,15 +1345,55 @@ function endTour() {
   document.querySelectorAll(".tour-highlight")
     .forEach(e => e.classList.remove("tour-highlight"));
   localStorage.setItem("bracesTourDone", "yes");
+  showNotification("Tutorial completed! You're ready to use the system.");
 }
 
-/* AUTO RUN (FIRST TIME ONLY) */
-window.onload = () => {
-  if (!localStorage.getItem("bracesTourDone")) {
+
+/* RESTART WALKTHROUGH */
+document.getElementById("restartTourBtn").addEventListener("click", () => {
+  stepIndex = 0;
+  localStorage.removeItem("bracesTourDone");
+ 
+  // Add bounce animation to button
+  const btn = document.getElementById("restartTourBtn");
+  btn.style.animation = "bounce 0.5s ease";
+  setTimeout(() => {
+    btn.style.animation = "";
+  }, 500);
+ 
+  setTimeout(() => {
     showStep();
+  }, 300);
+});
+
+
+/* AUTO RUN (FIRST TIME ONLY) */
+window.addEventListener("load", () => {
+  if (!localStorage.getItem("bracesTourDone")) {
+    setTimeout(() => {
+      showStep();
+    }, 1000);
   }
-};
+});
+
+
+/* ENHANCE FORM INTERACTIONS */
+document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
+  input.addEventListener("change", function() {
+    const label = this.closest("label");
+    if (this.checked) {
+      label.style.background = "var(--primary-light)";
+      label.style.color = "var(--sidebar-active)";
+      label.style.fontWeight = "600";
+    } else {
+      label.style.background = "";
+      label.style.color = "";
+      label.style.fontWeight = "";
+    }
+  });
+});
 </script>
+
 
 </body>
 </html>
