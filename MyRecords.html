@@ -94,256 +94,203 @@
         }
         
         .sidebar {
-            background-color: var(--sidebar-bg);
-            color: var(--sidebar-text);
-            padding: 20px 0;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
-            flex-shrink: 0;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 20px 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    flex-shrink: 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
 
-        .main-content {
-            flex-direction: column;
-            padding: 30px;
-            display: flex;
-            flex: 1;
-            width: calc(100% - 280px);
-            margin-left: auto;
-            background: linear-gradient(to bottom right, var(--bg-color) 0%, rgba(255, 255, 255, 0.05) 100%);
-            min-height: 100vh;
-            transition: all 0.3s ease;
-        }
+.main-content {
+    flex-direction: column;
+    padding: 30px;
+    display: flex;
+    flex: 1;
+    width: calc(100% - 280px);
+    margin-left: auto;
+    background: linear-gradient(to bottom right, var(--bg-color) 0%, rgba(255, 255, 255, 0.05) 100%);
+    min-height: 100vh;
+    transition: all 0.3s ease;
+}
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 15px 25px;
-            background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px 25px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
 
-        .return-home-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
+.return-home-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-        .return-home-menu li {
-            margin: 5px 0;
-        }
+.return-home-menu li {
+    margin: 5px 0;
+}
 
-        .return-home-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 25px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-            border-left: 3px solid transparent;
-        }
+.return-home-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 25px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    border-left: 3px solid transparent;
+}
 
-        .return-home-menu a:hover {
-            background: rgba(0, 191, 255, 0.1);
-            border-left-color: var(--sidebar-active);
-            padding-left: 28px;
-        }
+.return-home-menu a:hover {
+    background: rgba(0, 191, 255, 0.1);
+    border-left-color: var(--sidebar-active);
+    padding-left: 28px;
+}
 
         /* ============================================= */
         /* SIDEBAR COMPONENTS */
         /* ============================================= */
 
         .sidebar-header {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 30px;
+}
 
-        .sidebar-logo {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            margin-right: 15px;
-            object-fit: cover;
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            flex-shrink: 0;
-        }
+.sidebar-logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-right: -5px;
+    margin-top: -45px;
+    margin-left: -20px;
+    object-fit: cover;
+}
 
-        .sidebar-title {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+.sidebar-title h2 {
+    color: var(--sidebar-active);
+    margin: 0;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+}
 
-        .sidebar-title h2 {
-            color: var(--sidebar-active);
-            margin: 0;
-            font-size: 16px;
-            line-height: 1.2;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-        }
+.sidebar-title p {
+    color: var(--sidebar-text);
+    font-size: 12px;
+    margin-top: 10px;
+    margin-left: -40px;
+    font-style: italic;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    white-space: normal;
+}
 
-        .sidebar-title p {
-            color: var(--sidebar-text);
-            font-size: 11px;
-            margin-top: 6px;
-            margin-left: 0;
-            font-style: italic;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-            white-space: normal;
-            opacity: 0.9;
-        }
+.holy-family {
+    color: #1380d3;
+    font-weight: bold;
+}
 
-        .holy-family {
-            color: #1380d3;
-            font-weight: 700;
-        }
+.dental-clinic {
+    color: #00c4cc;
+    font-weight: bold;
+}
 
-        .dental-clinic {
-            color: #00c4cc;
-            font-weight: 700;
-        }
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-
-        .sidebar-menu li {
-            margin-bottom: 0;
-        }
+.sidebar-menu li {
+    margin-bottom: 5px;
+}
 
         .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--sidebar-text);
-            text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background-color: rgba(0, 191, 255, 0.2);
+    color: white;
+    border-left: 3px solid var(--sidebar-active);
+}
+
+.sidebar-menu i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.settings-menu a:hover, .return-home-menu a:hover {
+    background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
+    color: white; /* Change text color on hover */
+    border-left: 3px solid var(--sidebar-active); /* Add left border */
+    display: block; /* Ensure the hover effect spans the full width */
+    width: 100%; /* Extend hover effect across the full width */
+    padding-right: 25px; /* Maintain alignment */
+}
+
+
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
             transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-            font-weight: 500;
-            font-size: 14px;
+            display: inline-flex;
+            margin-top: -10px;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            border: none;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--sidebar-active);
+            color: var(--sidebar-active);
         }
 
-        .sidebar-menu a:hover, 
-        .sidebar-menu a.active {
-            background-color: rgba(0, 191, 255, 0.15);
+        .btn-outline:hover {
+            background-color: var(--sidebar-active);
             color: white;
-            border-left: 3px solid var(--sidebar-active);
-            padding-left: 23px;
+            box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
         }
 
-        .sidebar-menu i {
-            margin-right: 12px;
-            width: 20px;
-            text-align: center;
-            font-size: 16px;
-        }
-
-        .sidebar-footer {
-            padding: 20px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-        }
-
-        .settings-menu {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .settings-menu, 
-        .return-home-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-
-        .settings-menu li, 
-        .return-home-menu li {
-            margin: 0;
-        }
-
-        .settings-menu a, 
-        .return-home-menu a {
+        .theme-toggle {
             display: flex;
             align-items: center;
-            padding: 12px 20px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 14px;
-            font-weight: 500;
-            border-left: 3px solid transparent;
-        }
-
-        .settings-menu a:hover, 
-        .return-home-menu a:hover {
-            background-color: rgba(0, 191, 255, 0.15);
-            color: white;
-            border-left: 3px solid var(--sidebar-active);
-            padding-left: 23px;
-        }
-
-        .settings-menu i, 
-        .return-home-menu i {
-            margin-right: 12px;
-            width: 20px;
-            text-align: center;
-            font-size: 16px;
-        }
-
-        .logout-btn {
-            color: rgba(255, 159, 159, 0.9) !important;
-        }
-
-        .logout-btn:hover {
-            background-color: rgba(231, 76, 60, 0.15) !important;
-            border-left-color: #e74c3c !important;
-            color: #ff9f9f !important;
-        }
-
-        /* ============================================= */
-        /* THEME TOGGLE STYLES */
-        /* ============================================= */
-
-        .theme-switcher {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            align-items: center;
+            margin-left: 20px;
             gap: 10px;
         }
 
-         .theme-switcher-label {
+        .theme-toggle-label {
             font-size: 14px;
             color: var(--text-color);
         }
-
-         .switch {
+        
+        .switch {
             position: relative;
             display: inline-block;
             width: 50px;
@@ -406,7 +353,7 @@
             display: flex;
             flex-direction: column;
         }
-
+        
         header {
             padding: 20px;
             margin-top: -20px;
@@ -418,27 +365,27 @@
             overflow-y: auto; /* Enable vertical scrolling */
             flex-grow: 1; /* Take remaining space */
         }
-
-         h1 {
+        
+        h1 {
             font-size: 24px;
             font-weight: 600;
             color: var(--text-color);
             margin-bottom: 5px;
         }
-
-h2 {
+        
+        h2 {
             font-size: 18px;
             font-weight: 500;
             color: var(--text-muted);
             margin-bottom: 20px;
         }
-
+        
         .status-tabs {
             display: flex;
             gap: 15px;
             margin-bottom: 20px;
         }
-
+        
         .status-tab {
             padding: 8px 15px;
             border-radius: 20px;
@@ -447,21 +394,21 @@ h2 {
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
+        
         .status-tab.active {
             background-color: var(--tab-active-bg);
             color: white;
         }
-
+        
         .status-tab.inactive {
             background-color: var(--tab-inactive-bg);
             color: var(--tab-inactive-text);
         }
-
-         .status-tab.inactive:hover {
+        
+        .status-tab.inactive:hover {
             background-color: var(--border-color);
         }
-
+        
         .search-filter {
             display: flex;
             align-items: center;
@@ -469,12 +416,12 @@ h2 {
             margin-bottom: 20px;
             width: 100%;
         }
-
+        
         .search {
             min-width: 200px;
             width: 80%; /* Reduce width to leave more space */
         }
-
+        
         .search input {
             width: 100%;
             padding: 10px 15px;
@@ -485,14 +432,14 @@ h2 {
             color: var(--text-color);
             transition: all 0.3s ease;
         }
-
+        
         .search input:focus {
             outline: none;
             border-color: var(--sidebar-active);
             box-shadow: 0 0 0 2px rgba(0, 191, 255, 0.2);
         }
-
-         .filter {
+        
+        .filter {
             padding: 10px 15px;
             background-color: var(--tab-inactive-bg);
             border-radius: 5px;
@@ -505,12 +452,11 @@ h2 {
             margin-left: auto; /* Push filter and create button to the right */
             position: relative;
         }
-
+        
         .filter:hover {
             background-color: var(--border-color);
         }
-
-
+        
         .filter-dropdown {
     position: absolute;
     top: 100%;
@@ -621,8 +567,8 @@ h2 {
             background-color: var(--inactive-status-bg);
             color: var(--inactive-status-text);
         }
-
-.doctor, .last-visit, .patient-id {
+        
+        .doctor, .last-visit, .patient-id {
             color: var(--text-muted);
             font-size: 14px;
         }
@@ -640,12 +586,12 @@ h2 {
             gap: 10px;
         }
 
-         .theme-switcher-label {
+        .theme-switcher-label {
             font-size: 14px;
             color: var(--text-color);
         }
 
-         /* ============================================= */
+        /* ============================================= */
         /* RESPONSIVE STYLES */
         /* ============================================= */
 
@@ -653,17 +599,17 @@ h2 {
             .dashboard {
                 flex-direction: column;
             }
-
+            
             .sidebar {
                 width: 100%;
                 height: auto;
                 position: relative;
             }
-
+            
             .patient-header, .patient-row {
                 grid-template-columns: repeat(3, 1fr);
             }
-
+            
             .patient-header div:nth-child(4),
             .patient-header div:nth-child(5),
             .patient-header div:nth-child(6),
@@ -673,7 +619,7 @@ h2 {
                 display: none;
             }
         }
-    
+
         /* Add these styles in the CSS section */
         .modal {
             display: none;
@@ -686,7 +632,7 @@ h2 {
             z-index: 1000;
         }
 
-         .modal-content {
+        .modal-content {
             position: relative;
             background: var(--card-bg);
             width: 90%;
@@ -710,7 +656,7 @@ h2 {
             margin-top: 20px;
         }
 
-         .detail-group {
+        .detail-group {
             margin-bottom: 15px;
         }
 
@@ -750,23 +696,17 @@ h2 {
 .patients-table-container {
     max-height: calc(100vh - 250px);
     overflow-y: auto;
-    border-radius: 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
     margin-top: 20px;
-    background: linear-gradient(135deg, var(--card-bg) 0%, var(--bg-color) 100%);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--border-color);
-    animation: slideInUp 0.5s ease;
+    background: linear-gradient(to bottom, var(--card-bg) 0%, var(--bg-color) 100%);
+    box-shadow: 0 12px 24px -6px rgba(0,0,0,0.1);
+    transition: none; /* Remove transition */
 }
 
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.patients-table-container:hover {
+    /* Remove transform and shadow change */
+    box-shadow: 0 12px 24px -6px rgba(0,0,0,0.1);
 }
 
 .patients-table {
@@ -779,321 +719,1385 @@ h2 {
 .patients-table thead {
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 1;
 }
 
 .patients-table th {
-    background: linear-gradient(135deg, var(--sidebar-bg) 0%, #1e2a3a 100%);
+    background: linear-gradient(to bottom, var(--sidebar-bg) 0%, #1e2a3a 100%);
     color: var(--sidebar-text);
-    font-weight: 700;
+    font-weight: 600;
     text-transform: uppercase;
     font-size: 0.75rem;
-    letter-spacing: 1.2px;
-    padding: 18px 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-    border-bottom: 2px solid var(--sidebar-active);
-}
-
-.patients-table th:hover {
-    background: linear-gradient(135deg, #1e2a3a 0%, var(--sidebar-bg) 100%);
-    cursor: pointer;
+    letter-spacing: 1px;
+    padding: 16px 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
 }
 
 .patients-table td {
-    padding: 18px 20px;
+    padding: 16px 20px;
     border-bottom: 1px solid var(--border-color);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     vertical-align: middle;
-    transition: all 0.2s ease;
 }
 
 .patients-table tbody tr {
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    border-left: 4px solid transparent;
+    transition: none; /* Remove transition */
+    border-left: 3px solid transparent;
 }
 
 .patients-table tbody tr:hover {
     background-color: var(--hover-bg);
-    border-left-color: var(--sidebar-active);
-    box-shadow: inset 4px 0 0 var(--sidebar-active);
-    transform: scale(1.01);
+    border-left: 3px solid var(--sidebar-active);
+    /* Remove transform scale effect */
 }
 
-.patient-name {
-    font-weight: 700;
-    color: var(--text-color);
-    font-size: 0.95rem;
-}
-
-.patient-id {
-    color: var(--text-muted);
-    font-size: 0.8rem;
-    margin-top: 4px;
-}
-
-/* Enhanced contact info styling */
+/* Enhanced the contact info styling */
 .contact-info {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
+    padding: 4px 0;
 }
 
 .contact-info .email {
     color: var(--sidebar-active);
-    font-weight: 600;
+    font-weight: 500;
     display: flex;
     align-items: center;
     gap: 6px;
-    transition: all 0.3s ease;
-    text-decoration: none;
 }
 
 .contact-info .email:hover {
     color: #0099cc;
-    text-decoration: underline;
-    transform: translateX(2px);
 }
 
 .contact-info .phone {
     display: flex;
     align-items: center;
     gap: 6px;
-    color: var(--text-muted);
-    font-weight: 500;
-}
-
-/* Enhanced action button */
-.action-btn {
-    padding: 10px 18px;
-    border: none;
-    border-radius: 8px;
-    background: linear-gradient(135deg, var(--sidebar-active), #0099cc);
-    color: white;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.2);
-    border: 1px solid rgba(0, 191, 255, 0.3);
-}
-
-.action-btn:hover {
-    background: linear-gradient(135deg, #0099cc, var(--sidebar-active));
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 191, 255, 0.4);
-}
-
-.action-btn:active {
-    transform: translateY(-1px);
 }
 
 /* Enhanced checkbox styling */
 .patients-table input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border: 2px solid var(--border-color);
-    border-radius: 5px;
+    border-radius: 4px;
     background: var(--card-bg);
     cursor: pointer;
-    transition: all 0.3s ease;
+    position: relative;
+    transition: all 0.2s ease;
 }
 
 .patients-table input[type="checkbox"]:checked {
-    background: linear-gradient(135deg, var(--sidebar-active), #0099cc);
+    background: var(--sidebar-active);
     border-color: var(--sidebar-active);
-    box-shadow: 0 0 8px rgba(0, 191, 255, 0.4);
 }
 
 .patients-table input[type="checkbox"]:checked::after {
     content: '✓';
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: white;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 12px;
 }
 
-/* Enhanced search styling */
-.search input {
+/* Action button enhancements */
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(to bottom right, var(--sidebar-active), #0099cc);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .action-btn:hover {
+            background: linear-gradient(to bottom right, #0099cc, var(--sidebar-active));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+        }
+
+        /* Enhanced Create Guest Account Button */
+        .create-account-btn {
+            padding: 11px 20px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--sidebar-active) 0%, #00d4ff 100%);
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+            white-space: nowrap;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.3px;
+        }
+
+        .create-account-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .create-account-btn:hover::before {
+            left: 100%;
+        }
+
+        .create-account-btn:hover {
+            background: linear-gradient(135deg, #00d4ff 0%, var(--sidebar-active) 100%);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 191, 255, 0.4);
+        }
+
+        .create-account-btn:active {
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+        }
+
+        .create-account-btn i {
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        .create-account-btn:hover i {
+            transform: rotate(10deg) scale(1.15);
+        }
+
+        /* Dark theme adjustments */
+        [data-theme="dark"] .create-account-btn {
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.25);
+        }
+
+        [data-theme="dark"] .create-account-btn:hover {
+            box-shadow: 0 8px 25px rgba(0, 191, 255, 0.35);
+        }
+
+        /* Sorting styles */
+        .patients-table th.sort-asc::after {
+            content: ' ↑';
+            color: var(--sidebar-active);
+        }
+
+        .patients-table th.sort-desc::after {
+            content: ' ↓';
+            color: var(--sidebar-active);
+        }
+
+        .patients-table th:not(:first-child) {
+            cursor: pointer;
+        }
+
+        .patients-table th:not(:first-child):hover {
+            background: linear-gradient(to bottom, var(--sidebar-bg) 0%, #2a3f54 100%);
+        }
+
+
+        /* Fix bottom menu styling */
+        .bottom-menu {
+            margin-top: auto;
+            padding-top: 10px;
+            padding-bottom: 60px;
+        }
+
+        .settings-menu, .return-home-menu {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        /* Remove the absolute positioning */
+        .bottom-menu > div {
+            position: static;
+        }
+
+        /* Add highlight style */
+        .highlight {
+            background-color: rgba(0, 191, 255, 0.2);
+            padding: 2px;
+            border-radius: 2px;
+        }
+
+        /* Add this to the CSS section */
+        .search-hidden {
+            visibility: hidden;
+            height: 0;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: none !important;
+        }
+
+        .patients-table tr {
+            height: 72px; /* Set a fixed height for table rows */
+        }
+
+        /* ============================================= */
+        /* INTERACTIVE TUTORIAL STYLES */
+        /* ============================================= */
+.tutorial-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 999999;
+    display: none;
+    backdrop-filter: blur(3px);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.tutorial-highlight {
+    position: fixed;
+    border: 3px solid #00bfff;
+    border-radius: 12px;
+    box-shadow: 
+        0 0 0 9999px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(0, 191, 255, 0.8),
+        inset 0 0 30px rgba(0, 191, 255, 0.4);
+    z-index: 999998;
+    pointer-events: none;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: pulse 2s infinite, glow 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        box-shadow: 
+            0 0 0 9999px rgba(0, 0, 0, 0.7),
+            0 0 20px rgba(0, 191, 255, 0.5),
+            inset 0 0 20px rgba(0, 191, 255, 0.3);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 
+            0 0 0 9999px rgba(0, 0, 0, 0.7),
+            0 0 40px rgba(0, 191, 255, 1),
+            inset 0 0 40px rgba(0, 191, 255, 0.6);
+        transform: scale(1.02);
+    }
+}
+
+@keyframes glow {
+    0%, 100% { 
+        border-color: #00bfff;
+        filter: drop-shadow(0 0 5px rgba(0, 191, 255, 0.5));
+    }
+    50% { 
+        border-color: #00d4ff;
+        filter: drop-shadow(0 0 15px rgba(0, 191, 255, 0.9));
+    }
+}
+
+@keyframes shimmer {
+    0% { 
+        box-shadow: inset -2000px 0 0 0 rgba(255, 255, 255, 0.3);
+    }
+    100% { 
+        box-shadow: inset 2000px 0 0 0 rgba(255, 255, 255, 0.3);
+    }
+}
+
+.tutorial-highlight.shimmer-effect {
+    animation: pulse 2s infinite, glow 2s infinite, shimmer 2s infinite;
+}
+
+.tutorial-highlight::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 20px solid #00bfff;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    opacity: 0;
+    animation: arrowBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes arrowBounce {
+    0%, 100% { 
+        opacity: 0;
+        top: -25px;
+    }
+    50% { 
+        opacity: 1;
+        top: -35px;
+    }
+}
+
+.tutorial-highlight::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 2px solid #00bfff;
+    border-radius: 12px;
+    opacity: 0.5;
+    animation: ripple 2s ease-out infinite;
+}
+
+@keyframes ripple {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 191, 255, 0.7);
+        opacity: 1;
+    }
+    100% {
+        box-shadow: 0 0 0 30px rgba(0, 191, 255, 0);
+        opacity: 0;
+    }
+}
+
+.tutorial-content {
+    position: fixed;
+    background: linear-gradient(135deg, var(--card-bg) 0%, var(--hover-bg) 100%);
+    border-radius: 20px;
+    padding: 30px;
+    width: 500px;
+    max-width: 90%;
+    z-index: 999999;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    border: 2px solid var(--sidebar-active);
+    animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+}
+
+@keyframes slideUp {
+    from { 
+        transform: translateY(50px) scale(0.95); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateY(0) scale(1); 
+        opacity: 1; 
+    }
+}
+
+.tutorial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.tutorial-title {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--sidebar-active), #00d4ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.tutorial-progress {
+    background: linear-gradient(135deg, var(--sidebar-active), #00d4ff);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+}
+
+.tutorial-body {
+    margin-bottom: 30px;
+}
+
+.tutorial-message {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0 0 25px 0;
+    min-height: 80px;
+    padding: 15px;
+    background: var(--hover-bg);
+    border-radius: 12px;
+    border-left: 4px solid var(--sidebar-active);
+}
+
+.tutorial-bullets {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.bullet-point {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border-color);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.bullet-point:hover {
+    transform: scale(1.3);
+}
+
+.bullet-point.active {
+    background: var(--sidebar-active);
+    transform: scale(1.3);
+    box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+}
+
+.tutorial-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.tutorial-btn {
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    justify-content: center;
+    min-width: 120px;
+    font-family: 'Inter', sans-serif;
+}
+
+.tutorial-skip {
+    background: transparent;
+    color: var(--text-muted);
+    border: 2px solid var(--border-color);
+}
+
+.tutorial-skip:hover {
+    background: var(--hover-bg);
+    color: var(--text-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tutorial-prev {
+    background: var(--hover-bg);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+}
+
+.tutorial-prev:hover {
+    background: var(--border-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tutorial-next, .tutorial-complete {
+    background: linear-gradient(135deg, var(--sidebar-active), #00d4ff);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+}
+
+.tutorial-next:hover, .tutorial-complete:hover {
+    background: linear-gradient(135deg, #0099cc, #00bfff);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 191, 255, 0.4);
+}
+
+.tutorial-interactive {
+    cursor: pointer !important;
+    position: relative;
+    z-index: 1000000 !important;
+    transition: all 0.3s ease !important;
+}
+
+.tutorial-interactive:hover {
+    transform: scale(1.03) !important;
+    filter: brightness(1.1) !important;
+}
+
+@media (max-width: 768px) {
+    .tutorial-content {
+        width: 90%;
+        padding: 20px;
+    }
+    
+    .tutorial-footer {
+        flex-direction: column;
+    }
+    
+    .tutorial-btn {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+}
+
+/* Floating Help Button */
+.floating-help-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--sidebar-active), #00d4ff);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.4);
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+.floating-help-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 191, 255, 0.6);
+}
+
+.floating-help-btn:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .floating-help-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+}
+
+/* ============================================= */
+        /* ENHANCED TERMS MODAL STYLES */
+        /* ============================================= */
+
+        #termsModal .modal {
+            display: none;
+        }
+
+        #termsModal .modal-content {
+            max-width: 800px;
+            max-height: 85vh;
+            padding: 0;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--card-bg);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #termsModal .modal-close {
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--hover-bg);
+            transition: all 0.3s ease;
+            font-size: 24px;
+            z-index: 10;
+            padding: 0;
+            line-height: 1;
+        }
+
+        #termsModal .modal-close:hover {
+            background: var(--border-color);
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .terms-header {
+            background: linear-gradient(135deg, var(--sidebar-active) 0%, #00d4ff 100%);
+            color: white;
+            padding: 40px 35px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terms-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .terms-header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .terms-header h2 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .terms-header h2::before {
+            content: '⚖️';
+            font-size: 32px;
+        }
+
+        .terms-effective-date {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.85);
+            margin-top: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .terms-content-wrapper {
+            flex: 1;
+            overflow-y: auto;
+            padding: 35px;
+            background: var(--card-bg);
+        }
+
+        .terms-content-wrapper::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terms-content-wrapper::-webkit-scrollbar-track {
+            background: var(--hover-bg);
+            border-radius: 10px;
+        }
+
+        .terms-content-wrapper::-webkit-scrollbar-thumb {
+            background: var(--sidebar-active);
+            border-radius: 10px;
+        }
+
+        .terms-content-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #00d4ff;
+        }
+
+        .terms-section {
+            margin-bottom: 28px;
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .terms-section:nth-child(1) { animation-delay: 0.1s; }
+        .terms-section:nth-child(2) { animation-delay: 0.2s; }
+        .terms-section:nth-child(3) { animation-delay: 0.3s; }
+        .terms-section:nth-child(4) { animation-delay: 0.4s; }
+        .terms-section:nth-child(5) { animation-delay: 0.5s; }
+        .terms-section:nth-child(6) { animation-delay: 0.6s; }
+        .terms-section:nth-child(7) { animation-delay: 0.7s; }
+        .terms-section:nth-child(8) { animation-delay: 0.8s; }
+        .terms-section:nth-child(9) { animation-delay: 0.9s; }
+
+        .terms-section h3 {
+            margin: 0 0 12px 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--sidebar-active);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terms-section h3::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(to bottom, var(--sidebar-active), #00d4ff);
+            border-radius: 2px;
+        }
+
+        .terms-section p {
+            margin: 0;
+            font-size: 13.5px;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+
+        .terms-disclaimer {
+            background: linear-gradient(135deg, rgba(0, 191, 255, 0.08) 0%, rgba(0, 212, 255, 0.04) 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--sidebar-active);
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terms-disclaimer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .terms-disclaimer p {
+            margin: 0;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-color);
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terms-disclaimer p::before {
+            content: '✓';
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: var(--sidebar-active);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .terms-footer {
+            background: var(--header-bg);
+            padding: 20px 35px;
+            display: flex;
+            gap: 12px;
+            border-top: 1px solid var(--border-color);
+            animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.3s backwards;
+        }
+
+        .terms-decline-btn {
+            flex: 1;
+            padding: 12px 20px;
+            background: var(--hover-bg);
+            color: var(--text-color);
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .terms-decline-btn:hover {
+            background: var(--border-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .terms-accept-btn {
+            flex: 1;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--sidebar-active) 0%, #00d4ff 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terms-accept-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .terms-accept-btn:hover::before {
+            left: 100%;
+        }
+
+        .terms-accept-btn:hover {
+            background: linear-gradient(135deg, #00d4ff 0%, var(--sidebar-active) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 191, 255, 0.4);
+        }
+
+        .terms-accept-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0, 191, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            #termsModal .modal-content {
+                max-width: 95%;
+                max-height: 90vh;
+                margin: 20px auto;
+            }
+
+            .terms-header {
+                padding: 30px 20px;
+            }
+
+            .terms-header h2 {
+                font-size: 22px;
+            }
+
+            .terms-content-wrapper {
+                padding: 25px;
+            }
+
+            .terms-footer {
+                padding: 15px 20px;
+                flex-direction: column;
+            }
+
+            .terms-decline-btn, .terms-accept-btn {
+                width: 100%;
+            }
+        }
+
+        /* Enhanced Modal Styles */
+#createAccountModal .modal-content {
+    max-width: 600px;
+    border-radius: 16px;
+    overflow: hidden;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+#createAccountModal .modal-header {
+    background: linear-gradient(135deg, var(--sidebar-active) 0%, #00d4ff 100%);
+    color: white;
+    padding: 25px 30px;
+    position: relative;
+}
+
+#createAccountModal .modal-header h2 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#createAccountModal .modal-subtitle {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 14px;
+}
+
+#createAccountModal .modal-close {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#createAccountModal .modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+#createAccountModal .modal-body {
+    padding: 30px;
+    background: var(--card-bg);
+}
+
+/* Progress Steps */
+.form-progress {
+    margin-bottom: 30px;
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+}
+
+.step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--border-color);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
     transition: all 0.3s ease;
     border: 2px solid var(--border-color);
 }
 
-.search input:focus {
-    outline: none;
-    border-color: var(--sidebar-active);
-    box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.15);
-    transform: translateY(-2px);
-}
-
-/* Enhanced create button */
-.create-account-btn {
-    background: linear-gradient(135deg, var(--sidebar-active), #00c4cc);
+.step.active .step-number {
+    background: var(--sidebar-active);
     color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
+    border-color: var(--sidebar-active);
+}
+
+.step.completed .step-number {
+    background: #4CAF50;
+    color: white;
+    border-color: #4CAF50;
+}
+
+.step-label {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.step.active .step-label {
+    color: var(--sidebar-active);
     font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
-    font-size: 0.9rem;
 }
 
-.create-account-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 191, 255, 0.4);
+.progress-bar {
+    height: 4px;
+    background: var(--border-color);
+    border-radius: 2px;
+    position: relative;
+    margin-top: -18px;
+    z-index: 1;
 }
 
-.create-account-btn:active {
-    transform: translateY(-1px);
+.progress-fill {
+    position: absolute;
+    height: 100%;
+    background: var(--sidebar-active);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    width: 0%;
 }
 
-/* Enhanced modal styling */
-#createPatientModal .modal-content {
-    max-width: 540px;
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-    animation: modalBounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+/* Form Sections */
+.form-sections {
+    position: relative;
+    min-height: 300px;
 }
 
-@keyframes modalBounce {
-    0% {
-        opacity: 0;
-        transform: scale(0.9) translateY(-20px);
-    }
-    50% {
-        transform: scale(1.02);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
+.form-section {
+    display: none;
+    animation: fadeIn 0.3s ease;
 }
 
-/* Enhanced form inputs in modal */
-.createPatientModal .form-input {
-    height: 44px;
-    padding: 12px 14px;
-    border-radius: 9px;
-    transition: all 0.3s ease;
-    font-size: 0.95rem;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-.createPatientModal .form-input:focus {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 191, 255, 0.2);
+.form-section.active {
+    display: block;
 }
 
-/* Enhanced button hover effects in modal */
-.btn-primary {
-    background: linear-gradient(135deg, var(--sidebar-active), #00c4cc);
-    box-shadow: 0 6px 16px rgba(0, 191, 255, 0.3);
+.section-header {
+    margin-bottom: 25px;
 }
 
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(0, 191, 255, 0.4);
-}
-
-/* Enhanced filter dropdown */
-.filter-dropdown {
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    animation: dropdownSlide 0.2s ease;
-}
-
-@keyframes dropdownSlide {
-    from {
-        opacity: 0;
-        transform: translateY(-8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.filter-dropdown li {
-    padding: 12px 16px;
-    transition: all 0.2s ease;
+.section-header h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    color: var(--text-color);
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.filter-dropdown li:hover {
-    background: var(--hover-bg);
-    padding-left: 20px;
+.section-header p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 14px;
 }
 
-.filter-dropdown li.active {
-    background: rgba(0, 191, 255, 0.1);
-    color: var(--sidebar-active);
-    font-weight: 600;
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 150px; /* Increased gap */
+    margin-bottom: 20px;
 }
 
-/* Status badge enhancements */
-.status {
-    display: inline-block;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
+
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.required {
+    color: #e74c3c;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+.input-with-icon .form-input {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: var(--bg-color);
+    color: var(--text-color);
 }
 
-.status.active {
-    background: linear-gradient(135deg, var(--active-status-bg), rgba(46, 204, 113, 0.1));
-    color: var(--active-status-text);
+.input-with-icon .form-input:focus {
+    outline: none;
+    border-color: var(--sidebar-active);
+    box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.1);
 }
 
-.status.inactive {
-    background: linear-gradient(135deg, var(--inactive-status-bg), rgba(231, 76, 60, 0.1));
-    color: var(--inactive-status-text);
-}
-
-.status:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-/* Empty state styling */
-.empty-state {
-    text-align: center;
-    padding: 60px 20px !important;
+.form-hint {
+    margin-top: 6px;
+    font-size: 12px;
     color: var(--text-muted);
 }
 
-.empty-state i {
-    font-size: 48px;
-    margin-bottom: 15px;
-    opacity: 0.3;
+/* Credentials Section */
+.credentials-container {
+    background: var(--hover-bg);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
 }
 
-.empty-state p {
-    font-size: 16px;
+.credentials-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.credential-item {
+    margin-bottom: 20px;
+}
+
+.credential-item:last-child {
+    margin-bottom: 0;
+}
+
+.credential-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.credential-value {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.credential-value code {
+    flex: 1;
+    padding: 8px 12px;
+    background: var(--hover-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: 'Consolas', monospace;
+    font-size: 13px;
+    color: var(--text-color);
+    min-width: 200px;
+}
+
+.copy-btn, .reveal-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.copy-btn {
+    background: var(--sidebar-active);
+    color: white;
+}
+
+.copy-btn:hover {
+    background: #0099cc;
+    transform: translateY(-1px);
+}
+
+.reveal-btn {
+    background: var(--border-color);
+    color: var(--text-color);
+}
+
+.reveal-btn:hover {
+    background: var(--text-muted);
+    color: white;
+}
+
+.credential-hint {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.credentials-note {
+    margin-top: 20px;
+    padding: 12px;
+    background: linear-gradient(135deg, rgba(0, 191, 255, 0.1) 0%, rgba(0, 212, 255, 0.05) 100%);
+    border-radius: 6px;
+    border-left: 3px solid var(--sidebar-active);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-color);
+}
+
+/* Modal Footer */
+#createAccountModal .modal-footer {
+    padding: 20px 30px;
+    background: var(--header-bg);
+    border-top: 1px solid var(--border-color);
+}
+
+.form-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.nav-btn {
+    padding: 10px 20px;
+    border: 2px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-btn:hover:not(:disabled) {
+    background: var(--hover-bg);
+    transform: translateY(-1px);
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.section-indicator {
+    font-size: 14px;
+    color: var(--text-muted);
     font-weight: 500;
 }
 
-/* Enhanced total patients counter */
-.total-patients {
+.create-btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--sidebar-active) 0%, #00d4ff 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
 }
 
-.total-patients:hover {
-    transform: scale(1.05);
+.create-btn:hover {
+    background: linear-gradient(135deg, #00d4ff 0%, var(--sidebar-active) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 191, 255, 0.4);
+}
+
+/* Form Validation Styles */
+.form-input:invalid:not(:placeholder-shown) {
+    border-color: #e74c3c;
+}
+
+.form-input:valid:not(:placeholder-shown) {
+    border-color: #2ecc71;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    #createAccountModal .modal-content {
+        margin: 20px;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    #createAccountModal .modal-body {
+        flex: 1;
+        overflow-y: auto;
+    }
+    
+    .form-navigation {
+        flex-wrap: wrap;
+    }
+    
+    .nav-btn, .create-btn {
+        flex: 1;
+        justify-content: center;
+    }
 }
     </style>
 </head>
@@ -1102,34 +2106,42 @@ h2 {
         <!-- Sidebar Navigation -->
         <div class="sidebar">
             <div class="sidebar-header">
-                <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
+                <div class="logo-container">
+                    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
+                    <div class="logo-glow"></div>
+                </div>
                 <div class="sidebar-title">
                     <h2>
-                        <span class="holy-family">Smart</span>
-                        <span class="dental-clinic">Dentistry</span>
+                        <span class="holy-family">SMART</span><br>
+                        <span class="dental-clinic">DENTISTRY</span>
                     </h2>
-                    <p>Creating beautiful smiles</p>
                 </div>
             </div>
-
             <ul class="sidebar-menu">
-                <li><a href="MyRecords.html" class="active"><i class="fas fa-user"></i> Patient List</a></li>
-                <li><a href="View.html"><i class="fas fa-home"></i> Patient Dashboard</a></li>
-                <li><a href="forms.html"><i class="fas fa-file-medical"></i> Forms</a></li>
-                <li><a href="mygallery.html"><i class="fas fa-images"></i> My Gallery</a></li>
+                <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
+                <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i><span> Appointment History</a></li>
+                <li><a href="patients.html"><i class="fas fa-users"></i><span>Patients</span></a></li>
+                <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+                <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i><span> Data BackUp</a></li>
+                <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
+                <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
+                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
-
-            <div class="sidebar-footer">
-                <ul class="settings-menu">
-                    <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-                </ul>
-                <ul class="return-home-menu">
-                    <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                </ul>
+            <!-- Add Return to Home menu at the bottom -->
+            <div style="position: absolute; bottom: 20px; width: 13%;">
+                <div style="position: absolute; bottom: 20px; width: 100%;">
+                    <ul class="sidebar-menu settings-menu">
+                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                    <ul class="sidebar-menu return-home-menu">
+                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-         <div class="main-content">
+        <div class="main-content">
             <div class="theme-switcher">
                 <span class="theme-switcher-label">Dark Mode</span>
                 <label class="switch">
@@ -1138,7 +2150,7 @@ h2 {
                 </label>
             </div>
 
-             <div class="container">
+            <div class="container">
                 <header>
                     <div style="display: flex; align-items: center; gap: 15px;">
                         <h1>Patients List</h1>
@@ -1155,7 +2167,7 @@ h2 {
                             Total: <span id="patientCount">0</span>
                         </span>
                     </div>
-
+                    
                     <div class="search-filter">
                         <div class="search">
                             <input type="text" placeholder="Search patients...">
@@ -1170,69 +2182,11 @@ h2 {
                                 </ul>
                             </div>
                         </div>
-                        <button class="create-account-btn" onclick="openCreatePatientModal()">
+                        <button class="create-account-btn">
                             <i class="fas fa-user-plus"></i>
-                            Create New Patient
+                            Create Guest Account
                         </button>
                     </div>
-                    <!-- CREATE PATIENT MODAL -->
-                <<!-- CREATE PATIENT MODAL -->
-                <div id="createPatientModal" class="modal-overlay hidden">
-
-                    <div class="modal-box">
-
-                        <!-- HEADER -->
-                        <div class="create-patient-header">
-                            <i class="fas fa-user-plus"></i>
-                            <h2>Create New Patient</h2>
-                            <button class="modal-close" onclick="closeCreatePatientModal()">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-
-                        <!-- BODY -->
-                        <div class="modal-body">
-
-                            <div class="detail-group">
-                                <label class="detail-label">Full Name *</label>
-                                <input type="text" id="newPatientName" class="form-input" placeholder="Juan Dela Cruz">
-                            </div>
-
-                            <div class="detail-group">
-                                <label class="detail-label">Contact Number *</label>
-                                <input type="tel" id="newPatientPhone" class="form-input" placeholder="09XXXXXXXXX">
-                            </div>
-
-                            <div class="detail-group">
-                                <label class="detail-label">Email</label>
-                                <input type="email" id="newPatientEmail" class="form-input" placeholder="example@email.com">
-                            </div>
-
-                            <div class="detail-group">
-                                <label class="detail-label">Date of Birth *</label>
-                                <input type="date" id="newPatientDob" class="form-input">
-                            </div>
-
-                            <div class="detail-group">
-                                <label class="detail-label">Status</label>
-                                <select id="newPatientStatus" class="form-input">
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                </select>
-                            </div>
-
-                        </div>
-
-                        <!-- FOOTER -->
-                        <div class="create-patient-actions">
-                            <button class="btn btn-outline" onclick="closeCreatePatientModal()">Cancel</button>
-                            <button class="btn btn-primary" onclick="createPatient()">Save Patient</button>
-                        </div>
-
-                    </div>
-                </div>
-
-
                     
                     <div class="divider"></div>
                     
@@ -1316,64 +2270,298 @@ h2 {
     </div>
 
     <div id="createAccountModal" class="modal">
-        <div class="modal-content">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>
+                <i class="fas fa-user-plus"></i>
+                Create Guest Account
+            </h2>
+            <p class="modal-subtitle">Fill in patient details to create a temporary account</p>
             <span class="modal-close">&times;</span>
-            <h2>Create Guest Account</h2>
+        </div>
+        
+        <div class="modal-body">
             <div class="form-container">
-                <div class="detail-group">
-                    <div class="detail-label">Full Name *</div>
-                    <input type="text" id="guestName" class="form-input" required>
-                </div>
-                <div class="detail-group">
-                    <div class="detail-label">Contact Number *</div>
-                    <input type="tel" id="guestPhone" class="form-input" required>
-                </div>
-                <div class="detail-group">
-                    <div class="detail-label">Email</div>
-                    <input type="email" id="guestEmail" class="form-input">
-                </div>
-                <div class="detail-group">
-                    <div class="detail-label">Date of Birth *</div>
-                    <input type="date" id="guestDob" class="form-input" required>
+                <!-- Progress Steps -->
+                <div class="form-progress">
+                    <div class="progress-steps">
+                        <div class="step active" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Basic Info</div>
+                        </div>
+                        <div class="step" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-label">Contact</div>
+                        </div>
+                        <div class="step" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Credentials</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
                 </div>
                 
-                <div class="generated-credentials" style="display: none;">
-                    <div class="detail-group">
-                        <div class="detail-label">Generated Username</div>
-                        <div class="detail-value">
-                            <span id="generatedUsername"></span>
-                            <button onclick="copyText('generatedUsername')" class="copy-btn">Copy</button>
+                <!-- Form Sections -->
+                <div class="form-sections">
+                    <!-- Section 1: Basic Information -->
+                    <div class="form-section active" data-section="1">
+                        <div class="section-header">
+                            <h3><i class="fas fa-id-card"></i> Basic Information</h3>
+                            <p>Enter the patient's personal details</p>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="guestName" class="form-label">
+                                    Full Name <span class="required">*</span>
+                                </label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" 
+                                           id="guestName" 
+                                           class="form-input" 
+                                           placeholder="Enter full name"
+                                           required>
+                                </div>
+                                <div class="form-hint">Enter first and last name</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="guestDob" class="form-label">
+                                    Date of Birth <span class="required">*</span>
+                                </label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <input type="date" 
+                                           id="guestDob" 
+                                           class="form-input" 
+                                           required>
+                                </div>
+                                <div class="form-hint">Patient's date of birth</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="detail-group">
-                        <div class="detail-label">Generated Password</div>
-                        <div class="detail-value">
-                            <span id="generatedPassword"></span>
-                            <button onclick="copyText('generatedPassword')" class="copy-btn">Copy</button>
+                    
+                    <!-- Section 2: Contact Information -->
+                    <div class="form-section" data-section="2">
+                        <div class="section-header">
+                            <h3><i class="fas fa-address-book"></i> Contact Information</h3>
+                            <p>How to reach the patient</p>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="guestPhone" class="form-label">
+                                    Phone Number <span class="required">*</span>
+                                </label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-phone"></i>
+                                    <input type="tel" 
+                                           id="guestPhone" 
+                                           class="form-input" 
+                                           placeholder="+1 (555) 123-4567"
+                                           pattern="[0-9+\-\s()]{10,}"
+                                           required>
+                                </div>
+                                <div class="form-hint">Include area code</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="guestEmail" class="form-label">
+                                    Email Address
+                                </label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" 
+                                           id="guestEmail" 
+                                           class="form-input" 
+                                           placeholder="patient@example.com">
+                                </div>
+                                <div class="form-hint">Optional, for appointment reminders</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 3: Generated Credentials -->
+                    <div class="form-section" data-section="3">
+                        <div class="section-header">
+                            <h3><i class="fas fa-key"></i> Account Credentials</h3>
+                            <p>Auto-generated login details</p>
+                        </div>
+                        
+                        <div class="credentials-container">
+                            <div class="credentials-card">
+                                <div class="credential-item">
+                                    <div class="credential-label">
+                                        <i class="fas fa-user-tag"></i>
+                                        Username
+                                    </div>
+                                    <div class="credential-value">
+                                        <code id="generatedUsername">guest_20250115_abc123</code>
+                                        <button class="copy-btn" onclick="copyText('generatedUsername')">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <div class="credential-hint">Auto-generated unique identifier</div>
+                                </div>
+                                
+                                <div class="credential-item">
+                                    <div class="credential-label">
+                                        <i class="fas fa-lock"></i>
+                                        Password
+                                    </div>
+                                    <div class="credential-value">
+                                        <code id="generatedPassword">••••••••••</code>
+                                        <button class="copy-btn" onclick="copyText('generatedPassword')">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                        <button class="reveal-btn" onclick="togglePasswordVisibility()">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="credential-hint">Temporary password, can be changed later</div>
+                                </div>
+                                
+                                <div class="credentials-note">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>These credentials will be emailed to the patient upon creation.</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-    
-                <li>
-                <a href="View.html?id=101" class="view-btn">
-                <i class="fas fa-eye"></i> View
-                </a>
-    
-                <button class="btn btn-secondary" onclick="closeCreateAccountModal()">
-                    Cancel  
-</button>
-                <button class="btn btn-primary" onclick="createGuestAccount()">
-
-                    Create Account
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <div class="form-navigation">
+                <button class="nav-btn nav-prev" onclick="previousFormSection()">
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                
+                <div class="section-indicator">
+                    <span id="currentSection">1</span> of <span>3</span>
+                </div>
+                
+                <button class="nav-btn nav-next" onclick="nextFormSection()">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+                
+                <button class="create-btn" id="createGuestBtn" onclick="createGuestAccount()" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Create Account
                 </button>
             </div>
         </div>
     </div>
+</div>
+
+    <!-- Terms of Service Modal -->
+    <div id="termsModal" class="modal">
+        <div class="modal-content" style="max-width: 700px; max-height: 80vh; overflow-y: auto;">
+            <span class="modal-close">&times;</span>
+            <div class="terms-header">
+                <h2>Terms of Service</h2>
+                <div class="terms-effective-date">Effective Date: 2026-10-11</div>
+            </div>
+            <div class="terms-content-wrapper">
+                <div class="terms-section">
+                    <h3>1. Acceptance of Terms</h3>
+                    <p>By accessing or using SMART DENTISTRY, you acknowledge that you have read, understood, and agree to comply with these Terms and any policies.</p>
+                </div>
+                <div class="terms-section">
+                    <h3>2. Description of Service</h3>
+                    <p>SMART DENTISTRY provides a digital dental record management system that allows clinics to store, organize, and manage patient data, appointments, and treatment histories securely.</p>
+                </div>
+                <div class="terms-section">
+                    <h3>3. User Accounts and Responsibilities</h3>
+                    <p>Users must create an account by providing accurate and complete information. Users are responsible for maintaining the confidentiality of their login credentials.</p>
+                </div>
+                <div class="terms-section">
+                    <h3>4. Account Security</h3>
+                    <p>You agree to keep your username and password confidential and notify SMART DENTISTRY immediately of any unauthorized access or breach.</p>
+                </div>
+                <div class="terms-section">
+                    <h3>5. User Obligations</h3>
+                    <p>By using the Service, you agree to use the platform only for dental and professional purposes, avoid sharing patient information without authorization, and respect patient confidentiality.</p>
+                </div>
+                <div class="terms-section">
+                    <h3>6. Data Ownership and Usage</h3>
+                    <p>All patient and clinic records remain the sole property of their respective owners. SMART DENTISTRY does not claim ownership of uploaded contents.</p>
+                </div>
+                <div class="terms-section">
+                    <h3>7. Limitation of Liability</h3>
+                    <p>SMART DENTISTRY and its developers shall not be held liable for any direct or indirect damages arising from system use or data errors.</p>
+                </div>
+                <div class="terms-section">
+                    <h3>8. Governing Law</h3>
+                    <p>These Terms are governed by the laws of the Philippines. Any disputes will be subject to the exclusive jurisdiction of Philippine courts.</p>
+                </div>
+                <div class="terms-disclaimer">
+                    <p>By proceeding, you agree to these Terms of Service and Conditions.</p>
+                </div>
+            </div>
+
+            <div class="terms-footer">
+                <button onclick="declineTerms()" class="terms-decline-btn">
+                    Decline
+                </button>
+                <button onclick="acceptTermsAndCreateAccount()" class="terms-accept-btn">
+                    <i class="fas fa-check"></i> Accept & Continue
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Help Button -->
+    <button class="floating-help-btn" onclick="startTutorial()" title="Start Tutorial">
+        <i class="fas fa-question"></i>
+    </button>
+
+    <!-- Interactive Tutorial Overlay -->
+    <div id="tutorialOverlay" class="tutorial-overlay">
+        <div class="tutorial-highlight"></div>
+        <div class="tutorial-content">
+            <div class="tutorial-header">
+                <h3 class="tutorial-title" id="tutorialStepTitle">Welcome</h3>
+                <div class="tutorial-progress">
+                    <span id="tutorialCurrentStep">1</span> / <span id="tutorialTotalSteps">4</span>
+                </div>
+            </div>
+            
+            <div class="tutorial-body">
+                <p class="tutorial-message" id="tutorialMessage">
+                    Welcome to the Patients List page!
+                </p>
+                
+                <div class="tutorial-bullets" id="tutorialBullets">
+                    <!-- Generated dynamically -->
+                </div>
+            </div>
+            
+            <div class="tutorial-footer">
+                <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
+                    <input type="checkbox" id="tutorialDontShowAgain" style="width: 18px; height: 18px; cursor: pointer;">
+                    <label for="tutorialDontShowAgain" style="cursor: pointer; font-size: 0.9rem; color: var(--text-muted);">Don't show again</label>
+                </div>
+                <button class="tutorial-btn tutorial-skip" onclick="skipTutorial()">
+                    <i class="fas fa-times"></i> Skip
+                </button>
+                <button class="tutorial-btn tutorial-prev" onclick="prevTutorialStep()" id="tutorialPrevBtn" style="display: none;">
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                <button class="tutorial-btn tutorial-next" onclick="nextTutorialStep()" id="tutorialNextBtn">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+                <button class="tutorial-btn tutorial-complete" onclick="completeTutorial()" id="tutorialCompleteBtn" style="display: none;">
+                    <i class="fas fa-check"></i> Complete
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
-   
-        function viewPatient(patientId) {
-            window.location.href = "View.html?id=" + patientId;
-        }
         // Theme toggle functionality
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
@@ -1393,7 +2581,7 @@ h2 {
                 html.setAttribute('data-theme', 'dark');
                 localStorage.setItem('theme', 'dark');
             } else {
-                 html.setAttribute('data-theme', 'light');
+                html.setAttribute('data-theme', 'light');
                 localStorage.setItem('theme', 'light');
             }
         });
@@ -1403,7 +2591,7 @@ h2 {
             return response.json();
         }
 
-        async function populatePatientTable(sortBy = 'patientName', sortOrder = 'asc') {
+async function populatePatientTable(sortBy = 'patientName', sortOrder = 'asc') {
     const patients = await fetchAllPatients();
     const tbody = document.getElementById('patientTableBody');
     const patientCount = document.getElementById('patientCount');
@@ -1493,8 +2681,7 @@ function formatDate(date) {
                 // Here you would typically filter the patient list
                 // based on active/inactive status
             });
-
-            });
+        });
         
         // Update the search functionality to use visibility instead of display
         const searchInput = document.querySelector('.search input');
@@ -1503,7 +2690,6 @@ function formatDate(date) {
             const rows = document.querySelectorAll('#patientTableBody tr');
             
             rows.forEach(row => {
-
                 // Get elements that need highlighting
                 const nameEl = row.querySelector('.patient-name');
                 const idEl = row.querySelector('.patient-id');
@@ -1517,6 +2703,7 @@ function formatDate(date) {
                     emailEl.dataset.original = emailEl.textContent;
                     phoneEl.dataset.original = phoneEl.textContent;
                 }
+                
                 // Reset to original text
                 nameEl.innerHTML = nameEl.dataset.original;
                 idEl.innerHTML = idEl.dataset.original;
@@ -1548,14 +2735,295 @@ function formatDate(date) {
                     } else {
                         row.classList.add('search-hidden');
                     }
-                } else {row.classList.remove('search-hidden');
+                } else {
+                    row.classList.remove('search-hidden');
                 }
-                });
-
-                // Update the visible count
+            });
+            
+            // Update the visible count
             const visibleRows = document.querySelectorAll('#patientTableBody tr:not([style*="display: none"])').length;
             document.getElementById('patientCount').textContent = visibleRows;
         });
+
+
+        // Form Navigation Logic
+let currentFormSection = 1;
+const totalSections = 3;
+
+function updateFormProgress() {
+    // Update progress bar
+    const progressPercentage = ((currentFormSection - 1) / (totalSections - 1)) * 100;
+    document.querySelector('.progress-fill').style.width = `${progressPercentage}%`;
+    
+    // Update steps
+    document.querySelectorAll('.step').forEach((step, index) => {
+        step.classList.remove('active', 'completed');
+        if (index + 1 < currentFormSection) {
+            step.classList.add('completed');
+        } else if (index + 1 === currentFormSection) {
+            step.classList.add('active');
+        }
+    });
+    
+    // Update visible section
+    document.querySelectorAll('.form-section').forEach(section => {
+        section.classList.remove('active');
+        if (parseInt(section.dataset.section) === currentFormSection) {
+            section.classList.add('active');
+        }
+    });
+    
+    // Update navigation buttons
+    document.getElementById('currentSection').textContent = currentFormSection;
+    
+    // Show/hide buttons
+    const prevBtn = document.querySelector('.nav-prev');
+    const nextBtn = document.querySelector('.nav-next');
+    const createBtn = document.getElementById('createGuestBtn');
+    
+    prevBtn.style.display = currentFormSection > 1 ? 'flex' : 'none';
+    nextBtn.style.display = currentFormSection < totalSections ? 'flex' : 'none';
+    createBtn.style.display = currentFormSection === totalSections ? 'flex' : 'none';
+    
+    // Validate current section
+    validateCurrentSection();
+}
+
+function nextFormSection() {
+    if (validateCurrentSection()) {
+        if (currentFormSection < totalSections) {
+            currentFormSection++;
+            updateFormProgress();
+            
+            // Generate credentials when reaching section 3
+            if (currentFormSection === 3) {
+                generateCredentials();
+            }
+        }
+    }
+}
+
+function previousFormSection() {
+    if (currentFormSection > 1) {
+        currentFormSection--;
+        updateFormProgress();
+    }
+}
+
+function validateCurrentSection() {
+    const section = document.querySelector(`.form-section[data-section="${currentFormSection}"]`);
+    const requiredInputs = section.querySelectorAll('input[required]');
+    let isValid = true;
+    
+    requiredInputs.forEach(input => {
+        if (!input.value.trim()) {
+            input.classList.add('invalid');
+            isValid = false;
+        } else {
+            input.classList.remove('invalid');
+        }
+    });
+    
+    // Specific validation for phone number
+    if (currentFormSection === 2) {
+        const phoneInput = document.getElementById('guestPhone');
+        if (phoneInput.value && !/^[\d+\-\s()]{10,}$/.test(phoneInput.value)) {
+            phoneInput.classList.add('invalid');
+            isValid = false;
+        }
+    }
+    
+    if (!isValid) {
+        showValidationError();
+    }
+    
+    return isValid;
+}
+
+function showValidationError() {
+    const errorEl = document.createElement('div');
+    errorEl.className = 'validation-error';
+    errorEl.innerHTML = `
+        <i class="fas fa-exclamation-circle"></i>
+        Please fill in all required fields correctly
+    `;
+    errorEl.style.cssText = `
+        background: #fdeaea;
+        color: #e74c3c;
+        padding: 10px 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        animation: shake 0.5s ease;
+    `;
+    
+    const existingError = document.querySelector('.validation-error');
+    if (existingError) existingError.remove();
+    
+    document.querySelector('.form-section.active').prepend(errorEl);
+    
+    setTimeout(() => {
+        errorEl.style.opacity = '0';
+        setTimeout(() => errorEl.remove(), 300);
+    }, 3000);
+}
+
+// Credentials Generation
+function generateCredentials() {
+    const name = document.getElementById('guestName').value.trim();
+    const timestamp = Date.now().toString().slice(-6);
+    const random = Math.random().toString(36).substring(2, 6);
+    
+    // Generate username from name + timestamp
+    const username = name.toLowerCase().replace(/\s+/g, '_') + '_' + timestamp + random;
+    document.getElementById('generatedUsername').textContent = username;
+    
+    // Generate secure password
+    const password = generateSecurePassword();
+    document.getElementById('generatedPassword').textContent = password;
+    
+    // Store credentials for later use
+    window.guestCredentials = {
+        username: username,
+        password: password
+    };
+}
+
+function generateSecurePassword() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    let password = '';
+    for (let i = 0; i < 12; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return password;
+}
+
+function togglePasswordVisibility() {
+    const passwordEl = document.getElementById('generatedPassword');
+    const btn = document.querySelector('.reveal-btn i');
+    
+    if (passwordEl.textContent === window.guestCredentials.password) {
+        passwordEl.textContent = '••••••••••';
+        btn.className = 'fas fa-eye';
+    } else {
+        passwordEl.textContent = window.guestCredentials.password;
+        btn.className = 'fas fa-eye-slash';
+    }
+}
+
+// Form Submission
+function createGuestAccount() {
+    if (!validateCurrentSection()) return;
+    
+    const guestData = {
+        name: document.getElementById('guestName').value.trim(),
+        dob: document.getElementById('guestDob').value,
+        phone: document.getElementById('guestPhone').value.trim(),
+        email: document.getElementById('guestEmail').value.trim(),
+        username: window.guestCredentials.username,
+        password: window.guestCredentials.password,
+        created: new Date().toISOString(),
+        status: 'active'
+    };
+    
+    // Show loading state
+    const createBtn = document.getElementById('createGuestBtn');
+    const originalText = createBtn.innerHTML;
+    createBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+    createBtn.disabled = true;
+    
+    // Simulate API call
+    setTimeout(() => {
+        // In real implementation, send to backend
+        console.log('Guest account created:', guestData);
+        
+        // Show success message
+        showSuccessMessage();
+        
+        // Reset button
+        createBtn.innerHTML = originalText;
+        createBtn.disabled = false;
+        
+        // Close modal after 2 seconds
+        setTimeout(() => {
+            document.getElementById('createAccountModal').style.display = 'none';
+            resetForm();
+        }, 2000);
+    }, 1500);
+}
+
+function showSuccessMessage() {
+    const successEl = document.createElement('div');
+    successEl.className = 'success-message';
+    successEl.innerHTML = `
+        <i class="fas fa-check-circle"></i>
+        <div>
+            <strong>Account Created Successfully!</strong>
+            <p>Credentials have been generated and saved.</p>
+        </div>
+    `;
+    successEl.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #2ecc71;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        z-index: 9999;
+        animation: slideInRight 0.3s ease;
+    `;
+    
+    document.body.appendChild(successEl);
+    
+    setTimeout(() => {
+        successEl.style.animation = 'slideOutRight 0.3s ease';
+        setTimeout(() => successEl.remove(), 300);
+    }, 3000);
+}
+
+function resetForm() {
+    // Reset form values
+    document.getElementById('guestName').value = '';
+    document.getElementById('guestDob').value = '';
+    document.getElementById('guestPhone').value = '';
+    document.getElementById('guestEmail').value = '';
+    document.getElementById('generatedUsername').textContent = 'guest_20250115_abc123';
+    document.getElementById('generatedPassword').textContent = '••••••••••';
+    
+    // Reset form state
+    currentFormSection = 1;
+    updateFormProgress();
+    
+    // Remove any generated credentials
+    delete window.guestCredentials;
+}
+
+// Initialize form on modal open
+document.querySelector('.create-account-btn').onclick = () => {
+    document.getElementById('createAccountModal').style.display = 'block';
+    resetForm();
+};
+
+// Close modal handlers
+document.querySelectorAll('.modal-close').forEach(closeBtn => {
+    closeBtn.onclick = function() {
+        this.closest('.modal').style.display = 'none';
+    };
+});
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+    updateFormProgress();
+});
+
 
         // Update the clear search handler
         searchInput.addEventListener('search', function() {
@@ -1611,10 +3079,12 @@ function formatDate(date) {
             if (e.target === modal) modal.style.display = 'none';
         };
 
+        // logout functionality
         const logoutButtons = document.querySelectorAll('.logout-btn');
         logoutButtons.forEach(button => {
             button.addEventListener('click', async (e) => {
                 e.preventDefault();
+                localStorage.removeItem("isLoggedIn");
                 sessionStorage.removeItem('user');
                 localStorage.removeItem('user');
                 window.location.href = 'landingpage.html';
@@ -1623,13 +3093,24 @@ function formatDate(date) {
 
         const createAccountBtn = document.querySelector('.create-account-btn');
         const createAccountModal = document.getElementById('createAccountModal');
+        const termsModal = document.getElementById('termsModal');
         const createGuestBtn = document.getElementById('createGuestBtn');
 
-        // Show modal when Create Guest Account is clicked
+        // Show terms modal when Create Guest Account is clicked
         createAccountBtn.onclick = () => {
-            createAccountModal.style.display = 'block';
-            document.querySelector('.generated-credentials').style.display = 'none';
+            termsModal.style.display = 'block';
         };
+
+        // Close terms modal when decline is clicked
+        function declineTerms() {
+            termsModal.style.display = 'none';
+        }
+
+        // Accept terms and show create account form
+        function acceptTermsAndCreateAccount() {
+            termsModal.style.display = 'none';
+            createAccountModal.style.display = 'block';
+        }
 
         // Generate random credentials
         function generateCredentials() {
@@ -1687,132 +3168,295 @@ function formatDate(date) {
             if (e.target === createAccountModal) createAccountModal.style.display = 'none';
         };
 
+        // Close terms modal
+        const termsModalClose = termsModal.querySelector('.modal-close');
+        termsModalClose.onclick = () => termsModal.style.display = 'none';
+        
+        // Update window click handler to include terms modal
+        window.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+            if (e.target === createAccountModal) createAccountModal.style.display = 'none';
+            if (e.target === termsModal) termsModal.style.display = 'none';
+        };
+
         // Add click handlers for column headers
-document.querySelectorAll('.patients-table thead th').forEach(header => {
-    if (header.textContent !== '' && !header.querySelector('input')) { // Skip checkbox column
-        header.style.cursor = 'pointer';
-        header.addEventListener('click', () => {
-            const sortBy = getSortByFromHeader(header.textContent);
-            const currentOrder = header.getAttribute('data-order') || 'asc';
-            const newOrder = currentOrder === 'asc' ? 'desc' : 'asc';
-
-            // Update sort indicators
-            document.querySelectorAll('.patients-table thead th').forEach(h => {
-                h.removeAttribute('data-order');
-                h.classList.remove('sort-asc', 'sort-desc');
-            });
-
-            header.setAttribute('data-order', newOrder);
-            header.classList.add(`sort-${newOrder}`);
-
-              populatePatientTable(sortBy, newOrder);
+        document.querySelectorAll('.patients-table thead th').forEach(header => {
+            if (header.textContent !== '' && !header.querySelector('input')) { // Skip checkbox column
+                header.style.cursor = 'pointer';
+                header.addEventListener('click', () => {
+                    const sortBy = getSortByFromHeader(header.textContent);
+                    const currentOrder = header.getAttribute('data-order') || 'asc';
+                    const newOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+                    
+                    // Update sort indicators
+                    document.querySelectorAll('.patients-table thead th').forEach(h => {
+                        h.removeAttribute('data-order');
+                        h.classList.remove('sort-asc', 'sort-desc');
+                    });
+                    
+                    header.setAttribute('data-order', newOrder);
+                    header.classList.add(`sort-${newOrder}`);
+                    
+                    populatePatientTable(sortBy, newOrder);
+                });
+            }
         });
-    }
-});
 
-function getSortByFromHeader(headerText) {
-    const sortMap = {
-        'Patient Name': 'patientName',
-        'Contact Details': 'email',
-        'Date of Birth': 'dateOfBirth',
-        'Last Visit': 'lastVisit'
-    };
-    return sortMap[headerText.trim()] || 'patientName';
-}
-
-/* Filter dropdown functionality */
-const filterBtn = document.querySelector('.filter');
-const filterDropdown = document.querySelector('.filter-dropdown');
-const filterOptions = document.querySelectorAll('.filter-dropdown li');
-
-// Toggle filter dropdown
-filterBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    filterDropdown.classList.toggle('show');
-});
-
-// Close dropdown when clicking outside
-document.addEventListener('click', () => {
-    filterDropdown.classList.remove('show');
-});
-
-// Handle filter selection
-filterOptions.forEach(option => {
-    option.addEventListener('click', () => {
-        const sortType = option.dataset.sort;
-        
-        // Remove active class from all options
-        filterOptions.forEach(opt => opt.classList.remove('active'));
-        // Add active class to selected option
-        option.classList.add('active');
-        
-        switch(sortType) {
-            case 'asc':
-                populatePatientTable('patientName', 'asc');
-                break;
-            case 'desc':
-                populatePatientTable('patientName', 'desc');
-                break;
-            case 'recent':
-                populatePatientTable('lastVisit', 'desc');
-                break;
+        function getSortByFromHeader(headerText) {
+            const sortMap = {
+                'Patient Name': 'patientName',
+                'Contact Details': 'email',
+                'Date of Birth': 'dateOfBirth',
+                'Last Visit': 'lastVisit'
+            };
+            return sortMap[headerText.trim()] || 'patientName';
         }
-        
-        filterDropdown.classList.remove('show');
-    });
-});
-/* OPEN MODAL */
-function openCreatePatientModal() {
-    document.getElementById('createPatientModal').classList.remove('hidden');
-}
 
-/* CLOSE MODAL */
-function closeCreatePatientModal() {
-    document.getElementById('createPatientModal').classList.add('hidden');
-    clearCreatePatientForm();
-}
+        /* Filter dropdown functionality */
+        const filterBtn = document.querySelector('.filter');
+        const filterDropdown = document.querySelector('.filter-dropdown');
+        const filterOptions = document.querySelectorAll('.filter-dropdown li');
 
-/* CLEAR FORM */
-function clearCreatePatientForm() {
-    document.getElementById('newPatientName').value = '';
-    document.getElementById('newPatientPhone').value = '';
-    document.getElementById('newPatientEmail').value = '';
-    document.getElementById('newPatientDob').value = '';
-    document.getElementById('newPatientStatus').value = 'Active';
-}
+        // Toggle filter dropdown
+        filterBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            filterDropdown.classList.toggle('show');
+        });
 
-/* CREATE PATIENT (FRONTEND LOGIC) */
-function createPatient() {
-    const name = document.getElementById('newPatientName').value.trim();
-    const phone = document.getElementById('newPatientPhone').value.trim();
-    const email = document.getElementById('newPatientEmail').value.trim();
-    const dob = document.getElementById('newPatientDob').value;
-    const status = document.getElementById('newPatientStatus').value;
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            filterDropdown.classList.remove('show');
+        });
 
-    if (!name || !phone || !dob) {
-        alert('Please fill in all required fields.');
-        return;
-    }
+        // Handle filter selection
+        filterOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const sortType = option.dataset.sort;
+                
+                // Remove active class from all options
+                filterOptions.forEach(opt => opt.classList.remove('active'));
+                // Add active class to selected option
+                option.classList.add('active');
+                
+                switch(sortType) {
+                    case 'asc':
+                        populatePatientTable('patientName', 'asc');
+                        break;
+                    case 'desc':
+                        populatePatientTable('patientName', 'desc');
+                        break;
+                    case 'recent':
+                        populatePatientTable('lastVisit', 'desc');
+                        break;
+                }
+                
+                filterDropdown.classList.remove('show');
+            });
+        });
 
-    const patient = {
-        id: Date.now(),
-        name,
-        phone,
-        email,
-        dob,
-        status
-    };
+        /* Tutorial System */
+        let tutorialSteps = [
+            {
+                title: "Welcome to Patients List",
+                message: "This page displays all your patient records. Let's walk through the key features to help you manage patients efficiently.",
+                highlight: null,
+                position: "center"
+            },
+            {
+                title: "Search & Filter",
+                message: "Use the search bar to quickly find patients by name or ID. Use the filter dropdown to sort patients alphabetically or by recent visits.",
+                highlight: ".search-filter",
+                position: "top"
+            },
+            {
+                title: "Patient Table",
+                message: "View all patient information here including contact details, date of birth, and last visit date. Click on any patient row to view full details.",
+                highlight: ".patients-table-container",
+                position: "center"
+            },
+            {
+                title: "Create Guest Account",
+                message: "Click the 'Create Guest Account' button to add new temporary patient accounts with auto-generated credentials.",
+                highlight: ".create-account-btn",
+                position: "right"
+            },
+            {
+                title: "Tutorial Complete!",
+                message: "You're all set! You now understand how to manage and view patient information efficiently.",
+                highlight: null,
+                position: "center"
+            }
+        ];
 
-    console.log('New Patient:', patient);
+        let currentTutorialStep = 0;
+        let isTutorialActive = false;
+        let tutorialCompleted = localStorage.getItem('patientsPageTutorialCompleted') === 'true';
 
-    // TEMP STORAGE (ready for backend later)
-    const patients = JSON.parse(localStorage.getItem('patients')) || [];
-    patients.push(patient);
-    localStorage.setItem('patients', JSON.stringify(patients));
+        function initTutorial() {
+            const bulletsContainer = document.getElementById('tutorialBullets');
+            bulletsContainer.innerHTML = '';
+            
+            tutorialSteps.forEach((step, index) => {
+                const bullet = document.createElement('div');
+                bullet.className = 'bullet-point';
+                bullet.dataset.step = index;
+                bullet.addEventListener('click', () => goToTutorialStep(index));
+                bulletsContainer.appendChild(bullet);
+            });
+            
+            document.getElementById('tutorialTotalSteps').textContent = tutorialSteps.length;
+            
+            // Auto-start tutorial if not completed
+            if (!tutorialCompleted) {
+                setTimeout(() => {
+                    if (!isTutorialActive) {
+                        startTutorial();
+                    }
+                }, 1200);
+            }
+        }
 
-    alert('Patient successfully created!');
-    closeCreatePatientModal();
-}
+        function startTutorial() {
+            isTutorialActive = true;
+            currentTutorialStep = 0;
+            showTutorialStep(0);
+            document.getElementById('tutorialOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function showTutorialStep(stepIndex) {
+            const step = tutorialSteps[stepIndex];
+            const overlay = document.getElementById('tutorialOverlay');
+            const highlight = overlay.querySelector('.tutorial-highlight');
+            
+            document.getElementById('tutorialStepTitle').textContent = step.title;
+            document.getElementById('tutorialMessage').innerHTML = step.message;
+            document.getElementById('tutorialCurrentStep').textContent = stepIndex + 1;
+            
+            document.getElementById('tutorialPrevBtn').style.display = stepIndex > 0 ? 'flex' : 'none';
+            document.getElementById('tutorialNextBtn').style.display = stepIndex < tutorialSteps.length - 1 ? 'flex' : 'none';
+            document.getElementById('tutorialCompleteBtn').style.display = stepIndex === tutorialSteps.length - 1 ? 'flex' : 'none';
+            
+            document.querySelectorAll('.bullet-point').forEach((bullet, index) => {
+                bullet.classList.toggle('active', index <= stepIndex);
+            });
+            
+            positionTutorialContent(step.position);
+            
+            if (step.highlight) {
+                const element = document.querySelector(step.highlight);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    highlight.style.opacity = '0';
+                    highlight.style.transition = 'opacity 0.2s ease';
+                    
+                    setTimeout(() => {
+                        highlight.style.width = `${rect.width + 20}px`;
+                        highlight.style.height = `${rect.height + 20}px`;
+                        highlight.style.left = `${rect.left - 10}px`;
+                        highlight.style.top = `${rect.top - 10}px`;
+                        highlight.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                        highlight.style.opacity = '1';
+                        
+                        setTimeout(() => {
+                            highlight.classList.add('shimmer-effect');
+                        }, 100);
+                        
+                        element.classList.add('tutorial-interactive');
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+                    }, 150);
+                    
+                    highlight.style.display = 'block';
+                } else {
+                    highlight.style.display = 'none';
+                }
+            } else {
+                highlight.style.opacity = '0';
+                highlight.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => {
+                    highlight.style.display = 'none';
+                }, 300);
+            }
+            
+            currentTutorialStep = stepIndex;
+        }
+
+        function positionTutorialContent(position) {
+            const content = document.querySelector('.tutorial-content');
+            content.style.position = 'fixed';
+            content.style.margin = '0';
+            content.style.transform = 'none';
+            
+            switch(position) {
+                case 'top':
+                    content.style.top = '20px';
+                    content.style.left = '50%';
+                    content.style.transform = 'translateX(-50%)';
+                    break;
+                case 'right':
+                    content.style.top = '50%';
+                    content.style.right = '20px';
+                    content.style.left = 'auto';
+                    content.style.transform = 'translateY(-50%)';
+                    break;
+                default:
+                    content.style.top = '50%';
+                    content.style.left = '50%';
+                    content.style.transform = 'translate(-50%, -50%)';
+            }
+        }
+
+        function nextTutorialStep() {
+            if (currentTutorialStep < tutorialSteps.length - 1) {
+                showTutorialStep(currentTutorialStep + 1);
+            }
+        }
+
+        function prevTutorialStep() {
+            if (currentTutorialStep > 0) {
+                showTutorialStep(currentTutorialStep - 1);
+            }
+        }
+
+        function goToTutorialStep(stepIndex) {
+            if (stepIndex >= 0 && stepIndex < tutorialSteps.length) {
+                showTutorialStep(stepIndex);
+            }
+        }
+
+        function skipTutorial() {
+            const dontShowAgain = document.getElementById('tutorialDontShowAgain').checked;
+            if (dontShowAgain) {
+                localStorage.setItem('patientsPageTutorialCompleted', 'true');
+            }
+            isTutorialActive = false;
+            document.getElementById('tutorialOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.querySelectorAll('.tutorial-interactive').forEach(el => {
+                el.classList.remove('tutorial-interactive');
+            });
+        }
+
+        function completeTutorial() {
+            isTutorialActive = false;
+            tutorialCompleted = true;
+            localStorage.setItem('patientsPageTutorialCompleted', 'true');
+            document.getElementById('tutorialOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.querySelectorAll('.tutorial-interactive').forEach(el => {
+                el.classList.remove('tutorial-interactive');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initTutorial();
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isTutorialActive) {
+                    skipTutorial();
+                }
+            });
+        });
     </script>
 </body>
 </html>
