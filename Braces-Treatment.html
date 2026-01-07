@@ -10,7 +10,7 @@
 
       <style>
       :root {
-        --sidebar-bg: #2c3e50;
+        --sidebar-bg: #1e293b;
         --sidebar-active: #00bfff;
         --sidebar-hover: rgba(0,191,255,0.1);
         --bg: #eef8fc;
@@ -30,7 +30,7 @@
         --radius-lg: 16px;
         --radius-sm: 8px;
       }
-        html, body {
+       html, body {
             height: 100%;
             overflow: auto;
         }
@@ -66,14 +66,14 @@
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
             transition: background-color 0.3s ease;
         }
-        .sidebar-logo{
-            width:90px;
-            height:90px;
-            border-radius:50%;
-            object-fit:cover;
-            margin-right:15px;
-            padding:10px;
-            background:whitesmoke;
+        .sidebar-logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
         }
          .holy-family, .dental-clinic {
             color: #00bfff;
@@ -372,7 +372,6 @@
         input:checked + .slider:before {
             transform: translateX(26px);
         }
-
 /* ===== BASE ENHANCEMENTS ===== */
 * {
   box-sizing: border-box;
