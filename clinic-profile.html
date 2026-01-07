@@ -898,21 +898,25 @@ canvas{
       <div class="step" id="step3">Finish</div>
     </div>
     <label>Clinic Name</label>
-    <input id="clinicName">
+    <input id="clinicName" readonly
     <label>Contact Number</label>
-    <input id="clinicContact">
+    <input id="clinicContact" readonly
     <label>Address</label>
-    <input id="clinicAddress">
+    <input id="clinicAddress" readonly
     <label>Dentist Name</label>
-    <input id="dentistName">
+    <input id="dentistName" readonly
     <label>Email</label>
-    <input id="dentistEmail">
+    <input id="dentistEmail" readonly
     <label>Signature</label>
     <div class="signature-box" id="signatureBox">Draw here</div>
     <button class="btn-secondary" onclick="clearForm()">Clear</button>
     <label>Clinic Logo</label>
-    <input type="file" id="clinicLogo">
-    <button class="btn-primary" id="saveProfileBtn" onclick="saveProfile()">Save Profile</button>
+    <input type="file" id="clinicLogo" disabled>
+    <div style="display:flex; gap:12px; margin-top:16px">
+    <button class="btn-secondary" id="editProfileBtn" onclick="enableEdit()">Edit Profile</button>
+    <button class="btn-primary" id="saveProfileBtn" onclick="saveProfile()" disabled>Save Profile</button>
+</div>
+
   </div>
 
   <!-- RIGHT COLUMN: Staff Profiles -->
@@ -1053,6 +1057,52 @@ canvas{
 
 
 <script>
+  /* ===== EDIT CLINIC PROFILE ===== */
+function enableEdit(){
+  [
+    "clinicName",
+    "clinicContact",
+    "clinicAddress",
+    "dentistName",
+    "dentistEmail"
+  ].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){
+      el.removeAttribute("readonly");
+      el.style.borderColor = "var(--primary)";
+    }
+  });
+
+  document.getElementById("clinicLogo").disabled = false;
+
+  document.getElementById("saveProfileBtn").disabled = false;
+  document.getElementById("editProfileBtn").disabled = true;
+
+  showNotification("Edit mode enabled");
+}
+
+function saveProfile(){
+  [
+    "clinicName",
+    "clinicContact",
+    "clinicAddress",
+    "dentistName",
+    "dentistEmail"
+  ].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){
+      el.setAttribute("readonly", true);
+      el.style.borderColor = "";
+    }
+  });
+
+  document.getElementById("clinicLogo").disabled = true;
+  document.getElementById("saveProfileBtn").disabled = true;
+  document.getElementById("editProfileBtn").disabled = false;
+
+  showNotification("Clinic profile saved successfully");
+}
+
 /* ===== STAFF MANAGEMENT ===== */
 let dentists = [];
 
