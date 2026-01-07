@@ -4,940 +4,1450 @@
 <meta charset="UTF-8">
 <title>Smart Dentistry - Clinic Profile</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --sidebar-bg:#2c3e50;
-  --sidebar-active:#00bfff;
-  --bg:#2c3e50;
-  --card:#ffffff;
-  --shadow:0 4px 12px rgba(0,0,0,.08);
-  --text:#2c3e50;
-  --btn-primary:#0ea5e9;
-  --btn-hover:#0284c7;
-  --btn-secondary:#e5e7eb;
-  --btn-secondary-hover:#cbd5e1;
-  --primary:#0ea5e9;
-  --primary-dark:#0284c7;
-  --primary-light:#e0f2fe;
-  --bg:#eef8fc;
-  --card:#ffffff;
-  --muted:#64748b;
-  --muted-light:#94a3b8;
-  --border:#e2e8f0;
-  --border-light:#f1f5f9;
-  --shadow:0 12px 30px rgba(0,0,0,.08);
-  --shadow-sm:0 4px 12px rgba(0,0,0,.05);
-  --shadow-lg:0 20px 40px rgba(0,0,0,.12);
-  --success:#10b981;
-  --warning:#f59e0b;
-  --radius:16px;
-  --radius-sm:12px;
-  --radius-lg:20px;
+:root {
+  --primary: #0ea5e9;
+  --primary-dark: #0284c7;
+  --primary-light: #e0f2fe;
+  --bg: #eef8fc;
+  --card: #ffffff;
+  --muted: #64748b;
+  --muted-light: #94a3b8;
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  --shadow: 0 12px 30px rgba(0,0,0,.08);
+  --shadow-sm: 0 4px 12px rgba(0,0,0,.05);
+  --shadow-lg: 0 20px 40px rgba(0,0,0,.12);
+  --sidebar-bg: #ffffff;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-lg: 20px;
+  
+  /* New sidebar variables */
+  --sidebar-bg-color: #1e293b;
+  --sidebar-text: #cbd5e1;
+  --sidebar-active: #0ea5e9;
+  --bg-color: #f8fafc;
+  --text-color: #334155;
+}
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
 }
 
-/* ===== BASE ===== */
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text);}
-*{box-sizing:border-box;font-family:'Inter', sans-serif;margin:0}
-body{
-  background:linear-gradient(180deg,#eef8fc,#f8fbff);
-  min-height:100vh;
-  position:relative;
+html, body {
+  height: 100%;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease;
 }
 
+/* DASHBOARD LAYOUT WITH SIDEBAR */
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* SIDEBAR STYLES */
+.sidebar {
+  background-color: var(--sidebar-bg-color);
+  color: var(--sidebar-text);
+  padding: 20px 0;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  width: 280px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.logo-container {
+  position: relative;
+}
+
+.sidebar-logo {
+  width: 80px; /* SMALLER: Changed from 90px */
+  height: 80px; /* SMALLER: Changed from 90px */
+  border-radius: 50%;
+  margin-right: 10px; /* ADJUSTED: From -5px */
+  margin-top: -25px; /* ADJUSTED: From -45px - MOVED LOWER */
+  margin-left: 0; /* ADJUSTED: From -20px */
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+        
+}
+
+.sidebar-title h2 {
+  color: var(--sidebar-active);
+  margin: 0;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-title p {
+  color: var(--sidebar-text);
+  font-size: 12px;
+  margin-top: 10px;
+  margin-left: -40px;
+  font-style: italic;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.holy-family, .dental-clinic {
+  color: #00bfff;
+  font-weight: bold;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+}
+
+.sidebar-menu li {
+  margin-bottom: 5px;
+  position: relative;
+}
+
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: var(--sidebar-text);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover, .sidebar-menu a.active {
+  background-color: rgba(0, 191, 255, 0.2);
+  color: white;
+  border-left: 3px solid var(--sidebar-active);
+  padding-left: 17px;
+}
+
+.sidebar-menu i {
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+}
+
+/* Dropdown Styles */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.dropdown-toggle .arrow {
+  margin-left: auto;
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.dropdown.active .dropdown-toggle .arrow {
+  transform: rotate(180deg);
+}
+
+.submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  visibility: hidden;
+}
+
+.dropdown.active .submenu {
+  max-height: 300px;
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.submenu li {
+  margin: 0;
+}
+
+.submenu a {
+  padding: 10px 20px 10px 40px;
+  font-size: 14px;
+  border-left: none;
+}
+
+.submenu a:hover {
+  background-color: rgba(0, 191, 255, 0.1);
+  border-left: none;
+}
+
+.settings-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.settings-menu a {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: var(--sidebar-text);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  border-left: 3px solid transparent;
+}
+
+.settings-menu a:hover {
+  background-color: rgba(0, 191, 255, 0.2);
+  color: white;
+  border-left-color: var(--sidebar-active);
+  padding-left: 17px;
+}
+
+.settings-menu i {
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+}
+
+/* MAIN CONTENT AREA */
+.main-content {
+  flex: 1;
+  margin-left: 280px;
+  padding: 24px;
+  background: linear-gradient(180deg, #eef8fc, #f8fbff);
+  min-height: 100vh;
+  position: relative;
+}
 
 /* HEADER ENHANCEMENT */
 .header {
-  padding:20px 24px 0;
-  max-width:1400px;
-  margin:0 auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  padding: 0 0 20px 0;
+  max-width: 1400px;
+  margin: 0 auto 28px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--border-light);
 }
-
 
 .header-title {
-  font-size:28px;
-  font-weight:800;
-  background:linear-gradient(135deg, #0ea5e9, #38bdf8);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-  display:flex;
-  align-items:center;
-  gap:12px;
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
-
 
 .header-actions {
-  display:flex;
-  gap:12px;
+  display: flex;
+  gap: 12px;
 }
 
-
-/* TUTORIAL SYSTEM */
-.tutorial-overlay {
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(15,23,42,0.75);
-  z-index:9998;
-  display:none;
-  backdrop-filter:blur(4px);
+/* MAIN LAYOUT */
+.main {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 28px;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  padding-bottom: 40px;
 }
 
-
-.tutorial-card {
-  position:fixed;
-  background:white;
-  border-radius:var(--radius-lg);
-  padding:32px;
-  max-width:440px;
-  box-shadow:var(--shadow-lg);
-  z-index:9999;
-  animation:slideUp 0.3s ease;
-  display:none;
+/* CARDS ENHANCEMENT */
+.left-column, .right-column {
+  background: var(--card);
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255,255,255,0.8);
+  position: relative;
+  overflow: hidden;
 }
 
-
-@keyframes slideUp {
-  from { transform:translateY(20px); opacity:0; }
-  to { transform:translateY(0); opacity:1; }
+.left-column::before, .right-column::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), #38bdf8);
 }
 
-
-.tutorial-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
+/* SINGLE EDIT BUTTON FOR CLINIC PROFILE */
+.clinic-profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
-
-.tutorial-title {
-  font-size:22px;
-  font-weight:700;
-  color:#0f172a;
-  display:flex;
-  align-items:center;
-  gap:10px;
+.clinic-profile-header h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
 }
 
-
-.tutorial-title i {
-  color:var(--primary);
-  font-size:20px;
+.clinic-profile-header h2 i {
+  background: linear-gradient(135deg, var(--primary-light), rgba(14,165,233,0.15));
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-size: 20px;
 }
 
-
-.tutorial-content {
-  color:var(--muted);
-  line-height:1.6;
-  margin-bottom:24px;
-  font-size:15px;
+.clinic-edit-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(14,165,233,0.2);
 }
 
-
-.tutorial-indicator {
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  margin:24px 0;
+.clinic-edit-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(14,165,233,0.3);
 }
 
-
-.tutorial-dot {
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--border);
-  transition:all 0.3s ease;
+.clinic-edit-btn i {
+  font-size: 14px;
 }
 
-
-.tutorial-dot.active {
-  background:var(--primary);
-  transform:scale(1.2);
+/* Save button state */
+.clinic-edit-btn.save-mode {
+  background: var(--success);
 }
 
-
-.tutorial-actions {
-  display:flex;
-  justify-content:space-between;
-  margin-top:8px;
-}
-.tutorial-actions button {
-  padding:10px 16px;
-  border:none;
-  border-radius:var(--radius-sm);
-  cursor:pointer;
-  font-weight:600;
-  transition:background 0.3s ease;
+.clinic-edit-btn.save-mode:hover {
+  background: #0da271;
 }
 
-/* ===== SIDEBAR ===== */
-.sidebar{
-  width:250px;
-  background:var(--sidebar-bg);
-  color:#fff;
-  position:fixed;
-  top:0;left:0;bottom:0;
-  display:flex;
-  flex-direction:column;
-}
-.sidebar-header{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:20px;
-}
-.sidebar-logo{
-  width:50px;
-  height:50px;
-  border-radius:50%;
-}
-.sidebar-title h2{
-  font-size:16px;
-  color:var(--sidebar-active);
-  line-height:1.1;
-}
-.sidebar-menu{list-style:none;flex-grow:1;}
-.sidebar-menu a{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px 20px;
-  color:#fff;
-  text-decoration:none;
-}
-.sidebar-menu a:hover,
-.sidebar-menu a.active{
-  background:rgba(0,191,255,.2);
-  border-left:4px solid var(--sidebar-active);
-}
-.dropdown .arrow{
-  margin-left:auto;
-  transition:.3s;
-}
-.dropdown.open .arrow{
-  transform:rotate(180deg);
-}
-.submenu{
-  list-style:none;
-  display:none;
-  background:#243444;
-}
-.dropdown.open .submenu{
-  display:block;
-}
-.submenu a{
-  padding:10px 40px;
-  font-size:14px;
+.clinic-edit-btn.cancel-mode {
+  background: var(--danger);
 }
 
-/* ===== MAIN ===== */
-/* ===== TOP NAV HEADER ===== */
-.top-header{
-  position:fixed;
-  top:0;
-  left:250px; /* same as sidebar width */
-  right:0;
-  height:64px;
-  background:#ffffff;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 28px;
-  box-shadow:0 2px 10px rgba(0,0,0,.08);
-  z-index:900;
+.clinic-edit-btn.cancel-mode:hover {
+  background: #dc2626;
 }
 
-.top-header h1{
-  font-size:20px;
-  font-weight:700;
-  color:var(--btn-primary);
-  display:flex;
-  align-items:center;
-  gap:10px;
+/* SIDEBAR ENHANCEMENT */
+.right-column {
+  background: var(--sidebar-bg);
+  position: sticky;
+  top: 24px;
+  align-self: start;
+  border-left: 6px solid var(--primary);
+  animation: float 6s ease-in-out infinite;
 }
 
-.top-header .header-actions{
-  display:flex;
-  align-items:center;
-  gap:16px;
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
-.top-header .header-actions i{
-  font-size:18px;
-  cursor:pointer;
-  color:#475569;
+.right-column:hover {
+  animation-play-state: paused;
 }
 
-.top-header .header-actions i:hover{
-  color:var(--btn-primary);
-}
-/* PUSH MAIN CONTENT DOWN */
-.main{
-  margin-top:80px;
-}
-
-.main{
-  margin-left:250px;
-  width:calc(100% - 250px);
-  display:flex;
-  flex-direction:row;
-  gap:20px;
-  padding:20px;
+/* Sidebar Header */
+.right-column h2 {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--border-light);
+  color: #0f172a;
+  position: relative;
 }
 
-/* LEFT & RIGHT COLUMNS */
-.left-column, .right-column{
-  background:var(--card);
-  padding:25px;
-  border-radius:16px;
-  box-shadow:var(--shadow);
+.right-column h2 i {
+  background: linear-gradient(135deg, var(--primary-light), rgba(14,165,233,0.15));
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  color: var(--primary);
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(14,165,233,0.15);
 }
-.left-column{flex:2;}
-.right-column{flex:1; max-height:90vh; overflow-y:auto; position:relative;}
 
-/* FORM & STEP */
-.stepper{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:20px;
+/* Sidebar Button */
+.right-column .btn-primary {
+  width: 100%;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, var(--primary), #38bdf8);
+  border: none;
+  color: white;
+  position: relative;
+  overflow: hidden;
 }
-.step{
-  flex:1;
-  margin:0 5px;
-  padding:8px;
-  border-radius:20px;
-  background:#e5e7eb;
-  text-align:center;
-  font-weight:600;
-  color:#555;
+
+.right-column .btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: 0.5s;
 }
-.step.active{background:var(--btn-primary);color:#fff;}
-label{display:block;margin-top:12px;font-weight:600;}
-input{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;margin-top:6px;}
-.signature-box{border:2px dashed #cbd5e1;border-radius:12px;height:120px;display:flex;align-items:center;justify-content:center;color:#94a3b8;margin-top:6px;}
-.btn{margin-top:15px;padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:bold;}
-.btn-primary{background:var(--btn-primary);color:#fff;}
-.btn-primary:hover{background:var(--btn-hover);}
-.btn-secondary{background:var(--btn-secondary);color:#000;width:auto;padding:6px 16px;}
-.btn-secondary:hover{background:var(--btn-secondary-hover);}
+
+.right-column .btn-primary:hover::before {
+  left: 100%;
+}
+
+.right-column .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(14,165,233,0.25);
+}
 
 /* Staff List Enhancement */
-.profile-grid{
-  display:grid;
-  gap:20px;
-  margin-top:12px;
-  max-height:400px;
-  overflow-y:auto;
-  padding-right:8px;
+.profile-grid {
+  display: grid;
+  gap: 20px;
+  margin-top: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 8px;
 }
-
 
 .profile-grid::-webkit-scrollbar {
-  width:6px;
+  width: 6px;
 }
-
 
 .profile-grid::-webkit-scrollbar-track {
-  background:var(--border-light);
-  border-radius:10px;
+  background: var(--border-light);
+  border-radius: 10px;
 }
-
 
 .profile-grid::-webkit-scrollbar-thumb {
-  background:var(--muted-light);
-  border-radius:10px;
+  background: var(--muted-light);
+  border-radius: 10px;
 }
 
-
-.profile-card{
-  border-radius:var(--radius);
-  padding:22px;
-  background:linear-gradient(145deg, #ffffff, #f8fafc);
-  border:1px solid var(--border);
-  transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow:var(--shadow-sm);
-  position:relative;
-  overflow:hidden;
+.profile-card {
+  border-radius: var(--radius);
+  padding: 22px;
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  border: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
 }
-
 
 .profile-card::before {
-  content:'';
-  position:absolute;
-  top:0;
-  left:0;
-  width:4px;
-  height:100%;
-  background:var(--primary);
-  transform:scaleY(0);
-  transition:transform 0.3s ease;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--primary);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
 }
-
 
 .profile-card:hover::before {
-  transform:scaleY(1);
+  transform: scaleY(1);
 }
 
-
-.profile-card:hover{
-  transform:translateY(-4px) scale(1.01);
-  box-shadow:var(--shadow);
-  border-color:var(--primary);
+.profile-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: var(--shadow);
+  border-color: var(--primary);
 }
 
-
-.profile-card strong{
-  font-size:16px;
-  color:#0f172a;
-  display:block;
-  margin-bottom:6px;
-  font-weight:700;
+.profile-card strong {
+  font-size: 16px;
+  color: #0f172a;
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
 }
 
-
-.profile-card small{
-  color:var(--muted);
-  display:block;
-  font-size:13px;
-  line-height:1.5;
-  margin-bottom:6px;
-  padding-left:4px;
+.profile-card small {
+  color: var(--muted);
+  display: block;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 6px;
+  padding-left: 4px;
 }
 
-
-.profile-card .income-badge {
-  background:linear-gradient(135deg, var(--primary-light), rgba(14,165,233,0.1));
-  color:var(--primary-dark);
-  padding:6px 12px;
-  border-radius:20px;
-  font-weight:700;
-  font-size:13px;
-  display:inline-block;
-  margin-top:10px;
-  border:1px solid rgba(14,165,233,0.2);
+/* Experience Badge (Replaces Income Badge) */
+.experience-badge {
+  background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(245,158,11,0.05));
+  color: var(--warning);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 13px;
+  display: inline-block;
+  margin-top: 10px;
+  border: 1px solid rgba(245,158,11,0.2);
 }
 
-
-.profile-card .btn-primary {
-  margin-top:16px;
-  padding:10px 20px;
-  font-size:13px;
-  width:100%;
-  background:var(--primary);
-  border-radius:var(--radius-sm);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  transition:all 0.3s ease;
+/* NEW: Profile Card Actions */
+.profile-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
 }
 
-
-.profile-card .btn-primary:hover {
-  background:var(--primary-dark);
-  transform:translateY(-2px);
-  box-shadow:0 6px 16px rgba(14,165,233,0.25);
+.profile-actions .btn {
+  flex: 1;
+  padding: 10px 16px;
+  font-size: 13px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.3s ease;
 }
 
+.profile-actions .btn-edit {
+  background: var(--primary);
+  color: white;
+}
+
+.profile-actions .btn-edit:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(14,165,233,0.25);
+}
+
+.profile-actions .btn-delete {
+  background: #fef2f2;
+  color: var(--danger);
+  border: 1px solid #fecaca;
+}
+
+.profile-actions .btn-delete:hover {
+  background: var(--danger);
+  color: white;
+  transform: translateY(-2px);
+}
 
 /* Empty State Enhancement */
 .profile-grid:empty::before {
-  content:"👨‍⚕️ No staff members added yet";
-  text-align:center;
-  color:var(--muted);
-  font-style:normal;
-  padding:50px 20px;
-  font-size:15px;
-  background:linear-gradient(145deg, #f8fafc, #ffffff);
-  border-radius:var(--radius);
-  border:2px dashed var(--border);
-  font-weight:500;
+  content: "👨‍⚕️ No staff members added yet";
+  text-align: center;
+  color: var(--muted);
+  font-style: normal;
+  padding: 50px 20px;
+  font-size: 15px;
+  background: linear-gradient(145deg, #f8fafc, #ffffff);
+  border-radius: var(--radius);
+  border: 2px dashed var(--border);
+  font-weight: 500;
 }
-
-
-/* Income Section Enhancement */
-.total-income{
-  margin-top:32px;
-  padding:26px;
-  border-radius:var(--radius);
-  background:linear-gradient(135deg,#0ea5e9,#38bdf8);
-  color:#fff;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-  box-shadow:0 8px 32px rgba(14,165,233,0.25);
-  border:1px solid rgba(255,255,255,0.2);
-  backdrop-filter:blur(10px);
-}
-
-
-.total-income::before {
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-  background-size:cover;
-}
-
-
-.total-income span {
-  font-size:36px;
-  font-weight:800;
-  display:block;
-  margin-top:8px;
-  text-shadow:0 4px 8px rgba(0,0,0,0.15);
-  letter-spacing:-0.5px;
-}
-
-
-.total-income::after {
-  content:"Total Monthly Income";
-  font-size:14px;
-  font-weight:600;
-  letter-spacing:1px;
-  opacity:0.9;
-  display:block;
-}
-
-
-/* LEFT COLUMN ENHANCEMENT */
-.left-column h2 {
-  font-size:24px;
-  font-weight:800;
-  margin-bottom:24px;
-  color:#0f172a;
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-
-.left-column h2 i {
-  background:linear-gradient(135deg, var(--primary-light), rgba(14,165,233,0.15));
-  width:48px;
-  height:48px;
-  border-radius:14px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  color:var(--primary);
-  font-size:20px;
-}
-
 
 /* FORM ENHANCEMENT */
 .form-group {
-  margin-bottom:22px;
-  position:relative;
+  margin-bottom: 22px;
+  position: relative;
 }
 
-
-label{
-  font-size:14px;
-  color:#334155;
-  margin-bottom:8px;
-  display:block;
-  font-weight:600;
+.form-group.editing {
+  animation: highlightField 1.5s ease;
 }
 
-
-input,select{
-  width:100%;
-  padding:14px 16px;
-  margin-top:6px;
-  border-radius:var(--radius-sm);
-  border:1px solid var(--border);
-  font-size:15px;
-  transition:all 0.3s ease;
-  background:#ffffff;
-  box-shadow:0 2px 4px rgba(0,0,0,0.02);
+@keyframes highlightField {
+  0% { background: transparent; }
+  50% { background: rgba(14,165,233,0.05); }
+  100% { background: transparent; }
 }
 
-
-input:focus,select:focus{
-  outline:none;
-  border-color:var(--primary);
-  box-shadow:0 0 0 4px rgba(14,165,233,0.15);
-  transform:translateY(-1px);
+label {
+  font-size: 14px;
+  color: #334155;
+  margin-bottom: 8px;
+  display: block;
+  font-weight: 600;
 }
 
-
-/* SIGNATURE ENHANCEMENT */
-.signature-container {
-  background:linear-gradient(145deg, #f8fafc, #ffffff);
-  border-radius:var(--radius-sm);
-  padding:20px;
-  border:2px dashed var(--border);
-  margin:16px 0;
+input, select, textarea {
+  width: 100%;
+  padding: 14px 16px;
+  margin-top: 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  font-size: 15px;
+  transition: all 0.3s ease;
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
-
-canvas{
-  background:#ffffff;
-  cursor:crosshair;
-  border-radius:var(--radius-sm);
-  border:1px solid var(--border);
-  display:block;
-  margin:0 auto;
-  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(14,165,233,0.15);
+  transform: translateY(-1px);
 }
-
 
 /* BUTTONS ENHANCEMENT */
-.btn{
-  padding:12px 24px;
-  border:none;
-  border-radius:var(--radius-sm);
-  font-weight:600;
-  cursor:pointer;
-  transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-size:14px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  position:relative;
-  overflow:hidden;
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
 }
 
-
-.btn-primary{
-  background:linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color:#fff;
-  border:none;
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  border: none;
 }
 
-
-.btn-primary:hover{
-  background:linear-gradient(135deg, var(--primary-dark), #0369a1);
-  transform:translateY(-2px);
-  box-shadow:0 8px 20px rgba(14,165,233,0.3);
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--primary-dark), #0369a1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(14,165,233,0.3);
 }
 
-
-.btn-secondary{
-  background:linear-gradient(145deg, #f1f5f9, #e2e8f0);
-  color:#475569;
-  border:1px solid #cbd5e1;
+.btn-secondary {
+  background: linear-gradient(145deg, #f1f5f9, #e2e8f0);
+  color: #475569;
+  border: 1px solid #cbd5e1;
 }
 
-
-.btn-secondary:hover{
-  background:linear-gradient(145deg, #e2e8f0, #cbd5e1);
-  transform:translateY(-2px);
-  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+.btn-secondary:hover {
+  background: linear-gradient(145deg, #e2e8f0, #cbd5e1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-
-/* MODAL ENHANCEMENT */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(15,23,42,.75);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-  backdrop-filter:blur(8px);
-}
-.modal-box{
-  background:linear-gradient(145deg, #ffffff, #f8fafc);
-  width:420px;
-  padding:32px;
-  border-radius:var(--radius-lg);
-  box-shadow:var(--shadow-lg);
-  animation:modalAppear 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border:1px solid rgba(255,255,255,0.8);
+/* ENHANCED MODAL STYLES */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,.75);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
 }
 
+.modal-box {
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  width: 500px;
+  max-width: 90%;
+  padding: 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  animation: modalAppear 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255,255,255,0.8);
+  overflow: hidden;
+}
 
 @keyframes modalAppear {
-  from{transform:scale(0.9) translateY(20px);opacity:0}
-  to{transform:scale(1) translateY(0);opacity:1}
+  from { transform: scale(0.9) translateY(20px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
 }
 
-
-.modal-header{
-  font-size:22px;
-  font-weight:700;
-  margin-bottom:24px;
-  color:#0f172a;
-  display:flex;
-  align-items:center;
-  gap:12px;
+.modal-header {
+  padding: 24px 32px;
+  background: linear-gradient(135deg, var(--primary-light), rgba(14,165,233,0.1));
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-
-.modal-header::before {
-  content:'';
-  width:4px;
-  height:24px;
-  background:var(--primary);
-  border-radius:2px;
+.modal-header h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-
-.modal-actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:12px;
-  margin-top:32px;
+.modal-header h3 i {
+  color: var(--primary);
+  font-size: 20px;
 }
 
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  background: rgba(0,0,0,0.05);
+  color: var(--primary);
+}
+
+.modal-body {
+  padding: 32px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.modal-footer {
+  padding: 24px 32px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* TUTORIAL SYSTEM */
+.tutorial-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15,23,42,.75);
+  z-index: 9998;
+  display: none;
+  backdrop-filter: blur(4px);
+}
+
+.tutorial-card {
+  position: fixed;
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  max-width: 440px;
+  box-shadow: var(--shadow-lg);
+  z-index: 9999;
+  animation: slideUp 0.3s ease;
+  display: none;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.tutorial-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.tutorial-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tutorial-title i {
+  color: var(--primary);
+  font-size: 20px;
+}
+
+.tutorial-content {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  font-size: 15px;
+}
+
+.tutorial-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 24px 0;
+}
+
+.tutorial-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all 0.3s ease;
+}
+
+.tutorial-dot.active {
+  background: var(--primary);
+  transform: scale(1.2);
+}
+
+.tutorial-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
 
 /* TUTORIAL HIGHLIGHTS */
 .tutorial-highlight {
-  position:relative;
-  z-index:100;
+  position: relative;
+  z-index: 100;
 }
-
 
 .tutorial-highlight::after {
-  content:'';
-  position:absolute;
-  top:-6px;
-  left:-6px;
-  right:-6px;
-  bottom:-6px;
-  border:2px solid var(--primary);
-  border-radius:var(--radius-sm);
-  animation:pulse 2s infinite;
-  pointer-events:none;
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-sm);
+  animation: pulse 2s infinite;
+  pointer-events: none;
 }
-
 
 @keyframes pulse {
-  0%, 100% { opacity:0.5; }
-  50% { opacity:1; }
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
 }
 
-
-/* LOADING STATE */
-.loading-shimmer {
-  background:linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size:200% 100%;
-  animation:shimmer 1.5s infinite;
+/* NOTIFICATION */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: white;
+  padding: 16px 24px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transform: translateX(120%);
+  transition: transform 0.3s ease;
+  z-index: 10000;
+  border-left: 4px solid var(--primary);
 }
 
-
-@keyframes shimmer {
-  0% { background-position:-200% 0; }
-  100% { background-position:200% 0; }
+.notification.show {
+  transform: translateX(0);
 }
 
+.notification i {
+  color: var(--primary);
+  font-size: 20px;
+}
 
 /* RESPONSIVE DESIGN */
 @media (max-width: 1200px) {
   .main {
-    grid-template-columns:1fr;
-    max-width:800px;
+    grid-template-columns: 1fr;
+    max-width: 800px;
   }
- 
+  
   .right-column {
-    position:static;
-    animation:none;
+    position: static;
+    animation: none;
   }
 }
 
+@media (max-width: 992px) {
+  .sidebar {
+    width: 70px;
+    overflow: hidden;
+  }
+  
+  .sidebar-header {
+    padding: 10px;
+  }
+  
+  .sidebar-title, .sidebar-title p, .sidebar-menu span, .dropdown-toggle .arrow {
+    display: none;
+  }
+  
+  .sidebar-menu a {
+    justify-content: center;
+    padding: 15px;
+  }
+  
+  .sidebar-menu i {
+    margin-right: 0;
+    font-size: 18px;
+  }
+  
+  .submenu a {
+    padding-left: 20px;
+    justify-content: flex-start;
+  }
+  
+  .main-content {
+    margin-left: 70px;
+  }
+  
+  .sidebar-logo {
+    width: 50px;
+    height: 50px;
+    margin: 0;
+  }
+}
 
 @media (max-width: 768px) {
+  .sidebar {
+    width: 60px;
+  }
+  
+  .main-content {
+    margin-left: 60px;
+    padding: 16px;
+  }
+  
   .header {
-    flex-direction:column;
-    gap:16px;
-    text-align:center;
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
   }
- 
+  
   .main {
-    padding:16px;
+    padding: 0;
   }
- 
+  
   .left-column, .right-column {
-    padding:24px;
+    padding: 24px;
   }
- 
+  
+  .clinic-profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .clinic-edit-btn {
+    align-self: flex-start;
+  }
+  
   .tutorial-card {
-    width:90%;
-    margin:0 auto;
+    width: 90%;
+    margin: 0 auto;
   }
 }
 
-
-/* NOTIFICATION */
-.notification {
-  position:fixed;
-  top:20px;
-  right:20px;
-  background:white;
-  padding:16px 24px;
-  border-radius:var(--radius);
-  box-shadow:var(--shadow-lg);
-  display:flex;
-  align-items:center;
-  gap:12px;
-  transform:translateX(120%);
-  transition:transform 0.3s ease;
-  z-index:10000;
-  border-left:4px solid var(--primary);
+/* STAFF STATS */
+.staff-stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: linear-gradient(145deg, #f8fafc, #ffffff);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
 }
 
-
-.notification.show {
-  transform:translateX(0);
+.stat-card {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: white;
+  box-shadow: var(--shadow-sm);
 }
 
-
-.notification i {
-  color:var(--primary);
-  font-size:20px;
+.stat-card i {
+  font-size: 20px;
+  color: var(--primary);
+  margin-bottom: 8px;
 }
 
+.stat-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  display: block;
+}
 
-/* WALKTHROUGH */
-.overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.65);
-  display:none;
-  z-index:9998;
+.stat-label {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
-.spotlight{
-  box-shadow:0 0 0 9999px rgba(255, 255, 255, 0);
-  border-radius:12px;
-  position:relative;
-  z-index:9999;
+
+/* FILTERS */
+.staff-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
-.walkthrough-box{
-  position:fixed;bottom:30px;right:30px;width:320px;background:#fff;padding:18px;border-radius:16px;
-  box-shadow:0 15px 40px rgba(255,255,255,.912);z-index:10000;
+
+.filter-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
-.walkthrough-box h4{margin:0 0 10px;color:var(--btn-primary);}
-.walkthrough-box .hint{font-size:13px;color:var(--btn-primary);margin-top:8px;}
-.controls{display:flex;justify-content:space-between;margin-top:15px;}
-.controls button{border:none;border-radius:8px;padding:8px 12px;cursor:pointer;font-weight:bold;}
-.arrow{
-  position:absolute;width:0;height:0;
-  border-left:14px solid transparent;border-right:14px solid transparent;
-  border-bottom:22px solid var(--btn-primary);animation:bounce 1s infinite;
-  z-index:10001;display:none;
+
+.filter-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
 }
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+.filter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Clinic Hours Section */
+.clinic-hours {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 2px solid var(--border-light);
+}
+
+.clinic-hours h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hours-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.hour-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.hour-item:last-child {
+  border-bottom: none;
+}
+
+.day {
+  font-weight: 600;
+  color: #334155;
+}
+
+.time {
+  color: var(--muted);
+}
+
+/* Save All Button Animation */
+.save-all-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.save-all-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.save-all-btn:focus:not(:active)::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(40, 40);
+    opacity: 0;
+  }
+}
+
+/* Enhanced input fields with edit buttons */
+.input-with-edit {
+  position: relative;
+}
+
+.input-with-edit input, 
+.input-with-edit select, 
+.input-with-edit textarea {
+  padding-right: 70px;
+}
 </style>
 </head>
 
-<body>
-<!-- SIDEBAR -->
-<aside class="sidebar">
-  <div class="sidebar-header">
-    <img src="logo.png" class="sidebar-logo">
-    <div class="sidebar-title"><h2>SMART<br>DENTISTRY</h2></div>
-  </div>
-  <ul class="sidebar-menu">
+<!-- ARROW -->
+<div id="tourArrow" class="tour-arrow"></div>
+
+   <div class="dashboard">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+    <div class="sidebar-header">
+    <div class="logo-container">
+    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
+    <div class="logo-glow"></div>
+    </div>
+    <div class="sidebar-title">
+    <h2>
+    <span class="holy-family">SMART</span><br>
+    <span class="dental-clinic">DENTISTRY</span>
+    </h2>
+    </div>
+    </div>
+    <ul class="sidebar-menu">
     <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-    <li class="dropdown open">
-      <a href="#" class="dropdown-toggle"><i class="fas fa-tooth"></i> My Clinic <i class="fas fa-chevron-down arrow"></i></a>
-      <ul class="submenu">
-        <li><a href="clinic-profile.html" class="active"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
-        <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
-        <li><a href="Braces-Treatment.html" ><i class="fas fa-chain"></i> Braces Treatment</a></li>
-        <li><a href="View.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
-      </ul>
+    
+    <!-- My Clinic Dropdown -->
+      <li class="dropdown" id="myClinicDropdown">
+        <a href="javascript:void(0)" class="dropdown-toggle" onclick="toggleDropdown(event)">
+          <i class="fas fa-tooth"></i>
+          <span>My Clinic</span>
+          <i class="fas fa-chevron-down arrow"></i>
+        </a>
+        <ul class="submenu">
+          <li><a href="clinic-profile.html"><i class="fas fa-hospital"></i> Clinic Profile</a></li>
+          <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
+          <li><a href="Braces-Treatment.html"><i class="fas fa-tooth"></i> Braces Treatment</a></li>
+        </ul>
     </li>
-    <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> Appointment Logs</a></li>
-    <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
+    <li><a href="patients.html"><i class="fas fa-users"></i><span>Patients</span></a></li>
     <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-    <li><a href="Data-BackUp.html"><i class="fas fa-boxes"></i> Data BackUp</a></li>
-  </ul>
-  <!-- Add Return to Home menu at the bottom -->
+    <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i><span> Data BackUp</a></li>
+
+    </ul>
+    <!-- Add Return to Home menu at the bottom -->
     <div style="position: absolute; bottom: 20px; width: 13%;">
     <div style="position: absolute; bottom: 20px; width: 100%;">
     <ul class="sidebar-menu settings-menu">
-    <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+    <li><a href="adminsettings.html"><i class="fas fa-cog"></i> Settings</a></li>
     </ul>
     <ul class="sidebar-menu return-home-menu">
-    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
     </ul>
     </div>
     </div>
-</aside>
-<!-- TOP NAVIGATION HEADER -->
-<header class="top-header">
-  <h1>
-    <i class="fas fa-clinic-medical"></i>
-    Clinic Profile
-  </h1>
-
-  <div class="header-actions">
-    <i class="fas fa-bell" title="Notifications"></i>
-    <i class="fas fa-user-circle" title="Account"></i>
-  </div>
-</header>
-
-<!-- MAIN -->
-<div class="main">
-  <!-- LEFT COLUMN: Clinic Form -->
-  <div class="left-column">
-    <div class="stepper">
-      <div class="step active" id="step1">Clinic</div>
-      <div class="step" id="step2">Dentist</div>
-      <div class="step" id="step3">Finish</div>
     </div>
-    <label>Clinic Name</label>
-    <input id="clinicName" readonly
-    <label>Contact Number</label>
-    <input id="clinicContact" readonly
-    <label>Address</label>
-    <input id="clinicAddress" readonly
-    <label>Dentist Name</label>
-    <input id="dentistName" readonly
-    <label>Email</label>
-    <input id="dentistEmail" readonly
-    <label>Signature</label>
-    <div class="signature-box" id="signatureBox">Draw here</div>
-    <button class="btn-secondary" onclick="clearForm()">Clear</button>
-    <label>Clinic Logo</label>
-    <input type="file" id="clinicLogo" disabled>
-    <div style="display:flex; gap:12px; margin-top:16px">
-    <button class="btn-secondary" id="editProfileBtn" onclick="enableEdit()">Edit Profile</button>
-    <button class="btn-primary" id="saveProfileBtn" onclick="saveProfile()" disabled>Save Profile</button>
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-title">
+        <i class="fas fa-tooth"></i>
+        Smart Dentistry Clinic
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary" onclick="showTutorial(0)">
+          <i class="fas fa-question-circle"></i> Tutorial
+        </button>
+        <button class="btn btn-primary save-all-btn" onclick="saveProfile()">
+          <i class="fas fa-save"></i> Save All
+        </button>
+      </div>
+    </div>
+
+    <div class="main">
+
+    <!-- LEFT COLUMN -->
+    <div class="left-column">
+      <!-- Single Edit Button for Clinic Profile -->
+      <div class="clinic-profile-header">
+        <h2><i class="fas fa-clinic-medical"></i> Clinic Profile</h2>
+        <button class="clinic-edit-btn" id="clinicEditBtn" onclick="toggleClinicEditing()">
+          <i class="fas fa-edit"></i> Edit Profile
+        </button>
+      </div>
+
+      <div class="form-group tutorial-step-1 input-with-edit">
+        <label><i class="fas fa-signature"></i> Clinic Name</label>
+        <input id="clinicName" placeholder="Enter your clinic name" value="Smile Bright Dental Clinic" readonly>
+      </div>
+
+      <div class="form-group tutorial-step-2 input-with-edit">
+        <label><i class="fas fa-envelope"></i> Dentist Email</label>
+        <input id="dentistEmail" type="email" placeholder="contact@clinic.com" value="info@smilebrightdental.com" readonly>
+      </div>
+
+      <div class="form-group input-with-edit">
+        <label><i class="fas fa-map-marker-alt"></i> Clinic Address</label>
+        <input id="clinicAddress" placeholder="123 Main Street, City, State" value="123 Wellness Ave, Metro City" readonly>
+      </div>
+
+      <div class="form-group input-with-edit">
+        <label><i class="fas fa-phone"></i> Contact Number</label>
+        <input id="clinicPhone" placeholder="+1 (555) 123-4567" value="+1 (555) 123-4567" readonly>
+      </div>
+
+      <!-- New Clinic Hours Section -->
+      <div class="clinic-hours">
+        <h3><i class="fas fa-clock"></i> Clinic Hours</h3>
+        <div class="hours-grid">
+          <div class="hour-item">
+            <span class="day">Monday - Friday</span>
+            <span class="time">9:00 AM - 6:00 PM</span>
+          </div>
+          <div class="hour-item">
+            <span class="day">Saturday</span>
+            <span class="time">9:00 AM - 2:00 PM</span>
+          </div>
+          <div class="hour-item">
+            <span class="day">Sunday</span>
+            <span class="time">Closed</span>
+          </div>
+          <div class="hour-item">
+            <span class="day">Emergency</span>
+            <span class="time">24/7 On-call</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group tutorial-step-4">
+        <label><i class="fas fa-image"></i> Clinic Logo</label>
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <input type="file" id="clinicLogo" accept="image/*" style="flex: 1;" disabled>
+          <img id="logoPreview" src="https://via.placeholder.com/100x100/0ea5e9/ffffff?text=Logo" style="width: 100px; height: 100px; border-radius: var(--radius-sm); box-shadow: var(--shadow-sm); border: 2px solid var(--border); cursor: pointer;" onclick="document.getElementById('clinicLogo').click()">
+          <button class="btn btn-secondary" onclick="resetLogo()" style="padding: 8px 12px; font-size: 13px;" id="logoResetBtn" disabled>
+            <i class="fas fa-redo"></i> Reset
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN - ENHANCED SIDEBAR -->
+    <div class="right-column">
+      <h2><i class="fas fa-user-md"></i> Dentists & Staff Management</h2>
+
+      <!-- Staff Statistics -->
+      <div class="staff-stats">
+        <div class="stat-card">
+          <i class="fas fa-users"></i>
+          <span class="stat-value" id="totalStaff">4</span>
+          <span class="stat-label">Total Staff</span>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-user-md"></i>
+          <span class="stat-value" id="totalDentists">2</span>
+          <span class="stat-label">Dentists</span>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-calendar-alt"></i>
+          <span class="stat-value" id="avgExperience">3.2</span>
+          <span class="stat-label">Avg Years</span>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="staff-filters">
+        <button class="filter-btn active" onclick="filterStaff('all')">All</button>
+        <button class="filter-btn" onclick="filterStaff('Dentist')">Dentists</button>
+        <button class="filter-btn" onclick="filterStaff('Assistant')">Assistants</button>
+        <button class="filter-btn" onclick="filterStaff('Hygienist')">Hygienists</button>
+        <button class="filter-btn" onclick="filterStaff('Receptionist')">Receptionists</button>
+      </div>
+
+      <button class="btn btn-primary tutorial-step-5" onclick="openModal('add')">
+        <i class="fas fa-user-plus"></i> Add New Staff Member
+      </button>
+
+      <div class="profile-grid" id="profileGrid"></div>
+
+    </div>
+
+    </div>
+  </div>
 </div>
 
-  </div>
-
-  <!-- RIGHT COLUMN: Staff Profiles -->
-  <div class="right-column">
-    <h2>Dentist / Staff Profiles</h2>
-    <div class="setup-card">
-      <label>Name</label>
-      <input id="staffName">
-      <label>Position</label>
-      <input id="staffPosition">
-      <label>Email</label>
-      <input id="staffEmail">
-      <label>Phone</label>
-      <input id="staffPhone">
-      <button class="btn-primary" onclick="addStaff()">Add Staff</button>
+<!-- MODAL FOR ADD/EDIT STAFF -->
+<div class="modal" id="staffModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3><i class="fas fa-user-md" id="modalIcon"></i> <span id="modalTitle">Add Staff Member</span></h3>
+      <button class="modal-close" onclick="closeModal()">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
-    <div class="profile-grid" id="profileGrid"></div>
+    
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input id="mName" placeholder="Dr. John Smith">
+      </div>
+
+      <div class="form-group">
+        <label>Email Address</label>
+        <input id="mEmail" type="email" placeholder="staff@clinic.com">
+      </div>
+
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input id="mPhone" placeholder="+1 (555) 123-4567">
+      </div>
+
+      <div class="form-group">
+        <label>Specialty / Department</label>
+        <input id="mSpecialty" placeholder="Orthodontics, Administration, etc.">
+      </div>
+
+      <div class="form-group">
+        <label>Role *</label>
+        <select id="mRole">
+          <option value="Dentist">Dentist</option>
+          <option value="Assistant">Dental Assistant</option>
+          <option value="Hygienist">Dental Hygienist</option>
+          <option value="Receptionist">Receptionist</option>
+          <option value="Manager">Clinic Manager</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Years of Experience</label>
+        <input id="mExperience" type="number" placeholder="5" min="0" max="50">
+      </div>
+
+      <div class="form-group">
+        <label>Employment Date</label>
+        <input id="mDate" type="date">
+      </div>
+
+      <div class="form-group">
+        <label>Notes (Optional)</label>
+        <textarea id="mNotes" placeholder="Additional information..." rows="3" style="width: 100%; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); font-family: 'Inter'; font-size: 14px;"></textarea>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">
+        <i class="fas fa-times"></i> Cancel
+      </button>
+      <button class="btn btn-primary" onclick="saveStaff()">
+        <i class="fas fa-check"></i> <span id="modalAction">Add Staff</span>
+      </button>
+    </div>
   </div>
 </div>
+
+<!-- CONFIRMATION MODAL -->
+<div class="modal" id="confirmModal">
+  <div class="modal-box" style="width: 400px;">
+    <div class="modal-header">
+      <h3><i class="fas fa-exclamation-triangle"></i> Confirm Action</h3>
+      <button class="modal-close" onclick="closeConfirmModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <p id="confirmMessage">Are you sure you want to delete this staff member?</p>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeConfirmModal()">
+        Cancel
+      </button>
+      <button class="btn btn-primary" id="confirmActionBtn" style="background: var(--danger);">
+        Confirm
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- TUTORIAL SYSTEM -->
 <div class="tutorial-overlay" id="tutorialOverlay" onclick="hideTutorial()"></div>
-
 
 <div class="tutorial-card" id="tutorialCard">
   <div class="tutorial-header">
@@ -949,11 +1459,11 @@ canvas{
       <i class="fas fa-times"></i>
     </button>
   </div>
- 
+  
   <div class="tutorial-content" id="tutorialStepContent">
     Let's walk through the features of your clinic management system.
   </div>
- 
+  
   <div class="tutorial-indicator">
     <div class="tutorial-dot active" id="dot1"></div>
     <div class="tutorial-dot" id="dot2"></div>
@@ -962,7 +1472,7 @@ canvas{
     <div class="tutorial-dot" id="dot5"></div>
     <div class="tutorial-dot" id="dot6"></div>
   </div>
- 
+  
   <div class="tutorial-actions">
     <button class="btn btn-secondary" onclick="prevStep()" id="prevBtn" style="display:none">
       <i class="fas fa-arrow-left"></i> Previous
@@ -973,268 +1483,437 @@ canvas{
   </div>
 </div>
 
-
 <!-- NOTIFICATION -->
 <div class="notification" id="notification">
   <i class="fas fa-check-circle"></i>
   <span id="notificationText">Profile saved successfully!</span>
 </div>
 
-
-<!-- Tutorial Button -->
-<button id="tutorialBtn" onclick="startTutorial()">Tutorial</button>
-
-<!-- WALKTHROUGH -->
-<div class="overlay" id="overlay"></div>
-<div id="arrow" class="arrow"></div>
-<div class="walkthrough-box" id="walkBox">
-  <h4 id="walkTitle"></h4>
-  <p id="walkText"></p>
-  <div class="hint">👆 Follow the arrow and complete this step</div>
-  <div class="controls">
-    <button onclick="skipTour()">Skip</button>
-    <button onclick="nextTour()">Next</button>
-  </div>
-</div>
-<!-- MODAL -->
-<div class="modal" id="dentistModal">
-  <div class="modal-box">
-    <div class="modal-header">Add Dentist Profile</div>
-
-
-    <div class="form-group">
-      <label>Full Name *</label>
-      <input id="mName" placeholder="Dr. John Smith">
-    </div>
-
-
-    <div class="form-group">
-      <label>Email Address</label>
-      <input id="mEmail" type="email" placeholder="doctor@clinic.com">
-    </div>
-
-
-    <div class="form-group">
-      <label>Phone Number</label>
-      <input id="mPhone" placeholder="+1 (555) 123-4567">
-    </div>
-
-
-    <div class="form-group">
-      <label>Specialty</label>
-      <input id="mSpecialty" placeholder="Orthodontics, Pedodontics, etc.">
-    </div>
-
-
-    <div class="form-group">
-      <label>Role</label>
-      <select id="mRole">
-        <option>Dentist</option>
-        <option>Assistant</option>
-        <option>Hygienist</option>
-        <option>Receptionist</option>
-      </select>
-    </div>
-
-
-    <div class="form-group">
-      <label>Monthly Income (₱)</label>
-      <input id="mIncome" type="number" placeholder="50000">
-    </div>
-
-
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal()">
-        <i class="fas fa-times"></i> Cancel
-      </button>
-      <button class="btn btn-primary" onclick="addDentist()">
-        <i class="fas fa-check"></i> Add Dentist
-      </button>
-    </div>
-  </div>
-</div>
-
-
 <script>
-  /* ===== EDIT CLINIC PROFILE ===== */
-function enableEdit(){
-  [
-    "clinicName",
-    "clinicContact",
-    "clinicAddress",
-    "dentistName",
-    "dentistEmail"
-  ].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el){
-      el.removeAttribute("readonly");
-      el.style.borderColor = "var(--primary)";
+/* ===== SIDEBAR DROPDOWN FUNCTIONALITY ===== */
+function toggleDropdown(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  
+  const dropdown = event.currentTarget.closest('.dropdown');
+  const isActive = dropdown.classList.contains('active');
+  
+  // Close all other dropdowns
+  document.querySelectorAll('.dropdown.active').forEach(item => {
+    if (item !== dropdown) {
+      item.classList.remove('active');
     }
   });
-
-  document.getElementById("clinicLogo").disabled = false;
-
-  document.getElementById("saveProfileBtn").disabled = false;
-  document.getElementById("editProfileBtn").disabled = true;
-
-  showNotification("Edit mode enabled");
+  
+  // Toggle current dropdown
+  dropdown.classList.toggle('active', !isActive);
 }
 
-function saveProfile(){
-  [
-    "clinicName",
-    "clinicContact",
-    "clinicAddress",
-    "dentistName",
-    "dentistEmail"
-  ].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el){
-      el.setAttribute("readonly", true);
-      el.style.borderColor = "";
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(event) {
+  if (!event.target.closest('.dropdown')) {
+    document.querySelectorAll('.dropdown.active').forEach(item => {
+      item.classList.remove('active');
+    });
+  }
+});
+
+/* ===== SINGLE CLINIC EDIT BUTTON FUNCTIONALITY ===== */
+let isEditingClinic = false;
+let originalValues = {};
+
+function toggleClinicEditing() {
+  const editBtn = document.getElementById('clinicEditBtn');
+  const clinicFields = ['clinicName', 'dentistEmail', 'clinicAddress', 'clinicPhone'];
+  const fileInput = document.getElementById('clinicLogo');
+  const logoResetBtn = document.getElementById('logoResetBtn');
+  
+  if (!isEditingClinic) {
+    // Enter edit mode
+    isEditingClinic = true;
+    
+    // Store original values
+    clinicFields.forEach(fieldId => {
+      const input = document.getElementById(fieldId);
+      originalValues[fieldId] = input.value;
+      input.removeAttribute('readonly');
+      input.focus();
+    });
+    
+    // Enable file input and reset button
+    fileInput.removeAttribute('disabled');
+    logoResetBtn.removeAttribute('disabled');
+    
+    // Update button to Save mode
+    editBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+    editBtn.classList.add('save-mode');
+    editBtn.classList.remove('cancel-mode');
+    
+    showNotification("Edit mode activated. Make your changes and click Save.");
+  } else {
+    // Exit edit mode and save
+    saveClinicChanges();
+  }
+}
+
+function saveClinicChanges() {
+  const editBtn = document.getElementById('clinicEditBtn');
+  const clinicFields = ['clinicName', 'dentistEmail', 'clinicAddress', 'clinicPhone'];
+  const fileInput = document.getElementById('clinicLogo');
+  const logoResetBtn = document.getElementById('logoResetBtn');
+  
+  let hasChanges = false;
+  
+  // Check if any field has changed
+  clinicFields.forEach(fieldId => {
+    const input = document.getElementById(fieldId);
+    if (input.value !== originalValues[fieldId]) {
+      hasChanges = true;
     }
   });
-
-  document.getElementById("clinicLogo").disabled = true;
-  document.getElementById("saveProfileBtn").disabled = true;
-  document.getElementById("editProfileBtn").disabled = false;
-
-  showNotification("Clinic profile saved successfully");
+  
+  if (!hasChanges) {
+    showNotification("No changes detected", "info");
+  } else {
+    // Save the changes (in a real app, this would send to server)
+    clinicFields.forEach(fieldId => {
+      const input = document.getElementById(fieldId);
+      input.setAttribute('readonly', true);
+    });
+    
+    // Disable file input and reset button
+    fileInput.setAttribute('disabled', true);
+    logoResetBtn.setAttribute('disabled', true);
+    
+    // Update button back to Edit mode
+    editBtn.innerHTML = '<i class="fas fa-edit"></i> Edit Profile';
+    editBtn.classList.remove('save-mode');
+    editBtn.classList.remove('cancel-mode');
+    
+    isEditingClinic = false;
+    showNotification("Clinic profile saved successfully!");
+  }
 }
 
-/* ===== STAFF MANAGEMENT ===== */
+function cancelClinicEditing() {
+  const editBtn = document.getElementById('clinicEditBtn');
+  const clinicFields = ['clinicName', 'dentistEmail', 'clinicAddress', 'clinicPhone'];
+  const fileInput = document.getElementById('clinicLogo');
+  const logoResetBtn = document.getElementById('logoResetBtn');
+  
+  // Restore original values
+  clinicFields.forEach(fieldId => {
+    const input = document.getElementById(fieldId);
+    input.value = originalValues[fieldId];
+    input.setAttribute('readonly', true);
+  });
+  
+  // Disable file input and reset button
+  fileInput.setAttribute('disabled', true);
+  logoResetBtn.setAttribute('disabled', true);
+  
+  // Update button back to Edit mode
+  editBtn.innerHTML = '<i class="fas fa-edit"></i> Edit Profile';
+  editBtn.classList.remove('save-mode');
+  editBtn.classList.remove('cancel-mode');
+  
+  isEditingClinic = false;
+  showNotification("Changes cancelled", "info");
+}
+
+/* ===== ENHANCED STAFF MANAGEMENT ===== */
 let dentists = [];
+let currentFilter = 'all';
+let editingIndex = -1;
 
+// Enhanced sample data
+dentists = [
+  {
+    id: 1,
+    name: "Dr. Sarah Johnson",
+    email: "sarah@dentalclinic.com",
+    phone: "+1 (555) 123-4567",
+    specialty: "Orthodontics",
+    role: "Dentist",
+    experience: 8,
+    date: "2022-03-15",
+    notes: "Specializes in braces and aligners"
+  },
+  {
+    id: 2,
+    name: "Dr. Michael Chen",
+    email: "michael@dentalclinic.com",
+    phone: "+1 (555) 987-6543",
+    specialty: "Oral Surgery",
+    role: "Dentist",
+    experience: 12,
+    date: "2021-08-22",
+    notes: "Experienced in wisdom teeth extraction"
+  },
+  {
+    id: 3,
+    name: "Emma Rodriguez",
+    email: "emma@dentalclinic.com",
+    phone: "+1 (555) 456-7890",
+    specialty: "Dental Hygiene",
+    role: "Hygienist",
+    experience: 5,
+    date: "2023-01-10",
+    notes: "Excellent patient communication skills"
+  },
+  {
+    id: 4,
+    name: "James Wilson",
+    email: "james@dentalclinic.com",
+    phone: "+1 (555) 234-5678",
+    specialty: "Front Desk",
+    role: "Receptionist",
+    experience: 3,
+    date: "2023-05-30",
+    notes: "Manages appointments and billing"
+  }
+];
 
-function addDentist() {
+function renderDentists() {
+  const grid = document.getElementById('profileGrid');
+  let filteredDentists = dentists;
+  
+  // Apply filter
+  if (currentFilter !== 'all') {
+    filteredDentists = dentists.filter(d => 
+      d.role.toLowerCase().includes(currentFilter.toLowerCase())
+    );
+  }
+  
+  if (filteredDentists.length === 0) {
+    grid.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">No staff members found</div>';
+    updateStats();
+    return;
+  }
+  
+  grid.innerHTML = filteredDentists.map((dentist, index) => {
+    const roleIcon = dentist.role === 'Dentist' ? 'fa-user-md' : 
+                    dentist.role === 'Assistant' ? 'fa-user-nurse' : 
+                    dentist.role === 'Hygienist' ? 'fa-hand-holding-medical' : 
+                    dentist.role === 'Receptionist' ? 'fa-user-tie' : 'fa-user-cog';
+    
+    const roleColor = dentist.role === 'Dentist' ? '#0ea5e9' :
+                     dentist.role === 'Assistant' ? '#10b981' :
+                     dentist.role === 'Hygienist' ? '#8b5cf6' :
+                     dentist.role === 'Receptionist' ? '#f59e0b' : '#64748b';
+    
+    const experienceText = dentist.experience === 1 ? '1 year' : `${dentist.experience} years`;
+    
+    return `
+      <div class="profile-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="background:${roleColor}20;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center">
+              <i class="fas ${roleIcon}" style="color:${roleColor};font-size:18px"></i>
+            </div>
+            <div>
+              <strong>${dentist.name}</strong>
+              <small style="color:${roleColor};font-weight:600">${dentist.role}</small>
+            </div>
+          </div>
+          <span style="font-size:12px;color:var(--muted);background:var(--border-light);padding:4px 8px;border-radius:10px">
+            <i class="far fa-calendar"></i> ${new Date(dentist.date).toLocaleDateString('en-US', {month: 'short', year: 'numeric'})}
+          </span>
+        </div>
+        
+        ${dentist.specialty ? `<small><i class="fas fa-stethoscope"></i> ${dentist.specialty}</small>` : ''}
+        ${dentist.email ? `<small><i class="fas fa-envelope"></i> ${dentist.email}</small>` : ''}
+        ${dentist.phone ? `<small><i class="fas fa-phone"></i> ${dentist.phone}</small>` : ''}
+        ${dentist.notes ? `<small><i class="fas fa-sticky-note"></i> ${dentist.notes.substring(0, 60)}${dentist.notes.length > 60 ? '...' : ''}</small>` : ''}
+        
+        <div class="experience-badge">
+          <i class="fas fa-award"></i> ${experienceText} experience
+        </div>
+        
+        <div class="profile-actions">
+          <button class="btn btn-edit" onclick="editStaff(${dentist.id})">
+            <i class="fas fa-edit"></i> Edit
+          </button>
+          <button class="btn btn-delete" onclick="confirmDelete(${dentist.id})">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  updateStats();
+}
+
+function updateStats() {
+  const totalStaff = dentists.length;
+  const totalDentists = dentists.filter(d => d.role === 'Dentist').length;
+  const avgExperience = totalStaff > 0 ? 
+    (dentists.reduce((sum, d) => sum + d.experience, 0) / totalStaff).toFixed(1) : 0;
+  
+  document.getElementById('totalStaff').textContent = totalStaff;
+  document.getElementById('totalDentists').textContent = totalDentists;
+  document.getElementById('avgExperience').textContent = avgExperience;
+}
+
+function filterStaff(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  renderDentists();
+}
+
+function editStaff(id) {
+  const index = dentists.findIndex(d => d.id === id);
+  if (index !== -1) {
+    editingIndex = index;
+    const dentist = dentists[index];
+    
+    document.getElementById('modalTitle').textContent = 'Edit Staff Member';
+    document.getElementById('modalAction').textContent = 'Update Staff';
+    document.getElementById('modalIcon').className = 'fas fa-edit';
+    
+    // Fill form
+    document.getElementById('mName').value = dentist.name;
+    document.getElementById('mEmail').value = dentist.email;
+    document.getElementById('mPhone').value = dentist.phone;
+    document.getElementById('mSpecialty').value = dentist.specialty;
+    document.getElementById('mRole').value = dentist.role;
+    document.getElementById('mExperience').value = dentist.experience;
+    document.getElementById('mDate').value = dentist.date;
+    document.getElementById('mNotes').value = dentist.notes || '';
+    
+    openModal('edit');
+  }
+}
+
+function confirmDelete(id) {
+  const index = dentists.findIndex(d => d.id === id);
+  if (index !== -1) {
+    const dentist = dentists[index];
+    document.getElementById('confirmMessage').textContent = `Are you sure you want to delete ${dentist.name}? This action cannot be undone.`;
+    
+    document.getElementById('confirmActionBtn').onclick = function() {
+      deleteStaff(id);
+      closeConfirmModal();
+    };
+    
+    document.getElementById('confirmModal').style.display = 'flex';
+  }
+}
+
+function deleteStaff(id) {
+  const index = dentists.findIndex(d => d.id === id);
+  if (index !== -1) {
+    const name = dentists[index].name;
+    dentists.splice(index, 1);
+    renderDentists();
+    showNotification(`${name} has been removed`);
+  }
+}
+
+function saveStaff() {
   const name = document.getElementById('mName').value.trim();
   if (!name) {
-    showNotification("Please enter dentist name");
+    showNotification("Please enter staff name");
     return;
   }
 
-
-  const dentist = {
+  const staffData = {
+    id: editingIndex === -1 ? Date.now() : dentists[editingIndex].id,
     name: name,
     email: document.getElementById('mEmail').value.trim(),
     phone: document.getElementById('mPhone').value.trim(),
     specialty: document.getElementById('mSpecialty').value.trim(),
     role: document.getElementById('mRole').value,
-    income: Number(document.getElementById('mIncome').value || 0)
+    experience: Number(document.getElementById('mExperience').value || 0),
+    date: document.getElementById('mDate').value || new Date().toISOString().split('T')[0],
+    notes: document.getElementById('mNotes').value.trim()
   };
 
-
-  dentists.push(dentist);
- 
+  if (editingIndex === -1) {
+    // Add new
+    dentists.push(staffData);
+    showNotification(`${staffData.name} added successfully`);
+  } else {
+    // Update existing
+    dentists[editingIndex] = staffData;
+    showNotification(`${staffData.name} updated successfully`);
+    editingIndex = -1;
+  }
+  
   // Clear form
-  ['mName', 'mEmail', 'mPhone', 'mSpecialty', 'mIncome'].forEach(id => {
+  ['mName', 'mEmail', 'mPhone', 'mSpecialty', 'mExperience', 'mDate', 'mNotes'].forEach(id => {
     document.getElementById(id).value = '';
   });
- 
+  document.getElementById('mRole').value = 'Dentist';
+  document.getElementById('mExperience').value = '';
+  
   closeModal();
   renderDentists();
-  showNotification(`${dentist.name} added successfully`);
 }
 
-
-function renderDentists() {
-  const grid = document.getElementById('profileGrid');
-  let total = 0;
- 
-  if (dentists.length === 0) {
-    grid.innerHTML = '';
-    updateTotalIncome(0);
-    return;
+function openModal(mode = 'add') {
+  if (mode === 'add') {
+    document.getElementById('modalTitle').textContent = 'Add Staff Member';
+    document.getElementById('modalAction').textContent = 'Add Staff';
+    document.getElementById('modalIcon').className = 'fas fa-user-plus';
+    
+    // Clear form
+    ['mName', 'mEmail', 'mPhone', 'mSpecialty', 'mExperience', 'mDate', 'mNotes'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.getElementById('mDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('mRole').value = 'Dentist';
+    
+    editingIndex = -1;
   }
- 
-  grid.innerHTML = dentists.map((dentist, index) => {
-    total += dentist.income;
-   
-    const roleIcon = dentist.role === 'Dentist' ? 'fa-user-md' :
-                    dentist.role === 'Assistant' ? 'fa-user-nurse' :
-                    dentist.role === 'Hygienist' ? 'fa-hand-holding-medical' : 'fa-user-tie';
-   
-    return `
-      <div class="profile-card">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-          <i class="fas ${roleIcon}" style="color:var(--primary);font-size:20px"></i>
-          <div>
-            <strong>${dentist.name}</strong>
-            <small style="color:var(--primary);font-weight:600">${dentist.role}</small>
-          </div>
-        </div>
-        ${dentist.specialty ? `<small><i class="fas fa-stethoscope"></i> ${dentist.specialty}</small>` : ''}
-        ${dentist.email ? `<small><i class="fas fa-envelope"></i> ${dentist.email}</small>` : ''}
-        ${dentist.phone ? `<small><i class="fas fa-phone"></i> ${dentist.phone}</small>` : ''}
-        <div class="income-badge">
-          <i class="fas fa-money-bill-wave"></i> ₱${dentist.income.toLocaleString()} / month
-        </div>
-        <button class="btn btn-primary" onclick="saveDentist(${index})">
-          <i class="fas fa-edit"></i> Edit Profile
-        </button>
-      </div>
-    `;
-  }).join('');
- 
-  updateTotalIncome(total);
+  
+  document.getElementById('staffModal').style.display = 'flex';
 }
 
-
-function saveDentist(index) {
-  showNotification(`${dentists[index].name}'s profile saved`);
+function closeModal() {
+  document.getElementById('staffModal').style.display = 'none';
 }
 
+function closeConfirmModal() {
+  document.getElementById('confirmModal').style.display = 'none';
+}
 
-function updateTotalIncome(total) {
-  document.getElementById('totalIncome').textContent = total.toLocaleString();
-  // Add animation effect
-  const incomeElement = document.getElementById('totalIncome');
-  incomeElement.style.transform = 'scale(1.1)';
+function resetLogo() {
+  document.getElementById('logoPreview').src = 'https://via.placeholder.com/100x100/0ea5e9/ffffff?text=Logo';
+  document.getElementById('clinicLogo').value = '';
+  showNotification("Logo reset to default");
+}
+
+/* ===== NOTIFICATION SYSTEM ===== */
+function showNotification(message, type = 'success') {
+  const notification = document.getElementById('notification');
+  document.getElementById('notificationText').textContent = message;
+  
+  // Set icon based on type
+  const icon = notification.querySelector('i');
+  if (type === 'success') {
+    icon.className = 'fas fa-check-circle';
+    notification.style.borderLeftColor = 'var(--success)';
+    icon.style.color = 'var(--success)';
+  } else if (type === 'error') {
+    icon.className = 'fas fa-exclamation-circle';
+    notification.style.borderLeftColor = 'var(--danger)';
+    icon.style.color = 'var(--danger)';
+  } else if (type === 'info') {
+    icon.className = 'fas fa-info-circle';
+    notification.style.borderLeftColor = 'var(--primary)';
+    icon.style.color = 'var(--primary)';
+  }
+  
+  notification.classList.add('show');
   setTimeout(() => {
-    incomeElement.style.transform = 'scale(1)';
-  }, 300);
+    notification.classList.remove('show');
+  }, 3000);
 }
-/* ===== INITIALIZATION ===== */
-document.addEventListener('DOMContentLoaded', function() {
-  // Add sample data for demonstration
-  if (dentists.length === 0) {
-    dentists = [
-      {
-        name: "Dr. Sarah Johnson",
-        email: "sarah@dentalclinic.com",
-        phone: "+1 (555) 123-4567",
-        specialty: "Orthodontics",
-        role: "Dentist",
-        income: 85000
-      },
-      {
-        name: "Dr. Michael Chen",
-        email: "michael@dentalclinic.com",
-        phone: "+1 (555) 987-6543",
-        specialty: "Oral Surgery",
-        role: "Dentist",
-        income: 95000
-      }
-    ];
-    renderDentists();
-  }
- 
-  // Auto-show tutorial on first visit
-  if (!localStorage.getItem('tutorialCompleted')) {
-    setTimeout(() => {
-      showTutorial(0);
-    }, 1000);
-  }
- 
-  // Mark tutorial as completed when finished
-  document.getElementById('nextBtn').addEventListener('click', function() {
-    if (currentStep === tutorialSteps.length - 1) {
-      localStorage.setItem('tutorialCompleted', 'true');
-    }
-  });
-});
-
-
 
 /* ===== TUTORIAL SYSTEM ===== */
 const tutorialSteps = [
@@ -1245,7 +1924,7 @@ const tutorialSteps = [
   },
   {
     title: "Clinic Information",
-    content: "Enter your clinic name here. This will be displayed on all documents and reports.",
+    content: "Enter your clinic name here. Click the Edit button next to any field to make changes.",
     highlight: ".tutorial-step-1"
   },
   {
@@ -1254,47 +1933,32 @@ const tutorialSteps = [
     highlight: ".tutorial-step-2"
   },
   {
-    title: "Digital Signature",
-    content: "Draw your signature using your mouse or touchscreen. This will be used for digital prescriptions and documents.",
-    highlight: ".tutorial-step-3"
-  },
-  {
-    title: "Clinic Logo",
-    content: "Upload your clinic logo for branding on reports and patient communications.",
-    highlight: ".tutorial-step-4"
-  },
-  {
     title: "Staff Management",
     content: "Add your dentists and staff members here. Click this button to add new team members.",
     highlight: ".tutorial-step-5"
   },
   {
-    title: "Income Overview",
-    content: "Track your total monthly income from all dentists. This updates automatically as you add staff.",
-    highlight: ".tutorial-step-6"
+    title: "Ready to Go!",
+    content: "You're all set! Remember to click 'Save All' when you're done making changes.",
+    highlight: ".header-actions .btn-primary"
   }
 ];
 
-
 let currentStep = 0;
-
 
 function showTutorial(step = 0) {
   currentStep = step;
   updateTutorial();
   document.getElementById('tutorialOverlay').style.display = 'block';
   document.getElementById('tutorialCard').style.display = 'block';
- 
-  // Position tutorial card
+  
   const card = document.getElementById('tutorialCard');
   card.style.top = '50%';
   card.style.left = '50%';
   card.style.transform = 'translate(-50%, -50%)';
- 
-  // Highlight element
+  
   highlightStep(currentStep);
 }
-
 
 function hideTutorial() {
   document.getElementById('tutorialOverlay').style.display = 'none';
@@ -1302,24 +1966,20 @@ function hideTutorial() {
   removeHighlights();
 }
 
-
 function updateTutorial() {
   const step = tutorialSteps[currentStep];
   document.getElementById('tutorialStepTitle').textContent = step.title;
   document.getElementById('tutorialStepContent').textContent = step.content;
- 
-  // Update dots
+  
   document.querySelectorAll('.tutorial-dot').forEach((dot, index) => {
     dot.classList.toggle('active', index === currentStep);
   });
- 
-  // Update buttons
+  
   document.getElementById('prevBtn').style.display = currentStep === 0 ? 'none' : 'flex';
-  document.getElementById('nextBtn').innerHTML = currentStep === tutorialSteps.length - 1
-    ? 'Finish <i class="fas fa-check"></i>'
+  document.getElementById('nextBtn').innerHTML = currentStep === tutorialSteps.length - 1 
+    ? 'Finish <i class="fas fa-check"></i>' 
     : 'Next <i class="fas fa-arrow-right"></i>';
 }
-
 
 function nextStep() {
   if (currentStep < tutorialSteps.length - 1) {
@@ -1332,7 +1992,6 @@ function nextStep() {
   }
 }
 
-
 function prevStep() {
   if (currentStep > 0) {
     currentStep--;
@@ -1340,7 +1999,6 @@ function prevStep() {
     highlightStep(currentStep);
   }
 }
-
 
 function highlightStep(step) {
   removeHighlights();
@@ -1354,154 +2012,70 @@ function highlightStep(step) {
   }
 }
 
-
 function removeHighlights() {
   document.querySelectorAll('.tutorial-highlight').forEach(el => {
     el.classList.remove('tutorial-highlight');
   });
 }
 
-
-/* ===== NOTIFICATION SYSTEM ===== */
-function showNotification(message) {
-  const notification = document.getElementById('notification');
-  document.getElementById('notificationText').textContent = message;
-  notification.classList.add('show');
-  setTimeout(() => {
-    notification.classList.remove('show');
-  }, 3000);
-}
-
-
-/* ===== SIGNATURE CANVAS ===== */
-const canvas = document.getElementById("signatureCanvas");
-const ctx = canvas.getContext("2d");
-ctx.lineWidth = 2;
-ctx.lineCap = 'round';
-ctx.lineJoin = 'round';
-ctx.strokeStyle = "#0ea5e9";
-let drawing = false;
-let lastX = 0;
-let lastY = 0;
-
-
-canvas.addEventListener('mousedown', (e) => {
-  drawing = true;
-  [lastX, lastY] = [e.offsetX, e.offsetY];
-});
-
-
-canvas.addEventListener('mousemove', (e) => {
-  if (!drawing) return;
-  ctx.beginPath();
-  ctx.moveTo(lastX, lastY);
-  ctx.lineTo(e.offsetX, e.offsetY);
-  ctx.stroke();
-  [lastX, lastY] = [e.offsetX, e.offsetY];
-});
-
-
-canvas.addEventListener('mouseup', () => drawing = false);
-canvas.addEventListener('mouseout', () => drawing = false);
-
-
-// Touch support
-canvas.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  drawing = true;
-  const rect = canvas.getBoundingClientRect();
-  const touch = e.touches[0];
-  lastX = touch.clientX - rect.left;
-  lastY = touch.clientY - rect.top;
-});
-
-
-canvas.addEventListener('touchmove', (e) => {
-  if (!drawing) return;
-  e.preventDefault();
-  const rect = canvas.getBoundingClientRect();
-  const touch = e.touches[0];
-  const x = touch.clientX - rect.left;
-  const y = touch.clientY - rect.top;
- 
-  ctx.beginPath();
-  ctx.moveTo(lastX, lastY);
-  ctx.lineTo(x, y);
-  ctx.stroke();
-  [lastX, lastY] = [x, y];
-});
-
-
-canvas.addEventListener('touchend', () => drawing = false);
-
-
-function clearSignature() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  showNotification("Signature cleared");
-}
-
-
-/* ===== LOGO UPLOAD ===== */
-document.getElementById('clinicLogo').onchange = function(e) {
-  const reader = new FileReader();
-  reader.onload = function() {
-    const preview = document.getElementById('logoPreview');
-    preview.src = reader.result;
-    preview.style.display = 'block';
-    preview.style.border = '2px solid var(--primary)';
-    showNotification("Logo uploaded successfully");
+/* ===== SAVE PROFILE ===== */
+function saveProfile() {
+  const clinicName = document.getElementById('clinicName').value.trim();
+  if (!clinicName) {
+    showNotification("Please enter clinic name", "error");
+    return;
   }
-  reader.readAsDataURL(e.target.files[0]);
+  
+  // If we're in edit mode, save clinic changes first
+  if (isEditingClinic) {
+    saveClinicChanges();
+  }
+  
+  // Simulate saving
+  showNotification("All clinic data saved successfully!");
+  
+  // Add visual feedback to Save button
+  const saveBtn = document.querySelector('.save-all-btn');
+  saveBtn.innerHTML = '<i class="fas fa-check"></i> Saved!';
+  setTimeout(() => {
+    saveBtn.innerHTML = '<i class="fas fa-save"></i> Save All';
+  }, 2000);
 }
 
-
-/* ===== MODAL FUNCTIONS ===== */
-function openModal() {
-  document.getElementById('dentistModal').style.display = 'flex';
-}
-
-
-function closeModal() {
-  document.getElementById('dentistModal').style.display = 'none';
-}
-
-
-// ===== CLINIC FORM =====
-function clearForm(){
-  ["clinicName","clinicContact","clinicAddress","dentistName","dentistEmail"].forEach(id=>document.getElementById(id).value="");
-}
-function saveProfile(){ alert("Clinic profile saved!"); }
-
-// ===== TUTORIAL =====
-const steps = [
-  { el:"#clinicName", title:"Clinic Name", text:"Enter clinic name." },
-  { el:"#dentistName", title:"Dentist Name", text:"Enter main dentist." },
-  { el:"#signatureBox", title:"Signature", text:"Draw digital signature." },
-  { el:"#clinicLogo", title:"Clinic Logo", text:"Upload your clinic logo." },
-  { el:"#saveProfileBtn", title:"Save Profile", text:"Click to save clinic profile." }
-];
-
-let current = 0;
-function showStep(i){
-  document.querySelectorAll(".spotlight").forEach(e=>e.classList.remove("spotlight"));
-  const step = steps[i];
-  const el = document.querySelector(step.el);
-  const rect = el.getBoundingClientRect();
-  el.classList.add("spotlight");
-  document.getElementById("walkTitle").innerText = step.title;
-  document.getElementById("walkText").innerText = step.text;
-  const arrow = document.getElementById("arrow");
-  arrow.style.left = rect.left + rect.width/2 - 14 + "px";
-  arrow.style.top = rect.top - 35 + "px";
-  arrow.style.display = "block";
-  document.getElementById("overlay").style.display="block";
-  document.getElementById("walkBox").style.display="block";
-}
-function nextTour(){ current++; if(current>=steps.length){ endTour(); return; } showStep(current); }
-function skipTour(){ endTour(); }
-function endTour(){ document.getElementById("arrow").style.display="none"; document.querySelectorAll(".spotlight").forEach(e=>e.classList.remove("spotlight")); document.getElementById("overlay").style.display="none"; document.getElementById("walkBox").style.display="none"; }
-function startTutorial(){ current=0; showStep(current); }
+/* ===== INITIALIZATION ===== */
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize the staff list
+  renderDentists();
+  
+  // Set current date for new staff
+  document.getElementById('mDate').value = new Date().toISOString().split('T')[0];
+  
+  // Auto-show tutorial on first visit
+  if (!localStorage.getItem('tutorialCompleted')) {
+    setTimeout(() => {
+      showTutorial(0);
+    }, 1000);
+  }
+  
+  // Mark tutorial as completed when finished
+  document.getElementById('nextBtn').addEventListener('click', function() {
+    if (currentStep === tutorialSteps.length - 1) {
+      localStorage.setItem('tutorialCompleted', 'true');
+    }
+  });
+  
+  // Logo upload preview
+  document.getElementById('clinicLogo').onchange = function(e) {
+    if (e.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        document.getElementById('logoPreview').src = event.target.result;
+        showNotification("Clinic logo uploaded");
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+});
 </script>
-
 </body>
-</html> 
+</html>
