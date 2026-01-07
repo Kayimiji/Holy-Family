@@ -4787,6 +4787,19 @@ function saveNewAppointment() {
 async function saveNewPatient() {
 console.log("patient")
 
+const userData = sessionStorage.getItem('user');
+const adminId = userData ? JSON.parse(userData).id : null;
+
+
+console.log("adminId", adminId)
+
+    if (!adminId) {
+        alert('Admin ID not found. Please Login again');
+        localStorage.removeItem("isLoggedIn");
+        sessionStorage.removeItem('user');
+        window.location.href = "landingpage.html";
+        return;
+    }
     const patient = {
         firstName: document.getElementById('patientFirstName').value.trim(),
         lastName: document.getElementById('patientLastName').value.trim(),
@@ -4796,15 +4809,11 @@ console.log("patient")
         email: document.getElementById('patientEmail').value.trim(),
         address: document.getElementById('patientAddress').value.trim(),
         medicalHistory: document.getElementById('patientMedicalHistory').value.trim(),
-        adminId: JSON.parse(sessionStorage.getItem('user')).id
+        adminId: adminId
     };
 
 console.log(patient)
-    if (!patient.adminId) {
-        showToast('Admin ID not found. Please Login again', 'error');
-        window.location.href = "admin.html";
-        return;
-    }
+    
     
     // Validation
     if (!patient.firstName || !patient.lastName) {
@@ -4837,21 +4846,14 @@ console.log(patient)
             body: JSON.stringify({ patient })
         });
 
+        if (!addPatientRes.ok) throw new Error(patientRes.message || "Add Patient failed");
+
         const patientRes = await addPatientRes.json();
 
-        if (!patientRes.ok) throw new Error(patientRes.message || "Add Patient failed");
-
         showToast('Patient added successfully', 'success');
-        // closeAddPatientModal();
-        // updatePatientTable();
-        // updateStats();
-
-        // ✅ Save user info
-        // localStorage.setItem("isLoggedIn", "true"); 
-        // sessionStorage.setItem("user", JSON.stringify(loginData.user));
+        closeAddPatientModal();
 
         // closeModal(document.getElementById("login-modal"));
-        // window.location.href = "admin.html";
     } catch (err) {
         console.error(err);
         alert(err.message);
