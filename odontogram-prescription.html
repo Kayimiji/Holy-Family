@@ -158,8 +158,93 @@ body {
 .submenu a:hover {
   background: rgba(0,191,255,.15);
 }
+/* Dropdown Styles */
+    .dropdown {
+      position: relative;
+    }
 
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
 
+    .dropdown-toggle .arrow {
+      margin-left: auto;
+      font-size: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown.active .dropdown-toggle .arrow {
+      transform: rotate(180deg);
+    }
+
+    .submenu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      visibility: hidden;
+    }
+
+    .dropdown.active .submenu {
+      max-height: 300px;
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+    }
+
+    .submenu li {
+      margin: 0;
+    }
+
+    .submenu a {
+      padding: 10px 20px 10px 40px;
+      font-size: 14px;
+      border-left: none;
+    }
+
+    .submenu a:hover {
+      background-color: rgba(0, 191, 255, 0.1);
+      border-left: none;
+    }
+
+    .settings-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .settings-menu a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: var(--sidebar-text);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      border-left: 3px solid transparent;
+    }
+
+    .settings-menu a:hover {
+      background-color: rgba(0, 191, 255, 0.2);
+      color: white;
+      border-left-color: var(--sidebar-active);
+      padding-left: 17px;
+    }
+
+    .settings-menu i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
 /* ===== TOP NAV HEADER ===== */
 .top-header {
   position: fixed;
@@ -826,34 +911,25 @@ body {
 
   <ul class="sidebar-menu">
     <li><a href="admin.html"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
-
-
-    <li class="dropdown open">
-      <a href="#" class="dropdown-toggle">
-        <i class="fas fa-tooth"></i> <span>My Clinic</span>
-        <i class="fas fa-chevron-down arrow"></i>
-      </a>
-      <ul class="submenu">
-        <li><a href="clinic-profile.html"><i class="fas fa-clinic-medical"></i> <span>Clinic Profile</span></a></li>
-        <li><a href="odontogram-prescription.html" class="active"><i class="fas fa-tooth"></i> <span>Dental Chart</span></a></li>
-        <li><a href="Braces-Treatment.html"><i class="fas fa-chain"></i> <span>Braces Treatment</span></a></li>
-        <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> <span>Patient Records</span></a></li>
-      </ul>
+     <!-- My Clinic Dropdown -->
+      <li class="dropdown" id="myClinicDropdown">
+        <a href="javascript:void(0)" class="dropdown-toggle" onclick="toggleDropdown(event)">
+          <i class="fas fa-tooth"></i>
+          <span>My Clinic</span>
+          <i class="fas fa-chevron-down arrow"></i>
+        </a>
+        <ul class="submenu">
+          <li><a href="clinic-profile.html"><i class="fas fa-hospital"></i> Clinic Profile</a></li>
+          <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
+          <li><a href="Braces-Treatment.html"><i class="fas fa-tooth"></i> Braces Treatment</a></li>
+        </ul>
     </li>
-
-
-    <li><a href="appointment-history.html"><i class="fas fa-clipboard-list"></i> <span>Appointment History</span></a></li>
+    <li><a href="appointment-logs.html"><i class="fas fa-clipboard-list"></i> <span>Appointment Logs</span></a></li>
     <li><a href="patients.html"><i class="fas fa-users"></i> <span>Patients</span></a></li>
     <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> <span>Finance</span></a></li>
-    <li><a href="Admin settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+    <li><a href="Data-BackUp.html"><i class="fas fa-chart-line"></i> <span>Data BackUp</span></a></li>
   </ul>
 
-
-  <div style="margin-top: auto; padding: 20px;">
-    <ul class="sidebar-menu">
-      <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
-    </ul>
-  </div>
 </aside>
 
 
@@ -1594,6 +1670,35 @@ if (!localStorage.getItem('tutorialShown')) {
     localStorage.setItem('tutorialShown', 'true');
   }, 1000);
 }
+ // Theme toggle functionality
+  const themeToggle = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeToggle.checked = savedTheme === 'dark';
+  themeToggle.addEventListener('change', function() {
+    const theme = this.checked ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  });
+
+  // Dropdown functionality
+  function toggleDropdown(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const dropdown = event.currentTarget.closest('.dropdown');
+    const isActive = dropdown.classList.contains('active');
+    
+    // Close all other dropdowns
+    document.querySelectorAll('.dropdown.active').forEach(item => {
+      if (item !== dropdown) {
+        item.classList.remove('active');
+      }
+    });
+    
+    // Toggle current dropdown
+    dropdown.classList.toggle('active', !isActive);
+  }
 </script>
 </body>
 </html>

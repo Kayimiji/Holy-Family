@@ -84,7 +84,13 @@
         /* ============================================= */
         /* LAYOUT & STRUCTURE */
         /* ============================================= */
-
+        html, body {
+            height: 100%;
+            font-family: 'Inter', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease;
+        }
         .dashboard {
             display: flex;
             height: 100vh;
@@ -161,178 +167,193 @@
         /* SIDEBAR COMPONENTS */
         /* ============================================= */
 
+        .dashboard {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            width: 260px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+        }
+
         .sidebar-header {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    margin-bottom: 30px;
-}
-
-.sidebar-logo {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    margin-right: -5px;
-    margin-top: -45px;
-    margin-left: -20px;
-    object-fit: cover;
-}
-
-.sidebar-title h2 {
-    color: var(--sidebar-active);
-    margin: 0;
-    font-size: 18px;
-    line-height: 1;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    white-space: nowrap;
-}
-
-.sidebar-title p {
-    color: var(--sidebar-text);
-    font-size: 12px;
-    margin-top: 10px;
-    margin-left: -40px;
-    font-style: italic;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    white-space: normal;
-}
-
-.holy-family {
-    color: #1380d3;
-    font-weight: bold;
-}
-
-.dental-clinic {
-    color: #00c4cc;
-    font-weight: bold;
-}
-
-.sidebar-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar-menu li {
-    margin-bottom: 5px;
-}
-
-        .sidebar-menu a {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    color: var(--sidebar-text);
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.sidebar-menu a:hover, .sidebar-menu a.active {
-    background-color: rgba(0, 191, 255, 0.2);
-    color: white;
-    border-left: 3px solid var(--sidebar-active);
-}
-
-.sidebar-menu i {
-    margin-right: 10px;
-    width: 20px;
-    text-align: center;
-}
-
-.settings-menu a:hover, .return-home-menu a:hover {
-    background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
-    color: white; /* Change text color on hover */
-    border-left: 3px solid var(--sidebar-active); /* Add left border */
-    display: block; /* Ensure the hover effect spans the full width */
-    width: 100%; /* Extend hover effect across the full width */
-    padding-right: 25px; /* Maintain alignment */
-}
-
-
-
-        .btn {
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            margin-top: -10px;
-            align-items: center;
-            gap: 5px;
-            font-size: 13px;
-            border: none;
-        }
-        
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--sidebar-active);
-            color: var(--sidebar-active);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--sidebar-active);
-            color: white;
-            box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
-        }
-
-        .theme-toggle {
             display: flex;
             align-items: center;
-            margin-left: 20px;
-            gap: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
         }
 
-        .theme-toggle-label {
-            font-size: 14px;
-            color: var(--text-color);
-        }
-        
-        .switch {
+        .logo-container {
             position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
         }
 
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
+        .sidebar-logo {
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
+            margin-right: -5px;
+            margin-top: -45px;
+            margin-left: -20px;
+            object-fit: cover;
         }
 
-        input:checked + .slider {
-            background-color: #00bfff;
+        .sidebar-title h2 {
+            color: var(--sidebar-active);
+            margin: 0;
+            font-size: 18px;
+            line-height: 1;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
-        input:checked + .slider:before {
-            transform: translateX(26px);
+        .sidebar-title p {
+            color: var(--sidebar-text);
+            font-size: 12px;
+            margin-top: 10px;
+            margin-left: -40px;
+            font-style: italic;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .holy-family, .dental-clinic {
+            color: #00bfff;
+            font-weight: bold;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+            padding-left: 17px;
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Dropdown Styles */
+            .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .dropdown-toggle .arrow {
+            margin-left: auto;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown.active .dropdown-toggle .arrow {
+            transform: rotate(180deg);
+        }
+
+        .submenu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            visibility: hidden;
+        }
+
+        .dropdown.active .submenu {
+            max-height: 300px;
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        .submenu li {
+            margin: 0;
+        }
+
+        .submenu a {
+            padding: 10px 20px 10px 40px;
+            font-size: 14px;
+            border-left: none;
+        }
+
+        .submenu a:hover {
+            background-color: rgba(0, 191, 255, 0.1);
+            border-left: none;
+        }
+
+        .settings-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .settings-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            border-left: 3px solid transparent;
+        }
+
+        .settings-menu a:hover {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left-color: var(--sidebar-active);
+            padding-left: 17px;
+        }
+
+        .settings-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
         }
 
         /* ============================================= */
@@ -458,46 +479,46 @@
         }
         
         .filter-dropdown {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    min-width: 180px;
-    z-index: 100;
-    margin-top: 5px;
-    display: none;
-}
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        min-width: 180px;
+        z-index: 100;
+        margin-top: 5px;
+        display: none;
+        }
 
-.filter-dropdown.show {
-    display: block;
-}
+        .filter-dropdown.show {
+            display: block;
+        }
 
-.filter-dropdown ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+        .filter-dropdown ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
-.filter-dropdown li {
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+        .filter-dropdown li {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-.filter-dropdown li:hover {
-    background: var(--hover-bg);
-}
+        .filter-dropdown li:hover {
+            background: var(--hover-bg);
+        }
 
-.filter-dropdown li.active {
-    background: var(--hover-bg);
-    color: var(--sidebar-active);
-}
+        .filter-dropdown li.active {
+            background: var(--hover-bg);
+            color: var(--sidebar-active);
+        }
 
         .divider {
             height: 1px;
@@ -2119,14 +2140,24 @@
             </div>
             <ul class="sidebar-menu">
                 <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
-                <li><a href="appointment-history.html"><i class="fas fa-calendar-alt"></i><span> Appointment History</a></li>
+                <!-- My Clinic Dropdown -->
+                <li class="dropdown" id="myClinicDropdown">
+                    <a href="javascript:void(0)" class="dropdown-toggle" onclick="toggleDropdown(event)">
+                    <i class="fas fa-tooth"></i>
+                    <span>My Clinic</span>
+                    <i class="fas fa-chevron-down arrow"></i>
+                    </a>
+                    <ul class="submenu">
+                    <li><a href="clinic-profile.html"><i class="fas fa-hospital"></i> Clinic Profile</a></li>
+                    <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
+                    <li><a href="Braces-Treatment.html"><i class="fas fa-tooth"></i> Braces Treatment</a></li>
+                    </ul>
+                </li>
+                <li><a href="appointment-logs.html"><i class="fas fa-calendar-alt"></i><span> Appointment Logs</a></li>
                 <li><a href="patients.html"><i class="fas fa-users"></i><span>Patients</span></a></li>
                 <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
                 <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i><span> Data BackUp</a></li>
-                <li><a href="Reports.html"><i class="fas fa-chart-line"></i> Reports</a></li>
-                <li><a href="Tutorial.html"><i class="fas fa-sticky-note"></i> Tutorial</a></li>
-                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+  
             </ul>
             <!-- Add Return to Home menu at the bottom -->
             <div style="position: absolute; bottom: 20px; width: 13%;">
@@ -2135,7 +2166,7 @@
                         <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
                     </ul>
                     <ul class="sidebar-menu return-home-menu">
-                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
