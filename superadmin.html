@@ -138,6 +138,8 @@
 <!-- Toast Container -->
 <div id="toastContainer"></div>
 
+<script src="config.js"></script>
+<script src="app.js"></script>
 <script>
     const requestsTableBody = document.querySelector('#requestsTable tbody');
     const loadingOverlay = document.getElementById('loadingOverlay');
@@ -178,7 +180,7 @@
     async function fetchPendingRequests() {
         showLoading();
         try {
-            const response = await fetch('http://localhost:3000/auth/state/inactive'); 
+            const response = await fetch(`${window.CONFIG.API_BASE_URL}/auth/state/inactive`); 
             if (!response.ok) throw new Error('Failed to fetch pending requests');
             const data = await response.json();
             renderRequests(data.admin || []);
@@ -215,7 +217,7 @@
     async function handleApprove(id, action) {
         showLoading();
         try {
-            const res = await fetch(`http://localhost:3000/auth/state/active`, {
+            const res = await fetch(`${window.CONFIG.API_BASE_URL}/auth/state/active`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ patientId: id })
@@ -235,7 +237,7 @@
     async function handleReject(id, action) {
         showLoading();
         try {
-            const res = await fetch(`http://localhost:3000/auth/state/abandoned`, {
+            const res = await fetch(`${window.CONFIG.API_BASE_URL}/auth/state/abandoned`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ patientId: id })

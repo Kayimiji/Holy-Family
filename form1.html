@@ -1217,6 +1217,8 @@
         </div>
     </div>
 
+    <script src="config.js"></script>
+    <script src="app.js"></script>
     <script>
         // Initialize jsPDF
         const { jsPDF } = window.jspdf;
@@ -1276,7 +1278,7 @@
     try {
         const formData = gatherFormData();
         
-        const response = await fetch('http://localhost:5000/api/patients', {
+        const response = await fetch(`${window.CONFIG.API_BASE_URL}/api/patients`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

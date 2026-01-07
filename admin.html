@@ -3280,7 +3280,8 @@
     <!-- Toast Container -->
     <div class="toast-container"></div>
 
-
+    <script src="config.js"></script>
+    <script src="app.js"></script>
     <script>
 
     // =============================================
@@ -4231,7 +4232,7 @@
         appointmentRequests = data || [];
 
         const today = new Date().toISOString().split('T')[0]; // "YYYY-MM-DD"
-        const responseToday = await fetch(`http://localhost:3000/appointments/${today}`);
+        const responseToday = await fetch(`${window.CONFIG.API_BASE_URL}/appointments/${today}`);
         const dataToday = await responseToday.json();
 
         todaysAppointments = dataToday || [];
@@ -5226,7 +5227,7 @@ function saveNewPatient() {
             if (!appointment) return;
 
             const res = await fetch(
-                "http://localhost:3000/appointments/updateStatus",
+                `${window.CONFIG.API_BASE_URL}/appointments/updateStatus`,
                 {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },

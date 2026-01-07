@@ -2592,6 +2592,8 @@
         </div>
     </div>
 
+    <script src="config.js"></script>
+    <script src="app.js"></script>
     <script>
         // Theme toggle functionality
         const themeToggle = document.getElementById('themeToggle');
@@ -2618,7 +2620,7 @@
         });
 
         async function fetchAllPatients() {
-            const response = await fetch(`http://localhost:3000/patients`);
+            const response = await fetch(`${window.CONFIG.API_BASE_URL}/patients`);
             return response.json();
         }
 

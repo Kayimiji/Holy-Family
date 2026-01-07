@@ -673,6 +673,8 @@
         </div>
     </div>
 
+    <script src="config.js"></script>
+    <script src="app.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             
@@ -685,7 +687,7 @@
             const tableBody = document.getElementById('logsTableBody');
 
             // Automatic call to fetch logs
-            fetch("http://localhost:3000/logs/requestLogs")
+            fetch(`${window.CONFIG.API_BASE_URL}/logs/requestLogs`)
                 .then(response => {
                     if (!response.ok) throw new Error("Failed to fetch logs");
                     return response.json();
