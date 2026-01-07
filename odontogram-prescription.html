@@ -2,526 +2,1598 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Smart Dentistry – Odontogram & Prescription</title>
+<title>Smart Dentistry – Enhanced Dental Chart</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 
 <style>
-:root{
-  --sidebar-bg:#2c3e50;
-  --sidebar-active:#00bfff;
-  --bg:#eef8fc;
-  --card:#ffffff;
-  --shadow:0 4px 12px rgba(0,0,0,.08);
-  --text:#2c3e50;
+:root {
+  --sidebar-bg: #2c3e50;
+  --sidebar-active: #00bfff;
+  --bg: #eef8fc;
+  --card: #ffffff;
+  --shadow: 0 4px 12px rgba(0,0,0,.08);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,.12);
+  --text: #2c3e50;
+  --text-light: #64748b;
+  --border: #e2e8f0;
+  --btn-primary: #56c1ff;
+  --btn-secondary: #3ee9ff;
+  --btn-success: #34ff88;
+  --btn-danger: #ff6b6b;
+  --radius: 10px;
+  --transition: all 0.3s ease;
 }
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text)}
-.dashboard{display:flex;min-height:100vh}
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+}
+
 
 /* ===== SIDEBAR ===== */
-.sidebar{
-  width:250px;
-  background:var(--sidebar-bg);
-  color:#fff;
-  position:fixed;
-  top:0;left:0;bottom:0;
+.sidebar {
+  width: 250px;
+  background: var(--sidebar-bg);
+  color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
 }
-.sidebar-header{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:20px;
+
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
-.sidebar-logo{
-  width:50px;
-  height:50px;
-  border-radius:50%;
+
+
+.sidebar-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sidebar-active), #0099cc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: white;
 }
-.sidebar-title h2{
-  font-size:16px;
-  color:var(--sidebar-active);
-  line-height:1.1;
+
+
+.sidebar-title h2 {
+  font-size: 16px;
+  color: var(--sidebar-active);
+  line-height: 1.1;
+  font-weight: 700;
 }
-.sidebar-menu{list-style:none}
-.sidebar-menu a{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px 20px;
-  color:#fff;
-  text-decoration:none;
+
+
+.sidebar-menu {
+  list-style: none;
+  flex: 1;
+  padding: 20px 0;
+  overflow-y: auto;
 }
+
+
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  transition: var(--transition);
+  font-weight: 500;
+}
+
+
 .sidebar-menu a:hover,
-.sidebar-menu a.active{
-  background:rgba(0,191,255,.2);
-  border-left:4px solid var(--sidebar-active);
+.sidebar-menu a.active {
+  background: rgba(0,191,255,.2);
+  border-left: 4px solid var(--sidebar-active);
+  color: white;
 }
-.dropdown .arrow{
-  margin-left:auto;
-  transition:.3s;
+
+
+.dropdown .arrow {
+  margin-left: auto;
+  transition: var(--transition);
+  font-size: 12px;
 }
-.dropdown.open .arrow{
-  transform:rotate(180deg);
+
+
+.dropdown.open .arrow {
+  transform: rotate(180deg);
 }
-.submenu{
-  list-style:none;
-  display:none;
-  background:#243444;
+
+
+.submenu {
+  list-style: none;
+  display: none;
+  background: rgba(0,0,0,0.2);
 }
-.dropdown.open .submenu{
-  display:block;
+
+
+.dropdown.open .submenu {
+  display: block;
 }
-.submenu a{
-  padding:10px 40px;
-  font-size:14px;
+
+
+.submenu a {
+  padding: 10px 40px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
 }
+
+
+.submenu a:hover {
+  background: rgba(0,191,255,.15);
+}
+
+
 /* ===== TOP NAV HEADER ===== */
-.top-header{
-  position:fixed;
-  top:0;
-  left:250px; /* same as sidebar width */
-  right:0;
-  height:64px;
-  background:#ffffff;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 28px;
-  box-shadow:0 2px 10px rgba(0,0,0,.08);
-  z-index:900;
+.top-header {
+  position: fixed;
+  top: 0;
+  left: 250px;
+  right: 0;
+  height: 70px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+  z-index: 999;
 }
 
-.top-header h1{
-  font-size:20px;
-  font-weight:700;
-  color:var(--btn-primary);
-  display:flex;
-  align-items:center;
-  gap:10px;
+
+.top-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--sidebar-active);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.top-header .header-actions{
-  display:flex;
-  align-items:center;
-  gap:16px;
+
+.top-header .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-.top-header .header-actions i{
-  font-size:18px;
-  cursor:pointer;
-  color:#475569;
+
+.top-header .header-actions i {
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text-light);
+  transition: var(--transition);
+  padding: 8px;
+  border-radius: 50%;
 }
 
-.top-header .header-actions i:hover{
-  color:var(--btn-primary);
+
+.top-header .header-actions i:hover {
+  color: var(--sidebar-active);
+  background: var(--bg);
 }
 
-/* PUSH MAIN CONTENT DOWN */
-.main{
-  margin-top:80px;
+
+/* ===== MAIN CONTENT ===== */
+.main {
+  margin-left: 250px;
+  margin-top: 70px;
+  padding: 30px;
+  width: calc(100% - 250px);
 }
 
-/* ===== MAIN ===== */
-.main{
-  margin-left:250px;
-  width:calc(100% - 250px);
-  display:flex;
-  flex-direction:column;
+
+/* ===== ENHANCED ODONTOGRAM SECTION ===== */
+.odontogram-container {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 25px;
+  box-shadow: var(--shadow);
+  margin-bottom: 30px;
+  border: 1px solid var(--border);
 }
 
-/* LAYOUT */
-.wrapper{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
-}
-.card{
-  background:var(--card);
-  padding:20px;
-  border-radius:8px;
-  box-shadow:var(--shadow);
+
+.odontogram-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--bg);
 }
 
-/* ODONTOGRAM */
-#teeth{
-  display:grid;
-  grid-template-columns:repeat(8,1fr);
-  gap:6px;
-}
-.tooth{
-  padding:8px;
-  border:1px solid #ccc;
-  border-radius:4px;
-  text-align:center;
-  cursor:pointer;
-  font-size:12px;
-}
-.decay{background:#9b59b6;color:#fff;}
-.periodontal{background:#3498db;color:#fff;}
-.trauma{background:#e74c3c;color:#fff;}
-.structural{background:#e67e22;color:#fff;}
-.developmental{background:#2ecc71;color:#fff;}
 
-/* FORM */
-input,select,textarea{
-  width:100%;
-  padding:6px;
-  margin-bottom:8px;
+.odontogram-header h3 {
+  font-size: 24px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-button{
-  padding:8px 12px;
-  border:none;
-  border-radius:4px;
-  cursor:pointer;
-}
-.blue{background:#56c1ff;color:#fff;}
-.green{background:#34ff88;color:#fff;}
-.gray{background:#3ee9ff;color:#fff;}
 
-.medicine{
-  display:flex;
-  gap:5px;
-  margin-bottom:5px;
-}
-.medicine input{flex:1}
 
-/* PREVIEW */
-#preview{
-  border:1px solid #ccc;
-  padding:15px;
-  min-height:200px;
+.condition-selector {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
 }
+
+
+.condition-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.condition-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+
+.condition-btn.active {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+
+.decay-btn { background: #9b59b6; color: #fff; }
+.periodontal-btn { background: #3498db; color: #fff; }
+.trauma-btn { background: #e74c3c; color: #fff; }
+.structural-btn { background: #e67e22; color: #fff; }
+.developmental-btn { background: #2ecc71; color: #fff; }
+
+
+/* Enhanced Dental Chart Grid */
+.dental-chart-wrapper {
+  position: relative;
+  margin: 30px 0;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: var(--radius);
+  border: 2px solid var(--border);
+}
+
+
+.chart-header {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+
+.chart-title {
+  background: var(--btn-primary);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+
+.teeth-grid {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+
+.tooth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+
+.tooth-number {
+  font-size: 10px;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+
+.tooth {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 600;
+  font-size: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+
+.tooth:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 10;
+}
+
+
+.tooth.decay { background: #9b59b6; color: #fff; }
+.tooth.periodontal { background: #3498db; color: #fff; }
+.tooth.trauma { background: #e74c3c; color: #fff; }
+.tooth.structural { background: #e67e22; color: #fff; }
+.tooth.developmental { background: #2ecc71; color: #fff; }
+
+
+.tooth.selected {
+  border: 3px solid var(--text);
+  box-shadow: 0 0 0 2px rgba(86, 193, 255, 0.5);
+}
+
+
+.quadrant-label {
+  position: absolute;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+
+.quadrant-top-left { top: 10px; left: 10px; }
+.quadrant-top-right { top: 10px; right: 10px; }
+.quadrant-bottom-left { bottom: 10px; left: 10px; }
+.quadrant-bottom-right { bottom: 10px; right: 10px; }
+
+
+/* Legend */
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  padding: 6px 12px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+
+/* ===== PRESCRIPTION FORM ===== */
+.prescription-form {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 25px;
+  box-shadow: var(--shadow);
+  margin-bottom: 30px;
+  border: 1px solid var(--border);
+}
+
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--text);
+  font-size: 14px;
+}
+
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  transition: var(--transition);
+  background: white;
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--sidebar-active);
+  box-shadow: 0 0 0 3px rgba(0,191,255,0.1);
+}
+
+
+/* Medicine Section */
+.medicine-section {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: var(--radius);
+  margin: 20px 0;
+}
+
+
+.medicine-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+
+.medicine-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  transition: var(--transition);
+}
+
+
+.medicine-item:hover {
+  border-color: var(--sidebar-active);
+}
+
+
+.remove-medicine {
+  background: var(--btn-danger);
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+
+.remove-medicine:hover {
+  background: #ff4757;
+  transform: scale(1.1);
+}
+
+
+/* Buttons */
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+
+.btn-primary {
+  background: var(--btn-primary);
+  color: white;
+}
+
+
+.btn-success {
+  background: var(--btn-success);
+  color: #155724;
+}
+
+
+.btn-secondary {
+  background: var(--btn-secondary);
+  color: white;
+}
+
+
+.btn-outline {
+  background: white;
+  color: var(--text);
+  border: 2px solid var(--border);
+}
+
+
+/* ===== PREVIEW SECTION ===== */
+.preview-container {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 25px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--bg);
+}
+
+
+.preview-content {
+  background: #f8fafc;
+  padding: 25px;
+  border-radius: var(--radius);
+  min-height: 400px;
+  font-family: 'Courier New', monospace;
+  border: 1px solid var(--border);
+}
+
+
+.patient-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border);
+}
+
 
 /* ===== TUTORIAL ===== */
-#tutorialOverlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  display:none;
-  z-index:999;
+#tutorialOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  z-index: 9999;
 }
-.tutorial-box{
-  position:absolute;
-  background:#fff;
-  padding:20px;
-  border-radius:10px;
-  width:320px;
+
+
+.tutorial-box {
+  position: absolute;
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 380px;
+  box-shadow: var(--shadow-lg);
+  z-index: 10000;
 }
-.highlight{
-  box-shadow:0 0 0 4px #00e5ff;
-  border-radius:6px;
+
+
+.highlight {
+  box-shadow: 0 0 0 4px #00e5ff;
+  border-radius: 6px;
   transition: transform 0.3s;
+  z-index: 9998;
+  position: relative;
 }
-@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
-.tour-progress{
-  font-size:12px;
-  color:#64748b;
-  margin-bottom:6px;
+
+
+@keyframes fade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.tour-arrow{
-  position:fixed;
-  width:0;height:0;
-  border-left:12px solid transparent;
-  border-right:12px solid transparent;
-  border-top:22px solid #00e5ff;
-  animation:bounce 1s infinite;
-  z-index:1001;
-  display:none;
+
+
+.tour-progress {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 6px;
+  font-weight: 600;
 }
-@keyframes bounce{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-10px)}
+
+
+.tour-arrow {
+  position: fixed;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 22px solid #00e5ff;
+  animation: bounce 1s infinite;
+  z-index: 1001;
+  display: none;
 }
-.tutorial-box{
-  animation:fade .4s ease;
+
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
-.restart-btn{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#0ea5e9;
-  color:#fff;
-  border:none;
-  padding:10px 14px;
-  border-radius:20px;
-  cursor:pointer;
-  z-index:1000;
-  box-shadow:0 6px 15px rgba(0,0,0,.25);
+
+
+.tutorial-box {
+  animation: fade .4s ease;
 }
+
+
+.restart-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--sidebar-active);
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 25px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+
+.restart-btn:hover {
+  background: #0099cc;
+  transform: translateY(-2px);
+}
+
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1200px) {
+  .teeth-grid {
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+
+
+@media (max-width: 992px) {
+  .sidebar {
+    width: 70px;
+  }
+ 
+  .sidebar-header .sidebar-title,
+  .sidebar-menu a span,
+  .dropdown .arrow {
+    display: none;
+  }
+ 
+  .sidebar-menu a {
+    justify-content: center;
+    padding: 15px;
+  }
+ 
+  .top-header,
+  .main {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+  }
+ 
+  .submenu {
+    position: absolute;
+    left: 70px;
+    top: 0;
+    min-width: 200px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .teeth-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+ 
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+ 
+  .medicine-item {
+    grid-template-columns: 1fr;
+  }
+ 
+  .action-buttons {
+    flex-direction: column;
+  }
+ 
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
+/* ===== ANIMATIONS ===== */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+
+/* ===== UTILITY CLASSES ===== */
+.text-center { text-align: center; }
+.mt-20 { margin-top: 20px; }
+.mb-20 { margin-bottom: 20px; }
+.mt-30 { margin-top: 30px; }
+.mb-30 { margin-bottom: 30px; }
 </style>
 </head>
+
 
 <body>
 <div class="dashboard">
 
+
 <!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="sidebar-header">
-    <img src="logo.png" class="sidebar-logo">
+    <div class="sidebar-logo">
+      <i class="fas fa-tooth"></i>
+    </div>
     <div class="sidebar-title">
       <h2>SMART<br>DENTISTRY</h2>
     </div>
   </div>
 
- <ul class="sidebar-menu">
-  <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
 
-  <li class="dropdown open">
-    <a href="#" class="dropdown-toggle">
-      <i class="fas fa-tooth"></i> My Clinic
-      <i class="fas fa-chevron-down arrow"></i>
-    </a>
-    <ul class="submenu">
-      <li><a href="clinic-profile.html"><i class="fas fa-clinic-medical"></i> Clinic Profile</a></li>
-      <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
-      <li><a href="Braces-Treatment.html"><i class="fas fa-chain"></i> Braces Treatment</a></li>
-      <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> Patient Records</a></li>
+  <ul class="sidebar-menu">
+    <li><a href="admin.html"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+
+
+    <li class="dropdown open">
+      <a href="#" class="dropdown-toggle">
+        <i class="fas fa-tooth"></i> <span>My Clinic</span>
+        <i class="fas fa-chevron-down arrow"></i>
+      </a>
+      <ul class="submenu">
+        <li><a href="clinic-profile.html"><i class="fas fa-clinic-medical"></i> <span>Clinic Profile</span></a></li>
+        <li><a href="odontogram-prescription.html" class="active"><i class="fas fa-tooth"></i> <span>Dental Chart</span></a></li>
+        <li><a href="Braces-Treatment.html"><i class="fas fa-chain"></i> <span>Braces Treatment</span></a></li>
+        <li><a href="MyRecords.html"><i class="fas fa-file-medical"></i> <span>Patient Records</span></a></li>
+      </ul>
+    </li>
+
+
+    <li><a href="appointment-history.html"><i class="fas fa-clipboard-list"></i> <span>Appointment History</span></a></li>
+    <li><a href="patients.html"><i class="fas fa-users"></i> <span>Patients</span></a></li>
+    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> <span>Finance</span></a></li>
+    <li><a href="Admin settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+  </ul>
+
+
+  <div style="margin-top: auto; padding: 20px;">
+    <ul class="sidebar-menu">
+      <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
     </ul>
-  </li>
-
-  <li><a href="appointment-history.html"><i class="fas fa-clipboard-list"></i> Appointment History</a></li>
-  <li><a href="patients.html"><i class="fas fa-users"></i> Patients</a></li>
-  <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-
-</ul>
+  </div>
 </aside>
-<!-- Add Return to Home menu at the bottom -->
-    <div style="position: absolute; bottom: 20px; width: 13%;">
-    <div style="position: absolute; bottom: 20px; width: 100%;">
-    <ul class="sidebar-menu settings-menu">
-    <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-    </ul>
-    <ul class="sidebar-menu return-home-menu">
-    <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-    </ul>
-    </div>
-    </div>
-</aside>
+
+
 <!-- TOP NAVIGATION HEADER -->
 <header class="top-header">
   <h1>
-    <i class="fas fa-clinic-medical"></i>
-    Dental Chart
+    <i class="fas fa-teeth-open"></i>
+    Dental Chart & Prescription
   </h1>
 
+
   <div class="header-actions">
+    <i class="fas fa-history" title="History"></i>
+    <i class="fas fa-save" title="Save Draft"></i>
     <i class="fas fa-bell" title="Notifications"></i>
     <i class="fas fa-user-circle" title="Account"></i>
   </div>
 </header>
 
-<!-- MAIN -->
+
+<!-- MAIN CONTENT -->
 <div class="main">
 
-<!-- WALKTHROUGH ARROW -->
-<div id="tourArrow" class="tour-arrow"></div>
 
-<!-- RESTART BUTTON -->
-<button class="restart-btn" id="restartTutorial">
-🔄 Restart Tutorial
-</button>
+  <!-- RESTART TUTORIAL BUTTON -->
+  <button class="restart-btn" id="restartTutorial">
+    <i class="fas fa-reply"></i> Restart Tutorial
+  </button>
 
-<div class="wrapper">
 
-<!-- LEFT -->
-<div class="card">
-<h3>Odontogram</h3>
+  <!-- ENHANCED ODONTOGRAM SECTION -->
+  <div class="odontogram-container">
+    <div class="odontogram-header">
+      <h3><i class="fas fa-tooth"></i> Dental Chart</h3>
+      <div class="chart-title">INTERACTIVE ODONTOGRAM</div>
+    </div>
 
-<select id="condition">
-  <option value="">Select Condition</option>
-  <option value="decay">Decay / Infection</option>
-  <option value="periodontal">Periodontal</option>
-  <option value="trauma">Loss / Trauma</option>
-  <option value="structural">Structural Damage</option>
-  <option value="developmental">Developmental</option>
-</select>
 
-<div id="teeth"></div>
+    <div class="condition-selector">
+      <button class="condition-btn decay-btn active" data-condition="decay">
+        <i class="fas fa-bacteria"></i> Decay / Infection
+      </button>
+      <button class="condition-btn periodontal-btn" data-condition="periodontal">
+        <i class="fas fa-gum"></i> Periodontal
+      </button>
+      <button class="condition-btn trauma-btn" data-condition="trauma">
+        <i class="fas fa-bone-break"></i> Loss / Trauma
+      </button>
+      <button class="condition-btn structural-btn" data-condition="structural">
+        <i class="fas fa-crack"></i> Structural Damage
+      </button>
+      <button class="condition-btn developmental-btn" data-condition="developmental">
+        <i class="fas fa-baby"></i> Developmental
+      </button>
+    </div>
 
-<hr>
 
-<h3>Prescription</h3>
-<input id="clinic" placeholder="Clinic Name">
-<input id="doctor" placeholder="Doctor Name">
-<input type="date" id="date">
+    <div class="dental-chart-wrapper">
+      <div class="chart-header">
+        <div class="chart-title">UPPER ARCH</div>
+      </div>
+     
+      <div class="teeth-grid" id="teethUpper">
+        <!-- Upper teeth will be generated here -->
+      </div>
 
-<input id="patient" placeholder="Patient Name">
-<input id="age" placeholder="Age">
 
-<select id="gender">
-  <option>Male</option>
-  <option>Female</option>
-</select>
+      <div class="chart-header mt-30">
+        <div class="chart-title">LOWER ARCH</div>
+      </div>
+     
+      <div class="teeth-grid" id="teethLower">
+        <!-- Lower teeth will be generated here -->
+      </div>
 
-<textarea id="diagnosis" rows="4" placeholder="Auto Diagnosis"></textarea>
-<textarea id="notes" placeholder="Notes"></textarea>
 
-<h4>Medicines</h4>
-<div id="medList"></div>
-<button id="addMed" class="gray">+ Add Medicine</button>
-<button id="update" class="blue">Update Preview</button>
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-color" style="background: #9b59b6;"></div>
+          <span>Decay / Infection</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #3498db;"></div>
+          <span>Periodontal</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #e74c3c;"></div>
+          <span>Loss / Trauma</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #e67e22;"></div>
+          <span>Structural Damage</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #2ecc71;"></div>
+          <span>Developmental</span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="action-buttons">
+      <button class="btn btn-outline" id="clearAll">
+        <i class="fas fa-eraser"></i> Clear All
+      </button>
+      <button class="btn btn-secondary" id="saveChart">
+        <i class="fas fa-save"></i> Save Chart
+      </button>
+      <button class="btn btn-primary" id="loadTemplate">
+        <i class="fas fa-file-import"></i> Load Template
+      </button>
+    </div>
+  </div>
+
+
+  <!-- PRESCRIPTION FORM SECTION -->
+  <div class="wrapper" style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+    <!-- LEFT COLUMN: PRESCRIPTION FORM -->
+    <div class="prescription-form">
+      <h3><i class="fas fa-prescription"></i> Prescription Details</h3>
+     
+      <div class="form-row">
+        <div class="form-group">
+          <label><i class="fas fa-hospital"></i> Clinic Name</label>
+          <input id="clinic" placeholder="Enter clinic name" value="Smart Dentistry Clinic">
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-user-md"></i> Doctor Name</label>
+          <input id="doctor" placeholder="Dr. Name" value="Dr. Smith Johnson">
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-calendar"></i> Date</label>
+          <input type="date" id="date">
+        </div>
+      </div>
+
+
+      <div class="form-row">
+        <div class="form-group">
+          <label><i class="fas fa-user"></i> Patient Name</label>
+          <input id="patient" placeholder="Full name">
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-birthday-cake"></i> Age</label>
+          <input id="age" placeholder="Age" type="number">
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-venus-mars"></i> Gender</label>
+          <select id="gender">
+            <option value="">Select</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label><i class="fas fa-stethoscope"></i> Diagnosis</label>
+        <textarea id="diagnosis" rows="4" placeholder="Auto-generated from dental chart..."></textarea>
+      </div>
+
+
+      <div class="form-group">
+        <label><i class="fas fa-comment-medical"></i> Clinical Notes</label>
+        <textarea id="notes" rows="3" placeholder="Additional clinical notes..."></textarea>
+      </div>
+
+
+      <div class="medicine-section">
+        <h4><i class="fas fa-pills"></i> Prescribed Medicines</h4>
+        <div id="medList" class="medicine-list"></div>
+        <button id="addMed" class="btn btn-outline">
+          <i class="fas fa-plus-circle"></i> Add Medicine
+        </button>
+      </div>
+
+
+      <div class="form-group mt-20">
+        <label><i class="fas fa-calendar-check"></i> Follow-up Date</label>
+        <input type="date" id="followUp">
+      </div>
+
+
+      <div class="action-buttons">
+        <button id="update" class="btn btn-primary">
+          <i class="fas fa-sync-alt"></i> Update Preview
+        </button>
+        <button id="saveDraft" class="btn btn-outline">
+          <i class="fas fa-save"></i> Save Draft
+        </button>
+      </div>
+    </div>
+
+
+    <!-- RIGHT COLUMN: PREVIEW -->
+    <div class="preview-container">
+      <div class="preview-header">
+        <h3><i class="fas fa-file-medical-alt"></i> Prescription Preview</h3>
+        <div class="chart-title">LIVE PREVIEW</div>
+      </div>
+     
+      <div id="preview" class="preview-content">
+        <div class="text-center mb-30">
+          <h2 style="color: var(--sidebar-active);">SMART DENTISTRY CLINIC</h2>
+          <p style="color: var(--text-light);">Professional Dental Care</p>
+        </div>
+       
+        <div class="patient-info">
+          <div><strong>Date:</strong> <span id="previewDate">--/--/----</span></div>
+          <div><strong>Patient:</strong> <span id="previewPatient">------</span></div>
+          <div><strong>Age:</strong> <span id="previewAge">--</span></div>
+          <div><strong>Gender:</strong> <span id="previewGender">------</span></div>
+        </div>
+       
+        <div class="mb-20">
+          <strong>Diagnosis:</strong>
+          <div id="previewDiagnosis" style="background: white; padding: 10px; border-radius: 6px; margin-top: 5px;">
+            No diagnosis recorded.
+          </div>
+        </div>
+       
+        <div class="mb-20">
+          <strong>Medication:</strong>
+          <div id="previewMedication" style="background: white; padding: 10px; border-radius: 6px; margin-top: 5px;">
+            No medication prescribed.
+          </div>
+        </div>
+       
+        <div class="mb-20">
+          <strong>Notes:</strong>
+          <div id="previewNotes" style="background: white; padding: 10px; border-radius: 6px; margin-top: 5px;">
+            No additional notes.
+          </div>
+        </div>
+       
+        <div style="border-top: 2px solid var(--border); padding-top: 20px; margin-top: 30px;">
+          <div style="text-align: right;">
+            <strong>Doctor's Signature:</strong>
+            <div style="margin-top: 40px; border-top: 1px solid var(--text); width: 200px; float: right;">
+              <span id="previewDoctor">Dr. Smith Johnson</span>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+      <div class="action-buttons mt-20">
+        <button id="print" class="btn btn-success">
+          <i class="fas fa-print"></i> Print Prescription
+        </button>
+        <button id="pdf" class="btn btn-primary">
+          <i class="fas fa-file-pdf"></i> Export PDF
+        </button>
+        <button id="sendEmail" class="btn btn-outline">
+          <i class="fas fa-envelope"></i> Send to Patient
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- RIGHT -->
-<div class="card">
-<h3>Prescription Preview</h3>
-<div id="preview">No data yet</div><br>
-<button id="print" class="green">Print</button>
-<button id="pdf" class="blue">Export PDF</button>
-</div>
-
-</div>
 
 <!-- TUTORIAL -->
 <div id="tutorialOverlay">
   <div class="tutorial-box" id="tutorialBox">
     <h4 id="tTitle"></h4>
     <p id="tText"></p>
-    <button id="prev">Back</button>
-    <button id="next">Next</button>
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+      <button id="prev" class="btn btn-outline" style="flex: 1;">Back</button>
+      <button id="next" class="btn btn-primary" style="flex: 1;">Next</button>
+    </div>
   </div>
 </div>
 
+
 <script>
-/* ========= ODONTOGRAM ========= */
-const teethNums=[18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28,48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38];
-const teethDiv=document.getElementById("teeth");
-const condition=document.getElementById("condition");
-const diagnosis=document.getElementById("diagnosis");
-let state={};
+// ========= ENHANCED ODONTOGRAM =========
+const upperTeeth = [18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28];
+const lowerTeeth = [48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38];
+const teethUpperDiv = document.getElementById("teethUpper");
+const teethLowerDiv = document.getElementById("teethLower");
+let state = {};
+let selectedCondition = "decay";
 
-teethNums.forEach(n=>{
-  const d=document.createElement("div");
-  d.className="tooth";
-  d.textContent=n;
-  d.onclick=()=>{ 
-    if(!condition.value){alert("Select condition first");return;}
-    d.className="tooth "+condition.value;
-    state[n]=condition.value;
-    autoDiagnosis();
-  };
-  teethDiv.appendChild(d);
-});
 
-function autoDiagnosis(){
-  let map={};
-  for(let t in state){
-    map[state[t]]=map[state[t]]||[];
-    map[state[t]].push(t);
+// Initialize date
+document.getElementById('date').valueAsDate = new Date();
+document.getElementById('followUp').valueAsDate = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
+
+
+// Create tooth elements
+function createToothElement(number, isUpper) {
+  const container = document.createElement("div");
+  container.className = "tooth-container";
+ 
+  const tooth = document.createElement("div");
+  tooth.className = "tooth";
+  tooth.textContent = number;
+  tooth.dataset.number = number;
+ 
+  if (isUpper) {
+    container.appendChild(tooth);
+    container.insertAdjacentHTML('beforeend', `<div class="tooth-number">${number}</div>`);
+  } else {
+    container.insertAdjacentHTML('afterbegin', `<div class="tooth-number">${number}</div>`);
+    container.appendChild(tooth);
   }
-  let text="";
-  if(map.decay) text+=`Decay: ${map.decay.join(", ")}\n`;
-  if(map.periodontal) text+=`Periodontal: ${map.periodontal.join(", ")}\n`;
-  if(map.trauma) text+=`Trauma: ${map.trauma.join(", ")}\n`;
-  if(map.structural) text+=`Structural: ${map.structural.join(", ")}\n`;
-  if(map.developmental) text+=`Developmental: ${map.developmental.join(", ")}\n`;
-  diagnosis.value=text.trim();
+ 
+  tooth.onclick = () => {
+    if (tooth.classList.contains(selectedCondition)) {
+      tooth.className = "tooth";
+      delete state[number];
+    } else {
+      tooth.className = "tooth " + selectedCondition;
+      state[number] = selectedCondition;
+    }
+    autoDiagnosis();
+    updatePreview();
+  };
+ 
+  tooth.onmouseenter = () => {
+    if (!tooth.classList.contains(selectedCondition)) {
+      tooth.classList.add('pulse');
+    }
+  };
+ 
+  tooth.onmouseleave = () => {
+    tooth.classList.remove('pulse');
+  };
+ 
+  return container;
 }
 
-/* ========= MEDICINE ========= */
-const addMed=document.getElementById("addMed");
-const medList=document.getElementById("medList");
 
-addMed.onclick=()=>{
-  const d=document.createElement("div");
-  d.className="medicine";
-  d.innerHTML=`
-    <input placeholder="Medicine">
-    <input placeholder="Dose">
-    <input placeholder="Freq">
-    <button onclick="this.parentElement.remove()">✖</button>`;
-  medList.appendChild(d);
-};
+// Populate upper and lower arches
+upperTeeth.forEach(num => {
+  teethUpperDiv.appendChild(createToothElement(num, true));
+});
 
-/* ========= PREVIEW ========= */
-const update=document.getElementById("update");
-const preview=document.getElementById("preview");
 
-update.onclick=()=>{
-  let meds="";
-  document.querySelectorAll(".medicine").forEach(m=>{
-    const i=m.querySelectorAll("input");
-    meds+=`<li>${i[0].value} – ${i[1].value} – ${i[2].value}</li>`;
+lowerTeeth.forEach(num => {
+  teethLowerDiv.appendChild(createToothElement(num, false));
+});
+
+
+// Condition buttons
+document.querySelectorAll('.condition-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.condition-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    selectedCondition = this.dataset.condition;
   });
-  preview.innerHTML=`
-    <h3>${document.getElementById("clinic").value}</h3>
-    <p><b>Doctor:</b> ${document.getElementById("doctor").value}</p>
-    <p><b>Date:</b> ${document.getElementById("date").value}</p>
-    <p><b>Patient:</b> ${document.getElementById("patient").value} (${document.getElementById("age").value}, ${document.getElementById("gender").value})</p>
-    <p><b>Diagnosis:</b><br>${diagnosis.value.replace(/\n/g,"<br>")}</p>
-    <ul>${meds||"<li>No medicine</li>"}</ul>
-    <p>${document.getElementById("notes").value}</p>`;
+});
+
+
+// Clear all teeth
+document.getElementById('clearAll').addEventListener('click', () => {
+  document.querySelectorAll('.tooth').forEach(t => {
+    t.className = "tooth";
+  });
+  state = {};
+  autoDiagnosis();
+  updatePreview();
+});
+
+
+// Save chart
+document.getElementById('saveChart').addEventListener('click', () => {
+  if (Object.keys(state).length === 0) {
+    alert("Please mark some teeth before saving.");
+    return;
+  }
+  const chartData = {
+    date: new Date().toISOString(),
+    teeth: state,
+    diagnosis: document.getElementById('diagnosis').value
+  };
+  localStorage.setItem('dentalChart_' + Date.now(), JSON.stringify(chartData));
+  alert("Chart saved successfully!");
+});
+
+
+// Load template
+document.getElementById('loadTemplate').addEventListener('click', () => {
+  // In a real app, this would load from a database or templates
+  const templates = {
+    "Basic Checkup": {},
+    "Routine Cleaning": {18: "decay", 31: "periodontal"},
+    "Initial Assessment": {11: "decay", 26: "structural", 36: "trauma"}
+  };
+ 
+  const templateName = prompt("Enter template name (Basic Checkup, Routine Cleaning, Initial Assessment):");
+  if (templateName && templates[templateName]) {
+    // Clear existing
+    document.querySelectorAll('.tooth').forEach(t => t.className = "tooth");
+    state = {};
+   
+    // Apply template
+    if (templates[templateName]) {
+      Object.entries(templates[templateName]).forEach(([tooth, condition]) => {
+        const toothEl = document.querySelector(`.tooth[data-number="${tooth}"]`);
+        if (toothEl) {
+          toothEl.className = "tooth " + condition;
+          state[tooth] = condition;
+        }
+      });
+      autoDiagnosis();
+      updatePreview();
+      alert("Template loaded!");
+    }
+  }
+});
+
+
+// ========= ENHANCED AUTO DIAGNOSIS =========
+function autoDiagnosis() {
+  let diagnosisText = "";
+  const conditions = {
+    decay: { name: "Dental Caries/Infection", teeth: [] },
+    periodontal: { name: "Periodontal Disease", teeth: [] },
+    trauma: { name: "Trauma/Tooth Loss", teeth: [] },
+    structural: { name: "Structural Damage", teeth: [] },
+    developmental: { name: "Developmental Issues", teeth: [] }
+  };
+ 
+  // Group teeth by condition
+  for (const [tooth, condition] of Object.entries(state)) {
+    if (conditions[condition]) {
+      conditions[condition].teeth.push(tooth);
+    }
+  }
+ 
+  // Build diagnosis text
+  for (const [condition, data] of Object.entries(conditions)) {
+    if (data.teeth.length > 0) {
+      diagnosisText += `• ${data.name}: Teeth ${data.teeth.sort((a,b) => a-b).join(", ")}\n`;
+    }
+  }
+ 
+  if (diagnosisText === "") {
+    diagnosisText = "No significant findings recorded.";
+  } else {
+    diagnosisText = "FINDINGS:\n" + diagnosisText + "\nRECOMMENDATION: Further evaluation and treatment as indicated.";
+  }
+ 
+  document.getElementById('diagnosis').value = diagnosisText;
+}
+
+
+// ========= ENHANCED MEDICINE MANAGEMENT =========
+const addMed = document.getElementById('addMed');
+const medList = document.getElementById('medList');
+
+
+addMed.onclick = () => {
+  const item = document.createElement('div');
+  item.className = 'medicine-item';
+  item.innerHTML = `
+    <input type="text" placeholder="Medicine Name" class="med-name">
+    <input type="text" placeholder="Dosage (e.g., 500mg)" class="med-dose">
+    <input type="text" placeholder="Frequency (e.g., 2x day)" class="med-freq">
+    <button class="remove-medicine">
+      <i class="fas fa-times"></i>
+    </button>
+  `;
+ 
+  item.querySelector('.remove-medicine').onclick = () => item.remove();
+  medList.appendChild(item);
 };
 
-/* ========= PRINT / PDF ========= */
-document.getElementById("print").onclick=()=>{
-  update.click();
-  const w=window.open();
-  w.document.write(preview.innerHTML);
-  w.print();
-};
-document.getElementById("pdf").onclick=()=>{update.click();window.print();};
 
-/* ========= TUTORIAL ========= */
-const steps=[
-  {t:"Welcome",d:"This guide will show how to use the system",el:null},
-  {t:"Select Condition",d:"Choose tooth condition",el:"#condition"},
-  {t:"Click Teeth",d:"Click teeth to color & diagnose",el:"#teeth"},
-  {t:"Auto Diagnosis",d:"Diagnosis fills automatically",el:"#diagnosis"},
-  {t:"Add Medicine",d:"Add medicines here",el:"#addMed"},
-  {t:"Preview",d:"Generate prescription preview",el:"#update"},
-  {t:"Print / PDF",d:"Print or export prescription",el:"#print"}
+// ========= ENHANCED PREVIEW SYSTEM =========
+function updatePreview() {
+  // Update patient info
+  document.getElementById('previewDate').textContent =
+    document.getElementById('date').value || '--/--/----';
+  document.getElementById('previewPatient').textContent =
+    document.getElementById('patient').value || '------';
+  document.getElementById('previewAge').textContent =
+    document.getElementById('age').value || '--';
+  document.getElementById('previewGender').textContent =
+    document.getElementById('gender').value || '------';
+  document.getElementById('previewDoctor').textContent =
+    document.getElementById('doctor').value || 'Dr. Smith Johnson';
+ 
+  // Update diagnosis
+  const diagnosis = document.getElementById('diagnosis').value;
+  document.getElementById('previewDiagnosis').innerHTML =
+    diagnosis.replace(/\n/g, '<br>') || 'No diagnosis recorded.';
+ 
+  // Update medication
+  const medItems = document.querySelectorAll('.medicine-item');
+  let medHtml = '';
+  if (medItems.length === 0) {
+    medHtml = 'No medication prescribed.';
+  } else {
+    medHtml = '<ul style="list-style: none; padding-left: 0;">';
+    medItems.forEach(item => {
+      const name = item.querySelector('.med-name').value || '---';
+      const dose = item.querySelector('.med-dose').value || '---';
+      const freq = item.querySelector('.med-freq').value || '---';
+      medHtml += `<li>• <strong>${name}</strong> - ${dose} - ${freq}</li>`;
+    });
+    medHtml += '</ul>';
+  }
+  document.getElementById('previewMedication').innerHTML = medHtml;
+ 
+  // Update notes
+  const notes = document.getElementById('notes').value;
+  document.getElementById('previewNotes').innerHTML =
+    notes.replace(/\n/g, '<br>') || 'No additional notes.';
+}
+
+
+// Auto-update preview on input changes
+document.querySelectorAll('#clinic, #doctor, #date, #patient, #age, #gender, #diagnosis, #notes').forEach(el => {
+  el.addEventListener('input', updatePreview);
+});
+
+
+// Update preview initially
+updatePreview();
+
+
+// Update button
+document.getElementById('update').onclick = updatePreview;
+
+
+// ========= ENHANCED PRINT/PDF =========
+document.getElementById('print').onclick = () => {
+  updatePreview();
+  const printContent = document.getElementById('preview').innerHTML;
+  const originalContent = document.body.innerHTML;
+ 
+  document.body.innerHTML = `
+    <div style="padding: 40px; font-family: Arial, sans-serif;">
+      <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="color: #2c3e50;">${document.getElementById('clinic').value || 'Dental Clinic'}</h1>
+        <p style="color: #666;">Professional Dental Prescription</p>
+        <hr style="margin: 20px 0;">
+      </div>
+      ${printContent}
+    </div>
+  `;
+ 
+  window.print();
+  document.body.innerHTML = originalContent;
+  location.reload(); // Reload to restore functionality
+};
+
+
+document.getElementById('pdf').onclick = () => {
+  alert("PDF export would be implemented with a library like jsPDF");
+  // In production: Use jsPDF or similar library
+};
+
+
+document.getElementById('sendEmail').onclick = () => {
+  const email = prompt("Enter patient's email:");
+  if (email) {
+    alert(`Prescription would be sent to ${email}`);
+    // In production: Implement email sending
+  }
+};
+
+
+document.getElementById('saveDraft').onclick = () => {
+  const draft = {
+    clinic: document.getElementById('clinic').value,
+    doctor: document.getElementById('doctor').value,
+    date: document.getElementById('date').value,
+    patient: document.getElementById('patient').value,
+    age: document.getElementById('age').value,
+    gender: document.getElementById('gender').value,
+    diagnosis: document.getElementById('diagnosis').value,
+    notes: document.getElementById('notes').value,
+    teeth: state,
+    medicines: Array.from(document.querySelectorAll('.medicine-item')).map(item => ({
+      name: item.querySelector('.med-name').value,
+      dose: item.querySelector('.med-dose').value,
+      freq: item.querySelector('.med-freq').value
+    }))
+  };
+ 
+  localStorage.setItem('dentalDraft', JSON.stringify(draft));
+  alert("Draft saved successfully!");
+};
+
+
+// Load draft if exists
+window.addEventListener('load', () => {
+  const draft = localStorage.getItem('dentalDraft');
+  if (draft) {
+    const confirmLoad = confirm("Load saved draft?");
+    if (confirmLoad) {
+      const data = JSON.parse(draft);
+      // Load all form data
+      document.getElementById('clinic').value = data.clinic || '';
+      document.getElementById('doctor').value = data.doctor || '';
+      document.getElementById('date').value = data.date || '';
+      document.getElementById('patient').value = data.patient || '';
+      document.getElementById('age').value = data.age || '';
+      document.getElementById('gender').value = data.gender || '';
+      document.getElementById('diagnosis').value = data.diagnosis || '';
+      document.getElementById('notes').value = data.notes || '';
+     
+      // Load teeth state
+      if (data.teeth) {
+        state = data.teeth;
+        document.querySelectorAll('.tooth').forEach(tooth => {
+          const num = tooth.dataset.number;
+          if (state[num]) {
+            tooth.className = "tooth " + state[num];
+          }
+        });
+      }
+     
+      // Load medicines
+      if (data.medicines) {
+        medList.innerHTML = '';
+        data.medicines.forEach(med => {
+          const item = document.createElement('div');
+          item.className = 'medicine-item';
+          item.innerHTML = `
+            <input type="text" placeholder="Medicine Name" class="med-name" value="${med.name || ''}">
+            <input type="text" placeholder="Dosage" class="med-dose" value="${med.dose || ''}">
+            <input type="text" placeholder="Frequency" class="med-freq" value="${med.freq || ''}">
+            <button class="remove-medicine"><i class="fas fa-times"></i></button>
+          `;
+          item.querySelector('.remove-medicine').onclick = () => item.remove();
+          medList.appendChild(item);
+        });
+      }
+     
+      updatePreview();
+    }
+  }
+});
+
+
+// ========= ENHANCED TUTORIAL =========
+const steps = [
+  {t:"Welcome to Smart Dentistry",d:"This interactive dental chart helps you create detailed patient records and prescriptions.",el:null},
+  {t:"Select Condition",d:"Choose a dental condition from the color-coded buttons above.",el:".condition-selector"},
+  {t:"Mark Teeth",d:"Click on teeth to mark them with the selected condition. Click again to remove.",el:".dental-chart-wrapper"},
+  {t:"Auto Diagnosis",d:"Diagnosis updates automatically based on marked teeth.",el:"#diagnosis"},
+  {t:"Patient Details",d:"Fill in patient information in the form.",el:"#patient"},
+  {t:"Add Medicines",d:"Prescribe medications using the add medicine button.",el:"#addMed"},
+  {t:"Preview & Export",d:"Generate prescription preview and export options.",el:".preview-container"}
 ];
 
-let s=0;
-const overlay=document.getElementById("tutorialOverlay");
-const box=document.getElementById("tutorialBox");
-const tTitle=document.getElementById("tTitle");
-const tText=document.getElementById("tText");
-const next=document.getElementById("next");
-const prev=document.getElementById("prev");
-const tourArrow=document.getElementById("tourArrow");
 
-function showStep(){
-  document.querySelectorAll(".highlight").forEach(e=>e.classList.remove("highlight"));
+let s = 0;
+const overlay = document.getElementById("tutorialOverlay");
+const box = document.getElementById("tutorialBox");
+const tTitle = document.getElementById("tTitle");
+const tText = document.getElementById("tText");
+const next = document.getElementById("next");
+const prev = document.getElementById("prev");
+const tourArrow = document.getElementById("tourArrow");
+
+
+function showStep() {
+  document.querySelectorAll(".highlight").forEach(e => e.classList.remove("highlight"));
   const step = steps[s];
   tTitle.innerText = step.t;
   tText.innerHTML = `<div class="tour-progress">Step ${s+1} of ${steps.length}</div>${step.d}`;
 
-  if(step.el){
+
+  if (step.el) {
     const el = document.querySelector(step.el);
-    el.classList.add("highlight");
-    el.scrollIntoView({behavior:"smooth",block:"center"});
-    const r = el.getBoundingClientRect();
-    box.style.top = r.bottom + 15 + "px";
-    box.style.left = r.left + "px";
-    box.style.transform = "";
-    tourArrow.style.left = r.left + r.width/2 - 12 + "px";
-    tourArrow.style.top = r.top - 25 + "px";
-    tourArrow.style.display = "block";
-  }else{
+    if (el) {
+      el.classList.add("highlight");
+      el.scrollIntoView({behavior: "smooth", block: "center"});
+      const r = el.getBoundingClientRect();
+     
+      // Position tutorial box
+      box.style.top = Math.min(r.bottom + 15, window.innerHeight - 300) + "px";
+      box.style.left = Math.min(r.left, window.innerWidth - 380) + "px";
+     
+      // Position arrow
+      tourArrow.style.left = (r.left + r.width/2 - 12) + "px";
+      tourArrow.style.top = (r.top - 25) + "px";
+      tourArrow.style.display = "block";
+    }
+  } else {
     box.style.top = "50%";
     box.style.left = "50%";
-    box.style.transform = "translate(-50%,-50%)";
+    box.style.transform = "translate(-50%, -50%)";
     tourArrow.style.display = "none";
   }
+ 
+  // Update button states
+  prev.disabled = s === 0;
+  next.textContent = s === steps.length - 1 ? "Finish" : "Next";
 }
 
-document.getElementById("restartTutorial").onclick = ()=>{
-  s=0;
-  overlay.style.display="block";
+
+document.getElementById("restartTutorial").onclick = () => {
+  s = 0;
+  overlay.style.display = "block";
   showStep();
 };
 
-next.onclick = ()=>{
-  if(s<steps.length-1){s++; showStep();}
+
+next.onclick = () => {
+  if (s < steps.length - 1) {
+    s++;
+    showStep();
+  } else {
+    overlay.style.display = "none";
+  }
 };
 
-prev.onclick = ()=>{
-  if(s>0){s--; showStep();}
+
+prev.onclick = () => {
+  if (s > 0) {
+    s--;
+    showStep();
+  }
 };
+
+
+// Close tutorial on overlay click
+overlay.onclick = (e) => {
+  if (e.target === overlay) {
+    overlay.style.display = "none";
+  }
+};
+
+
+// Auto-start tutorial on first visit
+if (!localStorage.getItem('tutorialShown')) {
+  setTimeout(() => {
+    overlay.style.display = "block";
+    showStep();
+    localStorage.setItem('tutorialShown', 'true');
+  }, 1000);
+}
 </script>
 </body>
 </html>
