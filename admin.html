@@ -1823,6 +1823,7 @@
         background: #38bdf8;
         color: #fff;
       }
+      
        /* ============================================= */
     /* INTERACTIVE ONBOARDING TUTORIAL STYLES */
     /* ============================================= */
@@ -2319,7 +2320,386 @@
         padding: 10px 16px;
         border-radius: 8px;
         cursor: pointer;
-    }   
+    }  
+    /* ============================================= */
+    /* ADD PATIENT MODAL ENHANCEMENTS */
+    /* ============================================= */
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+        color: var(--text-color);
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .form-group label i {
+        color: var(--sidebar-active);
+        width: 16px;
+        text-align: center;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border-radius: 10px;
+        border: 2px solid var(--border-color);
+        background: var(--card-bg);
+        color: var(--text-color);
+        font-size: 14px;
+        font-family: 'Inter', sans-serif;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--sidebar-active);
+        box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.2);
+    }
+
+    .form-control::placeholder {
+        color: var(--text-muted);
+        opacity: 0.7;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    /* Special styling for date input */
+    input[type="date"].form-control,
+    input[type="time"].form-control,
+    input[type="tel"].form-control,
+    input[type="email"].form-control {
+        appearance: none;
+        -webkit-appearance: none;
+        background: var(--card-bg);
+    }
+
+    /* Custom select dropdown styling */
+    .form-control select {
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 16px;
+        padding-right: 40px;
+    }
+
+    /* Textarea specific styling */
+    textarea.form-control {
+        min-height: 100px;
+        resize: vertical;
+        line-height: 1.5;
+    }
+
+    /* Form validation styles */
+    .form-control.invalid {
+        border-color: #dc3545;
+        background-color: rgba(220, 53, 69, 0.05);
+    }
+
+    .form-control.valid {
+        border-color: #28a745;
+        background-color: rgba(40, 167, 69, 0.05);
+    }
+
+    /* Form section headers */
+    .form-section {
+        margin: 25px 0 15px 0;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .form-section h4 {
+        margin: 0;
+        color: var(--text-color);
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-section h4 i {
+        color: var(--sidebar-active);
+    }
+
+    /* Form hint text */
+    .form-hint {
+        display: block;
+        margin-top: 5px;
+        font-size: 12px;
+        color: var(--text-muted);
+        font-style: italic;
+    }
+
+    /* Required field indicator */
+    .required-field::after {
+        content: " *";
+        color: #dc3545;
+    }
+
+    /* Form grid for complex layouts */
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    /* Button group for form actions */
+    .form-button-group {
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    /* Loading state for form */
+    .form-loading {
+        position: relative;
+        opacity: 0.7;
+        pointer-events: none;
+    }
+
+    .form-loading::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.5);
+        z-index: 1;
+    }
+
+    /* Success message styling */
+    .form-success-message {
+        background: rgba(40, 167, 69, 0.1);
+        border: 1px solid rgba(40, 167, 69, 0.2);
+        border-radius: 8px;
+        padding: 15px;
+        margin: 15px 0;
+        color: #155724;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-success-message i {
+        color: #28a745;
+    }
+
+    /* Error message styling */
+    .form-error-message {
+        background: rgba(220, 53, 69, 0.1);
+        border: 1px solid rgba(220, 53, 69, 0.2);
+        border-radius: 8px;
+        padding: 15px;
+        margin: 15px 0;
+        color: #721c24;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-error-message i {
+        color: #dc3545;
+    }
+
+    /* Form footer with additional actions */
+    .form-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid var(--border-color);
+        font-size: 13px;
+        color: var(--text-muted);
+    }
+
+    /* Responsive adjustments for form */
+    @media (max-width: 768px) {
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .form-button-group {
+            flex-direction: column;
+        }
+        
+        .form-button-group button {
+            width: 100%;
+        }
+    }
+
+    /* Dark mode adjustments for form */
+    [data-theme="dark"] .form-control {
+        background: var(--card-bg);
+        color: var(--text-color);
+        border-color: var(--border-color);
+    }
+
+    [data-theme="dark"] .form-control:focus {
+        background: var(--hover-bg);
+    }
+
+    [data-theme="dark"] .form-success-message {
+        background: rgba(40, 167, 69, 0.15);
+        border-color: rgba(40, 167, 69, 0.3);
+    }
+
+    [data-theme="dark"] .form-error-message {
+        background: rgba(220, 53, 69, 0.15);
+        border-color: rgba(220, 53, 69, 0.3);
+    }
+
+    /* Animation for form submission */
+    @keyframes formSubmit {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+        100% { transform: translateY(0); }
+    }
+
+    .form-submitting {
+        animation: formSubmit 0.3s ease;
+    }
+
+    /* Floating labels style (optional enhancement) */
+    .floating-label-group {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .floating-label {
+        position: absolute;
+        top: 12px;
+        left: 15px;
+        font-size: 14px;
+        color: var(--text-muted);
+        background: var(--card-bg);
+        padding: 0 5px;
+        transition: all 0.3s ease;
+        pointer-events: none;
+    }
+
+    .floating-label.active {
+        top: -10px;
+        left: 10px;
+        font-size: 12px;
+        color: var(--sidebar-active);
+        font-weight: 500;
+    }
+
+    /* File upload styling */
+    .file-upload-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .file-upload-wrapper input[type="file"] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .file-upload-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 20px;
+        background: var(--hover-bg);
+        border: 2px dashed var(--border-color);
+        border-radius: 10px;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .file-upload-button:hover {
+        border-color: var(--sidebar-active);
+        color: var(--sidebar-active);
+        background: rgba(0, 191, 255, 0.1);
+    }
+
+    /* Checkbox and radio groups */
+    .checkbox-group,
+    .radio-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .checkbox-item,
+    .radio-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+
+    .checkbox-item input,
+    .radio-item input {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--sidebar-active);
+        cursor: pointer;
+    }
+
+    .checkbox-item label,
+    .radio-item label {
+        cursor: pointer;
+        user-select: none;
+        color: var(--text-color);
+    }
+
+    /* Rating stars for patient experience (optional) */
+    .rating-stars {
+        display: flex;
+        gap: 5px;
+        margin-top: 5px;
+    }
+
+    .rating-star {
+        color: var(--border-color);
+        font-size: 20px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .rating-star.active {
+        color: #ffc107;
+    }
+
+    .rating-star:hover {
+        color: #ffc107;
+    } 
 
 
     /* ============================================= */
@@ -2879,6 +3259,7 @@
             </div>
         </div>
     </div>
+    
 
     <!-- Reschedule Confirmation Modal -->
     <div id="rescheduleConfirmationModal" class="confirmation-modal">
@@ -2956,6 +3337,100 @@
             </div>
         </div>
     </div>
+    <!-- ============================================= -->
+<!-- SAMPLE TABLE WITH RESCHEDULE BUTTONS (FOR DEMONSTRATION) -->
+<!-- ============================================= -->
+<div id="rescheduleDemoSection" style="padding: 20px; max-width: 1200px; margin: 0 auto; display: none;">
+    <h2>Reschedule Demo Section</h2>
+    
+    <!-- Bulk Actions Section -->
+    <div class="bulk-actions" id="rescheduleDemoBulkActions" style="background: rgba(0, 191, 255, 0.1); padding: 10px 15px; border-radius: 6px; margin-bottom: 10px; display: none;">
+        <div class="selected-count" style="color: var(--text-color); font-weight: 500;">
+            <span id="rescheduleDemoSelectedCount">0</span> items selected
+        </div>
+        <div class="action-buttons" style="display: flex; gap: 10px;">
+            <button class="action-btn accept-btn" onclick="bulkAcceptDemoRequests()" style="padding: 8px 15px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                <i class="fas fa-check"></i> Accept Selected
+            </button>
+            <button class="action-btn reschedule-btn" onclick="showBulkRescheduleModal()" style="padding: 8px 15px; background: #ffc107; color: black; border: none; border-radius: 6px; cursor: pointer;">
+                <i class="fas fa-calendar-alt"></i> Reschedule Selected
+            </button>
+        </div>
+    </div>
+    
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <thead>
+            <tr style="background: var(--hover-bg);">
+                <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--border-color);">
+                    <input type="checkbox" id="rescheduleDemoSelectAll" onchange="toggleRescheduleDemoSelectAll()">
+                </th>
+                <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--border-color);">Patient Name</th>
+                <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--border-color);">Date</th>
+                <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--border-color);">Time</th>
+                <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--border-color);">Procedure</th>
+                <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--border-color);">Actions</th>
+            </tr>
+        </thead>
+        <tbody id="rescheduleDemoTable">
+            <tr>
+                <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">
+                    <input type="checkbox" class="reschedule-demo-checkbox" value="demo1">
+                </td>
+                <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">
+                    <i class="fas fa-user-circle" style="color: var(--sidebar-active); margin-right: 8px;"></i>
+                    Jane Smith
+                </td>
+                <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">Jan 2, 2026</td>
+                <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">10:00 AM</td>
+                <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">Tooth Extraction</td>
+                <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">
+                    <button class="accept-btn" onclick="showAcceptModal('demo1')" style="padding: 6px 12px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px;">
+                        <i class="fas fa-check"></i> Accept
+                    </button>
+                    <button class="reschedule-btn" onclick="showRescheduleModal('demo1')" style="padding: 6px 12px; background: #ffc107; color: black; border: none; border-radius: 4px; cursor: pointer;">
+                        <i class="fas fa-calendar-alt"></i> Reschedule
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">
+                    <input type="checkbox" class="reschedule-demo-checkbox" value="demo2">
+                </td>
+                <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">
+                    <i class="fas fa-user-circle" style="color: var(--sidebar-active); margin-right: 8px;"></i>
+                    John Doe
+                </td>
+                <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">Jan 3, 2026</td>
+                <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">2:00 PM</td>
+                <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">Dental Cleaning</td>
+                <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">
+                    <button class="accept-btn" onclick="showAcceptModal('demo2')" style="padding: 6px 12px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px;">
+                        <i class="fas fa-check"></i> Accept
+                    </button>
+                    <button class="reschedule-btn" onclick="showRescheduleModal('demo2')" style="padding: 6px 12px; background: #ffc107; color: black; border: none; border-radius: 4px; cursor: pointer;">
+                        <i class="fas fa-calendar-alt"></i> Reschedule
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div style="margin-top: 30px; padding: 20px; background: var(--hover-bg); border-radius: 10px;">
+        <h3>Test Buttons:</h3>
+        <button onclick="showRescheduleModal('test')" style="padding: 10px 20px; background: #ffc107; color: black; border: none; border-radius: 6px; cursor: pointer; margin-right: 10px;">
+            <i class="fas fa-calendar-alt"></i> Open Reschedule Modal
+        </button>
+        <button onclick="showBulkRescheduleModal()" style="padding: 10px 20px; background: #17a2b8; color: white; border: none; border-radius: 6px; cursor: pointer; margin-right: 10px;">
+            <i class="fas fa-calendar-alt"></i> Bulk Reschedule
+        </button>
+        <button onclick="testReminderModal()" style="padding: 10px 20px; background: var(--sidebar-active); color: white; border: none; border-radius: 6px; cursor: pointer;">
+            <i class="fas fa-bell"></i> Test Reminder Modal
+        </button>
+        <button onclick="toggleRescheduleDemoSection()" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 6px; cursor: pointer;">
+            <i class="fas fa-eye"></i> Toggle Demo Section
+        </button>
+    </div>
+</div>
 
 
     <!-- Calendar Date Picker Modal for Rescheduling -->
@@ -4219,6 +4694,208 @@ function formatDateUnworded(dateInput) {
             setTimeout(() => toast.remove(), 300);
         }, 3000);
     }
+    // =============================================
+// DEMONSTRATION FUNCTIONS FOR RESCHEDULE SYSTEM
+// =============================================
+
+// Test reminder modal
+function testReminderModal() {
+    showReminderModal({
+        patientName: 'Jane Smith',
+        oldDate: '2026-01-02',
+        newDate: '2029-01-15',
+        newTime: '08:00',
+        procedure: 'Tooth Extraction',
+        doctor: 'Dr. Admin',
+        contact: '+63 912 345 6789',
+        email: 'jane.smith@example.com'
+    });
+}
+
+// Toggle demo section visibility
+function toggleRescheduleDemoSection() {
+    const demoSection = document.getElementById('rescheduleDemoSection');
+    demoSection.style.display = demoSection.style.display === 'none' ? 'block' : 'none';
+}
+
+// Demo bulk accept
+function bulkAcceptDemoRequests() {
+    const selectedCheckboxes = document.querySelectorAll('.reschedule-demo-checkbox:checked');
+    showToast(`Accepted ${selectedCheckboxes.length} demo appointments`, 'success');
+}
+
+// Demo select all toggle
+function toggleRescheduleDemoSelectAll() {
+    const selectAll = document.getElementById('rescheduleDemoSelectAll');
+    const checkboxes = document.querySelectorAll('.reschedule-demo-checkbox');
+    checkboxes.forEach(cb => cb.checked = selectAll.checked);
+    updateRescheduleDemoBulkActions();
+}
+
+// Update demo bulk actions
+function updateRescheduleDemoBulkActions() {
+    const selectedCheckboxes = document.querySelectorAll('.reschedule-demo-checkbox:checked');
+    const selectedCount = selectedCheckboxes.length;
+    const bulkActions = document.getElementById('rescheduleDemoBulkActions');
+    
+    if (selectedCount > 0) {
+        bulkActions.style.display = 'flex';
+        document.getElementById('rescheduleDemoSelectedCount').textContent = selectedCount;
+    } else {
+        bulkActions.style.display = 'none';
+    }
+}
+
+// =============================================
+// ENHANCED REMINDER MODAL FUNCTIONS
+// =============================================
+
+// Update checkmark display for reminder modal
+function updateCheckmark(element, isChecked) {
+    const checkmark = element.querySelector('.checkmark');
+    const icon = checkmark.querySelector('i');
+    
+    if (isChecked) {
+        checkmark.style.background = 'var(--sidebar-active)';
+        checkmark.style.borderColor = 'var(--sidebar-active)';
+        icon.style.display = 'block';
+        element.style.borderColor = 'var(--sidebar-active)';
+    } else {
+        checkmark.style.background = 'transparent';
+        checkmark.style.borderColor = 'var(--border-color)';
+        icon.style.display = 'none';
+        element.style.borderColor = 'var(--border-color)';
+    }
+}
+
+// Set reminder time
+function setReminderTime() {
+    const dateTime = document.getElementById('scheduledDateTime').value;
+    if (!dateTime) {
+        showToast('Please select a date and time', 'warning');
+        return;
+    }
+    
+    const selectedTime = new Date(dateTime);
+    const now = new Date();
+    
+    if (selectedTime < now) {
+        showToast('Cannot schedule reminder in the past', 'error');
+        return;
+    }
+    
+    showToast(`Reminder scheduled for ${selectedTime.toLocaleString()}`, 'success');
+}
+
+// Test reminder (simulate sending)
+function testReminder() {
+    const smsChecked = document.getElementById('smsCheckbox').checked;
+    const emailChecked = document.getElementById('emailCheckbox').checked;
+    
+    if (!smsChecked && !emailChecked) {
+        showToast('Please select at least one communication channel', 'warning');
+        return;
+    }
+    
+    showLoading(true);
+    
+    setTimeout(() => {
+        showLoading(false);
+        showToast('Test reminder sent successfully!', 'success');
+        document.getElementById('reminderStatus').innerHTML = '<i class="fas fa-check-circle"></i> Test Sent';
+        document.getElementById('reminderStatus').style.color = '#28a745';
+        document.getElementById('reminderStatus').classList.add('success-pulse');
+        
+        setTimeout(() => {
+            document.getElementById('reminderStatus').classList.remove('success-pulse');
+        }, 500);
+    }, 1500);
+}
+
+// Save reminder template
+function saveReminderTemplate() {
+    const template = {
+        smsEnabled: document.getElementById('smsCheckbox').checked,
+        emailEnabled: document.getElementById('emailCheckbox').checked,
+        scheduleOption: document.querySelector('input[name="scheduleOption"]:checked').value,
+        lastUpdated: new Date().toISOString()
+    };
+    
+    // In a real app, save to localStorage or backend
+    localStorage.setItem('reminderTemplate', JSON.stringify(template));
+    console.log('Template saved:', template);
+}
+
+// Load reminder template
+function loadReminderTemplate() {
+    const savedTemplate = localStorage.getItem('reminderTemplate');
+    if (savedTemplate) {
+        try {
+            const template = JSON.parse(savedTemplate);
+            document.getElementById('smsCheckbox').checked = template.smsEnabled || true;
+            document.getElementById('emailCheckbox').checked = template.emailEnabled || true;
+            
+            // Update checkmarks
+            document.querySelectorAll('.channel-option').forEach(option => {
+                const checkbox = option.querySelector('.channel-checkbox');
+                if (checkbox) {
+                    updateCheckmark(option, checkbox.checked);
+                }
+            });
+            
+            if (template.scheduleOption === 'later') {
+                document.getElementById('sendLaterOption').checked = true;
+                document.getElementById('scheduleTimePicker').style.display = 'block';
+            }
+        } catch (e) {
+            console.error('Error loading template:', e);
+        }
+    }
+}
+
+// =============================================
+// INITIALIZATION ENHANCEMENTS
+// =============================================
+
+// Add this to your existing DOMContentLoaded event listener:
+document.addEventListener('DOMContentLoaded', function() {
+    // ... existing code ...
+    
+    // Add event listeners for demo checkboxes
+    document.querySelectorAll('.reschedule-demo-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', updateRescheduleDemoBulkActions);
+    });
+    
+    // Add event listeners for reminder modal channel options
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.channel-option')) {
+            const option = e.target.closest('.channel-option');
+            const checkbox = option.querySelector('.channel-checkbox');
+            if (checkbox) {
+                checkbox.checked = !checkbox.checked;
+                updateCheckmark(option, checkbox.checked);
+            }
+        }
+    });
+    
+    // Add event listeners for schedule options
+    const sendNowOption = document.getElementById('sendNowOption');
+    const sendLaterOption = document.getElementById('sendLaterOption');
+    
+    if (sendNowOption) {
+        sendNowOption.addEventListener('change', function() {
+            document.getElementById('scheduleTimePicker').style.display = this.checked ? 'none' : 'block';
+        });
+    }
+    
+    if (sendLaterOption) {
+        sendLaterOption.addEventListener('change', function() {
+            document.getElementById('scheduleTimePicker').style.display = this.checked ? 'block' : 'none';
+        });
+    }
+    
+    console.log('Enhanced reschedule system initialized');
+});
     // =============================================
     // RESCHEDULE FUNCTIONALITY - FULLY WORKING
     // =============================================
