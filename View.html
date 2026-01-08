@@ -368,45 +368,107 @@
         .content-container {
             padding: 30px;
             flex-grow: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
         }
 
-        /* ============================================= */
-        /* PATIENT INFO SECTION */
-        /* ============================================= */
-
-        /* Enhanced patient header card */
+        /* Enhanced patient header with gradient background */
         .patient-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
-            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 191, 255, 0.05) 100%);
-            padding: 30px;
-            border-radius: 14px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            background: linear-gradient(135deg, #ffffff 0%, rgba(19, 128, 211, 0.08) 100%);
+            padding: 32px 36px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(19, 128, 211, 0.12);
             border-left: 6px solid var(--primary);
+            border-right: 1px solid var(--border-color);
             animation: slideInLeft 0.5s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .patient-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.1), transparent);
+            border-radius: 50%;
+            transform: translate(100px, -100px);
         }
 
-        /* Enhanced info cards */
-        .info-card {
-            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(19, 128, 211, 0.02) 100%);
-            border-radius: 14px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-            padding: 28px;
+        .patient-name {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text-color);
+            margin: 0;
+            letter-spacing: -0.5px;
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .edit-profile-btn,
+        .add-schedule-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
             transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border: 1px solid rgba(0, 191, 255, 0.1);
+            box-shadow: 0 8px 24px rgba(19, 128, 211, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .edit-profile-btn:hover,
+        .add-schedule-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 40px rgba(19, 128, 211, 0.4);
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        }
+
+        .edit-profile-btn:active,
+        .add-schedule-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .edit-profile-btn i,
+        .add-schedule-btn i {
+            font-size: 16px;
+        }
+
+        /* Patient info grid with enhanced cards */
+        .patient-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(19, 128, 211, 0.03) 100%);
+            border-radius: 16px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+            padding: 32px;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid var(--border-color);
             position: relative;
             overflow: hidden;
         }
@@ -417,72 +479,94 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
             transform: scaleX(0);
             transform-origin: left;
-            transition: transform 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .info-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.1), transparent);
+            border-radius: 50%;
+            transform: translate(100px, -100px);
+            transition: all 0.4s ease;
         }
 
         .info-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+            transform: translateY(-12px);
+            box-shadow: 0 16px 48px rgba(19, 128, 211, 0.18);
+            border-color: var(--primary);
         }
 
         .info-card:hover::before {
             transform: scaleX(1);
         }
 
+        .info-card:hover::after {
+            transform: translate(80px, -120px);
+        }
+
         .info-card h3 {
-            margin: 0 0 20px 0;
-            padding-bottom: 15px;
+            margin: 0 0 24px 0;
+            padding-bottom: 16px;
             border-bottom: 2px solid var(--border-color);
             color: var(--text-color);
             font-size: 18px;
-            font-weight: 700;
+            font-weight: 800;
             display: flex;
             align-items: center;
             transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+            letter-spacing: -0.3px;
         }
 
         .info-card h3:before {
             content: '';
             display: inline-block;
-            width: 5px;
-            height: 20px;
+            width: 6px;
+            height: 24px;
             background: linear-gradient(180deg, var(--primary), var(--secondary));
-            margin-right: 12px;
+            margin-right: 14px;
             border-radius: 3px;
+            flex-shrink: 0;
         }
 
         .info-row {
             display: flex;
-            margin-bottom: 18px;
-            padding-bottom: 18px;
-            border-bottom: 1px dashed var(--border-color);
-            transition: all 0.2s ease;
+            margin-bottom: 20px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            z-index: 2;
         }
 
         .info-row:hover {
-            padding-left: 8px;
-            padding-right: 8px;
-            background: rgba(0, 191, 255, 0.03);
-            border-radius: 6px;
+            background: linear-gradient(135deg, rgba(19, 128, 211, 0.06), rgba(0, 196, 204, 0.04));
+            padding-left: 20px;
+            border-radius: 12px;
         }
 
         .info-row:last-child {
             margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
         }
 
         .info-label {
-            width: 160px;
+            width: 140px;
             font-weight: 700;
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
+            flex-shrink: 0;
         }
 
         .info-value {
@@ -490,58 +574,65 @@
             font-weight: 600;
             color: var(--text-color);
             font-size: 15px;
+            display: flex;
+            align-items: center;
         }
 
         /* Enhanced status badges */
         .status-badge {
-            display: inline-block;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 16px;
+            border-radius: 24px;
+            font-size: 12px;
+            font-weight: 800;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
+            gap: 6px;
         }
 
         .status-active {
-            background: linear-gradient(135deg, var(--active-status-bg), rgba(46, 204, 113, 0.08));
+            background: linear-gradient(135deg, var(--active-status-bg), rgba(46, 204, 113, 0.12));
             color: var(--active-status-text);
-            border: 1px solid rgba(39, 174, 96, 0.3);
+            border: 1.5px solid rgba(39, 174, 96, 0.4);
+        }
+
+        .status-active::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--active-status-text);
+            border-radius: 50%;
+            animation: pulse-active 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-active {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .status-inactive {
-            background: linear-gradient(135deg, var(--inactive-status-bg), rgba(231, 76, 60, 0.08));
+            background: linear-gradient(135deg, var(--inactive-status-bg), rgba(231, 76, 60, 0.12));
             color: var(--inactive-status-text);
-            border: 1px solid rgba(231, 76, 60, 0.3);
+            border: 1.5px solid rgba(231, 76, 60, 0.4);
         }
 
         .status-badge:hover {
-            transform: scale(1.08);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            transform: scale(1.1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
         }
 
-        /* Enhanced tabs */
+        /* Enhanced tabs container */
         .tabs-container {
             background: var(--card-bg);
-            border-radius: 14px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.08);
             overflow: hidden;
-            margin-bottom: 30px;
+            margin-bottom: 32px;
             border: 1px solid var(--border-color);
-            animation: slideInUp 0.5s ease;
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            animation: slideInUp 0.5s ease 0.1s both;
         }
 
         .tabs {
@@ -550,51 +641,89 @@
             border-bottom: 2px solid var(--border-color);
             padding: 0;
             overflow-x: auto;
+            scroll-behavior: smooth;
+        }
+
+        .tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .tabs::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .tabs::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
         }
 
         .tab {
-            padding: 16px 24px;
+            padding: 18px 26px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--tab-inactive-text);
             white-space: nowrap;
             border-bottom: 3px solid transparent;
             transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
             font-size: 15px;
+            letter-spacing: 0.3px;
+            flex-shrink: 0;
+        }
+
+        .tab::before {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .tab:hover {
             color: var(--primary);
-            background: rgba(52, 152, 219, 0.06);
+            background: linear-gradient(180deg, rgba(52, 152, 219, 0.08), transparent);
         }
 
         .tab.active {
             color: var(--primary);
-            border-bottom-color: var(--primary);
-            background: linear-gradient(180deg, rgba(52, 152, 219, 0.08), transparent);
-            font-weight: 700;
+            border-bottom-color: transparent;
+            background: linear-gradient(180deg, rgba(52, 152, 219, 0.1), transparent);
+            font-weight: 800;
+        }
+
+        .tab.active::before {
+            transform: scaleX(1);
         }
 
         .tab-content {
             display: none;
-            padding: 32px;
+            padding: 36px;
+            animation: fadeInScale 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .tab-content.active {
             display: block;
-            animation: fadeInScale 0.35s ease;
         }
 
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.98);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+        .appointments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            gap: 20px;
+        }
+
+        .appointments-header h3 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-color);
+            letter-spacing: -0.3px;
         }
 
         /* Enhanced appointments table */
@@ -602,47 +731,47 @@
             width: 100%;
             border-collapse: collapse;
             background-color: var(--card-bg);
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
             border: 1px solid var(--border-color);
         }
 
         .appointments-table th {
-            background: linear-gradient(135deg, var(--header-bg), rgba(19, 128, 211, 0.05));
-            font-weight: 700;
+            background: linear-gradient(135deg, var(--header-bg), rgba(19, 128, 211, 0.06));
+            font-weight: 800;
             color: var(--text-muted);
-            padding: 18px 20px;
+            padding: 20px 22px;
             text-align: left;
             border-bottom: 2px solid var(--border-color);
-            font-size: 13px;
+            font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 0.6px;
-            transition: all 0.2s ease;
+            letter-spacing: 0.7px;
+            transition: all 0.3s ease;
         }
 
         .appointments-table th:hover {
-            background: linear-gradient(135deg, rgba(19, 128, 211, 0.08), var(--header-bg));
+            background: linear-gradient(135deg, rgba(19, 128, 211, 0.12), var(--header-bg));
         }
 
         .appointments-table td {
-            padding: 18px 20px;
+            padding: 18px 22px;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
             color: var(--text-color);
             font-weight: 500;
+            font-size: 15px;
             transition: all 0.2s ease;
         }
 
         .appointments-table tbody tr {
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border-left: 4px solid transparent;
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-left: 5px solid transparent;
         }
 
         .appointments-table tbody tr:hover {
-            background-color: var(--hover-bg);
+            background: linear-gradient(90deg, rgba(19, 128, 211, 0.05), rgba(0, 196, 204, 0.03));
             border-left-color: var(--primary);
-            box-shadow: inset 4px 0 0 var(--primary);
         }
 
         .appointments-table tr:last-child td {
@@ -650,335 +779,643 @@
         }
 
         /* Enhanced status badges in table */
-        .status-completed {
-            color: var(--active-status-text);
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--active-status-bg), rgba(46, 204, 113, 0.1));
-            padding: 6px 12px;
-            border-radius: 20px;
-            display: inline-block;
+        .status-completed,
+        .status-pending,
+        .status-cancelled {
+            padding: 7px 14px;
+            border-radius: 22px;
+            display: inline-flex;
             font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
-            border: 1px solid rgba(39, 174, 96, 0.2);
+            letter-spacing: 0.5px;
+            font-weight: 800;
+            border: 1.5px solid;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .status-completed {
+            color: var(--active-status-text);
+            background: linear-gradient(135deg, var(--active-status-bg), rgba(46, 204, 113, 0.12));
+            border-color: rgba(39, 174, 96, 0.4);
+        }
+
+        .status-completed::before {
+            content: '✓';
+            font-weight: 900;
         }
 
         .status-pending {
             color: var(--pending-status-text);
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--pending-status-bg), rgba(243, 156, 18, 0.1));
-            padding: 6px 12px;
-            border-radius: 20px;
-            display: inline-block;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            border: 1px solid rgba(243, 156, 18, 0.2);
+            background: linear-gradient(135deg, var(--pending-status-bg), rgba(243, 156, 18, 0.12));
+            border-color: rgba(243, 156, 18, 0.4);
+        }
+
+        .status-pending::before {
+            content: '⏱';
+            font-size: 14px;
         }
 
         .status-cancelled {
             color: var(--inactive-status-text);
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--inactive-status-bg), rgba(231, 76, 60, 0.1));
-            padding: 6px 12px;
-            border-radius: 20px;
-            display: inline-block;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            border: 1px solid rgba(231, 76, 60, 0.2);
+            background: linear-gradient(135deg, var(--inactive-status-bg), rgba(231, 76, 60, 0.12));
+            border-color: rgba(231, 76, 60, 0.4);
         }
 
-        /* Enhanced edit and action buttons */
-        .edit-profile-btn,
-        .add-schedule-btn {
-            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 6px 20px rgba(19, 128, 211, 0.25);
+        .status-cancelled::before {
+            content: '✕';
+            font-weight: 900;
         }
 
-        .edit-profile-btn:hover,
-        .add-schedule-btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(19, 128, 211, 0.35);
-            background: linear-gradient(135deg, #0a5a9c, #1380d3) !important;
+        .status-completed:hover,
+        .status-pending:hover,
+        .status-cancelled:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
+        /* Action buttons */
         .action-btn {
-            background: none;
-            border: none;
+            background: linear-gradient(135deg, rgba(19, 128, 211, 0.12), rgba(0, 196, 204, 0.08));
+            border: 1.5px solid var(--border-color);
             cursor: pointer;
-            color: var(--text-muted);
+            color: var(--primary);
             font-size: 18px;
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            background: rgba(0, 191, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .action-btn:hover {
-            background-color: rgba(0, 191, 255, 0.15);
-            color: var(--primary);
-            transform: rotate(90deg) scale(1.1);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-4px) scale(1.08);
+            box-shadow: 0 8px 20px rgba(19, 128, 211, 0.3);
         }
 
-        /* Enhanced modal styling */
+        .action-btn:active {
+            transform: translateY(-2px) scale(1.04);
+        }
+
+        /* ============================================= */
+        /* ENHANCED FORM & MODAL STYLES */
+        /* ============================================= */
+
         .modal {
-            backdrop-filter: blur(5px);
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px);
+            align-items: center;
+            justify-content: center;
             animation: backdropFade 0.3s ease;
         }
 
-        @keyframes backdropFade {
-            from {
-                opacity: 0;
-                backdrop-filter: blur(0);
-            }
-            to {
-                opacity: 1;
-                backdrop-filter: blur(5px);
-            }
+        .modal.show {
+            display: flex;
         }
 
         .modal-content {
-            border-radius: 16px;
+            background: var(--modal-bg);
+            border-radius: 18px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+            max-width: 550px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
             animation: modalFlyIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
-        @keyframes modalFlyIn {
-            from {
-                opacity: 0;
-                transform: scale(0.85) translateY(-40px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
         .modal-header {
+            padding: 28px 32px;
             border-bottom: 2px solid var(--border-color);
-            background: linear-gradient(135deg, var(--card-bg), rgba(19, 128, 211, 0.03));
+            background: linear-gradient(135deg, var(--card-bg), rgba(19, 128, 211, 0.05));
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
         }
 
-        /* Form inputs in modal */
+        .modal-title {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-color);
+            letter-spacing: -0.4px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 32px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+            background: rgba(19, 128, 211, 0.1);
+        }
+
+        .modal-body {
+            padding: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--text-color);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
         .form-group input,
         .form-group select,
         .form-group textarea {
-            transition: all 0.3s ease;
-            border-radius: 9px;
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            color: var(--text-color);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(19, 128, 211, 0.02));
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            transform: translateY(-2px);
+            outline: none;
             border-color: var(--primary);
-            box-shadow: 0 8px 16px rgba(19, 128, 211, 0.2);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(19, 128, 211, 0.06));
+            box-shadow: 0 8px 24px rgba(19, 128, 211, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .modal-footer {
+            padding: 24px 32px;
+            border-top: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.02);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            position: sticky;
+            bottom: 0;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 8px 24px rgba(19, 128, 211, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(19, 128, 211, 0.4);
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--tab-inactive-bg), rgba(0, 0, 0, 0.02));
+            color: var(--text-color);
+            border: 1.5px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, rgba(240, 244, 248, 0.8), rgba(0, 0, 0, 0.04));
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            box-shadow: 0 8px 24px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(231, 76, 60, 0.4);
+            background: linear-gradient(135deg, #c0392b, #a93226);
         }
 
         .action-buttons {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
+            gap: 14px;
+            margin-top: 24px;
+        }
+
+        .action-buttons .btn {
+            justify-content: center;
         }
 
         /* ============================================= */
-        /* NOTIFICATION */
-        /* ============================================= */
-
-        .notification {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            padding: 18px 24px;
-            border-radius: 10px;
-            color: white;
-            font-weight: 600;
-            z-index: 1100;
-            opacity: 0;
-            transform: translateX(100px);
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            max-width: 400px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .notification.show {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .notification.success {
-            background: linear-gradient(to right, #2ecc71, #27ae60);
-            border-left: 5px solid #27ae60;
-        }
-
-        .notification.error {
-            background: linear-gradient(to right, #e74c3c, #c0392b);
-            border-left: 5px solid #c0392b;
-        }
-
-        .notification.info {
-            background: linear-gradient(to right, var(--primary), var(--primary-dark));
-            border-left: 5px solid var(--primary-dark);
-        }
-
-        .notification i {
-            font-size: 20px;
-        }
-
-        /* ============================================= */
-        /* RESPONSIVE DESIGN */
+        /* RESPONSIVE ENHANCEMENTS */
         /* ============================================= */
 
         @media (max-width: 1200px) {
             .patient-info-grid {
                 grid-template-columns: 1fr;
             }
-        }
 
-        @media (max-width: 992px) {
-            .sidebar {
-                width: 250px;
-            }
-            
             .content-container {
-                padding: 20px;
+                padding: 24px;
             }
         }
 
         @media (max-width: 768px) {
-            .dashboard {
-                flex-direction: column;
+            .content-container {
+                padding: 16px;
             }
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-                padding: 15px 0;
-            }
-            
-            .sidebar-header {
-                flex-direction: row;
-                padding: 15px;
-            }
-            
-            .sidebar-logo {
-                width: 70px;
-                height: 70px;
-                margin: 0 15px 0 0;
-                margin-top: 0;
-                margin-left: 0;
-            }
-            
-            .sidebar-title {
-                text-align: left;
-            }
-            
-            .sidebar-title p {
-                margin-left: 0;
-                margin-top: 5px;
-            }
-            
-            .sidebar-menu {
-                display: flex;
-                overflow-x: auto;
-                padding: 10px 0;
-            }
-            
-            .sidebar-menu li {
-                flex-shrink: 0;
-                margin-bottom: 0;
-            }
-            
-            .sidebar-menu a {
-                padding: 12px 15px;
-                border-left: none;
-                border-bottom: 3px solid transparent;
-            }
-            
-            .sidebar-menu a.active,
-            .sidebar-menu a:hover {
-                border-left: none;
-                border-bottom-color: var(--sidebar-active);
-                background-color: rgba(0, 191, 255, 0.2);
-            }
-            
-            .sidebar-footer {
-                display: none;
-            }
-            
-            .main-content {
-                margin-left: 0;
-                width: 100%;
-            }
-            
-            .tabs {
-                overflow-x: auto;
-                flex-wrap: nowrap;
-            }
-            
-            .tab {
-                padding: 14px 18px;
-                font-size: 14px;
-            }
-            
+
             .patient-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 15px;
+                gap: 16px;
+                padding: 24px;
             }
-            
-            .appointments-table {
-                display: block;
+
+            .patient-name {
+                font-size: 24px;
+            }
+
+            .info-card {
+                padding: 24px;
+            }
+
+            .info-label {
+                width: 110px;
+                font-size: 12px;
+            }
+
+            .tabs {
                 overflow-x: auto;
+            }
+
+            .tab {
+                padding: 14px 18px;
+                font-size: 13px;
+            }
+
+            .tab-content {
+                padding: 24px;
+            }
+
+            .appointments-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .add-schedule-btn {
+                width: 100%;
+            }
+
+            .modal-content {
+                width: 95%;
+                max-height: 95vh;
+            }
+
+            .modal-header,
+            .modal-body,
+            .modal-footer {
+                padding: 20px;
+            }
+
+            .modal-title {
+                font-size: 18px;
             }
         }
 
-        @media (max-width: 576px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-                padding: 15px;
-            }
-            
-            .header h2 {
-                font-size: 20px;
-            }
-            
-            .user-info {
-                align-self: flex-end;
-            }
-            
-            .content-container {
-                padding: 15px;
-            }
-            
-            .patient-name {
-                font-size: 22px;
-            }
-            
-            .modal-content {
-                padding: 20px;
-            }
-            
-            .modal-footer {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-            }
-        }
+        /* ============================================= */
+/* DENTAL CHART STYLES */
+/* ============================================= */
+
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: rgba(0, 191, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.legend-color.healthy {
+    background-color: #2ecc71;
+}
+
+.legend-color.decay {
+    background-color: #e74c3c;
+}
+
+.legend-color.filled {
+    background-color: #3498db;
+}
+
+.legend-color.missing {
+    background-color: #7f8c8d;
+}
+
+.legend-color.crown {
+    background-color: #f39c12;
+}
+
+.legend-color.root-canal {
+    background-color: #9b59b6;
+}
+
+.dental-chart-container {
+    margin: 30px 0;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--card-bg), rgba(255, 255, 255, 0.05));
+    border-radius: 15px;
+    border: 2px solid var(--border-color);
+}
+
+.jaw-section {
+    margin-bottom: 20px;
+}
+
+.jaw-section h4 {
+    margin: 0 0 15px 0;
+    color: var(--text-color);
+    font-size: 16px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.teeth-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.teeth-quadrant {
+    display: flex;
+    gap: 8px;
+}
+
+.teeth-quadrant.right-upper,
+.teeth-quadrant.right-lower {
+    flex-direction: row-reverse;
+}
+
+.teeth-quadrant.left-upper,
+.teeth-quadrant.left-lower {
+    flex-direction: row;
+}
+
+.tooth {
+    position: relative;
+    width: 50px;
+    height: 60px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.tooth:hover {
+    transform: translateY(-5px);
+}
+
+.tooth[data-condition="healthy"] .tooth-shape {
+    background-color: #2ecc71;
+}
+
+.tooth[data-condition="decay"] .tooth-shape {
+    background-color: #e74c3c;
+}
+
+.tooth[data-condition="filled"] .tooth-shape {
+    background-color: #3498db;
+}
+
+.tooth[data-condition="missing"] .tooth-shape {
+    background-color: #7f8c8d;
+    opacity: 0.5;
+}
+
+.tooth[data-condition="crown"] .tooth-shape {
+    background-color: #f39c12;
+}
+
+.tooth[data-condition="root-canal"] .tooth-shape {
+    background-color: #9b59b6;
+}
+
+.tooth-shape {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.tooth-number {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-color);
+    background: var(--card-bg);
+    padding: 2px 6px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.tooth-name {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-align: center;
+    max-width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.jaw-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.divider-line {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+}
+
+.tooth-details-panel {
+    margin-top: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--card-bg), rgba(0, 191, 255, 0.03));
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.tooth-details-panel h4 {
+    margin: 0 0 15px 0;
+    color: var(--text-color);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.tooth-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.detail-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.detail-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.detail-value {
+    font-size: 15px;
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+#edit-tooth-btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .teeth-quadrant {
+        gap: 6px;
+    }
+    
+    .tooth {
+        width: 45px;
+    }
+    
+    .tooth-shape {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@media (max-width: 992px) {
+    .teeth-row {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    
+    .teeth-quadrant {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .chart-legend {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .teeth-quadrant {
+        gap: 4px;
+    }
+    
+    .tooth {
+        width: 40px;
+    }
+    
+    .tooth-shape {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .tooth-name {
+        font-size: 8px;
+    }
+    
+    .tooth-details {
+        grid-template-columns: 1fr;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -1164,12 +1601,263 @@
                         </div>
                     </div>
                     
-                    <div class="tab-content" id="dental-chart-tab">
-                        <div class="info-card">
-                            <h3>Dental Chart</h3>
-                            <p>No dental chart recorded yet.</p>
+<div class="tab-content" id="dental-chart-tab">
+    <div class="info-card">
+        <h3>Dental Chart</h3>
+        
+        <!-- Chart Legend -->
+        <div class="chart-legend">
+            <div class="legend-item">
+                <span class="legend-color healthy"></span>
+                <span>Healthy</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color decay"></span>
+                <span>Decay</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color filled"></span>
+                <span>Filled</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color missing"></span>
+                <span>Missing</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color crown"></span>
+                <span>Crown</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color root-canal"></span>
+                <span>Root Canal</span>
+            </div>
+        </div>
+        
+        <!-- Dental Chart Container -->
+        <div class="dental-chart-container">
+            <!-- Upper Jaw -->
+            <div class="jaw-section upper-jaw">
+                <h4>Upper Jaw (Maxillary)</h4>
+                <div class="teeth-row">
+                    <!-- Right Quadrant (1-8) -->
+                    <div class="teeth-quadrant right-upper">
+                        <div class="tooth" data-tooth="1" data-condition="healthy">
+                            <span class="tooth-number">1</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Wisdom Tooth</span>
+                        </div>
+                        <div class="tooth" data-tooth="2" data-condition="crown">
+                            <span class="tooth-number">2</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Molar</span>
+                        </div>
+                        <div class="tooth" data-tooth="3" data-condition="filled">
+                            <span class="tooth-number">3</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Molar</span>
+                        </div>
+                        <div class="tooth" data-tooth="4" data-condition="healthy">
+                            <span class="tooth-number">4</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Premolar</span>
+                        </div>
+                        <div class="tooth" data-tooth="5" data-condition="healthy">
+                            <span class="tooth-number">5</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Premolar</span>
+                        </div>
+                        <div class="tooth" data-tooth="6" data-condition="decay">
+                            <span class="tooth-number">6</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Canine</span>
+                        </div>
+                        <div class="tooth" data-tooth="7" data-condition="healthy">
+                            <span class="tooth-number">7</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Incisor</span>
+                        </div>
+                        <div class="tooth" data-tooth="8" data-condition="healthy">
+                            <span class="tooth-number">8</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Incisor</span>
                         </div>
                     </div>
+                    
+                    <!-- Left Quadrant (9-16) -->
+                    <div class="teeth-quadrant left-upper">
+                        <div class="tooth" data-tooth="9" data-condition="healthy">
+                            <span class="tooth-number">9</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Incisor</span>
+                        </div>
+                        <div class="tooth" data-tooth="10" data-condition="healthy">
+                            <span class="tooth-number">10</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Incisor</span>
+                        </div>
+                        <div class="tooth" data-tooth="11" data-condition="filled">
+                            <span class="tooth-number">11</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Canine</span>
+                        </div>
+                        <div class="tooth" data-tooth="12" data-condition="healthy">
+                            <span class="tooth-number">12</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Premolar</span>
+                        </div>
+                        <div class="tooth" data-tooth="13" data-condition="healthy">
+                            <span class="tooth-number">13</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Premolar</span>
+                        </div>
+                        <div class="tooth" data-tooth="14" data-condition="root-canal">
+                            <span class="tooth-number">14</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Molar</span>
+                        </div>
+                        <div class="tooth" data-tooth="15" data-condition="crown">
+                            <span class="tooth-number">15</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Molar</span>
+                        </div>
+                        <div class="tooth" data-tooth="16" data-condition="missing">
+                            <span class="tooth-number">16</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Wisdom Tooth</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Divider -->
+            <div class="jaw-divider">
+                <div class="divider-line"></div>
+                <div class="divider-text">Occlusal Plane</div>
+                <div class="divider-line"></div>
+            </div>
+            
+            <!-- Lower Jaw -->
+            <div class="jaw-section lower-jaw">
+                <h4>Lower Jaw (Mandibular)</h4>
+                <div class="teeth-row">
+                    <!-- Left Quadrant (17-24) -->
+                    <div class="teeth-quadrant left-lower">
+                        <div class="tooth" data-tooth="17" data-condition="missing">
+                            <span class="tooth-number">17</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Wisdom Tooth</span>
+                        </div>
+                        <div class="tooth" data-tooth="18" data-condition="healthy">
+                            <span class="tooth-number">18</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Molar</span>
+                        </div>
+                        <div class="tooth" data-tooth="19" data-condition="filled">
+                            <span class="tooth-number">19</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Molar</span>
+                        </div>
+                        <div class="tooth" data-tooth="20" data-condition="healthy">
+                            <span class="tooth-number">20</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Premolar</span>
+                        </div>
+                        <div class="tooth" data-tooth="21" data-condition="decay">
+                            <span class="tooth-number">21</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Premolar</span>
+                        </div>
+                        <div class="tooth" data-tooth="22" data-condition="healthy">
+                            <span class="tooth-number">22</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Canine</span>
+                        </div>
+                        <div class="tooth" data-tooth="23" data-condition="healthy">
+                            <span class="tooth-number">23</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Incisor</span>
+                        </div>
+                        <div class="tooth" data-tooth="24" data-condition="healthy">
+                            <span class="tooth-number">24</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Incisor</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Quadrant (25-32) -->
+                    <div class="teeth-quadrant right-lower">
+                        <div class="tooth" data-tooth="25" data-condition="healthy">
+                            <span class="tooth-number">25</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Incisor</span>
+                        </div>
+                        <div class="tooth" data-tooth="26" data-condition="healthy">
+                            <span class="tooth-number">26</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Incisor</span>
+                        </div>
+                        <div class="tooth" data-tooth="27" data-condition="healthy">
+                            <span class="tooth-number">27</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Canine</span>
+                        </div>
+                        <div class="tooth" data-tooth="28" data-condition="filled">
+                            <span class="tooth-number">28</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Premolar</span>
+                        </div>
+                        <div class="tooth" data-tooth="29" data-condition="healthy">
+                            <span class="tooth-number">29</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Premolar</span>
+                        </div>
+                        <div class="tooth" data-tooth="30" data-condition="crown">
+                            <span class="tooth-number">30</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Molar</span>
+                        </div>
+                        <div class="tooth" data-tooth="31" data-condition="healthy">
+                            <span class="tooth-number">31</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Molar</span>
+                        </div>
+                        <div class="tooth" data-tooth="32" data-condition="healthy">
+                            <span class="tooth-number">32</span>
+                            <div class="tooth-shape"></div>
+                            <span class="tooth-name">Wisdom Tooth</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tooth Details Panel -->
+        <div class="tooth-details-panel">
+            <h4>Selected Tooth Details</h4>
+            <div class="tooth-details">
+                <div class="detail-row">
+                    <span class="detail-label">Tooth #:</span>
+                    <span class="detail-value" id="detail-tooth-number">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Name:</span>
+                    <span class="detail-value" id="detail-tooth-name">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Condition:</span>
+                    <span class="detail-value" id="detail-tooth-condition">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Notes:</span>
+                    <span class="detail-value" id="detail-tooth-notes">Click on a tooth to view details</span>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="edit-tooth-btn">
+                <i class="fas fa-edit"></i> Edit Tooth Details
+            </button>
+        </div>
+    </div>
+</div>
                     
                     <div class="tab-content" id="dental-certificate-tab">
                         <div class="info-card">
@@ -1427,6 +2115,115 @@
                     }
                 });
             });
+
+            // Dental Chart Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const teeth = document.querySelectorAll('.tooth');
+    const toothDetails = {
+        // Right Upper Quadrant
+        1: { name: "Third Molar (Wisdom Tooth)", notes: "Erupted normally, no issues" },
+        2: { name: "Second Molar", notes: "Porcelain crown placed 2023" },
+        3: { name: "First Molar", notes: "Composite filling - occlusal surface" },
+        4: { name: "Second Premolar", notes: "Healthy, no treatment needed" },
+        5: { name: "First Premolar", notes: "Slight attrition, monitor" },
+        6: { name: "Canine (Cuspid)", notes: "Early decay detected - requires filling" },
+        7: { name: "Lateral Incisor", notes: "Normal development" },
+        8: { name: "Central Incisor", notes: "Slight enamel discoloration" },
+        
+        // Left Upper Quadrant
+        9: { name: "Central Incisor", notes: "Normal alignment" },
+        10: { name: "Lateral Incisor", notes: "Minor chip - cosmetic monitoring" },
+        11: { name: "Canine (Cuspid)", notes: "Amalgam filling - buccal surface" },
+        12: { name: "First Premolar", notes: "No pathology detected" },
+        13: { name: "Second Premolar", notes: "Healthy occlusion" },
+        14: { name: "First Molar", notes: "Root canal treatment completed 2022" },
+        15: { name: "Second Molar", notes: "Gold crown - excellent condition" },
+        16: { name: "Third Molar (Wisdom Tooth)", notes: "Extracted 2021 due to impaction" },
+        
+        // Left Lower Quadrant
+        17: { name: "Third Molar (Wisdom Tooth)", notes: "Impacted, recommended for extraction" },
+        18: { name: "Second Molar", notes: "No caries detected" },
+        19: { name: "First Molar", notes: "Composite filling - distal surface" },
+        20: { name: "Second Premolar", notes: "Normal wear pattern" },
+        21: { name: "First Premolar", notes: "Decay on mesial surface - needs attention" },
+        22: { name: "Canine (Cuspid)", notes: "Healthy gingival attachment" },
+        23: { name: "Lateral Incisor", notes: "Slight rotation - orthodontic consult" },
+        24: { name: "Central Incisor", notes: "Normal enamel thickness" },
+        
+        // Right Lower Quadrant
+        25: { name: "Central Incisor", notes: "Minor calculus buildup" },
+        26: { name: "Lateral Incisor", notes: "Healthy periodontal status" },
+        27: { name: "Canine (Cuspid)", notes: "Normal occlusion" },
+        28: { name: "First Premolar", notes: "Glass ionomer filling - occlusal" },
+        29: { name: "Second Premolar", notes: "No restorative work needed" },
+        30: { name: "First Molar", notes: "PFM crown placed 2024" },
+        31: { name: "Second Molar", notes: "Developmental groove sealed" },
+        32: { name: "Third Molar (Wisdom Tooth)", notes: "Partially erupted, monitoring" }
+    };
+
+    const conditionLabels = {
+        'healthy': 'Healthy',
+        'decay': 'Decay Present',
+        'filled': 'Filled/Restored',
+        'missing': 'Missing/Extracted',
+        'crown': 'Crown',
+        'root-canal': 'Root Canal Treated'
+    };
+
+    // Tooth click handler
+    teeth.forEach(tooth => {
+        tooth.addEventListener('click', function() {
+            const toothNumber = this.getAttribute('data-tooth');
+            const toothCondition = this.getAttribute('data-condition');
+            
+            // Update details panel
+            document.getElementById('detail-tooth-number').textContent = toothNumber;
+            document.getElementById('detail-tooth-name').textContent = toothDetails[toothNumber]?.name || 'Unknown';
+            document.getElementById('detail-tooth-condition').textContent = conditionLabels[toothCondition] || 'Unknown';
+            document.getElementById('detail-tooth-notes').textContent = toothDetails[toothNumber]?.notes || 'No notes available';
+            
+            // Highlight selected tooth
+            teeth.forEach(t => t.classList.remove('selected'));
+            this.classList.add('selected');
+        });
+    });
+
+    // Edit tooth button
+    document.getElementById('edit-tooth-btn').addEventListener('click', function() {
+        const selectedTooth = document.querySelector('.tooth.selected');
+        if (!selectedTooth) {
+            showNotification('Please select a tooth first', 'error');
+            return;
+        }
+        
+        const toothNumber = selectedTooth.getAttribute('data-tooth');
+        const currentCondition = selectedTooth.getAttribute('data-condition');
+        
+        // In a real app, you would open a modal here to edit tooth details
+        showNotification(`Edit feature for Tooth #${toothNumber} would open here`, 'info');
+        
+        // Example: Prompt for new condition
+        const conditions = ['healthy', 'decay', 'filled', 'missing', 'crown', 'root-canal'];
+        const newCondition = conditions[Math.floor(Math.random() * conditions.length)];
+        
+        // Update the tooth
+        selectedTooth.setAttribute('data-condition', newCondition);
+        document.getElementById('detail-tooth-condition').textContent = conditionLabels[newCondition];
+        
+        showNotification(`Tooth #${toothNumber} updated to ${conditionLabels[newCondition]}`, 'success');
+    });
+
+    // Add CSS for selected tooth
+    const style = document.createElement('style');
+    style.textContent = `
+        .tooth.selected .tooth-shape {
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 15px rgba(19, 128, 211, 0.5);
+            transform: scale(1.1);
+        }
+    `;
+    document.head.appendChild(style);
+});
             
             // ================================
             // APPOINTMENT ACTIONS
@@ -1553,7 +2350,7 @@
                 newRow.innerHTML = `
                     <td>${formatDate(new Date(date))}</td>
                     <td>${treatment}</td>
-                    <td>${formatTime(time)}</td>
+                    <td>${time}</td>
                     <td>${comments}</td>
                     <td><span class="status-pending">Pending</span></td>
                     <td>
