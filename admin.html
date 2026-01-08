@@ -2329,6 +2329,7 @@
 
 
 <!-- Add Chart.js library before closing head tag -->
+<script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -2679,50 +2680,19 @@
 
     <!-- Bottom Right Container -->
     <div class="calendar-card">
-    <div class="calendar-header">
-        <button onclick="prevMonth()">‹</button>
-        <span id="calendarMonth">May 2025</span>
-        <button onclick="nextMonth()">›</button>
-    </div>
+       <div class="calendar-header">
+            <button onclick="prevMonth()">‹</button>
+            <span id="calendarMonth">May 2025</span>
+            <button onclick="nextMonth()">›</button>
+        </div>
 
-    <div class="calendar-grid">
-        <span>Sun</span><span>Mon</span><span>Tue</span>
-        <span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+        <div class="calendar-grid" id="calendarGrid">
+            <!-- Weekdays -->
+            <span>Sun</span><span>Mon</span><span>Tue</span>
+            <span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
 
-        <!-- sample dates -->
-        <button>1</button>
-        <button>2</button>
-        <button class="today">3</button>
-        <button>4</button>  
-        <button>5</button>
-        <button>6</button>      
-        <button>7</button>
-        <button>8</button>            
-        <button>9</button>  
-        <button>10</button>
-        <button>11</button>
-        <button>12</button>
-        <button>13</button>
-        <button>14</button>
-        <button>15</button>
-        <button>16</button>
-        <button>17</button>
-        <button>18</button>
-        <button>19</button>
-        <button>20</button>
-        <button>21</button>
-        <button>22</button>
-        <button>23</button>
-        <button>24</button>
-        <button>25</button>
-        <button>26</button>
-        <button>27</button>
-        <button>28</button>
-        <button>29</button>
-        <button>30</button>
-        <button>31</button>
-        
-    </div>
+            <!-- Dates will be generated here dynamically -->
+        </div>
     </div>
 
     <!-- Add Appointment Modal -->
@@ -2749,12 +2719,6 @@
                 <label><i class="fas fa-user"></i> Select Patient</label>
                 <select id="addPatientSelect" class="form-control">
                     <option value="">Select Patient</option>
-                    <option value="new">+ Add New Patient</option>
-                    <option value="P001">John Doe (P001)</option>
-                    <option value="P002">Jane Smith (P002)</option>
-                    <option value="P003">Michael Johnson (P003)</option>
-                    <option value="P004">Sarah Williams (P004)</option>
-                    <option value="P005">Robert Brown (P005)</option>
                 </select>
             </div> 
             <div class="form-row">
@@ -2773,15 +2737,6 @@
                     <label><i class="fas fa-stethoscope"></i> Procedure</label>
                     <select id="addAppointmentProcedure" class="form-control">
                         <option value="">Select Procedure</option>
-                        <option value="Dental Cleaning">Dental Cleaning</option>
-                        <option value="Root Canal">Root Canal</option>
-                        <option value="Tooth Extraction">Tooth Extraction</option>
-                        <option value="Dental Filling">Dental Filling</option>
-                        <option value="Dental Crown">Dental Crown</option>
-                        <option value="Dental Bridge">Dental Bridge</option>
-                        <option value="Dental Implant">Dental Implant</option>
-                        <option value="Teeth Whitening">Teeth Whitening</option>
-                        <option value="Consultation">Consultation</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -3714,6 +3669,212 @@
         }
     }
 
+     let calendarMonth = new Date().getMonth();
+    let calendarYear = new Date().getFullYear();
+
+    // Render calendar for month/year
+function renderCalendar() {
+    const calendarGrid = document.getElementById("calendarGrid");
+    const calendarMonthLabel = document.getElementById("calendarMonth");
+
+    const monthNames = [
+        "January","February","March","April","May","June",
+        "July","August","September","October","November","December"
+    ];
+
+    calendarMonthLabel.textContent = `${monthNames[calendarMonth]} ${calendarYear}`;
+
+    // Remove previous date buttons only
+    calendarGrid.querySelectorAll("button").forEach(btn => btn.remove());
+
+    const firstDay = new Date(calendarYear, calendarMonth, 1);
+    const lastDay = new Date(calendarYear, calendarMonth + 1, 0);
+    const startDay = firstDay.getDay();
+    const totalDays = lastDay.getDate();
+
+    // Offset blanks
+    for (let i = 0; i < startDay; i++) {
+        const emptyBtn = document.createElement("button");
+        emptyBtn.disabled = true;
+        emptyBtn.classList.add("empty");
+        calendarGrid.appendChild(emptyBtn);
+    }
+
+    const today = new Date();
+
+    // Render days
+    for (let day = 1; day <= totalDays; day++) {
+        const btn = document.createElement("button");
+        btn.textContent = day;
+
+        const dateStr = `${calendarYear}-${String(calendarMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+        // Highlight today
+        if (
+            today.getFullYear() === calendarYear &&
+            today.getMonth() === calendarMonth &&
+            today.getDate() === day
+        ) {
+            btn.classList.add("today");
+        }
+
+        // 👇 BACKEND HOOK IS HERE
+        btn.addEventListener("click", () => {
+            document
+                .querySelectorAll("#calendarGrid button.selected")
+                .forEach(b => b.classList.remove("selected"));
+
+            btn.classList.add("selected");
+
+            fetchAppointmentsForDate(formatDateUnworded(dateStr));
+            console.log(formatDateUnworded(dateStr));
+        });
+
+        calendarGrid.appendChild(btn);
+    }
+}
+
+function formatDateUnworded(dateInput) {
+    const date = new Date(dateInput);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // months are 0-indexed
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`; // "YYYY-MM-DD"
+}
+
+    async function getAllPatients() {
+        const select = document.getElementById("addPatientSelect");
+
+        // Preserve first two options
+        select.innerHTML = `
+            <option value="">Select Patient</option>
+        `;
+
+        try {
+            const res = await fetch(`${window.CONFIG.API_BASE_URL}/patients/`);
+            const patients = await res.json();
+
+            console.log("Fetched patients:", patients);
+
+            patients.forEach(patient => {
+                const option = document.createElement("option");
+                option.value = patient.patientId;
+                option.textContent = `${patient.patientName}`;
+                select.appendChild(option);
+            });
+
+        } catch (err) {
+            console.error("Failed to load patients:", err);
+        }
+    }
+
+
+    async function getAllProcedures() {
+        const select = document.getElementById("addAppointmentProcedure");
+
+        select.innerHTML = `
+            <option value="">Select Procedure</option>
+        `;
+
+        console.log("Cleared procedures select options");
+        try {
+            const res = await fetch(`${window.CONFIG.API_BASE_URL}/procedures/`);
+            const procedures = await res.json();
+
+            console.log("Fetched procedures:", procedures);
+
+            procedures.forEach(procedure => {
+                const option = document.createElement("option");
+                option.value = procedure.id;
+                option.textContent = `${procedure.procedure}`;
+                select.appendChild(option);
+            });
+
+        } catch (err) {
+            console.error("Failed to load procedures:", err);
+        }
+    }
+
+    async function getAllDentists() {
+        const select = document.getElementById("addAppointmentDentist");
+
+        // Preserve first two options
+        select.innerHTML = `
+            <option value="">Select Dentist</option>
+        `;
+
+        try {
+            // const res = await fetch(`${window.CONFIG.API_BASE_URL}/dentists/`);
+            // const dentists = await res.json();
+
+            console.log("Fetched dentists:", dentists);
+
+            dentists.forEach(dentist => {
+                const option = document.createElement("option");
+                option.value = dentist.id;
+                option.textContent = `${dentist.dentist_name}`;
+                select.appendChild(option);
+            });
+
+        } catch (err) {
+            console.error("Failed to load procedures:", err);
+        }
+    }
+
+    async function fetchAppointmentsForDate(dateStr) {
+        try {
+            // Show loading if you have a loader
+            showLoading(true);
+
+            // Fetch appointments for the selected date from your backend
+            const response = await fetch(`${window.CONFIG.API_BASE_URL}/appointments/${dateStr}`);
+            if (!response.ok) throw new Error('Failed to fetch appointments');
+
+            const data = await response.json();
+            console.log('Appointments for:', dateStr);
+            // Update today's appointments
+            todaysAppointments = data || [];
+            updateTodayAppointmentsTable();
+
+            // Update the label above table
+            const label = document.getElementById('todayDate');
+            if (label) {
+                label.textContent = new Date(dateStr).toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            }
+
+            showLoading(false);
+        } catch (err) {
+            console.error(err);
+            showLoading(false);
+            showToast('Unable to fetch appointments', 'error');
+        }
+    }
+
+
+    // Navigation
+    function prevMonth(){
+        calendarMonth--;
+        if(calendarMonth<0){
+            calendarMonth=11;
+            calendarYear--;
+        }
+        renderCalendar();
+    }
+
+    function nextMonth(){
+        calendarMonth++;
+        if(calendarMonth>11){
+            calendarMonth=0;
+            calendarYear++;
+        }
+        renderCalendar();
+    }
+
     function renderPatientActivityChart(data = [12, 19, 10, 22, 30, 25, 40]) {
         const ctx = document.getElementById('patientActivityChart');
         if (!ctx) return;
@@ -4223,11 +4384,13 @@
     try {
         showLoading(true);
 
+        console.log('Fetching appointments from backend...:'        );
         const response = await fetch(`${window.CONFIG.API_BASE_URL}/appointments/`);
         if (!response.ok) throw new Error('Failed to fetch appointments');
 
         const data = await response.json();
 
+        console.log('Fetched appointments data:', data);
         // Replace mock data with backend data
         appointmentRequests = data || [];
 
@@ -4268,6 +4431,7 @@
             return;
         }
 
+        console.log(todaysAppointments)
         todaysAppointments.forEach(apt => {
             const row = tbody.insertRow();
             row.innerHTML = `
@@ -4280,8 +4444,8 @@
                     >
                 </td>
                 <td>${apt.patient_name}</td>
-                <td>${apt.date}</td>
-                <td>${apt.time}</td>
+                <td>${apt.requested_date}</td>
+                <td>${apt.requested_time}</td>
                 <td>${apt.procedure}</td>
                 <td>${apt.status}</td>
                 <td>
@@ -4744,20 +4908,20 @@
 
     function showAddAppointmentModal() {
     // Set default date to today
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('addAppointmentDate').value = today;
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('addAppointmentDate').value = today;
+        getAllPatients();
+        getAllProcedures();
+        getAllDentists();
+
+
     
     // Set default time to next hour
     const nextHour = new Date();
     nextHour.setHours(nextHour.getHours() + 1);
     const timeString = nextHour.getHours().toString().padStart(2, '0') + ':00';
     document.getElementById('addAppointmentTime').value = timeString;
-    
-    // Clear other fields
-    document.getElementById('addPatientSelect').value = '';
-    document.getElementById('addAppointmentProcedure').value = '';
-    document.getElementById('addAppointmentDoctor').value = 'Dr. Admin';
-    document.getElementById('addAppointmentNotes').value = '';
+
     
     document.getElementById('addAppointmentModal').classList.add('active');
 }
@@ -4787,91 +4951,73 @@ function closeAddPatientModal() {
     document.getElementById('addPatientModal').classList.remove('active');
 }
 
-function saveNewAppointment() {
-    const patientSelect = document.getElementById('addPatientSelect').value;
-    const date = document.getElementById('addAppointmentDate').value;
-    const time = document.getElementById('addAppointmentTime').value;
-    const procedure = document.getElementById('addAppointmentProcedure').value;
-    const doctor = document.getElementById('addAppointmentDoctor').value;
-    const notes = document.getElementById('addAppointmentNotes').value;
-    
+async function saveNewAppointment() {
+    const appointmentData = {
+        patient_id: document.getElementById("addPatientSelect").value,
+        requested_date: document.getElementById("addAppointmentDate").value,
+        requested_time: document.getElementById("addAppointmentTime").value,
+        procedure_id: document.getElementById("addAppointmentProcedure").value,
+        doctor: document.getElementById("addAppointmentDoctor").value,
+        notes: document.getElementById("addAppointmentNotes").value
+    };
+
     // Validation
-    if (!patientSelect) {
-        showToast('Please select a patient', 'warning');
+    if (!appointmentData.patient_id) {
+        showToast("Please select a patient", "warning");
         return;
     }
-    
-    if (!date || !time) {
-        showToast('Please select date and time', 'warning');
+
+    if (!appointmentData.requested_date || !appointmentData.requested_time) {
+        showToast("Please select date and time", "warning");
         return;
     }
-    
-    if (!procedure) {
-        showToast('Please select a procedure', 'warning');
+
+    if (!appointmentData.procedure_id) {
+        showToast("Please select a procedure", "warning");
         return;
     }
-    
-    // Get patient name based on selection
-    let patientName = '';
-    if (patientSelect === 'new') {
-        // If new patient, open patient modal first
-        showToast('Please add patient details first', 'warning');
-        closeAddAppointmentModal();
-        setTimeout(() => showAddPatientModal(), 300);
-        return;
-    } else {
-        // Get patient name from existing data
-        const patientData = getPatientData(patientSelect);
-        patientName = patientData ? patientData.name : 'New Patient';
-    }
-    
+
     showLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-        showLoading(false);
-        
-        // Check if appointment is for today
-        const today = new Date().toISOString().split('T')[0];
-        const isToday = date === today;
-        
-        // Create new appointment
-        const newAppointment = {
-            id: 'apt_' + Date.now(),
-            patientName: patientName,
-            date: date,
-            time: time,
-            procedure: procedure,
-            doctor: doctor,
-            status: 'Scheduled',
-            notes: notes,
-            contact: '09123456789', // Default contact
-            email: 'patient@example.com', // Default email
-            patientId: patientSelect,
-            createdAt: new Date().toISOString()
-        };
+    console.log(document.getElementById("addPatientSelect").value)
+    console.log("Saving appointment:", appointmentData);
 
-        if (isToday) {
-            // Add to today's appointments
-            todaysAppointments.push(newAppointment);
-            showToast(`Appointment added for today at ${formatTime(time)}`, 'success');
-        } else {
-            // Add to appointment requests (for future dates)
-            appointmentRequests.push({
-                ...newAppointment,
-                requestedDate: date,
-                requestedTime: time,
-                status: 'Pending'
-            });
-            showToast(`Appointment scheduled for ${formatDate(date)}`, 'success');
-        }
+    try {
+        const savedAppointment = await addAppointmentToBackend(appointmentData);
 
-         updateTodayTable();
+        console.log("Appointment created:", savedAppointment);
+
+        fetchAppointmentsFromBackend();
+        updateRequestTable();
+        updateTodayAppointmentsTable();
         updateStats();
         closeAddAppointmentModal();
-        
-    }, 1000);
+        showToast("Appointment saved successfully", "success");
+
+    } catch (err) {
+        console.error(err);
+        showToast("Failed to save appointment", "error");
+    } finally {
+        showLoading(false);
+    }
 }
+
+async function addAppointmentToBackend(appointmentData) {
+    const res = await fetch(`${window.CONFIG.API_BASE_URL}/appointments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(appointmentData)
+    });
+
+    console.log("Response from backend:", res);
+
+    if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(errorText || "Failed to create appointment");
+    }
+
+    return res.json();
+}
+
 
 function saveNewPatient() {
     const firstName = document.getElementById('patientFirstName').value.trim();
@@ -5269,6 +5415,7 @@ function saveNewPatient() {
         initTutorial()
         // Show loading initially
         showLoading(true);
+        renderCalendar();
         
         // Set today's date
         const today = new Date();
