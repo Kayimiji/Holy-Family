@@ -1961,11 +1961,6 @@
 
         closeModal(document.getElementById("signup-modal"));
 
-        // ⏳ Small delay so user sees the toast
-        setTimeout(() => {
-            window.location.href = "admin.html";
-        }, 2000);
-
         } catch (err) {
             console.error(err);
             showToast(err.message, "error");
