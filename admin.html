@@ -2877,7 +2877,7 @@
 
 
     <p style="color: var(--text-color); margin: 5px; margin-left: 30px; margin-bottom: -100px; font-size: 1.2em;">Good Morning,</p>
-    <h2 style="color: var(--text-color); margin: 5px 0 5px; margin-top: 100px; margin-left: 30px; font-size: 2em;">Dr. Admin</h2>
+    <h2 id="admin-name" style="color: var(--text-color); margin: 5px 0 5px; margin-top: 100px; margin-left: 30px; font-size: 2em;">Dr. Admin</h2>
     <p style="color: var(--text-color); margin: 0; margin-top: 5px; margin-left: 30px;">Your schedule today.</p>
 
 
@@ -4141,6 +4141,21 @@
         const step = tutorialSteps[currentTutorialStep];
         if (step.tryAction && typeof window[step.tryAction] === 'function') {
             window[step.tryAction]();
+        }
+    }
+
+    const adminName = 'Dr. Admin'; // from API, session, or backend
+    const adminRole = 'Administrator'; // from API, session, or backend
+
+    document.getElementById('admin-name').textContent = adminName;
+    //document.getElementById('admin-role').textContent = adminRole;
+
+
+    async function getUserName() {
+        const response = sessionStorage.getItem("user");
+        if (response) {
+            const user = JSON.parse(response);
+            return user.name || "Admin";
         }
     }
 
