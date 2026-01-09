@@ -7,6 +7,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sidebar/sidebar.css">
 
 <style>
 :root {
@@ -777,47 +778,8 @@ body {
 <body>
 <div class="dashboard">
   <!-- Sidebar Navigation -->
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <div class="logo-container">
-        <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
-      </div>
-      <div class="sidebar-title">
-        <h2>
-          <span>SMART</span><br>
-          <span>DENTISTRY</span>
-        </h2>
-      </div>
-    </div>
-    <ul class="sidebar-menu">
-      <li><a href="admin.html"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
-      
-      <!-- My Clinic Dropdown - FIXED -->
-      <li class="dropdown" id="myClinicDropdown">
-        <a href="javascript:void(0)" class="dropdown-toggle">
-          <i class="fas fa-tooth"></i>
-          <span>My Clinic</span>
-          <i class="fas fa-chevron-down arrow"></i>
-        </a>
-        <ul class="submenu">
-          <li><a href="clinic-profile.html"><i class="fas fa-hospital"></i> <span>Clinic Profile</span></a></li>
-          <li><a href="Dental-Chart.html" class="active"><i class="fas fa-chart-pie"></i> <span>Dental Chart</span></a></li>
-          <li><a href="Braces-Treatment.html"><i class="fas fa-tooth"></i> <span>Braces Treatment</span></a></li>
-        </ul>
-      </li>
-      
-      <li><a href="patients.html"><i class="fas fa-users"></i> <span>Patients</span></a></li>
-      <li><a href="Finance.html"><i class="fas fa-chart-line"></i> <span>Finance and Reports</span></a></li>
-      <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i> <span>Data Backup</span></a></li>
-    </ul>
-    
-    <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-      <ul class="sidebar-menu settings-menu">
-        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
-        <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
-      </ul>
-    </div>
-  </div>
+  <div id="sidebar-container"></div>
+
 
   <!-- TOP NAVIGATION HEADER -->
   <header class="top-header">
@@ -1544,5 +1506,9 @@ if (!localStorage.getItem('tutorialShown')) {
   }, 1000);
 }
 </script>
+    <script type="module">
+        import { loadSidebar } from './sidebar/sidebar.js';
+        loadSidebar('sidebar-container');
+    </script>
 </body>
 </html>

@@ -7,6 +7,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sidebar/sidebar.css">
 
       <style>
       :root {
@@ -59,48 +60,6 @@
             overflow: hidden;
             color: var(--text-color);
         }
-        .sidebar {
-            background-color: var(--sidebar-bg);
-            color: var(--sidebar-text);
-            padding: 20px 0;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
-        }
-        .sidebar-logo {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            margin-right: 15px;
-            object-fit: cover;
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            flex-shrink: 0;
-        }
-         .holy-family, .dental-clinic {
-            color: #00bfff;
-            font-weight: bold;
-        
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            flex: 1;
-        }
-
-        .sidebar-menu li {
-            margin-bottom: 5px;
-        }
-
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
 
         .main-content {
             flex-direction: column;
@@ -119,129 +78,6 @@
             margin-top: -20px;
         }
 
-
-        .return-home-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-
-        .return-home-menu li {
-            margin-bottom: 5px;
-        }
-
-
-        .return-home-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-
-        .return-home-menu a:hover, .return-home-menu a.active {
-            background-color: rgba(0, 191, 255, 0.2);
-            color: white;
-            border-left: 3px solid var(--sidebar-active);
-        }
-
-
-        .return-home-menu i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-
-        .sidebar-title h2 {
-            color: var(--sidebar-active);
-            margin: 0;
-            font-size: 18px;
-            line-height: 1;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            white-space: nowrap;
-        }
-
-
-        .sidebar-title p {
-            color: var(--sidebar-text);
-            font-size: 12px;
-            margin-top: 10px;
-            margin-left: -40px;
-            font-style: italic;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-            white-space: normal;
-        }
-
-
-        .holy-family {
-            color: #00bbff;
-            font-weight: bold;
-        }
-
-
-        .dental-clinic {
-            color: #00bbff;
-            font-weight: bold;
-        }
-
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-
-        .sidebar-menu li {
-            margin-bottom: 5px;
-        }
-
-
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-
-        .sidebar-menu a:hover, .sidebar-menu a.active {
-            background-color: rgba(0, 191, 255, 0.2);
-            color: white;
-            border-left: 3px solid var(--sidebar-active);
-        }
-
-
-        .sidebar-menu i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-
-
-        .settings-menu a:hover, .return-home-menu a:hover {
-            background-color: rgba(0, 191, 255, 0.2);
-            color: white;
-            border-left: 3px solid var(--sidebar-active);
-            display: block;
-            width: 100%;
-            padding-right: 25px;
-        }
         /* Dropdown Styles */
         .dropdown {
          position: relative;
@@ -408,111 +244,6 @@ body {
   bottom: 0;
 }
 
-/* ============================================= */
-/* COMPACT SIDEBAR */
-/* ============================================= */
-.sidebar {
-  background-color: var(--sidebar-bg);
-  color: rgba(255, 255, 255, 0.9);
-  padding: 15px 0;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease;
-  width: 200px;
-  overflow-y: auto;
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 10;
-  height: 100vh;
-  flex-shrink: 0;
-}
-
-/* COMPACT SIDEBAR HEADER */
-.sidebar-header {
-  display: flex;
-  align-items: center;
-  padding: 15px;
-  margin-bottom: 20px;
-}
-
-.sidebar-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--sidebar-active), #0099cc);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
-}
-
-.sidebar-logo i {
-  font-size: 18px;
-  color: white;
-}
-
-.sidebar-title h2 {
-  color: var(--sidebar-active);
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.2;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.sidebar-title p {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 11px;
-  margin-top: 4px;
-  font-style: italic;
-}
-
-/* COMPACT SIDEBAR MENU */
-.sidebar-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar-menu li {
-  margin-bottom: 4px;
-}
-
-.sidebar-menu a {
-  display: flex;
-  align-items: center;
-  padding: 10px 15px;
-  color: rgba(255, 255, 255, 0.9);
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-size: 13px;
-}
-
-.sidebar-menu a:hover,
-.sidebar-menu a.active {
-  background-color: rgba(0, 191, 255, 0.2);
-  color: white;
-  border-left: 3px solid var(--sidebar-active);
-  padding-left: 12px;
-}
-
-.sidebar-menu i {
-  margin-right: 8px;
-  width: 16px;
-  text-align: center;
-  font-size: 14px;
-}
-
-.logout-btn {
-  margin-top: 15px;
-  background-color: rgba(255, 0, 0, 0.1);
-}
-
-.logout-btn:hover {
-  background-color: rgba(255, 0, 0, 0.2) !important;
-}
 
 /* ===== FIXED MAIN CONTENT ===== */
 .main {
@@ -1316,52 +1047,7 @@ tr:last-child td {
 
    <div class="dashboard">
     <!-- Sidebar Navigation -->
-    <div class="sidebar">
-    <div class="sidebar-header">
-    <div class="logo-container">
-    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
-    <div class="logo-glow"></div>
-    </div>
-    <div class="sidebar-title">
-    <h2>
-    <span class="holy-family">SMART</span><br>
-    <span class="dental-clinic">DENTISTRY</span>
-    </h2>
-    </div>
-    </div>
-    <ul class="sidebar-menu">
-    <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-    
-    <!-- My Clinic Dropdown -->
-      <li class="dropdown" id="myClinicDropdown">
-        <a href="javascript:void(0)" class="dropdown-toggle" onclick="toggleDropdown(event)">
-          <i class="fas fa-tooth"></i>
-          <span>My Clinic</span>
-          <i class="fas fa-chevron-down arrow"></i>
-        </a>
-        <ul class="submenu">
-          <li><a href="clinic-profile.html"><i class="fas fa-hospital"></i> Clinic Profile</a></li>
-          <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
-          <li><a href="Braces-Treatment.html"><i class="fas fa-tooth"></i> Braces Treatment</a></li>
-        </ul>
-    </li>
-    <li><a href="patients.html"><i class="fas fa-users"></i><span>Patients</span></a></li>
-    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-    <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i><span> Data BackUp</a></li>
-
-    </ul>
-    <!-- Add Return to Home menu at the bottom -->
-    <div style="position: absolute; bottom: 20px; width: 13%;">
-    <div style="position: absolute; bottom: 20px; width: 100%;">
-    <ul class="sidebar-menu settings-menu">
-    <li><a href="adminsettings.html"><i class="fas fa-cog"></i> Settings</a></li>
-    </ul>
-    <ul class="sidebar-menu return-home-menu">
-    <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
-    </ul>
-    </div>
-    </div>
-    </div>
+    <div id="sidebar-container"></div>
 
 <!-- FIXED MAIN CONTENT -->
 <div class="main">
@@ -2217,6 +1903,10 @@ window.addEventListener("load", () => {
 
 // Initialize progress
 updateTreatmentProgress();
+</script>
+<script type="module">
+    import { loadSidebar } from './sidebar/sidebar.js';
+    loadSidebar('sidebar-container');
 </script>
 </body>
 </html>

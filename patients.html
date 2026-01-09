@@ -6,6 +6,8 @@
     <title>Patients - Holy Family Dental Clinic</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="sidebar/sidebar.css">
+
     <style>
         /* ============================================= */
         /* BASE STYLES & VARIABLES */
@@ -2179,51 +2181,7 @@
 <body>
     <div class="dashboard">
         <!-- Sidebar Navigation -->
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo-container">
-                    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
-                    <div class="logo-glow"></div>
-                </div>
-                <div class="sidebar-title">
-                    <h2>
-                        <span class="holy-family">SMART</span><br>
-                        <span class="dental-clinic">DENTISTRY</span>
-                    </h2>
-                </div>
-            </div>
-            <ul class="sidebar-menu">
-                <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                <!-- My Clinic Dropdown -->
-                <li class="dropdown" id="myClinicDropdown">
-                    <a href="javascript:void(0)" class="dropdown-toggle" onclick="toggleDropdown(event)">
-                    <i class="fas fa-tooth"></i>
-                    <span>My Clinic</span>
-                    <i class="fas fa-chevron-down arrow"></i>
-                    </a>
-                    <ul class="submenu">
-                    <li><a href="clinic-profile.html"><i class="fas fa-hospital"></i> Clinic Profile</a></li>
-                    <li><a href="odontogram-prescription.html"><i class="fas fa-tooth"></i> Dental Chart</a></li>
-                    <li><a href="Braces-Treatment.html"><i class="fas fa-tooth"></i> Braces Treatment</a></li>
-                    </ul>
-                </li>
-                <li><a href="patients.html"><i class="fas fa-users"></i><span>Patients</span></a></li>
-                <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
-                <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i><span> Data BackUp</a></li>
-  
-            </ul>
-            <!-- Add Return to Home menu at the bottom -->
-            <div style="position: absolute; bottom: 20px; width: 13%;">
-                <div style="position: absolute; bottom: 20px; width: 100%;">
-                    <ul class="sidebar-menu settings-menu">
-                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-                    </ul>
-                    <ul class="sidebar-menu return-home-menu">
-                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <div id="sidebar-container"></div>
 
         <div class="main-content">
             <div class="theme-switcher">
@@ -3570,6 +3528,11 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
+    </script>
+
+    <script type="module"> 
+        import { loadSidebar } from './sidebar/sidebar.js';
+        loadSidebar('sidebar-container');
     </script>
 </body>
 </html>

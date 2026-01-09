@@ -1,0 +1,127 @@
+:root {
+    --statcards-bg: #00bfff98;
+    --calendarmodal-bg: #00bfff98;
+    --bg-color: #f5f7fa;
+    --sidebar-bg: #1e293b;
+    --sidebar-text: rgba(255, 255, 255, 0.9);
+    --sidebar-active: #00bfff;
+    --card-bg: #ffffff;
+    --text-color: #2e3b48;
+    --text-muted: #7a8ba9;
+    --border-color: #e1e5eb;
+    --hover-bg: #f0f4f8;
+    --today-bg: #e6f7ff;
+    --selected-bg: #00bfff;
+    --selected-text: white;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --modal-bg: #ffffff;
+    --modal-text: #2c3e50;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --calendar-day-bg: var(--card-bg);
+    --calendar-today-bg: var(--sidebar-active);
+    --calendar-today-color: white;
+    --calendar-selected-bg: rgba(0, 191, 255, 0.2);
+}
+
+.sidebar {
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  padding: 20px 0;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.sidebar-logo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sidebar-title h2 {
+  margin: 0;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.holy-family,
+.dental-clinic {
+  color: #00bbff;
+  font-weight: bold;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  margin-bottom: 5px;
+}
+
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: var(--sidebar-text);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+  background-color: rgba(0,191,255,0.2);
+  color: #fff;
+  border-left: 3px solid var(--sidebar-active);
+}
+
+.sidebar-menu i {
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+}
+
+/* Dropdown */
+.dropdown-toggle {
+  justify-content: space-between;
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+.dropdown.active .arrow {
+  transform: rotate(180deg);
+}
+
+.submenu {
+  list-style: none;
+  padding: 0;
+  background: rgba(0,0,0,0.2);
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.dropdown.active .submenu {
+  max-height: 300px;
+}
+
+/* Footer */
+.sidebar-footer {
+  bottom: 20px;
+  width: 100%;
+  margin-bottom: 40px;
+}
