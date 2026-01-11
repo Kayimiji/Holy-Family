@@ -24,6 +24,9 @@
       --danger: #f44336;
       --info: #2196F3;
       --purple: #9C27B0;
+      --orange: #FF5722;
+      --pink: #E91E63;
+      --teal: #009688;
       --shadow: 0 2px 10px rgba(0,0,0,0.08);
       --transition: all 0.3s ease;
     }
@@ -45,6 +48,9 @@
       --danger: #fc8181;
       --info: #63b3ed;
       --purple: #b794f4;
+      --orange: #ed8936;
+      --pink: #f687b3;
+      --teal: #38b2ac;
       --shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
     
@@ -435,19 +441,31 @@
       color:var(--danger);
     }
     
-    /* ========== CHARTS - FIXED ========== */
+    /* ========== ENHANCED CHARTS SECTION ========== */
+    .charts-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(500px, 1fr));
+      gap:20px;
+      margin-bottom:30px;
+    }
+    
+    @media (max-width: 1200px) {
+      .charts-grid{
+        grid-template-columns:1fr;
+      }
+    }
+    
     .chart-container{
       background:var(--card-bg);
       border-radius:10px;
       padding:20px;
-      margin-bottom:30px;
       box-shadow:var(--shadow);
       border:1px solid var(--border-color);
-      height:380px; /* Fixed height na magkakasya */
+      height:420px;
       transition: var(--transition);
       position: relative;
-      overflow: hidden; /* Para hindi lumabas ang content */
-      width: 100%; /* Siguraduhin na full width pero hindi lalampas */
+      overflow: hidden;
+      width: 100%;
     }
     
     .chart-header{
@@ -465,11 +483,108 @@
       color:var(--text-color);
     }
     
+    .chart-controls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    
+    .chart-toggle{
+      display:flex;
+      background:var(--hover-bg);
+      border-radius:8px;
+      padding:4px;
+      border:1px solid var(--border-color);
+    }
+    
+    .chart-toggle-btn{
+      padding:6px 12px;
+      border:none;
+      border-radius:6px;
+      font-family:"Poppins",sans-serif;
+      font-size:12px;
+      font-weight:600;
+      cursor:pointer;
+      transition: var(--transition);
+      background:transparent;
+      color:var(--text-color);
+      opacity:0.7;
+    }
+    
+    .chart-toggle-btn.active{
+      background:var(--primary);
+      color:white;
+      opacity:1;
+    }
+    
+    .chart-comparison{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    
+    .comparison-select{
+      padding:8px 12px;
+      border:1px solid var(--border-color);
+      border-radius:6px;
+      font-family:"Poppins",sans-serif;
+      font-size:13px;
+      background:var(--card-bg);
+      color:var(--text-color);
+      min-width:120px;
+    }
+    
     /* Chart canvas na magkakasya sa container */
     .chart-container canvas {
       width: 100% !important;
-      height: 280px !important; /* Magkasya sa container */
-      max-height: 280px;
+      height: 320px !important;
+      max-height: 320px;
+    }
+    
+    /* ========== COMPARISON STATS ========== */
+    .comparison-stats{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+      gap:15px;
+      margin-top:20px;
+      padding-top:20px;
+      border-top:1px solid var(--border-color);
+    }
+    
+    .comparison-stat{
+      text-align:center;
+      padding:15px;
+      background:var(--primary-light);
+      border-radius:8px;
+      border:1px solid var(--border-color);
+    }
+    
+    .comparison-stat .label{
+      font-size:12px;
+      color:var(--text-color);
+      opacity:0.7;
+      margin-bottom:5px;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+    }
+    
+    .comparison-stat .value{
+      font-size:20px;
+      font-weight:700;
+      color:var(--primary);
+    }
+    
+    .comparison-stat .change{
+      font-size:11px;
+      margin-top:3px;
+    }
+    
+    .comparison-stat .change.positive{
+      color:var(--success);
+    }
+    
+    .comparison-stat .change.negative{
+      color:var(--danger);
     }
     
     /* ========== AUDIT LOGS SECTION ========== */
@@ -1290,11 +1405,11 @@
       }
       
       .chart-container {
-        height: 360px; /* Adjust height for medium screens */
+        height: 400px;
       }
       
       .chart-container canvas {
-        height: 260px !important;
+        height: 300px !important;
       }
     }
     
@@ -1348,12 +1463,12 @@
       }
       
       .chart-container {
-        height: 340px;
+        height: 380px;
         padding: 15px;
       }
       
       .chart-container canvas {
-        height: 240px !important;
+        height: 280px !important;
       }
     }
     
@@ -1402,13 +1517,13 @@
       
       /* Adjust chart for mobile */
       .chart-container{
-        height: 320px;
+        height: 360px;
         padding: 12px;
       }
       
       .chart-container canvas {
-        height: 220px !important;
-        max-height: 220px;
+        height: 260px !important;
+        max-height: 260px;
       }
       
       .chart-header {
@@ -1457,12 +1572,12 @@
       
       /* Further adjust chart for small screens */
       .chart-container{
-        height: 300px;
+        height: 340px;
       }
       
       .chart-container canvas {
-        height: 200px !important;
-        max-height: 200px;
+        height: 240px !important;
+        max-height: 240px;
       }
       
       .stat-value {
@@ -1686,17 +1801,103 @@
         </div>
       </div>
 
-      <!-- Chart - FIXED SIZE -->
-      <div class="chart-container">
-        <div class="chart-header">
-          <div class="chart-title">Monthly Financial Performance</div>
-          <select class="filter-control" style="width: 200px;" id="chartPeriod">
-            <option value="monthly">Last 6 Months</option>
-            <option value="quarterly">Last 4 Quarters</option>
-            <option value="yearly">Last 3 Years</option>
-          </select>
+      <!-- Enhanced Charts Section -->
+      <div class="charts-grid">
+        <!-- Year-over-Year Comparison Chart -->
+        <div class="chart-container">
+          <div class="chart-header">
+            <div class="chart-title">Year-over-Year Sales Comparison</div>
+            <div class="chart-controls">
+              <div class="chart-toggle">
+                <button class="chart-toggle-btn active" onclick="toggleChartType('yearly', this)">Yearly</button>
+                <button class="chart-toggle-btn" onclick="toggleChartType('monthly', this)">Monthly</button>
+                <button class="chart-toggle-btn" onclick="toggleChartType('daily', this)">Daily</button>
+              </div>
+              <div class="chart-comparison">
+                <select class="comparison-select" id="compareYear1" onchange="updateYearComparisonChart()">
+                  <option value="2025">2025</option>
+                  <option value="2024">2024</option>
+                  <option value="2023">2023</option>
+                  <option value="2022">2022</option>
+                  <option value="2021">2021</option>
+                </select>
+                <span style="color: var(--text-color); opacity: 0.7;">vs</span>
+                <select class="comparison-select" id="compareYear2" onchange="updateYearComparisonChart()">
+                  <option value="2024">2024</option>
+                  <option value="2023">2023</option>
+                  <option value="2022">2022</option>
+                  <option value="2021">2021</option>
+                  <option value="2020">2020</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <canvas id="yearComparisonChart"></canvas>
+          
+          <!-- Comparison Statistics -->
+          <div class="comparison-stats">
+            <div class="comparison-stat">
+              <div class="label">Highest Year</div>
+              <div class="value" id="highestYear">2025</div>
+              <div class="change positive" id="highestYearChange">+12.5%</div>
+            </div>
+            <div class="comparison-stat">
+              <div class="label">Best Month</div>
+              <div class="value" id="bestMonth">October</div>
+              <div class="change positive" id="bestMonthChange">+18.3%</div>
+            </div>
+            <div class="comparison-stat">
+              <div class="label">Growth Rate</div>
+              <div class="value" id="growthRate">15.2%</div>
+              <div class="change positive" id="growthTrend">↑ YoY</div>
+            </div>
+            <div class="comparison-stat">
+              <div class="label">Peak Day</div>
+              <div class="value" id="peakDay">Oct 15</div>
+              <div class="change positive" id="peakDaySales">₱ 42,800</div>
+            </div>
+          </div>
         </div>
-        <canvas id="financeChart"></canvas>
+
+        <!-- Monthly Performance Chart -->
+        <div class="chart-container">
+          <div class="chart-header">
+            <div class="chart-title">Monthly Revenue Performance</div>
+            <div class="chart-controls">
+              <select class="comparison-select" id="monthlyYearSelect" onchange="updateMonthlyChart()">
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+              </select>
+            </div>
+          </div>
+          <canvas id="monthlyChart"></canvas>
+          
+          <!-- Monthly Statistics -->
+          <div class="comparison-stats">
+            <div class="comparison-stat">
+              <div class="label">This Month</div>
+              <div class="value" id="currentMonthRevenue">₱ 185K</div>
+              <div class="change positive" id="monthlyGrowth">+8.5%</div>
+            </div>
+            <div class="comparison-stat">
+              <div class="label">Average Monthly</div>
+              <div class="value" id="avgMonthlyRevenue">₱ 142K</div>
+              <div class="change positive" id="avgGrowth">+5.2%</div>
+            </div>
+            <div class="comparison-stat">
+              <div class="label">Projected Year</div>
+              <div class="value" id="projectedYear">₱ 2.2M</div>
+              <div class="change positive" id="projectedGrowth">+12.8%</div>
+            </div>
+            <div class="comparison-stat">
+              <div class="label">Monthly Target</div>
+              <div class="value" id="monthlyTarget">87%</div>
+              <div class="change positive" id="targetStatus">On Track</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Enhanced Audit Logs Section -->
@@ -1918,7 +2119,7 @@
     </div>
     <div class="tutorial-content">
       <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill" style="width: 12.5%"></div>
+        <div class="tutorial-progress-fill" id="tutorialProgressFill" style="width: 10%"></div>
       </div>
       
       <div class="tutorial-description">
@@ -1931,7 +2132,8 @@
         
         <strong>You'll learn how to:</strong>
         <ul class="tutorial-feature-list">
-          <li>Monitor financial performance with real-time charts</li>
+          <li>Compare sales across multiple years with interactive charts</li>
+          <li>Analyze monthly and daily performance trends</li>
           <li>Generate different types of financial reports</li>
           <li>Add and track patient payments</li>
           <li>Create custom reports with filters</li>
@@ -1939,7 +2141,7 @@
         </ul>
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 1 of 9</div>
+        <div class="tutorial-progress-indicator">Step 1 of 10</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()" disabled>Back</button>
           <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
@@ -1958,7 +2160,7 @@
     </div>
     <div class="tutorial-content">
       <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill2" style="width: 22.2%"></div>
+        <div class="tutorial-progress-fill" id="tutorialProgressFill2" style="width: 20%"></div>
       </div>
       
       <div class="tutorial-description">
@@ -1973,13 +2175,13 @@
         </ul>
         
         <div class="tutorial-tip">
-          <strong>📈 Interactive Chart:</strong> The chart below shows monthly trends. Try changing the time period using the dropdown!
+          <strong>📈 Real-time Updates:</strong> These metrics update automatically when you add new payments!
         </div>
         
         Each card shows percentage changes to help you track performance trends.
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 2 of 9</div>
+        <div class="tutorial-progress-indicator">Step 2 of 10</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
           <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
@@ -1988,8 +2190,88 @@
     </div>
   </div>
   
-  <!-- Tutorial Step 3: Enhanced Audit Logs -->
+  <!-- Tutorial Step 3: Year-over-Year Comparison Chart -->
   <div class="tutorial-step" id="tutorialStep3">
+    <div class="tutorial-header">
+      <h3><i class="fas fa-chart-bar"></i> Year-over-Year Comparison</h3>
+      <button class="tutorial-close" onclick="endTutorial()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="tutorial-content">
+      <div class="tutorial-progress-bar">
+        <div class="tutorial-progress-fill" id="tutorialProgressFill3" style="width: 30%"></div>
+      </div>
+      
+      <div class="tutorial-description">
+        <strong>Compare Sales Across Multiple Years</strong><br><br>
+        The new <strong>Year-over-Year Comparison Chart</strong> allows you to:<br><br>
+        
+        <ul class="tutorial-feature-list">
+          <li><strong>Compare Any Two Years:</strong> Select different years from the dropdowns</li>
+          <li><strong>Switch Views:</strong> Toggle between Yearly, Monthly, and Daily comparisons</li>
+          <li><strong>Visualize Growth:</strong> See which year had higher sales at a glance</li>
+          <li><strong>Identify Trends:</strong> Spot seasonal patterns and growth opportunities</li>
+        </ul>
+        
+        <div class="tutorial-tip">
+          <strong>🔍 Try It Now:</strong> Compare 2025 vs 2024 to see this year's growth!
+        </div>
+        
+        The chart also shows key statistics like highest year, best month, and growth rate.
+      </div>
+      <div class="tutorial-progress">
+        <div class="tutorial-progress-indicator">Step 3 of 10</div>
+        <div class="tutorial-navigation">
+          <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
+          <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Tutorial Step 4: Monthly Performance Chart -->
+  <div class="tutorial-step" id="tutorialStep4">
+    <div class="tutorial-header">
+      <h3><i class="fas fa-calendar-alt"></i> Monthly Performance Analysis</h3>
+      <button class="tutorial-close" onclick="endTutorial()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="tutorial-content">
+      <div class="tutorial-progress-bar">
+        <div class="tutorial-progress-fill" id="tutorialProgressFill4" style="width: 40%"></div>
+      </div>
+      
+      <div class="tutorial-description">
+        <strong>Analyze Monthly Revenue Trends</strong><br><br>
+        The <strong>Monthly Performance Chart</strong> provides detailed monthly analysis:<br><br>
+        
+        <ul class="tutorial-feature-list">
+          <li><strong>Select Any Year:</strong> View monthly data for 2022, 2023, 2024, or 2025</li>
+          <li><strong>Visual Comparison:</strong> See which months perform best</li>
+          <li><strong>Performance Metrics:</strong> Track current month, averages, and projections</li>
+          <li><strong>Target Tracking:</strong> Monitor progress against monthly targets</li>
+        </ul>
+        
+        <div class="tutorial-tip">
+          <strong>📊 Pro Tip:</strong> Look for patterns - certain months might consistently perform better due to seasonal factors.
+        </div>
+        
+        Use this chart to plan for busy seasons and allocate resources effectively.
+      </div>
+      <div class="tutorial-progress">
+        <div class="tutorial-progress-indicator">Step 4 of 10</div>
+        <div class="tutorial-navigation">
+          <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
+          <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Tutorial Step 5: Enhanced Audit Logs -->
+  <div class="tutorial-step" id="tutorialStep5">
     <div class="tutorial-header">
       <h3><i class="fas fa-history"></i> Enhanced Audit Logs</h3>
       <button class="tutorial-close" onclick="endTutorial()">
@@ -1998,7 +2280,7 @@
     </div>
     <div class="tutorial-content">
       <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill3" style="width: 33.3%"></div>
+        <div class="tutorial-progress-fill" id="tutorialProgressFill5" style="width: 50%"></div>
       </div>
       
       <div class="tutorial-description">
@@ -2019,7 +2301,7 @@
         This feature is essential for financial compliance, security, and tracking changes over time.
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 3 of 9</div>
+        <div class="tutorial-progress-indicator">Step 5 of 10</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
           <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
@@ -2028,8 +2310,8 @@
     </div>
   </div>
   
-  <!-- Tutorial Step 4: Financial Reports -->
-  <div class="tutorial-step" id="tutorialStep4">
+  <!-- Tutorial Step 6: Financial Reports -->
+  <div class="tutorial-step" id="tutorialStep6">
     <div class="tutorial-header">
       <h3><i class="fas fa-file-alt"></i> Financial Reports</h3>
       <button class="tutorial-close" onclick="endTutorial()">
@@ -2038,7 +2320,7 @@
     </div>
     <div class="tutorial-content">
       <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill4" style="width: 44.4%"></div>
+        <div class="tutorial-progress-fill" id="tutorialProgressFill6" style="width: 60%"></div>
       </div>
       
       <div class="tutorial-description">
@@ -2059,7 +2341,7 @@
         Each report provides actionable insights to help you manage your clinic's finances effectively.
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 4 of 9</div>
+        <div class="tutorial-progress-indicator">Step 6 of 10</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
           <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
@@ -2068,8 +2350,8 @@
     </div>
   </div>
   
-  <!-- Tutorial Step 5: Adding Payments -->
-  <div class="tutorial-step" id="tutorialStep5">
+  <!-- Tutorial Step 7: Adding Payments -->
+  <div class="tutorial-step" id="tutorialStep7">
     <div class="tutorial-header">
       <h3><i class="fas fa-plus"></i> Adding Payments</h3>
       <button class="tutorial-close" onclick="endTutorial()">
@@ -2078,7 +2360,7 @@
     </div>
     <div class="tutorial-content">
       <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill5" style="width: 55.5%"></div>
+        <div class="tutorial-progress-fill" id="tutorialProgressFill7" style="width: 70%"></div>
       </div>
       
       <div class="tutorial-description">
@@ -2094,13 +2376,13 @@
         </ol>
         
         <div class="tutorial-tip">
-          <strong>⚡ Real-time Updates:</strong> All payments are automatically tracked in audit logs and appear in the relevant reports immediately.
+          <strong>⚡ Real-time Updates:</strong> All payments are automatically tracked in audit logs and update all charts in real-time.
         </div>
         
         The system will automatically update all financial metrics, charts, and audit logs in real-time.
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 5 of 9</div>
+        <div class="tutorial-progress-indicator">Step 7 of 10</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
           <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
@@ -2109,8 +2391,8 @@
     </div>
   </div>
   
-  <!-- Tutorial Step 6: Custom Report Generator -->
-  <div class="tutorial-step" id="tutorialStep6">
+  <!-- Tutorial Step 8: Custom Report Generator -->
+  <div class="tutorial-step" id="tutorialStep8">
     <div class="tutorial-header">
       <h3><i class="fas fa-filter"></i> Custom Report Generator</h3>
       <button class="tutorial-close" onclick="endTutorial()">
@@ -2119,7 +2401,7 @@
     </div>
     <div class="tutorial-content">
       <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill6" style="width: 66.6%"></div>
+        <div class="tutorial-progress-fill" id="tutorialProgressFill8" style="width: 80%"></div>
       </div>
       
       <div class="tutorial-description">
@@ -2140,7 +2422,7 @@
         This is useful for specific analysis or when preparing financial statements for specific periods.
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 6 of 9</div>
+        <div class="tutorial-progress-indicator">Step 8 of 10</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
           <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
@@ -2149,8 +2431,8 @@
     </div>
   </div>
   
-  <!-- Tutorial Step 7: Generated Reports -->
-  <div class="tutorial-step" id="tutorialStep7">
+  <!-- Tutorial Step 9: Generated Reports -->
+  <div class="tutorial-step" id="tutorialStep9">
     <div class="tutorial-header">
       <h3><i class="fas fa-table"></i> Generated Reports</h3>
       <button class="tutorial-close" onclick="endTutorial()">
@@ -2159,7 +2441,7 @@
     </div>
     <div class="tutorial-content">
       <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill7" style="width: 77.7%"></div>
+        <div class="tutorial-progress-fill" id="tutorialProgressFill9" style="width: 90%"></div>
       </div>
       
       <div class="tutorial-description">
@@ -2180,7 +2462,7 @@
         Use these reports for monthly analysis, tracking specific dentist performance, monitoring payments, and preparing tax documents.
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 7 of 9</div>
+        <div class="tutorial-progress-indicator">Step 9 of 10</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
           <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
@@ -2189,48 +2471,8 @@
     </div>
   </div>
   
-  <!-- Tutorial Step 8: Report Modals -->
-  <div class="tutorial-step" id="tutorialStep8">
-    <div class="tutorial-header">
-      <h3><i class="fas fa-chart-bar"></i> Detailed Report Modals</h3>
-      <button class="tutorial-close" onclick="endTutorial()">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div class="tutorial-content">
-      <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill8" style="width: 88.8%"></div>
-      </div>
-      
-      <div class="tutorial-description">
-        <strong>Exploring Detailed Reports</strong><br><br>
-        When you click any report card, a detailed modal opens with:<br><br>
-        
-        <ul class="tutorial-feature-list">
-          <li><strong>Comprehensive Data:</strong> More detailed information than the summary</li>
-          <li><strong>Multiple Tables:</strong> Different views of the same data</li>
-          <li><strong>Visual Highlights:</strong> Important information is emphasized</li>
-          <li><strong>Summary Statistics:</strong> Quick overview at the top</li>
-        </ul>
-        
-        <div class="tutorial-tip">
-          <strong>📱 Responsive Design:</strong> Report modals work perfectly on desktop, tablet, and mobile devices.
-        </div>
-        
-        Use these detailed reports to analyze revenue sources, track patient payment history, compare dentist performance, and monitor overdue accounts.
-      </div>
-      <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 8 of 9</div>
-        <div class="tutorial-navigation">
-          <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
-          <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Tutorial Step 9: Completion -->
-  <div class="tutorial-step" id="tutorialStep9">
+  <!-- Tutorial Step 10: Completion -->
+  <div class="tutorial-step" id="tutorialStep10">
     <div class="tutorial-header">
       <h3><i class="fas fa-trophy"></i> Tutorial Complete!</h3>
       <button class="tutorial-close" onclick="endTutorial()">
@@ -2239,38 +2481,39 @@
     </div>
     <div class="tutorial-content">
       <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill9" style="width: 100%"></div>
+        <div class="tutorial-progress-fill" id="tutorialProgressFill10" style="width: 100%"></div>
       </div>
       
       <div class="tutorial-description">
         <strong>🎉 Congratulations! You've completed the tutorial!</strong><br><br>
         
         <div class="tutorial-tip" style="background: rgba(76, 175, 80, 0.1); border-left-color: var(--success);">
-          <strong>🌟 You're now ready to:</strong> Monitor financial health, generate reports, track payments, create custom reports, and audit financial activities!
+          <strong>🌟 You're now ready to:</strong> Compare sales across years, analyze monthly trends, generate reports, track payments, create custom reports, and audit financial activities!
         </div>
         
         <strong>Key Skills You've Learned:</strong>
         <ul class="tutorial-feature-list">
-          <li>Monitoring clinic financial performance</li>
+          <li>Comparing sales performance across multiple years</li>
+          <li>Analyzing monthly and daily revenue trends</li>
           <li>Generating detailed financial reports</li>
           <li>Adding and tracking patient payments</li>
           <li>Creating custom reports for specific needs</li>
-          <li>Using detailed report modals for analysis</li>
           <li>Tracking multi-year financial audit logs</li>
         </ul>
         
         <strong>💎 Pro Tips:</strong>
         <ul style="margin: 15px 0 15px 20px; font-size: 14px;">
           <li>Use <strong>Ctrl+T</strong> to restart the tutorial anytime</li>
-          <li>Generate weekly reports every Monday for best tracking</li>
+          <li>Compare 2025 vs 2024 monthly to plan for next year</li>
           <li>Check audit logs monthly for financial compliance</li>
-          <li>Export audit logs annually for record keeping</li>
+          <li>Export year-end comparison reports for strategic planning</li>
+          <li>Use daily view to identify your busiest days of the week</li>
         </ul>
         
-        Ready to manage your clinic's finances effectively!
+        Ready to analyze your clinic's financial performance like a pro!
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 9 of 9</div>
+        <div class="tutorial-progress-indicator">Step 10 of 10</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
           <button class="tutorial-btn finish" onclick="endTutorial()">Finish Tutorial</button>
@@ -2655,7 +2898,9 @@
   <script>
     // ========== DARK MODE FUNCTIONALITY ==========
     let darkMode = false;
-    let financeChart = null;
+    let yearComparisonChart = null;
+    let monthlyChart = null;
+    let currentChartType = 'yearly'; // yearly, monthly, or daily
     
     function toggleDarkMode() {
       darkMode = !darkMode;
@@ -2664,12 +2909,12 @@
         document.body.classList.add('dark-mode');
         localStorage.setItem('darkMode', 'enabled');
         showNotification('Dark mode enabled 🌙', 'success');
-        updateChartForDarkMode();
+        updateChartsForDarkMode();
       } else {
         document.body.classList.remove('dark-mode');
         localStorage.setItem('darkMode', 'disabled');
         showNotification('Light mode enabled ☀️', 'success');
-        updateChartForLightMode();
+        updateChartsForLightMode();
       }
     }
     
@@ -2680,30 +2925,441 @@
       if (savedMode === 'enabled' || (savedMode === null && prefersDark)) {
         darkMode = true;
         document.body.classList.add('dark-mode');
-        updateChartForDarkMode();
+        updateChartsForDarkMode();
       }
     }
     
-    function updateChartForDarkMode() {
-      if (financeChart) {
-        financeChart.options.scales.x.grid.color = 'rgba(255, 255, 255, 0.05)';
-        financeChart.options.scales.y.grid.color = 'rgba(255, 255, 255, 0.05)';
-        financeChart.options.scales.x.ticks.color = 'rgba(255, 255, 255, 0.7)';
-        financeChart.options.scales.y.ticks.color = 'rgba(255, 255, 255, 0.7)';
-        financeChart.options.plugins.legend.labels.color = 'rgba(255, 255, 255, 0.8)';
-        financeChart.update();
+    function updateChartsForDarkMode() {
+      if (yearComparisonChart) {
+        updateChartColors(yearComparisonChart, true);
+      }
+      if (monthlyChart) {
+        updateChartColors(monthlyChart, true);
       }
     }
     
-    function updateChartForLightMode() {
-      if (financeChart) {
-        financeChart.options.scales.x.grid.color = 'rgba(0, 0, 0, 0.05)';
-        financeChart.options.scales.y.grid.color = 'rgba(0, 0, 0, 0.05)';
-        financeChart.options.scales.x.ticks.color = 'rgba(0, 0, 0, 0.7)';
-        financeChart.options.scales.y.ticks.color = 'rgba(0, 0, 0, 0.7)';
-        financeChart.options.plugins.legend.labels.color = 'rgba(0, 0, 0, 0.8)';
-        financeChart.update();
+    function updateChartsForLightMode() {
+      if (yearComparisonChart) {
+        updateChartColors(yearComparisonChart, false);
       }
+      if (monthlyChart) {
+        updateChartColors(monthlyChart, false);
+      }
+    }
+    
+    function updateChartColors(chart, isDarkMode) {
+      const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
+      const tickColor = isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)';
+      const legendColor = isDarkMode ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)';
+      
+      chart.options.scales.x.grid.color = gridColor;
+      chart.options.scales.y.grid.color = gridColor;
+      chart.options.scales.x.ticks.color = tickColor;
+      chart.options.scales.y.ticks.color = tickColor;
+      chart.options.plugins.legend.labels.color = legendColor;
+      
+      if (chart.options.scales.y.title) {
+        chart.options.scales.y.title.color = tickColor;
+      }
+      
+      chart.update();
+    }
+    
+    // ========== MULTI-YEAR SALES DATA ==========
+    const salesData = {
+      // Yearly totals (2020-2025)
+      yearly: {
+        2020: 1450000,
+        2021: 1580000,
+        2022: 1720000,
+        2023: 1850000,
+        2024: 1980000,
+        2025: 2120000 // Projected
+      },
+      
+      // Monthly data for each year (2022-2025)
+      monthly: {
+        2022: [125000, 132000, 128000, 140000, 145000, 138000, 142000, 155000, 148000, 162000, 158000, 170000],
+        2023: [138000, 142000, 145000, 152000, 158000, 162000, 165000, 172000, 168000, 178000, 182000, 185000],
+        2024: [152000, 158000, 162000, 168000, 172000, 175000, 178000, 182000, 185000, 192000, 195000, 198000],
+        2025: [162000, 168000, 172000, 178000, 182000, 185000, 188000, 192000, 195000, 202000, 205000, 208000] // Projected
+      },
+      
+      // Daily data for October 2025 (sample)
+      daily: {
+        '2025-10': [42000, 38500, 41200, 39800, 42800, 18500, 12500, // Week 1 (Mon-Sun)
+                    40200, 38800, 41500, 39500, 43200, 19500, 13200, // Week 2
+                    41800, 39200, 42500, 40500, 43800, 20500, 14200, // Week 3
+                    42800, 39800, 43500, 41500, 44500, 21500, 15200, // Week 4
+                    38500, 39500] // Week 5 (remaining days)
+      },
+      
+      // Service type breakdown by year
+      services: {
+        2025: { 'Dental Services': 1630000, 'Installments': 285000, 'Insurance': 152000, 'Products': 55000 },
+        2024: { 'Dental Services': 1520000, 'Installments': 265000, 'Insurance': 142000, 'Products': 53000 },
+        2023: { 'Dental Services': 1420000, 'Installments': 248000, 'Insurance': 132000, 'Products': 50000 }
+      }
+    };
+    
+    // ========== ENHANCED CHARTS SYSTEM ==========
+    function toggleChartType(type, button) {
+      // Update toggle buttons
+      document.querySelectorAll('.chart-toggle-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      button.classList.add('active');
+      
+      currentChartType = type;
+      updateYearComparisonChart();
+      
+      // Update chart title based on type
+      const chartTitle = document.querySelector('.chart-container .chart-title');
+      if (type === 'yearly') {
+        chartTitle.textContent = 'Year-over-Year Sales Comparison';
+      } else if (type === 'monthly') {
+        chartTitle.textContent = 'Monthly Sales Comparison';
+      } else if (type === 'daily') {
+        chartTitle.textContent = 'Daily Sales Comparison';
+      }
+    }
+    
+    function initializeCharts() {
+      initializeYearComparisonChart();
+      initializeMonthlyChart();
+      updateComparisonStats();
+    }
+    
+    function initializeYearComparisonChart() {
+      const ctx = document.getElementById("yearComparisonChart").getContext('2d');
+      
+      if (yearComparisonChart) {
+        yearComparisonChart.destroy();
+      }
+      
+      const year1 = document.getElementById('compareYear1').value;
+      const year2 = document.getElementById('compareYear2').value;
+      
+      let labels, data1, data2;
+      
+      if (currentChartType === 'yearly') {
+        // Compare yearly totals
+        labels = ['2020', '2021', '2022', '2023', '2024', '2025'];
+        data1 = labels.map(year => salesData.yearly[year] || 0);
+        data2 = null; // Only show one dataset for yearly comparison
+      } else if (currentChartType === 'monthly') {
+        // Compare monthly data for selected years
+        labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        data1 = salesData.monthly[year1] || Array(12).fill(0);
+        data2 = salesData.monthly[year2] || Array(12).fill(0);
+      } else if (currentChartType === 'daily') {
+        // Compare daily data (sample for October)
+        labels = Array.from({length: 31}, (_, i) => `Oct ${i+1}`);
+        data1 = salesData.daily['2025-10'] || Array(31).fill(0);
+        data2 = salesData.daily['2024-10'] || Array(31).fill(0);
+      }
+      
+      const datasets = [
+        {
+          label: year1,
+          data: data1,
+          backgroundColor: 'rgba(0, 212, 255, 0.7)',
+          borderColor: 'rgba(0, 212, 255, 1)',
+          borderWidth: 2,
+          borderRadius: 6,
+          barPercentage: data2 ? 0.4 : 0.6,
+        }
+      ];
+      
+      if (data2) {
+        datasets.push({
+          label: year2,
+          data: data2,
+          backgroundColor: 'rgba(156, 39, 176, 0.7)',
+          borderColor: 'rgba(156, 39, 176, 1)',
+          borderWidth: 2,
+          borderRadius: 6,
+          barPercentage: 0.4,
+        });
+      }
+      
+      yearComparisonChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: datasets
+        },
+        options: getChartOptions(currentChartType)
+      });
+      
+      updateComparisonStats();
+    }
+    
+    function updateYearComparisonChart() {
+      if (!yearComparisonChart) return;
+      
+      const year1 = document.getElementById('compareYear1').value;
+      const year2 = document.getElementById('compareYear2').value;
+      
+      let labels, data1, data2;
+      
+      if (currentChartType === 'yearly') {
+        labels = ['2020', '2021', '2022', '2023', '2024', '2025'];
+        data1 = labels.map(year => salesData.yearly[year] || 0);
+        data2 = null;
+      } else if (currentChartType === 'monthly') {
+        labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        data1 = salesData.monthly[year1] || Array(12).fill(0);
+        data2 = salesData.monthly[year2] || Array(12).fill(0);
+      } else if (currentChartType === 'daily') {
+        labels = Array.from({length: 31}, (_, i) => `Oct ${i+1}`);
+        data1 = salesData.daily['2025-10'] || Array(31).fill(0);
+        data2 = salesData.daily['2024-10'] || Array(31).fill(0);
+      }
+      
+      yearComparisonChart.data.labels = labels;
+      yearComparisonChart.data.datasets[0].label = year1;
+      yearComparisonChart.data.datasets[0].data = data1;
+      
+      if (data2 && yearComparisonChart.data.datasets.length > 1) {
+        yearComparisonChart.data.datasets[1].label = year2;
+        yearComparisonChart.data.datasets[1].data = data2;
+      } else if (data2 && yearComparisonChart.data.datasets.length === 1) {
+        // Add second dataset if needed
+        yearComparisonChart.data.datasets.push({
+          label: year2,
+          data: data2,
+          backgroundColor: 'rgba(156, 39, 176, 0.7)',
+          borderColor: 'rgba(156, 39, 176, 1)',
+          borderWidth: 2,
+          borderRadius: 6,
+          barPercentage: 0.4,
+        });
+      } else if (!data2 && yearComparisonChart.data.datasets.length > 1) {
+        // Remove second dataset if not needed
+        yearComparisonChart.data.datasets.pop();
+      }
+      
+      yearComparisonChart.update();
+      updateComparisonStats();
+    }
+    
+    function initializeMonthlyChart() {
+      const ctx = document.getElementById("monthlyChart").getContext('2d');
+      
+      if (monthlyChart) {
+        monthlyChart.destroy();
+      }
+      
+      const selectedYear = document.getElementById('monthlyYearSelect').value;
+      const monthlyData = salesData.monthly[selectedYear] || Array(12).fill(0);
+      
+      monthlyChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          datasets: [{
+            label: `Monthly Revenue - ${selectedYear}`,
+            data: monthlyData,
+            backgroundColor: 'rgba(0, 212, 255, 0.1)',
+            borderColor: 'rgba(0, 212, 255, 1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: 'rgba(0, 212, 255, 1)',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 8
+          }]
+        },
+        options: getChartOptions('monthly')
+      });
+      
+      updateMonthlyStats();
+    }
+    
+    function updateMonthlyChart() {
+      if (!monthlyChart) return;
+      
+      const selectedYear = document.getElementById('monthlyYearSelect').value;
+      const monthlyData = salesData.monthly[selectedYear] || Array(12).fill(0);
+      
+      monthlyChart.data.datasets[0].label = `Monthly Revenue - ${selectedYear}`;
+      monthlyChart.data.datasets[0].data = monthlyData;
+      monthlyChart.update();
+      
+      updateMonthlyStats();
+    }
+    
+    function getChartOptions(type) {
+      const isDarkMode = darkMode;
+      const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
+      const tickColor = isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)';
+      const legendColor = isDarkMode ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)';
+      
+      const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          intersect: false,
+          mode: 'index'
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: gridColor
+            },
+            ticks: {
+              color: tickColor,
+              callback: function(value) {
+                if (value >= 1000000) {
+                  return '₱' + (value / 1000000).toFixed(1) + 'M';
+                } else if (value >= 1000) {
+                  return '₱' + (value / 1000).toFixed(0) + 'K';
+                }
+                return '₱' + value;
+              },
+              maxTicksLimit: 8
+            },
+            title: {
+              display: true,
+              text: 'Amount (₱)',
+              color: tickColor
+            }
+          },
+          x: {
+            grid: {
+              color: gridColor
+            },
+            ticks: {
+              color: tickColor,
+              maxRotation: type === 'daily' ? 45 : 0
+            }
+          }
+        },
+        plugins: {
+          tooltip: {
+            backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.8)',
+            titleColor: '#fff',
+            bodyColor: '#fff',
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += '₱' + context.parsed.y.toLocaleString();
+                return label;
+              }
+            }
+          },
+          legend: {
+            position: 'top',
+            labels: {
+              padding: 15,
+              usePointStyle: true,
+              pointStyle: 'circle',
+              color: legendColor,
+              font: {
+                size: 12
+              }
+            }
+          }
+        }
+      };
+      
+      return options;
+    }
+    
+    function updateComparisonStats() {
+      const year1 = document.getElementById('compareYear1').value;
+      const year2 = document.getElementById('compareYear2').value;
+      
+      // Find highest year
+      let highestYear = '2025';
+      let highestValue = salesData.yearly[2025] || 0;
+      
+      for (const [year, value] of Object.entries(salesData.yearly)) {
+        if (value > highestValue) {
+          highestValue = value;
+          highestYear = year;
+        }
+      }
+      
+      // Calculate growth rate
+      const year1Value = salesData.yearly[year1] || 0;
+      const year2Value = salesData.yearly[year2] || 0;
+      const growthRate = year2Value > 0 ? ((year1Value - year2Value) / year2Value * 100).toFixed(1) : 0;
+      
+      // Find best month
+      const year1Monthly = salesData.monthly[year1] || Array(12).fill(0);
+      const maxMonthIndex = year1Monthly.indexOf(Math.max(...year1Monthly));
+      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      const bestMonth = months[maxMonthIndex];
+      const bestMonthValue = year1Monthly[maxMonthIndex] || 0;
+      const avgMonthly = year1Monthly.reduce((a, b) => a + b, 0) / 12;
+      const bestMonthChange = ((bestMonthValue - avgMonthly) / avgMonthly * 100).toFixed(1);
+      
+      // Find peak day (sample for October)
+      const dailyData = salesData.daily['2025-10'] || Array(31).fill(0);
+      const peakDayIndex = dailyData.indexOf(Math.max(...dailyData));
+      const peakDayValue = dailyData[peakDayIndex] || 0;
+      
+      // Update DOM elements
+      document.getElementById('highestYear').textContent = highestYear;
+      document.getElementById('highestYearChange').textContent = `+${((highestValue - salesData.yearly[2020]) / salesData.yearly[2020] * 100).toFixed(1)}%`;
+      document.getElementById('highestYearChange').className = `change ${highestValue > salesData.yearly[2020] ? 'positive' : 'negative'}`;
+      
+      document.getElementById('bestMonth').textContent = bestMonth;
+      document.getElementById('bestMonthChange').textContent = `+${bestMonthChange}%`;
+      document.getElementById('bestMonthChange').className = `change ${bestMonthChange > 0 ? 'positive' : 'negative'}`;
+      
+      document.getElementById('growthRate').textContent = `${Math.abs(growthRate)}%`;
+      document.getElementById('growthTrend').textContent = growthRate >= 0 ? '↑ YoY' : '↓ YoY';
+      document.getElementById('growthTrend').className = `change ${growthRate >= 0 ? 'positive' : 'negative'}`;
+      
+      document.getElementById('peakDay').textContent = `Oct ${peakDayIndex + 1}`;
+      document.getElementById('peakDaySales').textContent = `₱ ${peakDayValue.toLocaleString()}`;
+    }
+    
+    function updateMonthlyStats() {
+      const selectedYear = document.getElementById('monthlyYearSelect').value;
+      const monthlyData = salesData.monthly[selectedYear] || Array(12).fill(0);
+      const currentMonth = new Date().getMonth(); // 0-11
+      const currentMonthValue = monthlyData[currentMonth] || 0;
+      
+      // Calculate statistics
+      const totalYear = monthlyData.reduce((a, b) => a + b, 0);
+      const avgMonthly = totalYear / 12;
+      const prevYear = parseInt(selectedYear) - 1;
+      const prevYearData = salesData.monthly[prevYear] || Array(12).fill(0);
+      const prevYearTotal = prevYearData.reduce((a, b) => a + b, 0);
+      const growthRate = prevYearTotal > 0 ? ((totalYear - prevYearTotal) / prevYearTotal * 100).toFixed(1) : 0;
+      
+      const monthlyTarget = 200000; // Example target
+      const targetAchievement = ((currentMonthValue / monthlyTarget) * 100).toFixed(0);
+      
+      // Projected year based on current performance
+      const projectedYear = currentMonthValue * 12;
+      
+      // Update DOM elements
+      document.getElementById('currentMonthRevenue').textContent = `₱ ${(currentMonthValue / 1000).toFixed(0)}K`;
+      document.getElementById('monthlyGrowth').textContent = currentMonthValue > avgMonthly ? `+${((currentMonthValue - avgMonthly) / avgMonthly * 100).toFixed(1)}%` : `${((currentMonthValue - avgMonthly) / avgMonthly * 100).toFixed(1)}%`;
+      document.getElementById('monthlyGrowth').className = `change ${currentMonthValue > avgMonthly ? 'positive' : 'negative'}`;
+      
+      document.getElementById('avgMonthlyRevenue').textContent = `₱ ${(avgMonthly / 1000).toFixed(0)}K`;
+      document.getElementById('avgGrowth').textContent = `+${((avgMonthly - (prevYearTotal/12)) / (prevYearTotal/12) * 100).toFixed(1)}%`;
+      document.getElementById('avgGrowth').className = `change ${avgMonthly > (prevYearTotal/12) ? 'positive' : 'negative'}`;
+      
+      document.getElementById('projectedYear').textContent = `₱ ${(projectedYear / 1000000).toFixed(1)}M`;
+      document.getElementById('projectedGrowth').textContent = `+${growthRate}%`;
+      document.getElementById('projectedGrowth').className = `change ${growthRate > 0 ? 'positive' : 'negative'}`;
+      
+      document.getElementById('monthlyTarget').textContent = `${targetAchievement}%`;
+      document.getElementById('targetStatus').textContent = targetAchievement >= 100 ? 'Exceeded' : targetAchievement >= 80 ? 'On Track' : 'Below Target';
+      document.getElementById('targetStatus').className = `change ${targetAchievement >= 100 ? 'positive' : targetAchievement >= 80 ? 'positive' : 'negative'}`;
     }
     
     // ========== ENHANCED AUDIT LOGS SYSTEM ==========
@@ -3027,7 +3683,7 @@
 
     // ========== ENHANCED TUTORIAL SYSTEM ==========
     let currentTutorialStep = 1;
-    const totalTutorialSteps = 9;
+    const totalTutorialSteps = 10;
     let tutorialActive = false;
     let isDragging = false;
     let dragOffsetX = 0;
@@ -3054,38 +3710,54 @@
       },
       {
         step: 3,
-        title: "Enhanced Audit Logs",
-        description: "Tracking financial activities across years",
-        highlightElement: 'audit-logs-section',
+        title: "Year-over-Year Comparison",
+        description: "Comparing sales across multiple years",
+        highlightElement: 'charts-grid',
         highlightClass: 'highlight-step-3',
-        position: { top: '400px', left: '50%', transform: 'translateX(-50%)' }
+        position: { top: '300px', left: '50%', transform: 'translateX(-50%)' }
       },
       {
         step: 4,
-        title: "Financial Reports",
-        description: "Accessing different types of financial reports",
-        highlightElement: 'reports-grid',
-        highlightClass: 'highlight-step-4',
-        position: { top: '600px', left: '50%', transform: 'translateX(-50%)' }
+        title: "Monthly Performance Analysis",
+        description: "Analyzing monthly revenue trends",
+        highlightElement: null,
+        highlightClass: "",
+        position: { top: '300px', left: '50%', transform: 'translateX(-50%)' }
       },
       {
         step: 5,
-        title: "Adding Payments",
-        description: "How to record new patient payments",
-        highlightElement: 'addPaymentBtn',
+        title: "Enhanced Audit Logs",
+        description: "Tracking financial activities across years",
+        highlightElement: 'audit-logs-section',
         highlightClass: 'highlight-step-5',
-        position: { top: '100px', right: '50px' }
+        position: { top: '700px', left: '50%', transform: 'translateX(-50%)' }
       },
       {
         step: 6,
-        title: "Custom Report Generator",
-        description: "Creating customized financial reports",
-        highlightElement: 'filters-container',
+        title: "Financial Reports",
+        description: "Accessing different types of financial reports",
+        highlightElement: 'reports-grid',
         highlightClass: 'highlight-step-6',
-        position: { bottom: '250px', left: '50%', transform: 'translateX(-50%)' }
+        position: { top: '900px', left: '50%', transform: 'translateX(-50%)' }
       },
       {
         step: 7,
+        title: "Adding Payments",
+        description: "How to record new patient payments",
+        highlightElement: 'addPaymentBtn',
+        highlightClass: 'highlight-step-4',
+        position: { top: '100px', right: '50px' }
+      },
+      {
+        step: 8,
+        title: "Custom Report Generator",
+        description: "Creating customized financial reports",
+        highlightElement: 'filters-container',
+        highlightClass: 'highlight-step-5',
+        position: { bottom: '250px', left: '50%', transform: 'translateX(-50%)' }
+      },
+      {
+        step: 9,
         title: "Generated Reports",
         description: "Understanding and using generated reports",
         highlightElement: 'custom-reports-section',
@@ -3093,15 +3765,7 @@
         position: { bottom: '50px', left: '50%', transform: 'translateX(-50%)' }
       },
       {
-        step: 8,
-        title: "Detailed Report Modals",
-        description: "Exploring detailed report information",
-        highlightElement: null,
-        highlightClass: "",
-        position: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }
-      },
-      {
-        step: 9,
+        step: 10,
         title: "Tutorial Complete",
         description: "Summary and next steps",
         highlightElement: null,
@@ -3389,118 +4053,6 @@
 
     function hideLoading() {
       document.getElementById('loading').classList.remove('active');
-    }
-
-    // ========== CHART INITIALIZATION - FIXED ==========
-    function initializeChart() {
-      const ctx = document.getElementById("financeChart").getContext('2d');
-      
-      if (financeChart) {
-        financeChart.destroy();
-      }
-      
-      // Sample data
-      const months = ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'];
-      const revenue = [125000, 138000, 145000, 162000, 178000, 185420];
-      const netIncome = [97000, 106000, 110000, 124000, 136000, 142000];
-      
-      // Determine chart colors based on dark mode
-      const gridColor = darkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
-      const tickColor = darkMode ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)';
-      const legendColor = darkMode ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)';
-      
-      financeChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: months,
-          datasets: [
-            {
-              label: 'Revenue',
-              data: revenue,
-              backgroundColor: 'rgba(0, 212, 255, 0.8)',
-              borderColor: 'rgba(0, 212, 255, 1)',
-              borderWidth: 1,
-              borderRadius: 6,
-              barPercentage: 0.6,
-            },
-            {
-              label: 'Net Income',
-              data: netIncome,
-              backgroundColor: 'rgba(0, 212, 255, 0.4)',
-              borderColor: 'rgba(0, 212, 255, 0.8)',
-              borderWidth: 1,
-              borderRadius: 6,
-              barPercentage: 0.6,
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          interaction: {
-            intersect: false,
-            mode: 'index'
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              grid: {
-                color: gridColor
-              },
-              ticks: {
-                color: tickColor,
-                callback: function(value) {
-                  return '₱' + value.toLocaleString();
-                },
-                maxTicksLimit: 6 // Limit number of ticks for better fit
-              },
-              title: {
-                display: true,
-                text: 'Amount (₱)',
-                color: tickColor
-              }
-            },
-            x: {
-              grid: {
-                color: gridColor
-              },
-              ticks: {
-                color: tickColor,
-                maxRotation: 0 // Keep labels horizontal
-              }
-            }
-          },
-          plugins: {
-            tooltip: {
-              backgroundColor: darkMode ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.8)',
-              titleColor: '#fff',
-              bodyColor: '#fff',
-              callbacks: {
-                label: function(context) {
-                  let label = context.dataset.label || '';
-                  if (label) {
-                    label += ': ';
-                  }
-                  label += '₱' + context.parsed.y.toLocaleString();
-                  return label;
-                }
-              }
-            },
-            legend: {
-              position: 'top',
-              labels: {
-                padding: 15,
-                usePointStyle: true,
-                pointStyle: 'circle',
-                color: legendColor,
-                font: {
-                  size: 12
-                }
-              }
-            }
-          }
-        }
-      });
     }
 
     // ========== MODAL FUNCTIONS ==========
@@ -3987,6 +4539,27 @@
           }
         }
         
+        // Update sales data for charts
+        const currentYear = new Date().getFullYear().toString();
+        const currentMonth = new Date().getMonth();
+        
+        // Update monthly data
+        if (salesData.monthly[currentYear]) {
+          salesData.monthly[currentYear][currentMonth] += amount;
+        }
+        
+        // Update yearly total
+        if (salesData.yearly[currentYear]) {
+          salesData.yearly[currentYear] += amount;
+        }
+        
+        // Update daily data (for current month)
+        const currentDay = new Date().getDate() - 1; // 0-indexed
+        const monthKey = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}`;
+        if (salesData.daily[monthKey] && salesData.daily[monthKey][currentDay] !== undefined) {
+          salesData.daily[monthKey][currentDay] += amount;
+        }
+        
         // Add audit log entry
         addAuditLogEntry('payment', 'Payment recorded', `Patient: ${document.getElementById('paymentPatient').options[document.getElementById('paymentPatient').selectedIndex].text}, Amount: ₱${amount}, Type: ${type}, Method: ${method}`);
         
@@ -3999,6 +4572,12 @@
         
         // Update dashboard stats
         updateDashboardStats(amount);
+        
+        // Update charts
+        updateYearComparisonChart();
+        updateMonthlyChart();
+        updateComparisonStats();
+        updateMonthlyStats();
         
         // Refresh any open reports
         refreshOpenReports();
@@ -4027,12 +4606,6 @@
       let netIncome = parseFloat(netElement.textContent.replace(/[^0-9.]/g, ''));
       netIncome += paymentAmount * 0.85;
       netElement.textContent = `₱ ${netIncome.toLocaleString()}.00`;
-      
-      // Update chart data
-      const lastMonthRevenue = financeChart.data.datasets[0].data[5];
-      financeChart.data.datasets[0].data[5] = revenue;
-      financeChart.data.datasets[1].data[5] = netIncome;
-      financeChart.update('none');
       
       // Add visual feedback to stats
       const statCards = document.querySelectorAll('.stat-card');
@@ -4065,8 +4638,8 @@
       // Add event listener to dark mode button
       document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
       
-      // Initialize chart
-      initializeChart();
+      // Initialize charts
+      initializeCharts();
       
       // Initialize report data
       populateIncomeReport();
@@ -4080,17 +4653,6 @@
       
       // Initialize audit logs
       initializeAuditLogs();
-      
-      // Add event listener for chart period change
-      document.getElementById('chartPeriod').addEventListener('change', function() {
-        showLoading();
-        setTimeout(() => {
-          // Simulate loading new chart data
-          const period = this.value;
-          showNotification(`Chart period changed to: ${period}`, 'success');
-          hideLoading();
-        }, 800);
-      });
       
       // Close modals with Escape key
       document.addEventListener('keydown', function(e) {
@@ -4120,7 +4682,7 @@
       
       if (!tutorialCompleted || (lastTutorialTime && new Date(lastTutorialTime) < oneWeekAgo)) {
         setTimeout(() => {
-          const startTutorialNow = confirm(`🎓 Welcome to SMART DENTISTRY Finance Dashboard!\n\nWould you like to start the interactive tutorial?\n\n✨ Learn how to use all features\n✨ Drag tutorial panels if they block content\n✨ Follow highlighted areas`);
+          const startTutorialNow = confirm(`🎓 Welcome to SMART DENTISTRY Finance Dashboard!\n\nWould you like to start the interactive tutorial?\n\n✨ Compare sales across multiple years\n✨ Analyze monthly and daily trends\n✨ Track financial activities with audit logs\n✨ Drag tutorial panels if they block content`);
           if (startTutorialNow) {
             startTutorial();
           }
@@ -4151,10 +4713,10 @@
       });
       
       console.log('✅ SMART DENTISTRY Finance Dashboard initialized successfully!');
-      console.log('📊 Features: Enhanced audit logs with multi-year tracking');
+      console.log('📊 Features: Year-over-Year comparison, Monthly analysis, Daily tracking');
       console.log('🎮 Hotkeys: Ctrl+T for tutorial, Escape to close modals/tutorial');
       console.log('🌙 Dark Mode: Fully functional with transitions');
-      console.log('📈 Chart: Fixed size na magkakasya sa column');
+      console.log('📈 Charts: Compare 2020-2025, Monthly trends, Daily performance');
       console.log('🔍 Audit Logs: Track financial activities from 2021-2025');
     });
   </script>
