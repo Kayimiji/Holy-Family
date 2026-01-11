@@ -22,6 +22,8 @@
       --success: #4CAF50;
       --warning: #FF9800;
       --danger: #f44336;
+      --info: #2196F3;
+      --purple: #9C27B0;
       --shadow: 0 2px 10px rgba(0,0,0,0.08);
       --transition: all 0.3s ease;
     }
@@ -41,6 +43,8 @@
       --success: #68d391;
       --warning: #f6ad55;
       --danger: #fc8181;
+      --info: #63b3ed;
+      --purple: #b794f4;
       --shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
     
@@ -323,6 +327,24 @@
       filter:brightness(1.1);
     }
     
+    .btn-danger{
+      background:var(--danger);
+    }
+    
+    .btn-danger:hover{
+      background:var(--danger);
+      filter:brightness(1.1);
+    }
+    
+    .btn-info{
+      background:var(--info);
+    }
+    
+    .btn-info:hover{
+      background:var(--info);
+      filter:brightness(1.1);
+    }
+    
     /* ========== FINANCE OVERVIEW ========== */
     .stats-grid{
       display:grid;
@@ -448,6 +470,138 @@
       width: 100% !important;
       height: 280px !important; /* Magkasya sa container */
       max-height: 280px;
+    }
+    
+    /* ========== AUDIT LOGS SECTION ========== */
+    .audit-logs-section{
+      margin:40px 0;
+      background:var(--card-bg);
+      border-radius:10px;
+      padding:25px;
+      box-shadow:var(--shadow);
+      border:1px solid var(--border-color);
+    }
+    
+    .audit-filters{
+      display:flex;
+      gap:15px;
+      margin-bottom:20px;
+      flex-wrap:wrap;
+    }
+    
+    .audit-filter-group{
+      flex:1;
+      min-width:200px;
+    }
+    
+    .audit-filter-group label{
+      display:block;
+      margin-bottom:8px;
+      font-size:14px;
+      font-weight:600;
+      color:var(--text-color);
+    }
+    
+    .audit-table-container{
+      max-height:500px;
+      overflow-y:auto;
+      border-radius:8px;
+      border:1px solid var(--border-color);
+    }
+    
+    .audit-table{
+      width:100%;
+      border-collapse:collapse;
+    }
+    
+    .audit-table th{
+      position:sticky;
+      top:0;
+      background:linear-gradient(135deg, var(--hover-bg) 0%, var(--card-bg) 100%);
+      padding:15px;
+      text-align:left;
+      font-weight:600;
+      color:var(--text-color);
+      border-bottom:2px solid var(--border-color);
+      font-size:14px;
+      z-index:10;
+    }
+    
+    .audit-table td{
+      padding:15px;
+      border-bottom:1px solid var(--border-color);
+      font-size:14px;
+    }
+    
+    .audit-table tr:last-child td{
+      border-bottom:none;
+    }
+    
+    .audit-table tr:hover{
+      background:var(--primary-light);
+    }
+    
+    .audit-badge{
+      padding:4px 10px;
+      border-radius:20px;
+      font-size:12px;
+      font-weight:600;
+      display:inline-block;
+    }
+    
+    .audit-badge.payment{
+      background:rgba(0,212,255,0.1);
+      color:var(--primary);
+      border:1px solid rgba(0,212,255,0.3);
+    }
+    
+    .audit-badge.modify{
+      background:rgba(255,152,0,0.1);
+      color:var(--warning);
+      border:1px solid rgba(255,152,0,0.3);
+    }
+    
+    .audit-badge.delete{
+      background:rgba(244,67,54,0.1);
+      color:var(--danger);
+      border:1px solid rgba(244,67,54,0.3);
+    }
+    
+    .audit-badge.create{
+      background:rgba(76,175,80,0.1);
+      color:var(--success);
+      border:1px solid rgba(76,175,80,0.3);
+    }
+    
+    .audit-badge.view{
+      background:rgba(33,150,243,0.1);
+      color:var(--info);
+      border:1px solid rgba(33,150,243,0.3);
+    }
+    
+    .audit-badge.export{
+      background:rgba(156,39,176,0.1);
+      color:var(--purple);
+      border:1px solid rgba(156,39,176,0.3);
+    }
+    
+    .audit-user{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    
+    .audit-user-avatar{
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      background:var(--primary);
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:600;
+      font-size:14px;
     }
     
     /* ========== REPORTS ========== */
@@ -1432,7 +1586,7 @@
     <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
     <li><a href="My-Clinic.html"><i class="fas fa-tooth"></i> My Clinic</a></li>
     <li><a href="patients.html"><i class="fas fa-users"></i><span>Patients</span></a></li>
-    <li><a href="Finance.html"><i class="fas fa-dollar-sign"></i> Finance</a></li>
+    <li><a href="Finance.html" class="active"><i class="fas fa-dollar-sign"></i> Finance</a></li>
     <li><a href="Data-Back-Up.html"><i class="fa solid fa-database"></i><span> Data BackUp</a></li>
    
     </ul>
@@ -1545,6 +1699,91 @@
         <canvas id="financeChart"></canvas>
       </div>
 
+      <!-- Enhanced Audit Logs Section -->
+      <div class="audit-logs-section" id="audit-logs-section">
+        <h2 class="section-title"><i class="fas fa-history" style="color: var(--primary);"></i> Finance Audit Logs</h2>
+        <p style="margin-bottom: 20px; color: var(--text-color); opacity: 0.7;">Track all financial activities across multiple years. Filter by date range, action type, or user.</p>
+        
+        <!-- Audit Log Filters -->
+        <div class="audit-filters">
+          <div class="audit-filter-group">
+            <label>Date Range</label>
+            <select class="filter-control" id="auditYearRange" onchange="filterAuditLogs()">
+              <option value="all">All Years</option>
+              <option value="2025" selected>2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="2021">2021</option>
+            </select>
+          </div>
+          
+          <div class="audit-filter-group">
+            <label>Action Type</label>
+            <select class="filter-control" id="auditActionType" onchange="filterAuditLogs()">
+              <option value="all">All Actions</option>
+              <option value="payment">Payments</option>
+              <option value="create">Create Records</option>
+              <option value="modify">Modifications</option>
+              <option value="delete">Deletions</option>
+              <option value="view">Views</option>
+              <option value="export">Exports</option>
+            </select>
+          </div>
+          
+          <div class="audit-filter-group">
+            <label>User</label>
+            <select class="filter-control" id="auditUser" onchange="filterAuditLogs()">
+              <option value="all">All Users</option>
+              <option value="admin">Administrator</option>
+              <option value="dr_miguel">Dr. Miguel Santos</option>
+              <option value="dr_ana">Dr. Ana Reyes</option>
+              <option value="staff">Reception Staff</option>
+            </select>
+          </div>
+          
+          <div class="audit-filter-group">
+            <label>&nbsp;</label>
+            <button class="btn btn-outline" onclick="exportAuditLogs()">
+              <i class="fas fa-download"></i> Export Logs
+            </button>
+          </div>
+        </div>
+        
+        <!-- Audit Log Table -->
+        <div class="audit-table-container">
+          <table class="audit-table" id="auditLogTable">
+            <thead>
+              <tr>
+                <th>Date & Time</th>
+                <th>User</th>
+                <th>Action</th>
+                <th>Description</th>
+                <th>Details</th>
+                <th>IP Address</th>
+              </tr>
+            </thead>
+            <tbody id="auditLogTableBody">
+              <!-- Audit logs will be populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+          <div style="font-size: 14px; color: var(--text-color); opacity: 0.7;">
+            Showing <span id="auditLogCount">0</span> audit log entries
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn btn-outline" onclick="clearAuditFilters()">
+              <i class="fas fa-filter"></i> Clear Filters
+            </button>
+            <button class="btn btn-info" onclick="refreshAuditLogs()">
+              <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- Reports Section -->
       <div class="reports-section">
         <h2 class="section-title"><i class="fas fa-file-alt" style="color: var(--primary);"></i> Financial Reports</h2>
@@ -1612,6 +1851,7 @@
               <option value="month" selected>This Month</option>
               <option value="quarter">This Quarter</option>
               <option value="year">This Year</option>
+              <option value="custom">Custom Range</option>
             </select>
           </div>
 
@@ -1695,10 +1935,11 @@
           <li>Generate different types of financial reports</li>
           <li>Add and track patient payments</li>
           <li>Create custom reports with filters</li>
+          <li>Track financial activities with enhanced audit logs</li>
         </ul>
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 1 of 8</div>
+        <div class="tutorial-progress-indicator">Step 1 of 9</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()" disabled>Back</button>
           <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
@@ -1717,7 +1958,7 @@
     </div>
     <div class="tutorial-content">
       <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill2" style="width: 25%"></div>
+        <div class="tutorial-progress-fill" id="tutorialProgressFill2" style="width: 22.2%"></div>
       </div>
       
       <div class="tutorial-description">
@@ -1738,7 +1979,7 @@
         Each card shows percentage changes to help you track performance trends.
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 2 of 8</div>
+        <div class="tutorial-progress-indicator">Step 2 of 9</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
           <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
@@ -1747,8 +1988,48 @@
     </div>
   </div>
   
-  <!-- Tutorial Step 3: Financial Reports -->
+  <!-- Tutorial Step 3: Enhanced Audit Logs -->
   <div class="tutorial-step" id="tutorialStep3">
+    <div class="tutorial-header">
+      <h3><i class="fas fa-history"></i> Enhanced Audit Logs</h3>
+      <button class="tutorial-close" onclick="endTutorial()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="tutorial-content">
+      <div class="tutorial-progress-bar">
+        <div class="tutorial-progress-fill" id="tutorialProgressFill3" style="width: 33.3%"></div>
+      </div>
+      
+      <div class="tutorial-description">
+        <strong>Track Financial Activities Across Years</strong><br><br>
+        The new <strong>Enhanced Audit Logs</strong> section allows you to track all financial activities:<br><br>
+        
+        <ul class="tutorial-feature-list">
+          <li><strong>Multi-Year Tracking:</strong> View activities from 2021 to present</li>
+          <li><strong>Detailed Records:</strong> See who did what, when, and from where</li>
+          <li><strong>Filter by Action:</strong> Payments, modifications, deletions, etc.</li>
+          <li><strong>Export Capability:</strong> Download logs for compliance</li>
+        </ul>
+        
+        <div class="tutorial-tip">
+          <strong>🔍 Try It Now:</strong> Filter by "2024" to see last year's financial activities!
+        </div>
+        
+        This feature is essential for financial compliance, security, and tracking changes over time.
+      </div>
+      <div class="tutorial-progress">
+        <div class="tutorial-progress-indicator">Step 3 of 9</div>
+        <div class="tutorial-navigation">
+          <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
+          <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Tutorial Step 4: Financial Reports -->
+  <div class="tutorial-step" id="tutorialStep4">
     <div class="tutorial-header">
       <h3><i class="fas fa-file-alt"></i> Financial Reports</h3>
       <button class="tutorial-close" onclick="endTutorial()">
@@ -1757,7 +2038,7 @@
     </div>
     <div class="tutorial-content">
       <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill3" style="width: 37.5%"></div>
+        <div class="tutorial-progress-fill" id="tutorialProgressFill4" style="width: 44.4%"></div>
       </div>
       
       <div class="tutorial-description">
@@ -1778,7 +2059,7 @@
         Each report provides actionable insights to help you manage your clinic's finances effectively.
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 3 of 8</div>
+        <div class="tutorial-progress-indicator">Step 4 of 9</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
           <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
@@ -1787,8 +2068,8 @@
     </div>
   </div>
   
-  <!-- Tutorial Step 4: Adding Payments -->
-  <div class="tutorial-step" id="tutorialStep4">
+  <!-- Tutorial Step 5: Adding Payments -->
+  <div class="tutorial-step" id="tutorialStep5">
     <div class="tutorial-header">
       <h3><i class="fas fa-plus"></i> Adding Payments</h3>
       <button class="tutorial-close" onclick="endTutorial()">
@@ -1797,7 +2078,7 @@
     </div>
     <div class="tutorial-content">
       <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill4" style="width: 50%"></div>
+        <div class="tutorial-progress-fill" id="tutorialProgressFill5" style="width: 55.5%"></div>
       </div>
       
       <div class="tutorial-description">
@@ -1813,13 +2094,13 @@
         </ol>
         
         <div class="tutorial-tip">
-          <strong>⚡ Real-time Updates:</strong> All payments are automatically tracked and appear in the relevant reports immediately.
+          <strong>⚡ Real-time Updates:</strong> All payments are automatically tracked in audit logs and appear in the relevant reports immediately.
         </div>
         
-        The system will automatically update all financial metrics and charts in real-time.
+        The system will automatically update all financial metrics, charts, and audit logs in real-time.
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 4 of 8</div>
+        <div class="tutorial-progress-indicator">Step 5 of 9</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
           <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
@@ -1828,8 +2109,8 @@
     </div>
   </div>
   
-  <!-- Tutorial Step 5: Custom Report Generator -->
-  <div class="tutorial-step" id="tutorialStep5">
+  <!-- Tutorial Step 6: Custom Report Generator -->
+  <div class="tutorial-step" id="tutorialStep6">
     <div class="tutorial-header">
       <h3><i class="fas fa-filter"></i> Custom Report Generator</h3>
       <button class="tutorial-close" onclick="endTutorial()">
@@ -1838,7 +2119,7 @@
     </div>
     <div class="tutorial-content">
       <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill5" style="width: 62.5%"></div>
+        <div class="tutorial-progress-fill" id="tutorialProgressFill6" style="width: 66.6%"></div>
       </div>
       
       <div class="tutorial-description">
@@ -1859,7 +2140,7 @@
         This is useful for specific analysis or when preparing financial statements for specific periods.
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 5 of 8</div>
+        <div class="tutorial-progress-indicator">Step 6 of 9</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
           <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
@@ -1868,8 +2149,8 @@
     </div>
   </div>
   
-  <!-- Tutorial Step 6: Generated Reports -->
-  <div class="tutorial-step" id="tutorialStep6">
+  <!-- Tutorial Step 7: Generated Reports -->
+  <div class="tutorial-step" id="tutorialStep7">
     <div class="tutorial-header">
       <h3><i class="fas fa-table"></i> Generated Reports</h3>
       <button class="tutorial-close" onclick="endTutorial()">
@@ -1878,7 +2159,7 @@
     </div>
     <div class="tutorial-content">
       <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill6" style="width: 75%"></div>
+        <div class="tutorial-progress-fill" id="tutorialProgressFill7" style="width: 77.7%"></div>
       </div>
       
       <div class="tutorial-description">
@@ -1899,7 +2180,7 @@
         Use these reports for monthly analysis, tracking specific dentist performance, monitoring payments, and preparing tax documents.
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 6 of 8</div>
+        <div class="tutorial-progress-indicator">Step 7 of 9</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
           <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
@@ -1908,8 +2189,8 @@
     </div>
   </div>
   
-  <!-- Tutorial Step 7: Report Modals -->
-  <div class="tutorial-step" id="tutorialStep7">
+  <!-- Tutorial Step 8: Report Modals -->
+  <div class="tutorial-step" id="tutorialStep8">
     <div class="tutorial-header">
       <h3><i class="fas fa-chart-bar"></i> Detailed Report Modals</h3>
       <button class="tutorial-close" onclick="endTutorial()">
@@ -1918,7 +2199,7 @@
     </div>
     <div class="tutorial-content">
       <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill7" style="width: 87.5%"></div>
+        <div class="tutorial-progress-fill" id="tutorialProgressFill8" style="width: 88.8%"></div>
       </div>
       
       <div class="tutorial-description">
@@ -1939,7 +2220,7 @@
         Use these detailed reports to analyze revenue sources, track patient payment history, compare dentist performance, and monitor overdue accounts.
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 7 of 8</div>
+        <div class="tutorial-progress-indicator">Step 8 of 9</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
           <button class="tutorial-btn next" onclick="nextTutorialStep()">Next</button>
@@ -1948,8 +2229,8 @@
     </div>
   </div>
   
-  <!-- Tutorial Step 8: Completion -->
-  <div class="tutorial-step" id="tutorialStep8">
+  <!-- Tutorial Step 9: Completion -->
+  <div class="tutorial-step" id="tutorialStep9">
     <div class="tutorial-header">
       <h3><i class="fas fa-trophy"></i> Tutorial Complete!</h3>
       <button class="tutorial-close" onclick="endTutorial()">
@@ -1958,14 +2239,14 @@
     </div>
     <div class="tutorial-content">
       <div class="tutorial-progress-bar">
-        <div class="tutorial-progress-fill" id="tutorialProgressFill8" style="width: 100%"></div>
+        <div class="tutorial-progress-fill" id="tutorialProgressFill9" style="width: 100%"></div>
       </div>
       
       <div class="tutorial-description">
         <strong>🎉 Congratulations! You've completed the tutorial!</strong><br><br>
         
         <div class="tutorial-tip" style="background: rgba(76, 175, 80, 0.1); border-left-color: var(--success);">
-          <strong>🌟 You're now ready to:</strong> Monitor financial health, generate reports, track payments, and create custom reports!
+          <strong>🌟 You're now ready to:</strong> Monitor financial health, generate reports, track payments, create custom reports, and audit financial activities!
         </div>
         
         <strong>Key Skills You've Learned:</strong>
@@ -1975,19 +2256,21 @@
           <li>Adding and tracking patient payments</li>
           <li>Creating custom reports for specific needs</li>
           <li>Using detailed report modals for analysis</li>
+          <li>Tracking multi-year financial audit logs</li>
         </ul>
         
         <strong>💎 Pro Tips:</strong>
         <ul style="margin: 15px 0 15px 20px; font-size: 14px;">
           <li>Use <strong>Ctrl+T</strong> to restart the tutorial anytime</li>
           <li>Generate weekly reports every Monday for best tracking</li>
-          <li>Check "Patients with Balance" report weekly for collections</li>
+          <li>Check audit logs monthly for financial compliance</li>
+          <li>Export audit logs annually for record keeping</li>
         </ul>
         
         Ready to manage your clinic's finances effectively!
       </div>
       <div class="tutorial-progress">
-        <div class="tutorial-progress-indicator">Step 8 of 8</div>
+        <div class="tutorial-progress-indicator">Step 9 of 9</div>
         <div class="tutorial-navigation">
           <button class="tutorial-btn prev" onclick="prevTutorialStep()">Back</button>
           <button class="tutorial-btn finish" onclick="endTutorial()">Finish Tutorial</button>
@@ -2423,6 +2706,265 @@
       }
     }
     
+    // ========== ENHANCED AUDIT LOGS SYSTEM ==========
+    let auditLogs = [];
+    let currentAuditFilters = {
+      year: '2025',
+      actionType: 'all',
+      user: 'all'
+    };
+    
+    // Generate comprehensive audit log data across multiple years
+    function generateAuditLogData() {
+      const actions = ['payment', 'create', 'modify', 'delete', 'view', 'export'];
+      const users = [
+        {id: 'admin', name: 'Administrator', initials: 'AD'},
+        {id: 'dr_miguel', name: 'Dr. Miguel Santos', initials: 'MS'},
+        {id: 'dr_ana', name: 'Dr. Ana Reyes', initials: 'AR'},
+        {id: 'staff', name: 'Reception Staff', initials: 'RS'}
+      ];
+      
+      const descriptions = {
+        payment: ['Payment recorded', 'Installment payment received', 'Down payment collected', 'Full payment processed'],
+        create: ['New patient record created', 'New payment plan created', 'New invoice generated', 'New treatment plan created'],
+        modify: ['Patient record updated', 'Payment amount adjusted', 'Installment plan modified', 'Invoice corrected'],
+        delete: ['Payment record deleted', 'Patient record archived', 'Invoice voided', 'Canceled appointment'],
+        view: ['Financial report viewed', 'Patient history accessed', 'Income report generated', 'Balance report reviewed'],
+        export: ['Audit logs exported', 'Financial report exported', 'Patient data exported', 'Transaction history exported']
+      };
+      
+      const details = {
+        payment: ['Payment ID: PAY-', 'Reference: REF-', 'Transaction ID: TXN-', 'Receipt No: RCPT-'],
+        create: ['Record ID: REC-', 'Created for patient: ', 'Service code: ', 'Plan ID: '],
+        modify: ['Modified field: ', 'Previous value: ', 'New value: ', 'Reason: '],
+        delete: ['Reason: Manual cleanup', 'Reason: Duplicate entry', 'Reason: Patient request', 'Reason: System error'],
+        view: ['Report type: ', 'Date range: ', 'Filter applied: ', 'Generated by: '],
+        export: ['Format: PDF', 'Format: Excel', 'Format: CSV', 'Format: Print']
+      };
+      
+      const ipAddresses = ['192.168.1.', '10.0.0.', '172.16.0.', '203.0.113.'];
+      
+      // Generate logs for multiple years (2021-2025)
+      const logs = [];
+      
+      for (let year = 2021; year <= 2025; year++) {
+        // Different number of logs per year to simulate realistic data
+        const logsPerYear = year === 2025 ? 120 : year === 2024 ? 90 : year === 2023 ? 70 : year === 2022 ? 50 : 30;
+        
+        for (let i = 0; i < logsPerYear; i++) {
+          const actionType = actions[Math.floor(Math.random() * actions.length)];
+          const user = users[Math.floor(Math.random() * users.length)];
+          const descIndex = Math.floor(Math.random() * descriptions[actionType].length);
+          const detailIndex = Math.floor(Math.random() * details[actionType].length);
+          
+          // Generate random date within the year
+          const month = Math.floor(Math.random() * 12) + 1;
+          const day = Math.floor(Math.random() * 28) + 1;
+          const hour = Math.floor(Math.random() * 24);
+          const minute = Math.floor(Math.random() * 60);
+          
+          const date = new Date(year, month - 1, day, hour, minute);
+          
+          logs.push({
+            id: `AUDIT-${year}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}-${i.toString().padStart(4, '0')}`,
+            timestamp: date,
+            year: year.toString(),
+            user: user,
+            actionType: actionType,
+            description: descriptions[actionType][descIndex],
+            details: details[actionType][detailIndex] + Math.floor(Math.random() * 10000),
+            ipAddress: ipAddresses[Math.floor(Math.random() * ipAddresses.length)] + Math.floor(Math.random() * 255)
+          });
+        }
+      }
+      
+      // Sort by timestamp (newest first)
+      return logs.sort((a, b) => b.timestamp - a.timestamp);
+    }
+    
+    // Initialize audit logs
+    function initializeAuditLogs() {
+      auditLogs = generateAuditLogData();
+      filterAuditLogs();
+    }
+    
+    // Filter audit logs based on current filters
+    function filterAuditLogs() {
+      const yearFilter = document.getElementById('auditYearRange').value;
+      const actionFilter = document.getElementById('auditActionType').value;
+      const userFilter = document.getElementById('auditUser').value;
+      
+      currentAuditFilters = {
+        year: yearFilter,
+        actionType: actionFilter,
+        user: userFilter
+      };
+      
+      const filteredLogs = auditLogs.filter(log => {
+        // Apply year filter
+        if (yearFilter !== 'all' && log.year !== yearFilter) return false;
+        
+        // Apply action type filter
+        if (actionFilter !== 'all' && log.actionType !== actionFilter) return false;
+        
+        // Apply user filter
+        if (userFilter !== 'all' && log.user.id !== userFilter) return false;
+        
+        return true;
+      });
+      
+      displayAuditLogs(filteredLogs);
+    }
+    
+    // Display audit logs in the table
+    function displayAuditLogs(logs) {
+      const tbody = document.getElementById('auditLogTableBody');
+      const countElement = document.getElementById('auditLogCount');
+      
+      tbody.innerHTML = '';
+      countElement.textContent = logs.length;
+      
+      if (logs.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-color); opacity: 0.5;">
+              <i class="fas fa-search" style="font-size: 36px; margin-bottom: 10px; display: block;"></i>
+              No audit log entries found for the selected filters.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      
+      logs.forEach(log => {
+        const row = document.createElement('tr');
+        
+        // Format date and time
+        const dateStr = log.timestamp.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+        const timeStr = log.timestamp.toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        
+        // Determine badge class based on action type
+        let badgeClass = '';
+        switch(log.actionType) {
+          case 'payment': badgeClass = 'payment'; break;
+          case 'create': badgeClass = 'create'; break;
+          case 'modify': badgeClass = 'modify'; break;
+          case 'delete': badgeClass = 'delete'; break;
+          case 'view': badgeClass = 'view'; break;
+          case 'export': badgeClass = 'export'; break;
+        }
+        
+        // Capitalize first letter of action type
+        const actionText = log.actionType.charAt(0).toUpperCase() + log.actionType.slice(1);
+        
+        row.innerHTML = `
+          <td>
+            <div style="font-weight: 600;">${dateStr}</div>
+            <div style="font-size: 12px; opacity: 0.7;">${timeStr}</div>
+          </td>
+          <td>
+            <div class="audit-user">
+              <div class="audit-user-avatar">${log.user.initials}</div>
+              <div>
+                <div style="font-weight: 600;">${log.user.name}</div>
+                <div style="font-size: 12px; opacity: 0.7;">${log.user.id === 'admin' ? 'Administrator' : 'Dentist'}</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="audit-badge ${badgeClass}">${actionText}</span></td>
+          <td>${log.description}</td>
+          <td style="font-size: 13px; opacity: 0.8;">${log.details}</td>
+          <td style="font-family: monospace; font-size: 12px;">${log.ipAddress}</td>
+        `;
+        
+        tbody.appendChild(row);
+      });
+    }
+    
+    // Export audit logs
+    function exportAuditLogs() {
+      showLoading();
+      
+      setTimeout(() => {
+        const filteredLogs = auditLogs.filter(log => {
+          if (currentAuditFilters.year !== 'all' && log.year !== currentAuditFilters.year) return false;
+          if (currentAuditFilters.actionType !== 'all' && log.actionType !== currentAuditFilters.actionType) return false;
+          if (currentAuditFilters.user !== 'all' && log.user.id !== currentAuditFilters.user) return false;
+          return true;
+        });
+        
+        // In a real application, this would generate and download a file
+        // For now, we'll just show a notification
+        showNotification(`Exporting ${filteredLogs.length} audit log entries...`, 'success');
+        
+        // Log to console for demonstration
+        console.log('Audit Logs Export:', filteredLogs);
+        
+        // Add an audit log entry for the export action
+        addAuditLogEntry('export', 'Audit logs exported', `Exported ${filteredLogs.length} entries with filters: Year=${currentAuditFilters.year}, Action=${currentAuditFilters.actionType}, User=${currentAuditFilters.user}`);
+        
+        hideLoading();
+        
+        // Show a more detailed message
+        setTimeout(() => {
+          showNotification(`✅ Audit logs exported successfully! ${filteredLogs.length} entries downloaded.`, 'success');
+        }, 1000);
+      }, 1500);
+    }
+    
+    // Clear all audit filters
+    function clearAuditFilters() {
+      document.getElementById('auditYearRange').value = 'all';
+      document.getElementById('auditActionType').value = 'all';
+      document.getElementById('auditUser').value = 'all';
+      filterAuditLogs();
+      showNotification('All audit log filters cleared', 'success');
+    }
+    
+    // Refresh audit logs
+    function refreshAuditLogs() {
+      showLoading();
+      setTimeout(() => {
+        // In a real application, this would fetch fresh data from the server
+        filterAuditLogs();
+        hideLoading();
+        showNotification('Audit logs refreshed successfully', 'success');
+      }, 800);
+    }
+    
+    // Add a new audit log entry
+    function addAuditLogEntry(actionType, description, details) {
+      const newLog = {
+        id: `AUDIT-${new Date().getTime()}`,
+        timestamp: new Date(),
+        year: new Date().getFullYear().toString(),
+        user: {id: 'admin', name: 'Administrator', initials: 'AD'},
+        actionType: actionType,
+        description: description,
+        details: details,
+        ipAddress: `192.168.1.${Math.floor(Math.random() * 255)}`
+      };
+      
+      // Add to beginning of array
+      auditLogs.unshift(newLog);
+      
+      // Update display if filters match
+      if (
+        (currentAuditFilters.year === 'all' || currentAuditFilters.year === newLog.year) &&
+        (currentAuditFilters.actionType === 'all' || currentAuditFilters.actionType === actionType) &&
+        (currentAuditFilters.user === 'all' || currentAuditFilters.user === 'admin')
+      ) {
+        filterAuditLogs();
+      }
+    }
+    
     // ========== GLOBAL DATA STORAGE ==========
     const financeData = {
       // Income Report Data
@@ -2485,7 +3027,7 @@
 
     // ========== ENHANCED TUTORIAL SYSTEM ==========
     let currentTutorialStep = 1;
-    const totalTutorialSteps = 8;
+    const totalTutorialSteps = 9;
     let tutorialActive = false;
     let isDragging = false;
     let dragOffsetX = 0;
@@ -2512,38 +3054,46 @@
       },
       {
         step: 3,
-        title: "Financial Reports",
-        description: "Accessing different types of financial reports",
-        highlightElement: 'reports-grid',
+        title: "Enhanced Audit Logs",
+        description: "Tracking financial activities across years",
+        highlightElement: 'audit-logs-section',
         highlightClass: 'highlight-step-3',
         position: { top: '400px', left: '50%', transform: 'translateX(-50%)' }
       },
       {
         step: 4,
-        title: "Adding Payments",
-        description: "How to record new patient payments",
-        highlightElement: 'addPaymentBtn',
+        title: "Financial Reports",
+        description: "Accessing different types of financial reports",
+        highlightElement: 'reports-grid',
         highlightClass: 'highlight-step-4',
-        position: { top: '100px', right: '50px' }
+        position: { top: '600px', left: '50%', transform: 'translateX(-50%)' }
       },
       {
         step: 5,
-        title: "Custom Report Generator",
-        description: "Creating customized financial reports",
-        highlightElement: 'filters-container',
+        title: "Adding Payments",
+        description: "How to record new patient payments",
+        highlightElement: 'addPaymentBtn',
         highlightClass: 'highlight-step-5',
-        position: { bottom: '250px', left: '50%', transform: 'translateX(-50%)' }
+        position: { top: '100px', right: '50px' }
       },
       {
         step: 6,
-        title: "Generated Reports",
-        description: "Understanding and using generated reports",
-        highlightElement: 'custom-reports-section',
+        title: "Custom Report Generator",
+        description: "Creating customized financial reports",
+        highlightElement: 'filters-container',
         highlightClass: 'highlight-step-6',
-        position: { bottom: '50px', left: '50%', transform: 'translateX(-50%)' }
+        position: { bottom: '250px', left: '50%', transform: 'translateX(-50%)' }
       },
       {
         step: 7,
+        title: "Generated Reports",
+        description: "Understanding and using generated reports",
+        highlightElement: 'custom-reports-section',
+        highlightClass: 'highlight-step-2',
+        position: { bottom: '50px', left: '50%', transform: 'translateX(-50%)' }
+      },
+      {
+        step: 8,
         title: "Detailed Report Modals",
         description: "Exploring detailed report information",
         highlightElement: null,
@@ -2551,7 +3101,7 @@
         position: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }
       },
       {
-        step: 8,
+        step: 9,
         title: "Tutorial Complete",
         description: "Summary and next steps",
         highlightElement: null,
@@ -2986,18 +3536,26 @@
     // Report Modal Functions
     function openIncomeReportModal() {
       openModal('incomeReportModal');
+      // Add audit log entry
+      addAuditLogEntry('view', 'Income Report viewed', 'Opened detailed income report modal');
     }
 
     function openInstallmentReportModal() {
       openModal('installmentReportModal');
+      // Add audit log entry
+      addAuditLogEntry('view', 'Installment Report viewed', 'Opened detailed installment report modal');
     }
 
     function openDentistReportModal() {
       openModal('dentistReportModal');
+      // Add audit log entry
+      addAuditLogEntry('view', 'Dentist Report viewed', 'Opened detailed dentist performance report modal');
     }
 
     function openBalanceReportModal() {
       openModal('balanceReportModal');
+      // Add audit log entry
+      addAuditLogEntry('view', 'Balance Report viewed', 'Opened detailed patients with balance report modal');
     }
 
     function openAddPaymentModal() {
@@ -3146,6 +3704,11 @@
         displayCustomReport();
         hideLoading();
         showNotification('Custom report generated successfully!', 'success');
+        
+        // Add audit log entry
+        const reportType = document.getElementById('reportType').value;
+        const dateRange = document.getElementById('reportDateRange').value;
+        addAuditLogEntry('view', 'Custom report generated', `Report type: ${reportType}, Date range: ${dateRange}`);
       }, 800);
     }
 
@@ -3356,6 +3919,8 @@
     }
 
     function exportReportToPDF() {
+      // Add audit log entry
+      addAuditLogEntry('export', 'Financial report exported', 'Exported custom financial report to PDF');
       showNotification('Export feature coming soon! For now, use Print or take a screenshot.', 'warning');
     }
 
@@ -3421,6 +3986,9 @@
             }
           }
         }
+        
+        // Add audit log entry
+        addAuditLogEntry('payment', 'Payment recorded', `Patient: ${document.getElementById('paymentPatient').options[document.getElementById('paymentPatient').selectedIndex].text}, Amount: ₱${amount}, Type: ${type}, Method: ${method}`);
         
         // Show success message
         showNotification(`Payment of ₱${amount.toLocaleString()} recorded successfully!`, 'success');
@@ -3510,6 +4078,9 @@
       generateCustomReportData();
       displayCustomReport();
       
+      // Initialize audit logs
+      initializeAuditLogs();
+      
       // Add event listener for chart period change
       document.getElementById('chartPeriod').addEventListener('change', function() {
         showLoading();
@@ -3580,10 +4151,11 @@
       });
       
       console.log('✅ SMART DENTISTRY Finance Dashboard initialized successfully!');
-      console.log('📊 Features: Transparent tutorial system, draggable panels');
+      console.log('📊 Features: Enhanced audit logs with multi-year tracking');
       console.log('🎮 Hotkeys: Ctrl+T for tutorial, Escape to close modals/tutorial');
       console.log('🌙 Dark Mode: Fully functional with transitions');
       console.log('📈 Chart: Fixed size na magkakasya sa column');
+      console.log('🔍 Audit Logs: Track financial activities from 2021-2025');
     });
   </script>
 </body>
