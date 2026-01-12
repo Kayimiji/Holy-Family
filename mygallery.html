@@ -1,790 +1,609 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Gallery - Holy Family Dental Clinic</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Holy Family Dental Clinic Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ============================================= */
-/* BASE STYLES & VARIABLES */
-/* ============================================= */
-
-:root {
-    --bg-color: #f5f7fa;
-    --sidebar-bg: #2c3e50;
-    --sidebar-text: rgba(255, 255, 255, 0.9);
-    --sidebar-active: #00bfff;
-    --card-bg: #ffffff; /* Light theme card background */
-    --text-color: #2c3e50;
-    --text-muted: #7a8ba9;
-    --border-color: #e1e5eb;
-    --hover-bg: #f0f4f8;
-    --today-bg: #e6f7ff;
-    --selected-bg: #00bfff;
-    --selected-text: white;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    --modal-bg: #ffffff;
-    --modal-text: #2c3e50;
-    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="dark"] {
-    --bg-color: #1a1a1a;
-    --sidebar-bg: #151e25;
-    --sidebar-text: rgba(255, 255, 255, 0.85);
-    --sidebar-active: #00bfff;
-    --card-bg: #2d2d2d;
-    --text-color: #e0e0e0;
-    --text-muted: #aaa;
-    --border-color: #444;
-    --hover-bg: #333;
-    --today-bg: #003366;
-    --selected-bg: #006699;
-    --selected-text: white;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    --modal-bg: #2d2d2d;
-    --modal-text: #e0e0e0;
-    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-html, body {
-    height: 100%;
-    overflow: hidden;
-}
-
-body {
-    font-family: 'Inter', Arial, sans-serif;
-    margin: 0;
-    transition: background-color 0.3s ease;
-    background-size: cover;
-    background-attachment: fixed;
-    background-color: var(--bg-color);
-    color: var(--sidebar-text);
-}
-
-/* ============================================= */
-/* LAYOUT & STRUCTURE */
-/* ============================================= */
-
-.dashboard {
-    display: flex;
-    height: 100vh;
-    min-height: 100vh;
-    overflow: hidden;
-    color: var(--text-color);
-}
-.sidebar {
-    background-color: var(--sidebar-bg);
-    color: var(--sidebar-text);
-    padding: 20px 0;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
-}
-
-.main-content {
-    flex-direction: column;
-    padding: 30px;
-    display: flex;
-    flex: 3;
-    transition: background-color 0.3s ease;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    margin-top: -20px;
-}
-
-.return-home-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.return-home-menu li {
-    margin-bottom: 5px;
-}
-
-.return-home-menu a {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    color: var(--sidebar-text);
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.return-home-menu a:hover, .return-home-menu a.active {
-    background-color: rgba(0, 191, 255, 0.2);
-    color: white;
-    border-left: 3px solid var(--sidebar-active);
-}
-
-.return-home-menu i {
-    margin-right: 10px;
-    width: 20px;
-    text-align: center;
-}
-/* ============================================= */
-/* SIDEBAR COMPONENTS */
-/* ============================================= */
-
-.sidebar-header {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    margin-bottom: 30px;
-}
-
-.sidebar-logo {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    margin-right: 15px;
-    object-fit: cover;
-    border: 3px solid rgba(255, 255, 255, 0.2);
-    flex-shrink: 0;
-}
-
-.sidebar-title {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.sidebar-title h2 {
-    color: var(--sidebar-active);
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.2;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.sidebar-title p {
-    color: var(--sidebar-text);
-    font-size: 11px;
-    margin-top: 6px;
-    margin-left: 0;
-    font-style: italic;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    white-space: normal;
-    opacity: 0.9;
-}
-
-.holy-family {
-    color: #1380d3;
-    font-weight: 700;
-}
-
-.dental-clinic {
-    color: #00c4cc;
-    font-weight: 700;
-}
-
-.sidebar-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
-
-.sidebar-menu li {
-    margin-bottom: 0;
-}
-
-.sidebar-menu a {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    color: var(--sidebar-text);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    border-left: 3px solid transparent;
-    font-weight: 500;
-    font-size: 14px;
-}
-
-.sidebar-menu a:hover, 
-.sidebar-menu a.active {
-    background-color: rgba(0, 191, 255, 0.15);
-    color: white;
-    border-left: 3px solid var(--sidebar-active);
-    padding-left: 23px;
-}
-
-.sidebar-menu i {
-    margin-right: 12px;
-    width: 20px;
-    text-align: center;
-    font-size: 16px;
-}
-
-.sidebar-footer {
-    padding: 20px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-.settings-menu {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.settings-menu, 
-.return-home-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
-
-.settings-menu li, 
-.return-home-menu li {
-    margin: 0;
-}
-
-.settings-menu a, 
-.return-home-menu a {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    color: var(--sidebar-text);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-size: 14px;
-    font-weight: 500;
-    border-left: 3px solid transparent;
-}
-
-.settings-menu a:hover, 
-.return-home-menu a:hover {
-    background-color: rgba(0, 191, 255, 0.15);
-    color: white;
-    border-left: 3px solid var(--sidebar-active);
-    padding-left: 23px;
-}
-
-.settings-menu i, 
-.return-home-menu i {
-    margin-right: 12px;
-    width: 20px;
-    text-align: center;
-    font-size: 16px;
-}
-
-.logout-btn {
-    color: rgba(255, 159, 159, 0.9) !important;
-}
-
-.logout-btn:hover {
-    background-color: rgba(231, 76, 60, 0.15) !important;
-    border-left-color: #e74c3c !important;
-    color: #ff9f9f !important;
-}
-
-        /* Main content styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        :root {
+            --statcards-bg: #00bfff98;
+            --calendarmodal-bg: #00bfff98;
+            --bg-color: #f5f7fa;
+            --sidebar-bg: #1e293b;
+            --sidebar-text: rgba(255, 255, 255, 0.9);
+            --sidebar-active: #00bfff;
+            --card-bg: #ffffff;
+            --text-color: #2e3b48;
+            --text-muted: #7a8ba9;
+            --border-color: #e1e5eb;
+            --hover-bg: #f0f4f8;
+            --today-bg: #e6f7ff;
+            --selected-bg: #00bfff;
+            --selected-text: white;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --modal-bg: #ffffff;
+            --modal-text: #2c3e50;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --calendar-day-bg: var(--card-bg);
+            --calendar-today-bg: var(--sidebar-active);
+            --calendar-today-color: white;
+            --calendar-selected-bg: rgba(0, 191, 255, 0.2);
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            width: 260px;
+            position: fixed;
+            z-index: 100;
+            transition: var(--transition);
+        }
+        
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 30px;
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .sidebar-logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid var(--sidebar-active);
+            box-shadow: 0 4px 10px rgba(0, 191, 255, 0.3);
+        }
+        
+        .sidebar-title h2 {
+            margin: 0;
+            font-size: 18px;
+            text-transform: uppercase;
+            line-height: 1.4;
+        }
+        
+        .holy-family {
+            color: #00bbff;
+            font-weight: bold;
+            display: block;
+            font-size: 20px;
+            letter-spacing: 1px;
+        }
+        
+        .dental-clinic {
+            color: white;
+            font-weight: 300;
+            display: block;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: 0.3s;
+            position: relative;
+        }
+        
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background-color: rgba(0,191,255,0.2);
+            color: #fff;
+            border-left: 3px solid var(--sidebar-active);
+        }
+        
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+        
+        .settings-menu {
+            margin-top: 30px;
+        }
+        
+        .return-home-menu {
+            margin-top: 10px;
+        }
+        
+        .logout-btn {
+            background-color: rgba(255, 59, 48, 0.1);
+            color: #ff3b30;
+        }
+        
+        .logout-btn:hover {
+            background-color: rgba(255, 59, 48, 0.2);
+        }
+        
+        /* Main Content Area */
         .main-content {
             flex: 1;
+            margin-left: 260px;
             padding: 30px;
-            overflow-y: auto;
+            width: calc(100% - 260px);
         }
-
-        /* Gallery specific styles */
-        .gallery-header {
+        
+        /* Content Header */
+        .content-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
         }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 24px;
-            padding: 20px;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .gallery-item {
-            background: var(--card-bg);
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border: 1px solid var(--border-color);
-            position: relative;
-        }
-
-        .gallery-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-            z-index: 1;
-        }
-
-        .gallery-item:hover::before {
-            left: 100%;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .gallery-image-container {
-            position: relative;
-            padding-top: 75%;
-            overflow: hidden;
-            background: linear-gradient(135deg, var(--hover-bg), var(--bg-color));
-        }
-
-        .gallery-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .gallery-item:hover .gallery-image {
-            transform: scale(1.08) rotate(2deg);
-        }
-
-        .gallery-info {
-            padding: 18px;
-            background: var(--card-bg);
-        }
-
-        .gallery-date {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-bottom: 8px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-        }
-
-        .gallery-title {
-            font-weight: 700;
-            margin-bottom: 8px;
+        
+        .content-header h1 {
+            font-size: 28px;
             color: var(--text-color);
-            font-size: 16px;
-            transition: color 0.3s ease;
+            font-weight: 700;
         }
-
-        .gallery-item:hover .gallery-title {
-            color: var(--primary);
+        
+        .user-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
         }
-
-        .gallery-procedure {
-            font-size: 0.9rem;
+        
+        .notification-icon {
+            position: relative;
+            font-size: 22px;
             color: var(--text-muted);
-            margin-bottom: 12px;
-            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s;
         }
-
-        .gallery-item.xray {
-            border: 2px solid var(--sidebar-active);
-            background: linear-gradient(135deg, var(--card-bg), rgba(0, 191, 255, 0.05));
-        }
-
-        .gallery-item.xray .gallery-image-container {
-            background-color: #1a1a1a;
-        }
-
-        .gallery-item.xray .gallery-title {
+        
+        .notification-icon:hover {
             color: var(--sidebar-active);
         }
-
-        .gallery-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .action-button {
-            padding: 10px 14px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            transition: all 0.3s ease;
+        }
+        
+        /* Gallery Content */
+        .gallery-container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .gallery-title {
+            font-size: 22px;
             font-weight: 600;
-            flex: 1;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            color: var(--text-color);
         }
-
-        .view-btn {
-            background: linear-gradient(135deg, var(--sidebar-active), #00c4cc);
-            color: white;
+        
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
         }
-
-        .view-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 191, 255, 0.3);
-        }
-
-        .download-btn {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-        }
-
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
-        }
-
-        /* Enhanced modal */
-        .modal {
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-            animation: modalBounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        @keyframes modalBounce {
-            0% {
-                opacity: 0;
-                transform: scale(0.8) translateY(-30px);
-            }
-            50% {
-                transform: scale(1.02);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        .close-modal {
-            transition: all 0.3s ease;
-            color: var(--text-muted);
-        }
-
-        .close-modal:hover {
-            color: #e74c3c;
-            transform: rotate(90deg) scale(1.2);
-        }
-
-        /* Filter select enhancements */
+        
         .filter-select {
-            transition: all 0.3s ease;
-            border: 2px solid var(--border-color);
+            padding: 10px 15px;
             border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            color: var(--text-color);
+            font-size: 14px;
+            cursor: pointer;
+            transition: border-color 0.3s;
         }
-
+        
         .filter-select:focus {
             outline: none;
             border-color: var(--sidebar-active);
-            box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.15);
         }
-
-        .filter-select:hover {
-            border-color: var(--sidebar-active);
+        
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .gallery-item {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .gallery-item-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .gallery-item-date {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .gallery-item-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .gallery-item-content {
+            padding: 15px;
+        }
+        
+        .procedure-type {
+            display: inline-block;
+            background-color: rgba(0, 191, 255, 0.1);
+            color: var(--sidebar-active);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .image-placeholder {
+            height: 180px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            border: 1px dashed var(--border-color);
+        }
+        
+        .image-placeholder i {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .image-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-view {
+            background-color: rgba(0, 191, 255, 0.1);
+            color: var(--sidebar-active);
+        }
+        
+        .btn-view:hover {
+            background-color: rgba(0, 191, 255, 0.2);
+        }
+        
+        .btn-download {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+        
+        .btn-download:hover {
+            background-color: rgba(40, 167, 69, 0.2);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 220px;
+            }
+            
+            .main-content {
+                margin-left: 220px;
+                width: calc(100% - 220px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="dashboard">
-        <!-- Sidebar Navigation -->
-        <div class="sidebar">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div>
             <div class="sidebar-header">
                 <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
                 <div class="sidebar-title">
                     <h2>
-                        <span class="holy-family">Smart</span>
-                        <span class="dental-clinic">Dentistry</span>
+                        <span class="holy-family">HOLY FAMILY</span>
+                        <span class="dental-clinic">Dental Clinic</span>
                     </h2>
-                    <p>Creating beautiful smiles</p>
                 </div>
             </div>
-
-            <ul class="sidebar-menu">
-                <li><a href="View.html"><i class="fas fa-home"></i> Patient Dashboard</a></li>
-                <li><a href="forms.html"><i class="fas fa-file-medical"></i> Forms</a></li>
-                <li><a href="mygallery.html" class="active"><i class="fas fa-images"></i> My Gallery</a></li>
-            </ul>
-
-            <div class="sidebar-footer">
-                <ul class="return-home-menu">
-                    <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                </ul>
-            </div>
-        </div>
-
-
-        <!-- Main Content -->
-        <div class="main-content">
-            <div class="gallery-header">
-                <h1>My Dental Progress Gallery</h1>
-                <div class="theme-toggle">
-                    <span>Dark Mode</span>
-                    <label class="switch">
-                        <input type="checkbox" id="themeToggle">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="gallery-filters">
-                <select class="filter-select" id="imageTypeFilter">
-                    <option value="all">All Image Types</option>
-                    <option value="photo">Clinical Photos</option>
-                    <option value="xray">X-ray Images</option>
-                </select>
-                <select class="filter-select" id="dateFilter">
-                    <option value="all">All Dates</option>
-                    <option value="recent">Recent</option>
-                    <option value="lastMonth">Last Month</option>
-                    <option value="lastYear">Last Year</option>
-                </select>
-                <select class="filter-select" id="procedureFilter">
-                    <option value="all">All Procedures</option>
-                    <option value="cleaning">Cleaning</option>
-                    <option value="fluoride">Fluoride Treatment</option>
-                    <option value="sealants">Sealants</option>
-                </select>
-            </div>
-
-            <div class="gallery-grid" id="galleryGrid">
-                <!-- Gallery items will be dynamically added here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Image View Modal -->
-    <div id="imageModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <img id="modalImage" class="modal-image" src="" alt="Dental Progress">
-            <div id="modalInfo" style="margin-top: 15px;"></div>
-        </div>
-    </div>
-    
-    
-
-    <script>
-        // Sample gallery data
-        const galleryData = [
-    {
-        id: 1,
-        image: 'before.png',
-        date: '2024-01-10',
-        title: 'Before Treatment',
-        procedure: 'Fluoride Treatment',
-        description: 'Initial condition before fluoride treatment',
-        type: 'photo'
-    },
-    {
-        id: 2,
-        image: 'after.png',
-        date: '2024-01-10',
-        title: 'After Treatment',
-        procedure: 'Fluoride Treatment',
-        description: 'Results after fluoride treatment',
-        type: 'photo'
-    },
-    {
-        id: 3,
-        image: 'xray1.png',
-        date: '2024-02-15',
-        title: 'Panoramic X-ray',
-        procedure: 'Diagnostic Imaging',
-        description: 'Full mouth panoramic X-ray showing tooth alignment',
-        type: 'xray'
-    },
-    {
-        id: 4,
-        image: 'xray2.png',
-        date: '2024-03-20',
-        title: 'Bitewing X-ray',
-        procedure: 'Diagnostic Imaging',
-        description: 'Bitewing X-ray showing posterior teeth',
-        type: 'xray'
-    }
-];
-
-        // Initialize gallery
-        function initializeGallery() {
-            const galleryGrid = document.getElementById('galleryGrid');
-            galleryGrid.innerHTML = ''; // Clear existing items
-
-            galleryData.forEach(item => {
-                const galleryItem = createGalleryItem(item);
-                galleryGrid.appendChild(galleryItem);
-            });
-        }
-
-        // Create gallery item
-        function createGalleryItem(item) {
-    const div = document.createElement('div');
-    div.className = `gallery-item ${item.type === 'xray' ? 'xray' : ''}`;
-    div.innerHTML = `
-        <div class="gallery-image-container">
-            <img src="${item.image}" alt="${item.title}" class="gallery-image">
-        </div>
-        <div class="gallery-info">
-            <div class="gallery-date">${formatDate(item.date)}</div>
-            <div class="gallery-title">${item.title}</div>
-            <div class="gallery-procedure">Procedure: ${item.procedure}</div>
-            <div class="gallery-actions">
-                <button class="action-button view-btn" onclick="openModal('${item.image}', '${item.title}', '${item.description}')">
-                    <i class="fas fa-eye"></i> View
-                </button>
-                <button class="action-button download-btn" onclick="downloadImage('${item.image}', '${item.title}')">
-                    <i class="fas fa-download"></i> Download
-                </button>
-            </div>
-        </div>
-    `;
-    return div;
-}
-
-        // Modal functionality
-        function openModal(imageSrc, title, description) {
-            const modal = document.getElementById('imageModal');
-            const modalImage = document.getElementById('modalImage');
-            const modalInfo = document.getElementById('modalInfo');
-
-            modalImage.src = imageSrc;
-            modalInfo.innerHTML = `
-                <h3>${title}</h3>
-                <p>${description}</p>
-            `;
-
-            modal.style.display = 'block';
-        }
-
-        // Close modal
-        document.querySelector('.close-modal').addEventListener('click', () => {
-            document.getElementById('imageModal').style.display = 'none';
-        });
-
-        const logoutButtons = document.querySelectorAll('.logout-btn');
-        logoutButtons.forEach(button => {
-            button.addEventListener('click', async (e) => {
-                e.preventDefault();
-                sessionStorage.removeItem('user');
-                localStorage.removeItem('user');
-                window.location.href = 'landingpage.html';
-            });
-        });
-
-
-        // Theme toggle
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('change', () => {
-            document.documentElement.setAttribute('data-theme', 
-                themeToggle.checked ? 'dark' : 'light'
-            );
-        });
-
-        // Filter functionality
-        document.getElementById('dateFilter').addEventListener('change', filterGallery);
-        document.getElementById('procedureFilter').addEventListener('change', filterGallery);
-        
-
-        function filterGallery() {
-    const dateFilter = document.getElementById('dateFilter').value;
-    const procedureFilter = document.getElementById('procedureFilter').value;
-    const imageTypeFilter = document.getElementById('imageTypeFilter').value;
-
-    const filteredData = galleryData.filter(item => {
-        const dateMatch = dateFilter === 'all' ? true : matchDateFilter(item.date, dateFilter);
-        const procedureMatch = procedureFilter === 'all' ? true : item.procedure.toLowerCase().includes(procedureFilter);
-        const typeMatch = imageTypeFilter === 'all' ? true : item.type === imageTypeFilter;
-        return dateMatch && procedureMatch && typeMatch;
-    });
-
-    const galleryGrid = document.getElementById('galleryGrid');
-    galleryGrid.innerHTML = '';
-    filteredData.forEach(item => {
-        const galleryItem = createGalleryItem(item);
-        galleryGrid.appendChild(galleryItem);
-    });
-}
-
-        // Helper functions
-        function formatDate(dateString) {
-            return new Date(dateString).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-        }
-
-        function matchDateFilter(date, filter) {
-            const itemDate = new Date(date);
-            const now = new Date();
             
-            switch(filter) {
-                case 'recent':
-                    return (now - itemDate) / (1000 * 60 * 60 * 24) <= 7;
-                case 'lastMonth':
-                    return (now - itemDate) / (1000 * 60 * 60 * 24) <= 30;
-                case 'lastYear':
-                    return (now - itemDate) / (1000 * 60 * 60 * 24) <= 365;
-                default:
-                    return true;
-            }
-        }
-
-        function downloadImage(imageSrc, title) {
-            const link = document.createElement('a');
-            link.href = imageSrc;
-            link.download = `${title.toLowerCase().replace(/ /g, '_')}.png`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        // Initialize gallery when page loads
-        document.addEventListener('DOMContentLoaded', initializeGallery);
-
-        document.getElementById('imageTypeFilter').addEventListener('change', filterGallery);
+            <ul class="sidebar-menu">
+                <li><a href="staffdash.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="staffpatientlist.html"><i class="fas fa-tooth"></i> Patient List</a></li>
+                <li><a href="forms.html"><i class="fas fa-file-medical"></i> Forms</a></li>
+                <li><a href="mygallery.html" class="active"><i class="fas fa-images"></i> Gallery</a></li>
+            </ul>
+            
+            <!-- Add Return to Home menu at the bottom -->
+            <div style="position: absolute; bottom: 20px; width: 100%;">
+                <div style="padding: 0 20px;">
+                    <ul class="sidebar-menu settings-menu">
+                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                    <ul class="sidebar-menu return-home-menu">
+                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Log Out</a></li>
+                    </ul>
+                </div>      
+            </div>
+        </div>    
+    </aside>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Content Header -->
+        <div class="content-header">
+            <h1>My Dental Progress Gallery</h1>
+            <div class="user-actions">
+                <div class="notification-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Gallery Container -->
+        <div class="gallery-container">
+            <!-- Gallery Header with Filters -->
+            <div class="gallery-header">
+                <h2 class="gallery-title">All Images</h2>
+                <div class="filter-controls">
+                    <select class="filter-select">
+                        <option>All Image Types</option>
+                        <option>Before Treatment</option>
+                        <option>After Treatment</option>
+                        <option>X-rays</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Dates</option>
+                        <option>Last 7 Days</option>
+                        <option>Last 30 Days</option>
+                        <option>Last 3 Months</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Procedures</option>
+                        <option>Placeful Treatment</option>
+                        <option>Diagnostic Imaging</option>
+                        <option>Cleaning</option>
+                        <option>Fillings</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Gallery Grid -->
+            <div class="gallery-grid">
+                <!-- January 10, 2024 - Before Treatment -->
+                <div class="gallery-item">
+                    <div class="gallery-item-header">
+                        <div class="gallery-item-date">JANUARY 10, 2024</div>
+                        <h3 class="gallery-item-title">Before Treatment</h3>
+                    </div>
+                    <div class="gallery-item-content">
+                        <span class="procedure-type">Placeful Treatment</span>
+                        <div class="image-placeholder">
+                            <div style="text-align: center;">
+                                <img src="before.png" alt="Before Treatment Image" style="max-width: 100%; max-height: 100%;">
+                            </div>
+                        </div>
+                        <div class="image-actions">
+                            <button class="btn btn-view">
+                                <i class="fas fa-eye"></i>
+                                View
+                            </button>
+                            <button class="btn btn-download">
+                                <i class="fas fa-download"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- January 10, 2024 - After Treatment -->
+                <div class="gallery-item">
+                    <div class="gallery-item-header">
+                        <div class="gallery-item-date">JANUARY 10, 2024</div>
+                        <h3 class="gallery-item-title">After Treatment</h3>
+                    </div>
+                    <div class="gallery-item-content">
+                        <span class="procedure-type">Placeful Treatment</span>
+                        <div class="image-placeholder">
+                            <div style="text-align: center;">
+                                <img src="after.png" alt="After Treatment Image" style="max-width: 100%; max-height: 100%;">
+                                <p>After Treatment Image</p>
+                            </div>
+                        </div>
+                        <div class="image-actions">
+                            <button class="btn btn-view">
+                                <i class="fas fa-eye"></i>
+                                View
+                            </button>
+                            <button class="btn btn-download">
+                                <i class="fas fa-download"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- February 15, 2024 - Panoramic X-ray -->
+                <div class="gallery-item">
+                    <div class="gallery-item-header">
+                        <div class="gallery-item-date">FEBRUARY 15, 2024</div>
+                        <h3 class="gallery-item-title">Panoramic X-ray</h3>
+                    </div>
+                    <div class="gallery-item-content">
+                        <span class="procedure-type">Diagnostic Imaging</span>
+                        <div class="image-placeholder">
+                            <div style="text-align: center;">
+                                <i class="fas fa-x-ray"></i>
+                                <p>Panoramic X-ray Image</p>
+                            </div>
+                        </div>
+                        <div class="image-actions">
+                            <button class="btn btn-view">
+                                <i class="fas fa-eye"></i>
+                                View
+                            </button>
+                            <button class="btn btn-download">
+                                <i class="fas fa-download"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- March 10, 2024 - Bitewing X-ray -->
+                <div class="gallery-item">
+                    <div class="gallery-item-header">
+                        <div class="gallery-item-date">MARCH 10, 2024</div>
+                        <h3 class="gallery-item-title">Bitewing X-ray</h3>
+                    </div>
+                    <div class="gallery-item-content">
+                        <span class="procedure-type">Diagnostic Imaging</span>
+                        <div class="image-placeholder">
+                            <div style="text-align: center;">
+                                <i class="fas fa-x-ray"></i>
+                                <p>Bitewing X-ray Image</p>
+                            </div>
+                        </div>
+                        <div class="image-actions">
+                            <button class="btn btn-view">
+                                <i class="fas fa-eye"></i>
+                                View
+                            </button>
+                            <button class="btn btn-download">
+                                <i class="fas fa-download"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add active class to current page link
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop();
+            const links = document.querySelectorAll('.sidebar-menu a');
+            
+            links.forEach(link => {
+                const linkPage = link.getAttribute('href');
+                if (linkPage === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        });
     </script>
 </body>
 </html>

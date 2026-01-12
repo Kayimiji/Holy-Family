@@ -123,7 +123,7 @@
             background-color: var(--sidebar-bg);
             color: var(--sidebar-text);
             padding: 20px 0;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 2px 0 10px rgba(0, 0,   0, 0.1);
             transition: all 0.3s ease;
             flex-shrink: 0;
             display: flex;
@@ -982,32 +982,39 @@
     </style>
 </head>
 <body>
-    <div class="dashboard">
-        <!-- Sidebar Navigation - ORIGINAL COLORS PRESERVED -->
-        <div class="sidebar">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div>
             <div class="sidebar-header">
                 <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
                 <div class="sidebar-title">
                     <h2>
-                        <span class="holy-family">Smart</span>
-                        <span class="dental-clinic">Dentistry</span>
+                        <span class="holy-family">HOLY FAMILY</span>
+                        <span class="dental-clinic">Dental Clinic</span>
                     </h2>
-                    <p>Creating beautiful smiles</p>
                 </div>
             </div>
             
             <ul class="sidebar-menu">
-                <li><a href="View.html" class="active"><i class="fas fa-home"></i> Patient Dashboard</a></li>
+                <li><a href="staffdash.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="patients.html"><i class="fas fa-tooth"></i> Patient List</a></li>
                 <li><a href="forms.html"><i class="fas fa-file-medical"></i> Forms</a></li>
-                <li><a href="mygallery.html"><i class="fas fa-images"></i> My Gallery</a></li>
+                 <li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li>
+                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
-            
-            <div class="sidebar-footer">
-                <ul class="return-home-menu">
-                    <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                </ul>
+            <!-- Add Return to Home menu at the bottom -->
+            <div style="position: absolute; bottom: 20px; width: 13%;">
+                <div style="position: absolute; bottom: 20px; width: 100%;">
+                    <ul class="sidebar-menu settings-menu">
+                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                    <ul class="sidebar-menu return-home-menu">
+                        <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                    </ul>
+                </div>      
             </div>
-        </div>
+        </div>    
+    </aside>
         
         <!-- Main Content -->
         <div class="main-content">

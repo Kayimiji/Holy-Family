@@ -1,719 +1,1091 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holy Family Dental Clinic - Forms</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <title>Forms - Smart Dentistry</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    
     <style>
-/* ============================================= */
-/* BASE STYLES & VARIABLES */
-/* ============================================= */
-
-:root {
-    --bg-color: #f5f7fa;
-    --sidebar-bg: #2c3e50;
-    --sidebar-text: rgba(255, 255, 255, 0.9);
-    --sidebar-active: #00bfff;
-    --card-bg: #ffffff; /* Light theme card background */
-    --text-color: #2c3e50;
-    --text-muted: #7a8ba9;
-    --border-color: #e1e5eb;
-    --hover-bg: #f0f4f8;
-    --today-bg: #e6f7ff;
-    --selected-bg: #00bfff;
-    --selected-text: white;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    --modal-bg: #ffffff;
-    --modal-text: #2c3e50;
-    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="dark"] {
-    --bg-color: #1a1a1a;
-    --sidebar-bg: #151e25;
-    --sidebar-text: rgba(255, 255, 255, 0.85);
-    --sidebar-active: #00bfff;
-    --card-bg: #2d2d2d;
-    --text-color: #e0e0e0;
-    --text-muted: #aaa;
-    --border-color: #444;
-    --hover-bg: #333;
-    --today-bg: #003366;
-    --selected-bg: #006699;
-    --selected-text: white;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    --modal-bg: #2d2d2d;
-    --modal-text: #e0e0e0;
-    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-html, body {
-    height: 100%;
-    overflow: hidden;
-}
-
-body {
-    font-family: 'Inter', Arial, sans-serif;
-    margin: 0;
-    transition: background-color 0.3s ease;
-    background-size: cover;
-    background-attachment: fixed;
-    background-color: var(--bg-color);
-    color: var(--sidebar-text);
-}
-
-/* ============================================= */
-/* LAYOUT & STRUCTURE */
-/* ============================================= */
-
-.dashboard {
-    display: flex;
-    height: 100vh;
-    min-height: 100vh;
-    overflow: hidden;
-    color: var(--text-color);
-}
-.sidebar {
-    background-color: var(--sidebar-bg);
-    color: var(--sidebar-text);
-    padding: 20px 0;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
-}
-
-.main-content {
-    flex-direction: column;
-    padding: 30px;
-    display: flex;
-    flex: 3;
-    transition: background-color 0.3s ease;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    margin-top: -20px;
-}
-
-.return-home-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.return-home-menu li {
-    margin-bottom: 5px;
-}
-
-.return-home-menu a {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    color: var(--sidebar-text);
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.return-home-menu a:hover, .return-home-menu a.active {
-    background-color: rgba(0, 191, 255, 0.2);
-    color: white;
-    border-left: 3px solid var(--sidebar-active);
-}
-
-.return-home-menu i {
-    margin-right: 10px;
-    width: 20px;
-    text-align: center;
-}
-/* ============================================= */
-/* SIDEBAR COMPONENTS */
-/* ============================================= */
-
-.sidebar-header {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    margin-bottom: 30px;
-}
-
-.sidebar-logo {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    margin-right: 15px;
-    object-fit: cover;
-    border: 3px solid rgba(255, 255, 255, 0.2);
-    flex-shrink: 0;
-}
-
-.sidebar-title {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.sidebar-title h2 {
-    color: var(--sidebar-active);
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.2;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.sidebar-title p {
-    color: var(--sidebar-text);
-    font-size: 11px;
-    margin-top: 6px;
-    margin-left: 0;
-    font-style: italic;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    white-space: normal;
-    opacity: 0.9;
-}
-
-.holy-family {
-    color: #1380d3;
-    font-weight: 700;
-}
-
-.dental-clinic {
-    color: #00c4cc;
-    font-weight: 700;
-}
-
-.sidebar-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
-
-.sidebar-menu li {
-    margin-bottom: 0;
-}
-
-.sidebar-menu a {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    color: var(--sidebar-text);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    border-left: 3px solid transparent;
-    font-weight: 500;
-    font-size: 14px;
-}
-
-.sidebar-menu a:hover, 
-.sidebar-menu a.active {
-    background-color: rgba(0, 191, 255, 0.15);
-    color: white;
-    border-left: 3px solid var(--sidebar-active);
-    padding-left: 23px;
-}
-
-.sidebar-menu i {
-    margin-right: 12px;
-    width: 20px;
-    text-align: center;
-    font-size: 16px;
-}
-
-.sidebar-footer {
-    padding: 20px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-.settings-menu {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.settings-menu, 
-.return-home-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
-
-.settings-menu li, 
-.return-home-menu li {
-    margin: 0;
-}
-
-.settings-menu a, 
-.return-home-menu a {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    color: var(--sidebar-text);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-size: 14px;
-    font-weight: 500;
-    border-left: 3px solid transparent;
-}
-
-.settings-menu a:hover, 
-.return-home-menu a:hover {
-    background-color: rgba(0, 191, 255, 0.15);
-    color: white;
-    border-left: 3px solid var(--sidebar-active);
-    padding-left: 23px;
-}
-
-.settings-menu i, 
-.return-home-menu i {
-    margin-right: 12px;
-    width: 20px;
-    text-align: center;
-    font-size: 16px;
-}
-
-.logout-btn {
-    color: rgba(255, 159, 159, 0.9) !important;
-}
-
-.logout-btn:hover {
-    background-color: rgba(231, 76, 60, 0.15) !important;
-    border-left-color: #e74c3c !important;
-    color: #ff9f9f !important;
-}
-
-.btn {
-    padding: 8px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    margin-top: -10px;
-    align-items: center;
-    gap: 5px;
-    font-size: 13px;
-    border: none;
-}
-.btn-outline {
-    background-color: transparent;
-    border: 2px solid var(--sidebar-active);
-    color: var(--sidebar-active);
-}
-
-.btn-outline:hover {
-    background-color: var(--sidebar-active);
-    color: white;
-    box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
-}
-
-.theme-toggle {
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-    gap: 10px;
-}
-
-.theme-toggle-label {
-    font-size: 14px;
-    color: var(--text-color);
-}
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 24px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-    border-radius: 24px;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 16px;
-    width: 16px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-}
-
-input:checked + .slider {
-    background-color: #00bfff;
-}
-
-input:checked + .slider:before {
-    transform: translateX(26px);
-}
-
-
-
-/* ============================================= */
-/* FORMS SECTION */
-/* ============================================= */
-
-.forms-container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-    animation: slideInUp 0.5s ease;
-}
-
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.form-name {
-    margin-bottom: 28px;
-    padding-bottom: 16px;
-    border-bottom: 3px solid var(--border-color);
-    animation: slideInLeft 0.5s ease 0.1s both;
-}
-
-@keyframes slideInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-.form-name h2 {
-    background: linear-gradient(135deg, #1380d3, #00c4cc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin: 0;
-    font-size: 24px;
-    font-weight: 700;
-}
-
-.form-list {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
-.form-item {
-    display: flex;
-    align-items: center;
-    padding: 22px;
-    background: linear-gradient(135deg, var(--card-bg), rgba(19, 128, 211, 0.03));
-    border-radius: 14px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-    cursor: pointer;
-    border: 1px solid var(--border-color);
-    position: relative;
-    overflow: hidden;
-}
-
-.form-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-}
-
-.form-item:hover::before {
-    transform: scaleX(1);
-}
-
-.form-item:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-    border-color: var(--sidebar-active);
-}
-
-.form-icon {
-    font-size: 28px;
-    color: var(--sidebar-active);
-    margin-right: 20px;
-    width: 50px;
-    text-align: center;
-    transition: all 0.3s ease;
-    background: rgba(0, 191, 255, 0.1);
-    height: 50px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.form-item:hover .form-icon {
-    transform: scale(1.15) rotate(10deg);
-    background: rgba(0, 191, 255, 0.2);
-}
-
-.form-details {
-    flex: 1;
-}
-
-.form-details h3 {
-    margin: 0;
-    color: var(--text-color);
-    font-size: 18px;
-    font-weight: 700;
-    transition: color 0.3s ease;
-}
-
-.form-item:hover .form-details h3 {
-    color: var(--primary);
-}
-
-.form-details p {
-    margin: 8px 0 0;
-    color: var(--text-muted);
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.form-actions {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-}
-
-.form-link {
-    color: var(--text-color);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    background: linear-gradient(135deg, var(--sidebar-active), #00c4cc);
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 14px;
-    color: white !important;
-    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.25);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-}
-
-.form-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 191, 255, 0.35);
-    background: linear-gradient(135deg, #00c4cc, #1380d3);
-}
-
-/* Download button styling */
-#download-btn {
-    background: linear-gradient(135deg, var(--sidebar-active), #00c4cc);
-    box-shadow: 0 6px 16px rgba(0, 191, 255, 0.3);
-}
-
-#download-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(0, 191, 255, 0.4);
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        :root {
+            --bg-color: #f5f7fa;
+            --sidebar-bg: #1e293b;
+            --sidebar-text: rgba(255, 255, 255, 0.9);
+            --sidebar-active: #00bfff;
+            --card-bg: #ffffff;
+            --text-color: #2e3b48;
+            --text-muted: #7a8ba9;
+            --border-color: #e1e5eb;
+            --hover-bg: #f0f4f8;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 260px;
+            position: fixed;
+            z-index: 100;
+            transition: var(--transition);
+        }
+        
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 30px;
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .sidebar-logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid var(--sidebar-active);
+            box-shadow: 0 4px 10px rgba(0, 191, 255, 0.3);
+        }
+        
+        .sidebar-title h2 {
+            margin: 0;
+            font-size: 18px;
+            text-transform: uppercase;
+            line-height: 1.4;
+        }
+        
+        .holy-family {
+            color: #00bbff;
+            font-weight: bold;
+            display: block;
+            font-size: 20px;
+            letter-spacing: 1px;
+        }
+        
+        .dental-clinic {
+            color: white;
+            font-weight: 300;
+            display: block;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: 0.3s;
+            position: relative;
+        }
+        
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background-color: rgba(0,191,255,0.2);
+            color: #fff;
+            border-left: 3px solid var(--sidebar-active);
+        }
+        
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+        
+        .sidebar-footer {
+            padding: 0 20px;
+        }
+        
+        .settings-menu,
+        .return-home-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .logout-btn {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .logout-btn:hover {
+            color: white !important;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 30px 40px;
+            overflow-y: auto;
+            margin-left: 260px;
+            width: calc(100% - 260px);
+        }
+        
+        /* Header Styles */
+        .page-header {
+            margin-bottom: 40px;
+        }
+        
+        .page-header h1 {
+            font-size: 32px;
+            color: #1e3a5f;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        
+        .page-header p {
+            color: #64748b;
+            font-size: 16px;
+        }
+        
+        /* Clinic Branding */
+        .clinic-branding {
+            background: linear-gradient(135deg, #00bfff 0%, #0088cc 100%);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 6px 15px rgba(0, 191, 255, 0.2);
+        }
+        
+        .clinic-name {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .clinic-tagline {
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        /* Patient Info Card */
+        .patient-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+        }
+        
+        .patient-card h2 {
+            color: #1e3a5f;
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .patient-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .patient-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00bfff 0%, #0088cc 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .patient-details h3 {
+            font-size: 20px;
+            color: #1e3a5f;
+            margin-bottom: 5px;
+        }
+        
+        .patient-id {
+            color: #64748b;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        /* Forms Section */
+        .forms-section {
+            margin-bottom: 50px;
+        }
+        
+        .forms-section h2 {
+            color: #1e3a5f;
+            font-size: 24px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        
+        .forms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .form-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+        
+        .form-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            border-color: #00bfff;
+        }
+        
+        .form-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .form-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #00bfff 0%, #0088cc 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .form-title {
+            flex: 1;
+        }
+        
+        .form-title h3 {
+            font-size: 18px;
+            color: #1e3a5f;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .form-title p {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .form-description {
+            margin-bottom: 25px;
+            color: #475569;
+            line-height: 1.6;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: #00bfff;
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            background-color: #00a8e8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: #f1f5f9;
+            color: #475569;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e2e8f0;
+        }
+        
+        /* Preview Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #f8fafc;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .modal-header h2 {
+            color: #1e3a5f;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #64748b;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: #1e3a5f;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .pdf-preview {
+            width: 100%;
+            height: 500px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .pdf-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .modal-footer {
+            padding: 20px 30px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            background-color: #f8fafc;
+            border-radius: 0 0 12px 12px;
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            background-color: #10b981;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1001;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Footer */
+        .page-footer {
+            margin-top: 60px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1100px) {
+            .forms-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                position: relative;
+                min-height: auto;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .sidebar-header {
+                margin-bottom: 15px;
+            }
+            
+            .sidebar-menu {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .sidebar-menu li {
+                margin: 5px;
+            }
+            
+            .sidebar-menu a {
+                border-radius: 6px;
+                padding: 10px 15px;
+            }
+            
+            .sidebar-menu a.active {
+                border-left: none;
+                background-color: rgba(0,191,255,0.2);
+            }
+            
+            .sidebar-footer {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+            
+            .forms-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .patient-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
     </style>
 </head>
 <body>
-    <div class="dashboard">
-        <!-- Sidebar Navigation -->
-        <div class="sidebar">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div>
             <div class="sidebar-header">
                 <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
                 <div class="sidebar-title">
                     <h2>
-                        <span class="holy-family">Smart</span>
-                        <span class="dental-clinic">Dentistry</span>
+                        <span class="holy-family">HOLY FAMILY</span>
+                        <span class="dental-clinic">Dental Clinic</span>
                     </h2>
-                    <p>Creating beautiful smiles</p>
                 </div>
             </div>
-
+            
             <ul class="sidebar-menu">
-                <li><a href="View.html"><i class="fas fa-home"></i> Patient Dashboard</a></li>
+                <li><a href="staffdash.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="staffpatientlist.html"><i class="fas fa-tooth"></i> Patient List</a></li>
                 <li><a href="forms.html" class="active"><i class="fas fa-file-medical"></i> Forms</a></li>
-                <li><a href="mygallery.html"><i class="fas fa-images"></i> My Gallery</a></li>
+                <li><a href="mygallery.html"><i class="fas fa-images"></i> Gallery</a></li>
             </ul>
-
-            <div class="sidebar-footer">
-                <ul class="return-home-menu">
-                    <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                </ul>
+        </div>
+        
+        <div class="sidebar-footer">
+            <ul class="sidebar-menu settings-menu">
+                <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+            <ul class="sidebar-menu return-home-menu">
+                <li><a href="landingpage.html" class="logout-btn"><i class="fas fa-arrow-left"></i> Log Out</a></li>
+            </ul>
+        </div>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Clinic Branding -->
+        <div class="clinic-branding">
+            <div class="clinic-name">HOLY FAMILY DENTAL CLINIC</div>
+            <div class="clinic-tagline">Quality dental care for the whole family</div>
+        </div>
+        
+        <!-- Patient Information -->
+        <div class="patient-card">
+            <h2>Patient Forms</h2>
+            <div class="patient-info">
+                <div class="patient-avatar">SC</div>
+                <div class="patient-details">
+                    <h3>Sammuel Cabison</h3>
+                    <div class="patient-id">HFDC-2023-001</div>
+                </div>
+            </div>
+            <p>Select and manage forms for the selected patient. You can preview, download, or fill out forms digitally.</p>
+        </div>
+        
+        <!-- Forms Section -->
+        <div class="forms-section">
+            <h2>Available Forms</h2>
+            <div class="forms-grid">
+                
+                <!-- Patient Information Form -->
+                <div class="form-card">
+                    <div class="form-header">
+                        <div class="form-icon">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="form-title">
+                            <h3>Patient Information Form</h3>
+                            <p>Personal & Contact Details</p>
+                        </div>
+                    </div>
+                    <div class="form-description">
+                        Complete form for collecting patient's personal information, contact details, emergency contacts, and insurance information.
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary preview-form" data-form="patient-info">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                        <button class="btn btn-secondary download-form" data-form="patient-info">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Medical History Form -->
+                <div class="form-card">
+                    <div class="form-header">
+                        <div class="form-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div class="form-title">
+                            <h3>Medical History Form</h3>
+                            <p>Health & Medical Background</p>
+                        </div>
+                    </div>
+                    <div class="form-description">
+                        Comprehensive medical history questionnaire including current medications, allergies, past surgeries, and family medical history.
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary preview-form" data-form="medical-history">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                        <button class="btn btn-secondary download-form" data-form="medical-history">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Treatment Consent Form -->
+                <div class="form-card">
+                    <div class="form-header">
+                        <div class="form-icon">
+                            <i class="fas fa-file-signature"></i>
+                        </div>
+                        <div class="form-title">
+                            <h3>Treatment Consent Form</h3>
+                            <p>Procedure Authorization</p>
+                        </div>
+                    </div>
+                    <div class="form-description">
+                        Legal consent form for dental procedures, outlining risks, benefits, alternatives, and patient agreement to treatment.
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary preview-form" data-form="treatment-consent">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                        <button class="btn btn-secondary download-form" data-form="treatment-consent">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Dental History Form -->
+                <div class="form-card">
+                    <div class="form-header">
+                        <div class="form-icon">
+                            <i class="fas fa-tooth"></i>
+                        </div>
+                        <div class="form-title">
+                            <h3>Dental History Form</h3>
+                            <p>Oral Health Background</p>
+                        </div>
+                    </div>
+                    <div class="form-description">
+                        Detailed dental history including previous treatments, current oral health concerns, hygiene habits, and dental anxiety assessment.
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary preview-form" data-form="dental-history">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                        <button class="btn btn-secondary download-form" data-form="dental-history">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Financial Agreement Form -->
+                <div class="form-card">
+                    <div class="form-header">
+                        <div class="form-icon">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <div class="form-title">
+                            <h3>Financial Agreement Form</h3>
+                            <p>Payment Terms & Policies</p>
+                        </div>
+                    </div>
+                    <div class="form-description">
+                        Agreement outlining payment terms, insurance billing procedures, cancellation policies, and financial responsibilities.
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary preview-form" data-form="financial-agreement">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                        <button class="btn btn-secondary download-form" data-form="financial-agreement">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- HIPAA Authorization Form -->
+                <div class="form-card">
+                    <div class="form-header">
+                        <div class="form-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="form-title">
+                            <h3>HIPAA Authorization Form</h3>
+                            <p>Privacy & Information Release</p>
+                        </div>
+                    </div>
+                    <div class="form-description">
+                        Health Insurance Portability and Accountability Act authorization for use and disclosure of protected health information.
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary preview-form" data-form="hipaa-authorization">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                        <button class="btn btn-secondary download-form" data-form="hipaa-authorization">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <!-- Main Content Area -->
-        <div class="main-content">
-            
-            <div class="header">
-                <h1>Forms</h1>
-                <div style="display: flex; align-items: center; gap: 20px;">
-                    <!-- New Appointment Button -->
-                    <button class="btn btn-outline" id="download-btn" style="margin-right: 10px;">
-                        <i class="fas fa-download"></i> Download My Records
-                    </button>
-                    <div class="theme-toggle">
-                        <span class="theme-toggle-label">Dark Mode</span>
-                        <label class="switch">
-                            <input type="checkbox" id="themeToggle">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Forms Section -->
-            <div class="forms-container">
-                <div class="form-name">
-                    <h2 style="color: #1380d3;">Sammuel Cabison (HFDC-2023-001)</h2>
-                </div>
-                <div class="form-list">
-                    <!-- Form -->
-                    <div class="form-item" onclick="window.location.href='form1.html'">
-                        <div class="form-icon">
-                            <i class="fas fa-file-pdf" style="color: #00c4cc;"></i>
-                        </div>
-                        <div class="form-details">
-                            <h3>Patient Information Form</h3>
-                        </div>
-                        <div class="form-actions">
-                            <a href="#" class="form-link" onclick="event.stopPropagation()">Download PDF</a>
-                        </div>
-                    </div>
-
-                    <!-- Medical History Form -->
-                    <div class="form-item" onclick="window.location.href='form2.html'">
-                        <div class="form-icon">
-                            <i class="fas fa-file-pdf" style="color: #00c4cc;"></i>
-                        </div>
-                        <div class="form-details">
-                            <h3>Medical History Form</h3>
-                        </div>
-                        <div class="form-actions">
-                            <a href="#" class="form-link" onclick="event.stopPropagation()">Download PDF</a>
-                        </div>
-                    </div>
-                    <!-- Treatment Consent Form -->
-                    <div class="form-item" onclick="window.location.href='form3.html'">
-                        <div class="form-icon">
-                            <i class="fas fa-file-pdf" style="color: #00c4cc;"></i>
-                        </div>
-                        <div class="form-details">
-                            <h3>Treatment Consent Form</h3>
-                        </div>
-                        <div class="form-actions">
-                            <a href="#" class="form-link" onclick="event.stopPropagation()">Download PDF</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
+        
+        <!-- Additional Forms Section -->
+        <div class="forms-section">
+            <h2>Additional Documents</h2>
+            <div class="forms-grid">
                 
-
+                <!-- Treatment Plan Form -->
+                <div class="form-card">
+                    <div class="form-header">
+                        <div class="form-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="form-title">
+                            <h3>Treatment Plan</h3>
+                            <p>Proposed Dental Procedures</p>
+                        </div>
+                    </div>
+                    <div class="form-description">
+                        Detailed treatment plan outlining recommended procedures, timeline, costs, and expected outcomes for the patient.
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary preview-form" data-form="treatment-plan">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                        <button class="btn btn-secondary download-form" data-form="treatment-plan">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Post-Op Instructions -->
+                <div class="form-card">
+                    <div class="form-header">
+                        <div class="form-icon">
+                            <i class="fas fa-file-medical-alt"></i>
+                        </div>
+                        <div class="form-title">
+                            <h3>Post-Op Instructions</h3>
+                            <p>Aftercare Guidelines</p>
+                        </div>
+                    </div>
+                    <div class="form-description">
+                        Post-operative care instructions for various dental procedures including medications, diet, and activity restrictions.
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary preview-form" data-form="post-op">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                        <button class="btn btn-secondary download-form" data-form="post-op">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="page-footer">
+            <p>Holy Family Dental Clinic Forms System • © 2026 • All forms are confidential medical documents</p>
+        </div>
+    </main>
+    
+    <!-- Form Preview Modal -->
+    <div class="modal" id="formPreviewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalFormTitle">Form Preview</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="pdf-preview">
+                    <iframe id="pdfPreviewFrame" src="about:blank"></iframe>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="closePreviewBtn">
+                    <i class="fas fa-times"></i> Close
+                </button>
+                <button class="btn btn-primary" id="downloadFromModalBtn">
+                    <i class="fas fa-download"></i> Download PDF
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <script>
-        // Theme toggle functionality
-        const themeToggle = document.getElementById('themeToggle');
-        const html = document.documentElement;
+        // Form data
+        const forms = {
+            'patient-info': {
+                title: 'Patient Information Form',
+                pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+                description: 'Personal & Contact Details Form'
+            },
+            'medical-history': {
+                title: 'Medical History Form',
+                pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+                description: 'Health & Medical Background Form'
+            },
+            'treatment-consent': {
+                title: 'Treatment Consent Form',
+                pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+                description: 'Procedure Authorization Form'
+            },
+            'dental-history': {
+                title: 'Dental History Form',
+                pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+                description: 'Oral Health Background Form'
+            },
+            'financial-agreement': {
+                title: 'Financial Agreement Form',
+                pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+                description: 'Payment Terms & Policies Form'
+            },
+            'hipaa-authorization': {
+                title: 'HIPAA Authorization Form',
+                pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+                description: 'Privacy & Information Release Form'
+            },
+            'treatment-plan': {
+                title: 'Treatment Plan',
+                pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+                description: 'Proposed Dental Procedures'
+            },
+            'post-op': {
+                title: 'Post-Op Instructions',
+                pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+                description: 'Aftercare Guidelines'
+            }
+        };
         
-        // Check for saved theme preference or use preferred color scheme
-        const savedTheme = localStorage.getItem('theme') || 
-                          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        // DOM elements
+        const formPreviewModal = document.getElementById('formPreviewModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const closePreviewBtn = document.getElementById('closePreviewBtn');
+        const modalFormTitle = document.getElementById('modalFormTitle');
+        const pdfPreviewFrame = document.getElementById('pdfPreviewFrame');
+        const downloadFromModalBtn = document.getElementById('downloadFromModalBtn');
+        const previewButtons = document.querySelectorAll('.preview-form');
+        const downloadButtons = document.querySelectorAll('.download-form');
         
-        // Apply the saved theme
-        if (savedTheme === 'dark') {
-            html.setAttribute('data-theme', 'dark');
-            themeToggle.checked = true;
+        let currentForm = null;
+        
+        // Show notification
+        function showNotification(message, type = 'info') {
+            // Remove any existing notification
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.textContent = message;
+            
+            // Style the notification
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 8px;
+                background-color: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+                color: white;
+                font-weight: 500;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                z-index: 1001;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                notification.style.transform = 'translateX(100%)';
+                notification.style.opacity = '0';
+                
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 300);
+            }, 3000);
         }
         
-        // Theme toggle event
-        themeToggle.addEventListener('change', function() {
-            if (this.checked) {
-                html.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                html.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-            }
-        });
-
-        // Load saved theme on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                html.setAttribute('data-theme', savedTheme);
-                themeToggle.checked = savedTheme === 'dark';
-            }
-
-            const logoutButtons = document.querySelectorAll('.logout-btn');
-            logoutButtons.forEach(button => {
-                button.addEventListener('click', async (e) => {
-                    e.preventDefault();
-                    sessionStorage.removeItem('user');
-                    localStorage.removeItem('user');
-                    window.location.href = 'landingpage.html';
-                });
+        // Open form preview
+        function openFormPreview(formId) {
+            const form = forms[formId];
+            if (!form) return;
+            
+            currentForm = formId;
+            modalFormTitle.textContent = form.title;
+            pdfPreviewFrame.src = form.pdfUrl;
+            formPreviewModal.style.display = 'flex';
+        }
+        
+        // Close form preview
+        function closeFormPreview() {
+            formPreviewModal.style.display = 'none';
+            pdfPreviewFrame.src = 'about:blank';
+            currentForm = null;
+        }
+        
+        // Download form
+        function downloadForm(formId) {
+            const form = forms[formId];
+            if (!form) return;
+            
+            // In a real application, this would trigger an actual download
+            // For demo purposes, we'll simulate it
+            showNotification(`Downloading ${form.title}...`, 'success');
+            
+            // Simulate download delay
+            setTimeout(() => {
+                showNotification(`${form.title} downloaded successfully!`, 'success');
+            }, 1000);
+            
+            // If you have actual PDF files, you would use:
+            // window.open(form.pdfUrl, '_blank');
+        }
+        
+        // Add event listeners to preview buttons
+        previewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const formId = this.getAttribute('data-form');
+                openFormPreview(formId);
             });
-
         });
-
-        // Download button functionality
-        document.getElementById('download-btn').addEventListener('click', function() {
-            // In a real implementation, this would trigger a download
-            alert('All forms will be downloaded as a ZIP file.');
+        
+        // Add event listeners to download buttons
+        downloadButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const formId = this.getAttribute('data-form');
+                downloadForm(formId);
+            });
         });
-
-       
+        
+        // Modal close buttons
+        closeModalBtn.addEventListener('click', closeFormPreview);
+        closePreviewBtn.addEventListener('click', closeFormPreview);
+        
+        // Download button in modal
+        downloadFromModalBtn.addEventListener('click', function() {
+            if (currentForm) {
+                downloadForm(currentForm);
+            }
+        });
+        
+        // Close modal when clicking outside
+        formPreviewModal.addEventListener('click', function(e) {
+            if (e.target === formPreviewModal) {
+                closeFormPreview();
+            }
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && formPreviewModal.style.display === 'flex') {
+                closeFormPreview();
+            }
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add slide-out animation for notifications
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideOut {
+                    from {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                    to {
+                        transform: translateX(100%);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Set today's date in forms if needed
+            const today = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Update any date placeholders in the page
+            const dateElements = document.querySelectorAll('.current-date');
+            dateElements.forEach(el => {
+                el.textContent = today;
+            });
+        });
     </script>
 </body>
 </html>

@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient List Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: #fff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            padding: 25px 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo {
+            padding: 0 25px 30px 25px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+        
+        .logo span {
+            color: #3498db;
+        }
+        
+        .nav-section {
+            padding: 0 25px;
+            margin-bottom: 30px;
+        }
+        
+        .nav-section h3 {
+            font-size: 14px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-bottom: 12px;
+        }
+        
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #2c3e50;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .data-mode {
+            background-color: #f8f9fa;
+            margin: 0 25px;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #eee;
+        }
+        
+        .data-mode h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .t-files {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #e8f4fc;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .add-patient-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        .add-patient-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .add-patient-btn i {
+            margin-right: 8px;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            color: #2c3e50;
+        }
+        
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+        
+        .search-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-container input:focus {
+            border-color: #3498db;
+        }
+        
+        /* Patient Table Styles */
+        .patient-table-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .table-header {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr 1fr;
+            background-color: #f8f9fa;
+            padding: 18px 25px;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .patient-row {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr 1fr;
+            padding: 18px 25px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+        }
+        
+        .patient-row:last-child {
+            border-bottom: none;
+        }
+        
+        .patient-row:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .patient-name {
+            display: flex;
+            align-items: center;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 15px;
+        }
+        
+        .patient-info h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .patient-info p {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .view-btn {
+            color: #3498db;
+            border-color: #3498db;
+        }
+        
+        .view-btn:hover {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .edit-btn {
+            color: #27ae60;
+            border-color: #27ae60;
+        }
+        
+        .edit-btn:hover {
+            background-color: #27ae60;
+            color: white;
+        }
+        
+        .delete-btn {
+            color: #e74c3c;
+            border-color: #e74c3c;
+        }
+        
+        .delete-btn:hover {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background-color: #d5f4e6;
+            color: #27ae60;
+        }
+        
+        .status-pending {
+            background-color: #fff4e6;
+            color: #f39c12;
+        }
+        
+        .status-inactive {
+            background-color: #fde8e8;
+            color: #e74c3c;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #7f8c8d;
+        }
+        
+        .empty-state i {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+        
+        .empty-state h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #95a5a6;
+        }
+        
+        /* Footer/User Section */
+        .user-section {
+            margin-top: auto;
+            padding: 25px;
+            border-top: 1px solid #eee;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #9b59b6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 15px;
+        }
+        
+        .user-details h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .user-details p {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .footer-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .footer-links a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .logout {
+            color: #e74c3c;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 220px;
+            }
+            
+            .table-header, .patient-row {
+                grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            
+            .logo {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            
+            .nav-section {
+                flex: 1;
+                margin-bottom: 20px;
+            }
+            
+            .data-mode {
+                width: 100%;
+                margin: 0 0 20px 0;
+            }
+            
+            .user-section {
+                width: 100%;
+                margin-top: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .search-container {
+                width: 100%;
+                margin-top: 15px;
+            }
+            
+            .table-header {
+                display: none;
+            }
+            
+            .patient-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                border-bottom: 2px solid #eee;
+                padding: 20px;
+            }
+            
+            .patient-name {
+                margin-bottom: 10px;
+            }
+            
+            .action-buttons {
+                justify-content: flex-start;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <h1>My<span>Clinic</span></h1>
+        </div>
+        
+        <div class="nav-section">
+            <h3>Dashboard</h3>
+            <ul class="nav-links">
+                <li><a href="#" class="active"><i class="fas fa-home"></i> My Clinic</a></li>
+                <li><a href="#"><i class="fas fa-user-injured"></i> Patients</a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> Finance</a></li>
+                <li><a href="#"><i class="fas fa-database"></i> Data Backup</a></li>
+            </ul>
+        </div>
+        
+        <div class="data-mode">
+            <h3>Data Mode</h3>
+            <div class="t-files">
+                <span><i class="fas fa-folder"></i> T Files</span>
+                <span class="status-badge status-active">Active</span>
+            </div>
+            <button class="add-patient-btn">
+                <i class="fas fa-plus"></i> Add Patients
+            </button>
+        </div>
+        
+        <div class="user-section">
+            <div class="user-info">
+                <div class="user-avatar">JD</div>
+                <div class="user-details">
+                    <h4>Dr. John Doe</h4>
+                    <p>Administrator</p>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                <a href="#" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="header">
+            <h1>Patients List</h1>
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchPatients" placeholder="Search patients...">
+            </div>
+        </div>
+        
+        <!-- Patient Table -->
+        <div class="patient-table-container">
+            <div class="table-header">
+                <div>PATIENT NAME</div>
+                <div>CONTACT / GENDER</div>
+                <div>DATE OF BIRTH</div>
+                <div>LATEST VISIT</div>
+                <div>ACTION</div>
+            </div>
+            
+            <!-- Patient Rows -->
+            <div class="patient-row">
+                <div class="patient-name">
+                    <div class="avatar" style="background-color: #3498db;">EM</div>
+                    <div class="patient-info">
+                        <h4>Emma Johnson</h4>
+                        <p class="status-badge status-active">Active</p>
+                    </div>
+                </div>
+                <div>
+                    <p>(555) 123-4567</p>
+                    <p style="color: #7f8c8d; font-size: 14px;">Female</p>
+                </div>
+                <div>05/15/1985</div>
+                <div>04/12/2023</div>
+                <div class="action-buttons">
+                    <button class="action-btn view-btn" title="View Patient"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn edit-btn" title="Edit Patient"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn" title="Delete Patient"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+            
+            <div class="patient-row">
+                <div class="patient-name">
+                    <div class="avatar" style="background-color: #2ecc71;">RM</div>
+                    <div class="patient-info">
+                        <h4>Robert Miller</h4>
+                        <p class="status-badge status-active">Active</p>
+                    </div>
+                </div>
+                <div>
+                    <p>(555) 987-6543</p>
+                    <p style="color: #7f8c8d; font-size: 14px;">Male</p>
+                </div>
+                <div>11/22/1978</div>
+                <div>04/10/2023</div>
+                <div class="action-buttons">
+                    <button class="action-btn view-btn" title="View Patient"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn edit-btn" title="Edit Patient"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn" title="Delete Patient"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+            
+            <div class="patient-row">
+                <div class="patient-name">
+                    <div class="avatar" style="background-color: #9b59b6;">SD</div>
+                    <div class="patient-info">
+                        <h4>Sarah Davis</h4>
+                        <p class="status-badge status-pending">Pending</p>
+                    </div>
+                </div>
+                <div>
+                    <p>(555) 456-7890</p>
+                    <p style="color: #7f8c8d; font-size: 14px;">Female</p>
+                </div>
+                <div>03/30/1992</div>
+                <div>03/28/2023</div>
+                <div class="action-buttons">
+                    <button class="action-btn view-btn" title="View Patient"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn edit-btn" title="Edit Patient"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn" title="Delete Patient"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+            
+            <div class="patient-row">
+                <div class="patient-name">
+                    <div class="avatar" style="background-color: #e74c3c;">TW</div>
+                    <div class="patient-info">
+                        <h4>Thomas Wilson</h4>
+                        <p class="status-badge status-inactive">Inactive</p>
+                    </div>
+                </div>
+                <div>
+                    <p>(555) 321-0987</p>
+                    <p style="color: #7f8c8d; font-size: 14px;">Male</p>
+                </div>
+                <div>07/18/1965</div>
+                <div>01/15/2023</div>
+                <div class="action-buttons">
+                    <button class="action-btn view-btn" title="View Patient"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn edit-btn" title="Edit Patient"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn" title="Delete Patient"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+            
+            <div class="patient-row">
+                <div class="patient-name">
+                    <div class="avatar" style="background-color: #f39c12;">LB</div>
+                    <div class="patient-info">
+                        <h4>Linda Brown</h4>
+                        <p class="status-badge status-active">Active</p>
+                    </div>
+                </div>
+                <div>
+                    <p>(555) 654-3210</p>
+                    <p style="color: #7f8c8d; font-size: 14px;">Female</p>
+                </div>
+                <div>09/05/1988</div>
+                <div>04/05/2023</div>
+                <div class="action-buttons">
+                    <button class="action-btn view-btn" title="View Patient"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn edit-btn" title="Edit Patient"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn" title="Delete Patient"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+            
+            <div class="patient-row">
+                <div class="patient-name">
+                    <div class="avatar" style="background-color: #1abc9c;">MG</div>
+                    <div class="patient-info">
+                        <h4>Michael Garcia</h4>
+                        <p class="status-badge status-active">Active</p>
+                    </div>
+                </div>
+                <div>
+                    <p>(555) 789-0123</p>
+                    <p style="color: #7f8c8d; font-size: 14px;">Male</p>
+                </div>
+                <div>12/12/1975</div>
+                <div>04/08/2023</div>
+                <div class="action-buttons">
+                    <button class="action-btn view-btn" title="View Patient"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn edit-btn" title="Edit Patient"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn" title="Delete Patient"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Empty State (Hidden by default) -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <i class="fas fa-user-injured"></i>
+            <h3>No patients found</h3>
+            <p>Try adjusting your search or add a new patient</p>
+        </div>
+    </main>
+    
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('searchPatients');
+        const patientRows = document.querySelectorAll('.patient-row');
+        const emptyState = document.getElementById('emptyState');
+        const patientTable = document.querySelector('.patient-table-container');
+        
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            let visibleRows = 0;
+            
+            patientRows.forEach(row => {
+                const patientName = row.querySelector('.patient-info h4').textContent.toLowerCase();
+                const patientContact = row.querySelector('div:nth-child(2) p:first-child').textContent.toLowerCase();
+                
+                if (patientName.includes(searchTerm) || patientContact.includes(searchTerm)) {
+                    row.style.display = 'grid';
+                    visibleRows++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            // Show empty state if no rows are visible
+            if (visibleRows === 0 && searchTerm !== '') {
+                patientTable.style.display = 'none';
+                emptyState.style.display = 'block';
+            } else {
+                patientTable.style.display = 'block';
+                emptyState.style.display = 'none';
+            }
+        });
+        
+        // Add patient button functionality
+        const addPatientBtn = document.querySelector('.add-patient-btn');
+        addPatientBtn.addEventListener('click', function() {
+            alert('Add Patient functionality would open a form here.');
+        });
+        
+        // Action buttons functionality
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const patientName = this.closest('.patient-row').querySelector('.patient-info h4').textContent;
+                alert(`Viewing details for: ${patientName}`);
+            });
+        });
+        
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const patientName = this.closest('.patient-row').querySelector('.patient-info h4').textContent;
+                alert(`Editing patient: ${patientName}`);
+            });
+        });
+        
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const patientName = this.closest('.patient-row').querySelector('.patient-info h4').textContent;
+                if (confirm(`Are you sure you want to delete ${patientName}?`)) {
+                    alert(`${patientName} would be deleted.`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
