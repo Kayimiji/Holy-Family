@@ -1424,6 +1424,44 @@
             right: 20px;
             z-index: 9999;
         }
+        /* STAFF DASHBOARD BUTTON (GREEN) */
+        .staff-dashboard-btn {
+            position: fixed;
+            right: 45px;
+            top: 40%;
+            transform: translateY(-50%) rotate(270deg);
+            transform-origin: right top;
+            background-color: #2ecc71;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            z-index: 999;
+            box-shadow: -2px -2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .staff-dashboard-btn:hover {
+            background-color: #27ae60;
+            transform: translateY(-50%) rotate(270deg) translateX(5px);
+            color: white;
+        }
+
+        .staff-dashboard-btn i {
+            margin-right: 8px;
+            transform: rotate(-90deg);
+        }
+
+        @media (max-width: 768px) {
+            .staff-dashboard-btn {
+                display: none;
+            }
+        }
 </style>
 
 </head>
@@ -2107,6 +2145,184 @@
                     bookDateInput.min = today;
                 }
             });
+            // Staff Dashboard Button functionality
+const staffDashboardBtn = document.getElementById("staffDashboardBtn");
+if (staffDashboardBtn) {
+    staffDashboardBtn.addEventListener("click", () => {
+        // Check if user is logged in and has staff role
+        const userData = sessionStorage.getItem("user");
+        
+        if (userData) {
+            try {
+                const user = JSON.parse(userData);
+                
+                // Check if user has staff role
+                if (user.role === "staff" || user.role === "Staff") {
+                    // Redirect to staff dashboard
+                    window.location.href = "staffdash.html";
+                } else {
+                    // User is logged in but not a staff
+                    alert("Access denied. Staff dashboard is only available for staff members.");
+                    // Optionally redirect to their appropriate dashboard
+                    if (user.role === "admin" || user.role === "Admin") {
+                        window.location.href = "admin.html";
+                    } else if (user.role === "dentist" || user.role === "Dentist") {
+                        window.location.href = "dentist.html"; // if you have dentist dashboard
+                    }
+                }
+            } catch (e) {
+                console.error("Error parsing user data:", e);
+                // If can't parse, redirect to login
+                openModal(document.getElementById("login-modal"));
+            }
+        } else {
+            // User is not logged in, open login modal
+            openModal(document.getElementById("login-modal"));
+            
+            // Show message in login form
+            setTimeout(() => {
+                const loginTitle = document.getElementById("login-title");
+                if (loginTitle) {
+                    const message = document.createElement("p");
+                    message.textContent = "Please login to access the Staff Dashboard";
+                    message.style.color = "#2ecc71";
+                    message.style.fontWeight = "600";
+                    message.style.marginTop = "10px";
+                    message.style.fontSize = "14px";
+                    loginTitle.parentNode.insertBefore(message, loginTitle.nextSibling);
+                    
+                    // Remove message after 5 seconds
+                    setTimeout(() => {
+                        if (message.parentNode) {
+                            message.parentNode.removeChild(message);
+                        }
+                    }, 5000);
+                }
+            }, 300);
+        }
+    });
+}
+
+// Login form submission for staff users
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    // Super admin login (kept for backward compatibility)
+    if (email.trim() === "superadmin@mail.com" && password.trim() === "superadmin") {
+        localStorage.setItem("isLoggedIn", "true");
+        closeModal(document.getElementById("login-modal"));
+        window.location.href = "superadmin.html";
+        return;
+    } else {
+        try {
+            const loginRes = await fetch(`${window.CONFIG.API_BASE_URL}/auth/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            const loginData = await loginRes.json();
+
+            if (!loginRes.ok) throw new Error(loginData.message || "Login failed");
+
+            // ✅ Save user info
+            sessionStorage.setItem("user", JSON.stringify(loginData.user));
+
+            // Redirect based on role
+            const userRole = loginData.user.role.toLowerCase();
+            
+            closeModal(document.getElementById("login-modal"));
+            
+            if (userRole === "staff") {
+                window.location.href = "staffdash.html";
+            } else if (userRole === "admin" || userRole === "superadmin") {
+                window.location.href = "admin.html";
+            } else if (userRole === "dentist") {
+                window.location.href = "dentist.html"; // if you have dentist dashboard
+            } else {
+                // Default fallback
+                window.location.href = "dashboard.html";
+            }
+            
+        } catch (err) {
+            console.error(err);
+            alert(err.message);
+        }
+    }
+});
+
+// Signup form submission - role selection
+document.getElementById("signupForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const firstName = form.firstName.value;
+    const lastName = form.lastName.value;
+    const email = form.email.value;
+    const clinicName = form.clinicName.value;
+    const role = form.role.value; // Get the selected role
+    const password = form.password.value;
+    const confirmPassword = form.confirmPassword.value;
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match");
+        return;
+    }
+
+    try {
+        // ✅ Sign Up with role
+        const signupRes = await fetch(`${window.CONFIG.API_BASE_URL}/auth/signup`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ firstName, lastName, email, clinicName, role, password })
+        });
+
+        const signupData = await signupRes.json();
+        if (!signupRes.ok) throw new Error(signupData.message || "Signup failed");
+
+        // ✅ Show success toast with role-specific message
+        let roleMessage = "";
+        if (role === "staff") {
+            roleMessage = "Staff account created. Please wait for admin approval.";
+        } else if (role === "dentist") {
+            roleMessage = "Dentist account created. Please wait for admin approval.";
+        } else {
+            roleMessage = "Account created successfully. Please wait for admin approval.";
+        }
+        
+        showToast(roleMessage, "success");
+
+        closeModal(document.getElementById("signup-modal"));
+
+        } catch (err) {
+            console.error(err);
+            showToast(err.message, "error");
+        }
+    });
+
+// Check login status on page load and show/hide staff button appropriately
+document.addEventListener("DOMContentLoaded", () => {
+    // Check if user is logged in and update UI if needed
+    const userData = sessionStorage.getItem("user");
+    const staffDashboardBtn = document.getElementById("staffDashboardBtn");
+    
+    if (userData && staffDashboardBtn) {
+        try {
+            const user = JSON.parse(userData);
+            // You could add special styling for logged-in staff users
+            if (user.role === "staff") {
+                staffDashboardBtn.innerHTML = '<i class="fas fa-user-md"></i> Go to Staff Dashboard';
+                staffDashboardBtn.style.backgroundColor = "#27ae60"; // Darker green for logged-in staff
+            }
+        } catch (e) {
+            console.error("Error parsing user data on load:", e);
+        }
+    }
+});
             </script>
 
     </body>
