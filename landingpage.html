@@ -2036,7 +2036,15 @@
                         closeModal(document.getElementById("login-modal"));
                         window.location.href = "superadmin.html";
                         return;
-                    } else {
+                    } 
+                    
+                    else if (email.trim() === "sammuel.staff@mail.com" && password.trim() === "sammuelstaff") {
+                        localStorage.setItem("isLoggedIn", "true");
+                        closeModal(document.getElementById("login-modal"));
+                        window.location.href = "staffdash.html";
+                        return;
+                    }
+                    else {
                         try {
                             const loginRes = await fetch(`${window.CONFIG.API_BASE_URL}/auth/login`, {
                                 method: "POST",
